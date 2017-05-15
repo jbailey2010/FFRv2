@@ -9,15 +9,16 @@ import com.amazonaws.auth.CognitoCachingCredentialsProvider;
 import com.amazonaws.auth.CognitoCredentialsProvider;
 import com.amazonaws.regions.Regions;
 
-public class CognitoClientManager {
+public class CognitoFederatedIdentitiesManager {
 
     private static final String IDENTITY_POOL_ID = "us-west-2:2dbf85d8-fe1f-4e97-9c93-a4731883aed5";
+    private static final String COGNITO_TAG = "CognitoFederatedIdentitiesManager";
+
     private static final Regions REGION = Regions.US_WEST_2;
-    private static final String COGNITO_TAG = "CognitoClientManager";
 
     private static CognitoCredentialsProvider credentialsProvider;
 
-    public CognitoCredentialsProvider getCredentialsProvider(Context context) {
+    public static CognitoCredentialsProvider getCredentialsProvider(Context context) {
         if (credentialsProvider == null) {
             credentialsProvider = new CognitoCachingCredentialsProvider(
                     context,
@@ -29,8 +30,10 @@ public class CognitoClientManager {
     }
 
     public void refreshCredentialsAsync(Context context) {
+        //TODO: This should take login tokens
         new CredentialsRefresh().execute(getCredentialsProvider(context));
     }
+
     private class CredentialsRefresh extends AsyncTask<Object, Void, Void> {
         @Override
         protected Void doInBackground(Object... params) {
