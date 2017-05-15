@@ -12,7 +12,7 @@ import com.amazonaws.regions.Regions;
 public class CognitoFederatedIdentitiesManager {
 
     private static final String IDENTITY_POOL_ID = "us-west-2:2dbf85d8-fe1f-4e97-9c93-a4731883aed5";
-    private static final String COGNITO_TAG = "CognitoFederatedIdentitiesManager";
+    private static final String CIB_TAG = "CIBManager";
 
     private static final Regions REGION = Regions.US_WEST_2;
 
@@ -41,7 +41,7 @@ public class CognitoFederatedIdentitiesManager {
             try {
                 provider.refresh();
             } catch (Exception e) {
-                Log.e(COGNITO_TAG, "Failed to refresh credentials", e);
+                Log.e(CIB_TAG, "Failed to refresh credentials", e);
             }
             return null;
         }
