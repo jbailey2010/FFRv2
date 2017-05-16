@@ -8,15 +8,15 @@
               android:paddingLeft="@dimen/activity_horizontal_margin"
               android:paddingRight="@dimen/activity_horizontal_margin"
               android:paddingTop="@dimen/activity_vertical_margin"
-              tools:context="com.devingotaswitch.ffrv2.cognito.Login">
+              tools:context="com.devingotaswitch.ffrv2.cognito.SignUp">
 
     <ScrollView
-        android:id="@+id/login_form"
+        android:id="@+id/registration_form"
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
         <LinearLayout
-            android:id="@+id/email_login_form"
+            android:id="@+id/email_registration_form"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
@@ -25,8 +25,36 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
 
+                <EditText
+                    android:id="@+id/sign_up_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Name"
+                    android:inputType="textPersonName"
+                    android:maxLines="1"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
+                <EditText
+                    android:id="@+id/sign_up_phone_number"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:hint="Phone Number"
+                    android:inputType="phone"
+                    android:maxLines="1"/>
+
+            </android.support.design.widget.TextInputLayout>
+
+            <android.support.design.widget.TextInputLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+
                 <AutoCompleteTextView
-                    android:id="@+id/email"
+                    android:id="@+id/sign_up_email"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/prompt_email"
@@ -40,12 +68,12 @@
                 android:layout_height="wrap_content">
 
                 <EditText
-                    android:id="@+id/password"
+                    android:id="@+id/sign_up_password"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Password"
-                    android:imeActionId="@+id/login"
-                    android:imeActionLabel="@string/action_sign_in_short"
+                    android:imeActionId="@+id/sign_up"
+                    android:imeActionLabel="@string/action_sign_up_short"
                     android:imeOptions="actionUnspecified"
                     android:inputType="textPassword"
                     android:maxLines="1"/>
@@ -57,17 +85,17 @@
                 android:weightSum="2"
                 android:layout_height="wrap_content">
                 <Button
-                    android:id="@+id/sign_in_button"
+                    android:id="@+id/sign_up_back_button"
                     style="?android:textAppearanceSmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:layout_weight="1"
-                    android:text="Sign In"
+                    android:text="Back"
                     android:textStyle="bold"/>
 
                 <Button
-                    android:id="@+id/sign_up_button"
+                    android:id="@+id/sign_up_enter_button"
                     style="?android:textAppearanceSmall"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"

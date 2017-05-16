@@ -20,6 +20,7 @@ public class CognitoUserPoolsManager {
 
     private static final String EMAIL_ATTRIBUTE = "email";
     private static final String PHONE_ATTRIBUTE = "phone_number";
+    private static final String NAME_ATTRIBUTE = "name";
 
     private static final String REGION = Regions.US_WEST_2.getName();
 
@@ -32,10 +33,11 @@ public class CognitoUserPoolsManager {
         return userPool;
     }
 
-    public void signUpUser(final Context context, String phoneNumber, String email, String userName, String password) {
+    public void signUpUser(final Context context, String phoneNumber, String email, String password, String name) {
         CognitoUserAttributes userAttributes = new CognitoUserAttributes();
         userAttributes.addAttribute(PHONE_ATTRIBUTE, phoneNumber);
         userAttributes.addAttribute(EMAIL_ATTRIBUTE, email);
+        userAttributes.addAttribute(NAME_ATTRIBUTE, name);
         SignUpHandler signupCallback = new SignUpHandler() {
             @Override
             public void onSuccess(CognitoUser cognitoUser, boolean userConfirmed, CognitoUserCodeDeliveryDetails cognitoUserCodeDeliveryDetails) {
@@ -59,7 +61,7 @@ public class CognitoUserPoolsManager {
                 Toast.makeText(context, exception.getMessage(), Toast.LENGTH_LONG).show();
             }
         };
-        userPool.signUpInBackground(userName, password, userAttributes, null, signupCallback);
+        userPool.signUpInBackground(email, password, userAttributes, null, signupCallback);
     }
 
     public String getLoginKey() {
