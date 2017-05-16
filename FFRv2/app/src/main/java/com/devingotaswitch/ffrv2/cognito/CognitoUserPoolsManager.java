@@ -5,12 +5,19 @@ import android.util.Log;
 import android.widget.Toast;
 
 import com.amazonaws.ClientConfiguration;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoDevice;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserAttributes;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserCodeDeliveryDetails;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.AuthenticationContinuation;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.ChallengeContinuation;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.MultiFactorAuthenticationContinuation;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.SignUpHandler;
 import com.amazonaws.regions.Regions;
+import com.amazonaws.util.StringUtils;
 
 public class CognitoUserPoolsManager {
     private static final String USER_POOL_ID = "us-west-2_zxCdKKDP8";
@@ -33,6 +40,43 @@ public class CognitoUserPoolsManager {
         return userPool;
     }
 
+    public void resumeSession(Context context) {
+        CognitoUserPool userPool = getUserPool(context);
+        CognitoUser user = userPool.getCurrentUser();
+        if (!StringUtils.isBlank(user.getUserId())) {
+            // No user has signed in, no session to resume.
+            return;
+        }
+
+        AuthenticationHandler handler = new AuthenticationHandler(){
+            @Override
+            public void onSuccess(CognitoUserSession userSession, CognitoDevice newDevice) {
+                // TODO: Send to rankings/home
+            }
+
+            @Override
+            public void getAuthenticationDetails(final AuthenticationContinuation continuation, final String userID) {
+                // TODO: Go to sign in
+            }
+
+            @Override
+            public void getMFACode(final MultiFactorAuthenticationContinuation continuation) {
+                // TODO: Go to sign in
+            }
+
+            @Override
+            public void authenticationChallenge(final ChallengeContinuation continuation) {
+                // TODO: Go to sign in
+            }
+
+            @Override
+            public void onFailure(final Exception exception) {
+                // TODO: Go to sign in
+                // TODO: Maybe log failure? 
+            }
+        };
+        user.getSession(handler);
+    }
     public void signUpUser(final Context context, String phoneNumber, String email, String password, String name) {
         CognitoUserAttributes userAttributes = new CognitoUserAttributes();
         userAttributes.addAttribute(PHONE_ATTRIBUTE, phoneNumber);

@@ -86,7 +86,7 @@ public class SignUp extends AppCompatActivity implements LoaderCallbacks<Cursor>
 
         mLoginFormView = findViewById(R.id.login_form);
     }
-    
+
     /**
      * Attempts to sign in or register the account specified by the login form.
      * If there are form errors (invalid email, missing fields, etc.), the
