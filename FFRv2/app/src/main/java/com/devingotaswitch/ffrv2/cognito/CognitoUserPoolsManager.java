@@ -72,7 +72,7 @@ public class CognitoUserPoolsManager {
             @Override
             public void onFailure(final Exception exception) {
                 // TODO: Go to sign in
-                // TODO: Maybe log failure? 
+                // TODO: Maybe log failure?
             }
         };
         user.getSession(handler);
