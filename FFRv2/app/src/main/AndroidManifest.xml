@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.amazonaws.youruserpools.MainActivity"
+            android:name="com.devingotaswitch.youruserpools.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -21,50 +21,50 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.amazonaws.youruserpools.UserActivity"
+            android:name="com.devingotaswitch.youruserpools.UserActivity"
             android:label="@string/title_activity_user"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.amazonaws.youruserpools.RegisterUser"
+            android:name="com.devingotaswitch.youruserpools.RegisterUser"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.amazonaws.youruserpools.AboutApp"
+            android:name="com.devingotaswitch.youruserpools.AboutApp"
             android:label="@string/title_activity_about_app"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.amazonaws.youruserpools.SignUpConfirm"
+            android:name="com.devingotaswitch.youruserpools.SignUpConfirm"
             android:label="@string/title_activity_sign_up_confirm"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.amazonaws.youruserpools.MFAActivity"
+            android:name="com.devingotaswitch.youruserpools.MFAActivity"
             android:label="@string/title_activity_mfa"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.amazonaws.youruserpools.ForgotPasswordActivity"
+            android:name="com.devingotaswitch.youruserpools.ForgotPasswordActivity"
             android:label="@string/title_activity_forgot_password"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.amazonaws.youruserpools.SettingsActivity"
+            android:name="com.devingotaswitch.youruserpools.SettingsActivity"
             android:label="@string/title_activity_settings"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.amazonaws.youruserpools.ChangePasswordActivity"
+            android:name="com.devingotaswitch.youruserpools.ChangePasswordActivity"
             android:label="@string/title_activity_change_password"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.amazonaws.youruserpools.VerifyActivity"
+            android:name="com.devingotaswitch.youruserpools.VerifyActivity"
             android:label="@string/title_activity_verify"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.amazonaws.youruserpools.AddAttributeActivity"
+            android:name="com.devingotaswitch.youruserpools.AddAttributeActivity"
             android:label="@string/title_activity_add_attribute"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.amazonaws.youruserpools.DeviceSettings"
+            android:name="com.devingotaswitch.youruserpools.DeviceSettings"
             android:label="@string/title_activity_device_settings"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.amazonaws.youruserpools.NewPassword"
+            android:name="com.devingotaswitch.youruserpools.NewPassword"
             android:label="@string/title_activity_new_password"
             android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>

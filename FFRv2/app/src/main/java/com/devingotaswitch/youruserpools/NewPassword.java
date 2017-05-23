@@ -15,7 +15,7 @@
  *  limitations under the License.
  */
 
-package com.amazonaws.youruserpools;
+package com.devingotaswitch.youruserpools;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -38,7 +38,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoDevice;
-import com.amazonaws.youruserpools.CognitoYourUserPoolsDemo.R;
+import com.devingotaswitch.ffrv2.R;
 
 public class NewPassword extends AppCompatActivity {
     private String TAG = "NewPassword";

@@ -15,7 +15,7 @@
  *  limitations under the License.
  */
 
-package com.amazonaws.youruserpools;
+package com.devingotaswitch.youruserpools;
 
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
@@ -36,7 +36,7 @@ import android.widget.TextView;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoDevice;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.DevicesHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHandler;
-import com.amazonaws.youruserpools.CognitoYourUserPoolsDemo.R;
+import com.devingotaswitch.ffrv2.R;
 
 import java.util.ArrayList;
 import java.util.List;

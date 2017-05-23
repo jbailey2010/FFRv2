@@ -15,7 +15,7 @@
  *  limitations under the License.
  */
 
-package com.amazonaws.youruserpools;
+package com.devingotaswitch.youruserpools;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -30,7 +30,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.amazonaws.youruserpools.CognitoYourUserPoolsDemo.R;
+import com.devingotaswitch.ffrv2.R;
+
 
 public class ForgotPasswordActivity extends AppCompatActivity {
     private EditText passwordInput;

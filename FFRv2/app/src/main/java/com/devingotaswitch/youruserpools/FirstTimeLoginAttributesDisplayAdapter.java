@@ -15,7 +15,7 @@
  *  limitations under the License.
  */
 
-package com.amazonaws.youruserpools;
+package com.devingotaswitch.youruserpools;
 
 import android.content.Context;
 import android.util.Log;
@@ -25,7 +25,8 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
-import com.amazonaws.youruserpools.CognitoYourUserPoolsDemo.R;
+import com.devingotaswitch.ffrv2.R;
+
 
 public class FirstTimeLoginAttributesDisplayAdapter extends BaseAdapter {
     private String TAG = "FirstTimeLoginDetails";
