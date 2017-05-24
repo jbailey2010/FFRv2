@@ -21,17 +21,12 @@ import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
 
-import com.amazonaws.ClientConfiguration;
-import com.amazonaws.auth.AnonymousAWSCredentials;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoDevice;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserAttributes;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserDetails;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession;
-import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
-import com.amazonaws.services.cognitoidentityprovider.AmazonCognitoIdentityProvider;
-import com.amazonaws.services.cognitoidentityprovider.AmazonCognitoIdentityProviderClient;
 import com.amazonaws.services.cognitoidentityprovider.model.AttributeType;
 
 import java.util.ArrayList;
@@ -42,13 +37,10 @@ import java.util.Map;
 import java.util.Set;
 
 public class AppHelper {
-    // App settings
-
     private static List<String> attributeDisplaySeq;
     private static Map<String, String> signUpFieldsC2O;
     private static Map<String, String> signUpFieldsO2C;
 
-    private static AppHelper appHelper;
     private static CognitoUserPool userPool;
     private static String user;
     private static CognitoDevice newDevice;
@@ -57,7 +49,7 @@ public class AppHelper {
     private static List<AttributeType> attributesToDelete;
 
     private static List<ItemToDisplay> currDisplayedItems;
-    private static  int itemCount;
+    private static int itemCount;
 
     private static List<ItemToDisplay> trustedDevices;
     private static int trustedDevicesCount;
@@ -72,30 +64,10 @@ public class AppHelper {
     private static Map<String, String> firstTimeLogInUpDatedAttributes;
     private static String firstTimeLoginNewPassword;
 
-    // Change the next three lines of code to run this demo on your user pool
-
-    /**
-     * Add your pool id here
-     */
-    private static final String userPoolId = "us-east-1_fuLwey1S5";
-
-    /**
-     * Add you app id
-     */
-    private static final String clientId = "56ngp0n376en4l0j9f7bsujqh4";
-
-    /**
-     * App secret associated with your app id - if the App id does not have an associated App secret,
-     * set the App secret to null.
-     * e.g. clientSecret = null;
-     */
-    private static final String clientSecret = "bjcuenunjdh89i2p6r4ndr0lmmra1a47jp76mkorn1gh185fj3n";
-
-    /**
-     * Set Your User Pools region.
-     * e.g. if your user pools are in US East (N Virginia) then set cognitoRegion = Regions.US_EAST_1.
-     */
-    private static final Regions cognitoRegion = Regions.US_EAST_1;
+    private static final String USER_POOL_ID = "us-west-2_zxCdKKDP8";
+    private static final String CLIENT_ID = "6bqbn1vscae9o8b05nu28ou24i";
+    private static final String CLIENT_SECRET = "1scv58n5pmbmph97dp5t4oesn2c9ujgnupnhsa6r3uhsba9vpr1i";
+    private static final Regions COGNITO_REGION = Regions.US_WEST_2;
 
     // User details from the service
     private static CognitoUserSession currSession;
@@ -113,27 +85,13 @@ public class AppHelper {
     public static void init(Context context) {
         setData();
 
-        if (appHelper != null && userPool != null) {
+        if (userPool != null) {
             return;
         }
 
-        if (appHelper == null) {
-            appHelper = new AppHelper();
-        }
-
         if (userPool == null) {
-
             // Create a user pool with default ClientConfiguration
-            userPool = new CognitoUserPool(context, userPoolId, clientId, clientSecret, cognitoRegion);
-
-            // This will also work
-            /*
-            ClientConfiguration clientConfiguration = new ClientConfiguration();
-            AmazonCognitoIdentityProvider cipClient = new AmazonCognitoIdentityProviderClient(new AnonymousAWSCredentials(), clientConfiguration);
-            cipClient.setRegion(Region.getRegion(cognitoRegion));
-            userPool = new CognitoUserPool(context, userPoolId, clientId, clientSecret, cipClient);
-            */
-
+            userPool = new CognitoUserPool(context, USER_POOL_ID, CLIENT_ID, CLIENT_SECRET, COGNITO_REGION);
         }
 
         phoneVerified = false;
@@ -231,6 +189,14 @@ public class AppHelper {
 
     public static void addCurrUserattribute(String attribute) {
         currUserAttributes.add(attribute);
+    }
+
+    public static String getIdentityPoolLoginKey() {
+        return new StringBuilder("cognito-idp.")
+                .append(COGNITO_REGION.getName())
+                .append(".amazonaws.com/")
+                .append(USER_POOL_ID)
+                .toString();
     }
 
     public static List<String> getNewAvailableOptions() {
