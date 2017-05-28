@@ -56,14 +56,6 @@
             android:label="@string/title_activity_verify"
             android:theme="@style/AppTheme.NoActionBar" />
         <activity
-            android:name="com.devingotaswitch.youruserpools.AddAttributeActivity"
-            android:label="@string/title_activity_add_attribute"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
-            android:name="com.devingotaswitch.youruserpools.DeviceSettings"
-            android:label="@string/title_activity_device_settings"
-            android:theme="@style/AppTheme.NoActionBar" />
-        <activity
             android:name="com.devingotaswitch.youruserpools.NewPassword"
             android:label="@string/title_activity_new_password"
             android:theme="@style/AppTheme.NoActionBar"></activity>
