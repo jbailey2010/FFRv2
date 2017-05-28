@@ -97,14 +97,6 @@ public class UserActivity extends AppCompatActivity {
         // Find which menu item was selected
         int menuItem = item.getItemId();
 
-        // Do the task
-        if(menuItem == R.id.user_update_attribute) {
-            //updateAllAttributes();
-            showWaitDialog("Updating...");
-            getDetails();
-            return true;
-        }
-
         return super.onOptionsItemSelected(item);
     }
 
