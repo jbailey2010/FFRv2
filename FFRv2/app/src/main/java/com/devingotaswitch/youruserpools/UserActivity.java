@@ -169,11 +169,6 @@ public class UserActivity extends AppCompatActivity {
                 // Sign out from this account
                 signOut();
                 break;
-            case R.id.nav_user_about:
-                // For the inquisitive
-                Intent aboutAppActivity = new Intent(this, AboutApp.class);
-                startActivity(aboutAppActivity);
-                break;
         }
     }
 

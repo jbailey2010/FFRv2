@@ -10,8 +10,6 @@
     <string name="Password">Password</string>
     <string name="Menu">Menu</string>
     <string name="title_activity_about_app">AboutApp</string>
-    <string name="about">TODO: populate this</string>
-    <string name="more_info">TODO: populate this.</string>
     <string name="title_activity_sign_up_confirm">SignUpConfirm</string>
     <string name="title_activity_mfa">MFAActivity</string>
     <string name="title_activity_forgot_password">ForgotPasswordActivity</string>

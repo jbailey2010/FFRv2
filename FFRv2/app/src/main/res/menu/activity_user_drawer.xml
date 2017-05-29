@@ -4,40 +4,21 @@
     <group
         android:id="@+id/group_user_settings"
         android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_user_settings"
-            android:title="Settings" />
+
     </group>
 
-    <group
-        android:id="@+id/group_user_change_password"
-        android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_user_change_password"
-            android:title="Change password" />
-    </group>
+    <item android:title="Profile">
+        <menu>
+            <item
+                android:id="@+id/nav_user_settings"
+                android:title="Settings" />
+            <item
+                android:id="@+id/nav_user_change_password"
+                android:title="Change password" />
+            <item
+                android:id="@+id/nav_user_sign_out"
+                android:title="Sign out" />
+        </menu>
+    </item>
 
-    <group
-        android:id="@+id/group_user_signout"
-        android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_user_sign_out"
-            android:title="Sign out" />
-    </group>
-
-    <group
-        android:id="@+id/group_user_about"
-        android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_user_about"
-            android:title="About" />
-    </group>
-
-    <group
-        android:id="@+id/group_user_end"
-        android:checkableBehavior="single">
-        <item
-            android:id="@+id/nav_userend"
-            android:title="" />
-    </group>
 </menu>
