@@ -35,7 +35,7 @@ public class VerifyActivity extends AppCompatActivity {
 
     private CognitoUserAttributes userAttributes;
 
-    private String attrReqCode;
+    private String PHONE_NUMBER_KEY = "phone_number";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,11 +89,10 @@ public class VerifyActivity extends AppCompatActivity {
         else {
             reqPhoneVerf.setClickable(false);
         }
-        hideCodeTX();
+        showCodeTX();
     }
 
     private void reqPhoneCode() {
-        attrReqCode = "phone_number";
         reqPhoneVerf.setBackground(getDrawable(R.drawable.button_selected));
         reqPhoneVerf.setText("Resend code");
         reqPhoneVerf.setTextColor(Color.parseColor("#2A5C91"));
@@ -102,7 +101,7 @@ public class VerifyActivity extends AppCompatActivity {
 
     private void reqVerfCode() {
         showWaitDialog("Requesting verification code...");
-        AppHelper.getPool().getUser(AppHelper.getCurrUser()).getAttributeVerificationCodeInBackground(attrReqCode, verReqHandler);
+        AppHelper.getPool().getUser(AppHelper.getCurrUser()).getAttributeVerificationCodeInBackground(PHONE_NUMBER_KEY, verReqHandler);
     }
 
     private void sendVerfCode() {
@@ -122,8 +121,7 @@ public class VerifyActivity extends AppCompatActivity {
             return;
         }
         showWaitDialog("Verifying...");
-        hideCodeTX();
-        AppHelper.getPool().getUser(AppHelper.getCurrUser()).verifyAttributeInBackground(attrReqCode, code, verHandler);
+        AppHelper.getPool().getUser(AppHelper.getCurrUser()).verifyAttributeInBackground(PHONE_NUMBER_KEY, code, verHandler);
     }
 
     private void getDetails() {
@@ -136,7 +134,6 @@ public class VerifyActivity extends AppCompatActivity {
         public void onSuccess(CognitoUserCodeDeliveryDetails cognitoUserCodeDeliveryDetails) {
             // Show message
             closeWaitDialog();
-            showCodeTX();
             verifCode.requestFocus();
             showDialogMessage("Verification code sent",
                     "Code was sent to "+cognitoUserCodeDeliveryDetails.getDestination()+" via "+cognitoUserCodeDeliveryDetails.getDeliveryMedium(),
@@ -173,28 +170,28 @@ public class VerifyActivity extends AppCompatActivity {
             // Store details in the AppHandler
             AppHelper.setUserDetails(cognitoUserDetails);
 
-            if(attrReqCode.equals("phone_number")) {
-                reqPhoneVerf.setBackground(getDrawable(R.drawable.button_success));
-                reqPhoneVerf.setText("Phone number verified");
-                reqPhoneVerf.setTextColor(Color.parseColor("#37A51C"));
-                reqPhoneVerf.setClickable(false);
-                Toast.makeText(getApplicationContext(), "Phone number verified", Toast.LENGTH_LONG).show();
-            }
+            reqPhoneVerf.setBackground(getDrawable(R.drawable.button_success));
+            reqPhoneVerf.setText("Phone number verified");
+            reqPhoneVerf.setTextColor(Color.parseColor("#37A51C"));
+            reqPhoneVerf.setClickable(false);
+            Toast.makeText(getApplicationContext(), "Phone number verified", Toast.LENGTH_LONG).show();
+
+            hideCodeTX();
         }
 
         @Override
         public void onFailure(Exception exception) {
             closeWaitDialog();
 
-            // Attributes were verified but user detals read was not successful
-            if(attrReqCode.equals("phone_number")) {
-                reqPhoneVerf.setBackground(getDrawable(R.drawable.button_success));
-                reqPhoneVerf.setText("Phone number verified");
-                reqPhoneVerf.setTextColor(Color.parseColor("#37A51C"));
-                reqPhoneVerf.setClickable(false);
-                Toast.makeText(getApplicationContext(), "Phone number verified", Toast.LENGTH_LONG).show();
-            }
-        }
+            // Attributes were verified but user details read was not successful
+            reqPhoneVerf.setBackground(getDrawable(R.drawable.button_success));
+            reqPhoneVerf.setText("Phone number verified");
+            reqPhoneVerf.setTextColor(Color.parseColor("#37A51C"));
+            reqPhoneVerf.setClickable(false);
+            Toast.makeText(getApplicationContext(), "Phone number verified", Toast.LENGTH_LONG).show();
+
+            hideCodeTX();
+         }
     };
 
     private void hideCodeTX() {
