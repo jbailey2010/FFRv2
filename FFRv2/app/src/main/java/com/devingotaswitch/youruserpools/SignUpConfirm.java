@@ -39,7 +39,6 @@ public class SignUpConfirm extends AppCompatActivity {
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
-
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
@@ -54,6 +53,12 @@ public class SignUpConfirm extends AppCompatActivity {
         main_title.setText("Confirm");
 
         init();
+        boolean doResend = (Boolean) getIntent().getExtras().get("resend");
+        if (doResend) {
+            String userName = (String) getIntent().getExtras().get("username");
+            username.setText(userName);
+            reqConfCode();
+        }
     }
 
     private void init() {

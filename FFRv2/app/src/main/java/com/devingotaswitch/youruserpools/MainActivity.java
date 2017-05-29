@@ -237,7 +237,7 @@ public class MainActivity extends AppCompatActivity {
                 break;
             case R.id.nav_sign_up_confirm:
                 // Confirm new user
-                confirmUser();
+                confirmUser(false);
                 break;
             case R.id.nav_sign_in_forgot_password:
                 // User has forgotten the password, start the process to set a new password
@@ -345,9 +345,11 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    private void confirmUser() {
+    private void confirmUser(boolean doResend) {
         Intent confirmActivity = new Intent(this, SignUpConfirm.class);
         confirmActivity.putExtra("source","main");
+        confirmActivity.putExtra("resend", doResend);
+        confirmActivity.putExtra("username", username);
         startActivityForResult(confirmActivity, 2);
 
     }
@@ -552,15 +554,17 @@ public class MainActivity extends AppCompatActivity {
         waitDialog.show();
     }
 
-    private void showDialogMessage(String title, String body) {
+    private void showDialogMessage(String title, final String body) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle(title).setMessage(body).setNeutralButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 try {
                     userDialog.dismiss();
+                    if (body.toLowerCase().contains("confirmed")) {
+                        confirmUser(true);
+                    }
                 } catch (Exception e) {
-                    //
                 }
             }
         });

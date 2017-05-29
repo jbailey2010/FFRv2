@@ -161,11 +161,6 @@ public class UserActivity extends AppCompatActivity {
                 // Change password
                 changePassword();
                 break;
-            case R.id.nav_user_verify_attribute:
-                // Confirm new user
-                // confirmUser();
-                attributesVerification();
-                break;
             case R.id.nav_user_settings:
                 // Show user settings
                 showSettings();
@@ -202,6 +197,17 @@ public class UserActivity extends AppCompatActivity {
                 String attributeType = data.getHint().toString();
                 String attributeValue = data.getText().toString();
                 showUserDetail(attributeType, attributeValue);
+            }
+        });
+        attributesListView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                String label = ((TextView)view.findViewById(R.id.textViewUserDetailLabel)).getText().toString();
+                String message = ((TextView)view.findViewById(R.id.textViewUserDetailMessage)).getText().toString();
+                if ("phone number".equalsIgnoreCase(label) && (message == null || !message.equalsIgnoreCase("phone number verified"))) {
+                    attributesVerification();
+                }
+                return true;
             }
         });
     }
@@ -267,8 +273,6 @@ public class UserActivity extends AppCompatActivity {
             // Store details in the AppHandler
             AppHelper.setUserDetails(cognitoUserDetails);
             showAttributes();
-            // Trusted devices?
-            handleTrustedDevice();
         }
 
         @Override
@@ -278,55 +282,8 @@ public class UserActivity extends AppCompatActivity {
         }
     };
 
-    private void handleTrustedDevice() {
-        CognitoDevice newDevice = AppHelper.getNewDevice();
-        if (newDevice != null) {
-            AppHelper.newDevice(null);
-            trustedDeviceDialog(newDevice);
-        }
-    }
-
     private void updateDeviceStatus(CognitoDevice device) {
         device.rememberThisDeviceInBackground(trustedDeviceHandler);
-    }
-
-    private void trustedDeviceDialog(final CognitoDevice newDevice) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Remember this device?");
-        //final EditText input = new EditText(UserActivity.this);
-
-        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-                LinearLayout.LayoutParams.MATCH_PARENT,
-                LinearLayout.LayoutParams.MATCH_PARENT);
-
-        //input.setLayoutParams(lp);
-        //input.requestFocus();
-        //builder.setView(input);
-
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                try {
-                    //String newValue = input.getText().toString();
-                    showWaitDialog("Remembering this device...");
-                    updateDeviceStatus(newDevice);
-                    userDialog.dismiss();
-                } catch (Exception e) {
-                    // Log failure
-                }
-            }
-        }).setNegativeButton("No", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                try {
-                    userDialog.dismiss();
-                } catch (Exception e) {
-                    // Log failure
-                }
-            }
-        });
-        userDialog = builder.create();
-        userDialog.show();
     }
 
     // Callback handlers

@@ -47,9 +47,9 @@ public class AppHelper {
     private static Map<String, String> firstTimeLogInUpDatedAttributes;
     private static String firstTimeLoginNewPassword;
 
-    private static final String USER_POOL_ID = "us-west-2_zxCdKKDP8";
-    private static final String CLIENT_ID = "6bqbn1vscae9o8b05nu28ou24i";
-    private static final String CLIENT_SECRET = "1scv58n5pmbmph97dp5t4oesn2c9ujgnupnhsa6r3uhsba9vpr1i";
+    private static final String USER_POOL_ID = "us-west-2_LMdno4yy1";
+    private static final String CLIENT_ID = "1d6n52mmd2m28t270fnu7ntbca";
+    private static final String CLIENT_SECRET = "nh4tkf4kbppd2rckd4g5j0qhn1q55l2h4lcq8kqjahg1nlfe4r9";
     private static final Regions COGNITO_REGION = Regions.US_WEST_2;
 
     // User details from the service
@@ -58,7 +58,6 @@ public class AppHelper {
 
     // User details to display - they are the current values, including any local modification
     private static boolean phoneVerified;
-    private static boolean emailVerified;
 
     private static boolean phoneAvailable;
     private static boolean emailAvailable;
@@ -79,7 +78,6 @@ public class AppHelper {
 
         phoneVerified = false;
         phoneAvailable = false;
-        emailVerified = false;
         emailAvailable = false;
 
         currUserAttributes = new HashSet<String>();
@@ -138,10 +136,6 @@ public class AppHelper {
         return phoneVerified;
     }
 
-    public static boolean isEmailVerified() {
-        return emailVerified;
-    }
-
     public static boolean isPhoneAvailable() {
         return phoneAvailable;
     }
@@ -152,10 +146,6 @@ public class AppHelper {
 
     public static void setPhoneVerified(boolean phoneVerif) {
         phoneVerified = phoneVerif;
-    }
-
-    public static void setEmailVerified(boolean emailVerif) {
-        emailVerified = emailVerif;
     }
 
     public static void setPhoneAvailable(boolean phoneAvail) {
@@ -375,7 +365,6 @@ public class AppHelper {
         List<String> tempKeys = new ArrayList<>();
         List<String> tempValues = new ArrayList<>();
 
-        emailVerified = false;
         phoneVerified = false;
 
         emailAvailable = false;
@@ -390,10 +379,7 @@ public class AppHelper {
             tempKeys.add(attr.getKey());
             tempValues.add(attr.getValue());
 
-            if(attr.getKey().contains("email_verified")) {
-                emailVerified = attr.getValue().contains("true");
-            }
-            else if(attr.getKey().contains("phone_number_verified")) {
+            if(attr.getKey().contains("phone_number_verified")) {
                 phoneVerified = attr.getValue().contains("true");
             }
 
@@ -415,18 +401,6 @@ public class AppHelper {
                         Color.BLACK, Color.DKGRAY, Color.parseColor("#37A51C"),
                         0, null);
 
-                if(det.contains("email")) {
-                    if(emailVerified) {
-                        item.setDataDrawable("checked");
-                        item.setMessageText("Email verified");
-                    }
-                    else {
-                        item.setDataDrawable("not_checked");
-                        item.setMessageText("Email not verified");
-                        item.setMessageColor(Color.parseColor("#E94700"));
-                    }
-                }
-
                 if(det.contains("phone_number")) {
                     if(phoneVerified) {
                         item.setDataDrawable("checked");
@@ -434,7 +408,7 @@ public class AppHelper {
                     }
                     else {
                         item.setDataDrawable("not_checked");
-                        item.setMessageText("Phone number not verified");
+                        item.setMessageText("Phone number not verified. Click and hold to verify.");
                         item.setMessageColor(Color.parseColor("#E94700"));
                     }
                 }

@@ -27,7 +27,6 @@ import com.devingotaswitch.ffrv2.R;
 
 public class VerifyActivity extends AppCompatActivity {
     private Button reqPhoneVerf;
-    private Button reqEmailVerf;
     private Button sendVerfCode;
     private AlertDialog userDialog;
     private ProgressDialog waitDialog;
@@ -59,7 +58,7 @@ public class VerifyActivity extends AppCompatActivity {
         });
 
         TextView main_title = (TextView) findViewById(R.id.verify_toolbar_title);
-        main_title.setText("Verify attribute");
+        main_title.setText("Verify phone");
 
         init();
 
@@ -68,29 +67,7 @@ public class VerifyActivity extends AppCompatActivity {
     private void init() {
         verifCode = (EditText) findViewById(R.id.editTextVerifyCode);
         reqPhoneVerf = (Button) findViewById(R.id.buttonVerifyPhone);
-        reqEmailVerf = (Button) findViewById(R.id.buttonVerifyEmail);
         sendVerfCode = (Button) findViewById(R.id.buttonSendVerifyCode);
-
-        if(AppHelper.isEmailAvailable()) {
-            if(AppHelper.isEmailVerified()) {
-                reqEmailVerf.setClickable(false);
-                reqEmailVerf.setBackground(getDrawable(R.drawable.button_success));
-                reqEmailVerf.setText("Email verified");
-                reqEmailVerf.setTextColor(Color.parseColor("#37A51C"));
-            }
-            else {
-                reqEmailVerf.setText("Send code");
-                reqEmailVerf.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        reqEmailCode();
-                    }
-                });
-            }
-        }
-        else {
-            reqEmailVerf.setClickable(false);
-        }
 
         if(AppHelper.isPhoneAvailable()) {
             if(AppHelper.isPhoneVerified()) {
@@ -113,14 +90,6 @@ public class VerifyActivity extends AppCompatActivity {
             reqPhoneVerf.setClickable(false);
         }
         hideCodeTX();
-    }
-
-    private void reqEmailCode() {
-        attrReqCode = "email";
-        reqEmailVerf.setBackground(getDrawable(R.drawable.button_selected));
-        reqEmailVerf.setText("Resend code");
-        reqEmailVerf.setTextColor(Color.parseColor("#2A5C91"));
-        reqVerfCode();
     }
 
     private void reqPhoneCode() {
@@ -211,13 +180,6 @@ public class VerifyActivity extends AppCompatActivity {
                 reqPhoneVerf.setClickable(false);
                 Toast.makeText(getApplicationContext(), "Phone number verified", Toast.LENGTH_LONG).show();
             }
-            else if(attrReqCode.equals("email")) {
-                reqEmailVerf.setBackground(getDrawable(R.drawable.button_success));
-                reqEmailVerf.setText("Email verified");
-                reqEmailVerf.setTextColor(Color.parseColor("#37A51C"));
-                reqEmailVerf.setClickable(false);
-                Toast.makeText(getApplicationContext(), "Email verified", Toast.LENGTH_LONG).show();
-            }
         }
 
         @Override
@@ -231,13 +193,6 @@ public class VerifyActivity extends AppCompatActivity {
                 reqPhoneVerf.setTextColor(Color.parseColor("#37A51C"));
                 reqPhoneVerf.setClickable(false);
                 Toast.makeText(getApplicationContext(), "Phone number verified", Toast.LENGTH_LONG).show();
-            }
-            else if(attrReqCode.equals("email")) {
-                reqEmailVerf.setBackground(getDrawable(R.drawable.button_success));
-                reqEmailVerf.setText("Email verified");
-                reqEmailVerf.setTextColor(Color.parseColor("#37A51C"));
-                reqEmailVerf.setClickable(false);
-                Toast.makeText(getApplicationContext(), "Email verified", Toast.LENGTH_LONG).show();
             }
         }
     };
@@ -317,7 +272,6 @@ public class VerifyActivity extends AppCompatActivity {
             waitDialog.dismiss();
         }
         catch (Exception e) {
-            //
         }
     }
 
