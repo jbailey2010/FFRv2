@@ -1,5 +1,6 @@
 package com.devingotaswitch.youruserpools;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -22,7 +23,7 @@ import com.devingotaswitch.ffrv2.R;
 
 import java.util.Map;
 
-public class SettingsActivity extends AppCompatActivity {
+public class MFASettingsHelper {
     private Switch smsSwitch;
     private Switch emailSwitch;
 
@@ -34,38 +35,17 @@ public class SettingsActivity extends AppCompatActivity {
 
     private boolean settingsChanged;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_settings);
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+    private Activity activity;
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_settings);
-        toolbar.setTitle("");
-        setSupportActionBar(toolbar);
-
-
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setDisplayShowHomeEnabled(true);
-
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                exit();
-            }
-        });
-
-        TextView main_title = (TextView) findViewById(R.id.settings_toolbar_title);
-        main_title.setText("Settings");
-
+    public MFASettingsHelper(Activity activity) {
+        this.activity = activity;
         init();
     }
-
 
     private void init() {
         newSettings = new CognitoUserSettings();
         settingsChanged = false;
-        smsSwitch = (Switch) findViewById(R.id.switchSettingsPhone);
+        smsSwitch = (Switch) activity.findViewById(R.id.switchSettingsPhone);
 
         if(smsSwitch != null) {
             smsSwitch.setClickable(true);
@@ -79,7 +59,7 @@ public class SettingsActivity extends AppCompatActivity {
                 smsSwitch.setClickable(true);
                 if(settings.get("phone_number").contains("sms") || settings.get("phone_number").contains("SMS")) {
                     smsSwitch.setChecked(true);
-                    smsSwitch.setText("Enable");
+                    smsSwitch.setText("Enabled");
                     smsSwitch.setTextColor(Color.parseColor("#37A51C"));
                 }
                 else {
@@ -139,8 +119,7 @@ public class SettingsActivity extends AppCompatActivity {
             closeWaitDialog();
             // Store details in the AppHandler
             AppHelper.setUserDetails(cognitoUserDetails);
-            // showDialogMessage("MFA setting successfully changed","",false);
-            Toast.makeText(getApplicationContext(), "MFA settings changed", Toast.LENGTH_LONG);
+            showDialogMessage("MFA setting successfully changed","",false);
         }
 
         @Override
@@ -161,17 +140,17 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void showDialogMessage(String title, String body, final boolean exitActivity) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final AlertDialog.Builder builder = new AlertDialog.Builder(activity);
         builder.setTitle(title).setMessage(body).setNeutralButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 try {
                     userDialog.dismiss();
                     if (exitActivity) {
-                        onBackPressed();
+                        activity.onBackPressed();
                     }
                 } catch (Exception e) {
-                    onBackPressed();
+                    activity.onBackPressed();
                 }
             }
         });
@@ -181,7 +160,7 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void showWaitDialog(String message) {
         closeWaitDialog();
-        waitDialog = new ProgressDialog(this);
+        waitDialog = new ProgressDialog(activity);
         waitDialog.setTitle(message);
         waitDialog.show();
     }
@@ -198,7 +177,7 @@ public class SettingsActivity extends AppCompatActivity {
     private void exit() {
         Intent intent = new Intent();
         intent.putExtra("refresh",settingsChanged);
-        setResult(RESULT_OK, intent);
-        finish();
+        activity.setResult(activity.RESULT_OK, intent);
+        activity.finish();
     }
 }

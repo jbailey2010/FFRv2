@@ -1,5 +1,6 @@
 package com.devingotaswitch.youruserpools;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -46,6 +47,7 @@ public class UserActivity extends AppCompatActivity {
     private AlertDialog userDialog;
     private ProgressDialog waitDialog;
     private ListView attributesList;
+    private Activity activity;
 
     // Cognito user objects
     private CognitoUser user;
@@ -54,6 +56,8 @@ public class UserActivity extends AppCompatActivity {
 
     // User details
     private String username;
+
+    private MFASettingsHelper mfaSettingsHelper;
 
     // To track changes to user details
     private final List<String> attributesToDelete = new ArrayList<>();
@@ -83,6 +87,7 @@ public class UserActivity extends AppCompatActivity {
         View navigationHeader = nDrawer.getHeaderView(0);
         TextView navHeaderSubTitle = (TextView) navigationHeader.findViewById(R.id.textViewNavUserSub);
         navHeaderSubTitle.setText(username);
+        activity = this;
     }
 
     @Override
@@ -161,10 +166,6 @@ public class UserActivity extends AppCompatActivity {
                 // Change password
                 changePassword();
                 break;
-            case R.id.nav_user_settings:
-                // Show user settings
-                showSettings();
-                break;
             case R.id.nav_user_sign_out:
                 // Sign out from this account
                 signOut();
@@ -220,12 +221,6 @@ public class UserActivity extends AppCompatActivity {
         AppHelper.getPool().getUser(AppHelper.getCurrUser()).updateAttributesInBackground(updatedUserAttributes, updateHandler);
     }
 
-    // Show user MFA Settings
-    private void showSettings() {
-        Intent userSettingsActivity = new Intent(this,SettingsActivity.class);
-        startActivityForResult(userSettingsActivity, 20);
-    }
-
     // Delete attribute
     private void deleteAttribute(String attributeName) {
         showWaitDialog("Deleting...");
@@ -268,6 +263,7 @@ public class UserActivity extends AppCompatActivity {
             // Store details in the AppHandler
             AppHelper.setUserDetails(cognitoUserDetails);
             showAttributes();
+            mfaSettingsHelper = new MFASettingsHelper(activity);
         }
 
         @Override
