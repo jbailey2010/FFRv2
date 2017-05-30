@@ -77,6 +77,7 @@ public class UserActivity extends AppCompatActivity {
             }
         });
 
+        showAttributes();
         username = AppHelper.getCurrUser();
         activity = this;
         if (mfaSettingsHelper == null) {
