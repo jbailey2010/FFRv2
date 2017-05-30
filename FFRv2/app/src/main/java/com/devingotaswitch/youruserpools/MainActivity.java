@@ -31,6 +31,7 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.NewP
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.ForgotPasswordHandler;
 import com.devingotaswitch.ffrv2.R;
+import com.devingotaswitch.rankings.RankingsHome;
 
 import java.util.Locale;
 import java.util.Map;
@@ -350,7 +351,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void launchUser() {
-        Intent userActivity = new Intent(this, UserActivity.class);
+        Intent userActivity = new Intent(this, RankingsHome.class);
         userActivity.putExtra("name", username);
         startActivityForResult(userActivity, 4);
     }

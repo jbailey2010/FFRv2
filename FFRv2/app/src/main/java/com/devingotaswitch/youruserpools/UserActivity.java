@@ -38,21 +38,13 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserActivity extends AppCompatActivity {
-    private final String TAG="MainActivity";
+    private final String TAG="UserProfile";
 
-    private NavigationView nDrawer;
-    private DrawerLayout mDrawer;
-    private ActionBarDrawerToggle mDrawerToggle;
     private Toolbar toolbar;
     private AlertDialog userDialog;
     private ProgressDialog waitDialog;
     private ListView attributesList;
     private Activity activity;
-
-    // Cognito user objects
-    private CognitoUser user;
-    private CognitoUserSession session;
-    private CognitoUserDetails details;
 
     // User details
     private String username;
@@ -69,107 +61,26 @@ public class UserActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         // Set toolbar for this screen
-        toolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar_user);
         toolbar.setTitle("");
         TextView main_title = (TextView) findViewById(R.id.main_toolbar_title);
         main_title.setText("Account");
         setSupportActionBar(toolbar);
 
-        // Set navigation drawer for this screen
-        mDrawer = (DrawerLayout) findViewById(R.id.user_drawer_layout);
-        mDrawerToggle = new ActionBarDrawerToggle(this,mDrawer, toolbar, R.string.nav_drawer_open, R.string.nav_drawer_close);
-        mDrawer.addDrawerListener(mDrawerToggle);
-        mDrawerToggle.syncState();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        nDrawer = (NavigationView) findViewById(R.id.nav_view);
-        setNavDrawer();
-        init();
-        View navigationHeader = nDrawer.getHeaderView(0);
-        TextView navHeaderSubTitle = (TextView) navigationHeader.findViewById(R.id.textViewNavUserSub);
-        navHeaderSubTitle.setText(username);
-        activity = this;
-    }
-
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.activity_user_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Find which menu item was selected
-        int menuItem = item.getItemId();
-
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    public void onBackPressed() {
-        exit();
-    }
-
-    public void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-
-        switch (requestCode) {
-            case 20:
-                // Settings
-                if(resultCode == RESULT_OK) {
-                    boolean refresh = data.getBooleanExtra("refresh", true);
-                    if (refresh) {
-                        showAttributes();
-                    }
-                }
-                break;
-            case 21:
-                // Verify attributes
-                if(resultCode == RESULT_OK) {
-                    boolean refresh = data.getBooleanExtra("refresh", true);
-                    if (refresh) {
-                        showAttributes();
-                    }
-                }
-                break;
-            case 22:
-                // Add attributes
-                if(resultCode == RESULT_OK) {
-                    boolean refresh = data.getBooleanExtra("refresh", true);
-                    if (refresh) {
-                        showAttributes();
-                    }
-                }
-                break;
-        }
-    }
-
-    // Handle when the a navigation item is selected
-    private void setNavDrawer() {
-        nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onNavigationItemSelected(MenuItem item) {
-                performAction(item);
-                return true;
+            public void onClick(View v) {
+                onBackPressed();
             }
         });
-    }
 
-    // Perform the action for the selected navigation item
-    private void performAction(MenuItem item) {
-        // Close the navigation drawer
-        mDrawer.closeDrawers();
-
-        // Find which item was selected
-        switch(item.getItemId()) {
-            case R.id.nav_user_change_password:
-                // Change password
-                changePassword();
-                break;
-            case R.id.nav_user_sign_out:
-                // Sign out from this account
-                signOut();
-                break;
+        username = AppHelper.getCurrUser();
+        activity = this;
+        if (mfaSettingsHelper == null) {
+            mfaSettingsHelper = new MFASettingsHelper(this);
         }
     }
 
@@ -229,31 +140,10 @@ public class UserActivity extends AppCompatActivity {
         AppHelper.getPool().getUser(AppHelper.getCurrUser()).deleteAttributesInBackground(attributesToDelete, deleteHandler);
     }
 
-    // Change user password
-    private void changePassword() {
-        Intent changePssActivity = new Intent(this, ChangePasswordActivity.class);
-        startActivity(changePssActivity);
-    }
-
     // Verify attributes
     private void attributesVerification() {
         Intent attrbutesActivity = new Intent(this,VerifyActivity.class);
         startActivityForResult(attrbutesActivity, 21);
-    }
-
-    // Sign out user
-    private void signOut() {
-        user.signOut();
-        exit();
-    }
-
-    // Initialize this activity
-    private void init() {
-        // Get the user name
-        Bundle extras = getIntent().getExtras();
-        username = AppHelper.getCurrUser();
-        user = AppHelper.getPool().getUser(username);
-        getDetails();
     }
 
     GetDetailsHandler detailsHandler = new GetDetailsHandler() {
@@ -263,7 +153,6 @@ public class UserActivity extends AppCompatActivity {
             // Store details in the AppHandler
             AppHelper.setUserDetails(cognitoUserDetails);
             showAttributes();
-            mfaSettingsHelper = new MFASettingsHelper(activity);
         }
 
         @Override

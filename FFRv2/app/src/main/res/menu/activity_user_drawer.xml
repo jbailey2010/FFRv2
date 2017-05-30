@@ -9,7 +9,9 @@
 
     <item android:title="You">
         <menu>
-
+            <item
+                android:id="@+id/nav_user_profile"
+                android:title="Your Profile"/>
             <item
                 android:id="@+id/nav_user_change_password"
                 android:title="Change password" />
