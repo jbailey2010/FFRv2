@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="toolbar_background">#004166</color>
-    <color name="toolbar_items">#CBCBCB</color>
+    <color name="toolbar_items">#CDCDCD</color>
     <color name="alert">#AC1600</color>
     <color name="success">#37A51C</color>
     <color name="button_default">#329AD6</color>
