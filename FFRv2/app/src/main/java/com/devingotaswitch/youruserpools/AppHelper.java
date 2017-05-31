@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
 
+import com.amazonaws.auth.CognitoCachingCredentialsProvider;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoDevice;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserAttributes;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserDetails;
@@ -26,19 +27,10 @@ public class AppHelper {
 
     private static CognitoUserPool userPool;
     private static String user;
-    private static CognitoDevice newDevice;
-
-    private static CognitoUserAttributes attributesChanged;
-    private static List<AttributeType> attributesToDelete;
+    private static CognitoCachingCredentialsProvider credentialsProvider;
 
     private static List<ItemToDisplay> currDisplayedItems;
     private static int itemCount;
-
-    private static List<ItemToDisplay> trustedDevices;
-    private static int trustedDevicesCount;
-    private static List<CognitoDevice> deviceDetails;
-    private static CognitoDevice thisDevice;
-    private static boolean thisDeviceTrustState;
 
     private static List<ItemToDisplay> firstTimeLogInDetails;
     private static Map<String, String> firstTimeLogInUserAttributes;
@@ -47,6 +39,7 @@ public class AppHelper {
     private static Map<String, String> firstTimeLogInUpDatedAttributes;
     private static String firstTimeLoginNewPassword;
 
+    private static final String IDENTITY_POOL_ID = "us-west-2:2dbf85d8-fe1f-4e97-9c93-a4731883aed5";
     private static final String USER_POOL_ID = "us-west-2_LMdno4yy1";
     private static final String CLIENT_ID = "1d6n52mmd2m28t270fnu7ntbca";
     private static final String CLIENT_SECRET = "nh4tkf4kbppd2rckd4g5j0qhn1q55l2h4lcq8kqjahg1nlfe4r9";
@@ -74,6 +67,7 @@ public class AppHelper {
         if (userPool == null) {
             // Create a user pool with default ClientConfiguration
             userPool = new CognitoUserPool(context, USER_POOL_ID, CLIENT_ID, CLIENT_SECRET, COGNITO_REGION);
+            credentialsProvider = new CognitoCachingCredentialsProvider(context, IDENTITY_POOL_ID, COGNITO_REGION);
         }
 
         phoneVerified = false;
@@ -82,13 +76,8 @@ public class AppHelper {
 
         currUserAttributes = new HashSet<String>();
         currDisplayedItems = new ArrayList<ItemToDisplay>();
-        trustedDevices = new ArrayList<ItemToDisplay>();
         firstTimeLogInDetails = new ArrayList<ItemToDisplay>();
         firstTimeLogInUpDatedAttributes= new HashMap<String, String>();
-
-        newDevice = null;
-        thisDevice = null;
-        thisDeviceTrustState = false;
     }
 
     public static CognitoUserPool getPool() {
@@ -97,14 +86,6 @@ public class AppHelper {
 
     public static Map<String, String> getSignUpFieldsC2O() {
         return signUpFieldsC2O;
-    }
-
-    public static  Map<String, String> getSignUpFieldsO2C() {
-        return signUpFieldsO2C;
-    }
-
-    public static List<String> getAttributeDisplaySeq() {
-        return attributeDisplaySeq;
     }
 
     public static void setCurrSession(CognitoUserSession session) {
@@ -140,46 +121,12 @@ public class AppHelper {
         return phoneAvailable;
     }
 
-    public static boolean isEmailAvailable() {
-        return emailAvailable;
-    }
-
-    public static void setPhoneVerified(boolean phoneVerif) {
-        phoneVerified = phoneVerif;
-    }
-
-    public static void setPhoneAvailable(boolean phoneAvail) {
-        phoneAvailable = phoneAvail;
-    }
-
-    public static void setEmailAvailable(boolean emailAvail) {
-        emailAvailable = emailAvail;
-    }
-
-    public static void clearCurrUserAttributes() {
-        currUserAttributes.clear();
-    }
-
-    public static void addCurrUserattribute(String attribute) {
-        currUserAttributes.add(attribute);
-    }
-
     public static String getIdentityPoolLoginKey() {
         return new StringBuilder("cognito-idp.")
                 .append(COGNITO_REGION.getName())
                 .append(".amazonaws.com/")
                 .append(USER_POOL_ID)
                 .toString();
-    }
-
-    public static List<String> getNewAvailableOptions() {
-        List<String> newOption = new ArrayList<String>();
-        for(String attribute : attributeDisplaySeq) {
-            if(!(currUserAttributes.contains(attribute))) {
-                newOption.add(attribute);
-            }
-        }
-        return  newOption;
     }
 
     public static String formatException(Exception exception) {
@@ -203,23 +150,12 @@ public class AppHelper {
         return itemCount;
     }
 
-    public static int getDevicesCount() {
-        return trustedDevicesCount;
-    }
-
     public static int getFirstTimeLogInItemsCount() {
         return  firstTimeLogInItemsCount;
     }
 
     public  static ItemToDisplay getItemForDisplay(int position) {
         return  currDisplayedItems.get(position);
-    }
-
-    public static ItemToDisplay getDeviceForDisplay(int position) {
-        if (position >= trustedDevices.size()) {
-            return new ItemToDisplay(" ", " ", " ", Color.BLACK, Color.DKGRAY, Color.parseColor("#37A51C"), 0, null);
-        }
-        return trustedDevices.get(position);
     }
 
     public static ItemToDisplay getUserAttributeForFirstLogInCheck(int position) {
@@ -279,53 +215,6 @@ public class AppHelper {
                 firstTimeLogInItemsCount++;
             }
         }
-    }
-
-    public static void newDevice(CognitoDevice device) {
-        newDevice = device;
-    }
-
-    public static void setDevicesForDisplay(List<CognitoDevice> devicesList) {
-        trustedDevicesCount = 0;
-        thisDeviceTrustState = false;
-        deviceDetails = devicesList;
-        trustedDevices = new ArrayList<ItemToDisplay>();
-        for(CognitoDevice device: devicesList) {
-            if (thisDevice != null && thisDevice.getDeviceKey().equals(device.getDeviceKey())) {
-                thisDeviceTrustState = true;
-            } else {
-                ItemToDisplay item = new ItemToDisplay("", device.getDeviceName(), device.getCreateDate().toString(), Color.BLACK, Color.DKGRAY, Color.parseColor("#329AD6"), 0, null);
-                item.setDataDrawable("checked");
-                trustedDevices.add(item);
-                trustedDevicesCount++;
-            }
-        }
-    }
-
-    public static CognitoDevice getDeviceDetail(int position) {
-        if (position <= trustedDevicesCount) {
-            return deviceDetails.get(position);
-        } else {
-            return null;
-        }
-    }
-
-    //public static
-
-    public static CognitoDevice getNewDevice() {
-        return newDevice;
-    }
-
-    public static CognitoDevice getThisDevice() {
-        return thisDevice;
-    }
-
-    public static void setThisDevice(CognitoDevice device) {
-        thisDevice = device;
-    }
-
-    public static boolean getThisDeviceTrustState() {
-        return thisDeviceTrustState;
     }
 
     private static void setData() {
@@ -418,15 +307,6 @@ public class AppHelper {
                 itemCount++;
             }
         }
-    }
-
-    private static void modifyAttribute(String attributeName, String newValue) {
-        //
-
-    }
-
-    private static void deleteAttribute(String attributeName) {
-
     }
 }
 

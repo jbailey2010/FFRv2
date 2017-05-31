@@ -53,8 +53,8 @@ public class SignUpConfirm extends AppCompatActivity {
         main_title.setText("Confirm");
 
         init();
-        boolean doResend = (Boolean) getIntent().getExtras().get("resend");
-        if (doResend) {
+        Object extraDoResend = getIntent().getExtras().get("resend");
+        if (extraDoResend != null && ((Boolean) extraDoResend)) {
             String userName = (String) getIntent().getExtras().get("username");
             username.setText(userName);
             reqConfCode();

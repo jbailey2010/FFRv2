@@ -43,8 +43,6 @@ public class UserActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private AlertDialog userDialog;
     private ProgressDialog waitDialog;
-    private ListView attributesList;
-    private Activity activity;
 
     // User details
     private String username;
@@ -79,7 +77,6 @@ public class UserActivity extends AppCompatActivity {
 
         showAttributes();
         username = AppHelper.getCurrUser();
-        activity = this;
         if (mfaSettingsHelper == null) {
             mfaSettingsHelper = new MFASettingsHelper(this);
         }
@@ -96,7 +93,6 @@ public class UserActivity extends AppCompatActivity {
         final ListView attributesListView;
         attributesListView = (ListView) findViewById(R.id.listViewUserAttributes);
         attributesListView.setAdapter(attributesAdapter);
-        attributesList = attributesListView;
 
         attributesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -163,10 +159,6 @@ public class UserActivity extends AppCompatActivity {
         }
     };
 
-    private void updateDeviceStatus(CognitoDevice device) {
-        device.rememberThisDeviceInBackground(trustedDeviceHandler);
-    }
-
     // Callback handlers
 
     UpdateAttributesHandler updateHandler = new UpdateAttributesHandler() {
@@ -206,20 +198,6 @@ public class UserActivity extends AppCompatActivity {
 
             // Fetch user details from the service
             getDetails();
-        }
-    };
-
-    GenericHandler trustedDeviceHandler = new GenericHandler() {
-        @Override
-        public void onSuccess() {
-            // Close wait dialog
-            closeWaitDialog();
-        }
-
-        @Override
-        public void onFailure(Exception exception) {
-            closeWaitDialog();
-            showDialogMessage("Failed to update device status", AppHelper.formatException(exception), true);
         }
     };
 

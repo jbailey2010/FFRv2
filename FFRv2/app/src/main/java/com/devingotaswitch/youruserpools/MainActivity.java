@@ -478,7 +478,6 @@ public class MainActivity extends AppCompatActivity {
         public void onSuccess(CognitoUserSession cognitoUserSession, CognitoDevice device) {
             Log.e(TAG, "Auth Success");
             AppHelper.setCurrSession(cognitoUserSession);
-            AppHelper.newDevice(device);
             closeWaitDialog();
             launchUser();
         }
