@@ -69,8 +69,8 @@ public class VerifyActivity extends AppCompatActivity {
         reqPhoneVerf = (Button) findViewById(R.id.buttonVerifyPhone);
         sendVerfCode = (Button) findViewById(R.id.buttonSendVerifyCode);
 
-        if(AppHelper.isPhoneAvailable()) {
-            if(AppHelper.isPhoneVerified()) {
+        if(CUPHelper.isPhoneAvailable()) {
+            if(CUPHelper.isPhoneVerified()) {
                 reqPhoneVerf.setClickable(false);
                 reqPhoneVerf.setBackground(getDrawable(R.drawable.button_success));
                 reqPhoneVerf.setText("Phone number verified");
@@ -101,7 +101,7 @@ public class VerifyActivity extends AppCompatActivity {
 
     private void reqVerfCode() {
         showWaitDialog("Requesting verification code...");
-        AppHelper.getPool().getUser(AppHelper.getCurrUser()).getAttributeVerificationCodeInBackground(PHONE_NUMBER_KEY, verReqHandler);
+        CUPHelper.getPool().getUser(CUPHelper.getCurrUser()).getAttributeVerificationCodeInBackground(PHONE_NUMBER_KEY, verReqHandler);
     }
 
     private void sendVerfCode() {
@@ -121,12 +121,12 @@ public class VerifyActivity extends AppCompatActivity {
             return;
         }
         showWaitDialog("Verifying...");
-        AppHelper.getPool().getUser(AppHelper.getCurrUser()).verifyAttributeInBackground(PHONE_NUMBER_KEY, code, verHandler);
+        CUPHelper.getPool().getUser(CUPHelper.getCurrUser()).verifyAttributeInBackground(PHONE_NUMBER_KEY, code, verHandler);
     }
 
     private void getDetails() {
         //showWaitDialog("Refreshing...");
-        AppHelper.getPool().getUser(AppHelper.getCurrUser()).getDetailsInBackground(detailsHandler);
+        CUPHelper.getPool().getUser(CUPHelper.getCurrUser()).getDetailsInBackground(detailsHandler);
     }
 
     VerificationHandler verReqHandler = new VerificationHandler() {
@@ -159,7 +159,7 @@ public class VerifyActivity extends AppCompatActivity {
         public void onFailure(Exception exception) {
             // Show error
             closeWaitDialog();
-            showDialogMessage("Verification failed",AppHelper.formatException(exception),false);
+            showDialogMessage("Verification failed", CUPHelper.formatException(exception),false);
         }
     };
 
@@ -168,7 +168,7 @@ public class VerifyActivity extends AppCompatActivity {
         public void onSuccess(CognitoUserDetails cognitoUserDetails) {
             closeWaitDialog();
             // Store details in the AppHandler
-            AppHelper.setUserDetails(cognitoUserDetails);
+            CUPHelper.setUserDetails(cognitoUserDetails);
 
             reqPhoneVerf.setBackground(getDrawable(R.drawable.button_success));
             reqPhoneVerf.setText("Phone number verified");

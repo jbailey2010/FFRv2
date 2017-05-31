@@ -22,7 +22,8 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserDetails
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GetDetailsHandler;
 import com.devingotaswitch.ffrv2.R;
-import com.devingotaswitch.youruserpools.AppHelper;
+import com.devingotaswitch.youruserpools.CIBHelper;
+import com.devingotaswitch.youruserpools.CUPHelper;
 import com.devingotaswitch.youruserpools.ChangePasswordActivity;
 import com.devingotaswitch.youruserpools.UserActivity;
 
@@ -95,8 +96,8 @@ public class RankingsHome extends AppCompatActivity {
     private void init() {
         // Get the user name
         Bundle extras = getIntent().getExtras();
-        username = AppHelper.getCurrUser();
-        user = AppHelper.getPool().getUser(username);
+        username = CUPHelper.getCurrUser();
+        user = CUPHelper.getPool().getUser(username);
         getDetails();
     }
 
@@ -148,12 +149,13 @@ public class RankingsHome extends AppCompatActivity {
     // Sign out user
     private void signOut() {
         user.signOut();
+        CIBHelper.signOut();
         exit();
     }
 
     // Get user details from CIP service
     private void getDetails() {
-        AppHelper.getPool().getUser(username).getDetailsInBackground(detailsHandler);
+        CUPHelper.getPool().getUser(username).getDetailsInBackground(detailsHandler);
     }
 
     GetDetailsHandler detailsHandler = new GetDetailsHandler() {
@@ -161,13 +163,13 @@ public class RankingsHome extends AppCompatActivity {
         public void onSuccess(CognitoUserDetails cognitoUserDetails) {
             closeWaitDialog();
             // Store details in the AppHandler
-            AppHelper.setUserDetails(cognitoUserDetails);
+            CUPHelper.setUserDetails(cognitoUserDetails);
         }
 
         @Override
         public void onFailure(Exception exception) {
             closeWaitDialog();
-            showDialogMessage("Could not fetch user details!", AppHelper.formatException(exception), true);
+            showDialogMessage("Could not fetch user details!", CUPHelper.formatException(exception), true);
         }
     };
 

@@ -181,7 +181,7 @@ public class SignUpConfirm extends AppCompatActivity {
             return;
         }
 
-        AppHelper.getPool().getUser(userName).confirmSignUpInBackground(confirmCode, true, confHandler);
+        CUPHelper.getPool().getUser(userName).confirmSignUpInBackground(confirmCode, true, confHandler);
     }
 
     private void reqConfCode() {
@@ -192,7 +192,7 @@ public class SignUpConfirm extends AppCompatActivity {
             username.setBackground(getDrawable(R.drawable.text_border_error));
             return;
         }
-        AppHelper.getPool().getUser(userName).resendConfirmationCodeInBackground(resendConfCodeHandler);
+        CUPHelper.getPool().getUser(userName).resendConfirmationCodeInBackground(resendConfCodeHandler);
 
     }
 
@@ -212,7 +212,7 @@ public class SignUpConfirm extends AppCompatActivity {
             label.setText("Confirmation failed!");
             confCode.setBackground(getDrawable(R.drawable.text_border_error));
 
-            showDialogMessage("Confirmation failed", AppHelper.formatException(exception), false);
+            showDialogMessage("Confirmation failed", CUPHelper.formatException(exception), false);
         }
     };
 
@@ -231,7 +231,7 @@ public class SignUpConfirm extends AppCompatActivity {
             TextView label = (TextView) findViewById(R.id.textViewConfirmUserIdMessage);
             label.setText("Confirmation code resend failed");
             username.setBackground(getDrawable(R.drawable.text_border_error));
-            showDialogMessage("Confirmation code request has failed", AppHelper.formatException(exception), false);
+            showDialogMessage("Confirmation code request has failed", CUPHelper.formatException(exception), false);
         }
     };
 

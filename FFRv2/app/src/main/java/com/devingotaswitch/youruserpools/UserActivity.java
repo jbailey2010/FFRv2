@@ -1,20 +1,14 @@
 package com.devingotaswitch.youruserpools;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.support.design.widget.NavigationView;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.EditText;
@@ -23,12 +17,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoDevice;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserAttributes;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserCodeDeliveryDetails;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserDetails;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GetDetailsHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.UpdateAttributesHandler;
@@ -76,7 +67,7 @@ public class UserActivity extends AppCompatActivity {
         });
 
         showAttributes();
-        username = AppHelper.getCurrUser();
+        username = CUPHelper.getCurrUser();
         if (mfaSettingsHelper == null) {
             mfaSettingsHelper = new MFASettingsHelper(this);
         }
@@ -84,7 +75,7 @@ public class UserActivity extends AppCompatActivity {
 
     // Get user details from CIP service
     private void getDetails() {
-        AppHelper.getPool().getUser(username).getDetailsInBackground(detailsHandler);
+        CUPHelper.getPool().getUser(username).getDetailsInBackground(detailsHandler);
     }
 
     // Show user attributes from CIP service
@@ -126,7 +117,7 @@ public class UserActivity extends AppCompatActivity {
         updatedUserAttributes.addAttribute(attributeType, attributeValue);
         Toast.makeText(getApplicationContext(), attributeType + ": " + attributeValue, Toast.LENGTH_LONG);
         showWaitDialog("Updating...");
-        AppHelper.getPool().getUser(AppHelper.getCurrUser()).updateAttributesInBackground(updatedUserAttributes, updateHandler);
+        CUPHelper.getPool().getUser(CUPHelper.getCurrUser()).updateAttributesInBackground(updatedUserAttributes, updateHandler);
     }
 
     // Delete attribute
@@ -134,7 +125,7 @@ public class UserActivity extends AppCompatActivity {
         showWaitDialog("Deleting...");
         List<String> attributesToDelete = new ArrayList<>();
         attributesToDelete.add(attributeName);
-        AppHelper.getPool().getUser(AppHelper.getCurrUser()).deleteAttributesInBackground(attributesToDelete, deleteHandler);
+        CUPHelper.getPool().getUser(CUPHelper.getCurrUser()).deleteAttributesInBackground(attributesToDelete, deleteHandler);
     }
 
     // Verify attributes
@@ -148,14 +139,14 @@ public class UserActivity extends AppCompatActivity {
         public void onSuccess(CognitoUserDetails cognitoUserDetails) {
             closeWaitDialog();
             // Store details in the AppHandler
-            AppHelper.setUserDetails(cognitoUserDetails);
+            CUPHelper.setUserDetails(cognitoUserDetails);
             showAttributes();
         }
 
         @Override
         public void onFailure(Exception exception) {
             closeWaitDialog();
-            showDialogMessage("Could not fetch user details!", AppHelper.formatException(exception), true);
+            showDialogMessage("Could not fetch user details!", CUPHelper.formatException(exception), true);
         }
     };
 
@@ -175,7 +166,7 @@ public class UserActivity extends AppCompatActivity {
         public void onFailure(Exception exception) {
             // Update failed
             closeWaitDialog();
-            showDialogMessage("Update failed", AppHelper.formatException(exception), false);
+            showDialogMessage("Update failed", CUPHelper.formatException(exception), false);
         }
     };
 
@@ -194,7 +185,7 @@ public class UserActivity extends AppCompatActivity {
         public void onFailure(Exception e) {
             closeWaitDialog();
             // Attribute delete failed
-            showDialogMessage("Delete failed", AppHelper.formatException(e), false);
+            showDialogMessage("Delete failed", CUPHelper.formatException(e), false);
 
             // Fetch user details from the service
             getDetails();
@@ -222,7 +213,7 @@ public class UserActivity extends AppCompatActivity {
                     String newValue = input.getText().toString();
                     if(!newValue.equals(attributeValue)) {
                         showWaitDialog("Updating...");
-                        updateAttribute(AppHelper.getSignUpFieldsC2O().get(attributeType), newValue);
+                        updateAttribute(CUPHelper.getSignUpFieldsC2O().get(attributeType), newValue);
                     }
                     userDialog.dismiss();
                 } catch (Exception e) {
@@ -234,7 +225,7 @@ public class UserActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 try {
                     userDialog.dismiss();
-                    deleteAttribute(AppHelper.getSignUpFieldsC2O().get(attributeType));
+                    deleteAttribute(CUPHelper.getSignUpFieldsC2O().get(attributeType));
                 } catch (Exception e) {
                     // Log failure
                 }

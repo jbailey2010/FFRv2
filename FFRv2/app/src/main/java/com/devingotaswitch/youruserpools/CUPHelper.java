@@ -1,36 +1,45 @@
 package com.devingotaswitch.youruserpools;
 
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
 import android.util.Log;
 
+import com.amazonaws.SDKGlobalConfiguration;
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoDevice;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserAttributes;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserDetails;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.AuthenticationContinuation;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.MultiFactorAuthenticationContinuation;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.cognitoidentityprovider.model.AttributeType;
+import com.amazonaws.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
-public class AppHelper {
+public class CUPHelper {
     private static List<String> attributeDisplaySeq;
     private static Map<String, String> signUpFieldsC2O;
     private static Map<String, String> signUpFieldsO2C;
 
     private static CognitoUserPool userPool;
     private static String user;
-    private static CognitoCachingCredentialsProvider credentialsProvider;
 
     private static List<ItemToDisplay> currDisplayedItems;
     private static int itemCount;
+
+    private static int REFRESH_THRESHOLD_MILLIS= 60000;
 
     private static List<ItemToDisplay> firstTimeLogInDetails;
     private static Map<String, String> firstTimeLogInUserAttributes;
@@ -39,7 +48,6 @@ public class AppHelper {
     private static Map<String, String> firstTimeLogInUpDatedAttributes;
     private static String firstTimeLoginNewPassword;
 
-    private static final String IDENTITY_POOL_ID = "us-west-2:2dbf85d8-fe1f-4e97-9c93-a4731883aed5";
     private static final String USER_POOL_ID = "us-west-2_LMdno4yy1";
     private static final String CLIENT_ID = "1d6n52mmd2m28t270fnu7ntbca";
     private static final String CLIENT_SECRET = "nh4tkf4kbppd2rckd4g5j0qhn1q55l2h4lcq8kqjahg1nlfe4r9";
@@ -51,9 +59,7 @@ public class AppHelper {
 
     // User details to display - they are the current values, including any local modification
     private static boolean phoneVerified;
-
     private static boolean phoneAvailable;
-    private static boolean emailAvailable;
 
     private static Set<String> currUserAttributes;
 
@@ -67,17 +73,33 @@ public class AppHelper {
         if (userPool == null) {
             // Create a user pool with default ClientConfiguration
             userPool = new CognitoUserPool(context, USER_POOL_ID, CLIENT_ID, CLIENT_SECRET, COGNITO_REGION);
-            credentialsProvider = new CognitoCachingCredentialsProvider(context, IDENTITY_POOL_ID, COGNITO_REGION);
         }
 
         phoneVerified = false;
         phoneAvailable = false;
-        emailAvailable = false;
 
         currUserAttributes = new HashSet<String>();
         currDisplayedItems = new ArrayList<ItemToDisplay>();
         firstTimeLogInDetails = new ArrayList<ItemToDisplay>();
         firstTimeLogInUpDatedAttributes= new HashMap<String, String>();
+    }
+
+    static boolean shouldRefreshCUP() {
+        if (userPool == null) {
+            return false;
+        } else if (getCurrSession() == null) {
+            return true;
+        }
+        long currentTime = System.currentTimeMillis()
+                - SDKGlobalConfiguration.getGlobalTimeOffset() * 1000;
+        long timeRemaining = getCurrSession().getIdToken().getExpiration().getTime()
+                - currentTime;
+        Log.e("Jeff", String.valueOf(timeRemaining));
+        return timeRemaining < REFRESH_THRESHOLD_MILLIS;
+    }
+
+    public static void refreshSessionForUser(CognitoUser user, AuthenticationHandler handler) {
+        user.getSessionInBackground(handler);
     }
 
     public static CognitoUserPool getPool() {
@@ -256,7 +278,6 @@ public class AppHelper {
 
         phoneVerified = false;
 
-        emailAvailable = false;
         phoneAvailable = false;
 
         currDisplayedItems = new ArrayList<ItemToDisplay>();
@@ -272,9 +293,6 @@ public class AppHelper {
                 phoneVerified = attr.getValue().contains("true");
             }
 
-            if(attr.getKey().equals("email")) {
-                emailAvailable = true;
-            }
             else if(attr.getKey().equals("phone_number")) {
                 phoneAvailable = true;
             }

@@ -135,7 +135,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
             return;
         }
         showWaitDialog("Changing password...");
-        AppHelper.getPool().getUser(AppHelper.getCurrUser()).changePasswordInBackground(cPass, nPass, callback);
+        CUPHelper.getPool().getUser(CUPHelper.getCurrUser()).changePasswordInBackground(cPass, nPass, callback);
     }
 
     GenericHandler callback = new GenericHandler() {
@@ -152,7 +152,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
             closeWaitDialog();
             newPassword.setBackground(getDrawable(R.drawable.text_border_error));
             currPassword.setBackground(getDrawable(R.drawable.text_border_error));
-            showDialogMessage("Password change failed", AppHelper.formatException(exception), false);
+            showDialogMessage("Password change failed", CUPHelper.formatException(exception), false);
         }
     };
 

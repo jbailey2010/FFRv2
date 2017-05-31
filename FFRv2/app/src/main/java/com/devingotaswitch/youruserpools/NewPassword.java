@@ -5,8 +5,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -20,7 +18,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoDevice;
 import com.devingotaswitch.ffrv2.R;
 
 public class NewPassword extends AppCompatActivity {
@@ -97,7 +94,7 @@ public class NewPassword extends AppCompatActivity {
             public void onClick(View v) {
                 String newUserPassword = newPassword.getText().toString();
                 if (newUserPassword != null) {
-                    AppHelper.setPasswordForFirstTimeLogin(newUserPassword);
+                    CUPHelper.setPasswordForFirstTimeLogin(newUserPassword);
                     if (checkAttributes()) {
                         exit(true);
                     }
@@ -145,7 +142,7 @@ public class NewPassword extends AppCompatActivity {
                 try {
                     String newValue = input.getText().toString();
                     if (!newValue.equals(attributeValue)) {
-                        AppHelper.setUserAttributeForFirstTimeLogin(attributeType, newValue);
+                        CUPHelper.setUserAttributeForFirstTimeLogin(attributeType, newValue);
                         refreshItemsDisplayed();
                     }
                     userDialog.dismiss();

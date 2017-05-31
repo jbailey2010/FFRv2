@@ -1,42 +1,25 @@
 package com.devingotaswitch.youruserpools;
 
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.hardware.fingerprint.FingerprintManager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.amazonaws.ClientConfiguration;
-import com.amazonaws.auth.AWSCognitoIdentityProvider;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserAttributes;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserCodeDeliveryDetails;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserDetails;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.AuthenticationContinuation;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.AuthenticationDetails;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.MultiFactorAuthenticationContinuation;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHandler;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GetDetailsHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.SignUpHandler;
 import com.devingotaswitch.ffrv2.R;
-
-import java.util.HashMap;
-import java.util.Map;
 
 public class RegisterUser extends AppCompatActivity {
     private final String TAG = "SignUp";
@@ -249,27 +232,27 @@ public class RegisterUser extends AppCompatActivity {
                 String userInput = givenName.getText().toString();
                 if (userInput != null) {
                     if (userInput.length() > 0) {
-                        userAttributes.addAttribute(AppHelper.getSignUpFieldsC2O().get(givenName.getHint()).toString(), userInput);
+                        userAttributes.addAttribute(CUPHelper.getSignUpFieldsC2O().get(givenName.getHint()).toString(), userInput);
                     }
                 }
 
                 userInput = email.getText().toString();
                 if (userInput != null) {
                     if (userInput.length() > 0) {
-                        userAttributes.addAttribute(AppHelper.getSignUpFieldsC2O().get(email.getHint()).toString(), userInput);
+                        userAttributes.addAttribute(CUPHelper.getSignUpFieldsC2O().get(email.getHint()).toString(), userInput);
                     }
                 }
 
                 userInput = phone.getText().toString();
                 if (userInput != null) {
                     if (userInput.length() > 0) {
-                        userAttributes.addAttribute(AppHelper.getSignUpFieldsC2O().get(phone.getHint()).toString(), userInput);
+                        userAttributes.addAttribute(CUPHelper.getSignUpFieldsC2O().get(phone.getHint()).toString(), userInput);
                     }
                 }
 
                 showWaitDialog("Signing up...");
 
-                AppHelper.getPool().signUpInBackground(usernameInput, userpasswordInput, userAttributes, null, signUpHandler);
+                CUPHelper.getPool().signUpInBackground(usernameInput, userpasswordInput, userAttributes, null, signUpHandler);
 
             }
         });
@@ -298,7 +281,7 @@ public class RegisterUser extends AppCompatActivity {
             TextView label = (TextView) findViewById(R.id.textViewRegUserIdMessage);
             label.setText("Sign up failed");
             username.setBackground(getDrawable(R.drawable.text_border_error));
-            showDialogMessage("Sign up failed",AppHelper.formatException(exception),false);
+            showDialogMessage("Sign up failed", CUPHelper.formatException(exception),false);
         }
     };
 

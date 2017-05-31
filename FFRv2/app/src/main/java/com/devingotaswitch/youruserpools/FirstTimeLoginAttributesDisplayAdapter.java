@@ -1,7 +1,6 @@
 package com.devingotaswitch.youruserpools;
 
 import android.content.Context;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +19,7 @@ public class FirstTimeLoginAttributesDisplayAdapter extends BaseAdapter {
     public FirstTimeLoginAttributesDisplayAdapter(Context context) {
         this.context = context;
 
-        count = AppHelper.getFirstTimeLogInItemsCount();
+        count = CUPHelper.getFirstTimeLogInItemsCount();
 
         layoutInflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     }
@@ -56,7 +55,7 @@ public class FirstTimeLoginAttributesDisplayAdapter extends BaseAdapter {
             holder = (Holder) convertView.getTag();
         }
 
-        ItemToDisplay item = AppHelper.getUserAttributeForFirstLogInCheck(position);
+        ItemToDisplay item = CUPHelper.getUserAttributeForFirstLogInCheck(position);
         holder.label.setText(item.getLabelText());
         holder.label.setTextColor(item.getLabelColor());
         holder.data.setHint(item.getLabelText());

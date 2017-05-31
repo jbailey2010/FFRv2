@@ -4,16 +4,10 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.graphics.Color;
-import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Switch;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserDetails;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSettings;
@@ -52,7 +46,7 @@ public class MFASettingsHelper {
             smsSwitch.setChecked(false);
         }
 
-        settings = AppHelper.getUserDetails().getSettings().getSettings();
+        settings = CUPHelper.getUserDetails().getSettings().getSettings();
 
         if(settings != null) {
             if(settings.containsKey("phone_number")) {
@@ -88,12 +82,12 @@ public class MFASettingsHelper {
         showWaitDialog("Changing SMS MFA setting...");
         newSettings = new CognitoUserSettings();
         newSettings.setSettings(attribute, value);
-        AppHelper.getPool().getUser(AppHelper.getCurrUser()).setUserSettingsInBackground(newSettings, updateSettingHandler);
+        CUPHelper.getPool().getUser(CUPHelper.getCurrUser()).setUserSettingsInBackground(newSettings, updateSettingHandler);
     }
 
     private void getDetails() {
         settingsChanged = true;
-        AppHelper.getPool().getUser(AppHelper.getCurrUser()).getDetailsInBackground(detailsHandler);
+        CUPHelper.getPool().getUser(CUPHelper.getCurrUser()).getDetailsInBackground(detailsHandler);
     }
 
     GenericHandler updateSettingHandler = new GenericHandler() {
@@ -109,7 +103,7 @@ public class MFASettingsHelper {
             closeWaitDialog();
             smsSwitch.toggle();
             toggleSwitch();
-            showDialogMessage("Could not change MFA settings", AppHelper.formatException(exception), false);
+            showDialogMessage("Could not change MFA settings", CUPHelper.formatException(exception), false);
         }
     };
 
@@ -118,7 +112,7 @@ public class MFASettingsHelper {
         public void onSuccess(CognitoUserDetails cognitoUserDetails) {
             closeWaitDialog();
             // Store details in the AppHandler
-            AppHelper.setUserDetails(cognitoUserDetails);
+            CUPHelper.setUserDetails(cognitoUserDetails);
             showDialogMessage("MFA setting successfully changed","",false);
         }
 
