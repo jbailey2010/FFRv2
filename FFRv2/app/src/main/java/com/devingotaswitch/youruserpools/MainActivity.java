@@ -82,7 +82,8 @@ public class MainActivity extends AppCompatActivity {
         setNavDrawer();
 
         // Initialize application
-        AppHelper.init(getApplicationContext());
+        CUPHelper.init(getApplicationContext());
+        CIBHelper.init(getApplicationContext());
         initApp();
         findCurrent();
     }
@@ -123,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
                         // We have the user details, so sign in!
                         username = name;
                         password = userPasswd;
-                        AppHelper.getPool().getUser(username).getSessionInBackground(authenticationHandler);
+                        CUPHelper.getPool().getUser(username).getSessionInBackground(authenticationHandler);
                     }
                 }
                 break;
@@ -262,7 +263,7 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        AppHelper.setUser(username);
+        CUPHelper.setUser(username);
 
         password = inPassword.getText().toString();
         if(password == null || password.length() < 1) {
@@ -273,7 +274,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         showWaitDialog("Signing in...");
-        AppHelper.getPool().getUser(username).getSessionInBackground(authenticationHandler);
+        CUPHelper.getPool().getUser(username).getSessionInBackground(authenticationHandler);
     }
 
     private void forgotpasswordUser() {
@@ -293,7 +294,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         showWaitDialog("");
-        AppHelper.getPool().getUser(username).forgotPasswordInBackground(forgotPasswordHandler);
+        CUPHelper.getPool().getUser(username).forgotPasswordInBackground(forgotPasswordHandler);
     }
 
     private void getForgotPasswordCode(ForgotPasswordContinuation forgotPasswordContinuation) {
@@ -317,8 +318,8 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void continueWithFirstTimeSignIn() {
-        newPasswordContinuation.setPassword(AppHelper.getPasswordForFirstTimeLogin());
-        Map <String, String> newAttributes = AppHelper.getUserAttributesForFirstTimeLogin();
+        newPasswordContinuation.setPassword(CUPHelper.getPasswordForFirstTimeLogin());
+        Map <String, String> newAttributes = CUPHelper.getUserAttributesForFirstTimeLogin();
         if (newAttributes != null) {
             for(Map.Entry<String, String> attr: newAttributes.entrySet()) {
                 Log.e(TAG, String.format("Adding attribute: %s, %s", attr.getKey(), attr.getValue()));
@@ -337,7 +338,7 @@ public class MainActivity extends AppCompatActivity {
             label.setText("Sign-in failed");
             inUsername.setBackground(getDrawable(R.drawable.text_border_error));
 
-            showDialogMessage("Sign-in failed", AppHelper.formatException(e));
+            showDialogMessage("Sign-in failed", CUPHelper.formatException(e));
         }
     }
 
@@ -357,10 +358,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void findCurrent() {
-        CognitoUser user = AppHelper.getPool().getCurrentUser();
+        CognitoUser user = CUPHelper.getPool().getCurrentUser();
         username = user.getUserId();
         if(username != null) {
-            AppHelper.setUser(username);
+            CUPHelper.setUser(username);
             inUsername.setText(user.getUserId());
             user.getSessionInBackground(authenticationHandler);
         }
@@ -369,7 +370,7 @@ public class MainActivity extends AppCompatActivity {
     private void getUserAuthentication(AuthenticationContinuation continuation, String username) {
         if(username != null) {
             this.username = username;
-            AppHelper.setUser(username);
+            CUPHelper.setUser(username);
         }
         if(this.password == null) {
             inUsername.setText(username);
@@ -468,7 +469,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onFailure(Exception e) {
             closeWaitDialog();
-            showDialogMessage("Forgot password failed",AppHelper.formatException(e));
+            showDialogMessage("Forgot password failed", CUPHelper.formatException(e));
         }
     };
 
@@ -477,7 +478,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onSuccess(CognitoUserSession cognitoUserSession, CognitoDevice device) {
             Log.e(TAG, "Auth Success");
-            AppHelper.setCurrSession(cognitoUserSession);
+            CUPHelper.setCurrSession(cognitoUserSession);
             closeWaitDialog();
             launchUser();
         }
@@ -496,6 +497,11 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
+        public void authenticationChallenge(ChallengeContinuation continuation) {
+            Log.d(TAG, "Authentication challenge thrown, should never happen.");
+        }
+
+        @Override
         public void onFailure(Exception e) {
             closeWaitDialog();
             TextView label = (TextView) findViewById(R.id.textViewUserIdMessage);
@@ -506,23 +512,7 @@ public class MainActivity extends AppCompatActivity {
             label.setText("Sign-in failed");
             inUsername.setBackground(getDrawable(R.drawable.text_border_error));
 
-            showDialogMessage("Sign-in failed", AppHelper.formatException(e));
-        }
-
-        @Override
-        public void authenticationChallenge(ChallengeContinuation continuation) {
-            /**
-             * For Custom authentication challenge, implement your logic to present challenge to the
-             * user and pass the user's responses to the continuation.
-             */
-            if ("NEW_PASSWORD_REQUIRED".equals(continuation.getChallengeName())) {
-                // This is the first sign-in attempt for an admin created user
-                newPasswordContinuation = (NewPasswordContinuation) continuation;
-                AppHelper.setUserAttributeForDisplayFirstLogIn(newPasswordContinuation.getCurrentUserAttributes(),
-                        newPasswordContinuation.getRequiredAttributes());
-                closeWaitDialog();
-                firstTimeSignIn();
-            }
+            showDialogMessage("Sign-in failed", CUPHelper.formatException(e));
         }
     };
 
