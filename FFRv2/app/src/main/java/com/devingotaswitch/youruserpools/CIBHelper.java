@@ -36,6 +36,10 @@ public class CIBHelper {
         credentialsProvider = new CognitoCachingCredentialsProvider(context, IDENTITY_POOL_ID, COGNITO_REGION);
     }
 
+    public static CognitoCachingCredentialsProvider getCredentialsProvider() {
+        return credentialsProvider;
+    }
+
     public static void refreshCredentials(Context context) {
         if (credentialsProvider == null) {
             Log.d(TAG, "Cannot refresh credentials, CIBHelper not initialized.");
