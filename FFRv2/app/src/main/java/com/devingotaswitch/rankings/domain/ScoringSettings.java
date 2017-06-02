@@ -1,9 +1,11 @@
 package com.devingotaswitch.rankings.domain;
 
+import java.util.UUID;
+
 public class ScoringSettings {
 
     private static final String TABLE_NAME = "scoring_settings";
-    private static final String NAME_COLUMN = "scoring_name";
+    private static final String ID_COLUMN = "scoring_id";
     private static final String PASSING_TDS_COLUMN = "pts_per_passing_td";
     private static final String RUSHING_TDS_COLUMN = "pts_per_rushing_td";
     private static final String RECEIVING_TDS_COLUMN = "pts_per_receiving_td";
@@ -13,20 +15,7 @@ public class ScoringSettings {
     private static final String RUSHING_YARDS_COLUMN = "rushing_yards_per_point";
     private static final String RECEIVING_YARDS_COLUMN = "receiving_yards_per_point";
 
-    public static String getCreateTableSQL() {
-        return "CREATE TABLE " + TABLE_NAME + " (" +
-                        NAME_COLUMN            + " TEXT PRIMARY KEY," +
-                        PASSING_TDS_COLUMN     + " INTEGER," +
-                        RUSHING_TDS_COLUMN     + " INTEGER," +
-                        RECEIVING_TDS_COLUMN   + " INTEGER," +
-                        FUMBLES_COLUMN         + " INTEGER," +
-                        INTERCEPTIONS_COLUMN   + " INTEGER," +
-                        PASSING_YARDS_COLUMN   + " INTEGER," +
-                        RUSHING_YARDS_COLUMN   + " INTEGER," +
-                        RECEIVING_YARDS_COLUMN + " INTEGER);";
-    }
-
-    private String name;
+    private String id;
 
     private int passingTds;
     private int rushingTds;
@@ -41,12 +30,29 @@ public class ScoringSettings {
 
     private int receptions;
 
-    public String getName() {
-        return name;
+    public ScoringSettings() {
+        this.setId(UUID.randomUUID().toString());
+
+        this.setPassingTds(6);
+        this.setRushingTds(6);
+        this.setReceivingTds(6);
+
+        this.setFumbles(-2);
+        this.setInterceptions(-2);
+
+        this.setPassingYards(25);
+        this.setRushingYards(10);
+        this.setReceivingYards(10);
+
+        this.setReceptions(1);
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public String getId() {
+        return id;
+    }
+
+    private void setId(String id) {
+        this.id = id;
     }
 
     public int getPassingTds() {
@@ -119,5 +125,18 @@ public class ScoringSettings {
 
     public void setReceptions(int receptions) {
         this.receptions = receptions;
+    }
+
+    public static String getCreateTableSQL() {
+        return "CREATE TABLE " + TABLE_NAME + " (" +
+                ID_COLUMN              + " TEXT PRIMARY KEY," +
+                PASSING_TDS_COLUMN     + " INTEGER," +
+                RUSHING_TDS_COLUMN     + " INTEGER," +
+                RECEIVING_TDS_COLUMN   + " INTEGER," +
+                FUMBLES_COLUMN         + " INTEGER," +
+                INTERCEPTIONS_COLUMN   + " INTEGER," +
+                PASSING_YARDS_COLUMN   + " INTEGER," +
+                RUSHING_YARDS_COLUMN   + " INTEGER," +
+                RECEIVING_YARDS_COLUMN + " INTEGER);";
     }
 }
