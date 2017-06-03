@@ -28,23 +28,26 @@ public class RosterSettings {
     private int benchCount;
     private Flex flex;
 
+    private static final Integer NO_STARTERS = 0;
+    private static final Integer ONE_STARTER = 1;
+    private static final Integer TWO_STARTERS = 2;
+    private static final Integer BENCH_DEFAULT = 6;
+
     public RosterSettings() {
-        this.setId(UUID.randomUUID().toString());
+        this(UUID.randomUUID().toString(), ONE_STARTER, TWO_STARTERS, TWO_STARTERS, ONE_STARTER, ONE_STARTER,
+                ONE_STARTER, BENCH_DEFAULT, new Flex());
+    }
 
-        this.setQbCount(1);
-        this.setRbCount(2);
-        this.setWrCount(2);
-        this.setTeCount(1);
-        this.setDstCount(1);
-        this.setkCount(1);
-        this.setBenchCount(6);
-
-        Flex flex = new Flex();
-        flex.setRbteCount(0);
-        flex.setRbwrCount(1);
-        flex.setRbteCount(0);
-        flex.setWrrbteCount(0);
-        flex.setQbrbwrteCount(0);
+    public RosterSettings(String id, int qbCt, int rbCt, int wrCt, int teCt, int dCt, int kCt,
+                          int benchCt, Flex flex) {
+        this.setId(id);
+        this.setQbCount(qbCt);
+        this.setRbCount(rbCt);
+        this.setWrCount(wrCt);
+        this.setTeCount(teCt);
+        this.setDstCount(dCt);
+        this.setkCount(kCt);
+        this.setBenchCount(benchCt);
         this.setFlex(flex);
     }
 
@@ -137,13 +140,25 @@ public class RosterSettings {
                 QBRBWRTE_COUNT_COLUMN  + " INTEGER);";
     }
 
-    class Flex {
+    static class Flex {
 
         private int rbwrCount;
-        private int wrrbteCount;
+        private int rbwrteCount;
         private int rbteCount;
         private int wrteCount;
         private int qbrbwrteCount;
+
+        public Flex() {
+            this(ONE_STARTER, NO_STARTERS, NO_STARTERS, NO_STARTERS, NO_STARTERS);
+        }
+
+        public Flex(int rbwr, int rbwrte, int rbte, int wrte, int qbrbwrte) {
+            this.setRbwrCount(rbwr);
+            this.setRbteCount(rbte);
+            this.setRbwrteCount(rbwrte);
+            this.setWrteCount(wrte);
+            this.setQbrbwrteCount(qbrbwrte);
+        }
 
         public int getRbwrCount() {
             return rbwrCount;
@@ -153,12 +168,12 @@ public class RosterSettings {
             this.rbwrCount = rbwrCount;
         }
 
-        public int getWrrbteCount() {
-            return wrrbteCount;
+        public int getRbwrteCount() {
+            return rbwrteCount;
         }
 
-        public void setWrrbteCount(int wrrbteCount) {
-            this.wrrbteCount = wrrbteCount;
+        public void setRbwrteCount(int rbwrteCount) {
+            this.rbwrteCount = rbwrteCount;
         }
 
         public int getRbteCount() {

@@ -23,16 +23,23 @@ public class LeagueSettings {
     private ScoringSettings scoringSettings;
     private RosterSettings rosterSettings;
 
-    public LeagueSettings() {
-        this(new ScoringSettings(), new RosterSettings());
-    }
+    private static final String DEFAULT_NAME = "My League";
+    private static final Integer DEFAULT_TEAM_COUNT = 10;
+    private static final Boolean DEFAULT_IS_AUCTION = true;
+    private static final Integer DEFAULT_AUCTION_BUDGET = 200;
 
     public LeagueSettings(ScoringSettings scoring, RosterSettings roster) {
-        this.setId(UUID.randomUUID().toString());
-        this.setName("My League");
-        this.setTeamCount(10);
-        this.setAuction(true);
-        this.setAuctionBudget(200);
+        this(UUID.randomUUID().toString(), DEFAULT_NAME, DEFAULT_TEAM_COUNT, DEFAULT_IS_AUCTION,
+                DEFAULT_AUCTION_BUDGET, scoring, roster);
+    }
+
+    public LeagueSettings(String id, String name, int teamCount, boolean isAuction,
+                          int auctionBudget, ScoringSettings scoring, RosterSettings roster) {
+        this.setId(id);
+        this.setName(name);
+        this.setTeamCount(teamCount);
+        this.setAuction(isAuction);
+        this.setAuctionBudget(auctionBudget);
         this.setScoringSettings(scoring);
         this.setRosterSettings(roster);
     }

@@ -31,21 +31,31 @@ public class ScoringSettings {
 
     private double receptions;
 
+    private static final Integer DEFAULT_TD_WORTH = 6;
+    private static final Integer DEFAULT_TURNOVER_WORTH = -2;
+    private static final Integer DEFAULT_PASSING_YDS = 25;
+    private static final Integer DEFAULT_RUSHING_YDS = 10;
+    private static final Integer DEFAULT_RECEIVING_YDS = 10;
+    private static final Double DEFAULT_RECEPTIONS = 1.0;
+
     public ScoringSettings() {
-        this.setId(UUID.randomUUID().toString());
+        this(UUID.randomUUID().toString(), DEFAULT_TD_WORTH, DEFAULT_TD_WORTH, DEFAULT_TD_WORTH,
+                DEFAULT_TURNOVER_WORTH, DEFAULT_TURNOVER_WORTH, DEFAULT_PASSING_YDS, DEFAULT_RUSHING_YDS,
+                DEFAULT_RECEIVING_YDS, DEFAULT_RECEPTIONS);
+    }
 
-        this.setPassingTds(6);
-        this.setRushingTds(6);
-        this.setReceivingTds(6);
-
-        this.setFumbles(-2);
-        this.setInterceptions(-2);
-
-        this.setPassingYards(25);
-        this.setRushingYards(10);
-        this.setReceivingYards(10);
-
-        this.setReceptions(1);
+    public ScoringSettings(String id, int passingTds, int rushingTds, int receivingTds, int fumbles,
+                           int interceptions, int passingYds, int rushingYds, int receivingYds, double receptions) {
+        this.setId(id);
+        this.setPassingTds(passingTds);
+        this.setRushingTds(rushingTds);
+        this.setReceivingTds(receivingTds);
+        this.setFumbles(fumbles);
+        this.setInterceptions(interceptions);
+        this.setPassingYards(passingYds);
+        this.setRushingYards(rushingYds);
+        this.setReceivingYards(receivingYds);
+        this.setReceptions(receptions);
     }
 
     public String getId() {
