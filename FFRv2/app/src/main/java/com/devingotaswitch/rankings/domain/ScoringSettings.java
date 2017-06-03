@@ -14,6 +14,7 @@ public class ScoringSettings {
     private static final String PASSING_YARDS_COLUMN = "passing_yards_per_point";
     private static final String RUSHING_YARDS_COLUMN = "rushing_yards_per_point";
     private static final String RECEIVING_YARDS_COLUMN = "receiving_yards_per_point";
+    private static final String RECEPTIONS_COLUMN = "pts_per_reception";
 
     private String id;
 
@@ -28,7 +29,7 @@ public class ScoringSettings {
     private int rushingYards;
     private int receivingYards;
 
-    private int receptions;
+    private double receptions;
 
     public ScoringSettings() {
         this.setId(UUID.randomUUID().toString());
@@ -119,11 +120,11 @@ public class ScoringSettings {
         this.receivingYards = receivingYards;
     }
 
-    public int getReceptions() {
+    public double getReceptions() {
         return receptions;
     }
 
-    public void setReceptions(int receptions) {
+    public void setReceptions(double receptions) {
         this.receptions = receptions;
     }
 
@@ -137,6 +138,7 @@ public class ScoringSettings {
                 INTERCEPTIONS_COLUMN   + " INTEGER," +
                 PASSING_YARDS_COLUMN   + " INTEGER," +
                 RUSHING_YARDS_COLUMN   + " INTEGER," +
-                RECEIVING_YARDS_COLUMN + " INTEGER);";
+                RECEIVING_YARDS_COLUMN + " INTEGER," +
+                RECEPTIONS_COLUMN      + " REAL);";
     }
 }
