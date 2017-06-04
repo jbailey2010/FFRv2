@@ -76,4 +76,31 @@ public class Constants {
     public static final Integer ONE_STARTER = 1;
     public static final Integer TWO_STARTERS = 2;
     public static final Integer BENCH_DEFAULT = 6;
+
+    // Team settings: SQL
+    public static final String TEAM_TABLE_NAME = "team_data";
+    public static final String TEAM_NAME_COLUMN = "team_name";
+    public static final String OLINE_RANKS_COLUMN = "oline_ranks";
+    public static final String DRAFT_CLASS_COLUMN = "draft_class";
+    public static final String QB_SOS_COLUMN = "qb_sos";
+    public static final String RB_SOS_COLUMN = "rb_sos";
+    public static final String WR_SOS_COLUMN = "wr_sos";
+    public static final String TE_SOS_COLUMN = "te_sos";
+    public static final String DST_SOS_COLUMN = "dst_sos";
+    public static final String K_SOS_COLUMN = "k_sos";
+    public static final String BYE_COLUMN = "bye_week";
+    public static final String FREE_AGENCY_COLUMN = "fa_class";
+
+    // Roster settings: SQL
+    public static final String PLAYER_TABLE_NAME = "player_data";
+    public static final String PLAYER_NAME_COLUMN = "player_name";
+    public static final String PLAYER_POSITION_COLUMN = "position";
+    public static final String PLAYER_AGE_COLUMN = "age";
+    public static final String PLAYER_ECR_COLUMN = "ecr";
+    public static final String PLAYER_ADP_COLUMN = "adp";
+    // Team name is already in team settings
+    public static final String PLAYER_NOTE_COLUMN = "player_note";
+    public static final String RANKING_COUNT_COLUMN = "ranking_count";
+    public static final String AUCTION_VALUE_COLUMN = "auction_value";
+
 }

@@ -87,15 +87,4 @@ public class LeagueSettings {
     public void setRosterSettings(RosterSettings rosterSettings) {
         this.rosterSettings = rosterSettings;
     }
-
-    public static String getCreateTableSQL() {
-        return "CREATE TABLE " + Constants.LEAGUE_TABLE_NAME + " (" +
-                Constants.LEAGUE_ID_COLUMN + " TEXT PRIMARY KEY," +
-                Constants.NAME_COLUMN            + " TEXT," +
-                Constants.TEAM_COUNT_COLUMN      + " INTEGER," +
-                Constants.IS_AUCTION_COLUMN      + " BOOLEAN," +
-                Constants.AUCTION_BUDGET_COLUMN  + " INTEGER," +
-                Constants.SCORING_ID_COLUMN      + " TEXT," +
-                Constants.ROSTER_ID_COLUMN       + " TEXT);";
-    }
 }

@@ -120,18 +120,4 @@ public class ScoringSettings {
     public void setReceptions(double receptions) {
         this.receptions = receptions;
     }
-
-    public static String getCreateTableSQL() {
-        return "CREATE TABLE " + Constants.SCORING_TABLE_NAME + " (" +
-                Constants.SCORING_ID_COLUMN + " TEXT PRIMARY KEY," +
-                Constants.PASSING_TDS_COLUMN     + " INTEGER," +
-                Constants.RUSHING_TDS_COLUMN     + " INTEGER," +
-                Constants.RECEIVING_TDS_COLUMN   + " INTEGER," +
-                Constants.FUMBLES_COLUMN         + " INTEGER," +
-                Constants.INTERCEPTIONS_COLUMN   + " INTEGER," +
-                Constants.PASSING_YARDS_COLUMN   + " INTEGER," +
-                Constants.RUSHING_YARDS_COLUMN   + " INTEGER," +
-                Constants.RECEIVING_YARDS_COLUMN + " INTEGER," +
-                Constants.RECEPTIONS_COLUMN      + " REAL);";
-    }
 }

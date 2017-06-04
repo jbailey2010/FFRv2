@@ -106,23 +106,6 @@ public class RosterSettings {
         this.flex = flex;
     }
 
-    public static String getCreateTableSQL() {
-        return "CREATE TABLE " + Constants.ROSTER_TABLE_NAME + " (" +
-                Constants.ROSTER_ID_COLUMN + " TEXT PRIMARY KEY," +
-                Constants.QB_COUNT_COLUMN        + " INTEGER," +
-                Constants.RB_COUNT_COLUMN        + " INTEGER," +
-                Constants.WR_COUNT_COLUMN        + " INTEGER," +
-                Constants.TE_COUNT_COLUMN        + " INTEGER," +
-                Constants.DST_COUNT_COLUMN       + " INTEGER," +
-                Constants.K_COUNT_COLUMN         + " INTEGER," +
-                Constants.BENCH_COUNT_COLUMN     + " INTEGER," +
-                Constants.RBWR_COUNT_COLUMN      + " INTEGER," +
-                Constants.RBTE_COUNT_COLUMN      + " INTEGER," +
-                Constants.RBWRTE_COUNT_COLUMN    + " INTEGER," +
-                Constants.WRTE_COUNT_COLUMN      + " INTEGER," +
-                Constants.QBRBWRTE_COUNT_COLUMN  + " INTEGER);";
-    }
-
     static class Flex {
 
         private int rbwrCount;

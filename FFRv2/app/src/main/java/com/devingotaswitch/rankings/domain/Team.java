@@ -1,12 +1,16 @@
 package com.devingotaswitch.rankings.domain;
 
-import java.util.Map;
-
 public class Team {
+
     private String name;
     private String oLineRanks;
     private String draftClass;
-    private Map<String, Integer> sos;
+    private int qbSos;
+    private int rbSos;
+    private int wrSos;
+    private int teSos;
+    private int dstSos;
+    private int kSos;
     private String bye;
     private String faClass;
 
@@ -30,16 +34,56 @@ public class Team {
         return draftClass;
     }
 
+    public int getQbSos() {
+        return qbSos;
+    }
+
+    public void setQbSos(int qbSos) {
+        this.qbSos = qbSos;
+    }
+
+    public int getRbSos() {
+        return rbSos;
+    }
+
+    public void setRbSos(int rbSos) {
+        this.rbSos = rbSos;
+    }
+
+    public int getWrSos() {
+        return wrSos;
+    }
+
+    public void setWrSos(int wrSos) {
+        this.wrSos = wrSos;
+    }
+
+    public int getTeSos() {
+        return teSos;
+    }
+
+    public void setTeSos(int teSos) {
+        this.teSos = teSos;
+    }
+
+    public int getDstSos() {
+        return dstSos;
+    }
+
+    public void setDstSos(int dstSos) {
+        this.dstSos = dstSos;
+    }
+
+    public int getkSos() {
+        return kSos;
+    }
+
+    public void setkSos(int kSos) {
+        this.kSos = kSos;
+    }
+
     public void setDraftClass(String draftClass) {
         this.draftClass = draftClass;
-    }
-
-    public Map<String, Integer> getSos() {
-        return sos;
-    }
-
-    public void setSos(Map<String, Integer> sos) {
-        this.sos = sos;
     }
 
     public String getBye() {
