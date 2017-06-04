@@ -1,6 +1,14 @@
 package com.devingotaswitch.utils;
 
 public class Constants {
+    // Positions
+    public final static String QB = "QB";
+    public final static String RB = "RB";
+    public final static String WR = "WR";
+    public final static String TE = "TE";
+    public final static String DST = "D/ST";
+    public final static String K = "K";
+
     // SP: keys
     public static final String APP_KEY = "FFRv2";
     public static final String LEAGUE_ID = "CURRENT_LEAGUE_ID";
