@@ -10,7 +10,7 @@ public class RankingsDBHelper extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1;
     public static final String DATABASE_NAME = "Rankings.db";
 
-    public RankingsDBHelper(Context context) {
+    RankingsDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
     public void onCreate(SQLiteDatabase db) {
@@ -97,11 +97,8 @@ public class RankingsDBHelper extends SQLiteOpenHelper {
                 Constants.TE_SOS_COLUMN          + " INTEGER," +
                 Constants.DST_SOS_COLUMN         + " INTEGER," +
                 Constants.K_SOS_COLUMN           + " INTEGER," +
-                Constants.QB_SOS_COLUMN          + " INTEGER," +
-                Constants.QB_SOS_COLUMN          + " INTEGER," +
                 Constants.BYE_COLUMN             + " TEXT," +
                 Constants.FREE_AGENCY_COLUMN     + " TEXT);";
-
     }
 
     private String getDeleteTeamTableSQL() {
