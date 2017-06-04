@@ -1,17 +1,10 @@
 package com.devingotaswitch.rankings.domain;
 
+import com.devingotaswitch.utils.Constants;
+
 import java.util.UUID;
 
 public class LeagueSettings {
-
-    private static final String TABLE_NAME = "league_settings";
-    private static final String ID_COLUMN = "league_id";
-    private static final String NAME_COLUMN = "league_name";
-    private static final String TEAM_COUNT_COLUMN = "team_count";
-    private static final String IS_AUCTION_COLUMN = "is_auction";
-    private static final String AUCTION_BUDGET_COLUMN = "auction_budget";
-    private static final String SCORING_ID_COLUMN = "scoring_id";
-    private static final String ROSTER_ID_COLUMN = "roster_id";
 
     private String id;
     private String name;
@@ -23,14 +16,9 @@ public class LeagueSettings {
     private ScoringSettings scoringSettings;
     private RosterSettings rosterSettings;
 
-    private static final String DEFAULT_NAME = "My League";
-    private static final Integer DEFAULT_TEAM_COUNT = 10;
-    private static final Boolean DEFAULT_IS_AUCTION = true;
-    private static final Integer DEFAULT_AUCTION_BUDGET = 200;
-
     public LeagueSettings(ScoringSettings scoring, RosterSettings roster) {
-        this(UUID.randomUUID().toString(), DEFAULT_NAME, DEFAULT_TEAM_COUNT, DEFAULT_IS_AUCTION,
-                DEFAULT_AUCTION_BUDGET, scoring, roster);
+        this(UUID.randomUUID().toString(), Constants.DEFAULT_NAME, Constants.DEFAULT_TEAM_COUNT, Constants.DEFAULT_IS_AUCTION,
+                Constants.DEFAULT_AUCTION_BUDGET, scoring, roster);
     }
 
     public LeagueSettings(String id, String name, int teamCount, boolean isAuction,
@@ -101,13 +89,13 @@ public class LeagueSettings {
     }
 
     public static String getCreateTableSQL() {
-        return "CREATE TABLE " + TABLE_NAME + " (" +
-                ID_COLUMN              + " TEXT PRIMARY KEY," +
-                NAME_COLUMN            + " TEXT," +
-                TEAM_COUNT_COLUMN      + " INTEGER," +
-                IS_AUCTION_COLUMN      + " BOOLEAN," +
-                AUCTION_BUDGET_COLUMN  + " INTEGER," +
-                SCORING_ID_COLUMN      + " TEXT," +
-                ROSTER_ID_COLUMN       + " TEXT);";
+        return "CREATE TABLE " + Constants.LEAGUE_TABLE_NAME + " (" +
+                Constants.LEAGUE_ID_COLUMN + " TEXT PRIMARY KEY," +
+                Constants.NAME_COLUMN            + " TEXT," +
+                Constants.TEAM_COUNT_COLUMN      + " INTEGER," +
+                Constants.IS_AUCTION_COLUMN      + " BOOLEAN," +
+                Constants.AUCTION_BUDGET_COLUMN  + " INTEGER," +
+                Constants.SCORING_ID_COLUMN      + " TEXT," +
+                Constants.ROSTER_ID_COLUMN       + " TEXT);";
     }
 }

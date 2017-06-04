@@ -1,22 +1,10 @@
 package com.devingotaswitch.rankings.domain;
 
+import com.devingotaswitch.utils.Constants;
+
 import java.util.UUID;
 
 public class RosterSettings {
-    private static final String TABLE_NAME = "roster_settings";
-    private static final String ID_COLUMN = "roster_id";
-    private static final String QB_COUNT_COLUMN = "starting_qbs";
-    private static final String RB_COUNT_COLUMN = "starting_rbs";
-    private static final String WR_COUNT_COLUMN = "starting_wrs";
-    private static final String TE_COUNT_COLUMN = "starting_tes";
-    private static final String DST_COUNT_COLUMN = "starting_dsts";
-    private static final String K_COUNT_COLUMN = "starting_ks";
-    private static final String BENCH_COUNT_COLUMN = "bench_count";
-    private static final String RBWR_COUNT_COLUMN = "starting_rbwr";
-    private static final String RBTE_COUNT_COLUMN = "starting_rbte";
-    private static final String RBWRTE_COUNT_COLUMN = "starting_rbwrte";
-    private static final String WRTE_COUNT_COLUMN = "starting_wrte";
-    private static final String QBRBWRTE_COUNT_COLUMN = "starting_qbrbwrte";
 
     private String id;
     private int qbCount;
@@ -28,14 +16,9 @@ public class RosterSettings {
     private int benchCount;
     private Flex flex;
 
-    private static final Integer NO_STARTERS = 0;
-    private static final Integer ONE_STARTER = 1;
-    private static final Integer TWO_STARTERS = 2;
-    private static final Integer BENCH_DEFAULT = 6;
-
     public RosterSettings() {
-        this(UUID.randomUUID().toString(), ONE_STARTER, TWO_STARTERS, TWO_STARTERS, ONE_STARTER, ONE_STARTER,
-                ONE_STARTER, BENCH_DEFAULT, new Flex());
+        this(UUID.randomUUID().toString(), Constants.ONE_STARTER, Constants.TWO_STARTERS, Constants.TWO_STARTERS, Constants.ONE_STARTER, Constants.ONE_STARTER,
+                Constants.ONE_STARTER, Constants.BENCH_DEFAULT, new Flex());
     }
 
     public RosterSettings(String id, int qbCt, int rbCt, int wrCt, int teCt, int dCt, int kCt,
@@ -124,20 +107,20 @@ public class RosterSettings {
     }
 
     public static String getCreateTableSQL() {
-        return "CREATE TABLE " + TABLE_NAME + " (" +
-                ID_COLUMN              + " TEXT PRIMARY KEY," +
-                QB_COUNT_COLUMN        + " INTEGER," +
-                RB_COUNT_COLUMN        + " INTEGER," +
-                WR_COUNT_COLUMN        + " INTEGER," +
-                TE_COUNT_COLUMN        + " INTEGER," +
-                DST_COUNT_COLUMN       + " INTEGER," +
-                K_COUNT_COLUMN         + " INTEGER," +
-                BENCH_COUNT_COLUMN     + " INTEGER," +
-                RBWR_COUNT_COLUMN      + " INTEGER," +
-                RBTE_COUNT_COLUMN      + " INTEGER," +
-                RBWRTE_COUNT_COLUMN    + " INTEGER," +
-                WRTE_COUNT_COLUMN      + " INTEGER," +
-                QBRBWRTE_COUNT_COLUMN  + " INTEGER);";
+        return "CREATE TABLE " + Constants.ROSTER_TABLE_NAME + " (" +
+                Constants.ROSTER_ID_COLUMN + " TEXT PRIMARY KEY," +
+                Constants.QB_COUNT_COLUMN        + " INTEGER," +
+                Constants.RB_COUNT_COLUMN        + " INTEGER," +
+                Constants.WR_COUNT_COLUMN        + " INTEGER," +
+                Constants.TE_COUNT_COLUMN        + " INTEGER," +
+                Constants.DST_COUNT_COLUMN       + " INTEGER," +
+                Constants.K_COUNT_COLUMN         + " INTEGER," +
+                Constants.BENCH_COUNT_COLUMN     + " INTEGER," +
+                Constants.RBWR_COUNT_COLUMN      + " INTEGER," +
+                Constants.RBTE_COUNT_COLUMN      + " INTEGER," +
+                Constants.RBWRTE_COUNT_COLUMN    + " INTEGER," +
+                Constants.WRTE_COUNT_COLUMN      + " INTEGER," +
+                Constants.QBRBWRTE_COUNT_COLUMN  + " INTEGER);";
     }
 
     static class Flex {
@@ -149,7 +132,7 @@ public class RosterSettings {
         private int qbrbwrteCount;
 
         public Flex() {
-            this(ONE_STARTER, NO_STARTERS, NO_STARTERS, NO_STARTERS, NO_STARTERS);
+            this(Constants.ONE_STARTER, Constants.NO_STARTERS, Constants.NO_STARTERS, Constants.NO_STARTERS, Constants.NO_STARTERS);
         }
 
         public Flex(int rbwr, int rbwrte, int rbte, int wrte, int qbrbwrte) {
