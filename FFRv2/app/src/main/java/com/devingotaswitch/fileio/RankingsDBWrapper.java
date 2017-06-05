@@ -78,7 +78,14 @@ public class RankingsDBWrapper {
         SQLiteDatabase db = getInstance(context).getWritableDatabase();
         db.update(Constants.ROSTER_TABLE_NAME,
                 DBUtils.updatedValuesToContentValues(updatedFields),
-                DBUtils.getUpdateKeyString(Constants.ROSTER_ID_COLUMN),
+                DBUtils.getUpdateAndDeleteKeyString(Constants.ROSTER_ID_COLUMN),
+                new String[] {id});
+    }
+
+    public void deleteRoster(Context context, String id) {
+        SQLiteDatabase db = getInstance(context).getWritableDatabase();
+        db.delete(Constants.ROSTER_TABLE_NAME,
+                DBUtils.getUpdateAndDeleteKeyString(Constants.ROSTER_ID_COLUMN),
                 new String[] {id});
     }
 

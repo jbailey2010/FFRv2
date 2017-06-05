@@ -33,9 +33,9 @@ public class DBUtils {
                 .toString();
     }
 
-    public static String getUpdateKeyString(String idColumn) {
+    public static String getUpdateAndDeleteKeyString(String idColumn) {
         return new StringBuilder(idColumn)
-                .append(" = ?")
+                .append(" LIKE ?")
                 .toString();
     }
 
