@@ -23,6 +23,12 @@ public class DBUtils {
                 .toString();
     }
 
+    public static String getDeleteAllString(String tableName) {
+        return new StringBuilder("DELETE * FROM ")
+                .append(tableName)
+                .toString();
+    }
+
     public static ContentValues teamToContentValues(Team team) {
         ContentValues values = new ContentValues();
         values.put(Constants.TEAM_NAME_COLUMN, team.getName());
