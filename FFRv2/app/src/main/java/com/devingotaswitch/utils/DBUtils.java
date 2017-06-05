@@ -5,6 +5,7 @@ import android.database.Cursor;
 
 import com.devingotaswitch.rankings.domain.RosterSettings;
 import com.devingotaswitch.rankings.domain.RosterSettings.Flex;
+import com.devingotaswitch.rankings.domain.ScoringSettings;
 import com.devingotaswitch.rankings.domain.Team;
 
 import java.util.Map;
@@ -47,6 +48,49 @@ public class DBUtils {
         return values;
     }
 
+    public static ContentValues scoringToContentValues(ScoringSettings scoring) {
+        ContentValues values = new ContentValues();
+        values.put(Constants.SCORING_ID_COLUMN, scoring.getId());
+        values.put(Constants.PASSING_TDS_COLUMN, scoring.getPassingTds());
+        values.put(Constants.RUSHING_TDS_COLUMN, scoring.getRushingTds());
+        values.put(Constants.RECEIVING_TDS_COLUMN, scoring.getReceivingTds());
+        values.put(Constants.FUMBLES_COLUMN, scoring.getFumbles());
+        values.put(Constants.INTERCEPTIONS_COLUMN, scoring.getInterceptions());
+        values.put(Constants.PASSING_YARDS_COLUMN, scoring.getPassingYards());
+        values.put(Constants.RUSHING_YARDS_COLUMN, scoring.getRushingYards());
+        values.put(Constants.RECEIVING_YARDS_COLUMN, scoring.getReceivingYards());
+        values.put(Constants.RECEPTIONS_COLUMN, scoring.getReceptions());
+        return values;
+    }
+
+    public static ScoringSettings cursorToScoring(Cursor result) {
+        return new ScoringSettings(
+                result.getString(result.getColumnIndex(Constants.SCORING_ID_COLUMN)),
+                result.getInt(result.getColumnIndex(Constants.PASSING_TDS_COLUMN)),
+                result.getInt(result.getColumnIndex(Constants.RUSHING_TDS_COLUMN)),
+                result.getInt(result.getColumnIndex(Constants.RECEIVING_TDS_COLUMN)),
+                result.getInt(result.getColumnIndex(Constants.FUMBLES_COLUMN)),
+                result.getInt(result.getColumnIndex(Constants.INTERCEPTIONS_COLUMN)),
+                result.getInt(result.getColumnIndex(Constants.PASSING_YARDS_COLUMN)),
+                result.getInt(result.getColumnIndex(Constants.RUSHING_YARDS_COLUMN)),
+                result.getInt(result.getColumnIndex(Constants.RECEIVING_YARDS_COLUMN)),
+                result.getDouble(result.getColumnIndex(Constants.RECEPTIONS_COLUMN))
+        );
+    }
+    private String id;
+
+    private int passingTds;
+    private int rushingTds;
+    private int receivingTds;
+
+    private int fumbles;
+    private int interceptions;
+
+    private int passingYards;
+    private int rushingYards;
+    private int receivingYards;
+
+    private double receptions;
     public static ContentValues rosterToContentValues(RosterSettings roster) {
         ContentValues values = new ContentValues();
         values.put(Constants.ROSTER_ID_COLUMN, roster.getId());

@@ -7,6 +7,7 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.devingotaswitch.rankings.domain.RosterSettings;
+import com.devingotaswitch.rankings.domain.ScoringSettings;
 import com.devingotaswitch.rankings.domain.Team;
 import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.DBUtils;
@@ -26,6 +27,8 @@ public class RankingsDBWrapper {
         return rankingsDB;
     }
 
+    //---------- Teams ---------- 
+
     public Map<String, Team> getAllTeams(Context context) {
         SQLiteDatabase db = getInstance(context).getReadableDatabase();
         Map<String, Team> teams = new HashMap<>();
@@ -43,9 +46,7 @@ public class RankingsDBWrapper {
 
     public Team getTeam(Context context, String teamName) {
         SQLiteDatabase db = getInstance(context).getReadableDatabase();
-        Cursor result = db.rawQuery(DBUtils.getSelectSingleString(Constants.TEAM_TABLE_NAME,
-                Constants.TEAM_NAME_COLUMN, teamName), null);
-        result.moveToFirst();
+        Cursor result = getEntry(db, teamName, Constants.TEAM_TABLE_NAME, Constants.TEAM_NAME_COLUMN);
         Team team = DBUtils.cursorToTeam(result);
         result.close();
         return team;
@@ -59,34 +60,68 @@ public class RankingsDBWrapper {
         emptyTableAndBulkSave(context, Constants.TEAM_TABLE_NAME, values);
     }
 
-    public RosterSettings getRoster(Context context, String rosterId) {
-        SQLiteDatabase db = getInstance(context).getReadableDatabase();
-        Cursor result = db.rawQuery(DBUtils.getSelectSingleString(Constants.ROSTER_TABLE_NAME,
-                Constants.ROSTER_ID_COLUMN, rosterId), null);
-        result.moveToFirst();
+    //---------- Rosters ----------
+
+    public RosterSettings getRoster(SQLiteDatabase db, String rosterId) {
+        Cursor result = getEntry(db, rosterId, Constants.ROSTER_TABLE_NAME, Constants.ROSTER_ID_COLUMN);
         RosterSettings roster = DBUtils.cursorToRoster(result);
         result.close();
         return roster;
     }
 
-    public void insertRoster(Context context, RosterSettings roster) {
-        SQLiteDatabase db = getInstance(context).getWritableDatabase();
-        db.insert(Constants.ROSTER_TABLE_NAME, null, DBUtils.rosterToContentValues(roster));
+    public void insertRoster(SQLiteDatabase db, RosterSettings roster) {
+        insertEntry(db, DBUtils.rosterToContentValues(roster), Constants.ROSTER_TABLE_NAME);
     }
 
-    public void updateRoster(Context context, String id, Map<String, String> updatedFields) {
-        SQLiteDatabase db = getInstance(context).getWritableDatabase();
-        db.update(Constants.ROSTER_TABLE_NAME,
-                DBUtils.updatedValuesToContentValues(updatedFields),
-                DBUtils.getUpdateAndDeleteKeyString(Constants.ROSTER_ID_COLUMN),
-                new String[] {id});
+    public void updateRoster(SQLiteDatabase db, String id, Map<String, String> updatedFields) {
+        updateEntry(db, id, updatedFields, Constants.ROSTER_TABLE_NAME, Constants.ROSTER_ID_COLUMN);
     }
 
-    public void deleteRoster(Context context, String id) {
-        SQLiteDatabase db = getInstance(context).getWritableDatabase();
-        db.delete(Constants.ROSTER_TABLE_NAME,
-                DBUtils.getUpdateAndDeleteKeyString(Constants.ROSTER_ID_COLUMN),
-                new String[] {id});
+    public void deleteRoster(SQLiteDatabase db, String id) {
+        deleteEntry(db, id, Constants.ROSTER_TABLE_NAME, Constants.ROSTER_ID_COLUMN);
+    }
+
+    //---------- Scoring ----------
+
+    public ScoringSettings getScoring(SQLiteDatabase db, String scoringId) {
+        Cursor result = getEntry(db, scoringId, Constants.SCORING_TABLE_NAME, Constants.SCORING_ID_COLUMN);
+        ScoringSettings scoring = DBUtils.cursorToScoring(result);
+        result.close();
+        return scoring;
+    }
+
+    public void insertScoring(SQLiteDatabase db, ScoringSettings scoring) {
+        insertEntry(db, DBUtils.scoringToContentValues(scoring), Constants.SCORING_TABLE_NAME);
+    }
+
+    public void updateScoring(SQLiteDatabase db, String id, Map<String, String> updatedFields) {
+        updateEntry(db, id, updatedFields, Constants.SCORING_TABLE_NAME, Constants.SCORING_ID_COLUMN);
+    }
+
+    public void deleteScoring(SQLiteDatabase db, String id) {
+        deleteEntry(db, id, Constants.SCORING_TABLE_NAME, Constants.SCORING_ID_COLUMN);
+    }
+
+    //---------- Utilities ----------
+
+    private Cursor getEntry(SQLiteDatabase db, String id, String tableName, String idColumn) {
+        Cursor result = db.rawQuery(DBUtils.getSelectSingleString(tableName,
+                idColumn, id), null);
+        result.moveToFirst();
+        return result;
+    }
+
+    private void insertEntry(SQLiteDatabase db, ContentValues values, String tableName) {
+        db.insert(tableName, null, values);
+    }
+
+    private void updateEntry(SQLiteDatabase db, String id, Map<String, String> updatedFields, String tableName, String idColumn) {
+        db.update(tableName, DBUtils.updatedValuesToContentValues(updatedFields),
+                DBUtils.getUpdateAndDeleteKeyString(idColumn), new String[] {id});
+    }
+
+    private void deleteEntry(SQLiteDatabase db, String id, String tableName, String idColumn) {
+        db.delete(tableName, DBUtils.getUpdateAndDeleteKeyString(idColumn), new String[] {id});
     }
 
     private void emptyTableAndBulkSave(Context context, String tableName, Set<ContentValues> valuesToInsert) {
