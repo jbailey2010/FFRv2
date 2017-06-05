@@ -91,8 +91,9 @@ public class Constants {
     public static final String BYE_COLUMN = "bye_week";
     public static final String FREE_AGENCY_COLUMN = "fa_class";
 
-    // Roster settings: SQL
+    // Player settings: SQL
     public static final String PLAYER_TABLE_NAME = "player_data";
+    public static final String PLAYER_CUSTOM_TABLE_NAME = "custom_player_data";
     public static final String PLAYER_NAME_COLUMN = "player_name";
     public static final String PLAYER_POSITION_COLUMN = "position";
     public static final String PLAYER_AGE_COLUMN = "age";
