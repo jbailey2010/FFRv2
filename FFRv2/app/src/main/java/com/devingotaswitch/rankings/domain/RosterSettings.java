@@ -106,7 +106,7 @@ public class RosterSettings {
         this.flex = flex;
     }
 
-    static class Flex {
+    public static class Flex {
 
         private int rbwrCount;
         private int rbwrteCount;

@@ -10,8 +10,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f5fe9503-cc09-4a8d-b7d9-507f98789a95" name="Default" comment="">
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/fileio/RankingsDBHelper.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/fileio/RankingsDBHelper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/Constants.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/Constants.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/fileio/RankingsDBWrapper.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/fileio/RankingsDBWrapper.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/RosterSettings.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/RosterSettings.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/DBUtils.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/DBUtils.java" />
     </list>
     <ignored path="AmazonCognitoYourUserPoolsDemo.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -43,11 +44,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="RankingsDBHelper.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="RankingsDBHelper.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/fileio/RankingsDBHelper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2992">
-              <caret line="136" column="52" selection-start-line="136" selection-start-column="52" selection-end-line="136" selection-end-column="52" />
+            <state relative-caret-position="289">
+              <caret line="52" column="8" selection-start-line="52" selection-start-column="8" selection-end-line="65" selection-end-column="64" />
               <folding>
                 <element signature="imports" expanded="true" />
                 <element signature="e#419#420#0" expanded="true" />
@@ -67,11 +68,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RankingsDBWrapper.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="RankingsDBWrapper.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/fileio/RankingsDBWrapper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="99">
-              <caret line="57" column="25" selection-start-line="57" selection-start-column="25" selection-end-line="57" selection-end-column="25" />
+            <state relative-caret-position="414">
+              <caret line="81" column="16" selection-start-line="81" selection-start-column="16" selection-end-line="81" selection-end-column="16" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -82,10 +83,24 @@
       <file leaf-file-name="DBUtils.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/DBUtils.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="616">
-              <caret line="28" column="28" selection-start-line="28" selection-start-column="28" selection-end-line="28" selection-end-column="28" />
+            <state relative-caret-position="600">
+              <caret line="38" column="28" selection-start-line="38" selection-start-column="28" selection-end-line="38" selection-end-column="28" />
               <folding>
                 <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RosterSettings.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/RosterSettings.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="1501">
+              <caret line="108" column="11" selection-start-line="108" selection-start-column="11" selection-end-line="108" selection-end-column="11" />
+              <folding>
+                <element signature="imports" expanded="true" />
+                <element signature="e#2229#2230#0" expanded="true" />
+                <element signature="e#2256#2257#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1788,14 +1803,14 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/PlayerNews.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/Position.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/ScoringSettings.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/RosterSettings.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/LeagueSettings.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/Player.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/Team.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/DBUtils.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/fileio/RankingsDBWrapper.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/fileio/RankingsDBHelper.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/Constants.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/RosterSettings.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/DBUtils.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/fileio/RankingsDBWrapper.java" />
       </list>
     </option>
   </component>
@@ -2920,16 +2935,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/RosterSettings.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="167">
-          <caret line="106" column="5" selection-start-line="106" selection-start-column="5" selection-end-line="106" selection-end-column="5" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/LeagueSettings.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="627">
@@ -3001,26 +3006,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/DBUtils.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="616">
-          <caret line="28" column="28" selection-start-line="28" selection-start-column="28" selection-end-line="28" selection-end-column="28" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/fileio/RankingsDBWrapper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="99">
-          <caret line="57" column="25" selection-start-line="57" selection-start-column="25" selection-end-line="57" selection-end-column="25" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/Constants.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="498">
@@ -3031,12 +3016,44 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/fileio/RankingsDBHelper.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2992">
-          <caret line="136" column="52" selection-start-line="136" selection-start-column="52" selection-end-line="136" selection-end-column="52" />
+        <state relative-caret-position="289">
+          <caret line="52" column="8" selection-start-line="52" selection-start-column="8" selection-end-line="65" selection-end-column="64" />
           <folding>
             <element signature="imports" expanded="true" />
             <element signature="e#419#420#0" expanded="true" />
             <element signature="e#488#489#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/RosterSettings.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1501">
+          <caret line="108" column="11" selection-start-line="108" selection-start-column="11" selection-end-line="108" selection-end-column="11" />
+          <folding>
+            <element signature="imports" expanded="true" />
+            <element signature="e#2229#2230#0" expanded="true" />
+            <element signature="e#2256#2257#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/DBUtils.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="600">
+          <caret line="38" column="28" selection-start-line="38" selection-start-column="28" selection-end-line="38" selection-end-column="28" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/fileio/RankingsDBWrapper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="414">
+          <caret line="81" column="16" selection-start-line="81" selection-start-column="16" selection-end-line="81" selection-end-column="16" />
+          <folding>
+            <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>

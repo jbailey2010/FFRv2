@@ -6,6 +6,7 @@ import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.devingotaswitch.rankings.domain.RosterSettings;
 import com.devingotaswitch.rankings.domain.Team;
 import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.DBUtils;
@@ -56,6 +57,29 @@ public class RankingsDBWrapper {
             values.add(DBUtils.teamToContentValues(team));
         }
         emptyTableAndBulkSave(context, Constants.TEAM_TABLE_NAME, values);
+    }
+
+    public RosterSettings getRoster(Context context, String rosterId) {
+        SQLiteDatabase db = getInstance(context).getReadableDatabase();
+        Cursor result = db.rawQuery(DBUtils.getSelectSingleString(Constants.ROSTER_TABLE_NAME,
+                Constants.ROSTER_ID_COLUMN, rosterId), null);
+        result.moveToFirst();
+        RosterSettings roster = DBUtils.cursorToRoster(result);
+        result.close();
+        return roster;
+    }
+
+    public void insertRoster(Context context, RosterSettings roster) {
+        SQLiteDatabase db = getInstance(context).getWritableDatabase();
+        db.insert(Constants.ROSTER_TABLE_NAME, null, DBUtils.rosterToContentValues(roster));
+    }
+
+    public void updateRoster(Context context, String id, Map<String, String> updatedFields) {
+        SQLiteDatabase db = getInstance(context).getWritableDatabase();
+        db.update(Constants.ROSTER_TABLE_NAME,
+                DBUtils.updatedValuesToContentValues(updatedFields),
+                DBUtils.getUpdateKeyString(Constants.ROSTER_ID_COLUMN),
+                new String[] {id});
     }
 
     private void emptyTableAndBulkSave(Context context, String tableName, Set<ContentValues> valuesToInsert) {
