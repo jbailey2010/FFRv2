@@ -46,6 +46,16 @@ public class RankingsDBWrapper {
         updateMultipleKeyEntry(db, player.getName(), player.getPosition(), values, Constants.PLAYER_CUSTOM_TABLE_NAME, Constants.PLAYER_NAME_COLUMN, Constants.PLAYER_POSITION_COLUMN);
     }
 
+    private Player loadPlayerCustomFields(SQLiteDatabase db, Player player) {
+        Cursor result = getMultiKeyEntry(db, Constants.PLAYER_NAME_COLUMN, Constants.PLAYER_POSITION_COLUMN, player.getName(), player.getPosition(), Constants.PLAYER_CUSTOM_TABLE_NAME);
+        String note = result.getString(result.getColumnIndex(Constants.PLAYER_NOTE_COLUMN));
+        boolean isWatched = result.getInt(result.getColumnIndex(Constants.PLAYER_WATCHED_COLUMN)) > 0;
+        result.close();
+        player.setWatched(isWatched);
+        player.setNote(note);
+        return player;
+    }
+    
     //---------- Teams ----------
 
     public Map<String, Team> getAllTeams(Context context) {
@@ -184,6 +194,12 @@ public class RankingsDBWrapper {
     private Cursor getEntry(SQLiteDatabase db, String id, String tableName, String idColumn) {
         Cursor result = db.rawQuery(DBUtils.getSelectSingleString(tableName,
                 idColumn, id), null);
+        result.moveToFirst();
+        return result;
+    }
+
+    private Cursor getMultiKeyEntry(SQLiteDatabase db, String columnOne, String columnTwo, String valueOne, String valueTwo, String tableName) {
+        Cursor result = db.rawQuery(DBUtils.getSelectMultipleString(tableName, columnOne, columnTwo, valueOne, valueTwo), null);
         result.moveToFirst();
         return result;
     }

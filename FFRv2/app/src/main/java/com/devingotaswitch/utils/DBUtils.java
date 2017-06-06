@@ -30,6 +30,20 @@ public class DBUtils {
                 .toString();
     }
 
+    public static String getSelectMultipleString(String tableName, String idOne, String idTwo, String valueOne, String valueTwo) {
+        return new StringBuilder("SELECT * FROM ")
+                .append(tableName)
+                .append(" WHERE ")
+                .append(idOne)
+                .append(" = ")
+                .append(valueOne)
+                .append(" AND ")
+                .append(idTwo)
+                .append(" = ")
+                .append(valueTwo)
+                .toString();
+    }
+
     public static String getDeleteAllString(String tableName) {
         return new StringBuilder("DELETE * FROM ")
                 .append(tableName)
