@@ -9,6 +9,7 @@ public class Player {
     private Double adp;
     private String teamName;
     private String note;
+    private boolean isWatched;
 
     private Double rankingCount;
     private Double auctionValue;
@@ -87,10 +88,7 @@ public class Player {
         this.note = note;
     }
 
-    public void addNewAucionValue(double newValue) {
-        double totalSum = auctionValue * rankingCount;
-        totalSum += newValue;
-        setRankingCount(++rankingCount);
-        setAuctionValue(totalSum / rankingCount);
-    }
+    public boolean isWatched() { return isWatched; }
+
+    public void setWatched(boolean isWatched) { this.isWatched = isWatched; }
 }

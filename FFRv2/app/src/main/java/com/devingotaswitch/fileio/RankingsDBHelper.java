@@ -37,7 +37,7 @@ public class RankingsDBHelper extends SQLiteOpenHelper {
 
     private String getCreateLeagueTableSQL() {
         return "CREATE TABLE " + Constants.LEAGUE_TABLE_NAME + " (" +
-                Constants.LEAGUE_ID_COLUMN + " TEXT PRIMARY KEY," +
+                Constants.LEAGUE_ID_COLUMN       + " TEXT PRIMARY KEY," +
                 Constants.NAME_COLUMN            + " TEXT," +
                 Constants.TEAM_COUNT_COLUMN      + " INTEGER," +
                 Constants.IS_AUCTION_COLUMN      + " BOOLEAN," +
@@ -51,7 +51,7 @@ public class RankingsDBHelper extends SQLiteOpenHelper {
     }
     private String getCreateRosterTableSQL() {
         return "CREATE TABLE " + Constants.ROSTER_TABLE_NAME + " (" +
-                Constants.ROSTER_ID_COLUMN + " TEXT PRIMARY KEY," +
+                Constants.ROSTER_ID_COLUMN       + " TEXT PRIMARY KEY," +
                 Constants.QB_COUNT_COLUMN        + " INTEGER," +
                 Constants.RB_COUNT_COLUMN        + " INTEGER," +
                 Constants.WR_COUNT_COLUMN        + " INTEGER," +
@@ -130,6 +130,7 @@ public class RankingsDBHelper extends SQLiteOpenHelper {
                 Constants.PLAYER_NAME_COLUMN     + " TEXT," +
                 Constants.PLAYER_POSITION_COLUMN + " TEXT," +
                 Constants.PLAYER_NOTE_COLUMN     + " TEXT," +
+                Constants.PLAYER_WATCHED_COLUMN  + " BOOLEAN," +
                 "PRIMARY KEY(" + Constants.PLAYER_NAME_COLUMN + ", " + Constants.PLAYER_POSITION_COLUMN + ")" +
                 ");";
     }
