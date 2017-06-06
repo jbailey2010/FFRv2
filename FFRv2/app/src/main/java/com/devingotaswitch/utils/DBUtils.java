@@ -38,7 +38,15 @@ public class DBUtils {
 
     public static String getUpdateAndDeleteKeyString(String idColumn) {
         return new StringBuilder(idColumn)
-                .append(" LIKE ?")
+                .append(" = ?")
+                .toString();
+    }
+
+    public static String getMultiKeyUpdateAndDeleteKeyString(String columnOne, String columnTwo) {
+        return new StringBuilder(columnOne)
+                .append(" = ? AND")
+                .append(columnTwo)
+                .append(" = ?")
                 .toString();
     }
 

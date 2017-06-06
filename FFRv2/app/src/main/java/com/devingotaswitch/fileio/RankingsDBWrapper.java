@@ -7,6 +7,7 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 
 import com.devingotaswitch.rankings.domain.LeagueSettings;
+import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.RosterSettings;
 import com.devingotaswitch.rankings.domain.ScoringSettings;
 import com.devingotaswitch.rankings.domain.Team;
@@ -28,6 +29,21 @@ public class RankingsDBWrapper {
             rankingsDB = new RankingsDBHelper(context);
         }
         return rankingsDB;
+    }
+
+    //---------- Players ----------
+    public void togglePlayerWatched(Context context, Player player, boolean isWatched) {
+        SQLiteDatabase db = getInstance(context).getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(Constants.PLAYER_WATCHED_COLUMN, isWatched);
+        updateMultipleKeyEntry(db, player.getName(), player.getPosition(), values, Constants.PLAYER_CUSTOM_TABLE_NAME, Constants.PLAYER_NAME_COLUMN, Constants.PLAYER_POSITION_COLUMN);
+    }
+
+    public void setPlayerNote(Context context, Player player, String note) {
+        SQLiteDatabase db = getInstance(context).getWritableDatabase();
+        ContentValues values = new ContentValues();
+        values.put(Constants.PLAYER_NOTE_COLUMN, note);
+        updateMultipleKeyEntry(db, player.getName(), player.getPosition(), values, Constants.PLAYER_CUSTOM_TABLE_NAME, Constants.PLAYER_NAME_COLUMN, Constants.PLAYER_POSITION_COLUMN);
     }
 
     //---------- Teams ----------
@@ -110,7 +126,7 @@ public class RankingsDBWrapper {
             updateScoring(db, league.getScoringSettings().getId(), scoringUpdates);
         }
         if (leagueUpdates != null && !leagueUpdates.isEmpty()) {
-            updateEntry(db, league.getId(), leagueUpdates, Constants.LEAGUE_TABLE_NAME, Constants.LEAGUE_ID_COLUMN);
+            updateEntry(db, league.getId(), DBUtils.updatedValuesToContentValues(leagueUpdates), Constants.LEAGUE_TABLE_NAME, Constants.LEAGUE_ID_COLUMN);
         }
     }
 
@@ -135,7 +151,7 @@ public class RankingsDBWrapper {
     }
 
     private void updateRoster(SQLiteDatabase db, String id, Map<String, String> updatedFields) {
-        updateEntry(db, id, updatedFields, Constants.ROSTER_TABLE_NAME, Constants.ROSTER_ID_COLUMN);
+        updateEntry(db, id, DBUtils.updatedValuesToContentValues(updatedFields), Constants.ROSTER_TABLE_NAME, Constants.ROSTER_ID_COLUMN);
     }
 
     private void deleteRoster(SQLiteDatabase db, String id) {
@@ -156,7 +172,7 @@ public class RankingsDBWrapper {
     }
 
     private void updateScoring(SQLiteDatabase db, String id, Map<String, String> updatedFields) {
-        updateEntry(db, id, updatedFields, Constants.SCORING_TABLE_NAME, Constants.SCORING_ID_COLUMN);
+        updateEntry(db, id, DBUtils.updatedValuesToContentValues(updatedFields), Constants.SCORING_TABLE_NAME, Constants.SCORING_ID_COLUMN);
     }
 
     private void deleteScoring(SQLiteDatabase db, String id) {
@@ -176,9 +192,12 @@ public class RankingsDBWrapper {
         db.insert(tableName, null, values);
     }
 
-    private void updateEntry(SQLiteDatabase db, String id, Map<String, String> updatedFields, String tableName, String idColumn) {
-        db.update(tableName, DBUtils.updatedValuesToContentValues(updatedFields),
-                DBUtils.getUpdateAndDeleteKeyString(idColumn), new String[] {id});
+    private void updateEntry(SQLiteDatabase db, String id, ContentValues updatedFields, String tableName, String idColumn) {
+        db.update(tableName, updatedFields, DBUtils.getUpdateAndDeleteKeyString(idColumn), new String[] {id});
+    }
+
+    private void updateMultipleKeyEntry(SQLiteDatabase db, String idOne, String idTwo, ContentValues updatedFields, String tableName, String columnOne, String columnTwo) {
+        db.update(tableName, updatedFields, DBUtils.getMultiKeyUpdateAndDeleteKeyString(columnOne, columnTwo), new String[] {idOne, idTwo});
     }
 
     private void deleteEntry(SQLiteDatabase db, String id, String tableName, String idColumn) {
