@@ -2,7 +2,9 @@ package com.devingotaswitch.utils;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.graphics.drawable.Drawable;
 
+import com.devingotaswitch.rankings.domain.LeagueSettings;
 import com.devingotaswitch.rankings.domain.RosterSettings;
 import com.devingotaswitch.rankings.domain.RosterSettings.Flex;
 import com.devingotaswitch.rankings.domain.ScoringSettings;
@@ -46,6 +48,30 @@ public class DBUtils {
             values.put(key, updatedValues.get(key));
         }
         return values;
+    }
+
+    public static ContentValues leagueToContentValues(LeagueSettings league) {
+        ContentValues values = new ContentValues();
+        values.put(Constants.LEAGUE_ID_COLUMN, league.getId());
+        values.put(Constants.NAME_COLUMN, league.getName());
+        values.put(Constants.TEAM_COUNT_COLUMN, league.getTeamCount());
+        values.put(Constants.IS_AUCTION_COLUMN, league.isAuction());
+        values.put(Constants.AUCTION_BUDGET_COLUMN, league.getAuctionBudget());
+        values.put(Constants.SCORING_ID_COLUMN, league.getScoringSettings().getId());
+        values.put(Constants.ROSTER_ID_COLUMN, league.getRosterSettings().getId());
+        return values;
+    }
+
+    public static LeagueSettings cursorToLeague(Cursor result, RosterSettings roster, ScoringSettings scoring) {
+        return new LeagueSettings(
+                result.getString(result.getColumnIndex(Constants.LEAGUE_ID_COLUMN)),
+                result.getString(result.getColumnIndex(Constants.NAME_COLUMN)),
+                result.getInt(result.getColumnIndex(Constants.TEAM_COUNT_COLUMN)),
+                result.getInt(result.getColumnIndex(Constants.IS_AUCTION_COLUMN)) > 0,
+                result.getInt(result.getColumnIndex(Constants.AUCTION_BUDGET_COLUMN)),
+                scoring,
+                roster
+        );
     }
 
     public static ContentValues scoringToContentValues(ScoringSettings scoring) {
