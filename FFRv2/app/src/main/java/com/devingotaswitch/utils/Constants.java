@@ -102,7 +102,6 @@ public class Constants {
     // Team name is already in team settings
     public static final String PLAYER_NOTE_COLUMN = "player_note";
     public static final String PLAYER_WATCHED_COLUMN = "player_watched";
-    public static final String RANKING_COUNT_COLUMN = "ranking_count";
     public static final String AUCTION_VALUE_COLUMN = "auction_value";
 
 }

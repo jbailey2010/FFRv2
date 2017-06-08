@@ -32,44 +32,100 @@ public class RankingsDBWrapper {
     }
 
     //---------- Players ----------
+
+    public void savePlayers(Context context, List<Player> players) {
+        SQLiteDatabase db = getInstance(context).getWritableDatabase();
+        boolean addCustom = getNumberOfRowsInTable(db, Constants.PLAYER_CUSTOM_TABLE_NAME) == 0;
+        Set<ContentValues> values = new HashSet<>();
+        Set<ContentValues> customValues = new HashSet<>();
+        for (Player player : players) {
+            values.add(DBUtils.playerToContentValues(player));
+            if (addCustom) {
+                customValues.add(DBUtils.customPlayerToContentValues(player));
+            }
+        }
+        emptyTableAndBulkSave(db, Constants.PLAYER_TABLE_NAME, values);
+        if (addCustom) {
+            bulkSave(db, Constants.PLAYER_CUSTOM_TABLE_NAME, customValues);
+        }
+    }
+
+    public List<Player> getPlayers(Context context) {
+        List<Player> players = new ArrayList<>();
+        SQLiteDatabase db = getInstance(context).getReadableDatabase();
+
+        Cursor result = getAllEntries(db, Constants.PLAYER_TABLE_NAME);
+        while(!result.isAfterLast()){
+            Player player = DBUtils.cursorToPlayer(result);
+            players.add(player);
+            result.moveToNext();
+        }
+        result.close();
+        return players;
+    }
+
+    public List<Player> getWatchList(Context context) {
+        List<Player> players = new ArrayList<>();
+        SQLiteDatabase db = getInstance(context).getReadableDatabase();
+        Cursor result =  db.rawQuery(DBUtils.getSelectAllString(Constants.PLAYER_CUSTOM_TABLE_NAME) +
+                " WHERE " + Constants.PLAYER_WATCHED_COLUMN + " = 1", null );
+        result.moveToFirst();
+
+        while(result.isAfterLast() == false){
+            players.add(DBUtils.cursorToCustomPlayer(result, new Player()));
+            result.moveToNext();
+        }
+        result.close();
+        return players;
+    }
+
     public void togglePlayerWatched(Context context, Player player, boolean isWatched) {
         SQLiteDatabase db = getInstance(context).getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(Constants.PLAYER_WATCHED_COLUMN, isWatched);
-        updateMultipleKeyEntry(db, player.getName(), player.getPosition(), values, Constants.PLAYER_CUSTOM_TABLE_NAME, Constants.PLAYER_NAME_COLUMN, Constants.PLAYER_POSITION_COLUMN);
+        updateMultipleKeyEntry(db, player.getName(), player.getPosition(), values, Constants.PLAYER_CUSTOM_TABLE_NAME,
+                Constants.PLAYER_NAME_COLUMN, Constants.PLAYER_POSITION_COLUMN);
     }
 
     public void setPlayerNote(Context context, Player player, String note) {
         SQLiteDatabase db = getInstance(context).getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(Constants.PLAYER_NOTE_COLUMN, note);
-        updateMultipleKeyEntry(db, player.getName(), player.getPosition(), values, Constants.PLAYER_CUSTOM_TABLE_NAME, Constants.PLAYER_NAME_COLUMN, Constants.PLAYER_POSITION_COLUMN);
+        updateMultipleKeyEntry(db, player.getName(), player.getPosition(), values, Constants.PLAYER_CUSTOM_TABLE_NAME,
+                Constants.PLAYER_NAME_COLUMN, Constants.PLAYER_POSITION_COLUMN);
+    }
+
+    public Player getPlayer(Context context, String name, String position) {
+        SQLiteDatabase db = getInstance(context).getReadableDatabase();
+        Cursor result = getMultiKeyEntry(db, Constants.PLAYER_NAME_COLUMN, Constants.PLAYER_POSITION_COLUMN, name, position,
+                Constants.PLAYER_TABLE_NAME);
+        Player player = DBUtils.cursorToPlayer(result);
+        player = loadPlayerCustomFields(db, player);
+        result.close();
+        return player;
     }
 
     private Player loadPlayerCustomFields(SQLiteDatabase db, Player player) {
-        Cursor result = getMultiKeyEntry(db, Constants.PLAYER_NAME_COLUMN, Constants.PLAYER_POSITION_COLUMN, player.getName(), player.getPosition(), Constants.PLAYER_CUSTOM_TABLE_NAME);
-        String note = result.getString(result.getColumnIndex(Constants.PLAYER_NOTE_COLUMN));
-        boolean isWatched = result.getInt(result.getColumnIndex(Constants.PLAYER_WATCHED_COLUMN)) > 0;
+        Cursor result = getMultiKeyEntry(db, Constants.PLAYER_NAME_COLUMN, Constants.PLAYER_POSITION_COLUMN,
+                player.getName(), player.getPosition(), Constants.PLAYER_CUSTOM_TABLE_NAME);
+        player = DBUtils.cursorToCustomPlayer(result, player);
         result.close();
-        player.setWatched(isWatched);
-        player.setNote(note);
         return player;
     }
-    
+
     //---------- Teams ----------
 
     public Map<String, Team> getAllTeams(Context context) {
         SQLiteDatabase db = getInstance(context).getReadableDatabase();
         Map<String, Team> teams = new HashMap<>();
 
-        Cursor results =  db.rawQuery(DBUtils.getSelectAllString(Constants.TEAM_TABLE_NAME), null);
-        results.moveToFirst();
-        while(results.isAfterLast() == false){
-            Team team = DBUtils.cursorToTeam(results);
+        Cursor result = getAllEntries(db, Constants.TEAM_TABLE_NAME);
+        while(!result.isAfterLast()){
+            Team team = DBUtils.cursorToTeam(result);
             teams.put(team.getName(), team);
-            results.moveToNext();
+            result.moveToNext();
         }
-        results.close();
+        result.close();
         return teams;
     }
 
@@ -82,11 +138,12 @@ public class RankingsDBWrapper {
     }
 
     public void saveTeams(Context context, Set<Team> teams) {
+        SQLiteDatabase db = getInstance(context).getWritableDatabase();
         Set<ContentValues> values = new HashSet<>();
         for (Team team : teams) {
             values.add(DBUtils.teamToContentValues(team));
         }
-        emptyTableAndBulkSave(context, Constants.TEAM_TABLE_NAME, values);
+        emptyTableAndBulkSave(db, Constants.TEAM_TABLE_NAME, values);
     }
 
     //---------- Leagues ----------
@@ -220,9 +277,12 @@ public class RankingsDBWrapper {
         db.delete(tableName, DBUtils.getUpdateAndDeleteKeyString(idColumn), new String[] {id});
     }
 
-    private void emptyTableAndBulkSave(Context context, String tableName, Set<ContentValues> valuesToInsert) {
-        SQLiteDatabase db = getInstance(context).getWritableDatabase();
+    private void emptyTableAndBulkSave(SQLiteDatabase db, String tableName, Set<ContentValues> valuesToInsert) {
         deleteItemsInTable(db, tableName);
+        bulkSave(db, tableName, valuesToInsert);
+    }
+
+    private void bulkSave(SQLiteDatabase db, String tableName, Set<ContentValues> valuesToInsert) {
         db.beginTransaction();
         try {
             for(ContentValues values : valuesToInsert) {
@@ -241,5 +301,11 @@ public class RankingsDBWrapper {
 
     private void deleteItemsInTable(SQLiteDatabase db, String tableName) {
         db.execSQL(DBUtils.getDeleteAllString(tableName));
+    }
+
+    private Cursor getAllEntries(SQLiteDatabase db, String tableName) {
+        Cursor result =  db.rawQuery(DBUtils.getSelectAllString(tableName), null);
+        result.moveToFirst();
+        return result;
     }
 }

@@ -10,8 +10,6 @@ public class Player {
     private String teamName;
     private String note;
     private boolean isWatched;
-
-    private Double rankingCount;
     private Double auctionValue;
 
     //TODO: Projection stuff, points/paa...etc.?
@@ -62,14 +60,6 @@ public class Player {
 
     public void setTeamName(String teamName) {
         this.teamName = teamName;
-    }
-
-    private Double getRankingCount() {
-        return rankingCount;
-    }
-
-    private void setRankingCount(Double rankingCount) {
-        this.rankingCount = rankingCount;
     }
 
     public Double getAuctionValue() {

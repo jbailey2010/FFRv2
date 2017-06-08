@@ -5,6 +5,7 @@ import android.database.Cursor;
 import android.graphics.drawable.Drawable;
 
 import com.devingotaswitch.rankings.domain.LeagueSettings;
+import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.RosterSettings;
 import com.devingotaswitch.rankings.domain.RosterSettings.Flex;
 import com.devingotaswitch.rankings.domain.ScoringSettings;
@@ -125,20 +126,7 @@ public class DBUtils {
                 result.getDouble(result.getColumnIndex(Constants.RECEPTIONS_COLUMN))
         );
     }
-    private String id;
 
-    private int passingTds;
-    private int rushingTds;
-    private int receivingTds;
-
-    private int fumbles;
-    private int interceptions;
-
-    private int passingYards;
-    private int rushingYards;
-    private int receivingYards;
-
-    private double receptions;
     public static ContentValues rosterToContentValues(RosterSettings roster) {
         ContentValues values = new ContentValues();
         values.put(Constants.ROSTER_ID_COLUMN, roster.getId());
@@ -208,5 +196,47 @@ public class DBUtils {
         team.setBye(result.getString(result.getColumnIndex(Constants.BYE_COLUMN)));
         team.setFaClass(result.getString(result.getColumnIndex(Constants.FREE_AGENCY_COLUMN)));
         return team;
+    }
+
+    public static Player cursorToCustomPlayer(Cursor result, Player player) {
+        player.setNote(result.getString(result.getColumnIndex(Constants.PLAYER_NOTE_COLUMN)));
+        player.setWatched(result.getInt(result.getColumnIndex(Constants.PLAYER_WATCHED_COLUMN)) > 0);
+        player.setName(result.getString(result.getColumnIndex(Constants.PLAYER_NAME_COLUMN)));
+        player.setPosition(result.getString(result.getColumnIndex(Constants.PLAYER_POSITION_COLUMN)));
+        player.setTeamName(result.getString(result.getColumnIndex(Constants.TEAM_NAME_COLUMN)));
+        return player;
+    }
+
+    public static Player cursorToPlayer(Cursor result) {
+        Player player = new Player();
+        player.setName(result.getString(result.getColumnIndex(Constants.PLAYER_NAME_COLUMN)));
+        player.setPosition(result.getString(result.getColumnIndex(Constants.PLAYER_POSITION_COLUMN)));
+        player.setTeamName(result.getString(result.getColumnIndex(Constants.TEAM_NAME_COLUMN)));
+        player.setAdp(result.getDouble(result.getColumnIndex(Constants.PLAYER_ADP_COLUMN)));
+        player.setEcr(result.getDouble(result.getColumnIndex(Constants.PLAYER_ECR_COLUMN)));
+        player.setAge(result.getInt(result.getColumnIndex(Constants.PLAYER_AGE_COLUMN)));
+        return player;
+    }
+
+    public static ContentValues customPlayerToContentValues(Player player) {
+        ContentValues values = new ContentValues();
+        values.put(Constants.PLAYER_NAME_COLUMN, player.getName());
+        values.put(Constants.PLAYER_POSITION_COLUMN, player.getPosition());
+        values.put(Constants.TEAM_NAME_COLUMN, player.getTeamName());
+        values.put(Constants.PLAYER_NOTE_COLUMN, player.getNote());
+        values.put(Constants.PLAYER_WATCHED_COLUMN, player.isWatched());
+        return values;
+    }
+
+    public static ContentValues playerToContentValues(Player player) {
+        ContentValues values = new ContentValues();
+        values.put(Constants.PLAYER_NAME_COLUMN, player.getName());
+        values.put(Constants.PLAYER_POSITION_COLUMN, player.getPosition());
+        values.put(Constants.TEAM_NAME_COLUMN, player.getTeamName());
+        values.put(Constants.PLAYER_AGE_COLUMN, player.getAge());
+        values.put(Constants.PLAYER_ECR_COLUMN, player.getEcr());
+        values.put(Constants.PLAYER_ADP_COLUMN, player.getAdp());
+        values.put(Constants.AUCTION_VALUE_COLUMN, player.getAuctionValue());
+        return values;
     }
 }

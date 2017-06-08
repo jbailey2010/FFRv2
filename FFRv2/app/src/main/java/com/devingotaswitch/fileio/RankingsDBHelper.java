@@ -115,7 +115,6 @@ public class RankingsDBHelper extends SQLiteOpenHelper {
                 Constants.PLAYER_AGE_COLUMN      + " INTEGER," +
                 Constants.PLAYER_ECR_COLUMN      + " REAL," +
                 Constants.PLAYER_ADP_COLUMN      + " REAL," +
-                Constants.RANKING_COUNT_COLUMN   + " REAL," +
                 Constants.AUCTION_VALUE_COLUMN   + " REAL," +
                 "PRIMARY KEY(" + Constants.PLAYER_NAME_COLUMN + ", " + Constants.PLAYER_POSITION_COLUMN + ")" +
                 ");";
@@ -129,6 +128,7 @@ public class RankingsDBHelper extends SQLiteOpenHelper {
         return "CREATE TABLE "                   + Constants.PLAYER_CUSTOM_TABLE_NAME + " (" +
                 Constants.PLAYER_NAME_COLUMN     + " TEXT," +
                 Constants.PLAYER_POSITION_COLUMN + " TEXT," +
+                Constants.TEAM_NAME_COLUMN       + " TEXT," +
                 Constants.PLAYER_NOTE_COLUMN     + " TEXT," +
                 Constants.PLAYER_WATCHED_COLUMN  + " BOOLEAN," +
                 "PRIMARY KEY(" + Constants.PLAYER_NAME_COLUMN + ", " + Constants.PLAYER_POSITION_COLUMN + ")" +
