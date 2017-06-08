@@ -81,4 +81,13 @@ public class Player {
     public boolean isWatched() { return isWatched; }
 
     public void setWatched(boolean isWatched) { this.isWatched = isWatched; }
+
+    public String getUniqueId() {
+        return new StringBuilder(name)
+                .append(".")
+                .append(teamName)
+                .append(".")
+                .append(position)
+                .toString();
+    }
 }
