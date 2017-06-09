@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <group
-        android:id="@+id/group_user_settings"
-        android:checkableBehavior="single">
-
-    </group>
+    <item android:title="Rankings">
+        <menu>
+            <item
+                android:id="@+id/nav_league_settings"
+                android:title="League Settings"/>
+        </menu>
+    </item>
 
     <item android:title="You">
         <menu>

@@ -119,6 +119,10 @@ public class RankingsHome extends AppCompatActivity {
 
         // Find which item was selected
         switch(item.getItemId()) {
+            case R.id.nav_league_settings:
+                // Set league settings
+                leagueSettings();
+                break;
             case R.id.nav_user_profile:
                 // See profile
                 viewProfile();
@@ -134,26 +138,27 @@ public class RankingsHome extends AppCompatActivity {
         }
     }
 
-    // View profile
+    private void leagueSettings() {
+        Intent leagueSettingsActivity = new Intent(this, LeagueSettingsActivity.class);
+        startActivity(leagueSettingsActivity);
+    }
+
     private void viewProfile() {
         Intent userActivity = new Intent(this, UserActivity.class);
         startActivity(userActivity);
     }
 
-    // Change user password
     private void changePassword() {
         Intent changePssActivity = new Intent(this, ChangePasswordActivity.class);
         startActivity(changePssActivity);
     }
 
-    // Sign out user
     private void signOut() {
         user.signOut();
         CIBHelper.signOut();
         exit();
     }
 
-    // Get user details from CIP service
     private void getDetails() {
         CUPHelper.getPool().getUser(username).getDetailsInBackground(detailsHandler);
     }

@@ -40,9 +40,6 @@ public class UserActivity extends AppCompatActivity {
 
     private MFASettingsHelper mfaSettingsHelper;
 
-    // To track changes to user details
-    private final List<String> attributesToDelete = new ArrayList<>();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
