@@ -12,6 +12,11 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.devingotaswitch.ffrv2.R;
+import com.devingotaswitch.fileio.LocalSettingsHelper;
+import com.devingotaswitch.fileio.RankingsDBWrapper;
+import com.devingotaswitch.rankings.domain.LeagueSettings;
+
+import java.util.Map;
 
 public class LeagueSettingsActivity extends AppCompatActivity {
     private final String TAG="LeagueSettings";
@@ -19,6 +24,9 @@ public class LeagueSettingsActivity extends AppCompatActivity {
     private Toolbar toolbar;
     private AlertDialog userDialog;
     private ProgressDialog waitDialog;
+    private RankingsDBWrapper rankingsDB;
+
+    private LeagueSettings currLeague;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +50,46 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
+        rankingsDB = new RankingsDBWrapper();
+
+        init();
+    }
+
+    private void init() {
+        String currentLeagueId = LocalSettingsHelper.getCurrentLeagueId(this);
+        Map<String, LeagueSettings> leagues = rankingsDB.getLeagues(this);
+        if (LocalSettingsHelper.wasPresent(currentLeagueId)) {
+            currLeague = leagues.get(currentLeagueId);
+            displayLeague();
+        } else {
+            displayNoLeague();
+        }
+    }
+
+    private void displayLeague() {
+        // TODO: this
+    }
+
+    private void displayNoLeague() {
+        // TODO: this
+    }
+
+    private void saveNewLeague(LeagueSettings league) {
+        rankingsDB.insertLeague(this, league);
+        setCurrentLeague(league);
+    }
+
+    private void setCurrentLeague(LeagueSettings league) {
+        LocalSettingsHelper.saveCurrentLeagueId(this, league.getId());
+    }
+
+    private void deleteLeague(LeagueSettings league) {
+        rankingsDB.deleteLeague(this, league);
+    }
+
+    private void updateLeague(Map<String, String> scoringUpdates, Map<String, String> rosterUpdates,
+                              Map<String, String> leagueUpdates, LeagueSettings league) {
+        rankingsDB.updateLeague(this, leagueUpdates, rosterUpdates, scoringUpdates, league);
     }
 
     private void showWaitDialog(String message) {

@@ -148,13 +148,14 @@ public class RankingsDBWrapper {
 
     //---------- Leagues ----------
 
-    public List<LeagueSettings> getLeagues(Context context) {
-        List<LeagueSettings> leagues = new ArrayList<>();
+    public Map<String, LeagueSettings> getLeagues(Context context) {
+        Map<String, LeagueSettings> leagues = new HashMap<>();
         SQLiteDatabase db = getInstance(context).getReadableDatabase();
         Cursor result = db.rawQuery(DBUtils.getSelectAllString(Constants.LEAGUE_TABLE_NAME), null);
         result.moveToFirst();
         while(result.isAfterLast() == false) {
-            leagues.add(cursorToFullLeague(db, result));
+            LeagueSettings league = cursorToFullLeague(db, result);
+            leagues.put(league.getId(), league);
             result.moveToNext();
         }
         result.close();
