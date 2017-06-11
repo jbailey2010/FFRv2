@@ -8,7 +8,7 @@ import com.devingotaswitch.utils.Constants;
 public class LocalSettingsHelper {
 
     public static boolean wasPresent(String value) {
-        return Constants.NOT_SET_KEY.equals(value);
+        return !Constants.NOT_SET_KEY.equals(value);
     }
 
     private static SharedPreferences getSharedPreferences(Context cont) {

@@ -155,7 +155,7 @@ public class RankingsDBWrapper {
         result.moveToFirst();
         while(result.isAfterLast() == false) {
             LeagueSettings league = cursorToFullLeague(db, result);
-            leagues.put(league.getId(), league);
+            leagues.put(league.getName(), league);
             result.moveToNext();
         }
         result.close();

@@ -12,10 +12,19 @@
         android:layout_height="@dimen/activity_intra_group_separation"
         android:layout_alignParentStart="true"
         android:id="@+id/space9" />
+    <Spinner
+        android:id="@+id/league_settings_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/space9"
+        android:layout_weight="1"/>
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_below="@+id/space9"
+        android:layout_below="@+id/league_settings_spinner"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/league_settings_base"/>
+        android:id="@+id/league_settings_base">
+
+
+    </LinearLayout>
 </RelativeLayout>

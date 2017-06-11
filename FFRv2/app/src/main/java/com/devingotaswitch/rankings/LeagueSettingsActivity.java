@@ -9,6 +9,13 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.devingotaswitch.ffrv2.R;
@@ -16,6 +23,8 @@ import com.devingotaswitch.fileio.LocalSettingsHelper;
 import com.devingotaswitch.fileio.RankingsDBWrapper;
 import com.devingotaswitch.rankings.domain.LeagueSettings;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 public class LeagueSettingsActivity extends AppCompatActivity {
@@ -25,7 +34,9 @@ public class LeagueSettingsActivity extends AppCompatActivity {
     private AlertDialog userDialog;
     private ProgressDialog waitDialog;
     private RankingsDBWrapper rankingsDB;
+    private LinearLayout baseLayout;
 
+    Map<String, LeagueSettings> leagues;
     private LeagueSettings currLeague;
 
     @Override
@@ -50,28 +61,87 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                 onBackPressed();
             }
         });
-        rankingsDB = new RankingsDBWrapper();
 
         init();
     }
 
     private void init() {
+        rankingsDB = new RankingsDBWrapper();
+        baseLayout = (LinearLayout) findViewById(R.id.league_settings_base);
         String currentLeagueId = LocalSettingsHelper.getCurrentLeagueId(this);
-        Map<String, LeagueSettings> leagues = rankingsDB.getLeagues(this);
+        leagues = rankingsDB.getLeagues(this);
+        initializeLeagueSpinner();
         if (LocalSettingsHelper.wasPresent(currentLeagueId)) {
             currLeague = leagues.get(currentLeagueId);
-            displayLeague();
+            displayLeague(currLeague);
+            Log.d(TAG, currentLeagueId);
         } else {
             displayNoLeague();
         }
     }
 
-    private void displayLeague() {
-        // TODO: this
+    private void initializeLeagueSpinner() {
+        Spinner spinner = (Spinner) findViewById(R.id.league_settings_spinner);
+        if (leagues.isEmpty()) {
+            spinner.setVisibility(View.INVISIBLE);
+            return;
+        }
+        spinner.setVisibility(View.VISIBLE);
+        List<String> leagueNames = new ArrayList<>();
+        int currLeagueIndex = 0;
+        int leagueCount = 0;
+        for (String leagueName : leagues.keySet()) {
+            leagueNames.add(leagueName);
+            if (leagueName.equals(currLeague.getName())) {
+                currLeagueIndex = leagueCount;
+            }
+            leagueCount++;
+        }
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+                android.R.layout.simple_spinner_item, leagueNames);
+        spinner.setAdapter(dataAdapter);
+        spinner.setSelection(currLeagueIndex);
+        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                displayLeague(leagues.get(adapterView.getItemAtPosition(i)));
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+                // Nada
+            }
+        });
+    }
+
+    private void displayLeague(LeagueSettings currentLeague) {
+        View view = initializeLeagueSettingsBase(View.GONE);
+        EditText leagueName = (EditText)view.findViewById(R.id.league_settings_name);
+        leagueName.setText(currentLeague.getName());
+        EditText teamCount = (EditText)view.findViewById(R.id.league_settings_team_count);
+        teamCount.setText(currentLeague.getTeamCount());
+        RadioButton isAuction = (RadioButton)view.findViewById(R.id.league_settings_auction);
+        RadioButton isSnake = (RadioButton)findViewById(R.id.league_settings_snake);
+        if (currentLeague.isAuction()) {
+            isAuction.setSelected(true);
+        } else {
+            isSnake.setSelected(true);
+        }
+        LocalSettingsHelper.saveCurrentLeagueId(this, currentLeague.getId());
     }
 
     private void displayNoLeague() {
-        // TODO: this
+        initializeLeagueSettingsBase(View.VISIBLE);
+    }
+
+    private View initializeLeagueSettingsBase(int defaultButtonVisibility) {
+        baseLayout.removeAllViews();
+        View child = getLayoutInflater().inflate(R.layout.league_settings_base, null);
+        Button defaults = (Button) child.findViewById(R.id.league_settings_create_default);
+        defaults.setVisibility(defaultButtonVisibility);
+        baseLayout.addView(child);
+        // TODO: the rest of this
+        return child;
     }
 
     private void saveNewLeague(LeagueSettings league) {
