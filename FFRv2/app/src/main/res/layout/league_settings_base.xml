@@ -24,17 +24,36 @@
         android:layout_below="@+id/league_settings_name"
         android:layout_centerHorizontal="true" />
 
-    <EditText
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="@dimen/activity_text_height"
-        android:paddingLeft="@dimen/activity_text_padding"
-        android:paddingRight="@dimen/activity_text_padding"
-        android:id="@+id/league_settings_team_count"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/text_border_selector"
-        android:hint="Number of Teams"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
         android:layout_below="@+id/league_settings_space1"
-        android:inputType="number"/>
+        android:id="@+id/league_settings_level_two">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/activity_text_height"
+            android:paddingLeft="@dimen/activity_text_padding"
+            android:paddingRight="@dimen/activity_text_padding"
+            android:id="@+id/league_settings_team_count"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/text_border_selector"
+            android:hint="Number of Teams"
+            android:layout_weight="1"
+            android:inputType="number"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/activity_text_height"
+            android:paddingLeft="@dimen/activity_text_padding"
+            android:paddingRight="@dimen/activity_text_padding"
+            android:id="@+id/league_settings_auction_budget"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/text_border_selector"
+            android:hint="Auction Budget"
+            android:layout_weight="1"
+            android:inputType="number"/>
+    </LinearLayout>
+
 
     <TextView
         android:layout_width="match_parent"
@@ -43,7 +62,7 @@
         android:textSize="@dimen/activity_text_size_small"
         android:text=" "
         android:id="@+id/league_settings_space2"
-        android:layout_below="@+id/league_settings_team_count"
+        android:layout_below="@+id/league_settings_level_two"
         android:layout_centerHorizontal="true" />
     <RadioGroup
         android:id="@+id/league_settings_type_radio_group"
@@ -59,6 +78,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:id="@+id/league_settings_auction"
+            android:checked="true"
             android:text="Auction"/>
         <RadioButton
             android:layout_width="match_parent"

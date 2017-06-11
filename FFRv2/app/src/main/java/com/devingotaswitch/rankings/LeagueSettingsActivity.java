@@ -12,6 +12,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -121,7 +122,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         EditText teamCount = (EditText)view.findViewById(R.id.league_settings_team_count);
         teamCount.setText(currentLeague.getTeamCount());
         RadioButton isAuction = (RadioButton)view.findViewById(R.id.league_settings_auction);
-        RadioButton isSnake = (RadioButton)findViewById(R.id.league_settings_snake);
+        RadioButton isSnake = (RadioButton)view.findViewById(R.id.league_settings_snake);
         if (currentLeague.isAuction()) {
             isAuction.setSelected(true);
         } else {
@@ -140,6 +141,20 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         Button defaults = (Button) child.findViewById(R.id.league_settings_create_default);
         defaults.setVisibility(defaultButtonVisibility);
         baseLayout.addView(child);
+
+        // Hide auction budget on snake selection
+        final EditText auctionBudget = (EditText)child.findViewById(R.id.league_settings_auction_budget);
+        RadioButton isSnake = (RadioButton)child.findViewById(R.id.league_settings_snake);
+        isSnake.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
+                if (isChecked) {
+                    auctionBudget.setVisibility(View.GONE);
+                } else {
+                    auctionBudget.setVisibility(View.VISIBLE);
+                }
+            }
+        });
         // TODO: the rest of this
         return child;
     }
