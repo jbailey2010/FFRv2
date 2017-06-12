@@ -344,8 +344,16 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                 Toast.makeText(localCopy, currentLeague.getName() + " updated", Toast.LENGTH_SHORT).show();
             }
         });
-
-        //TODO: advanced
+        advanced.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!validateRosterInputs(qbs, rbs, wrs, tes, dsts, ks, bench)) {
+                    return;
+                }
+                Map<String, String> rosterUpdates = getRosterUpdates(qbs, rbs, wrs, tes, dsts, ks, bench, currentLeague);
+                displayFlex(currentLeague, leagueUpdates, rosterUpdates);
+            }
+        });
     }
 
     private void displayRosterNoLeague(final LeagueSettings newLeague) {
@@ -373,7 +381,17 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                 Toast.makeText(localCopy, newLeague.getName() + " saved", Toast.LENGTH_SHORT).show();
             }
         });
-        // TODO: advanced
+        advanced.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!validateRosterInputs(qbs, rbs, wrs, tes, dsts, ks, bench)) {
+                    return;
+                }
+                RosterSettings defaults = getRosterSettingsFromFirstPage(qbs, rbs, wrs, tes, dsts, ks, bench);
+                newLeague.setRosterSettings(defaults);
+                displayFlexNoLeague(newLeague);
+            }
+        });
     }
 
     private View initializeLeagueSettingsRoster() {
@@ -480,6 +498,23 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         }
         league.setRosterSettings(roster);
         return rosterUpdates;
+    }
+
+    private void displayFlex(LeagueSettings currentLeague, Map<String, String> leagueUpdates, Map<String, String> rosterUpdates) {
+        View view = initializeLeagueSettingsFlex();
+
+    }
+
+    private void displayFlexNoLeague(LeagueSettings newLeague) {
+        View view = initializeLeagueSettingsFlex();
+        
+    }
+
+    private View initializeLeagueSettingsFlex() {
+        baseLayout.removeAllViews();
+        View child = getLayoutInflater().inflate(R.layout.league_settings_flex, null);
+        baseLayout.addView(child);
+        return child;
     }
 
     private void saveNewLeague(LeagueSettings league) {
