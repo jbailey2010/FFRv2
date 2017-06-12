@@ -21,6 +21,11 @@ public class LeagueSettings {
                 Constants.DEFAULT_AUCTION_BUDGET, scoring, roster);
     }
 
+    public LeagueSettings(String name, int teamCount, boolean isAuction, int auctionBudget) {
+        this(UUID.randomUUID().toString(), name, teamCount, isAuction, auctionBudget, new ScoringSettings(),
+                new RosterSettings());
+    }
+
     public LeagueSettings(String id, String name, int teamCount, boolean isAuction,
                           int auctionBudget, ScoringSettings scoring, RosterSettings roster) {
         this.setId(id);

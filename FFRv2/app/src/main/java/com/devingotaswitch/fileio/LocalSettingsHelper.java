@@ -15,12 +15,12 @@ public class LocalSettingsHelper {
         return cont.getSharedPreferences(Constants.APP_KEY, Context.MODE_PRIVATE);
     }
 
-    public static String getCurrentLeagueId(Context cont) {
-        return getSharedPreferences(cont).getString(Constants.LEAGUE_ID, Constants.NOT_SET_KEY);
+    public static String getCurrentLeagueName(Context cont) {
+        return getSharedPreferences(cont).getString(Constants.LEAGUE_NAME, Constants.NOT_SET_KEY);
     }
 
-    public static void saveCurrentLeagueId(Context cont, String id) {
-        getSharedPreferences(cont).edit().putString(Constants.LEAGUE_ID, id).apply();
+    public static void saveCurrentLeagueName(Context cont, String name) {
+        getSharedPreferences(cont).edit().putString(Constants.LEAGUE_NAME, name).apply();
     }
 
     public static int getNumVisiblePlayers(Context cont) {

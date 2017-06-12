@@ -11,7 +11,7 @@ public class Constants {
 
     // SP: keys
     public static final String APP_KEY = "FFRv2";
-    public static final String LEAGUE_ID = "CURRENT_LEAGUE_ID";
+    public static final String LEAGUE_NAME = "CURRENT_LEAGUE_NAME";
     public static final String NUM_PLAYERS = "MAX_PLAYERS_VISIBLE";
 
     // SP: defaults

@@ -18,9 +18,14 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/space9"
         android:layout_weight="1"/>
+    <Space
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/activity_intra_group_separation"
+        android:layout_below="@+id/league_settings_spinner"
+        android:id="@+id/space10" />
     <LinearLayout
         android:orientation="horizontal"
-        android:layout_below="@+id/league_settings_spinner"
+        android:layout_below="@+id/space10"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/league_settings_base">

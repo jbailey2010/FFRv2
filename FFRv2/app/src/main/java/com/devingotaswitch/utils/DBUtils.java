@@ -26,8 +26,9 @@ public class DBUtils {
                 .append(tableName)
                 .append(" WHERE ")
                 .append(idColumn)
-                .append(" = ")
+                .append(" = \'")
                 .append(idValue)
+                .append("\'")
                 .toString();
     }
 
@@ -36,12 +37,13 @@ public class DBUtils {
                 .append(tableName)
                 .append(" WHERE ")
                 .append(idOne)
-                .append(" = ")
+                .append(" = \'")
                 .append(valueOne)
-                .append(" AND ")
+                .append("\' AND ")
                 .append(idTwo)
-                .append(" = ")
+                .append(" = \'")
                 .append(valueTwo)
+                .append("\'")
                 .toString();
     }
 
