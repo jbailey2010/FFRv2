@@ -21,6 +21,11 @@ public class RosterSettings {
                 Constants.ONE_STARTER, Constants.BENCH_DEFAULT, new Flex());
     }
 
+    public RosterSettings(int qbCt, int rbCt, int wrCt, int teCt, int dCt, int kCt,
+                          int benchCt) {
+        this(UUID.randomUUID().toString(), qbCt, rbCt, wrCt, teCt, dCt, kCt, benchCt, new Flex());
+    }
+
     public RosterSettings(String id, int qbCt, int rbCt, int wrCt, int teCt, int dCt, int kCt,
                           int benchCt, Flex flex) {
         this.setId(id);
@@ -102,7 +107,7 @@ public class RosterSettings {
         return flex;
     }
 
-    private void setFlex(Flex flex) {
+    public void setFlex(Flex flex) {
         this.flex = flex;
     }
 

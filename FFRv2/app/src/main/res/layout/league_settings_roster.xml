@@ -1,0 +1,246 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent">
+
+    <LinearLayout
+        android:id="@+id/league_roster_space0"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Starting QBs"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textSize="@dimen/activity_text_size_small"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Starting RBs"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textSize="@dimen/activity_text_size_small"
+            android:layout_weight="1"/>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/league_roster_space0"
+        android:id="@+id/league_roster_level1">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/activity_text_height"
+            android:paddingLeft="@dimen/activity_text_padding"
+            android:paddingRight="@dimen/activity_text_padding"
+            android:id="@+id/league_settings_qbs"
+            android:background="@drawable/text_border_selector"
+            android:hint="Starting QBs"
+            android:layout_weight="1"
+            android:layout_margin="2dp"
+            android:inputType="number"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/activity_text_height"
+            android:paddingLeft="@dimen/activity_text_padding"
+            android:paddingRight="@dimen/activity_text_padding"
+            android:id="@+id/league_settings_rbs"
+            android:background="@drawable/text_border_selector"
+            android:hint="Starting RBs"
+            android:layout_weight="1"
+            android:layout_margin="2dp"
+            android:inputType="number"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/league_roster_space1"
+        android:layout_below="@+id/league_roster_level1"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Starting WRs"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textSize="@dimen/activity_text_size_small"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Starting TEs"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textSize="@dimen/activity_text_size_small"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/league_roster_level2"
+        android:layout_below="@+id/league_roster_space1">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/activity_text_height"
+            android:paddingLeft="@dimen/activity_text_padding"
+            android:paddingRight="@dimen/activity_text_padding"
+            android:id="@+id/league_settings_wrs"
+            android:background="@drawable/text_border_selector"
+            android:hint="Starting WRs"
+            android:layout_weight="1"
+            android:layout_margin="2dp"
+            android:inputType="number"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/activity_text_height"
+            android:paddingLeft="@dimen/activity_text_padding"
+            android:paddingRight="@dimen/activity_text_padding"
+            android:id="@+id/league_settings_tes"
+            android:background="@drawable/text_border_selector"
+            android:hint="Starting TEs"
+            android:layout_weight="1"
+            android:layout_margin="2dp"
+            android:inputType="number"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/league_roster_space2"
+        android:layout_below="@+id/league_roster_level2"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Starting DSTs"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textSize="@dimen/activity_text_size_small"
+            android:layout_weight="1"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Starting Ks"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textSize="@dimen/activity_text_size_small"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:id="@+id/league_roster_level3"
+        android:layout_below="@+id/league_roster_space2">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/activity_text_height"
+            android:paddingLeft="@dimen/activity_text_padding"
+            android:paddingRight="@dimen/activity_text_padding"
+            android:id="@+id/league_settings_dsts"
+            android:background="@drawable/text_border_selector"
+            android:hint="Starting DSTs"
+            android:layout_weight="1"
+            android:layout_margin="2dp"
+            android:inputType="number"/>
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/activity_text_height"
+            android:paddingLeft="@dimen/activity_text_padding"
+            android:paddingRight="@dimen/activity_text_padding"
+            android:id="@+id/league_settings_ks"
+            android:background="@drawable/text_border_selector"
+            android:hint="Starting Ks"
+            android:layout_weight="1"
+            android:layout_margin="2dp"
+            android:inputType="number"/>
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/league_roster_space3"
+        android:layout_below="@+id/league_roster_level3"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Bench Players"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textSize="@dimen/activity_text_size_small"
+            android:layout_weight="1"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/league_roster_space4"
+        android:id="@+id/league_roster_level5">
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/activity_button_height"
+            android:text="Finish With Defaults"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="15dp"
+            android:id="@+id/league_roster_create_default"
+            android:background="@drawable/button_selector"
+            android:layout_weight="1"
+            android:layout_margin="2dp"/>
+
+        <Button
+            android:id="@+id/league_roster_advanced_settings"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/activity_button_height"
+            android:background="@drawable/button_selector"
+            android:text="Flex/Scoring"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="15dp"
+            android:layout_weight="1"
+            android:layout_margin="2dp"/>
+    </LinearLayout>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textSize="@dimen/activity_text_size_small"
+        android:text=" "
+        android:id="@+id/league_roster_space4"
+        android:layout_below="@+id/league_roster_level4"
+        android:layout_centerHorizontal="true" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/league_roster_space3"
+        android:id="@+id/league_roster_level4">
+        <EditText
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/activity_text_height"
+            android:paddingLeft="@dimen/activity_text_padding"
+            android:paddingRight="@dimen/activity_text_padding"
+            android:id="@+id/league_settings_bench"
+            android:background="@drawable/text_border_selector"
+            android:hint="Bench Players"
+            android:layout_weight="1"
+            android:layout_margin="2dp"
+            android:inputType="number"/>
+    </LinearLayout>
+</RelativeLayout>

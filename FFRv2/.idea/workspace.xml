@@ -6,18 +6,15 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Firebase" />
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="No Filters" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f5fe9503-cc09-4a8d-b7d9-507f98789a95" name="Default" comment="">
+      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/app/src/main/res/layout/league_settings_roster.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/fileio/LocalSettingsHelper.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/fileio/LocalSettingsHelper.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/fileio/RankingsDBWrapper.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/fileio/RankingsDBWrapper.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/LeagueSettingsActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/LeagueSettingsActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/LeagueSettings.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/LeagueSettings.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/Constants.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/Constants.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/DBUtils.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/DBUtils.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/content_league_settings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/content_league_settings.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/RosterSettings.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/RosterSettings.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/league_settings_base.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/league_settings_base.xml" />
     </list>
     <ignored path="AmazonCognitoYourUserPoolsDemo.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -52,42 +49,88 @@
       <file leaf-file-name="LeagueSettingsActivity.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/LeagueSettingsActivity.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="251">
-              <caret line="103" column="32" selection-start-line="103" selection-start-column="32" selection-end-line="103" selection-end-column="32" />
+            <state relative-caret-position="429">
+              <caret line="370" column="23" selection-start-line="370" selection-start-column="23" selection-end-line="370" selection-end-column="23" />
               <folding>
-                <element signature="e#2351#2500#0" expanded="true" />
-                <element signature="e#2499#2500#0" expanded="true" />
-                <element signature="e#3891#3899#0" expanded="true" />
-                <element signature="e#6019#6759#0" expanded="true" />
-                <element signature="e#6758#6759#0" expanded="true" />
-                <element signature="e#10607#11131#0" expanded="true" />
-                <element signature="e#11130#11131#0" expanded="true" />
-                <element signature="e#12233#12617#0" expanded="true" />
-                <element signature="e#12616#12617#0" expanded="true" />
-                <element signature="e#13010#13011#0" expanded="true" />
-                <element signature="e#13063#13064#0" expanded="true" />
+                <element signature="imports" expanded="true" />
+                <element signature="e#2389#2538#0" expanded="true" />
+                <element signature="e#2537#2538#0" expanded="true" />
+                <element signature="e#6051#6791#0" expanded="true" />
+                <element signature="e#6790#6791#0" expanded="true" />
+                <element signature="e#6830#7272#0" expanded="true" />
+                <element signature="e#7271#7272#0" expanded="true" />
+                <element signature="e#8060#8584#0" expanded="true" />
+                <element signature="e#8583#8584#0" expanded="true" />
+                <element signature="e#8623#9054#0" expanded="true" />
+                <element signature="e#9053#9054#0" expanded="true" />
+                <element signature="e#13198#13717#0" expanded="true" />
+                <element signature="e#13716#13717#0" expanded="true" />
+                <element signature="e#15271#16014#0" expanded="true" />
+                <element signature="e#16013#16014#0" expanded="true" />
+                <element signature="e#17019#17576#0" expanded="true" />
+                <element signature="e#17575#17576#0" expanded="true" />
+                <element signature="e#23249#23250#0" expanded="true" />
+                <element signature="e#23302#23303#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="RankingsDBWrapper.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/fileio/RankingsDBWrapper.java">
+      <file leaf-file-name="league_settings_roster.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/league_settings_roster.xml">
+          <provider editor-type-id="android-designer2">
+            <state />
+          </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="257">
-              <caret line="185" column="0" selection-start-line="185" selection-start-column="0" selection-end-line="185" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="107">
+              <caret line="195" column="32" selection-start-line="195" selection-start-column="32" selection-end-line="195" selection-end-column="32" />
+              <folding>
+                <element signature="e#811#844#0" expanded="true" />
+                <element signature="e#1141#1174#0" expanded="true" />
+                <element signature="e#1590#1619#0" expanded="true" />
+                <element signature="e#1652#1682#0" expanded="true" />
+                <element signature="e#1716#1746#0" expanded="true" />
+                <element signature="e#2120#2149#0" expanded="true" />
+                <element signature="e#2182#2212#0" expanded="true" />
+                <element signature="e#2246#2276#0" expanded="true" />
+                <element signature="e#3079#3112#0" expanded="true" />
+                <element signature="e#3409#3442#0" expanded="true" />
+                <element signature="e#3858#3887#0" expanded="true" />
+                <element signature="e#3920#3950#0" expanded="true" />
+                <element signature="e#3984#4014#0" expanded="true" />
+                <element signature="e#4388#4417#0" expanded="true" />
+                <element signature="e#4450#4480#0" expanded="true" />
+                <element signature="e#4514#4544#0" expanded="true" />
+                <element signature="e#5348#5381#0" expanded="true" />
+                <element signature="e#5677#5710#0" expanded="true" />
+                <element signature="e#6126#6155#0" expanded="true" />
+                <element signature="e#6188#6218#0" expanded="true" />
+                <element signature="e#6252#6282#0" expanded="true" />
+                <element signature="e#6658#6687#0" expanded="true" />
+                <element signature="e#6720#6750#0" expanded="true" />
+                <element signature="e#6784#6814#0" expanded="true" />
+                <element signature="e#7616#7649#0" expanded="true" />
+                <element signature="e#8063#8094#0" expanded="true" />
+                <element signature="e#8623#8654#0" expanded="true" />
+                <element signature="e#9171#9204#0" expanded="true" />
+                <element signature="e#9738#9767#0" expanded="true" />
+                <element signature="e#9800#9830#0" expanded="true" />
+                <element signature="e#9864#9894#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="LeagueSettings.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/LeagueSettings.java">
+      <file leaf-file-name="league_settings_base.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/league_settings_base.xml">
+          <provider editor-type-id="android-designer2">
+            <state />
+          </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="247">
-              <caret line="33" column="18" selection-start-line="33" selection-start-column="18" selection-end-line="33" selection-end-column="18" />
+            <state relative-caret-position="207">
+              <caret line="124" column="32" selection-start-line="124" selection-start-column="26" selection-end-line="124" selection-end-column="32" />
               <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="e#5240#5271#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -1747,8 +1790,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/youruserpools/DeviceSettings.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/youruserpools/DisplayDevicesAdapter.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/menu/activity_user_menu.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/content_verify.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/youruserpools/VerifyActivity.java" />
@@ -1780,7 +1821,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/Position.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/ScoringSettings.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/Team.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/RosterSettings.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/fileio/RankingsDBHelper.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/Player.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/Draft.java" />
@@ -1795,9 +1835,12 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/Constants.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/fileio/LocalSettingsHelper.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/fileio/RankingsDBWrapper.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/LeagueSettingsActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/league_settings_base.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/content_league_settings.xml" />
+        <option value="$PROJECT_DIR$/app/build/intermediates/res/merged/debug/layout/league_settings_base.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/league_settings_base.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/RosterSettings.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/LeagueSettingsActivity.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/league_settings_roster.xml" />
       </list>
     </option>
   </component>
@@ -1863,68 +1906,6 @@
               <option name="myItemId" value="res" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
             </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="values" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="styles.xml" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResGroupNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FFRv2" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="values" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FFRv2" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="mipmap" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FFRv2" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="menu" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
-            </PATH_ELEMENT>
           </PATH>
           <PATH>
             <PATH_ELEMENT>
@@ -1942,20 +1923,6 @@
             <PATH_ELEMENT>
               <option name="myItemId" value="layout" />
               <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderTypeNode" />
-            </PATH_ELEMENT>
-          </PATH>
-          <PATH>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="FFRv2" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidViewProjectNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="app" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidModuleNode" />
-            </PATH_ELEMENT>
-            <PATH_ELEMENT>
-              <option name="myItemId" value="res" />
-              <option name="myItemType" value="com.android.tools.idea.navigator.nodes.AndroidResFolderNode" />
             </PATH_ELEMENT>
           </PATH>
           <PATH>
@@ -2556,29 +2523,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/content_rankings.xml">
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="242">
-          <caret line="11" column="0" selection-start-line="11" selection-start-column="0" selection-end-line="11" selection-end-column="0" />
-          <folding>
-            <element signature="e#324#359#0" expanded="true" />
-            <element signature="e#403#438#0" expanded="true" />
-            <element signature="e#480#513#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/youruserpools/SignUpConfirm.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="81">
-          <caret line="55" column="57" selection-start-line="55" selection-start-column="57" selection-end-line="55" selection-end-column="57" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.amazonaws/aws-android-sdk-cognitoidentityprovider/2.3.9/361de5fb171f55d4d35fd2294a9ccb16f54d3475/aws-android-sdk-cognitoidentityprovider-2.3.9-sources.jar!/com/amazonaws/mobileconnectors/cognitoidentityprovider/CognitoUser.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="278">
@@ -2760,18 +2704,6 @@
         <state relative-caret-position="44">
           <caret line="2" column="13" selection-start-line="2" selection-start-column="13" selection-end-line="2" selection-end-column="13" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/RosterSettings.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1501">
-          <caret line="108" column="11" selection-start-line="108" selection-start-column="11" selection-end-line="108" selection-end-column="11" />
-          <folding>
-            <element signature="imports" expanded="true" />
-            <element signature="e#2229#2230#0" expanded="true" />
-            <element signature="e#2256#2257#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3039,32 +2971,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/league_settings_base.xml">
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="133">
-          <caret line="103" column="39" selection-start-line="103" selection-start-column="29" selection-end-line="103" selection-end-column="39" />
-          <folding>
-            <element signature="e#309#338#0" expanded="true" />
-            <element signature="e#367#397#0" expanded="true" />
-            <element signature="e#427#457#0" expanded="true" />
-            <element signature="e#888#921#0" expanded="true" />
-            <element signature="e#1464#1493#0" expanded="true" />
-            <element signature="e#1526#1556#0" expanded="true" />
-            <element signature="e#1590#1620#0" expanded="true" />
-            <element signature="e#2015#2044#0" expanded="true" />
-            <element signature="e#2077#2107#0" expanded="true" />
-            <element signature="e#2141#2171#0" expanded="true" />
-            <element signature="e#2686#2719#0" expanded="true" />
-            <element signature="e#4021#4054#0" expanded="true" />
-            <element signature="e#4648#4679#0" expanded="true" />
-            <element signature="e#5212#5243#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/content_league_settings.xml">
       <provider selected="true" editor-type-id="android-designer2">
         <state />
@@ -3094,22 +3000,104 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/build/intermediates/res/merged/debug/layout/league_settings_base.xml">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="262">
+          <caret line="20" column="20" selection-start-line="20" selection-start-column="20" selection-end-line="20" selection-end-column="23" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/RosterSettings.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="410">
+          <caret line="24" column="37" selection-start-line="24" selection-start-column="37" selection-end-line="24" selection-end-column="37" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/league_settings_base.xml">
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="207">
+          <caret line="124" column="32" selection-start-line="124" selection-start-column="26" selection-end-line="124" selection-end-column="32" />
+          <folding>
+            <element signature="e#5240#5271#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/league_settings_roster.xml">
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="107">
+          <caret line="195" column="32" selection-start-line="195" selection-start-column="32" selection-end-line="195" selection-end-column="32" />
+          <folding>
+            <element signature="e#811#844#0" expanded="true" />
+            <element signature="e#1141#1174#0" expanded="true" />
+            <element signature="e#1590#1619#0" expanded="true" />
+            <element signature="e#1652#1682#0" expanded="true" />
+            <element signature="e#1716#1746#0" expanded="true" />
+            <element signature="e#2120#2149#0" expanded="true" />
+            <element signature="e#2182#2212#0" expanded="true" />
+            <element signature="e#2246#2276#0" expanded="true" />
+            <element signature="e#3079#3112#0" expanded="true" />
+            <element signature="e#3409#3442#0" expanded="true" />
+            <element signature="e#3858#3887#0" expanded="true" />
+            <element signature="e#3920#3950#0" expanded="true" />
+            <element signature="e#3984#4014#0" expanded="true" />
+            <element signature="e#4388#4417#0" expanded="true" />
+            <element signature="e#4450#4480#0" expanded="true" />
+            <element signature="e#4514#4544#0" expanded="true" />
+            <element signature="e#5348#5381#0" expanded="true" />
+            <element signature="e#5677#5710#0" expanded="true" />
+            <element signature="e#6126#6155#0" expanded="true" />
+            <element signature="e#6188#6218#0" expanded="true" />
+            <element signature="e#6252#6282#0" expanded="true" />
+            <element signature="e#6658#6687#0" expanded="true" />
+            <element signature="e#6720#6750#0" expanded="true" />
+            <element signature="e#6784#6814#0" expanded="true" />
+            <element signature="e#7616#7649#0" expanded="true" />
+            <element signature="e#8063#8094#0" expanded="true" />
+            <element signature="e#8623#8654#0" expanded="true" />
+            <element signature="e#9171#9204#0" expanded="true" />
+            <element signature="e#9738#9767#0" expanded="true" />
+            <element signature="e#9800#9830#0" expanded="true" />
+            <element signature="e#9864#9894#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/LeagueSettingsActivity.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="251">
-          <caret line="103" column="32" selection-start-line="103" selection-start-column="32" selection-end-line="103" selection-end-column="32" />
+        <state relative-caret-position="429">
+          <caret line="370" column="23" selection-start-line="370" selection-start-column="23" selection-end-line="370" selection-end-column="23" />
           <folding>
-            <element signature="e#2351#2500#0" expanded="true" />
-            <element signature="e#2499#2500#0" expanded="true" />
-            <element signature="e#3891#3899#0" expanded="true" />
-            <element signature="e#6019#6759#0" expanded="true" />
-            <element signature="e#6758#6759#0" expanded="true" />
-            <element signature="e#10607#11131#0" expanded="true" />
-            <element signature="e#11130#11131#0" expanded="true" />
-            <element signature="e#12233#12617#0" expanded="true" />
-            <element signature="e#12616#12617#0" expanded="true" />
-            <element signature="e#13010#13011#0" expanded="true" />
-            <element signature="e#13063#13064#0" expanded="true" />
+            <element signature="imports" expanded="true" />
+            <element signature="e#2389#2538#0" expanded="true" />
+            <element signature="e#2537#2538#0" expanded="true" />
+            <element signature="e#6051#6791#0" expanded="true" />
+            <element signature="e#6790#6791#0" expanded="true" />
+            <element signature="e#6830#7272#0" expanded="true" />
+            <element signature="e#7271#7272#0" expanded="true" />
+            <element signature="e#8060#8584#0" expanded="true" />
+            <element signature="e#8583#8584#0" expanded="true" />
+            <element signature="e#8623#9054#0" expanded="true" />
+            <element signature="e#9053#9054#0" expanded="true" />
+            <element signature="e#13198#13717#0" expanded="true" />
+            <element signature="e#13716#13717#0" expanded="true" />
+            <element signature="e#15271#16014#0" expanded="true" />
+            <element signature="e#16013#16014#0" expanded="true" />
+            <element signature="e#17019#17576#0" expanded="true" />
+            <element signature="e#17575#17576#0" expanded="true" />
+            <element signature="e#23249#23250#0" expanded="true" />
+            <element signature="e#23302#23303#0" expanded="true" />
           </folding>
         </state>
       </provider>

@@ -14,15 +14,29 @@
         android:hint="League Name"
         android:inputType="textPersonName"/>
 
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textSize="@dimen/activity_text_size_small"
-        android:text=" "
+        android:orientation="horizontal"
         android:id="@+id/league_settings_space1"
-        android:layout_below="@+id/league_settings_name"
-        android:layout_centerHorizontal="true" />
+        android:layout_below="@+id/league_settings_name">
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textSize="@dimen/activity_text_size_small"
+            android:layout_weight="1"
+            android:text="Team Count"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/league_settings_auction_budget_header"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textSize="@dimen/activity_text_size_small"
+            android:layout_weight="1"
+            android:text="Auction Budget"/>
+    </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -106,7 +120,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
         <Button
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/activity_button_height"
             android:text="Create With Defaults"
             android:textAllCaps="false"
@@ -119,10 +133,10 @@
 
         <Button
             android:id="@+id/league_settings_advanced_settings"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="@dimen/activity_button_height"
             android:background="@drawable/button_selector"
-            android:text="Advanced Settings"
+            android:text="Roster/Scoring"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="15dp"

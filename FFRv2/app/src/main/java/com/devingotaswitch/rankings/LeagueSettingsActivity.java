@@ -26,6 +26,7 @@ import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.fileio.LocalSettingsHelper;
 import com.devingotaswitch.fileio.RankingsDBWrapper;
 import com.devingotaswitch.rankings.domain.LeagueSettings;
+import com.devingotaswitch.rankings.domain.RosterSettings;
 import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.GeneralUtils;
 
@@ -38,7 +39,6 @@ public class LeagueSettingsActivity extends AppCompatActivity {
     private final String TAG="LeagueSettings";
     private final String CREATE_NEW_LEAGUE_SPINNER_ITEM = "Create New League";
 
-    private Toolbar toolbar;
     private AlertDialog userDialog;
     private ProgressDialog waitDialog;
     private RankingsDBWrapper rankingsDB;
@@ -54,7 +54,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         // Set toolbar for this screen
-        toolbar = (Toolbar) findViewById(R.id.toolbar_league_settings);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_league_settings);
         toolbar.setTitle("");
         TextView main_title = (TextView) findViewById(R.id.main_toolbar_title);
         main_title.setText("League Settings");
@@ -109,7 +109,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
             leagueCount++;
         }
         leagueNames.add(CREATE_NEW_LEAGUE_SPINNER_ITEM);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, leagueNames);
         spinner.setAdapter(dataAdapter);
         spinner.setSelection(currLeagueIndex);
@@ -169,9 +169,50 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                 Toast.makeText(localCopy, currentLeague.getName() + " updated", Toast.LENGTH_SHORT).show();
             }
         });
-        // TODO: proceed part
+        advanced.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!validateLeagueInputs(leagueName, teamCount, auctionBudget, isAuction)) {
+                    return;
+                }
+                Map<String, String> updates = getLeagueUpdates(currentLeague, leagueName, teamCount, isAuction, auctionBudget);
+                displayRoster(currentLeague, updates);
+            }
+        });
 
         setCurrentLeague(currentLeague);
+    }
+
+    private void displayNoLeague() {
+        View view = initializeLeagueSettingsBase();
+        Button advanced = (Button) view.findViewById(R.id.league_settings_advanced_settings);
+        Button save = (Button) view.findViewById(R.id.league_settings_create_default);
+        final EditText leagueName = (EditText)view.findViewById(R.id.league_settings_name);
+        final EditText teamCount = (EditText)view.findViewById(R.id.league_settings_team_count);
+        final EditText auctionBudget = (EditText)view.findViewById(R.id.league_settings_auction_budget);
+        final RadioButton isAuction = (RadioButton)view.findViewById(R.id.league_settings_auction);
+        final Context localCopy = this;
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!validateLeagueInputs(leagueName, teamCount, auctionBudget, isAuction)) {
+                    return;
+                }
+                LeagueSettings defaults = getLeagueSettingsFromFirstPage(leagueName, teamCount, isAuction, auctionBudget);
+                saveNewLeague(defaults);
+                Toast.makeText(localCopy, defaults.getName() + " saved", Toast.LENGTH_SHORT).show();
+            }
+        });
+        advanced.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!validateLeagueInputs(leagueName, teamCount, auctionBudget, isAuction)) {
+                    return;
+                }
+                LeagueSettings defaults = getLeagueSettingsFromFirstPage(leagueName, teamCount, isAuction, auctionBudget);
+                displayRosterNoLeague(defaults);
+            }
+        });
     }
 
     private boolean validateLeagueInputs(EditText name, EditText teamCount, EditText auctionBudget, RadioButton isAuction) {
@@ -206,7 +247,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
     }
 
     private Map<String, String> getLeagueUpdates(LeagueSettings league, EditText name, EditText teamCount,
-                                  RadioButton isAuction, EditText auctionBudget) {
+                                                 RadioButton isAuction, EditText auctionBudget) {
         Map<String, String> updates = new HashMap<>();
         if (!league.getName().equals(name.getText().toString())) {
             updates.put(Constants.NAME_COLUMN, name.getText().toString());
@@ -230,30 +271,6 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         return updates;
     }
 
-    private void displayNoLeague() {
-        View view = initializeLeagueSettingsBase();
-        Button advanced = (Button) view.findViewById(R.id.league_settings_advanced_settings);
-        Button save = (Button) view.findViewById(R.id.league_settings_create_default);
-        final EditText leagueName = (EditText)view.findViewById(R.id.league_settings_name);
-        final EditText teamCount = (EditText)view.findViewById(R.id.league_settings_team_count);
-        final EditText auctionBudget = (EditText)view.findViewById(R.id.league_settings_auction_budget);
-        final RadioButton isAuction = (RadioButton)view.findViewById(R.id.league_settings_auction);
-        RadioButton isSnake = (RadioButton)view.findViewById(R.id.league_settings_snake);
-        final Context localCopy = this;
-        //TODO: advanced button
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!validateLeagueInputs(leagueName, teamCount, auctionBudget, isAuction)) {
-                    return;
-                }
-                LeagueSettings defaults = getLeagueSettingsFromFirstPage(leagueName, teamCount, isAuction, auctionBudget);
-                saveNewLeague(defaults);
-                Toast.makeText(localCopy, defaults.getName() + " saved", Toast.LENGTH_SHORT).show();
-            }
-        });
-    }
-
     private LeagueSettings getLeagueSettingsFromFirstPage(EditText leagueName, EditText teamCount, RadioButton isAuction,
                                                           EditText auctionBudget) {
 
@@ -273,18 +290,196 @@ public class LeagueSettingsActivity extends AppCompatActivity {
 
         // Hide auction budget on snake selection
         final EditText auctionBudget = (EditText)child.findViewById(R.id.league_settings_auction_budget);
+        final TextView auctionBudgetHeader = (TextView)child.findViewById(R.id.league_settings_auction_budget_header);
         RadioButton isSnake = (RadioButton)child.findViewById(R.id.league_settings_snake);
         isSnake.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if (isChecked) {
                     auctionBudget.setVisibility(View.GONE);
+                    auctionBudgetHeader.setVisibility(View.GONE);
                 } else {
                     auctionBudget.setVisibility(View.VISIBLE);
+                    auctionBudgetHeader.setVisibility(View.VISIBLE);
                 }
             }
         });
         return child;
+    }
+
+    private void displayRoster(final LeagueSettings currentLeague, final Map<String, String> leagueUpdates) {
+        View view = initializeLeagueSettingsRoster();
+        Button update = (Button) view.findViewById(R.id.league_roster_create_default);
+        update.setText("Update");
+        Button advanced = (Button) view.findViewById(R.id.league_roster_advanced_settings);
+        RosterSettings roster = currentLeague.getRosterSettings();
+        final EditText qbs = (EditText)view.findViewById(R.id.league_settings_qbs);
+        qbs.setText(String.valueOf(roster.getQbCount()));
+        final EditText rbs = (EditText)view.findViewById(R.id.league_settings_rbs);
+        rbs.setText(String.valueOf(roster.getRbCount()));
+        final EditText wrs = (EditText)view.findViewById(R.id.league_settings_wrs);
+        wrs.setText(String.valueOf(roster.getWrCount()));
+        final EditText tes = (EditText)view.findViewById(R.id.league_settings_tes);
+        tes.setText(String.valueOf(roster.getTeCount()));
+        final EditText dsts = (EditText)view.findViewById(R.id.league_settings_dsts);
+        dsts.setText(String.valueOf(roster.getDstCount()));
+        final EditText ks = (EditText)view.findViewById(R.id.league_settings_ks);
+        ks.setText(String.valueOf(roster.getkCount()));
+        final EditText bench = (EditText)view.findViewById(R.id.league_settings_bench);
+        bench.setText(String.valueOf(roster.getBenchCount()));
+        final Context localCopy = this;
+
+        update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!validateRosterInputs(qbs, rbs, wrs, tes, dsts, ks, bench)) {
+                    return;
+                }
+                Map<String, String> rosterUpdates = getRosterUpdates(qbs, rbs, wrs, tes, dsts, ks, bench, currentLeague);
+                if (rosterUpdates == null) {
+                    Toast.makeText(localCopy, "No updates given", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                updateLeague(null, rosterUpdates, leagueUpdates, currentLeague);
+                Toast.makeText(localCopy, currentLeague.getName() + " updated", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        //TODO: advanced
+    }
+
+    private void displayRosterNoLeague(final LeagueSettings newLeague) {
+        View view = initializeLeagueSettingsRoster();
+        final EditText qbs = (EditText)view.findViewById(R.id.league_settings_qbs);
+        final EditText rbs = (EditText)view.findViewById(R.id.league_settings_rbs);
+        final EditText wrs = (EditText)view.findViewById(R.id.league_settings_wrs);
+        final EditText tes = (EditText)view.findViewById(R.id.league_settings_tes);
+        final EditText dsts = (EditText)view.findViewById(R.id.league_settings_dsts);
+        final EditText ks = (EditText)view.findViewById(R.id.league_settings_ks);
+        final EditText bench = (EditText)view.findViewById(R.id.league_settings_bench);
+        Button save = (Button) view.findViewById(R.id.league_roster_create_default);
+        Button advanced = (Button) view.findViewById(R.id.league_roster_advanced_settings);
+        final Context localCopy = this;
+
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!validateRosterInputs(qbs, rbs, wrs, tes, dsts, ks, bench)) {
+                    return;
+                }
+                RosterSettings defaults = getRosterSettingsFromFirstPage(qbs, rbs, wrs, tes, dsts, ks, bench);
+                newLeague.setRosterSettings(defaults);
+                saveNewLeague(newLeague);
+                Toast.makeText(localCopy, newLeague.getName() + " saved", Toast.LENGTH_SHORT).show();
+            }
+        });
+        // TODO: advanced
+    }
+
+    private View initializeLeagueSettingsRoster() {
+        baseLayout.removeAllViews();
+        View child = getLayoutInflater().inflate(R.layout.league_settings_roster, null);
+        baseLayout.addView(child);
+        return child;
+    }
+
+    private RosterSettings getRosterSettingsFromFirstPage(EditText qbs, EditText rbs, EditText wrs, EditText tes, EditText dsts,
+                                                          EditText ks, EditText bench) {
+        int qbTotal = Integer.parseInt(qbs.getText().toString());
+        int rbTotal = Integer.parseInt(rbs.getText().toString());
+        int wrTotal = Integer.parseInt(wrs.getText().toString());
+        int teTotal = Integer.parseInt(tes.getText().toString());
+        int dstTotal = Integer.parseInt(dsts.getText().toString());
+        int kTotal = Integer.parseInt(ks.getText().toString());
+        int benchTotal = Integer.parseInt(bench.getText().toString());
+        return new RosterSettings(qbTotal, rbTotal, wrTotal, teTotal, dstTotal, kTotal, benchTotal);
+    }
+
+    private boolean validateRosterInputs(EditText qbs, EditText rbs, EditText wrs, EditText tes, EditText dsts,
+                                         EditText ks, EditText bench) {
+        String qbStr = qbs.getText().toString();
+        String rbStr = rbs.getText().toString();
+        String wrStr = wrs.getText().toString();
+        String teStr = tes.getText().toString();
+        String dstStr = dsts.getText().toString();
+        String kStr = ks.getText().toString();
+        String benchStr = bench.getText().toString();
+        if (StringUtils.isBlank(qbStr) || !GeneralUtils.isInteger(qbStr)) {
+            Toast.makeText(this, "QB count must be an integer", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (StringUtils.isBlank(rbStr) || !GeneralUtils.isInteger(rbStr)) {
+            Toast.makeText(this, "RB count must be an integer", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (StringUtils.isBlank(wrStr) || !GeneralUtils.isInteger(wrStr)) {
+            Toast.makeText(this, "WR count must be an integer", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (StringUtils.isBlank(teStr) || !GeneralUtils.isInteger(teStr)) {
+            Toast.makeText(this, "TE count must be an integer", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (StringUtils.isBlank(dstStr) || !GeneralUtils.isInteger(dstStr)) {
+            Toast.makeText(this, "DST count must be an integer", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (StringUtils.isBlank(kStr) || !GeneralUtils.isInteger(kStr)) {
+            Toast.makeText(this, "K count must be an integer", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (StringUtils.isBlank(benchStr) || !GeneralUtils.isInteger(benchStr)) {
+            Toast.makeText(this, "Bench count must be an integer", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    private Map<String, String> getRosterUpdates(EditText qbs, EditText rbs, EditText wrs, EditText tes, EditText dsts,
+                                                 EditText ks, EditText bench, LeagueSettings league) {
+        int qbTotal = Integer.parseInt(qbs.getText().toString());
+        int rbTotal = Integer.parseInt(rbs.getText().toString());
+        int wrTotal = Integer.parseInt(wrs.getText().toString());
+        int teTotal = Integer.parseInt(tes.getText().toString());
+        int dstTotal = Integer.parseInt(dsts.getText().toString());
+        int kTotal = Integer.parseInt(ks.getText().toString());
+        int benchTotal = Integer.parseInt(bench.getText().toString());
+        RosterSettings roster = league.getRosterSettings();
+        Map<String, String> rosterUpdates = new HashMap<>();
+
+        if (qbTotal != roster.getQbCount()) {
+            rosterUpdates.put(Constants.QB_COUNT_COLUMN, qbs.getText().toString());
+            roster.setQbCount(qbTotal);
+        }
+        if (rbTotal != roster.getRbCount()) {
+            rosterUpdates.put(Constants.RB_COUNT_COLUMN, rbs.getText().toString());
+            roster.setRbCount(rbTotal);
+        }
+        if (wrTotal != roster.getWrCount()) {
+            rosterUpdates.put(Constants.WR_COUNT_COLUMN, wrs.getText().toString());
+            roster.setWrCount(wrTotal);
+        }
+        if (teTotal != roster.getTeCount()) {
+            rosterUpdates.put(Constants.TE_COUNT_COLUMN, tes.getText().toString());
+            roster.setTeCount(teTotal);
+        }
+        if (dstTotal != roster.getDstCount()) {
+            rosterUpdates.put(Constants.DST_COUNT_COLUMN, dsts.getText().toString());
+            roster.setDstCount(dstTotal);
+        }
+        if (kTotal != roster.getkCount()) {
+            rosterUpdates.put(Constants.K_COUNT_COLUMN, ks.getText().toString());
+            roster.setkCount(kTotal);
+        }
+        if (benchTotal != roster.getBenchCount()) {
+            rosterUpdates.put(Constants.BENCH_COUNT_COLUMN, bench.getText().toString());
+            roster.setBenchCount(benchTotal);
+        }
+        if (rosterUpdates.size() == 0) {
+            return null;
+        }
+        league.setRosterSettings(roster);
+        return rosterUpdates;
     }
 
     private void saveNewLeague(LeagueSettings league) {
