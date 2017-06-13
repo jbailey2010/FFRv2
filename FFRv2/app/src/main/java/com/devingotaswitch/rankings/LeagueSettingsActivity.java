@@ -161,10 +161,6 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                     return;
                 }
                 Map<String, String> updates = getLeagueUpdates(currentLeague, leagueName, teamCount, isAuction, auctionBudget);
-                if (updates == null) {
-                    Toast.makeText(localCopy, "No updates given", Toast.LENGTH_SHORT).show();
-                    return;
-                }
                 updateLeague(null, null, updates, currentLeague);
                 Toast.makeText(localCopy, currentLeague.getName() + " updated", Toast.LENGTH_SHORT).show();
             }
@@ -336,10 +332,6 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                     return;
                 }
                 Map<String, String> rosterUpdates = getRosterUpdates(qbs, rbs, wrs, tes, dsts, ks, bench, currentLeague);
-                if (rosterUpdates == null) {
-                    Toast.makeText(localCopy, "No updates given", Toast.LENGTH_SHORT).show();
-                    return;
-                }
                 updateLeague(null, rosterUpdates, leagueUpdates, currentLeague);
                 Toast.makeText(localCopy, currentLeague.getName() + " updated", Toast.LENGTH_SHORT).show();
             }
@@ -500,14 +492,82 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         return rosterUpdates;
     }
 
-    private void displayFlex(LeagueSettings currentLeague, Map<String, String> leagueUpdates, Map<String, String> rosterUpdates) {
+    private void displayFlex(final LeagueSettings currentLeague, final Map<String, String> leagueUpdates,
+                             final Map<String, String> baseRosterUpdates) {
         View view = initializeLeagueSettingsFlex();
+        final EditText rbwr = (EditText)view.findViewById(R.id.league_flex_rbwr);
+        final EditText rbte = (EditText)view.findViewById(R.id.league_flex_rbte);
+        final EditText rbwrte = (EditText)view.findViewById(R.id.league_flex_rbwrte);
+        final EditText wrte = (EditText)view.findViewById(R.id.league_flex_wrte);
+        final EditText op = (EditText)view.findViewById(R.id.league_flex_op);
+        rbwr.setText(String.valueOf(currentLeague.getRosterSettings().getFlex().getRbwrCount()));
+        rbte.setText(String.valueOf(currentLeague.getRosterSettings().getFlex().getRbteCount()));
+        rbwrte.setText(String.valueOf(currentLeague.getRosterSettings().getFlex().getRbwrteCount()));
+        wrte.setText(String.valueOf(currentLeague.getRosterSettings().getFlex().getWrteCount()));
+        op.setText(String.valueOf(currentLeague.getRosterSettings().getFlex().getQbrbwrteCount()));
+        Button update = (Button)findViewById(R.id.league_flex_create_default);
+        update.setText("Update");
+        Button advanced = (Button)findViewById(R.id.league_flex_advanced_settings);
+        final Context localCopy = this;
 
+        update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!validateFlexInputs(rbwr, rbte, rbwrte, wrte, op)) {
+                    return;
+                }
+                Map<String, String> rosterUpdates = getFlexUpdates(rbwr, rbte, rbwrte, wrte, op, baseRosterUpdates, currentLeague);
+                updateLeague(null, rosterUpdates, leagueUpdates, currentLeague);
+                Toast.makeText(localCopy, currentLeague.getName() + " updated", Toast.LENGTH_SHORT).show();
+            }
+        });
+        advanced.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!validateFlexInputs(rbwr, rbte, rbwrte, wrte, op)) {
+                    return;
+                }
+                Map<String, String> rosterUpdates = getFlexUpdates(rbwr, rbte, rbwrte, wrte, op, baseRosterUpdates, currentLeague);
+                displayFlex(currentLeague, leagueUpdates, rosterUpdates);
+                // TODO: display scoring
+            }
+        });
     }
 
-    private void displayFlexNoLeague(LeagueSettings newLeague) {
+    private void displayFlexNoLeague(final LeagueSettings newLeague) {
         View view = initializeLeagueSettingsFlex();
-        
+        final EditText rbwr = (EditText)view.findViewById(R.id.league_flex_rbwr);
+        final EditText rbte = (EditText)view.findViewById(R.id.league_flex_rbte);
+        final EditText rbwrte = (EditText)view.findViewById(R.id.league_flex_rbwrte);
+        final EditText wrte = (EditText)view.findViewById(R.id.league_flex_wrte);
+        final EditText op = (EditText)view.findViewById(R.id.league_flex_op);
+        Button advanced = (Button)findViewById(R.id.league_flex_advanced_settings);
+        Button save = (Button)findViewById(R.id.league_flex_create_default);
+        final Context localCopy = this;
+
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!validateFlexInputs(rbwr, rbte, rbwrte, wrte, op)) {
+                    return;
+                }
+                RosterSettings.Flex defaults = getFlexSettingsFromFirstPage(rbwr, rbte, rbwrte, wrte, op);
+                newLeague.getRosterSettings().setFlex(defaults);
+                saveNewLeague(newLeague);
+                Toast.makeText(localCopy, newLeague.getName() + " saved", Toast.LENGTH_SHORT).show();
+            }
+        });
+        advanced.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!validateFlexInputs(rbwr, rbte, rbwrte, wrte, op)) {
+                    return;
+                }
+                RosterSettings.Flex defaults = getFlexSettingsFromFirstPage(rbwr, rbte, rbwrte, wrte, op);
+                saveNewLeague(newLeague);
+                // TODO: display scoring
+            }
+        });
     }
 
     private View initializeLeagueSettingsFlex() {
@@ -515,6 +575,87 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         View child = getLayoutInflater().inflate(R.layout.league_settings_flex, null);
         baseLayout.addView(child);
         return child;
+    }
+
+    private RosterSettings.Flex getFlexSettingsFromFirstPage(EditText rbwr, EditText rbte, EditText rbwrte, EditText wrte,
+                                                        EditText op) {
+        int rbwrTotal = Integer.parseInt(rbwr.getText().toString());
+        int rbteTotal = Integer.parseInt(rbte.getText().toString());
+        int rbwrteTotal = Integer.parseInt(rbwrte.getText().toString());
+        int wrteTotal = Integer.parseInt(wrte.getText().toString());
+        int opTotal = Integer.parseInt(op.getText().toString());
+        return new RosterSettings.Flex(rbwrTotal, rbteTotal, rbwrteTotal, wrteTotal, opTotal);
+    }
+
+    private boolean validateFlexInputs(EditText rbwr, EditText rbte, EditText rbwrte, EditText wrte,
+                                       EditText op) {
+        String rbwrStr = rbwr.getText().toString();
+        String rbteStr = rbte.getText().toString();
+        String rbwrteStr = rbwrte.getText().toString();
+        String wrteStr = wrte.getText().toString();
+        String opStr = op.getText().toString();
+        if (StringUtils.isBlank(rbwrStr) || !GeneralUtils.isInteger(rbwrStr)) {
+            Toast.makeText(this, "RB/WR count must be an integer", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (StringUtils.isBlank(rbteStr) || !GeneralUtils.isInteger(rbteStr)) {
+            Toast.makeText(this, "RB/TE count must be an integer", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (StringUtils.isBlank(rbwrteStr) || !GeneralUtils.isInteger(rbwrteStr)) {
+            Toast.makeText(this, "RB/WR/TE count must be an integer", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (StringUtils.isBlank(wrteStr) || !GeneralUtils.isInteger(wrteStr)) {
+            Toast.makeText(this, "WR/TE count must be an integer", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (StringUtils.isBlank(opStr) || !GeneralUtils.isInteger(opStr)) {
+            Toast.makeText(this, "DST count must be an integer", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    private Map<String, String> getFlexUpdates(EditText rbwr, EditText rbte, EditText rbwrte, EditText wrte,
+                                               EditText op, Map<String, String> rosterUpdates, LeagueSettings league) {
+        int rbwrTotal = Integer.parseInt(rbwr.getText().toString());
+        int rbteTotal = Integer.parseInt(rbte.getText().toString());
+        int rbwrteTotal = Integer.parseInt(rbwrte.getText().toString());
+        int wrteTotal = Integer.parseInt(wrte.getText().toString());
+        int opTotal = Integer.parseInt(op.getText().toString());
+        RosterSettings roster = league.getRosterSettings();
+        RosterSettings.Flex flex = roster.getFlex();
+        if (rosterUpdates == null) {
+            rosterUpdates = new HashMap<>();
+        }
+
+        if (rbwrTotal != flex.getRbwrCount()) {
+            rosterUpdates.put(Constants.RBWR_COUNT_COLUMN, rbwr.getText().toString());
+            flex.setRbwrCount(rbwrTotal);
+        }
+        if (rbteTotal != roster.getRbCount()) {
+            rosterUpdates.put(Constants.RBTE_COUNT_COLUMN, rbte.getText().toString());
+            flex.setRbteCount(rbteTotal);
+        }
+        if (rbwrteTotal != roster.getWrCount()) {
+            rosterUpdates.put(Constants.RBWRTE_COUNT_COLUMN, rbwrte.getText().toString());
+            flex.setRbwrteCount(rbwrteTotal);
+        }
+        if (wrteTotal != roster.getTeCount()) {
+            rosterUpdates.put(Constants.WRTE_COUNT_COLUMN, wrte.getText().toString());
+            flex.setWrteCount(wrteTotal);
+        }
+        if (opTotal != roster.getDstCount()) {
+            rosterUpdates.put(Constants.QBRBWRTE_COUNT_COLUMN, op.getText().toString());
+            flex.setQbrbwrteCount(opTotal);
+        }
+        if (rosterUpdates.size() == 0) {
+            return null;
+        }
+        roster.setFlex(flex);
+        league.setRosterSettings(roster);
+        return rosterUpdates;
     }
 
     private void saveNewLeague(LeagueSettings league) {
