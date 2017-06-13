@@ -22,9 +22,15 @@ public class ScoringSettings {
     private double receptions;
 
     public ScoringSettings() {
-        this(UUID.randomUUID().toString(), Constants.DEFAULT_TD_WORTH, Constants.DEFAULT_TD_WORTH, Constants.DEFAULT_TD_WORTH,
+        this(Constants.DEFAULT_TD_WORTH, Constants.DEFAULT_TD_WORTH, Constants.DEFAULT_TD_WORTH,
                 Constants.DEFAULT_TURNOVER_WORTH, Constants.DEFAULT_TURNOVER_WORTH, Constants.DEFAULT_PASSING_YDS, Constants.DEFAULT_RUSHING_YDS,
                 Constants.DEFAULT_RECEIVING_YDS, Constants.DEFAULT_RECEPTIONS);
+    }
+
+    public ScoringSettings(int passingTds, int rushingTds, int receivingTds, int fumbles,
+                           int interceptions, int passingYds, int rushingYds, int receivingYds, double receptions) {
+        this(UUID.randomUUID().toString(), passingTds, rushingTds, receivingTds, fumbles, interceptions, passingYds,
+                rushingYds, receivingYds, receptions);
     }
 
     public ScoringSettings(String id, int passingTds, int rushingTds, int receivingTds, int fumbles,

@@ -27,6 +27,7 @@ import com.devingotaswitch.fileio.LocalSettingsHelper;
 import com.devingotaswitch.fileio.RankingsDBWrapper;
 import com.devingotaswitch.rankings.domain.LeagueSettings;
 import com.devingotaswitch.rankings.domain.RosterSettings;
+import com.devingotaswitch.rankings.domain.ScoringSettings;
 import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.GeneralUtils;
 
@@ -161,6 +162,10 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                     return;
                 }
                 Map<String, String> updates = getLeagueUpdates(currentLeague, leagueName, teamCount, isAuction, auctionBudget);
+                if (updates == null) {
+                    Toast.makeText(localCopy, "No updates given.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 updateLeague(null, null, updates, currentLeague);
                 Toast.makeText(localCopy, currentLeague.getName() + " updated", Toast.LENGTH_SHORT).show();
             }
@@ -332,6 +337,10 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                     return;
                 }
                 Map<String, String> rosterUpdates = getRosterUpdates(qbs, rbs, wrs, tes, dsts, ks, bench, currentLeague);
+                if (rosterUpdates == null && leagueUpdates == null) {
+                    Toast.makeText(localCopy, "No updates given.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 updateLeague(null, rosterUpdates, leagueUpdates, currentLeague);
                 Toast.makeText(localCopy, currentLeague.getName() + " updated", Toast.LENGTH_SHORT).show();
             }
@@ -517,6 +526,9 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                     return;
                 }
                 Map<String, String> rosterUpdates = getFlexUpdates(rbwr, rbte, rbwrte, wrte, op, baseRosterUpdates, currentLeague);
+                if (rosterUpdates == null && leagueUpdates == null) {
+                    Toast.makeText(localCopy, "No updates given.", Toast.LENGTH_SHORT).show();
+                }
                 updateLeague(null, rosterUpdates, leagueUpdates, currentLeague);
                 Toast.makeText(localCopy, currentLeague.getName() + " updated", Toast.LENGTH_SHORT).show();
             }
@@ -528,8 +540,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                     return;
                 }
                 Map<String, String> rosterUpdates = getFlexUpdates(rbwr, rbte, rbwrte, wrte, op, baseRosterUpdates, currentLeague);
-                displayFlex(currentLeague, leagueUpdates, rosterUpdates);
-                // TODO: display scoring
+                displayScoring(currentLeague, leagueUpdates, rosterUpdates);
             }
         });
     }
@@ -564,8 +575,8 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                     return;
                 }
                 RosterSettings.Flex defaults = getFlexSettingsFromFirstPage(rbwr, rbte, rbwrte, wrte, op);
-                saveNewLeague(newLeague);
-                // TODO: display scoring
+                newLeague.getRosterSettings().setFlex(defaults);
+                displayScoringNoTeam(newLeague);
             }
         });
     }
@@ -634,19 +645,19 @@ public class LeagueSettingsActivity extends AppCompatActivity {
             rosterUpdates.put(Constants.RBWR_COUNT_COLUMN, rbwr.getText().toString());
             flex.setRbwrCount(rbwrTotal);
         }
-        if (rbteTotal != roster.getRbCount()) {
+        if (rbteTotal != flex.getRbteCount()) {
             rosterUpdates.put(Constants.RBTE_COUNT_COLUMN, rbte.getText().toString());
             flex.setRbteCount(rbteTotal);
         }
-        if (rbwrteTotal != roster.getWrCount()) {
+        if (rbwrteTotal != flex.getRbwrteCount()) {
             rosterUpdates.put(Constants.RBWRTE_COUNT_COLUMN, rbwrte.getText().toString());
             flex.setRbwrteCount(rbwrteTotal);
         }
-        if (wrteTotal != roster.getTeCount()) {
+        if (wrteTotal != flex.getWrteCount()) {
             rosterUpdates.put(Constants.WRTE_COUNT_COLUMN, wrte.getText().toString());
             flex.setWrteCount(wrteTotal);
         }
-        if (opTotal != roster.getDstCount()) {
+        if (opTotal != flex.getQbrbwrteCount()) {
             rosterUpdates.put(Constants.QBRBWRTE_COUNT_COLUMN, op.getText().toString());
             flex.setQbrbwrteCount(opTotal);
         }
@@ -656,6 +667,212 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         roster.setFlex(flex);
         league.setRosterSettings(roster);
         return rosterUpdates;
+    }
+
+    private void displayScoringNoTeam(final LeagueSettings newLeague) {
+        View view = initializeLeagueSettingsScoring();
+        final EditText passTds = (EditText) view.findViewById(R.id.league_scoring_passing_tds);
+        final EditText rushTds = (EditText) view.findViewById(R.id.league_scoring_rushing_tds);
+        final EditText recTds = (EditText) view.findViewById(R.id.league_scoring_receiving_tds);
+        final EditText passYds = (EditText) view.findViewById(R.id.league_scoring_yds_per_passing_pt);
+        final EditText rushYds = (EditText) view.findViewById(R.id.league_scoring_yds_per_rushing_point);
+        final EditText recYds = (EditText) view.findViewById(R.id.league_scoring_yds_per_receiving_point);
+        final EditText ints = (EditText) view.findViewById(R.id.league_scoring_ints);
+        final EditText fumbles = (EditText) view.findViewById(R.id.league_scoring_fumbles);
+        final EditText ppr = (EditText) view.findViewById(R.id.league_scoring_ppr);
+        final Button save = (Button)view.findViewById(R.id.league_scoring_save);
+        final Context localCopy = this;
+
+        save.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!validateScoringInputs(passTds, rushTds, recTds, passYds, rushYds, recYds,
+                        ints, fumbles, ppr)) {
+                    return;
+                }
+                ScoringSettings scoring = getScoringSettingsFromFirstPage(passTds, rushTds, recTds, passYds, rushYds, recYds,
+                        ints, fumbles, ppr);
+                newLeague.setScoringSettings(scoring);
+                saveNewLeague(newLeague);
+                Toast.makeText(localCopy, newLeague.getName() + " saved", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private void displayScoring(final LeagueSettings currentLeague, final Map<String, String> leagueUpdates,
+                             final Map<String, String> rosterUpdates) {
+        View view = initializeLeagueSettingsScoring();
+        final EditText passTds = (EditText) view.findViewById(R.id.league_scoring_passing_tds);
+        final EditText rushTds = (EditText) view.findViewById(R.id.league_scoring_rushing_tds);
+        final EditText recTds = (EditText) view.findViewById(R.id.league_scoring_receiving_tds);
+        final EditText passYds = (EditText) view.findViewById(R.id.league_scoring_yds_per_passing_pt);
+        final EditText rushYds = (EditText) view.findViewById(R.id.league_scoring_yds_per_rushing_point);
+        final EditText recYds = (EditText) view.findViewById(R.id.league_scoring_yds_per_receiving_point);
+        final EditText ints = (EditText) view.findViewById(R.id.league_scoring_ints);
+        final EditText fumbles = (EditText) view.findViewById(R.id.league_scoring_fumbles);
+        final EditText ppr = (EditText) view.findViewById(R.id.league_scoring_ppr);
+        final Button update = (Button)view.findViewById(R.id.league_scoring_save);
+        update.setText("Update");
+        final Context localCopy = this;
+        passTds.setText(String.valueOf(currentLeague.getScoringSettings().getPassingTds()));
+        rushTds.setText(String.valueOf(currentLeague.getScoringSettings().getRushingTds()));
+        recTds.setText(String.valueOf(currentLeague.getScoringSettings().getReceivingTds()));
+        passYds.setText(String.valueOf(currentLeague.getScoringSettings().getPassingYards()));
+        rushYds.setText(String.valueOf(currentLeague.getScoringSettings().getRushingYards()));
+        recYds.setText(String.valueOf(currentLeague.getScoringSettings().getReceivingYards()));
+        ints.setText(String.valueOf(currentLeague.getScoringSettings().getInterceptions()));
+        fumbles.setText(String.valueOf(currentLeague.getScoringSettings().getFumbles()));
+        ppr.setText(String.valueOf(currentLeague.getScoringSettings().getReceptions()));
+
+        update.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!validateScoringInputs(passTds, rushTds, recTds, passYds, rushYds, recYds,
+                        ints, fumbles, ppr)) {
+                    return;
+                }
+                Map<String, String> scoringUpdates = getScoringUpdates(passTds, rushTds, recTds, passYds, rushYds, recYds,
+                        ints, fumbles, ppr, currentLeague);
+                if (rosterUpdates == null && leagueUpdates == null && scoringUpdates == null) {
+                    Toast.makeText(localCopy, "No updates given.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                updateLeague(scoringUpdates, rosterUpdates, leagueUpdates, currentLeague);
+                Toast.makeText(localCopy, currentLeague.getName() + " updated", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    private View initializeLeagueSettingsScoring() {
+        baseLayout.removeAllViews();
+        View child = getLayoutInflater().inflate(R.layout.league_settings_scoring, null);
+        baseLayout.addView(child);
+        return child;
+    }
+
+    private ScoringSettings getScoringSettingsFromFirstPage(EditText passTds, EditText rushTds, EditText recTds, EditText passYds,
+                                                         EditText rushYds, EditText recYds, EditText ints, EditText fumbles,
+                                                            EditText receptions) {
+        int passTdsTotal = Integer.parseInt(passTds.getText().toString());
+        int rushTdsTotal = Integer.parseInt(rushTds.getText().toString());
+        int recTdsTotal = Integer.parseInt(recTds.getText().toString());
+        int passYdsTotal = Integer.parseInt(passYds.getText().toString());
+        int rushYdsTotal = Integer.parseInt(rushYds.getText().toString());
+        int recYdsTotal = Integer.parseInt(recYds.getText().toString());
+        int intsTotal = Integer.parseInt(ints.getText().toString());
+        int fumblesTotal = Integer.parseInt(fumbles.getText().toString());
+        int receptionsTotal = Integer.parseInt(receptions.getText().toString());
+        return new ScoringSettings(passTdsTotal, rushTdsTotal, recTdsTotal, fumblesTotal, intsTotal, passYdsTotal,
+                rushYdsTotal, recYdsTotal, receptionsTotal);
+    }
+
+    private boolean validateScoringInputs(EditText passTds, EditText rushTds, EditText recTds, EditText passYds,
+                                          EditText rushYds, EditText recYds, EditText ints, EditText fumbles,
+                                          EditText receptions) {
+        String pTdsStr = passTds.getText().toString();
+        String ruTdsStr = rushTds.getText().toString();
+        String reTdsStr = recTds.getText().toString();
+        String pYdsStr = passYds.getText().toString();
+        String ruYdsStr = rushYds.getText().toString();
+        String reYdsStr = recYds.getText().toString();
+        String intStr = ints.getText().toString();
+        String fumblesStr = fumbles.getText().toString();
+        String recStr = receptions.getText().toString();
+        if (StringUtils.isBlank(pTdsStr) || !GeneralUtils.isInteger(pTdsStr)) {
+            Toast.makeText(this, "Pts/passing td must be an integer", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (StringUtils.isBlank(ruTdsStr) || !GeneralUtils.isInteger(ruTdsStr)) {
+            Toast.makeText(this, "Pts/rushing td must be an integer", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (StringUtils.isBlank(reTdsStr) || !GeneralUtils.isInteger(reTdsStr)) {
+            Toast.makeText(this, "Pts/receiving td must be an integer", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (StringUtils.isBlank(pYdsStr) || !GeneralUtils.isInteger(pYdsStr)) {
+            Toast.makeText(this, "Passing yards/point must be an integer", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (StringUtils.isBlank(ruYdsStr) || !GeneralUtils.isInteger(ruYdsStr)) {
+            Toast.makeText(this, "Rushing yards/point must be an integer", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (StringUtils.isBlank(reYdsStr) || !GeneralUtils.isInteger(reYdsStr)) {
+            Toast.makeText(this, "Receiving yards/point must be an integer", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (StringUtils.isBlank(intStr) || !GeneralUtils.isInteger(intStr)) {
+            Toast.makeText(this, "Points/int must be an integer", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (StringUtils.isBlank(fumblesStr) || !GeneralUtils.isInteger(fumblesStr)) {
+            Toast.makeText(this, "Points/fumble must be an integer", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        if (StringUtils.isBlank(recStr) || !GeneralUtils.isDouble(recStr)) {
+            Toast.makeText(this, "Points/reception must be an number (decimals allowed)", Toast.LENGTH_SHORT).show();
+            return false;
+        }
+        return true;
+    }
+
+    private Map<String, String> getScoringUpdates(EditText passTds, EditText rushTds, EditText recTds, EditText passYds,
+                                                 EditText rushYds, EditText recYds, EditText ints, EditText fumbles,
+                                                 EditText receptions, LeagueSettings league) {
+        int passTdsTotal = Integer.parseInt(passTds.getText().toString());
+        int rushTdsTotal = Integer.parseInt(rushTds.getText().toString());
+        int recTdsTotal = Integer.parseInt(recTds.getText().toString());
+        int passYdsTotal = Integer.parseInt(passYds.getText().toString());
+        int rushYdsTotal = Integer.parseInt(rushYds.getText().toString());
+        int recYdsTotal = Integer.parseInt(recYds.getText().toString());
+        int intsTotal = Integer.parseInt(ints.getText().toString());
+        int fumblesTotal = Integer.parseInt(fumbles.getText().toString());
+        double receptionsTotal = Double.parseDouble(receptions.getText().toString());
+        Map<String, String> scoringUpdates = new HashMap<>();
+        ScoringSettings scoring = league.getScoringSettings();
+
+        if (passTdsTotal != scoring.getPassingTds()) {
+            scoringUpdates.put(Constants.PASSING_TDS_COLUMN, passTds.getText().toString());
+            scoring.setPassingTds(passTdsTotal);
+        }
+        if (rushTdsTotal != scoring.getRushingTds()) {
+            scoringUpdates.put(Constants.RUSHING_TDS_COLUMN, rushTds.getText().toString());
+            scoring.setRushingTds(rushTdsTotal);
+        }
+        if (recTdsTotal != scoring.getReceivingTds()) {
+            scoringUpdates.put(Constants.RECEIVING_TDS_COLUMN, recTds.getText().toString());
+            scoring.setReceivingTds(recTdsTotal);
+        }
+        if (passYdsTotal != scoring.getPassingYards()) {
+            scoringUpdates.put(Constants.PASSING_YARDS_COLUMN, passYds.getText().toString());
+            scoring.setPassingYards(passYdsTotal);
+        }
+        if (rushYdsTotal != scoring.getRushingYards()) {
+            scoringUpdates.put(Constants.RUSHING_YARDS_COLUMN, rushYds.getText().toString());
+            scoring.setRushingYards(rushYdsTotal);
+        }
+        if (recYdsTotal != scoring.getReceivingYards()) {
+            scoringUpdates.put(Constants.RECEIVING_YARDS_COLUMN, recYds.getText().toString());
+            scoring.setReceivingYards(recYdsTotal);
+        }
+        if (intsTotal != scoring.getInterceptions()) {
+            scoringUpdates.put(Constants.INTERCEPTIONS_COLUMN, ints.getText().toString());
+            scoring.setInterceptions(intsTotal);
+        }
+        if (fumblesTotal != scoring.getFumbles()) {
+            scoringUpdates.put(Constants.FUMBLES_COLUMN, fumbles.getText().toString());
+            scoring.setFumbles(fumblesTotal);
+        }
+        if (receptionsTotal != scoring.getReceptions()) {
+            scoringUpdates.put(Constants.RECEPTIONS_COLUMN, receptions.getText().toString());
+            scoring.setReceptions(receptionsTotal);
+        }
+        if (scoringUpdates.size() == 0) {
+            return null;
+        }
+        league.setScoringSettings(scoring);
+        return scoringUpdates;
     }
 
     private void saveNewLeague(LeagueSettings league) {

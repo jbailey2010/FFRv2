@@ -213,7 +213,7 @@
             android:layout_width="match_parent"
             android:layout_height="@dimen/activity_button_height"
             android:background="@drawable/button_selector"
-            android:text="Flex/Scoring"
+            android:text="Flex Settings"
             android:textAllCaps="false"
             android:textColor="@color/white"
             android:textSize="15dp"
