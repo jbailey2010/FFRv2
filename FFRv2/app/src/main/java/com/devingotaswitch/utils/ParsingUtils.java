@@ -1,5 +1,8 @@
 package com.devingotaswitch.utils;
 
+import com.amazonaws.util.StringUtils;
+import com.devingotaswitch.rankings.domain.Player;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -221,6 +224,13 @@ public class ParsingUtils {
         teamFixes.put("cardinals", "Arizona Cardinals");
     }
 
+    public static Player normalizePlayerFields(Player player) {
+        player.setTeamName(normalizeTeams(player.getTeamName()));
+        player.setPosition(normalizePosition(player.getPosition()));
+        player.setName(normalizeDefenses(normalizeNames(player.getName())));
+        return player;
+    }
+
     private static String normalizeTeams(String team) {
         String low = team.toLowerCase().replaceAll("[^\\x20-\\x7e]", "");
         if (low.split(" ").length > 1
@@ -354,5 +364,17 @@ public class ParsingUtils {
             position = Constants.RB;
         }
         return position;
+    }
+
+    public static Player conditionallyAddContext(Player oldPlayer, Player newPlayer) {
+        oldPlayer.handleNewValue(newPlayer.getAuctionValue());
+        newPlayer = normalizePlayerFields(newPlayer);
+        if (StringUtils.isBlank(oldPlayer.getTeamName()) && !StringUtils.isBlank(newPlayer.getTeamName())) {
+            oldPlayer.setTeamName(newPlayer.getTeamName());
+        }
+        if (StringUtils.isBlank(oldPlayer.getPosition()) && !StringUtils.isBlank(newPlayer.getPosition())) {
+            oldPlayer.setPosition(newPlayer.getPosition());
+        }
+        return oldPlayer;
     }
 }

@@ -11,7 +11,7 @@ public class Player {
     private String note;
     private boolean isWatched;
     private Double auctionValue;
-    private Double numRankings = 0.0;
+    private Double numRankings = 1.0;
 
     //TODO: Projection stuff, points/paa...etc.?
 
