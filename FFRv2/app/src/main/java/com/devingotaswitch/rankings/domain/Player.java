@@ -11,6 +11,7 @@ public class Player {
     private String note;
     private boolean isWatched;
     private Double auctionValue;
+    private Double numRankings = 0.0;
 
     //TODO: Projection stuff, points/paa...etc.?
 
@@ -81,6 +82,13 @@ public class Player {
     public boolean isWatched() { return isWatched; }
 
     public void setWatched(boolean isWatched) { this.isWatched = isWatched; }
+
+    public void handleNewValue(Double newValue) {
+        double auctionTotal = auctionValue * numRankings;
+        numRankings++;
+        auctionTotal += newValue;
+        auctionValue = auctionTotal / numRankings;
+    }
 
     public String getUniqueId() {
         return new StringBuilder(name)
