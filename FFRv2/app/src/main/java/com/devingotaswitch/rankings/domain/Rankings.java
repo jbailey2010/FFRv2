@@ -1,19 +1,47 @@
 package com.devingotaswitch.rankings.domain;
 
+import android.app.Activity;
+
+import com.devingotaswitch.rankings.asynctasks.RankingsFetcher;
 import com.devingotaswitch.utils.ParsingUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class Rankings {
     private Map<String, Player> players;
+    private Map<String, Team> teams;
+    private List<String> orderedIds;
+    private LeagueSettings leagueSettings;
+    private RankingsFetcher processor;
 
-    public Rankings() {
-        this.players = new HashMap<>();
+    public Rankings(LeagueSettings leagueSettings) {
+        this(new HashMap<String, Team>(), new HashMap<String, Player>(), new ArrayList<String>(), leagueSettings);
+    }
+
+    public Rankings(Map<String, Team> teams, Map<String, Player> players, List<String> orderedIds, LeagueSettings leagueSettings) {
+        this.players = players;
+        this.teams = teams;
+        this.leagueSettings = leagueSettings;
+        this.processor = new RankingsFetcher();
+        this.orderedIds = orderedIds;
+    }
+
+    public Player getPlayer(String id) {
+        return players.get(id);
+    }
+
+    public Team getPlayersTeam(Player player) {
+        return teams.get(player.getTeamName());
+    }
+
+    public void refreshRankings(Activity activity) {
+        ParsingUtils.init();
+
+        RankingsFetcher.RanksAggregator ranksParser = processor.new RanksAggregator(activity, this, leagueSettings);
+        ranksParser.execute();
     }
 
     public void processNewPlayer(Player player) {

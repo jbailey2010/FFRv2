@@ -21,6 +21,21 @@ public class DBUtils {
                 .toString();
     }
 
+    public static String getSelectAllPlayersWithOrdering(String column, boolean ascending) {
+        return new StringBuilder("SELECT ")
+                .append(Constants.PLAYER_NAME_COLUMN)
+                .append(", ")
+                .append(Constants.TEAM_NAME_COLUMN)
+                .append(", ")
+                .append(Constants.PLAYER_POSITION_COLUMN)
+                .append(" FROM ")
+                .append(Constants.PLAYER_TABLE_NAME)
+                .append(" ORDER BY ")
+                .append(column)
+                .append(ascending ? " ASCENDING" : " DESCENDING")
+                .toString();
+    }
+
     public static String getSelectSingleString(String tableName, String idColumn, String idValue) {
         return new StringBuilder("SELECT * FROM ")
                 .append(tableName)
@@ -210,13 +225,18 @@ public class DBUtils {
     }
 
     public static Player cursorToPlayer(Cursor result) {
+        Player player = cursorToPlayerBasic(result);
+        player.setAdp(result.getDouble(result.getColumnIndex(Constants.PLAYER_ADP_COLUMN)));
+        player.setEcr(result.getDouble(result.getColumnIndex(Constants.PLAYER_ECR_COLUMN)));
+        player.setAge(result.getInt(result.getColumnIndex(Constants.PLAYER_AGE_COLUMN)));
+        return player;
+    }
+
+    public static Player cursorToPlayerBasic(Cursor result) {
         Player player = new Player();
         player.setName(result.getString(result.getColumnIndex(Constants.PLAYER_NAME_COLUMN)));
         player.setPosition(result.getString(result.getColumnIndex(Constants.PLAYER_POSITION_COLUMN)));
         player.setTeamName(result.getString(result.getColumnIndex(Constants.TEAM_NAME_COLUMN)));
-        player.setAdp(result.getDouble(result.getColumnIndex(Constants.PLAYER_ADP_COLUMN)));
-        player.setEcr(result.getDouble(result.getColumnIndex(Constants.PLAYER_ECR_COLUMN)));
-        player.setAge(result.getInt(result.getColumnIndex(Constants.PLAYER_AGE_COLUMN)));
         return player;
     }
 

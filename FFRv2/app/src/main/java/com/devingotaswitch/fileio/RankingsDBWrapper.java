@@ -51,14 +51,36 @@ public class RankingsDBWrapper {
         }
     }
 
-    public List<Player> getPlayers(Context context) {
-        List<Player> players = new ArrayList<>();
+    public Map<String, Player> getPlayers(Context context) {
+        Map<String, Player> players = new HashMap<>();
         SQLiteDatabase db = getInstance(context).getReadableDatabase();
 
         Cursor result = getAllEntries(db, Constants.PLAYER_TABLE_NAME);
         while(!result.isAfterLast()){
             Player player = DBUtils.cursorToPlayer(result);
-            players.add(player);
+            players.put(player.getUniqueId(), player);
+            result.moveToNext();
+        }
+        result.close();
+        return players;
+    }
+
+    public List<String> getPlayersSorted(Context context, LeagueSettings leagueSettings) {
+        List<String> players = new ArrayList<>();
+        SQLiteDatabase db = getInstance(context).getReadableDatabase();
+
+        String columnName = Constants.PLAYER_ECR_COLUMN;
+        boolean isAscending = true;
+        if (leagueSettings.isAuction()) {
+            columnName = Constants.AUCTION_VALUE_COLUMN;
+            isAscending = false;
+        }
+        Cursor result =  db.rawQuery(DBUtils.getSelectAllPlayersWithOrdering(
+                columnName, isAscending), null);
+        result.moveToFirst();
+        while(!result.isAfterLast()){
+            Player player = DBUtils.cursorToPlayerBasic(result);
+            players.add(player.getUniqueId());
             result.moveToNext();
         }
         result.close();
@@ -116,7 +138,7 @@ public class RankingsDBWrapper {
 
     //---------- Teams ----------
 
-    public Map<String, Team> getAllTeams(Context context) {
+    public Map<String, Team> getTeams(Context context) {
         SQLiteDatabase db = getInstance(context).getReadableDatabase();
         Map<String, Team> teams = new HashMap<>();
 
