@@ -3,6 +3,7 @@ package com.devingotaswitch.fileio;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.devingotaswitch.rankings.RankingsHome;
 import com.devingotaswitch.utils.Constants;
 
 public class LocalSettingsHelper {
@@ -29,5 +30,13 @@ public class LocalSettingsHelper {
 
     public static void saveNumVisiblePlayers(Context cont, int numVisible) {
         getSharedPreferences(cont).edit().putInt(Constants.NUM_PLAYERS, numVisible).apply();
+    }
+
+    public static boolean wereRankingsFetched(Context cont) {
+        return getSharedPreferences(cont).getBoolean(Constants.RANKINGS_FETCHED, Constants.NOT_SET_BOOLEAN);
+    }
+
+    public static void saveRankingsFetched(Context cont, boolean wereFetched) {
+        getSharedPreferences(cont).edit().putBoolean(Constants.RANKINGS_FETCHED, wereFetched).apply();
     }
 }

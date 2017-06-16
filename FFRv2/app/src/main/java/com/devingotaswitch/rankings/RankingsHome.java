@@ -15,13 +15,20 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserDetails;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GetDetailsHandler;
 import com.devingotaswitch.ffrv2.R;
+import com.devingotaswitch.fileio.LocalSettingsHelper;
+import com.devingotaswitch.fileio.RankingsDBWrapper;
+import com.devingotaswitch.rankings.domain.LeagueSettings;
+import com.devingotaswitch.rankings.domain.Rankings;
+import com.devingotaswitch.utils.GeneralUtils;
 import com.devingotaswitch.youruserpools.CIBHelper;
 import com.devingotaswitch.youruserpools.CUPHelper;
 import com.devingotaswitch.youruserpools.ChangePasswordActivity;
@@ -44,6 +51,11 @@ public class RankingsHome extends AppCompatActivity {
     private Toolbar toolbar;
     private AlertDialog userDialog;
     private ProgressDialog waitDialog;
+
+    private RankingsDBWrapper rankingsDB;
+    private LeagueSettings currentLeague;
+    private Rankings rankings;
+    private LinearLayout rankingsBase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,11 +106,42 @@ public class RankingsHome extends AppCompatActivity {
 
     // Initialize this activity
     private void init() {
-        // Get the user name
+        // Rankings stuff
+        rankingsDB = new RankingsDBWrapper();
+        currentLeague = rankingsDB.getLeague(this, LocalSettingsHelper.getCurrentLeagueName(this));
+        rankingsBase = (LinearLayout)findViewById(R.id.rankings_base_layout);
+        establishLayout();
+
+        // Cogneato stuff
         Bundle extras = getIntent().getExtras();
         username = CUPHelper.getCurrUser();
         user = CUPHelper.getPool().getUser(username);
         getDetails();
+    }
+
+    private void establishLayout() {
+        if (LocalSettingsHelper.wereRankingsFetched(this)) {
+            // If rankings are saved, load (and ultimately display) them
+            Rankings.loadRankings(this, rankingsDB);
+        } else if (!LocalSettingsHelper.wasPresent(LocalSettingsHelper.getCurrentLeagueName(this))) {
+            // Otherwise, if no league is set up, display that message
+            rankingsBase.removeAllViews();
+            View child = getLayoutInflater().inflate(R.layout.content_rankings_no_league, null);
+            rankingsBase.addView(child);
+            rankings = new Rankings(currentLeague);
+        } else {
+            // If neither of the above, there's a league but no ranks. Tell the user.
+            rankingsBase.removeAllViews();
+            View child = getLayoutInflater().inflate(R.layout.content_rankings_no_ranks, null);
+            rankingsBase.addView(child);
+            rankings = new Rankings(currentLeague);
+        }
+    }
+
+    public void displayRankings(Rankings newRankings) {
+        rankings = newRankings;
+        // TODO: finish this
+        rankings.saveRankings(this, rankingsDB);
     }
 
     // Handle when the a navigation item is selected
@@ -123,6 +166,10 @@ public class RankingsHome extends AppCompatActivity {
                 // Set league settings
                 leagueSettings();
                 break;
+            case R.id.nav_refresh_ranks:
+                // Refresh ranks
+                refreshRanks();
+                break;
             case R.id.nav_user_profile:
                 // See profile
                 viewProfile();
@@ -141,6 +188,19 @@ public class RankingsHome extends AppCompatActivity {
     private void leagueSettings() {
         Intent leagueSettingsActivity = new Intent(this, LeagueSettingsActivity.class);
         startActivity(leagueSettingsActivity);
+    }
+
+    private void refreshRanks() {
+        // Don't let the user refresh if there's no saved league
+        if (GeneralUtils.confirmInternet(this)) {
+            if (LocalSettingsHelper.wasPresent(LocalSettingsHelper.getCurrentLeagueName(this))) {
+                rankings.refreshRankings(this);
+            } else {
+                Toast.makeText(this, "Please set up a league before getting rankings", Toast.LENGTH_LONG).show();
+            }
+        } else {
+            Toast.makeText(this, "No internet connection", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void viewProfile() {

@@ -13,10 +13,12 @@ public class Constants {
     public static final String APP_KEY = "FFRv2";
     public static final String LEAGUE_NAME = "CURRENT_LEAGUE_NAME";
     public static final String NUM_PLAYERS = "MAX_PLAYERS_VISIBLE";
+    public static final String RANKINGS_FETCHED = "RANKINGS_FETCHED";
 
     // SP: defaults
     public static final String NOT_SET_KEY = "NOT_SAVED";
     public static final Integer DEFAULT_NUM_PLAYERS = 1000;
+    public static final Boolean NOT_SET_BOOLEAN = false;
 
     // League settings: SQL
     public static final String LEAGUE_TABLE_NAME = "league_settings";

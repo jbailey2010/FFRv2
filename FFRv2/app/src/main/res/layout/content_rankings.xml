@@ -8,4 +8,12 @@
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 tools:context="com.devingotaswitch.rankings.RankingsHome">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/rankings_base_layout"
+        android:orientation="vertical">
+        
+    </LinearLayout>
+
 </RelativeLayout>

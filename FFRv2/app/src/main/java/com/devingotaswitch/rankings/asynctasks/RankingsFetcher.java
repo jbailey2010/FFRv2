@@ -4,6 +4,8 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 
+import com.devingotaswitch.fileio.LocalSettingsHelper;
+import com.devingotaswitch.rankings.RankingsHome;
 import com.devingotaswitch.rankings.domain.LeagueSettings;
 import com.devingotaswitch.rankings.domain.Rankings;
 
@@ -15,15 +17,15 @@ import java.util.Map;
 
 public class RankingsFetcher {
 
-    public class RanksAggregator extends AsyncTask<Object, String, Void> {
+    public class RanksAggregator extends AsyncTask<Object, String, Rankings> {
         private ProgressDialog pdia;
-        private Activity act;
+        private RankingsHome act;
         private LeagueSettings leagueSettings;
         private Rankings rankings;
         private long start;
         private long all;
 
-        public RanksAggregator(Activity activity, Rankings rankings, LeagueSettings leagueSettings) {
+        public RanksAggregator(RankingsHome activity, Rankings rankings, LeagueSettings leagueSettings) {
             this.pdia = new ProgressDialog(activity);
             pdia.setCancelable(false);
             this.act = activity;
@@ -39,14 +41,15 @@ public class RankingsFetcher {
         }
 
         @Override
-        protected void onPostExecute(Void result) {
+        protected void onPostExecute(Rankings result) {
             super.onPostExecute(result);
             pdia.dismiss();
-            // TODO: display the results
+            LocalSettingsHelper.saveRankingsFetched(act, true);
+            act.displayRankings(result);
         }
 
         @Override
-        protected Void doInBackground(Object... data) {
+        protected Rankings doInBackground(Object... data) {
             Map<String, List<String>> fa = new HashMap<String, List<String>>();
             Map<String, String> draftClasses = new HashMap<String, String>();
             if (holder.isRegularSeason) {

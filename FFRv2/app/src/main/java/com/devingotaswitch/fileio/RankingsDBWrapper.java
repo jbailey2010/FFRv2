@@ -16,6 +16,7 @@ import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.DBUtils;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -34,7 +35,7 @@ public class RankingsDBWrapper {
 
     //---------- Players ----------
 
-    public void savePlayers(Context context, List<Player> players) {
+    public void savePlayers(Context context, Collection<Player> players) {
         SQLiteDatabase db = getInstance(context).getWritableDatabase();
         boolean addCustom = getNumberOfRowsInTable(db, Constants.PLAYER_CUSTOM_TABLE_NAME) == 0;
         Set<ContentValues> values = new HashSet<>();
@@ -160,7 +161,7 @@ public class RankingsDBWrapper {
         return team;
     }
 
-    public void saveTeams(Context context, Set<Team> teams) {
+    public void saveTeams(Context context, Collection<Team> teams) {
         SQLiteDatabase db = getInstance(context).getWritableDatabase();
         Set<ContentValues> values = new HashSet<>();
         for (Team team : teams) {

@@ -2,7 +2,10 @@ package com.devingotaswitch.rankings.domain;
 
 import android.app.Activity;
 
+import com.devingotaswitch.fileio.RankingsDBWrapper;
+import com.devingotaswitch.rankings.RankingsHome;
 import com.devingotaswitch.rankings.asynctasks.RankingsFetcher;
+import com.devingotaswitch.rankings.asynctasks.RankingsLoader;
 import com.devingotaswitch.utils.ParsingUtils;
 
 import java.util.ArrayList;
@@ -16,6 +19,7 @@ public class Rankings {
     private List<String> orderedIds;
     private LeagueSettings leagueSettings;
     private RankingsFetcher processor;
+    private static RankingsLoader loader;
 
     public Rankings(LeagueSettings leagueSettings) {
         this(new HashMap<String, Team>(), new HashMap<String, Player>(), new ArrayList<String>(), leagueSettings);
@@ -26,6 +30,7 @@ public class Rankings {
         this.teams = teams;
         this.leagueSettings = leagueSettings;
         this.processor = new RankingsFetcher();
+        this.loader = new RankingsLoader();
         this.orderedIds = orderedIds;
     }
 
@@ -37,11 +42,21 @@ public class Rankings {
         return teams.get(player.getTeamName());
     }
 
-    public void refreshRankings(Activity activity) {
+    public void refreshRankings(RankingsHome activity) {
         ParsingUtils.init();
 
         RankingsFetcher.RanksAggregator ranksParser = processor.new RanksAggregator(activity, this, leagueSettings);
         ranksParser.execute();
+    }
+
+    public void saveRankings(RankingsHome activity, RankingsDBWrapper rankingsDB) {
+        RankingsLoader.RanksSaver ranksSaver = loader.new RanksSaver(activity, rankingsDB);
+        ranksSaver.execute(players, teams);
+    }
+
+    public static void loadRankings(RankingsHome activity, RankingsDBWrapper rankingsDB) {
+        RankingsLoader.RanksLoader ranksLoader = loader.new RanksLoader(activity, rankingsDB);
+        ranksLoader.execute();
     }
 
     public void processNewPlayer(Player player) {
