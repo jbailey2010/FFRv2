@@ -104,19 +104,32 @@ public class RankingsHome extends AppCompatActivity {
         exit();
     }
 
-    // Initialize this activity
+    @Override
+    public void onResume() {
+        super.onResume();
+        initRankingsContext();
+    }
+
+    // Initialize this activit1
     private void init() {
         // Rankings stuff
         rankingsDB = new RankingsDBWrapper();
-        currentLeague = rankingsDB.getLeague(this, LocalSettingsHelper.getCurrentLeagueName(this));
-        rankingsBase = (LinearLayout)findViewById(R.id.rankings_base_layout);
-        establishLayout();
+        initRankingsContext();
 
         // Cogneato stuff
         Bundle extras = getIntent().getExtras();
         username = CUPHelper.getCurrUser();
         user = CUPHelper.getPool().getUser(username);
         getDetails();
+    }
+
+    private void initRankingsContext() {
+        String currentLeagueId = LocalSettingsHelper.getCurrentLeagueName(this);
+        if (LocalSettingsHelper.wasPresent(currentLeagueId)) {
+            currentLeague = rankingsDB.getLeague(this, currentLeagueId);
+        }
+        rankingsBase = (LinearLayout)findViewById(R.id.rankings_base_layout);
+        establishLayout();
     }
 
     private void establishLayout() {

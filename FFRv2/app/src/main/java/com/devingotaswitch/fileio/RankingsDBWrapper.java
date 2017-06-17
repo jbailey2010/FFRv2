@@ -188,7 +188,7 @@ public class RankingsDBWrapper {
 
     public LeagueSettings getLeague(Context context, String leagueId) {
         SQLiteDatabase db = getInstance(context).getReadableDatabase();
-        Cursor result = getEntry(db, leagueId, Constants.LEAGUE_TABLE_NAME, Constants.LEAGUE_ID_COLUMN);
+        Cursor result = getEntry(db, leagueId, Constants.LEAGUE_TABLE_NAME, Constants.NAME_COLUMN);
         LeagueSettings league = cursorToFullLeague(db, result);
         result.close();
         return league;

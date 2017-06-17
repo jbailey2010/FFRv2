@@ -6,6 +6,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.devingotaswitch.fileio.LocalSettingsHelper;
+import com.devingotaswitch.rankings.ParseWalterFootball;
 import com.devingotaswitch.rankings.RankingsHome;
 import com.devingotaswitch.rankings.domain.LeagueSettings;
 import com.devingotaswitch.rankings.domain.Rankings;
@@ -47,8 +48,8 @@ public class RankingsFetcher {
             super.onPostExecute(result);
             pdia.dismiss();
             Log.d(TAG, GeneralUtils.getLatency(start) + " to load from file");
-            LocalSettingsHelper.saveRankingsFetched(act, true);
-            act.displayRankings(result);
+            //LocalSettingsHelper.saveRankingsFetched(act, true);
+            //act.displayRankings(result);
         }
 
         @Override
@@ -56,6 +57,15 @@ public class RankingsFetcher {
             start = System.currentTimeMillis();
             rankings.clearRankings();
 
+            Log.i(TAG, "Getting WF rankings");
+            try {
+                ParseWalterFootball.wfRankings(rankings);
+            } catch (Exception e) {
+                Log.e(TAG, "Failed to parse WF", e);
+            }
+            publishProgress("1/1");
+
+            return null;
             /*
             Map<String, List<String>> fa = new HashMap<String, List<String>>();
             Map<String, String> draftClasses = new HashMap<String, String>();
@@ -66,20 +76,7 @@ public class RankingsFetcher {
             Roster r = ReadFromFile.readRoster(cont);
             if (!holder.isRegularSeason || holder.players.size() < 100
                     || draftIter >= 8) {
-                holder.players.clear();
-                holder.parsedPlayers.clear();
-                Scoring s = ReadFromFile.readScoring(cont);
-                all = System.nanoTime();
-                System.out.println("Before WF");
-                try {
-                    ParseWF.wfRankings(holder, s, r);
-                } catch (ArrayIndexOutOfBoundsException ee) {
-                    ee.printStackTrace();
-                } catch (HttpStatusException e2) {
-                    System.out.println(e2.getStatusCode() + ", " + e2.getUrl());
-                } catch (IOException e15) {
 
-                }
                 publishProgress("Please wait, fetching the rankings...(1/30)");
                 System.out.println("Before CBS");
                 try {

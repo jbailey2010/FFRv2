@@ -34,6 +34,10 @@ public class Rankings {
         this.orderedIds = orderedIds;
     }
 
+    public LeagueSettings getLeagueSettings() {
+        return this.leagueSettings;
+    }
+
     public Player getPlayer(String id) {
         return players.get(id);
     }
