@@ -3,11 +3,13 @@ package com.devingotaswitch.rankings.asynctasks;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
+import android.util.Log;
 
 import com.devingotaswitch.fileio.LocalSettingsHelper;
 import com.devingotaswitch.rankings.RankingsHome;
 import com.devingotaswitch.rankings.domain.LeagueSettings;
 import com.devingotaswitch.rankings.domain.Rankings;
+import com.devingotaswitch.utils.GeneralUtils;
 
 import java.io.IOException;
 import java.net.MalformedURLException;
@@ -16,6 +18,7 @@ import java.util.List;
 import java.util.Map;
 
 public class RankingsFetcher {
+    private static final String TAG = "RankingsFetcher";
 
     public class RanksAggregator extends AsyncTask<Object, String, Rankings> {
         private ProgressDialog pdia;
@@ -23,7 +26,6 @@ public class RankingsFetcher {
         private LeagueSettings leagueSettings;
         private Rankings rankings;
         private long start;
-        private long all;
 
         public RanksAggregator(RankingsHome activity, Rankings rankings, LeagueSettings leagueSettings) {
             this.pdia = new ProgressDialog(activity);
@@ -44,12 +46,17 @@ public class RankingsFetcher {
         protected void onPostExecute(Rankings result) {
             super.onPostExecute(result);
             pdia.dismiss();
+            Log.d(TAG, GeneralUtils.getLatency(start) + " to load from file");
             LocalSettingsHelper.saveRankingsFetched(act, true);
             act.displayRankings(result);
         }
 
         @Override
         protected Rankings doInBackground(Object... data) {
+            start = System.currentTimeMillis();
+            rankings.clearRankings();
+
+            /*
             Map<String, List<String>> fa = new HashMap<String, List<String>>();
             Map<String, String> draftClasses = new HashMap<String, String>();
             if (holder.isRegularSeason) {
@@ -268,14 +275,13 @@ public class RankingsFetcher {
                 } catch (IOException e1) {
                 }
             }
-
-            return null;
+            */
         }
 
         @Override
         public void onProgressUpdate(String... values) {
             super.onProgressUpdate(values);
-            pdia.setMessage((String) values[0]);
+            pdia.setMessage(values[0]);
         }
     }
 }

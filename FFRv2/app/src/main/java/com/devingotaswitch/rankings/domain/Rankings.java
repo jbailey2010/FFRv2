@@ -42,6 +42,12 @@ public class Rankings {
         return teams.get(player.getTeamName());
     }
 
+    public void clearRankings() {
+        this.players.clear();
+        this.teams.clear();
+        this.orderedIds.clear();
+    }
+
     public void refreshRankings(RankingsHome activity) {
         ParsingUtils.init();
 
