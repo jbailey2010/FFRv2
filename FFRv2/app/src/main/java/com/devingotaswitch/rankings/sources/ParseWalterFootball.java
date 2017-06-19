@@ -1,4 +1,4 @@
-package com.devingotaswitch.rankings;
+package com.devingotaswitch.rankings.sources;
 
 import android.util.Log;
 
@@ -8,6 +8,7 @@ import com.devingotaswitch.rankings.domain.RosterSettings;
 import com.devingotaswitch.rankings.domain.ScoringSettings;
 import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.JsoupUtils;
+import com.devingotaswitch.utils.ParsingUtils;
 
 import java.io.IOException;
 import java.util.List;
@@ -48,12 +49,7 @@ public class ParseWalterFootball {
             val = Double
                     .parseDouble(perPlayer.get(i).split("\\$")[1].split(" ")[0]);
             String team = all[i][2].split("\\. ")[0];
-            Player player = new Player();
-            player.setName(playerName);
-            player.setTeamName(team);
-            player.setPosition(pos);
-            player.handleNewValue(val);
-            rankings.processNewPlayer(player);
+            rankings.processNewPlayer(ParsingUtils.getPlayerFromRankings(playerName, team, pos, val));
         }
     }
 }

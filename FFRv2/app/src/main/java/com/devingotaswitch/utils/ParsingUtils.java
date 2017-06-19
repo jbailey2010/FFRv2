@@ -244,7 +244,7 @@ public class ParsingUtils {
             return "Kansas City Chiefs";
         } else if (low.contains("diego")) {
             return "San Diego Chargers";
-        } else if (low.contains("green")) {
+        } else if (low.contains("green") && low.length() < 6) {
             return "Green Bay Packers";
         } else if (low.contains("tampa")) {
             return "Tampa Bay Buccaneers";
@@ -260,7 +260,7 @@ public class ParsingUtils {
             return "New York Jets";
         } else if (low.contains("tb")) {
             return "Tampa Bay Buccaneers";
-        } else if (low.contains("mia")) {
+        } else if (low.contains("mia") && low.length() < 5) {
             return "Miami Dolphins";
         } else if (low.contains("nyg")) {
             return "New York Giants";
@@ -297,7 +297,7 @@ public class ParsingUtils {
             uName = "Titans D/ST";
         } else if (name.contains("cleveland")) {
             uName = "Browns D/ST";
-        } else if (name.contains("san diego") || name.contains("la chargers") || name.contains("chargers") || name.contains("lac")) {
+        } else if (name.contains("san diego") || name.contains("la chargers") || name.contains("chargers")) {
             uName = "Chargers D/ST";
         } else if (name.contains("kansas city")) {
             uName = "Chiefs D/ST";
@@ -332,7 +332,7 @@ public class ParsingUtils {
             uName = "Buccaneers D/ST";
         } else if (name.contains("san fran") || name.contains("san francisco")) {
             uName = "49ers D/ST";
-        } else if (name.contains("st. louis") || name.contains("st louis") || name.contains("la rams") || name.equals("lar")) {
+        } else if (name.contains("st. louis") || name.contains("st louis") || name.contains("la rams")) {
             uName = "Rams D/ST";
         } else if (name.contains("arizona")) {
             uName = "Cardinals D/ST";
@@ -375,6 +375,20 @@ public class ParsingUtils {
         if (StringUtils.isBlank(oldPlayer.getPosition()) && !StringUtils.isBlank(newPlayer.getPosition())) {
             oldPlayer.setPosition(newPlayer.getPosition());
         }
+        if ((oldPlayer.getAge() == null || oldPlayer.getAge() < 18) &&
+                (newPlayer.getAge() != null && newPlayer.getAge() > 18)) {
+            oldPlayer.setAge(newPlayer.getAge());
+        }
         return oldPlayer;
+    }
+
+    public static Player getPlayerFromRankings(String name, String team, String pos, double val) {
+        Player player = new Player();
+        player.setName(name);
+        player.setPosition(pos);
+        player.setTeamName(team);
+        player = normalizePlayerFields(player);
+        player.handleNewValue(val);
+        return player;
     }
 }

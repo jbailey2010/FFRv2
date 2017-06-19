@@ -1,22 +1,19 @@
 package com.devingotaswitch.rankings.asynctasks;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.devingotaswitch.fileio.LocalSettingsHelper;
-import com.devingotaswitch.rankings.ParseWalterFootball;
+import com.devingotaswitch.rankings.sources.ParseCBS;
+import com.devingotaswitch.rankings.sources.ParseESPN;
+import com.devingotaswitch.rankings.sources.ParseFFTB;
+import com.devingotaswitch.rankings.sources.ParseMFL;
+import com.devingotaswitch.rankings.sources.ParseWalterFootball;
 import com.devingotaswitch.rankings.RankingsHome;
 import com.devingotaswitch.rankings.domain.LeagueSettings;
 import com.devingotaswitch.rankings.domain.Rankings;
+import com.devingotaswitch.rankings.sources.ParseYahoo;
 import com.devingotaswitch.utils.GeneralUtils;
-
-import java.io.IOException;
-import java.net.MalformedURLException;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class RankingsFetcher {
     private static final String TAG = "RankingsFetcher";
@@ -47,7 +44,7 @@ public class RankingsFetcher {
         protected void onPostExecute(Rankings result) {
             super.onPostExecute(result);
             pdia.dismiss();
-            Log.d(TAG, GeneralUtils.getLatency(start) + " to load from file");
+            Log.d(TAG, GeneralUtils.getLatency(start) + " seconds to fetch rankings");
             //LocalSettingsHelper.saveRankingsFetched(act, true);
             //act.displayRankings(result);
         }
@@ -63,79 +60,55 @@ public class RankingsFetcher {
             } catch (Exception e) {
                 Log.e(TAG, "Failed to parse WF", e);
             }
-            publishProgress("1/1");
+            publishProgress("Fetching rankings... 1/7");
+
+
+            /*
+            // TODO: see if values show up later?
+            Log.i(TAG, "Getting CBS rankings");
+            try {
+                ParseCBS.cbsRankings(rankings);
+            } catch (Exception e) {
+                Log.e(TAG, "Failed to parse CBS", e);
+            }
+            publishProgress("Fetching rankings... 2/7");
+
+            // TODO: This shit won't connect
+            Log.i(TAG, "Getting ESPN ADV rankings");
+            try {
+                ParseESPN.parseESPNAggregate(rankings);
+            } catch (Exception e) {
+                Log.e(TAG, "Failed to parse ESPN", e);
+            }
+            publishProgress("Fetching rankings... 3/7");
+            */
+
+            Log.i(TAG, "Getting FFTB rankings");
+            try {
+                ParseFFTB.parseFFTBRankingsWrapper(rankings);
+            } catch (Exception e) {
+                Log.e(TAG, "Failed to parse FFTB", e);
+            }
+            publishProgress("Fetching rankings... 4/7");
+
+            Log.i(TAG, "Getting Yahoo rankings");
+            try {
+                ParseYahoo.parseYahooWrapper(rankings);
+            } catch (Exception e) {
+                Log.e(TAG, "Failed to parse Yahoo", e);
+            }
+            publishProgress("Fetching rankings... 6/7");
+
+            Log.i(TAG, "Getting MFL rankings");
+            try {
+                ParseMFL.getMFLAAVs(rankings);
+            } catch(Exception e) {
+                Log.e(TAG, "Failed to parse MFL", e);
+            }
+            publishProgress("Fetching rankings... 7/7");
 
             return null;
             /*
-            Map<String, List<String>> fa = new HashMap<String, List<String>>();
-            Map<String, String> draftClasses = new HashMap<String, String>();
-            if (holder.isRegularSeason) {
-                fa = holder.fa;
-                draftClasses = holder.draftClasses;
-            }
-            Roster r = ReadFromFile.readRoster(cont);
-            if (!holder.isRegularSeason || holder.players.size() < 100
-                    || draftIter >= 8) {
-
-                publishProgress("Please wait, fetching the rankings...(1/30)");
-                System.out.println("Before CBS");
-                try {
-                    ParseCBS.cbsRankings(holder, s);
-                } catch (HttpStatusException e2) {
-                    System.out.println(e2.getStatusCode() + ", " + e2.getUrl());
-                } catch (IOException e14) {
-                }
-                System.out.println("Before ESPN ADV");
-                publishProgress("Please wait, fetching the rankings...(3/30)");
-                try {
-                    ParseESPNadv.parseESPNAggregate(holder);
-                } catch (HttpStatusException e2) {
-                    System.out.println(e2.getStatusCode() + ", " + e2.getUrl());
-                } catch (IOException e13) {
-                    // TODO Auto-generated catch block
-                } catch (XPatherException e13) {
-                    // TODO Auto-generated catch block
-                    e13.printStackTrace();
-                }
-                publishProgress("Please wait, fetching the rankings...(4/30)");
-                System.out.println("Before FFTB");
-                try {
-                    ParseFFTB.parseFFTBRankingsWrapper(holder);
-                } catch (HttpStatusException e2) {
-                    System.out.println(e2.getStatusCode() + ", " + e2.getUrl());
-                } catch (MalformedURLException e12) {
-                    // TODO Auto-generated catch block
-                    e12.printStackTrace();
-                } catch (IOException e12) {
-                } catch (XPatherException e12) {
-                    // TODO Auto-generated catch block
-                    e12.printStackTrace();
-                }
-                publishProgress("Please wait, fetching the rankings...(6/30)");
-                System.out.println("Before Yahoo");
-                try {
-                    ParseYahoo.parseYahooWrapper(holder);
-                } catch (HttpStatusException e2) {
-                    System.out.println(e2.getStatusCode() + ", " + e2.getUrl());
-                } catch (IOException e9) {
-                }
-                publishProgress("Please wait, fetching the rankings...(8/30)");
-                System.out.println("Before Fantasy Sharks");
-                try {
-                    ParseFantasySharks.getFantasySharksAuctionValues(holder);
-                } catch (HttpStatusException e2) {
-                    System.out.println(e2.getStatusCode() + ", " + e2.getUrl());
-                } catch (IOException e8) {
-                }
-
-                System.out.println("Before MFL");
-                try {
-                    ParseMFL.getMFLAAVs(holder);
-                } catch (HttpStatusException e2) {
-                    System.out.println(e2.getStatusCode() + ", " + e2.getUrl());
-                } catch (IOException e8) {
-                }
-
                 System.out.println("Before Razzball");
                 try {
                     ParseRazzball.getRazzballRankings(holder, r, s);

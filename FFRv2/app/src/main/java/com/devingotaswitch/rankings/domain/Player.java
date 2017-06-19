@@ -10,8 +10,8 @@ public class Player {
     private String teamName;
     private String note;
     private boolean isWatched;
-    private Double auctionValue;
-    private Double numRankings = 1.0;
+    private Double auctionValue = 0.0;
+    private Double numRankings = 0.0;
 
     //TODO: Projection stuff, points/paa...etc.?
 

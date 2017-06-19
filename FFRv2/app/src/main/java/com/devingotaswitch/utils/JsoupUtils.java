@@ -10,14 +10,17 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class JsoupUtils {
-    private static String ua = "Mozilla/5.0 (Windows NT 6.2; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/29.0.1547.2 Safari/537.36";
 
     public static Document getDocument(String url) throws IOException {
         return Jsoup.connect(url).get();
     }
 
     public static Document getDocumentWithUA(String url) throws IOException {
-        return Jsoup.connect(url).userAgent(ua).timeout(0).get();
+        return Jsoup.connect(url)
+                .userAgent("Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36")
+                .followRedirects(true)
+                .timeout(0)
+                .get();
     }
 
     public static List<String> handleLists(String url, String params)
