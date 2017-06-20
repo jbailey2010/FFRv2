@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
+import com.devingotaswitch.rankings.domain.Team;
 import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.GeneralUtils;
 import com.devingotaswitch.utils.JsoupUtils;
@@ -61,6 +62,7 @@ public class ParseFFTB {
             }
             String age = brokenUp.get(i + 4);
             String val = brokenUp.get(i + 6);
+            String bye = brokenUp.get(i + 3);
             if (team.split(" ").length <= 3) {
                 val = val.substring(1, val.length());
                 try {
@@ -71,6 +73,10 @@ public class ParseFFTB {
                     break;
                 }
             }
+            Team newTeam = new Team();
+            newTeam.setBye(bye);
+            newTeam.setName(team);
+            rankings.addTeam(newTeam);
         }
     }
 }

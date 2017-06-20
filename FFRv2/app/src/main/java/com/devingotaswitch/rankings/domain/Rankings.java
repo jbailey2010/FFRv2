@@ -42,8 +42,17 @@ public class Rankings {
         return players.get(id);
     }
 
-    public Team getPlayersTeam(Player player) {
-        return teams.get(player.getTeamName());
+    public Team getTeam(Player player) { return getTeam(player.getTeamName()); }
+
+    public Team getTeam(String teamName) {
+        return teams.get(teamName);
+    }
+
+    public void addTeam(Team team) {
+        if (teams.get(team.getName()) == null) {
+            team.setName(ParsingUtils.normalizeTeams(team.getName()));
+            teams.put(team.getName(), team);
+        }
     }
 
     public void clearRankings() {

@@ -231,7 +231,7 @@ public class ParsingUtils {
         return player;
     }
 
-    private static String normalizeTeams(String team) {
+    public static String normalizeTeams(String team) {
         String low = team.toLowerCase().replaceAll("[^\\x20-\\x7e]", "");
         if (low.split(" ").length > 1
                 && (low.split(" ")[1].equals("p") || low.split(" ")[1]

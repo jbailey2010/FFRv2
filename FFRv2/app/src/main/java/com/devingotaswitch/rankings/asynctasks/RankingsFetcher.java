@@ -8,6 +8,7 @@ import com.devingotaswitch.rankings.sources.ParseCBS;
 import com.devingotaswitch.rankings.sources.ParseESPN;
 import com.devingotaswitch.rankings.sources.ParseFFTB;
 import com.devingotaswitch.rankings.sources.ParseMFL;
+import com.devingotaswitch.rankings.sources.ParseNFL;
 import com.devingotaswitch.rankings.sources.ParseWalterFootball;
 import com.devingotaswitch.rankings.RankingsHome;
 import com.devingotaswitch.rankings.domain.LeagueSettings;
@@ -60,7 +61,7 @@ public class RankingsFetcher {
             } catch (Exception e) {
                 Log.e(TAG, "Failed to parse WF", e);
             }
-            publishProgress("Fetching rankings... 1/7");
+            publishProgress("Fetching rankings... 1/8");
 
 
             /*
@@ -71,7 +72,7 @@ public class RankingsFetcher {
             } catch (Exception e) {
                 Log.e(TAG, "Failed to parse CBS", e);
             }
-            publishProgress("Fetching rankings... 2/7");
+            publishProgress("Fetching rankings... 2/8");
 
             // TODO: This shit won't connect
             Log.i(TAG, "Getting ESPN ADV rankings");
@@ -80,7 +81,7 @@ public class RankingsFetcher {
             } catch (Exception e) {
                 Log.e(TAG, "Failed to parse ESPN", e);
             }
-            publishProgress("Fetching rankings... 3/7");
+            publishProgress("Fetching rankings... 3/8");
             */
 
             Log.i(TAG, "Getting FFTB rankings");
@@ -89,7 +90,7 @@ public class RankingsFetcher {
             } catch (Exception e) {
                 Log.e(TAG, "Failed to parse FFTB", e);
             }
-            publishProgress("Fetching rankings... 4/7");
+            publishProgress("Fetching rankings... 4/8");
 
             Log.i(TAG, "Getting Yahoo rankings");
             try {
@@ -97,7 +98,7 @@ public class RankingsFetcher {
             } catch (Exception e) {
                 Log.e(TAG, "Failed to parse Yahoo", e);
             }
-            publishProgress("Fetching rankings... 6/7");
+            publishProgress("Fetching rankings... 6/8");
 
             Log.i(TAG, "Getting MFL rankings");
             try {
@@ -105,25 +106,18 @@ public class RankingsFetcher {
             } catch(Exception e) {
                 Log.e(TAG, "Failed to parse MFL", e);
             }
-            publishProgress("Fetching rankings... 7/7");
+            publishProgress("Fetching rankings... 7/8");
+
+            Log.i(TAG, "Getting NFL rankings");
+            try {
+                ParseNFL.parseNFLAAVWrapper(rankings);
+            } catch(Exception e) {
+                Log.e(TAG, "Failed to parse NFL", e);
+            }
+            publishProgress("Fetching rankings... 8/8");
 
             return null;
             /*
-                System.out.println("Before Razzball");
-                try {
-                    ParseRazzball.getRazzballRankings(holder, r, s);
-                } catch (HttpStatusException e2) {
-                    System.out.println(e2.getStatusCode() + ", " + e2.getUrl());
-                } catch (IOException e8) {
-                }
-                publishProgress("Please wait, fetching the rankings...(17/30)");
-                System.out.println("Before NFL AAV");
-                try {
-                    ParseNFL.parseNFLAAVWrapper(holder);
-                } catch (HttpStatusException e2) {
-                    System.out.println(e2.getStatusCode() + ", " + e2.getUrl());
-                } catch (IOException e3) {
-                }
                 System.out.println("Before Draft Wizard Rankings");
                 try {
                     ParseDraftWizardRanks.parseRanksWrapper(holder, s, r);
