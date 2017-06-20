@@ -229,6 +229,10 @@ public class DBUtils {
         player.setAdp(result.getDouble(result.getColumnIndex(Constants.PLAYER_ADP_COLUMN)));
         player.setEcr(result.getDouble(result.getColumnIndex(Constants.PLAYER_ECR_COLUMN)));
         player.setAge(result.getInt(result.getColumnIndex(Constants.PLAYER_AGE_COLUMN)));
+        player.setAuctionValue(result.getDouble(result.getColumnIndex(Constants.AUCTION_VALUE_COLUMN)));
+        player.setProjection(result.getDouble(result.getColumnIndex(Constants.PLAYER_PROJECTION_COLUMN)));
+        player.setPaa(result.getDouble(result.getColumnIndex(Constants.PLAYER_PAA_COLUMN)));
+        player.setxVal(result.getDouble(result.getColumnIndex(Constants.PLAYER_XVAL_COLUMN)));
         return player;
     }
 
@@ -259,6 +263,9 @@ public class DBUtils {
         values.put(Constants.PLAYER_ECR_COLUMN, player.getEcr());
         values.put(Constants.PLAYER_ADP_COLUMN, player.getAdp());
         values.put(Constants.AUCTION_VALUE_COLUMN, player.getAuctionValue());
+        values.put(Constants.PLAYER_PROJECTION_COLUMN, player.getProjection());
+        values.put(Constants.PLAYER_PAA_COLUMN, player.getPaa());
+        values.put(Constants.PLAYER_XVAL_COLUMN, player.getxVal());
         return values;
     }
 }

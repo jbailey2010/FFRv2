@@ -1,5 +1,7 @@
 package com.devingotaswitch.rankings.domain;
 
+import com.devingotaswitch.utils.Constants;
+
 public class Player {
 
     private String name;
@@ -13,7 +15,9 @@ public class Player {
     private Double auctionValue = 0.0;
     private Double numRankings = 0.0;
 
-    //TODO: Projection stuff, points/paa...etc.?
+    private Double projection;
+    private Double paa;
+    private Double xVal;
 
     public String getName() {
         return name;
@@ -67,7 +71,7 @@ public class Player {
         return auctionValue;
     }
 
-    private void setAuctionValue(Double auctionValue) {
+    public void setAuctionValue(Double auctionValue) {
         this.auctionValue = auctionValue;
     }
 
@@ -83,6 +87,30 @@ public class Player {
 
     public void setWatched(boolean isWatched) { this.isWatched = isWatched; }
 
+    public Double getProjection() {
+        return projection;
+    }
+
+    public void setProjection(Double projection) {
+        this.projection = projection;
+    }
+
+    public Double getPaa() {
+        return paa;
+    }
+
+    public void setPaa(Double paa) {
+        this.paa = paa;
+    }
+
+    public Double getxVal() {
+        return xVal;
+    }
+
+    public void setxVal(Double xVal) {
+        this.xVal = xVal;
+    }
+
     public void handleNewValue(Double newValue) {
         double auctionTotal = auctionValue * numRankings;
         numRankings++;
@@ -92,9 +120,9 @@ public class Player {
 
     public String getUniqueId() {
         return new StringBuilder(name)
-                .append(".")
+                .append(Constants.PLAYER_ID_DELIMITER)
                 .append(teamName)
-                .append(".")
+                .append(Constants.PLAYER_ID_DELIMITER)
                 .append(position)
                 .toString();
     }

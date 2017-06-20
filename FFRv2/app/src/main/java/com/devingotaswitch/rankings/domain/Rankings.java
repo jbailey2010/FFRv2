@@ -42,6 +42,8 @@ public class Rankings {
         return players.get(id);
     }
 
+    public Map<String, Player> getPlayers() { return players; }
+
     public Team getTeam(Player player) { return getTeam(player.getTeamName()); }
 
     public Team getTeam(String teamName) {

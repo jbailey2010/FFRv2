@@ -108,14 +108,17 @@ public class RankingsDBHelper extends SQLiteOpenHelper {
     }
 
     private String getCreatePlayerTableSQL() {
-        return "CREATE TABLE "                   + Constants.PLAYER_TABLE_NAME + " (" +
-                Constants.PLAYER_NAME_COLUMN     + " TEXT," +
-                Constants.PLAYER_POSITION_COLUMN + " TEXT," +
-                Constants.TEAM_NAME_COLUMN       + " TEXT," +
-                Constants.PLAYER_AGE_COLUMN      + " INTEGER," +
-                Constants.PLAYER_ECR_COLUMN      + " REAL," +
-                Constants.PLAYER_ADP_COLUMN      + " REAL," +
-                Constants.AUCTION_VALUE_COLUMN   + " REAL," +
+        return "CREATE TABLE "                     + Constants.PLAYER_TABLE_NAME + " (" +
+                Constants.PLAYER_NAME_COLUMN       + " TEXT," +
+                Constants.PLAYER_POSITION_COLUMN   + " TEXT," +
+                Constants.TEAM_NAME_COLUMN         + " TEXT," +
+                Constants.PLAYER_AGE_COLUMN        + " INTEGER," +
+                Constants.PLAYER_ECR_COLUMN        + " REAL," +
+                Constants.PLAYER_ADP_COLUMN        + " REAL," +
+                Constants.AUCTION_VALUE_COLUMN     + " REAL," +
+                Constants.PLAYER_PROJECTION_COLUMN + " REAL," +
+                Constants.PLAYER_PAA_COLUMN        + " REAL," +
+                Constants.PLAYER_XVAL_COLUMN       + " REAL," +
                 "PRIMARY KEY(" + Constants.PLAYER_NAME_COLUMN + ", " + Constants.PLAYER_POSITION_COLUMN + ")" +
                 ");";
     }

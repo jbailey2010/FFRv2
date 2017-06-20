@@ -101,9 +101,15 @@ public class Constants {
     public static final String PLAYER_AGE_COLUMN = "age";
     public static final String PLAYER_ECR_COLUMN = "ecr";
     public static final String PLAYER_ADP_COLUMN = "adp";
+    public static final String PLAYER_PROJECTION_COLUMN = "projection";
+    public static final String PLAYER_PAA_COLUMN = "paa";
+    public static final String PLAYER_XVAL_COLUMN = "xval";
     // Team name is already in team settings
     public static final String PLAYER_NOTE_COLUMN = "player_note";
     public static final String PLAYER_WATCHED_COLUMN = "player_watched";
     public static final String AUCTION_VALUE_COLUMN = "auction_value";
 
+    // Other internal stuff
+    public final static String NUMBER_FORMAT = "#.##";
+    public final static String PLAYER_ID_DELIMITER = ".";
 }
