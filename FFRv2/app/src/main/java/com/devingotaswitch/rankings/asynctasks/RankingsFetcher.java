@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.devingotaswitch.rankings.sources.ParseCBS;
+import com.devingotaswitch.rankings.sources.ParseDraftWizard;
 import com.devingotaswitch.rankings.sources.ParseESPN;
 import com.devingotaswitch.rankings.sources.ParseFFTB;
 import com.devingotaswitch.rankings.sources.ParseMFL;
@@ -61,7 +62,7 @@ public class RankingsFetcher {
             } catch (Exception e) {
                 Log.e(TAG, "Failed to parse WF", e);
             }
-            publishProgress("Fetching rankings... 1/8");
+            publishProgress("Fetching rankings... 1/13");
 
 
             /*
@@ -72,7 +73,7 @@ public class RankingsFetcher {
             } catch (Exception e) {
                 Log.e(TAG, "Failed to parse CBS", e);
             }
-            publishProgress("Fetching rankings... 2/8");
+            publishProgress("Fetching rankings... 2/13");
 
             // TODO: This shit won't connect
             Log.i(TAG, "Getting ESPN ADV rankings");
@@ -81,7 +82,7 @@ public class RankingsFetcher {
             } catch (Exception e) {
                 Log.e(TAG, "Failed to parse ESPN", e);
             }
-            publishProgress("Fetching rankings... 3/8");
+            publishProgress("Fetching rankings... 3/13");
             */
 
             Log.i(TAG, "Getting FFTB rankings");
@@ -90,7 +91,7 @@ public class RankingsFetcher {
             } catch (Exception e) {
                 Log.e(TAG, "Failed to parse FFTB", e);
             }
-            publishProgress("Fetching rankings... 4/8");
+            publishProgress("Fetching rankings... 4/13");
 
             Log.i(TAG, "Getting Yahoo rankings");
             try {
@@ -98,7 +99,7 @@ public class RankingsFetcher {
             } catch (Exception e) {
                 Log.e(TAG, "Failed to parse Yahoo", e);
             }
-            publishProgress("Fetching rankings... 6/8");
+            publishProgress("Fetching rankings... 6/13");
 
             Log.i(TAG, "Getting MFL rankings");
             try {
@@ -106,7 +107,7 @@ public class RankingsFetcher {
             } catch(Exception e) {
                 Log.e(TAG, "Failed to parse MFL", e);
             }
-            publishProgress("Fetching rankings... 7/8");
+            publishProgress("Fetching rankings... 7/13");
 
             Log.i(TAG, "Getting NFL rankings");
             try {
@@ -114,20 +115,18 @@ public class RankingsFetcher {
             } catch(Exception e) {
                 Log.e(TAG, "Failed to parse NFL", e);
             }
-            publishProgress("Fetching rankings... 8/8");
+            publishProgress("Fetching rankings... 8/13");
+
+            Log.i(TAG, "Getting Draft Wizard rankings");
+            try {
+                ParseDraftWizard.parseRanksWrapper(rankings);
+            } catch (Exception e) {
+                Log.e(TAG, "Failed to parse Draft Wizard", e);
+            }
+            publishProgress("Fetching rankings... 10/13");
 
             return null;
             /*
-                System.out.println("Before Draft Wizard Rankings");
-                try {
-                    ParseDraftWizardRanks.parseRanksWrapper(holder, s, r);
-                    publishProgress("Please wait, fetching the rankings...(23/30)");
-                } catch (IOException e) {
-                    // TODO Auto-generated catch block
-                    e.printStackTrace();
-                }
-
-            }
 
             publishProgress("Please wait, getting projected points...");
             try {
