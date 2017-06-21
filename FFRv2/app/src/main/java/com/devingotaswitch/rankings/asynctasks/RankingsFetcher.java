@@ -10,6 +10,7 @@ import com.devingotaswitch.rankings.sources.ParseESPN;
 import com.devingotaswitch.rankings.sources.ParseFFTB;
 import com.devingotaswitch.rankings.sources.ParseMFL;
 import com.devingotaswitch.rankings.sources.ParseNFL;
+import com.devingotaswitch.rankings.sources.ParseProjections;
 import com.devingotaswitch.rankings.sources.ParseWalterFootball;
 import com.devingotaswitch.rankings.RankingsHome;
 import com.devingotaswitch.rankings.domain.LeagueSettings;
@@ -125,16 +126,15 @@ public class RankingsFetcher {
             }
             publishProgress("Fetching rankings... 10/13");
 
+            publishProgress("Getting projections...");
+            try {
+                ParseProjections.projPointsWrapper(rankings);
+            } catch (Exception e) {
+                Log.e(TAG, "Failed to parse projections", e);
+            }
+
             return null;
             /*
-
-            publishProgress("Please wait, getting projected points...");
-            try {
-                HighLevel.projPointsWrapper(holder, cont);
-            } catch (HttpStatusException e2) {
-                System.out.println(e2.getStatusCode() + ", " + e2.getUrl());
-            } catch (IOException e1) {
-            }
             if (holder.maxProj() < 70.0) {
                 holder.isRegularSeason = true;
             } else {

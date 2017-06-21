@@ -268,7 +268,7 @@ public class ParsingUtils {
         return team;
     }
 
-    private static String normalizeDefenses(String uName) {
+    public static String normalizeDefenses(String uName) {
         uName = normalizeTeams(uName);
         String name = uName.toLowerCase();
         if (name.contains("cincinnati")) {
@@ -342,7 +342,7 @@ public class ParsingUtils {
         return uName;
     }
 
-    private static String normalizeNames(String playerName) {
+    public static String normalizeNames(String playerName) {
         if (playerFixes.containsKey(playerName)) {
             playerName = playerFixes.get(playerName);
         } else if (playerName.contains(Constants.DST)) {
