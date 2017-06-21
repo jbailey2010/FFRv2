@@ -6,6 +6,7 @@ import com.devingotaswitch.fileio.RankingsDBWrapper;
 import com.devingotaswitch.rankings.RankingsHome;
 import com.devingotaswitch.rankings.asynctasks.RankingsFetcher;
 import com.devingotaswitch.rankings.asynctasks.RankingsLoader;
+import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.ParsingUtils;
 
 import java.util.ArrayList;
@@ -40,6 +41,66 @@ public class Rankings {
 
     public Player getPlayer(String id) {
         return players.get(id);
+    }
+
+    public List<Player> getQbs() {
+        List<Player> pos = new ArrayList<>();
+        for (String key : players.keySet()) {
+            if (key.contains(Constants.QB)) {
+                pos.add(players.get(key));
+            }
+        }
+        return pos;
+    }
+
+    public List<Player> getRbs() {
+        List<Player> pos = new ArrayList<>();
+        for (String key : players.keySet()) {
+            if (key.contains(Constants.RB)) {
+                pos.add(players.get(key));
+            }
+        }
+        return pos;
+    }
+
+    public List<Player> getWrs() {
+        List<Player> pos = new ArrayList<>();
+        for (String key : players.keySet()) {
+            if (key.contains(Constants.WR)) {
+                pos.add(players.get(key));
+            }
+        }
+        return pos;
+    }
+
+    public List<Player> getTes() {
+        List<Player> pos = new ArrayList<>();
+        for (String key : players.keySet()) {
+            if (key.contains(Constants.TE)) {
+                pos.add(players.get(key));
+            }
+        }
+        return pos;
+    }
+
+    public List<Player> getDsts() {
+        List<Player> pos = new ArrayList<>();
+        for (String key : players.keySet()) {
+            if (key.contains(Constants.DST)) {
+                pos.add(players.get(key));
+            }
+        }
+        return pos;
+    }
+
+    public List<Player> getKs() {
+        List<Player> pos = new ArrayList<>();
+        for (String key : players.keySet()) {
+            if (key.contains(Constants.K)) {
+                pos.add(players.get(key));
+            }
+        }
+        return pos;
     }
 
     public Map<String, Player> getPlayers() { return players; }
