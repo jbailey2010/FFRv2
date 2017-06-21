@@ -1,12 +1,13 @@
 package com.devingotaswitch.rankings.sources;
 
-import android.content.Context;
+import android.util.Log;
 
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.GeneralUtils;
 import com.devingotaswitch.utils.JsoupUtils;
+import com.devingotaswitch.utils.ParsingUtils;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -14,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 public class ParseECR {
-    public static void parseECRWrapper(Rankings rankings, Context cont)
+    public static void parseECRWrapper(Rankings rankings)
             throws IOException {
         Map<String, Double> ecr = new HashMap<>();
         Map<String, Double> risk = new HashMap<>();
@@ -25,8 +26,8 @@ public class ParseECR {
             url = "http://www.fantasypros.com/nfl/rankings/ppr-cheatsheets.php";
             adpUrl = "http://www.fantasypros.com/nfl/adp/ppr-overall.php";
         }
-        parseECRWorker(url, rankings, ecr, risk);
-        parseADPWorker(rankings, adp, adpUrl);
+        parseECRWorker(url, ecr, risk);
+        parseADPWorker(adp, adpUrl);
 
         for (String playerId : rankings.getPlayers().keySet()) {
             Player player = rankings.getPlayer(playerId);
@@ -40,14 +41,10 @@ public class ParseECR {
         }
     }
 
-    private static void parseECRWorker(String url, Rankings rankings,
+    private static void parseECRWorker(String url,
                                       Map<String, Double> ecr, Map<String, Double> risk) throws IOException {
         List<String> td = JsoupUtils.handleLists(url, "table.player-table tbody tr td");
         int min = 0;
-        int loopIterAdp = 10;
-        if (url.contains("ppr")) {
-            loopIterAdp = 9;
-        }
         for (int i = 0; i < td.size(); i++) {
             if (GeneralUtils.isInteger(td.get(i))) {
                 min = i + 1;
@@ -65,19 +62,22 @@ public class ParseECR {
             String filteredName = td.get(i).split(
                     " \\(")[0].split(", ")[0];
             String withoutTeam = filteredName.substring(0, filteredName.lastIndexOf(" "));
-            String name = ParseRankings
-                    .fixNames(ParseRankings.fixDefenses(withoutTeam));
+            String team = ParsingUtils.normalizeTeams(filteredName.substring(filteredName.lastIndexOf(" ")).trim());
+            String name = ParsingUtils
+                    .normalizeNames(ParsingUtils.normalizeDefenses(withoutTeam));
             double ecrVal = Double.parseDouble(td.get(i + 5));
             double riskVal = Double.parseDouble(td.get(i + 6));
             String posInd = td.get(i + 1).replaceAll("(\\d+,\\d+)|\\d+", "")
                     .replaceAll("DST", Constants.DST);
-            ecr.put(name + posInd, ecrVal);
-            risk.put(name + posInd, riskVal);
+            if (Constants.DST.equals(posInd)) {
+                team = ParsingUtils.normalizeTeams(withoutTeam);
+            }
+            ecr.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + posInd, ecrVal);
+            risk.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + posInd, riskVal);
         }
     }
 
-    private static void parseADPWorker(Rankings rankings,
-                                      Map<String, Double> adp, String adpUrl)
+    private static void parseADPWorker(Map<String, Double> adp, String adpUrl)
             throws IOException {
         List<String> td = JsoupUtils.handleLists(adpUrl, "table.player-table tbody tr td");
         int min = 0;
@@ -101,20 +101,22 @@ public class ParseECR {
                 }
                 String filteredName = td.get(i).split(
                         " \\(")[0].split(", ")[0];
+                String team = ParsingUtils.normalizeTeams(filteredName.substring(filteredName.lastIndexOf(" ")).trim());
                 String withoutTeam = filteredName.substring(0, filteredName.lastIndexOf(" "));
-                String name = ParseRankings
-                        .fixNames(ParseRankings.fixDefenses(withoutTeam));
+                String name = ParsingUtils.normalizeNames(ParsingUtils.normalizeDefenses(withoutTeam));
                 if (i + 6 >= td.size()) {
                     break;
                 }
-                String adpStr = td.get(i + 7);
+                Double adpStr = Double.parseDouble(td.get(i + 7));
                 String posInd = td.get(i + 1)
                         .replaceAll("(\\d+,\\d+)|\\d+", "")
                         .replaceAll("DST", Constants.DST);
-                adp.put(name + posInd, adpStr);
+                if (Constants.DST.equals(posInd)) {
+                    team = ParsingUtils.normalizeTeams(withoutTeam);
+                }
+                adp.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + posInd, adpStr);
             }
         } catch (ArrayIndexOutOfBoundsException notUp) {
-            return;
         }
     }
 }

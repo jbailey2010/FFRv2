@@ -6,9 +6,11 @@ import android.util.Log;
 
 import com.devingotaswitch.rankings.sources.ParseCBS;
 import com.devingotaswitch.rankings.sources.ParseDraftWizard;
+import com.devingotaswitch.rankings.sources.ParseECR;
 import com.devingotaswitch.rankings.sources.ParseESPN;
 import com.devingotaswitch.rankings.sources.ParseFFTB;
 import com.devingotaswitch.rankings.sources.ParseMFL;
+import com.devingotaswitch.rankings.sources.ParseMath;
 import com.devingotaswitch.rankings.sources.ParseNFL;
 import com.devingotaswitch.rankings.sources.ParseProjections;
 import com.devingotaswitch.rankings.sources.ParseWalterFootball;
@@ -135,18 +137,25 @@ public class RankingsFetcher {
 
             // TODO: decide isRegularSeasoon here
 
+            publishProgress("Getting adp...");
+            try {
+                ParseECR.parseECRWrapper(rankings);
+            } catch(Exception e) {
+                Log.e(TAG, "Failed to parse ecr/adp/risk", e);
+            }
+
+            publishProgress("Calculating PAA...");
+            try {
+                ParseMath.setPlayerPAA(rankings);
+            } catch(Exception e) {
+                Log.e(TAG, "Failed to calculate PAA", e);
+            }
+
             return null;
             /*
 
             publishProgress("Please wait, normalizing projections...");
             MathUtils.getPAA(holder, cont);
-            publishProgress("Please wait, calculating relative risk...");
-            try {
-                HighLevel.parseECRWrapper(holder, cont);
-            } catch (HttpStatusException e2) {
-                System.out.println(e2.getStatusCode() + ", " + e2.getUrl());
-            } catch (IOException e1) {
-            }
             if (!holder.isRegularSeason) {
                 ParseMath.convertPAA(holder, r);
                 ParseMath.convertPAA(holder, r);
@@ -196,14 +205,6 @@ public class RankingsFetcher {
                 } else {
                     ParseFFTB.parseSOSInSeason(holder);
                 }
-            } catch (HttpStatusException e2) {
-                System.out.println(e2.getStatusCode() + ", " + e2.getUrl());
-            } catch (IOException e1) {
-            }
-
-            publishProgress("Please wait, fetching player contract status...");
-            try {
-                HighLevel.setContractStatus(holder);
             } catch (HttpStatusException e2) {
                 System.out.println(e2.getStatusCode() + ", " + e2.getUrl());
             } catch (IOException e1) {

@@ -41,7 +41,6 @@ public class ParseDraftWizard {
             throws IOException {
         List<String> td = JsoupUtils.handleLists(url,
                 "table#OverallTable td");
-        Log.d("FP", url);
         int startingIndex = 0;
         for (int i = 0; i < td.size(); i++) {
             if (td.get(i).contains(" - ") && td.get(i).split(" ").length > 3) {

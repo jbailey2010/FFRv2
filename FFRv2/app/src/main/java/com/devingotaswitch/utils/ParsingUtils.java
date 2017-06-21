@@ -320,7 +320,7 @@ public class ParsingUtils {
             uName = "Eagles D/ST";
         } else if (name.contains("dallas")) {
             uName = "Cowboys D/ST";
-        } else if (name.contains("washington")) {
+        } else if (name.contains("washington") && !(name.split(" ").length > 1 && !"washington redskins".equals(name))) {
             uName = "Redskins D/ST";
         } else if (name.contains("new orleans")) {
             uName = "Saints D/ST";
