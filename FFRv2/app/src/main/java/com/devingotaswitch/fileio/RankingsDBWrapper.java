@@ -71,13 +71,30 @@ public class RankingsDBWrapper {
         SQLiteDatabase db = getInstance(context).getReadableDatabase();
 
         String columnName = Constants.PLAYER_ECR_COLUMN;
-        boolean isAscending = true;
+        String orderSuffix = " ASC";
         if (leagueSettings.isAuction()) {
             columnName = Constants.AUCTION_VALUE_COLUMN;
-            isAscending = false;
+            orderSuffix = " DESC";
         }
-        Cursor result =  db.rawQuery(DBUtils.getSelectAllPlayersWithOrdering(
-                columnName, isAscending), null);
+
+        String[] projection = {
+                Constants.PLAYER_NAME_COLUMN,
+                Constants.TEAM_NAME_COLUMN,
+                Constants.PLAYER_POSITION_COLUMN
+        };
+
+        String sortOrder = columnName + orderSuffix;
+
+        Cursor result = db.query(
+                Constants.PLAYER_TABLE_NAME,              // The table to query
+                projection,                               // The columns to return
+                null,                                     // The columns for the WHERE clause
+                null,                                     // The values for the WHERE clause
+                null,                                     // don't group the rows
+                null,                                     // don't filter by row groups
+                sortOrder                                 // The sort order
+        );
+
         result.moveToFirst();
         while(!result.isAfterLast()){
             Player player = DBUtils.cursorToPlayerBasic(result);

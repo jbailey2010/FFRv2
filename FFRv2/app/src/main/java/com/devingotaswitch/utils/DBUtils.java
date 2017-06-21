@@ -21,21 +21,6 @@ public class DBUtils {
                 .toString();
     }
 
-    public static String getSelectAllPlayersWithOrdering(String column, boolean ascending) {
-        return new StringBuilder("SELECT ")
-                .append(Constants.PLAYER_NAME_COLUMN)
-                .append(", ")
-                .append(Constants.TEAM_NAME_COLUMN)
-                .append(", ")
-                .append(Constants.PLAYER_POSITION_COLUMN)
-                .append(" FROM ")
-                .append(Constants.PLAYER_TABLE_NAME)
-                .append(" ORDER BY ")
-                .append(column)
-                .append(ascending ? " ASCENDING" : " DESCENDING")
-                .toString();
-    }
-
     public static String getSelectSingleString(String tableName, String idColumn, String idValue) {
         return new StringBuilder("SELECT * FROM ")
                 .append(tableName)
