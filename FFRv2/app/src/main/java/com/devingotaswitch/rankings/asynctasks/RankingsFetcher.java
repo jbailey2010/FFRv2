@@ -133,14 +133,10 @@ public class RankingsFetcher {
                 Log.e(TAG, "Failed to parse projections", e);
             }
 
+            // TODO: decide isRegularSeasoon here
+
             return null;
             /*
-            if (holder.maxProj() < 70.0) {
-                holder.isRegularSeason = true;
-            } else {
-                holder.isRegularSeason = false;
-            }
-            System.out.println("Is regular season: " + holder.isRegularSeason);
 
             publishProgress("Please wait, normalizing projections...");
             MathUtils.getPAA(holder, cont);
@@ -227,16 +223,6 @@ public class RankingsFetcher {
             } catch (HttpStatusException e2) {
                 System.out.println(e2.getStatusCode() + ", " + e2.getUrl());
             } catch (IOException e1) {
-            }
-
-            if (holder.isRegularSeason) {
-                publishProgress("Please wait, getting rest of season rankings...");
-                try {
-                    HighLevel.getROSRankingsWrapper(holder, cont);
-                } catch (HttpStatusException e2) {
-                    System.out.println(e2.getStatusCode() + ", " + e2.getUrl());
-                } catch (IOException e1) {
-                }
             }
             */
         }

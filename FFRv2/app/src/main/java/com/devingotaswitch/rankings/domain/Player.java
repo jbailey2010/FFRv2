@@ -14,7 +14,7 @@ public class Player {
     private boolean isWatched;
     private Double auctionValue = 0.0;
     private Double numRankings = 0.0;
-
+    private Double risk;
     private Double projection;
     private Double paa;
     private Double xVal;
@@ -86,6 +86,10 @@ public class Player {
     public boolean isWatched() { return isWatched; }
 
     public void setWatched(boolean isWatched) { this.isWatched = isWatched; }
+
+    public Double getRisk() { return risk; }
+
+    public void setRisk(Double risk) { this.risk = risk; }
 
     public Double getProjection() {
         return projection;
