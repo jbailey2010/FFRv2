@@ -7,8 +7,8 @@ public class Player {
     private String name;
     private Integer age;
     private String position;
-    private Double ecr;
-    private Double adp;
+    private Double ecr = 300.0;
+    private Double adp = 300.0;
     private String teamName;
     private String note;
     private String stats;
@@ -16,7 +16,7 @@ public class Player {
     private Double auctionValue = 0.0;
     private Double numRankings = 0.0;
     private Double risk;
-    private Double projection;
+    private Double projection = 0.0;
     private Double paa;
     private Double xVal;
 

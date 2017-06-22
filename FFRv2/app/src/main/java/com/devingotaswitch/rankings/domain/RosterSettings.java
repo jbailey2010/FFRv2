@@ -111,6 +111,14 @@ public class RosterSettings {
         this.flex = flex;
     }
 
+    public int getRosterSize() {
+        int size = qbCount + rbCount + wrCount + teCount + dstCount + kCount + benchCount;
+        if (flex != null) {
+            size += flex.getQbrbwrteCount() + flex.getRbwrteCount() + flex.getRbteCount() + flex.getRbwrCount() + flex.getWrteCount();
+        }
+        return size;
+    }
+
     public static class Flex {
 
         private int rbwrCount;

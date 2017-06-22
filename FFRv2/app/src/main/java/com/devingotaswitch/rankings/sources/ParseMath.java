@@ -8,7 +8,10 @@ import com.devingotaswitch.rankings.domain.RosterSettings;
 import com.devingotaswitch.rankings.domain.RosterSettings.Flex;
 import com.devingotaswitch.utils.Constants;
 
+import java.util.Collection;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.PriorityQueue;
 
 public class ParseMath {
@@ -310,5 +313,85 @@ public class ParseMath {
                 player.setPaa(player.getProjection() - kTotal);
             }
         }
+    }
+
+    public static void getECRAuctionValue(Rankings rankings) {
+        for (String key : rankings.getPlayers().keySet()) {
+            Player player = rankings.getPlayer(key);
+            player.handleNewValue(convertRanking(player.getEcr()));
+        }
+    }
+
+    public static void getADPAuctionValue(Rankings rankings) {
+        for (String key : rankings.getPlayers().keySet()) {
+            Player player = rankings.getPlayer(key);
+            player.handleNewValue(convertRanking(player.getAdp()));
+        }
+    }
+
+    private static double convertRanking(double ranking) {
+        double possVal = 78.6341 - 15.893 * Math.log(ranking);
+        if (possVal < 1.0) {
+            possVal = 1.0;
+        }
+        return possVal;
+    }
+
+    public static void getPAAAuctionValue(Rankings rankings) {
+        double discretCash = getDiscretionaryCash(rankings.getLeagueSettings().getAuctionBudget(),
+                rankings.getLeagueSettings().getRosterSettings());
+        Map<String, Double> zMap = initZMap(rankings);
+        for (String key : rankings.getPlayers().keySet()) {
+            Player player = rankings.getPlayer(key);
+            double possVal = paa1Calc(zMap, player, discretCash);
+            if (possVal > 1.0) {
+                Log.d("PAAAuc", key + ": " + player.getAuctionValue() + " - " + possVal);
+            }
+            player.handleNewValue(possVal);
+        }
+    }
+
+    private static double paa1Calc(Map<String, Double> zMap,
+                                  Player player, double discretCash) {
+        double coeff = player.getPaa() / zMap.get(player.getPosition());
+        double possVal = discretCash * coeff + 1.0;
+        if (player.getPosition().equals(Constants.DST)) {
+            possVal /= 10;
+        }
+        if (player.getPosition().equals(Constants.K)) {
+            possVal /= 20;
+        }
+        if (possVal < 1.0) {
+            possVal = 1.0;
+        }
+        return possVal;
+    }
+
+    private static Map<String, Double> initZMap(Rankings rankings) {
+        Map<String, Double> zMap = new HashMap<>();
+        zMap.put(Constants.QB, avgPAAPos(rankings.getQbs()));
+        zMap.put(Constants.RB, avgPAAPos(rankings.getRbs()));
+        zMap.put(Constants.WR, avgPAAPos(rankings.getWrs()));
+        zMap.put(Constants.TE, avgPAAPos(rankings.getTes()));
+        zMap.put(Constants.DST, avgPAAPos(rankings.getDsts()));
+        zMap.put(Constants.K, avgPAAPos(rankings.getKs()));
+        return zMap;
+    }
+
+    private static double avgPAAPos(Collection<Player> players) {
+        double paaTotal = 0.0;
+        double paaCount = 0.0;
+        for (Player player : players) {
+            if (player.getPaa() > 0.0) {
+                paaTotal += player.getPaa();
+                paaCount++;
+            }
+        }
+        return paaTotal / paaCount;
+    }
+
+    private static double getDiscretionaryCash(int auctionBudget, RosterSettings roster) {
+        int rosterSize = roster.getRosterSize();
+        return (auctionBudget - rosterSize) / rosterSize;
     }
 }

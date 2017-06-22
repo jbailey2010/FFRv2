@@ -65,7 +65,7 @@ public class RankingsFetcher {
             } catch (Exception e) {
                 Log.e(TAG, "Failed to parse WF", e);
             }
-            publishProgress("Fetching rankings... 1/13");
+            publishProgress("Fetching rankings... 1/14");
 
 
             /*
@@ -76,7 +76,7 @@ public class RankingsFetcher {
             } catch (Exception e) {
                 Log.e(TAG, "Failed to parse CBS", e);
             }
-            publishProgress("Fetching rankings... 2/13");
+            publishProgress("Fetching rankings... 2/14");
 
             // TODO: This shit won't connect
             Log.i(TAG, "Getting ESPN ADV rankings");
@@ -85,7 +85,7 @@ public class RankingsFetcher {
             } catch (Exception e) {
                 Log.e(TAG, "Failed to parse ESPN", e);
             }
-            publishProgress("Fetching rankings... 3/13");
+            publishProgress("Fetching rankings... 3/14");
             */
 
             Log.i(TAG, "Getting FFTB rankings");
@@ -94,7 +94,7 @@ public class RankingsFetcher {
             } catch (Exception e) {
                 Log.e(TAG, "Failed to parse FFTB", e);
             }
-            publishProgress("Fetching rankings... 4/13");
+            publishProgress("Fetching rankings... 4/14");
 
             Log.i(TAG, "Getting Yahoo rankings");
             try {
@@ -102,7 +102,7 @@ public class RankingsFetcher {
             } catch (Exception e) {
                 Log.e(TAG, "Failed to parse Yahoo", e);
             }
-            publishProgress("Fetching rankings... 6/13");
+            publishProgress("Fetching rankings... 6/14");
 
             Log.i(TAG, "Getting MFL rankings");
             try {
@@ -110,7 +110,7 @@ public class RankingsFetcher {
             } catch(Exception e) {
                 Log.e(TAG, "Failed to parse MFL", e);
             }
-            publishProgress("Fetching rankings... 7/13");
+            publishProgress("Fetching rankings... 7/14");
 
             Log.i(TAG, "Getting NFL rankings");
             try {
@@ -118,7 +118,7 @@ public class RankingsFetcher {
             } catch(Exception e) {
                 Log.e(TAG, "Failed to parse NFL", e);
             }
-            publishProgress("Fetching rankings... 8/13");
+            publishProgress("Fetching rankings... 8/14");
 
             Log.i(TAG, "Getting Draft Wizard rankings");
             try {
@@ -126,7 +126,7 @@ public class RankingsFetcher {
             } catch (Exception e) {
                 Log.e(TAG, "Failed to parse Draft Wizard", e);
             }
-            publishProgress("Fetching rankings... 10/13");
+            publishProgress("Fetching rankings... 10/14");
 
             publishProgress("Getting projections...");
             try {
@@ -144,12 +144,22 @@ public class RankingsFetcher {
                 Log.e(TAG, "Failed to parse ecr/adp/risk", e);
             }
 
+            Log.i(TAG, "Getting ECR/ADP rankings");
+            ParseMath.getADPAuctionValue(rankings);
+            ParseMath.getECRAuctionValue(rankings);
+            publishProgress("Fetching rankings... 12/14");
+
             publishProgress("Calculating PAA...");
             try {
                 ParseMath.setPlayerPAA(rankings);
             } catch(Exception e) {
                 Log.e(TAG, "Failed to calculate PAA", e);
             }
+
+            Log.i(TAG, "Getting PAA rankings");
+            ParseMath.getPAAAuctionValue(rankings);
+            ParseMath.getPAAAuctionValue(rankings);
+            publishProgress("Fetching rankings... 14/14");
 
             return null;
             /*
