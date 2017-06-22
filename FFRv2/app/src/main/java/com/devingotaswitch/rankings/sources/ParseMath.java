@@ -2,9 +2,14 @@ package com.devingotaswitch.rankings.sources;
 
 import android.util.Log;
 
+import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.domain.RosterSettings;
 import com.devingotaswitch.rankings.domain.RosterSettings.Flex;
+import com.devingotaswitch.utils.Constants;
+
+import java.util.Comparator;
+import java.util.PriorityQueue;
 
 public class ParseMath {
     private static double qbLimit;
@@ -35,13 +40,13 @@ public class ParseMath {
         }
 
         // Next, QBs. Boring if one, very interesting if not.
-        if (roster.getQbCount() == 1 && flex.getQbrbwrteCount() == 0) {
+        if (roster.getQbCount() == 1 && flex != null && flex.getQbrbwrteCount() == 0) {
             qbLimit = (1.25 * x) + 1.33333;
-        } else if (roster.getQbCount() == 0 && flex.getQbrbwrteCount() == 1) {
+        } else if (roster.getQbCount() == 0 && flex != null && flex.getQbrbwrteCount() == 1) {
             qbLimit = (1.25 * x);
-        } else if (roster.getQbCount() >= 2 || flex.getQbrbwrteCount() >= 2) {
+        } else if (roster.getQbCount() >= 2 || (flex != null && flex.getQbrbwrteCount() >= 2)) {
             qbLimit = (6 * x) - 30;
-        } else if (roster.getQbCount() == 1 && flex.getQbrbwrteCount() == 1) {
+        } else if (roster.getQbCount() == 1 && flex != null && flex.getQbrbwrteCount() == 1) {
             qbLimit = (6 * x) - 32;
         }
 
@@ -60,7 +65,7 @@ public class ParseMath {
         } else {
             wrLimit = (4.5 * x) - 5;
         }
-        if (flex.getRbwrCount() > 0 || flex.getRbwrteCount() > 0) {
+        if (flex != null && (flex.getRbwrCount() > 0 || flex.getRbwrteCount() > 0)) {
             if (rankings.getLeagueSettings().getScoringSettings().getReceptions() > 0) {
                 // Legit
                 if (roster.getRbCount() == 2 && roster.getWrCount() == 2) {
@@ -141,7 +146,7 @@ public class ParseMath {
                 }
             }
         }
-        if (flex.getQbrbwrteCount() > 0) {
+        if (flex != null && flex.getQbrbwrteCount() > 0) {
             if (rankings.getLeagueSettings().getScoringSettings().getReceptions() > 0) {
                 rbLimit += x / 11.0;
                 wrLimit += x / 10.0;
@@ -157,12 +162,153 @@ public class ParseMath {
         Log.d("PAA", "TE PAA limit: " + teLimit);
         Log.d("PAA", "DST PAA limit: " + dLimit);
         Log.d("PAA", "K PAA limit: " + kLimit);
-
     }
 
     public static void setPlayerPAA(Rankings rankings) {
         setLimits(rankings);
 
-        // TODO: Finish
+        double qbCounter = 0.0;
+        double rbCounter = 0.0;
+        double wrCounter = 0.0;
+        double teCounter = 0.0;
+        double dCounter = 0.0;
+        double kCounter = 0.0;
+        double qbTotal = 0.0;
+        double rbTotal = 0.0;
+        double wrTotal = 0.0;
+        double teTotal = 0.0;
+        double dTotal = 0.0;
+        double kTotal = 0.0;
+        PriorityQueue<Player> qb = new PriorityQueue<>(300,
+                new Comparator<Player>() {
+                    @Override
+                    public int compare(Player a, Player b) {
+                        if (a.getAuctionValue() > b.getAuctionValue()) {
+                            return -1;
+                        }
+                        if (a.getAuctionValue() < b.getAuctionValue()) {
+                            return 1;
+                        }
+                        return 0;
+                    }
+                });
+        PriorityQueue<Player> rb = new PriorityQueue<>(300,
+                new Comparator<Player>() {
+                    @Override
+                    public int compare(Player a, Player b) {
+                        if (a.getAuctionValue() > b.getAuctionValue()) {
+                            return -1;
+                        }
+                        if (a.getAuctionValue() < b.getAuctionValue()) {
+                            return 1;
+                        }
+                        return 0;
+                    }
+                });
+        PriorityQueue<Player> wr = new PriorityQueue<>(300,
+                new Comparator<Player>() {
+                    @Override
+                    public int compare(Player a, Player b) {
+                        if (a.getAuctionValue() > b.getAuctionValue()) {
+                            return -1;
+                        }
+                        if (a.getAuctionValue() < b.getAuctionValue()) {
+                            return 1;
+                        }
+                        return 0;
+                    }
+                });
+        PriorityQueue<Player> te = new PriorityQueue<>(300,
+                new Comparator<Player>() {
+                    @Override
+                    public int compare(Player a, Player b) {
+                        if (a.getAuctionValue() > b.getAuctionValue()) {
+                            return -1;
+                        }
+                        if (a.getAuctionValue() < b.getAuctionValue()) {
+                            return 1;
+                        }
+                        return 0;
+                    }
+                });
+        PriorityQueue<Player> def = new PriorityQueue<>(300,
+                new Comparator<Player>() {
+                    @Override
+                    public int compare(Player a, Player b) {
+                        if (a.getAuctionValue() > b.getAuctionValue()) {
+                            return -1;
+                        }
+                        if (a.getAuctionValue() < b.getAuctionValue()) {
+                            return 1;
+                        }
+                        return 0;
+                    }
+                });
+        PriorityQueue<Player> k = new PriorityQueue<>(300,
+                new Comparator<Player>() {
+                    @Override
+                    public int compare(Player a, Player b) {
+                        if (a.getAuctionValue() > b.getAuctionValue()) {
+                            return -1;
+                        }
+                        if (a.getAuctionValue() < b.getAuctionValue()) {
+                            return 1;
+                        }
+                        return 0;
+                    }
+                });
+        qb.addAll(rankings.getQbs());
+        rb.addAll(rankings.getRbs());
+        wr.addAll(rankings.getWrs());
+        te.addAll(rankings.getTes());
+        def.addAll(rankings.getDsts());
+        k.addAll(rankings.getKs());
+
+        int qbCap = Math.min((int) qbLimit, qb.size());
+        for (qbCounter = 0; qbCounter < qbCap; qbCounter++) {
+            qbTotal += qb.poll().getProjection();
+        }
+        int rbCap = Math.min((int) rbLimit, rb.size());
+        for (rbCounter = 0; rbCounter < rbCap; rbCounter++) {
+            rbTotal += rb.poll().getProjection();
+        }
+        int wrCap = Math.min((int) wrLimit, wr.size());
+        for (wrCounter = 0; wrCounter < wrCap; wrCounter++) {
+            wrTotal += wr.poll().getProjection();
+        }
+        int teCap = Math.min((int) teLimit, te.size());
+        for (teCounter = 0; teCounter < teCap; teCounter++) {
+            teTotal += te.poll().getProjection();
+        }
+        int dCap = Math.min((int) dLimit, def.size());
+        for (dCounter = 0; dCounter < dCap; dCounter++) {
+            dTotal += def.poll().getProjection();
+        }
+        int kCap = Math.min((int) kLimit, k.size());
+        for (kCounter = 0; kCounter < kCap; kCounter++) {
+            kTotal += k.poll().getProjection();
+        }
+        qbTotal /= qbCounter;
+        rbTotal /= rbCounter;
+        wrTotal /= wrCounter;
+        teTotal /= teCounter;
+        dTotal /= dCounter;
+        kTotal /= kCounter;
+        for (String key : rankings.getPlayers().keySet()) {
+            Player player = rankings.getPlayer(key);
+            if (Constants.QB.equals(player.getPosition())) {
+                player.setPaa(player.getProjection() - qbTotal);
+            } else if (Constants.RB.equals(player.getPosition())) {
+                player.setPaa(player.getProjection() - rbTotal);
+            } else if (Constants.WR.equals(player.getPosition())) {
+                player.setPaa(player.getProjection() - wrTotal);
+            } else if (Constants.TE.equals(player.getPosition())) {
+                player.setPaa(player.getProjection() - teTotal);
+            } else if (Constants.DST.equals(player.getPosition())) {
+                player.setPaa(player.getProjection() - dTotal);
+            } else if (Constants.K.equals(player.getPosition())) {
+                player.setPaa(player.getProjection() - kTotal);
+            }
+        }
     }
 }

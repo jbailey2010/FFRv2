@@ -80,6 +80,7 @@ public class ParseNFL {
             String team = nameSet[nameSet.length - 1];
             if ("DEF".equals(pos)) {
                 team = name;
+                pos = Constants.DST;
             }
             Player player = new Player();
             player.setName(name);

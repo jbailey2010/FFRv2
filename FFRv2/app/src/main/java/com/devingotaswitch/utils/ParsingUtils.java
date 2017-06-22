@@ -1,5 +1,7 @@
 package com.devingotaswitch.utils;
 
+import android.util.Log;
+
 import com.amazonaws.util.StringUtils;
 import com.devingotaswitch.rankings.domain.Player;
 
@@ -297,7 +299,7 @@ public class ParsingUtils {
             uName = "Titans D/ST";
         } else if (name.contains("cleveland")) {
             uName = "Browns D/ST";
-        } else if (name.contains("san diego") || name.contains("la chargers") || name.contains("chargers")) {
+        } else if (name.contains("san diego") || name.contains("los angeles chargers") || name.contains("la chargers") || name.contains("chargers")) {
             uName = "Chargers D/ST";
         } else if (name.contains("kansas city")) {
             uName = "Chiefs D/ST";
@@ -332,7 +334,7 @@ public class ParsingUtils {
             uName = "Buccaneers D/ST";
         } else if (name.contains("san fran") || name.contains("san francisco")) {
             uName = "49ers D/ST";
-        } else if (name.contains("st. louis") || name.contains("st louis") || name.contains("la rams")) {
+        } else if (name.contains("st. louis") || name.contains("st louis") || name.contains("la rams") || name.contains("los angeles rams")) {
             uName = "Rams D/ST";
         } else if (name.contains("arizona")) {
             uName = "Cardinals D/ST";
@@ -389,6 +391,7 @@ public class ParsingUtils {
         player.setTeamName(team);
         player = normalizePlayerFields(player);
         player.handleNewValue(val);
+
         return player;
     }
 }

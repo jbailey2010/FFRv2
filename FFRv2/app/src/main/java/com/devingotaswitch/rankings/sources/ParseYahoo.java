@@ -72,6 +72,7 @@ public class ParseYahoo {
                 } else if (td.get(i).contains("NYJ")) {
                     name = "New York Jets";
                 }
+                name = team;
             }
             String rank = td.get(i + 1).split("\\$")[1];
             String aavStr = td.get(i + 2).split("\\$")[1];
@@ -80,6 +81,7 @@ public class ParseYahoo {
             if (!aavStr.equals("-") && !aavStr.equals("0.0")) {
                 aav = Double.parseDouble(aavStr);
             }
+
             rankings.processNewPlayer(ParsingUtils.getPlayerFromRankings(name, team, pos, aav));
             rankings.processNewPlayer(ParsingUtils.getPlayerFromRankings(name, team, pos, worth));
         }

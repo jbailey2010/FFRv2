@@ -66,6 +66,7 @@ public class ParseFFTB {
             if (team.split(" ").length <= 3) {
                 val = val.substring(1, val.length());
                 try {
+                    
                     Player player = ParsingUtils.getPlayerFromRankings(name, team, pos, Double.parseDouble(val));
                     player.setAge(Integer.parseInt(age));
                     rankings.processNewPlayer(player);
