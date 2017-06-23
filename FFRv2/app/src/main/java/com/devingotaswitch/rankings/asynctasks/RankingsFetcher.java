@@ -13,6 +13,7 @@ import com.devingotaswitch.rankings.sources.ParseMFL;
 import com.devingotaswitch.rankings.sources.ParseMath;
 import com.devingotaswitch.rankings.sources.ParseNFL;
 import com.devingotaswitch.rankings.sources.ParseProjections;
+import com.devingotaswitch.rankings.sources.ParseSOS;
 import com.devingotaswitch.rankings.sources.ParseWalterFootball;
 import com.devingotaswitch.rankings.RankingsHome;
 import com.devingotaswitch.rankings.domain.LeagueSettings;
@@ -161,29 +162,15 @@ public class RankingsFetcher {
             ParseMath.getPAAAuctionValue(rankings);
             publishProgress("Fetching rankings... 14/14");
 
+            publishProgress("Getting positional SOS...");
+            try {
+                ParseSOS.getSOS(rankings);
+            } catch (Exception e) {
+                Log.e(TAG, "Failed to parse SOS", e);
+            }
+
             return null;
             /*
-
-            publishProgress("Please wait, normalizing projections...");
-            MathUtils.getPAA(holder, cont);
-            if (!holder.isRegularSeason) {
-                ParseMath.convertPAA(holder, r);
-                ParseMath.convertPAA(holder, r);
-                publishProgress("Please wait, fetching the rankings...(26/30)");
-                ParseMath.convertECR(holder);
-                publishProgress("Please wait, fetching the rankings...(28/30)");
-                ParseMath.convertADP(holder);
-                publishProgress("Please wait, fetching the rankings...(30/30)");
-            }
-
-            publishProgress("Please wait, normalizing auction values...");
-            double auctionFactor = ReadFromFile.readAucFactor(cont);
-            for (PlayerObject player : holder.players) {
-                Values.normVals(player.values);
-                player.values.secWorth = player.values.worth / auctionFactor;
-            }
-
-            start = System.nanoTime();
             publishProgress("Please wait, fetching player stats...");
             try {
                 HighLevel.setStats(holder, cont);
@@ -205,19 +192,6 @@ public class RankingsFetcher {
             } else {
                 holder.fa = fa;
                 holder.draftClasses = draftClasses;
-            }
-
-            publishProgress("Please wait, fetching positional SOS...");
-
-            try {
-                if (!holder.isRegularSeason) {
-                    HighLevel.getSOS(holder);
-                } else {
-                    ParseFFTB.parseSOSInSeason(holder);
-                }
-            } catch (HttpStatusException e2) {
-                System.out.println(e2.getStatusCode() + ", " + e2.getUrl());
-            } catch (IOException e1) {
             }
 
             publishProgress("Please wait, setting specific player info...");

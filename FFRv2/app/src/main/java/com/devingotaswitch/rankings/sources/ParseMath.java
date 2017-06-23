@@ -344,9 +344,6 @@ public class ParseMath {
         for (String key : rankings.getPlayers().keySet()) {
             Player player = rankings.getPlayer(key);
             double possVal = paa1Calc(zMap, player, discretCash);
-            if (possVal > 1.0) {
-                Log.d("PAAAuc", key + ": " + player.getAuctionValue() + " - " + possVal);
-            }
             player.handleNewValue(possVal);
         }
     }
@@ -392,6 +389,6 @@ public class ParseMath {
 
     private static double getDiscretionaryCash(int auctionBudget, RosterSettings roster) {
         int rosterSize = roster.getRosterSize();
-        return (auctionBudget - rosterSize) / rosterSize;
+        return (auctionBudget - rosterSize) / (rosterSize - roster.getBenchCount());
     }
 }

@@ -114,4 +114,5 @@ public class Constants {
     // Other internal stuff
     public final static String NUMBER_FORMAT = "#.##";
     public final static String PLAYER_ID_DELIMITER = ".";
+    public final static String LINE_BREAK = "\n";
 }
