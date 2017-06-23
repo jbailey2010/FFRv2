@@ -216,6 +216,7 @@ public class DBUtils {
         player.setRisk(result.getDouble(result.getColumnIndex(Constants.PLAYER_RISK_COLUMN)));
         player.setAge(result.getInt(result.getColumnIndex(Constants.PLAYER_AGE_COLUMN)));
         player.setStats(result.getString(result.getColumnIndex(Constants.PLAYER_STATS_COLUMN)));
+        player.setInjuryStatus(result.getString(result.getColumnIndex(Constants.PLAYER_INJURED_COLUMN)));
         player.setAuctionValue(result.getDouble(result.getColumnIndex(Constants.AUCTION_VALUE_COLUMN)));
         player.setProjection(result.getDouble(result.getColumnIndex(Constants.PLAYER_PROJECTION_COLUMN)));
         player.setPaa(result.getDouble(result.getColumnIndex(Constants.PLAYER_PAA_COLUMN)));
@@ -251,6 +252,7 @@ public class DBUtils {
         values.put(Constants.PLAYER_ADP_COLUMN, player.getAdp());
         values.put(Constants.PLAYER_RISK_COLUMN, player.getRisk());
         values.put(Constants.PLAYER_STATS_COLUMN, player.getStats());
+        values.put(Constants.PLAYER_INJURED_COLUMN, player.getInjuryStatus());
         values.put(Constants.AUCTION_VALUE_COLUMN, player.getAuctionValue());
         values.put(Constants.PLAYER_PROJECTION_COLUMN, player.getProjection());
         values.put(Constants.PLAYER_PAA_COLUMN, player.getPaa());

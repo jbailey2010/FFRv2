@@ -4,6 +4,9 @@ import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 
+import java.util.Iterator;
+import java.util.LinkedList;
+
 public class GeneralUtils {
 
     private static final Long SECONDS_CONVERSION_THRESHOLD = 1000L;

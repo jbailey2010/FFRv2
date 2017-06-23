@@ -103,6 +103,7 @@ public class Constants {
     public static final String PLAYER_ADP_COLUMN = "adp";
     public static final String PLAYER_RISK_COLUMN = "risk";
     public static final String PLAYER_STATS_COLUMN = "stats";
+    public static final String PLAYER_INJURED_COLUMN = "injury_status";
     public static final String PLAYER_PROJECTION_COLUMN = "projection";
     public static final String PLAYER_PAA_COLUMN = "paa";
     public static final String PLAYER_XVAL_COLUMN = "xval";

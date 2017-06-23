@@ -12,6 +12,7 @@ public class Player {
     private String teamName;
     private String note;
     private String stats;
+    private String injuryStatus;
     private boolean isWatched;
     private Double auctionValue = 0.0;
     private Double numRankings = 0.0;
@@ -87,6 +88,10 @@ public class Player {
     public String getStats() { return stats; }
 
     public void setStats(String stats) { this.stats = stats; }
+
+    public String getInjuryStatus() { return injuryStatus; }
+
+    public void setInjuryStatus(String injuryStatus) { this.injuryStatus = injuryStatus; }
 
     public boolean isWatched() { return isWatched; }
 

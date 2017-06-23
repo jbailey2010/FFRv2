@@ -9,9 +9,11 @@ import com.devingotaswitch.rankings.sources.ParseDraftWizard;
 import com.devingotaswitch.rankings.sources.ParseECR;
 import com.devingotaswitch.rankings.sources.ParseESPN;
 import com.devingotaswitch.rankings.sources.ParseFFTB;
+import com.devingotaswitch.rankings.sources.ParseInjuries;
 import com.devingotaswitch.rankings.sources.ParseMFL;
 import com.devingotaswitch.rankings.sources.ParseMath;
 import com.devingotaswitch.rankings.sources.ParseNFL;
+import com.devingotaswitch.rankings.sources.ParsePFO;
 import com.devingotaswitch.rankings.sources.ParseProjections;
 import com.devingotaswitch.rankings.sources.ParseSOS;
 import com.devingotaswitch.rankings.sources.ParseWalterFootball;
@@ -169,6 +171,20 @@ public class RankingsFetcher {
                 Log.e(TAG, "Failed to parse SOS", e);
             }
 
+            publishProgress("Getting advanced line stats...");
+            try {
+                ParsePFO.parsePFOLineData(rankings);
+            } catch (Exception e) {
+                Log.e(TAG, "Failed to parse PFO line data", e);
+            }
+
+            publishProgress("Getting injury status...");
+            try {
+                ParseInjuries.parsePlayerInjuries(rankings);
+            } catch (Exception e) {
+                Log.e(TAG, "Failed to parse player injuries");
+            }
+
             return null;
             /*
             publishProgress("Please wait, fetching player stats...");
@@ -192,22 +208,6 @@ public class RankingsFetcher {
             } else {
                 holder.fa = fa;
                 holder.draftClasses = draftClasses;
-            }
-
-            publishProgress("Please wait, setting specific player info...");
-            try {
-                HighLevel.parseSpecificData(holder, cont);
-            } catch (HttpStatusException e2) {
-                System.out.println(e2.getStatusCode() + ", " + e2.getUrl());
-            } catch (IOException e1) {
-            }
-
-            publishProgress("Please wait, getting advanced line stats...");
-            try {
-                ParseOLineAdvanced.parsePFOLineData(holder);
-            } catch (HttpStatusException e2) {
-                System.out.println(e2.getStatusCode() + ", " + e2.getUrl());
-            } catch (IOException e1) {
             }
             */
         }

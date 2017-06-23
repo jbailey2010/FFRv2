@@ -114,6 +114,7 @@ public class RankingsDBHelper extends SQLiteOpenHelper {
                 Constants.TEAM_NAME_COLUMN         + " TEXT," +
                 Constants.PLAYER_AGE_COLUMN        + " INTEGER," +
                 Constants.PLAYER_STATS_COLUMN      + " TEXT," +
+                Constants.PLAYER_INJURED_COLUMN    + " TEXT," +
                 Constants.PLAYER_ECR_COLUMN        + " REAL," +
                 Constants.PLAYER_RISK_COLUMN       + " REAL," +
                 Constants.PLAYER_ADP_COLUMN        + " REAL," +
