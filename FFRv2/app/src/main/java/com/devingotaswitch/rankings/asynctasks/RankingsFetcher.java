@@ -159,6 +159,13 @@ public class RankingsFetcher {
                 Log.e(TAG, "Failed to calculate PAA", e);
             }
 
+            publishProgress("Calculating xVal...");
+            try {
+                ParseMath.setPlayerXval(rankings);
+            } catch(Exception e) {
+                Log.e(TAG, "Failed to calculate Xval", e);
+            }
+
             Log.i(TAG, "Getting PAA rankings");
             ParseMath.getPAAAuctionValue(rankings);
             ParseMath.getPAAAuctionValue(rankings);

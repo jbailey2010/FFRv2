@@ -11,6 +11,7 @@ import com.devingotaswitch.utils.Constants;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
 
@@ -22,7 +23,44 @@ public class ParseMath {
     private static double dLimit;
     private static double kLimit;
 
-    private static void setLimits(Rankings rankings) {
+    private static void setXValLimits(Rankings rankings) {
+        // Top 100 picks for a standard roster.
+        RosterSettings roster = rankings.getLeagueSettings().getRosterSettings();
+        qbLimit = 15.0;
+        rbLimit = 36.0;
+        wrLimit = 38.0;
+        teLimit = 8.0;
+        dLimit = 2.0;
+        kLimit = 1.0;
+
+        if (roster.getQbCount() > 1 || (roster.getQbCount()>0 && roster.getFlex() != null && roster.getFlex().getQbrbwrteCount() > 0)) {
+            qbLimit +=2;
+            teLimit--;
+            rbLimit--;
+        }
+        if (roster.getTeCount() > 1) {
+            teLimit ++;
+            wrLimit--;
+        }
+        if (roster.getDstCount() == 0) {
+            dLimit = 0.0;
+            rbLimit++;
+            wrLimit++;
+        }
+        if (roster.getkCount() == 0) {
+            kLimit = 0.0;
+            wrLimit++;
+        }
+
+        Log.d("XVal", "XVal QB Limit: " + qbLimit);
+        Log.d("XVal", "XVal RB Limit: " + rbLimit);
+        Log.d("XVal", "XVal WR Limit: " + wrLimit);
+        Log.d("XVal", "XVal TE Limit: " + teLimit);
+        Log.d("XVal", "XVal DST Limit: " + dLimit);
+        Log.d("XVal", "XVal K Limit: " + kLimit);
+    }
+
+    private static void setPAALimits(Rankings rankings) {
         int x = rankings.getLeagueSettings().getTeamCount();
         RosterSettings roster = rankings.getLeagueSettings().getRosterSettings();
         Flex flex = roster.getFlex();
@@ -167,136 +205,40 @@ public class ParseMath {
         Log.d("PAA", "K PAA limit: " + kLimit);
     }
 
+    public static void setPlayerXval(Rankings rankings) {
+        setXValLimits(rankings);
+        double qbTotal = getPositionalProjection(qbLimit, rankings.getQbs());
+        double rbTotal = getPositionalProjection(rbLimit, rankings.getRbs());
+        double wrTotal = getPositionalProjection(wrLimit, rankings.getWrs());
+        double teTotal = getPositionalProjection(teLimit, rankings.getTes());
+        double dTotal  = getPositionalProjection(dLimit,  rankings.getDsts());
+        double kTotal  = getPositionalProjection(kLimit,  rankings.getKs());
+        for (String key : rankings.getPlayers().keySet()) {
+            Player player = rankings.getPlayer(key);
+            if (Constants.QB.equals(player.getPosition())) {
+                player.setxVal(player.getProjection() - qbTotal);
+            } else if (Constants.RB.equals(player.getPosition())) {
+                player.setxVal(player.getProjection() - rbTotal);
+            } else if (Constants.WR.equals(player.getPosition())) {
+                player.setxVal(player.getProjection() - wrTotal);
+            } else if (Constants.TE.equals(player.getPosition())) {
+                player.setxVal(player.getProjection() - teTotal);
+            } else if (Constants.DST.equals(player.getPosition())) {
+                player.setxVal(player.getProjection() - dTotal);
+            } else if (Constants.K.equals(player.getPosition())) {
+                player.setxVal(player.getProjection() - kTotal);
+            }
+        }
+    }
+
     public static void setPlayerPAA(Rankings rankings) {
-        setLimits(rankings);
-
-        double qbCounter = 0.0;
-        double rbCounter = 0.0;
-        double wrCounter = 0.0;
-        double teCounter = 0.0;
-        double dCounter = 0.0;
-        double kCounter = 0.0;
-        double qbTotal = 0.0;
-        double rbTotal = 0.0;
-        double wrTotal = 0.0;
-        double teTotal = 0.0;
-        double dTotal = 0.0;
-        double kTotal = 0.0;
-        PriorityQueue<Player> qb = new PriorityQueue<>(300,
-                new Comparator<Player>() {
-                    @Override
-                    public int compare(Player a, Player b) {
-                        if (a.getAuctionValue() > b.getAuctionValue()) {
-                            return -1;
-                        }
-                        if (a.getAuctionValue() < b.getAuctionValue()) {
-                            return 1;
-                        }
-                        return 0;
-                    }
-                });
-        PriorityQueue<Player> rb = new PriorityQueue<>(300,
-                new Comparator<Player>() {
-                    @Override
-                    public int compare(Player a, Player b) {
-                        if (a.getAuctionValue() > b.getAuctionValue()) {
-                            return -1;
-                        }
-                        if (a.getAuctionValue() < b.getAuctionValue()) {
-                            return 1;
-                        }
-                        return 0;
-                    }
-                });
-        PriorityQueue<Player> wr = new PriorityQueue<>(300,
-                new Comparator<Player>() {
-                    @Override
-                    public int compare(Player a, Player b) {
-                        if (a.getAuctionValue() > b.getAuctionValue()) {
-                            return -1;
-                        }
-                        if (a.getAuctionValue() < b.getAuctionValue()) {
-                            return 1;
-                        }
-                        return 0;
-                    }
-                });
-        PriorityQueue<Player> te = new PriorityQueue<>(300,
-                new Comparator<Player>() {
-                    @Override
-                    public int compare(Player a, Player b) {
-                        if (a.getAuctionValue() > b.getAuctionValue()) {
-                            return -1;
-                        }
-                        if (a.getAuctionValue() < b.getAuctionValue()) {
-                            return 1;
-                        }
-                        return 0;
-                    }
-                });
-        PriorityQueue<Player> def = new PriorityQueue<>(300,
-                new Comparator<Player>() {
-                    @Override
-                    public int compare(Player a, Player b) {
-                        if (a.getAuctionValue() > b.getAuctionValue()) {
-                            return -1;
-                        }
-                        if (a.getAuctionValue() < b.getAuctionValue()) {
-                            return 1;
-                        }
-                        return 0;
-                    }
-                });
-        PriorityQueue<Player> k = new PriorityQueue<>(300,
-                new Comparator<Player>() {
-                    @Override
-                    public int compare(Player a, Player b) {
-                        if (a.getAuctionValue() > b.getAuctionValue()) {
-                            return -1;
-                        }
-                        if (a.getAuctionValue() < b.getAuctionValue()) {
-                            return 1;
-                        }
-                        return 0;
-                    }
-                });
-        qb.addAll(rankings.getQbs());
-        rb.addAll(rankings.getRbs());
-        wr.addAll(rankings.getWrs());
-        te.addAll(rankings.getTes());
-        def.addAll(rankings.getDsts());
-        k.addAll(rankings.getKs());
-
-        int qbCap = Math.min((int) qbLimit, qb.size());
-        for (qbCounter = 0; qbCounter < qbCap; qbCounter++) {
-            qbTotal += qb.poll().getProjection();
-        }
-        int rbCap = Math.min((int) rbLimit, rb.size());
-        for (rbCounter = 0; rbCounter < rbCap; rbCounter++) {
-            rbTotal += rb.poll().getProjection();
-        }
-        int wrCap = Math.min((int) wrLimit, wr.size());
-        for (wrCounter = 0; wrCounter < wrCap; wrCounter++) {
-            wrTotal += wr.poll().getProjection();
-        }
-        int teCap = Math.min((int) teLimit, te.size());
-        for (teCounter = 0; teCounter < teCap; teCounter++) {
-            teTotal += te.poll().getProjection();
-        }
-        int dCap = Math.min((int) dLimit, def.size());
-        for (dCounter = 0; dCounter < dCap; dCounter++) {
-            dTotal += def.poll().getProjection();
-        }
-        int kCap = Math.min((int) kLimit, k.size());
-        for (kCounter = 0; kCounter < kCap; kCounter++) {
-            kTotal += k.poll().getProjection();
-        }
-        qbTotal /= qbCounter;
-        rbTotal /= rbCounter;
-        wrTotal /= wrCounter;
-        teTotal /= teCounter;
-        dTotal /= dCounter;
-        kTotal /= kCounter;
+        setPAALimits(rankings);
+        double qbTotal = getPositionalProjection(qbLimit, rankings.getQbs());
+        double rbTotal = getPositionalProjection(rbLimit, rankings.getRbs());
+        double wrTotal = getPositionalProjection(wrLimit, rankings.getWrs());
+        double teTotal = getPositionalProjection(teLimit, rankings.getTes());
+        double dTotal  = getPositionalProjection(dLimit,  rankings.getDsts());
+        double kTotal  = getPositionalProjection(kLimit,  rankings.getKs());
         for (String key : rankings.getPlayers().keySet()) {
             Player player = rankings.getPlayer(key);
             if (Constants.QB.equals(player.getPosition())) {
@@ -313,6 +255,31 @@ public class ParseMath {
                 player.setPaa(player.getProjection() - kTotal);
             }
         }
+    }
+
+    private static double getPositionalProjection(double limit, List<Player> players) {
+        double posCounter;
+        double posTotal = 0.0;
+        PriorityQueue<Player> playerQueue = new PriorityQueue<>(300,
+                new Comparator<Player>() {
+                    @Override
+                    public int compare(Player a, Player b) {
+                        if (a.getProjection() > b.getProjection()) {
+                            return -1;
+                        }
+                        if (a.getProjection() < b.getProjection()) {
+                            return 1;
+                        }
+                        return 0;
+                    }
+                });
+        playerQueue.addAll(players);
+        int posCap = Math.min((int) limit, playerQueue.size());
+        for (posCounter = 0; posCounter < posCap; posCounter++) {
+            posTotal += playerQueue.poll().getProjection();
+        }
+        posTotal /= posCounter;
+        return posTotal;
     }
 
     public static void getECRAuctionValue(Rankings rankings) {
