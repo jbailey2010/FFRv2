@@ -5,9 +5,11 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.devingotaswitch.rankings.sources.ParseCBS;
+import com.devingotaswitch.rankings.sources.ParseDraft;
 import com.devingotaswitch.rankings.sources.ParseDraftWizard;
 import com.devingotaswitch.rankings.sources.ParseECR;
 import com.devingotaswitch.rankings.sources.ParseESPN;
+import com.devingotaswitch.rankings.sources.ParseFA;
 import com.devingotaswitch.rankings.sources.ParseFFTB;
 import com.devingotaswitch.rankings.sources.ParseInjuries;
 import com.devingotaswitch.rankings.sources.ParseMFL;
@@ -206,6 +208,22 @@ public class RankingsFetcher {
                 ParseStats.setStats(rankings);
             } catch (Exception e) {
                 Log.e(TAG, "Failed to get player stats", e);
+            }
+
+            Log.i(TAG, "Getting draft info");
+            publishProgress("Getting draft information...");
+            try {
+                ParseDraft.parseTeamDraft(rankings);
+            } catch (Exception e) {
+                Log.e(TAG, "Failed to get draft info", e);
+            }
+
+            Log.i(TAG, "Getting free agency info");
+            publishProgress("Getting free agency classes...");
+            try {
+                ParseFA.parseFAClasses(rankings);
+            } catch (Exception e) {
+                Log.e(TAG, "Failed to get FA info", e);
             }
 
             return null;
