@@ -16,6 +16,7 @@ import com.devingotaswitch.rankings.sources.ParseNFL;
 import com.devingotaswitch.rankings.sources.ParsePFO;
 import com.devingotaswitch.rankings.sources.ParseProjections;
 import com.devingotaswitch.rankings.sources.ParseSOS;
+import com.devingotaswitch.rankings.sources.ParseStats;
 import com.devingotaswitch.rankings.sources.ParseWalterFootball;
 import com.devingotaswitch.rankings.RankingsHome;
 import com.devingotaswitch.rankings.domain.LeagueSettings;
@@ -131,6 +132,7 @@ public class RankingsFetcher {
             }
             publishProgress("Fetching rankings... 10/14");
 
+            Log.i(TAG, "Getting projections");
             publishProgress("Getting projections...");
             try {
                 ParseProjections.projPointsWrapper(rankings);
@@ -140,6 +142,7 @@ public class RankingsFetcher {
 
             // TODO: decide isRegularSeasoon here
 
+            Log.i(TAG, "Getting ECR/ADP rankings");
             publishProgress("Getting adp...");
             try {
                 ParseECR.parseECRWrapper(rankings);
@@ -147,11 +150,12 @@ public class RankingsFetcher {
                 Log.e(TAG, "Failed to parse ecr/adp/risk", e);
             }
 
-            Log.i(TAG, "Getting ECR/ADP rankings");
+            Log.i(TAG, "Getting auction values from adp/ecr");
             ParseMath.getADPAuctionValue(rankings);
             ParseMath.getECRAuctionValue(rankings);
             publishProgress("Fetching rankings... 12/14");
 
+            Log.i(TAG, "Getting paa calculations");
             publishProgress("Calculating PAA...");
             try {
                 ParseMath.setPlayerPAA(rankings);
@@ -159,6 +163,7 @@ public class RankingsFetcher {
                 Log.e(TAG, "Failed to calculate PAA", e);
             }
 
+            Log.i(TAG, "Setting player xvals");
             publishProgress("Calculating xVal...");
             try {
                 ParseMath.setPlayerXval(rankings);
@@ -171,6 +176,7 @@ public class RankingsFetcher {
             ParseMath.getPAAAuctionValue(rankings);
             publishProgress("Fetching rankings... 14/14");
 
+            Log.i(TAG, "Getting positional sos");
             publishProgress("Getting positional SOS...");
             try {
                 ParseSOS.getSOS(rankings);
@@ -178,6 +184,7 @@ public class RankingsFetcher {
                 Log.e(TAG, "Failed to parse SOS", e);
             }
 
+            Log.i(TAG, "Getting advanced oline stats");
             publishProgress("Getting advanced line stats...");
             try {
                 ParsePFO.parsePFOLineData(rankings);
@@ -185,6 +192,7 @@ public class RankingsFetcher {
                 Log.e(TAG, "Failed to parse PFO line data", e);
             }
 
+            Log.i(TAG, "Getting injury statuses");
             publishProgress("Getting injury status...");
             try {
                 ParseInjuries.parsePlayerInjuries(rankings);
@@ -192,16 +200,16 @@ public class RankingsFetcher {
                 Log.e(TAG, "Failed to parse player injuries");
             }
 
-            return null;
-            /*
-            publishProgress("Please wait, fetching player stats...");
+            Log.i(TAG, "Getting player stats");
+            publishProgress("Getting last year's stats...");
             try {
-                HighLevel.setStats(holder, cont);
-            } catch (HttpStatusException e2) {
-                System.out.println(e2.getStatusCode() + ", " + e2.getUrl());
-            } catch (IOException e) {
+                ParseStats.setStats(rankings);
+            } catch (Exception e) {
+                Log.e(TAG, "Failed to get player stats", e);
             }
 
+            return null;
+            /*
             publishProgress("Please wait, fetching team data...");
             if (!holder.isRegularSeason
                     || (holder.isRegularSeason && (fa.size() < 5 || draftClasses
