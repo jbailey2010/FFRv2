@@ -15,7 +15,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.Adapter;
 import android.widget.LinearLayout;
+import android.widget.ListAdapter;
+import android.widget.ListView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -27,12 +31,21 @@ import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.fileio.LocalSettingsHelper;
 import com.devingotaswitch.fileio.RankingsDBWrapper;
 import com.devingotaswitch.rankings.domain.LeagueSettings;
+import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
+import com.devingotaswitch.rankings.domain.Team;
+import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.GeneralUtils;
 import com.devingotaswitch.youruserpools.CIBHelper;
 import com.devingotaswitch.youruserpools.CUPHelper;
 import com.devingotaswitch.youruserpools.ChangePasswordActivity;
 import com.devingotaswitch.youruserpools.UserActivity;
+
+import java.text.DecimalFormat;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class RankingsHome extends AppCompatActivity {
     private final String TAG="RankingsActivity";
@@ -138,15 +151,11 @@ public class RankingsHome extends AppCompatActivity {
             Rankings.loadRankings(this, rankingsDB);
         } else if (!LocalSettingsHelper.wasPresent(LocalSettingsHelper.getCurrentLeagueName(this))) {
             // Otherwise, if no league is set up, display that message
-            rankingsBase.removeAllViews();
-            View child = getLayoutInflater().inflate(R.layout.content_rankings_no_league, null);
-            rankingsBase.addView(child);
+            clearAndAddView(R.layout.content_rankings_no_league);
             rankings = new Rankings(currentLeague);
         } else {
             // If neither of the above, there's a league but no ranks. Tell the user.
-            rankingsBase.removeAllViews();
-            View child = getLayoutInflater().inflate(R.layout.content_rankings_no_ranks, null);
-            rankingsBase.addView(child);
+            clearAndAddView(R.layout.content_rankings_no_ranks);
             rankings = new Rankings(currentLeague);
         }
     }
@@ -160,8 +169,69 @@ public class RankingsHome extends AppCompatActivity {
         }
     }
 
+    private View clearAndAddView(int viewId) {
+        rankingsBase.removeAllViews();
+        View child = getLayoutInflater().inflate(viewId, null);
+        rankingsBase.addView(child);
+        return child;
+    }
+
     private void displayRankings() {
+        View view = clearAndAddView(R.layout.content_rankings_display);
+        String playerBasic = "main";
+        String playerInfo = "info";
+        String playerStatus = "status";
+        DecimalFormat df = new DecimalFormat(Constants.NUMBER_FORMAT);
+
+        ListView listview = (ListView) view.findViewById(R.id.rankings_list);
+        listview.setAdapter(null);
+        List<Map<String, String>> data = new ArrayList<>();
+        SimpleAdapter adapter = new SimpleAdapter(this, data,
+                R.layout.list_item_layout,
+                new String[] { playerBasic, playerInfo, playerStatus },
+                new int[] { R.id.player_basic, R.id.player_info,
+                R.id.player_status });
+        listview.setAdapter(adapter);
+        for (String playerKey : rankings.getOrderedIds()) {
+            Player player = rankings.getPlayer(playerKey);
+            String playerBasicContent;
+            if (rankings.getLeagueSettings().isAuction()) {
+                playerBasicContent = new StringBuilder(String.valueOf(df.format(player.getAuctionValue())))
+                        .append(Constants.RANKINGS_LIST_DELIMITER)
+                        .append(player.getName())
+                        .toString();
+            } else {
+                playerBasicContent = new StringBuilder(String.valueOf(player.getEcr()))
+                        .append(Constants.RANKINGS_LIST_DELIMITER)
+                        .append(player.getName())
+                        .toString();
+            }
+            Map<String, String> datum = new HashMap<>(3);
+            datum.put(playerBasic, playerBasicContent);
+            datum.put(playerInfo, generateOutputSubtext(player, df));
+            if (player.isWatched()) {
+                datum.put(playerStatus, Constants.WATCHED_FLAG);
+            }
+            data.add(datum);
+        }
+        adapter.notifyDataSetChanged();
         // TODO: this
+    }
+
+    private String generateOutputSubtext(Player player, DecimalFormat df) {
+        StringBuilder sub = new StringBuilder(player.getPosition())
+                .append(" - ")
+                .append(player.getTeamName());
+        Team team = rankings.getTeam(player);
+        if (team != null) {
+            sub = sub.append(" (Bye: ")
+                    .append(team.getBye())
+                    .append(")");
+        }
+        return sub.append(Constants.LINE_BREAK)
+                .append("Projection: ")
+                .append(df.format(player.getProjection()))
+                .toString();
     }
 
     // Handle when the a navigation item is selected

@@ -13,7 +13,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/rankings_base_layout"
         android:orientation="vertical">
-        
+
     </LinearLayout>
 
 </RelativeLayout>
