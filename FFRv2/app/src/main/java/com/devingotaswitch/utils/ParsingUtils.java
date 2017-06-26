@@ -215,6 +215,7 @@ public class ParsingUtils {
         teamFixes.put("stl", "Los Angeles Rams");
         teamFixes.put("st. louis", "Los Angeles Rams");
         teamFixes.put("st louis", "Los Angeles Rams");
+        teamFixes.put("la", "Los Angeles Rams");
         teamFixes.put("ram", "Los Angeles Rams");
         teamFixes.put("larm", "Los Angeles Rams");
         teamFixes.put("rams", "Los Angeles Rams");

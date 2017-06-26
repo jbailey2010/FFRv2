@@ -61,8 +61,10 @@ public class RankingsDBWrapper {
             Player player = DBUtils.cursorToPlayer(result);
             players.put(player.getUniqueId(), player);
             result.moveToNext();
+
         }
         result.close();
+
         return players;
     }
 

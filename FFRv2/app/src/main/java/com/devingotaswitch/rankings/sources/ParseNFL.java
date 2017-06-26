@@ -78,6 +78,10 @@ public class ParseNFL {
             String worth = td.get(i + 3);
             double val = Double.parseDouble(worth);
             String team = nameSet[nameSet.length - 1];
+            if (td.get(i).contains("View News")) {
+                // Sometimes it's <name> <pos> - <team> View News
+                team = nameSet[nameSet.length - 3];
+            }
             if ("DEF".equals(pos)) {
                 team = name;
                 pos = Constants.DST;
@@ -87,6 +91,7 @@ public class ParseNFL {
             player.setTeamName(team);
             player.setPosition(pos);
             player.handleNewValue(val);
+
             player = ParsingUtils.getPlayerFromRankings(name, team, pos, val);
             rankings.processNewPlayer(player);
         }
