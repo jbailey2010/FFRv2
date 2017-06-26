@@ -145,6 +145,9 @@ public class Rankings {
     }
 
     public static void loadRankings(RankingsHome activity, RankingsDBWrapper rankingsDB) {
+        if (loader == null) {
+            loader = new RankingsLoader();
+        }
         RankingsLoader.RanksLoader ranksLoader = loader.new RanksLoader(activity, rankingsDB);
         ranksLoader.execute();
     }
