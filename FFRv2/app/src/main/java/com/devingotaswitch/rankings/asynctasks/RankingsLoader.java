@@ -1,6 +1,5 @@
 package com.devingotaswitch.rankings.asynctasks;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
@@ -14,7 +13,6 @@ import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.domain.Team;
 import com.devingotaswitch.utils.GeneralUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -46,7 +44,7 @@ public class RankingsLoader {
             super.onPostExecute(result);
             pdia.dismiss();
             Log.d(TAG, GeneralUtils.getLatency(start) + " to load from file");
-            act.displayRankings(result);
+            act.processNewRankings(result, false);
         }
 
         @Override

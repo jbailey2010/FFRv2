@@ -43,6 +43,14 @@ public class Rankings {
         return players.get(id);
     }
 
+    public List<String> getOrderedIds() {
+        return orderedIds;
+    }
+
+    public void setOrderedIds(List<String> orderedIds) {
+        this.orderedIds = orderedIds;
+    }
+
     public List<Player> getQbs() {
         List<Player> pos = new ArrayList<>();
         for (String key : players.keySet()) {

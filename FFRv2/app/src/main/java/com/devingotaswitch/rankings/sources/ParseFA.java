@@ -74,7 +74,6 @@ public class ParseFA {
                         .append(departingFA.get(key))
                         .toString();
                 team.setFaClass(faClass);
-                Log.d("FA", team.getName() + ": " + faClass);
             }
         }
     }

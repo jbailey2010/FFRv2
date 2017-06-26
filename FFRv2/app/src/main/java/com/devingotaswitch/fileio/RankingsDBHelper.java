@@ -122,7 +122,7 @@ public class RankingsDBHelper extends SQLiteOpenHelper {
                 Constants.PLAYER_PROJECTION_COLUMN + " REAL," +
                 Constants.PLAYER_PAA_COLUMN        + " REAL," +
                 Constants.PLAYER_XVAL_COLUMN       + " REAL," +
-                "PRIMARY KEY(" + Constants.PLAYER_NAME_COLUMN + ", " + Constants.PLAYER_POSITION_COLUMN + ")" +
+                "PRIMARY KEY(" + Constants.PLAYER_NAME_COLUMN + ", " + Constants.TEAM_NAME_COLUMN + ", " + Constants.PLAYER_POSITION_COLUMN + ")" +
                 ");";
     }
 
@@ -137,7 +137,7 @@ public class RankingsDBHelper extends SQLiteOpenHelper {
                 Constants.TEAM_NAME_COLUMN       + " TEXT," +
                 Constants.PLAYER_NOTE_COLUMN     + " TEXT," +
                 Constants.PLAYER_WATCHED_COLUMN  + " BOOLEAN," +
-                "PRIMARY KEY(" + Constants.PLAYER_NAME_COLUMN + ", " + Constants.PLAYER_POSITION_COLUMN + ")" +
+                "PRIMARY KEY(" + Constants.PLAYER_NAME_COLUMN + ", " + Constants.TEAM_NAME_COLUMN + ", " + Constants.PLAYER_POSITION_COLUMN + ")" +
                 ");";
     }
 

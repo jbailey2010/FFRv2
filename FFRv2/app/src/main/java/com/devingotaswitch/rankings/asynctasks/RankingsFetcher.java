@@ -4,11 +4,11 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
-import com.devingotaswitch.rankings.sources.ParseCBS;
+import com.devingotaswitch.fileio.LocalSettingsHelper;
+import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.sources.ParseDraft;
 import com.devingotaswitch.rankings.sources.ParseDraftWizard;
 import com.devingotaswitch.rankings.sources.ParseECR;
-import com.devingotaswitch.rankings.sources.ParseESPN;
 import com.devingotaswitch.rankings.sources.ParseFA;
 import com.devingotaswitch.rankings.sources.ParseFFTB;
 import com.devingotaswitch.rankings.sources.ParseInjuries;
@@ -25,6 +25,11 @@ import com.devingotaswitch.rankings.domain.LeagueSettings;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.sources.ParseYahoo;
 import com.devingotaswitch.utils.GeneralUtils;
+
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.List;
+import java.util.PriorityQueue;
 
 public class RankingsFetcher {
     private static final String TAG = "RankingsFetcher";
@@ -56,8 +61,8 @@ public class RankingsFetcher {
             super.onPostExecute(result);
             pdia.dismiss();
             Log.d(TAG, GeneralUtils.getLatency(start) + " seconds to fetch rankings");
-            //LocalSettingsHelper.saveRankingsFetched(act, true);
-            //act.displayRankings(result);
+            LocalSettingsHelper.saveRankingsFetched(act, true);
+            act.processNewRankings(result, true);
         }
 
         @Override
@@ -226,23 +231,50 @@ public class RankingsFetcher {
                 Log.e(TAG, "Failed to get FA info", e);
             }
 
-            return null;
-            /*
-            publishProgress("Please wait, fetching team data...");
-            if (!holder.isRegularSeason
-                    || (holder.isRegularSeason && (fa.size() < 5 || draftClasses
-                    .size() < 5))) {
-                try {
-                    HighLevel.setTeamInfo(holder, cont);
-                } catch (HttpStatusException e2) {
-                    System.out.println(e2.getStatusCode() + ", " + e2.getUrl());
-                } catch (IOException e1) {
-                }
+            Log.i(TAG, "Ordering players for display");
+            rankings.setOrderedIds(getOrderedIds(rankings));
+
+            return rankings;
+        }
+
+        private List<String> getOrderedIds(Rankings rankings) {
+            List<String> orderedIds = new ArrayList<>();
+            PriorityQueue<Player> playerQueue;
+            if (rankings.getLeagueSettings().isAuction()) {
+                playerQueue = new PriorityQueue<>(300,
+                        new Comparator<Player>() {
+                            @Override
+                            public int compare(Player a, Player b) {
+                                if (a.getAuctionValue() > b.getAuctionValue()) {
+                                    return -1;
+                                }
+                                if (a.getAuctionValue() < b.getAuctionValue()) {
+                                    return 1;
+                                }
+                                return 0;
+                            }
+                        });
             } else {
-                holder.fa = fa;
-                holder.draftClasses = draftClasses;
+                playerQueue = new PriorityQueue<>(300,
+                        new Comparator<Player>() {
+                            @Override
+                            public int compare(Player a, Player b) {
+                                if (a.getEcr() > b.getEcr()) {
+                                    return 1;
+                                }
+                                if (a.getEcr() < b.getEcr()) {
+                                    return -1;
+                                }
+                                return 0;
+                            }
+                        });
             }
-            */
+            playerQueue.addAll(rankings.getPlayers().values());
+            while (!playerQueue.isEmpty()) {
+                Player player = playerQueue.poll();
+                orderedIds.add(player.getUniqueId());
+            }
+            return orderedIds;
         }
 
         @Override

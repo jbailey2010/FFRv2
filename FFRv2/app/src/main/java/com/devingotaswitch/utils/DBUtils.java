@@ -48,7 +48,7 @@ public class DBUtils {
     }
 
     public static String getDeleteAllString(String tableName) {
-        return new StringBuilder("DELETE * FROM ")
+        return new StringBuilder("DELETE FROM ")
                 .append(tableName)
                 .toString();
     }

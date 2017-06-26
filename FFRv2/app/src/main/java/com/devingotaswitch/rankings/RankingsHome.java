@@ -151,10 +151,17 @@ public class RankingsHome extends AppCompatActivity {
         }
     }
 
-    public void displayRankings(Rankings newRankings) {
+    public void processNewRankings(Rankings newRankings, boolean saveRanks) {
         rankings = newRankings;
-        // TODO: finish this
-        rankings.saveRankings(this, rankingsDB);
+        displayRankings();
+        if (saveRanks) {
+            // Don't save again if we're just displaying rankings we just loaded
+            rankings.saveRankings(this, rankingsDB);
+        }
+    }
+
+    private void displayRankings() {
+        // TODO: this
     }
 
     // Handle when the a navigation item is selected
