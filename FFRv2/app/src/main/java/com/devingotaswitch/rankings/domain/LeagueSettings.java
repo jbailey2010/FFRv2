@@ -6,7 +6,6 @@ import java.util.UUID;
 
 public class LeagueSettings {
 
-    private String id;
     private String name;
     private int teamCount;
 
@@ -17,32 +16,23 @@ public class LeagueSettings {
     private RosterSettings rosterSettings;
 
     public LeagueSettings(ScoringSettings scoring, RosterSettings roster) {
-        this(UUID.randomUUID().toString(), Constants.DEFAULT_NAME, Constants.DEFAULT_TEAM_COUNT, Constants.DEFAULT_IS_AUCTION,
+        this(Constants.DEFAULT_NAME, Constants.DEFAULT_TEAM_COUNT, Constants.DEFAULT_IS_AUCTION,
                 Constants.DEFAULT_AUCTION_BUDGET, scoring, roster);
     }
 
     public LeagueSettings(String name, int teamCount, boolean isAuction, int auctionBudget) {
-        this(UUID.randomUUID().toString(), name, teamCount, isAuction, auctionBudget, new ScoringSettings(),
+        this(name, teamCount, isAuction, auctionBudget, new ScoringSettings(),
                 new RosterSettings());
     }
 
-    public LeagueSettings(String id, String name, int teamCount, boolean isAuction,
+    public LeagueSettings(String name, int teamCount, boolean isAuction,
                           int auctionBudget, ScoringSettings scoring, RosterSettings roster) {
-        this.setId(id);
         this.setName(name);
         this.setTeamCount(teamCount);
         this.setAuction(isAuction);
         this.setAuctionBudget(auctionBudget);
         this.setScoringSettings(scoring);
         this.setRosterSettings(roster);
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
     }
 
     public String getName() {

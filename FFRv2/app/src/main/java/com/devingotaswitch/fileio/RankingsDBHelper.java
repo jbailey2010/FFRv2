@@ -37,8 +37,7 @@ public class RankingsDBHelper extends SQLiteOpenHelper {
 
     private String getCreateLeagueTableSQL() {
         return "CREATE TABLE " + Constants.LEAGUE_TABLE_NAME + " (" +
-                Constants.LEAGUE_ID_COLUMN       + " TEXT PRIMARY KEY," +
-                Constants.NAME_COLUMN            + " TEXT," +
+                Constants.NAME_COLUMN            + " TEXT PRIMARY KEY," +
                 Constants.TEAM_COUNT_COLUMN      + " INTEGER," +
                 Constants.IS_AUCTION_COLUMN      + " BOOLEAN," +
                 Constants.AUCTION_BUDGET_COLUMN  + " INTEGER," +

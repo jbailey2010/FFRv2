@@ -22,7 +22,6 @@ public class Constants {
 
     // League settings: SQL
     public static final String LEAGUE_TABLE_NAME = "league_settings";
-    public static final String LEAGUE_ID_COLUMN = "league_id";
     public static final String NAME_COLUMN = "league_name";
     public static final String TEAM_COUNT_COLUMN = "team_count";
     public static final String IS_AUCTION_COLUMN = "is_auction";

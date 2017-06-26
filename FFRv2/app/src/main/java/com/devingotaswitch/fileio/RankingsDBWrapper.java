@@ -237,7 +237,7 @@ public class RankingsDBWrapper {
             updateScoring(db, league.getScoringSettings().getId(), scoringUpdates);
         }
         if (leagueUpdates != null && !leagueUpdates.isEmpty()) {
-            updateEntry(db, league.getId(), DBUtils.updatedValuesToContentValues(leagueUpdates), Constants.LEAGUE_TABLE_NAME, Constants.LEAGUE_ID_COLUMN);
+            updateEntry(db, league.getName(), DBUtils.updatedValuesToContentValues(leagueUpdates), Constants.LEAGUE_TABLE_NAME, Constants.NAME_COLUMN);
         }
     }
 
@@ -245,7 +245,7 @@ public class RankingsDBWrapper {
         SQLiteDatabase db = getInstance(context).getWritableDatabase();
         deleteRoster(db, league.getRosterSettings().getId());
         deleteScoring(db, league.getScoringSettings().getId());
-        deleteEntry(db, league.getId(), Constants.LEAGUE_TABLE_NAME, Constants.LEAGUE_ID_COLUMN);
+        deleteEntry(db, league.getName(), Constants.LEAGUE_TABLE_NAME, Constants.NAME_COLUMN);
     }
 
     //---------- Rosters ----------

@@ -75,7 +75,9 @@ public class LeagueSettingsActivity extends AppCompatActivity {
     }
 
     private void init() {
-        rankingsDB = new RankingsDBWrapper();
+        if (rankingsDB == null) {
+            rankingsDB = new RankingsDBWrapper();
+        }
         baseLayout = (LinearLayout) findViewById(R.id.league_settings_base);
         initLeagues();
     }
@@ -135,6 +137,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         View view = initializeLeagueSettingsBase();
         final EditText leagueName = (EditText)view.findViewById(R.id.league_settings_name);
         leagueName.setText(currentLeague.getName());
+        leagueName.setVisibility(View.GONE);
 
         final EditText teamCount = (EditText)view.findViewById(R.id.league_settings_team_count);
         teamCount.setText(String.valueOf(currentLeague.getTeamCount()));
@@ -189,6 +192,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         Button advanced = (Button) view.findViewById(R.id.league_settings_advanced_settings);
         Button save = (Button) view.findViewById(R.id.league_settings_create_default);
         final EditText leagueName = (EditText)view.findViewById(R.id.league_settings_name);
+        leagueName.setVisibility(View.VISIBLE);
         final EditText teamCount = (EditText)view.findViewById(R.id.league_settings_team_count);
         final EditText auctionBudget = (EditText)view.findViewById(R.id.league_settings_auction_budget);
         final RadioButton isAuction = (RadioButton)view.findViewById(R.id.league_settings_auction);
@@ -259,7 +263,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
             league.setTeamCount(Integer.parseInt(teamCount.getText().toString()));
         }
         if (isAuction.isChecked() != league.isAuction()) {
-            updates.put(Constants.IS_AUCTION_COLUMN, Boolean.toString(isAuction.isChecked()));
+            updates.put(Constants.IS_AUCTION_COLUMN, isAuction.isChecked() ? "1" : "0");
             league.setAuction(isAuction.isChecked());
         }
         if (isAuction.isChecked() && league.getAuctionBudget() != Integer.parseInt(auctionBudget.getText().toString())) {
