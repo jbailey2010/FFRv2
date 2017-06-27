@@ -60,13 +60,14 @@ public class RankingsDBWrapper {
         List<Player> watchList = getWatchList(context);
         for (Player player : watchList) {
             if (!watchedIds.contains(player.getUniqueId())) {
+                Log.d("JEFF", "In get players, adding " + player.getUniqueId());
                 watchedIds.add(player.getUniqueId());
             }
         }
         Cursor result = getAllEntries(db, Constants.PLAYER_TABLE_NAME);
         while(!result.isAfterLast()){
             Player player = DBUtils.cursorToPlayer(result);
-            if (watchedIds.contains(player.getUniqueId())) {
+            if (watchedIds.contains(DBUtils.sanitizePlayerName(player.getUniqueId()))) {
                 player.setWatched(true);
             }
             players.put(player.getUniqueId(), player);
@@ -136,25 +137,21 @@ public class RankingsDBWrapper {
         SQLiteDatabase db = getInstance(context).getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(Constants.PLAYER_WATCHED_COLUMN, player.isWatched() ? "1": "0");
-        updateMultipleKeyEntry(db, sanitizePlayerName(player.getName()), player.getPosition(), values, Constants.PLAYER_CUSTOM_TABLE_NAME,
+        updateMultipleKeyEntry(db, DBUtils.sanitizePlayerName(player.getName()), player.getPosition(), values, Constants.PLAYER_CUSTOM_TABLE_NAME,
                 Constants.PLAYER_NAME_COLUMN, Constants.PLAYER_POSITION_COLUMN);
-    }
-
-    private String sanitizePlayerName(String playerName) {
-        return playerName.replaceAll("\'", "");
     }
 
     public void updatePlayerNote(Context context, Player player, String note) {
         SQLiteDatabase db = getInstance(context).getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(Constants.PLAYER_NOTE_COLUMN, note);
-        updateMultipleKeyEntry(db, sanitizePlayerName(player.getName()), player.getPosition(), values, Constants.PLAYER_CUSTOM_TABLE_NAME,
+        updateMultipleKeyEntry(db, DBUtils.sanitizePlayerName(player.getName()), player.getPosition(), values, Constants.PLAYER_CUSTOM_TABLE_NAME,
                 Constants.PLAYER_NAME_COLUMN, Constants.PLAYER_POSITION_COLUMN);
     }
 
     public Player getPlayer(Context context, String name, String position) {
         SQLiteDatabase db = getInstance(context).getReadableDatabase();
-        Cursor result = getMultiKeyEntry(db, Constants.PLAYER_NAME_COLUMN, Constants.PLAYER_POSITION_COLUMN, name, position,
+        Cursor result = getMultiKeyEntry(db, Constants.PLAYER_NAME_COLUMN, Constants.PLAYER_POSITION_COLUMN, DBUtils.sanitizePlayerName(name), position,
                 Constants.PLAYER_TABLE_NAME);
         Player player = DBUtils.cursorToPlayer(result);
         player = loadPlayerCustomFields(db, player);
@@ -164,7 +161,7 @@ public class RankingsDBWrapper {
 
     private Player loadPlayerCustomFields(SQLiteDatabase db, Player player) {
         Cursor result = getMultiKeyEntry(db, Constants.PLAYER_NAME_COLUMN, Constants.PLAYER_POSITION_COLUMN,
-                sanitizePlayerName(player.getName()), player.getPosition(), Constants.PLAYER_CUSTOM_TABLE_NAME);
+                DBUtils.sanitizePlayerName(player.getName()), player.getPosition(), Constants.PLAYER_CUSTOM_TABLE_NAME);
         player = DBUtils.cursorToCustomPlayer(result, player);
         result.close();
         return player;

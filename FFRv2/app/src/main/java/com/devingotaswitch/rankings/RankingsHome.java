@@ -17,6 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -210,7 +211,7 @@ public class RankingsHome extends AppCompatActivity {
             datum.put(playerBasic, playerBasicContent);
             datum.put(playerInfo, generateOutputSubtext(player, df));
             if (player.isWatched()) {
-                datum.put(playerStatus, Constants.WATCHED_FLAG);
+                datum.put(playerStatus, Integer.toString(R.drawable.star));
             }
             data.add(datum);
         }
@@ -221,19 +222,17 @@ public class RankingsHome extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 String playerKey = getPlayerKeyFromListViewItem(view);
-                TextView playerStatus = (TextView)view.findViewById(R.id.player_status);
+                ImageView playerStatus = (ImageView)view.findViewById(R.id.player_status);
                 Player player = rankings.getPlayer(playerKey);
-                String status;
                 if (player.isWatched()) {
                     player.setWatched(false);
                     Toast.makeText(context, player.getName() + " removed from watch list.", Toast.LENGTH_SHORT).show();
-                    status = "";
+                    playerStatus.setImageResource(0);
                 } else {
                     player.setWatched(true);
                     Toast.makeText(context, player.getName() + " added to watch list.", Toast.LENGTH_SHORT).show();
-                    status = Constants.WATCHED_FLAG;
+                    playerStatus.setImageResource(R.drawable.star);
                 }
-                playerStatus.setText(status);
                 rankingsDB.updatePlayerWatchedStatus(context, player);
                 return true;
             }

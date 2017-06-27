@@ -94,7 +94,6 @@ public class CUPHelper {
                 - SDKGlobalConfiguration.getGlobalTimeOffset() * 1000;
         long timeRemaining = getCurrSession().getIdToken().getExpiration().getTime()
                 - currentTime;
-        Log.e("Jeff", String.valueOf(timeRemaining));
         return timeRemaining < REFRESH_THRESHOLD_MILLIS;
     }
 

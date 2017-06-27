@@ -27,14 +27,12 @@
             android:textSize="14sp"
             android:focusable="false" />
 
-        <TextView
+        <ImageView
             android:id="@+id/player_status"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="17dp"
+            android:layout_height="17dp"
             android:layout_alignParentRight="true"
-            android:textSize="13sp"
-            android:layout_alignTop="@+id/player_basic"
-            android:text="" />
+            android:layout_alignTop="@+id/player_basic" />
 
     </RelativeLayout>
 

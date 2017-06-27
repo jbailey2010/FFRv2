@@ -202,7 +202,7 @@ public class DBUtils {
     public static Player cursorToCustomPlayer(Cursor result, Player player) {
         player.setNote(result.getString(result.getColumnIndex(Constants.PLAYER_NOTE_COLUMN)));
         player.setWatched(result.getInt(result.getColumnIndex(Constants.PLAYER_WATCHED_COLUMN)) > 0);
-        player.setName(result.getString(result.getColumnIndex(Constants.PLAYER_NAME_COLUMN)));
+        player.setName(desanitizePlayerName(result.getString(result.getColumnIndex(Constants.PLAYER_NAME_COLUMN))));
         player.setPosition(result.getString(result.getColumnIndex(Constants.PLAYER_POSITION_COLUMN)));
         player.setTeamName(result.getString(result.getColumnIndex(Constants.TEAM_NAME_COLUMN)));
         return player;
@@ -225,7 +225,7 @@ public class DBUtils {
 
     public static Player cursorToPlayerBasic(Cursor result) {
         Player player = new Player();
-        player.setName(result.getString(result.getColumnIndex(Constants.PLAYER_NAME_COLUMN)));
+        player.setName(desanitizePlayerName(result.getString(result.getColumnIndex(Constants.PLAYER_NAME_COLUMN))));
         player.setPosition(result.getString(result.getColumnIndex(Constants.PLAYER_POSITION_COLUMN)));
         player.setTeamName(result.getString(result.getColumnIndex(Constants.TEAM_NAME_COLUMN)));
         return player;
@@ -233,7 +233,7 @@ public class DBUtils {
 
     public static ContentValues customPlayerToContentValues(Player player) {
         ContentValues values = new ContentValues();
-        values.put(Constants.PLAYER_NAME_COLUMN, player.getName());
+        values.put(Constants.PLAYER_NAME_COLUMN, sanitizePlayerName(player.getName()));
         values.put(Constants.PLAYER_POSITION_COLUMN, player.getPosition());
         values.put(Constants.TEAM_NAME_COLUMN, player.getTeamName());
         values.put(Constants.PLAYER_NOTE_COLUMN, player.getNote());
@@ -243,7 +243,7 @@ public class DBUtils {
 
     public static ContentValues playerToContentValues(Player player) {
         ContentValues values = new ContentValues();
-        values.put(Constants.PLAYER_NAME_COLUMN, player.getName());
+        values.put(Constants.PLAYER_NAME_COLUMN, sanitizePlayerName(player.getName()));
         values.put(Constants.PLAYER_POSITION_COLUMN, player.getPosition());
         values.put(Constants.TEAM_NAME_COLUMN, player.getTeamName());
         values.put(Constants.PLAYER_AGE_COLUMN, player.getAge());
@@ -257,5 +257,13 @@ public class DBUtils {
         values.put(Constants.PLAYER_PAA_COLUMN, player.getPaa());
         values.put(Constants.PLAYER_XVAL_COLUMN, player.getxVal());
         return values;
+    }
+
+    public static String sanitizePlayerName(String playerName) {
+        return playerName.replaceAll("'", "\'");
+    }
+
+    private static String desanitizePlayerName(String sanitizedName) {
+        return sanitizedName.replaceAll("\'", "'");
     }
 }
