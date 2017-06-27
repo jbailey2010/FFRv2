@@ -62,7 +62,7 @@ public class DBUtils {
 
     public static String getMultiKeyUpdateAndDeleteKeyString(String columnOne, String columnTwo) {
         return new StringBuilder(columnOne)
-                .append(" = ? AND")
+                .append(" = ? AND ")
                 .append(columnTwo)
                 .append(" = ?")
                 .toString();

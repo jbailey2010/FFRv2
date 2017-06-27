@@ -32,8 +32,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
-            android:textSize="12sp"
-            android:layout_alignTop="@+id/player_info"
+            android:textSize="13sp"
+            android:layout_alignTop="@+id/player_basic"
             android:text="" />
 
     </RelativeLayout>

@@ -1,6 +1,7 @@
 package com.devingotaswitch.rankings;
 
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -15,9 +16,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Adapter;
+import android.widget.AdapterView;
 import android.widget.LinearLayout;
-import android.widget.ListAdapter;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -185,8 +185,8 @@ public class RankingsHome extends AppCompatActivity {
 
         ListView listview = (ListView) view.findViewById(R.id.rankings_list);
         listview.setAdapter(null);
-        List<Map<String, String>> data = new ArrayList<>();
-        SimpleAdapter adapter = new SimpleAdapter(this, data,
+        final List<Map<String, String>> data = new ArrayList<>();
+        final SimpleAdapter adapter = new SimpleAdapter(this, data,
                 R.layout.list_item_layout,
                 new String[] { playerBasic, playerInfo, playerStatus },
                 new int[] { R.id.player_basic, R.id.player_info,
@@ -215,7 +215,46 @@ public class RankingsHome extends AppCompatActivity {
             data.add(datum);
         }
         adapter.notifyDataSetChanged();
-        // TODO: this
+        final Context context = this;
+
+        listview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                String playerKey = getPlayerKeyFromListViewItem(view);
+                TextView playerStatus = (TextView)view.findViewById(R.id.player_status);
+                Player player = rankings.getPlayer(playerKey);
+                String status;
+                if (player.isWatched()) {
+                    player.setWatched(false);
+                    Toast.makeText(context, player.getName() + " removed from watch list.", Toast.LENGTH_SHORT).show();
+                    status = "";
+                } else {
+                    player.setWatched(true);
+                    Toast.makeText(context, player.getName() + " added to watch list.", Toast.LENGTH_SHORT).show();
+                    status = Constants.WATCHED_FLAG;
+                }
+                playerStatus.setText(status);
+                rankingsDB.updatePlayerWatchedStatus(context, player);
+                return true;
+            }
+        });
+    }
+
+    private String getPlayerKeyFromListViewItem(View view) {
+        TextView playerMain = (TextView)view.findViewById(R.id.player_basic);
+        TextView playerInfo = (TextView)view.findViewById(R.id.player_info);
+        String name = playerMain.getText().toString().split(Constants.RANKINGS_LIST_DELIMITER)[1];
+        String teamPosBye = playerInfo.getText().toString().split(Constants.LINE_BREAK)[0];
+        String teamPos = teamPosBye.split(" \\(")[0];
+        String team = teamPos.split(" - ")[1];
+        String pos = teamPos.split(" - ")[0];
+
+        return new StringBuilder(name)
+                .append(Constants.PLAYER_ID_DELIMITER)
+                .append(team)
+                .append(Constants.PLAYER_ID_DELIMITER)
+                .append(pos)
+                .toString();
     }
 
     private String generateOutputSubtext(Player player, DecimalFormat df) {

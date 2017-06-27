@@ -5,6 +5,7 @@ import android.os.AsyncTask;
 import android.util.Log;
 
 import com.devingotaswitch.fileio.LocalSettingsHelper;
+import com.devingotaswitch.fileio.RankingsDBWrapper;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.sources.ParseDraft;
 import com.devingotaswitch.rankings.sources.ParseDraftWizard;
@@ -232,12 +233,21 @@ public class RankingsFetcher {
             }
 
             Log.i(TAG, "Ordering players for display");
-            rankings.setOrderedIds(getOrderedIds(rankings));
+            rankings.setOrderedIds(getOrderedIds());
+            setWatchedPlayers();
 
             return rankings;
         }
 
-        private List<String> getOrderedIds(Rankings rankings) {
+        private void setWatchedPlayers() {
+            RankingsDBWrapper rankingsDB = new RankingsDBWrapper();
+            List<Player> watchList = rankingsDB.getWatchList(act);
+            for (Player player : watchList) {
+                rankings.getPlayer(player.getUniqueId()).setWatched(true);
+            }
+        }
+
+        private List<String> getOrderedIds() {
             List<String> orderedIds = new ArrayList<>();
             PriorityQueue<Player> playerQueue;
             if (rankings.getLeagueSettings().isAuction()) {
