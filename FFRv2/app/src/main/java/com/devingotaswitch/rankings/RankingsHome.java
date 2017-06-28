@@ -197,7 +197,7 @@ public class RankingsHome extends AppCompatActivity {
             Player player = rankings.getPlayer(playerKey);
             String playerBasicContent;
             if (rankings.getLeagueSettings().isAuction()) {
-                playerBasicContent = new StringBuilder(String.valueOf(df.format(player.getAuctionValue())))
+                playerBasicContent = new StringBuilder(String.valueOf(df.format(player.getAuctionValueCustom(rankings))))
                         .append(Constants.RANKINGS_LIST_DELIMITER)
                         .append(player.getName())
                         .toString();

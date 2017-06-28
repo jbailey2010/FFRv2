@@ -1,5 +1,7 @@
 package com.devingotaswitch.rankings.domain;
 
+import android.util.Log;
+
 import com.devingotaswitch.utils.Constants;
 
 public class Player {
@@ -77,6 +79,10 @@ public class Player {
         this.auctionValue = auctionValue;
     }
 
+    public Double getAuctionValueCustom(Rankings rankings) {
+        double scalar = ((double)rankings.getLeagueSettings().getAuctionBudget()) / ((double)Constants.DEFAULT_AUCTION_BUDGET);
+        return getAuctionValue() * scalar;
+    }
     public String getNote() {
         return note;
     }
