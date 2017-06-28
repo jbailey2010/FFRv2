@@ -292,25 +292,27 @@ public class RankingsHome extends AppCompatActivity {
         listview.setAdapter(adapter);
         for (String playerKey : orderedIds) {
             Player player = rankings.getPlayer(playerKey);
-            String playerBasicContent;
-            if (rankings.getLeagueSettings().isAuction()) {
-                playerBasicContent = new StringBuilder(String.valueOf(df.format(player.getAuctionValueCustom(rankings))))
-                        .append(Constants.RANKINGS_LIST_DELIMITER)
-                        .append(player.getName())
-                        .toString();
-            } else {
-                playerBasicContent = new StringBuilder(String.valueOf(player.getEcr()))
-                        .append(Constants.RANKINGS_LIST_DELIMITER)
-                        .append(player.getName())
-                        .toString();
+            if (rankings.getLeagueSettings().getRosterSettings().isPositionValid(player.getPosition())) {
+                String playerBasicContent;
+                if (rankings.getLeagueSettings().isAuction()) {
+                    playerBasicContent = new StringBuilder(String.valueOf(df.format(player.getAuctionValueCustom(rankings))))
+                            .append(Constants.RANKINGS_LIST_DELIMITER)
+                            .append(player.getName())
+                            .toString();
+                } else {
+                    playerBasicContent = new StringBuilder(String.valueOf(player.getEcr()))
+                            .append(Constants.RANKINGS_LIST_DELIMITER)
+                            .append(player.getName())
+                            .toString();
+                }
+                Map<String, String> datum = new HashMap<>(3);
+                datum.put(playerBasic, playerBasicContent);
+                datum.put(playerInfo, generateOutputSubtext(player, df));
+                if (player.isWatched()) {
+                    datum.put(playerStatus, Integer.toString(R.drawable.star));
+                }
+                data.add(datum);
             }
-            Map<String, String> datum = new HashMap<>(3);
-            datum.put(playerBasic, playerBasicContent);
-            datum.put(playerInfo, generateOutputSubtext(player, df));
-            if (player.isWatched()) {
-                datum.put(playerStatus, Integer.toString(R.drawable.star));
-            }
-            data.add(datum);
         }
         adapter.notifyDataSetChanged();
         final Context context = this;

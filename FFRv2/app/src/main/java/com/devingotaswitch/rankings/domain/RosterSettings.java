@@ -2,6 +2,8 @@ package com.devingotaswitch.rankings.domain;
 
 import com.devingotaswitch.utils.Constants;
 
+import java.util.HashSet;
+import java.util.Set;
 import java.util.UUID;
 
 public class RosterSettings {
@@ -15,6 +17,8 @@ public class RosterSettings {
     private int kCount;
     private int benchCount;
     private Flex flex;
+
+    private Set<String> validPositions;
 
     public RosterSettings() {
         this(UUID.randomUUID().toString(), Constants.ONE_STARTER, Constants.TWO_STARTERS, Constants.TWO_STARTERS, Constants.ONE_STARTER, Constants.ONE_STARTER,
@@ -37,6 +41,26 @@ public class RosterSettings {
         this.setkCount(kCt);
         this.setBenchCount(benchCt);
         this.setFlex(flex);
+
+        this.validPositions = new HashSet<>();
+        if (qbCt > 0 || flex.getQbrbwrteCount() > 0) {
+            validPositions.add(Constants.QB);
+        }
+        if (rbCt > 0 || flex.getRbwrCount() > 0 || flex.getRbwrteCount() > 0 || flex.getRbteCount() > 0 || flex.getQbrbwrteCount() > 0) {
+            validPositions.add(Constants.RB);
+        }
+        if (wrCt > 0 || flex.getRbwrCount() > 0 || flex.getRbwrteCount() > 0 || flex.getWrteCount() > 0 || flex.getQbrbwrteCount() > 0) {
+            validPositions.add(Constants.WR);
+        }
+        if (teCt > 0 || flex.getRbwrteCount() > 0 || flex.getRbteCount() > 0 || flex.getWrteCount() > 0 || flex.getQbrbwrteCount() > 0) {
+            validPositions.add(Constants.TE);
+        }
+        if (dCt > 0) {
+            validPositions.add(Constants.DST);
+        }
+        if (kCt > 0) {
+            validPositions.add(Constants.K);
+        }
     }
 
     public String getId() {
@@ -117,6 +141,10 @@ public class RosterSettings {
             size += flex.getQbrbwrteCount() + flex.getRbwrteCount() + flex.getRbteCount() + flex.getRbwrCount() + flex.getWrteCount();
         }
         return size;
+    }
+
+    public boolean isPositionValid(String pos) {
+        return validPositions.contains(pos);
     }
 
     public static class Flex {
