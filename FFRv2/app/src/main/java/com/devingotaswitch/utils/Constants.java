@@ -15,6 +15,10 @@ public class Constants {
     public final static String WRTE = "WR/TE";
     public final static String QBRBWRTE = "QB/RB/WR/TE";
 
+    // Filter constants
+    public final static String ALL_POSITIONS = "All Positions";
+    public final static String ALL_TEAMS = "All Teams";
+
     // SP: keys
     public static final String APP_KEY = "FFRv2";
     public static final String LEAGUE_NAME = "CURRENT_LEAGUE_NAME";

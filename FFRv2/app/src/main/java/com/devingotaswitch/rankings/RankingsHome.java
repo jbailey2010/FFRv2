@@ -13,14 +13,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -34,6 +39,7 @@ import com.devingotaswitch.fileio.RankingsDBWrapper;
 import com.devingotaswitch.rankings.domain.LeagueSettings;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
+import com.devingotaswitch.rankings.domain.RosterSettings;
 import com.devingotaswitch.rankings.domain.Team;
 import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.GeneralUtils;
@@ -44,6 +50,7 @@ import com.devingotaswitch.youruserpools.UserActivity;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -101,7 +108,7 @@ public class RankingsHome extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.activity_user_menu, menu);
+        getMenuInflater().inflate(R.menu.activity_rankings_menu, menu);
         return true;
     }
 
@@ -109,8 +116,14 @@ public class RankingsHome extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Find which menu item was selected
         int menuItem = item.getItemId();
+        switch(menuItem) {
+            case R.id.filter_rankings:
+                toggleFilterView();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
 
-        return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
@@ -124,7 +137,91 @@ public class RankingsHome extends AppCompatActivity {
         initRankingsContext();
     }
 
-    // Initialize this activit1
+    private void toggleFilterView() {
+        final LinearLayout filterBase = (LinearLayout)findViewById(R.id.rankings_filter_base);
+        if (filterBase.getVisibility() == View.GONE) {
+            filterBase.setVisibility(View.VISIBLE);
+        } else {
+            filterBase.setVisibility(View.GONE);
+        }
+        // In place to quickly revert filterings on closing and
+        // prevent a weird issue where the watched star would
+        // be out of date on visibility change.
+        displayRankings(rankings.getOrderedIds());
+        final Spinner teams = (Spinner)filterBase.findViewById(R.id.rankings_filter_teams);
+        List<String> teamList = new ArrayList<>();
+        teamList.addAll(rankings.getTeams().keySet());
+        Collections.sort(teamList);
+        teamList.add(0, Constants.ALL_TEAMS);
+        ArrayAdapter<String> teamAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, teamList);
+        teams.setAdapter(teamAdapter);
+
+        final Spinner positions = (Spinner)filterBase.findViewById(R.id.rankings_filter_positions);
+        List<String> posList = new ArrayList<>();
+        RosterSettings roster = rankings.getLeagueSettings().getRosterSettings();
+        posList.add(Constants.ALL_POSITIONS);
+        if (roster.getQbCount() > 0) {
+            posList.add(Constants.QB);
+        }
+        if (roster.getRbCount() > 0) {
+            posList.add(Constants.RB);
+        }
+        if (roster.getWrCount() > 0) {
+            posList.add(Constants.WR);
+        }
+        if (roster.getTeCount() > 0) {
+            posList.add(Constants.TE);
+        }
+        if (roster.getDstCount() > 0) {
+            posList.add(Constants.DST);
+        }
+        if (roster.getkCount() > 0) {
+            posList.add(Constants.K);
+        }
+        if (roster.getRbCount() > 0 && roster.getWrCount() > 0) {
+            posList.add(Constants.RBWR);
+        }
+        if (roster.getRbCount() > 0 && roster.getTeCount() > 0) {
+            posList.add(Constants.RBTE);
+        }
+        if (roster.getRbCount() > 0 && roster.getWrCount() > 0 && roster.getTeCount() > 0) {
+            posList.add(Constants.RBWRTE);
+        }
+        if (roster.getWrCount() > 0 && roster.getTeCount() > 0) {
+            posList.add(Constants.WRTE);
+        }
+        if (roster.getQbCount() > 0 && roster.getRbCount() > 0 && roster.getWrCount() > 0 && roster.getTeCount() > 0) {
+            posList.add(Constants.QBRBWRTE);
+        }
+        ArrayAdapter<String> positionAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, posList);
+        positions.setAdapter(positionAdapter);
+
+        final CheckBox watched = (CheckBox)filterBase.findViewById(R.id.rankings_filter_watched);
+
+        Button submit = (Button)filterBase.findViewById(R.id.rankings_filter_submit);
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String currentTeam = ((TextView)teams.getSelectedView()).getText().toString();
+                String currentPosition = ((TextView)positions.getSelectedView()).getText().toString();
+                boolean isWatched = watched.isChecked();
+                List<String> filteredIds = rankings.getOrderedIds();
+                if (!Constants.ALL_POSITIONS.equals(currentPosition)) {
+                    filteredIds = rankings.getPlayersByPosition(filteredIds, currentPosition);
+                }
+                if (!Constants.ALL_TEAMS.equals(currentTeam)) {
+                    filteredIds = rankings.getPlayersByTeam(filteredIds, currentTeam);
+                }
+                if (isWatched) {
+                    filteredIds = rankings.getWatchedPlayers(filteredIds);
+                }
+                displayRankings(filteredIds);
+            }
+        });
+    }
+
     private void init() {
         // Rankings stuff
         rankingsDB = new RankingsDBWrapper();
@@ -163,6 +260,7 @@ public class RankingsHome extends AppCompatActivity {
 
     public void processNewRankings(Rankings newRankings, boolean saveRanks) {
         rankings = newRankings;
+        clearAndAddView(R.layout.content_rankings_display);
         displayRankings(rankings.getOrderedIds());
         if (saveRanks) {
             // Don't save again if we're just displaying rankings we just loaded
@@ -178,13 +276,12 @@ public class RankingsHome extends AppCompatActivity {
     }
 
     private void displayRankings(List<String> orderedIds) {
-        View view = clearAndAddView(R.layout.content_rankings_display);
         String playerBasic = "main";
         String playerInfo = "info";
         String playerStatus = "status";
         DecimalFormat df = new DecimalFormat(Constants.NUMBER_FORMAT);
 
-        ListView listview = (ListView) view.findViewById(R.id.rankings_list);
+        ListView listview = (ListView) findViewById(R.id.rankings_list);
         listview.setAdapter(null);
         final List<Map<String, String>> data = new ArrayList<>();
         final SimpleAdapter adapter = new SimpleAdapter(this, data,

@@ -115,6 +115,8 @@ public class Rankings {
 
     public Map<String, Player> getPlayers() { return players; }
 
+    public Map<String, Team> getTeams() { return teams; }
+
     public Team getTeam(Player player) { return getTeam(player.getTeamName()); }
 
     public Team getTeam(String teamName) {
