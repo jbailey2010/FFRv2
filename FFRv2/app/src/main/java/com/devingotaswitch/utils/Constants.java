@@ -8,6 +8,12 @@ public class Constants {
     public final static String TE = "TE";
     public final static String DST = "D/ST";
     public final static String K = "K";
+    // Flex positions
+    public final static String RBTE = "RB/TE";
+    public final static String RBWR = "RB/WR";
+    public final static String RBWRTE = "RB/WR/TE";
+    public final static String WRTE = "WR/TE";
+    public final static String QBRBWRTE = "QB/RB/WR/TE";
 
     // SP: keys
     public static final String APP_KEY = "FFRv2";

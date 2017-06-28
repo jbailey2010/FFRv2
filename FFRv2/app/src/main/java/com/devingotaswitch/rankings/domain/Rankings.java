@@ -11,8 +11,10 @@ import com.devingotaswitch.utils.ParsingUtils;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class Rankings {
     private Map<String, Player> players;
@@ -159,5 +161,64 @@ public class Rankings {
             Player existingPlayer = players.get(player.getUniqueId());
             players.put(player.getUniqueId(), ParsingUtils.conditionallyAddContext(existingPlayer, player));
         }
+    }
+
+    public List<String> getPlayersByTeam(List<String> source, String team) {
+        List<String> idsOnTeam = new ArrayList<>();
+        for (String key : source) {
+            Player player = players.get(key);
+            if (player.getTeamName().equals(team)) {
+                idsOnTeam.add(key);
+            }
+        }
+        return idsOnTeam;
+    }
+
+    public List<String> getWatchedPlayers(List<String> source) {
+        List<String> watchedIds = new ArrayList<>();
+        for (String key : source) {
+            Player player = players.get(key);
+            if (player.isWatched()) {
+                watchedIds.add(key);
+            }
+        }
+        return watchedIds;
+    }
+
+    public List<String> getPlayersByPosition(List<String> source, String position) {
+        Set<String> positions = new HashSet<>();
+        if (Constants.RBWR.equals(position)) {
+            positions.add(Constants.RB);
+            positions.add(Constants.WR);
+        } else if (Constants.RBTE.equals(position)) {
+            positions.add(Constants.RB);
+            positions.add(Constants.TE);
+        } else if (Constants.RBWRTE.equals(position)) {
+            positions.add(Constants.RB);
+            positions.add(Constants.WR);
+            positions.add(Constants.TE);
+        } else if (Constants.WRTE.equals(position)) {
+            positions.add(Constants.WR);
+            positions.add(Constants.TE);
+        } else if (Constants.QBRBWRTE.equals(position)) {
+            positions.add(Constants.QB);
+            positions.add(Constants.RB);
+            positions.add(Constants.WR);
+            positions.add(Constants.TE);
+        } else {
+            positions.add(position);
+        }
+        return getPlayersByPositionInternal(source, positions);
+    }
+
+    private List<String> getPlayersByPositionInternal(List<String> source, Set<String> positions) {
+        List<String> idsByPos = new ArrayList<>();
+        for (String key : source) {
+            Player player = players.get(key);
+            if (positions.contains(player.getPosition())) {
+                idsByPos.add(key);
+            }
+        }
+        return idsByPos;
     }
 }

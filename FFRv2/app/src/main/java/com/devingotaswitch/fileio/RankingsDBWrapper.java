@@ -60,7 +60,6 @@ public class RankingsDBWrapper {
         List<Player> watchList = getWatchList(context);
         for (Player player : watchList) {
             if (!watchedIds.contains(player.getUniqueId())) {
-                Log.d("JEFF", "In get players, adding " + player.getUniqueId());
                 watchedIds.add(player.getUniqueId());
             }
         }

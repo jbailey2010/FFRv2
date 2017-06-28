@@ -163,7 +163,7 @@ public class RankingsHome extends AppCompatActivity {
 
     public void processNewRankings(Rankings newRankings, boolean saveRanks) {
         rankings = newRankings;
-        displayRankings();
+        displayRankings(rankings.getOrderedIds());
         if (saveRanks) {
             // Don't save again if we're just displaying rankings we just loaded
             rankings.saveRankings(this, rankingsDB);
@@ -177,7 +177,7 @@ public class RankingsHome extends AppCompatActivity {
         return child;
     }
 
-    private void displayRankings() {
+    private void displayRankings(List<String> orderedIds) {
         View view = clearAndAddView(R.layout.content_rankings_display);
         String playerBasic = "main";
         String playerInfo = "info";
@@ -193,7 +193,7 @@ public class RankingsHome extends AppCompatActivity {
                 new int[] { R.id.player_basic, R.id.player_info,
                 R.id.player_status });
         listview.setAdapter(adapter);
-        for (String playerKey : rankings.getOrderedIds()) {
+        for (String playerKey : orderedIds) {
             Player player = rankings.getPlayer(playerKey);
             String playerBasicContent;
             if (rankings.getLeagueSettings().isAuction()) {
