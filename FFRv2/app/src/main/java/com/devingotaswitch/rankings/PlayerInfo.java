@@ -1,19 +1,26 @@
 package com.devingotaswitch.rankings;
 
+import android.content.Context;
+import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.amazonaws.util.StringUtils;
 import com.devingotaswitch.ffrv2.R;
+import com.devingotaswitch.fileio.RankingsDBWrapper;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.PlayerNews;
 import com.devingotaswitch.rankings.domain.Rankings;
@@ -31,6 +38,7 @@ public class PlayerInfo extends AppCompatActivity {
     private Rankings rankings;
     private Player player;
     private List<PlayerNews> playerNews;
+    private RankingsDBWrapper rankingsDB;
 
     private List<Map<String, String>> data;
     private SimpleAdapter adapter;
@@ -43,9 +51,12 @@ public class PlayerInfo extends AppCompatActivity {
         setContentView(R.layout.activity_player_info);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
+        rankingsDB = new RankingsDBWrapper();
         rankings = Rankings.init();
         String playerId = getIntent().getStringExtra(Constants.PLAYER_ID);
-        player = rankings.getPlayer(playerId);
+        Player mostlyFleshedPlayer = rankings.getPlayer(playerId);
+        Log.d("JEFFPI", mostlyFleshedPlayer.getName());
+        player = rankingsDB.getPlayer(this, mostlyFleshedPlayer.getName(), mostlyFleshedPlayer.getPosition());
 
         // Set toolbar for this screen
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_player_info);
@@ -119,6 +130,73 @@ public class PlayerInfo extends AppCompatActivity {
                 displayNews();
             }
         });
+
+        infoList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView subView = (TextView)view.findViewById(R.id.player_info);
+                String existing = ((TextView)view.findViewById(R.id.player_basic)).getText().toString();
+                if (Constants.NOTE_SUB.equals(subView.getText().toString())) {
+                    getNote(existing);
+                }
+            }
+        });
+        infoList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                TextView subView = (TextView)view.findViewById(R.id.player_info);
+                if (Constants.NOTE_SUB.equals(subView.getText().toString())) {
+                    setNoteAndDisplayIt("");
+                }
+                return true;
+            }
+        });
+    }
+
+    private void getNote(String existing) {
+        LayoutInflater li = LayoutInflater.from(this);
+        View noteView = li.inflate(R.layout.user_input_popup, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                this);
+
+        alertDialogBuilder.setView(noteView);
+        final EditText userInput = (EditText) noteView
+                .findViewById(R.id.user_input_popup_input);
+        userInput.setHint("Player note");
+        if (!Constants.DEFAULT_NOTE.equals(existing)) {
+            userInput.setText(existing);
+        }
+
+        TextView title = (TextView)noteView.findViewById(R.id.user_input_popup_title);
+        title.setText("Input a note for " + player.getName());
+        final Context localCopy = this;
+        alertDialogBuilder
+                .setPositiveButton("Save",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                String newNote = userInput.getText().toString();
+                                if (StringUtils.isBlank(newNote)) {
+                                    Toast.makeText(localCopy, "No note given", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    setNoteAndDisplayIt(newNote);
+                                    dialog.dismiss();
+                                }
+                            }
+                        })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                dialog.cancel();
+                            }
+                        });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+    private void setNoteAndDisplayIt(String newNote) {
+        player.setNote(newNote);
+        rankingsDB.updatePlayerNote(this, player, newNote);
+        displayInfo();
     }
 
     private void displayRanks() {
@@ -129,7 +207,46 @@ public class PlayerInfo extends AppCompatActivity {
 
     private void displayInfo() {
         data.clear();
-        // TODO: populate this
+
+        Map<String, String> context = new HashMap<>();
+        context.put(Constants.PLAYER_BASIC, "Current status");
+        StringBuilder playerSub = new StringBuilder();
+        if (player.isWatched()) {
+            playerSub.append("In your watch list")
+                    .append(Constants.LINE_BREAK);
+        }
+        // TODO: are they drafted?
+        playerSub.append("Currently available");
+
+        if (StringUtils.isBlank(player.getNote())) {
+            Map<String, String> note = new HashMap<>();
+            note.put(Constants.PLAYER_BASIC, Constants.DEFAULT_NOTE);
+            note.put(Constants.PLAYER_INFO, Constants.NOTE_SUB);
+            data.add(note);
+        } else {
+            Map<String, String> note = new HashMap<>();
+            note.put(Constants.PLAYER_BASIC, player.getNote());
+            note.put(Constants.PLAYER_INFO, Constants.NOTE_SUB);
+            data.add(note);
+        }
+
+        if (!StringUtils.isBlank(player.getStats())) {
+            Map<String, String> stats = new HashMap<>();
+            stats.put(Constants.PLAYER_INFO, "Last year's stats");
+            stats.put(Constants.PLAYER_BASIC, player.getStats());
+            data.add(stats);
+        }
+
+        Team team = rankings.getTeam(player);
+        if (team != null) {
+            int sos = team.getSosForPosition(player.getPosition());
+            if (sos > 0)  {
+                Map<String, String> sosData = new HashMap<>();
+                sosData.put(Constants.PLAYER_BASIC, "Positional SOS: " + sos);
+                sosData.put(Constants.PLAYER_INFO, "1 is easiest, 32 is hardest");
+                data.add(sosData);
+            }
+        }
         adapter.notifyDataSetChanged();
     }
 

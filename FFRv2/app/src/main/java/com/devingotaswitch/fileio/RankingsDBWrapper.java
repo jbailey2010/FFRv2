@@ -144,12 +144,14 @@ public class RankingsDBWrapper {
         SQLiteDatabase db = getInstance(context).getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(Constants.PLAYER_NOTE_COLUMN, note);
+
         updateMultipleKeyEntry(db, DBUtils.sanitizePlayerName(player.getName()), player.getPosition(), values, Constants.PLAYER_CUSTOM_TABLE_NAME,
                 Constants.PLAYER_NAME_COLUMN, Constants.PLAYER_POSITION_COLUMN);
     }
 
     public Player getPlayer(Context context, String name, String position) {
         SQLiteDatabase db = getInstance(context).getReadableDatabase();
+        Log.d("JEFFDB", DBUtils.sanitizePlayerName(name));
         Cursor result = getMultiKeyEntry(db, Constants.PLAYER_NAME_COLUMN, Constants.PLAYER_POSITION_COLUMN, DBUtils.sanitizePlayerName(name), position,
                 Constants.PLAYER_TABLE_NAME);
         Player player = DBUtils.cursorToPlayer(result);

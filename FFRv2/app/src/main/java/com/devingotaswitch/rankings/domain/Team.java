@@ -1,5 +1,7 @@
 package com.devingotaswitch.rankings.domain;
 
+import com.devingotaswitch.utils.Constants;
+
 public class Team {
 
     private String name;
@@ -100,5 +102,22 @@ public class Team {
 
     public void setFaClass(String faClass) {
         this.faClass = faClass;
+    }
+
+    public int getSosForPosition(String position) {
+        if (Constants.QB.equals(position)) {
+            return getQbSos();
+        } else if (Constants.RB.equals(position)) {
+            return getRbSos();
+        } else if (Constants.WR.equals(position)) {
+            return getWrSos();
+        } else if (Constants.TE.equals(position)) {
+            return getTeSos();
+        } else if (Constants.DST.equals(position)) {
+            return getDstSos();
+        } else if (Constants.K.equals(position)) {
+            return getkSos();
+        }
+        return -1;
     }
 }
