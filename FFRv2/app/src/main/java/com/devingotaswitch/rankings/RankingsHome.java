@@ -276,9 +276,6 @@ public class RankingsHome extends AppCompatActivity {
     }
 
     private void displayRankings(List<String> orderedIds) {
-        String playerBasic = "main";
-        String playerInfo = "info";
-        String playerStatus = "status";
         DecimalFormat df = new DecimalFormat(Constants.NUMBER_FORMAT);
 
         ListView listview = (ListView) findViewById(R.id.rankings_list);
@@ -286,7 +283,7 @@ public class RankingsHome extends AppCompatActivity {
         final List<Map<String, String>> data = new ArrayList<>();
         final SimpleAdapter adapter = new SimpleAdapter(this, data,
                 R.layout.list_item_layout,
-                new String[] { playerBasic, playerInfo, playerStatus },
+                new String[] { Constants.PLAYER_BASIC, Constants.PLAYER_INFO, Constants.PLAYER_STATUS },
                 new int[] { R.id.player_basic, R.id.player_info,
                 R.id.player_status });
         listview.setAdapter(adapter);
@@ -306,10 +303,10 @@ public class RankingsHome extends AppCompatActivity {
                             .toString();
                 }
                 Map<String, String> datum = new HashMap<>(3);
-                datum.put(playerBasic, playerBasicContent);
-                datum.put(playerInfo, generateOutputSubtext(player, df));
+                datum.put(Constants.PLAYER_BASIC, playerBasicContent);
+                datum.put(Constants.PLAYER_INFO, generateOutputSubtext(player, df));
                 if (player.isWatched()) {
-                    datum.put(playerStatus, Integer.toString(R.drawable.star));
+                    datum.put(Constants.PLAYER_STATUS, Integer.toString(R.drawable.star));
                 }
                 data.add(datum);
             }

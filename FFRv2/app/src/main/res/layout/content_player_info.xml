@@ -12,6 +12,7 @@
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:id="@+id/player_info_buttons"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
@@ -60,6 +61,7 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:id="@+id/player_info_header"
         android:layout_marginBottom="5dp"
         android:layout_alignBottom="@+id/dummy_btn_center"
         android:background="@color/toolbar_background"/>
@@ -95,4 +97,17 @@
         android:background="@drawable/player_info_right"
         android:textSize="13sp"
         android:text="Bye:\n?" />
+
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="15dp"
+        android:layout_marginRight="15dp"
+        android:id="@+id/player_info_list"
+        android:layout_above="@+id/player_info_buttons"
+        android:layout_marginTop="-5dp"
+        android:clickable="true"
+        android:divider="@drawable/list_divider"
+        android:dividerHeight="1dp"
+        android:layout_below="@+id/player_info_header"/>
 </RelativeLayout>
