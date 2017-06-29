@@ -17,24 +17,30 @@ import java.util.Map;
 import java.util.Set;
 
 public class Rankings {
-    private Map<String, Player> players;
-    private Map<String, Team> teams;
-    private List<String> orderedIds;
-    private LeagueSettings leagueSettings;
-    private RankingsFetcher processor;
+    private static Map<String, Player> players;
+    private static Map<String, Team> teams;
+    private static List<String> orderedIds;
+    private static LeagueSettings leagueSettings;
+    private static RankingsFetcher processor;
     private static RankingsLoader loader;
 
-    public Rankings(LeagueSettings leagueSettings) {
-        this(new HashMap<String, Team>(), new HashMap<String, Player>(), new ArrayList<String>(), leagueSettings);
+    public static Rankings init() {
+        return new Rankings();
     }
 
-    public Rankings(Map<String, Team> teams, Map<String, Player> players, List<String> orderedIds, LeagueSettings leagueSettings) {
-        this.players = players;
-        this.teams = teams;
-        this.leagueSettings = leagueSettings;
-        this.processor = new RankingsFetcher();
-        this.loader = new RankingsLoader();
-        this.orderedIds = orderedIds;
+    public static Rankings initWithDefaults(LeagueSettings leagueSettings) {
+        return init(new HashMap<String, Team>(), new HashMap<String, Player>(), new ArrayList<String>(), leagueSettings);
+    }
+
+    public static Rankings init(Map<String, Team> inputTeams, Map<String, Player> inputPlayers, List<String> inputIds,
+                                LeagueSettings inputSettings) {
+        players = inputPlayers;
+        teams = inputTeams;
+        leagueSettings = inputSettings;
+        processor = new RankingsFetcher();
+        loader = new RankingsLoader();
+        orderedIds = inputIds;
+        return new Rankings();
     }
 
     public LeagueSettings getLeagueSettings() {

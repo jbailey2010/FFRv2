@@ -54,7 +54,7 @@ public class RankingsLoader {
             Map<String, Player> players = rankingsDB.getPlayers(act);
             Map<String, Team> teams = rankingsDB.getTeams(act);
             List<String> orderedIds = rankingsDB.getPlayersSorted(act, currentLeague);
-            return new Rankings(teams, players, orderedIds, currentLeague);
+            return Rankings.init(teams, players, orderedIds, currentLeague);
         }
     }
 

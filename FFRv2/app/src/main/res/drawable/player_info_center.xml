@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item>
+        <shape>
+            <solid  android:color="@color/player_info_buttons" />
+
+            <corners android:bottomRightRadius="5dp" android:bottomLeftRadius="5dp"/>
+            <padding
+                android:left="2dp"
+                android:top="1dp"
+                android:right="2dp"
+                android:bottom="1dp" />
+        </shape>
+    </item>
+</selector>

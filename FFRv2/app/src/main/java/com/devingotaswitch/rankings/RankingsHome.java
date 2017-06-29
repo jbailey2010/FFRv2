@@ -250,11 +250,11 @@ public class RankingsHome extends AppCompatActivity {
         } else if (!LocalSettingsHelper.wasPresent(LocalSettingsHelper.getCurrentLeagueName(this))) {
             // Otherwise, if no league is set up, display that message
             clearAndAddView(R.layout.content_rankings_no_league);
-            rankings = new Rankings(currentLeague);
+            rankings = Rankings.initWithDefaults(currentLeague);
         } else {
             // If neither of the above, there's a league but no ranks. Tell the user.
             clearAndAddView(R.layout.content_rankings_no_ranks);
-            rankings = new Rankings(currentLeague);
+            rankings = Rankings.initWithDefaults(currentLeague);
         }
     }
 
@@ -336,6 +336,19 @@ public class RankingsHome extends AppCompatActivity {
                 return true;
             }
         });
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String playerKey = getPlayerKeyFromListViewItem(view);
+                displayPlayerInfo(playerKey);
+            }
+        });
+    }
+
+    private void displayPlayerInfo(String playerKey) {
+        Intent intent = new Intent(this, PlayerInfo.class);
+        intent.putExtra(Constants.PLAYER_ID, playerKey);
+        startActivity(intent);
     }
 
     private String getPlayerKeyFromListViewItem(View view) {

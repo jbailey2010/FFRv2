@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.devingotaswitch.rankings.PlayerInfo"
+    tools:showIn="@layout/activity_player_info">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/player_info_ranks"
+            android:background="@color/player_info_buttons"
+            style="?android:buttonBarStyle"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:text="Ranks"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/player_info_about"
+            android:background="@color/player_info_buttons"
+            style="?android:buttonBarStyle"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:text="Player Info"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/player_info_team"
+            android:background="@color/player_info_buttons"
+            style="?android:buttonBarStyle"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:text="Team Info"/>
+        <Button
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:id="@+id/player_info_news"
+            android:background="@color/player_info_buttons"
+            style="?android:buttonBarStyle"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:text="News"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="5dp"
+        android:layout_alignBottom="@+id/dummy_btn_center"
+        android:background="@color/toolbar_background"/>
+    <Button
+        android:id="@+id/dummy_btn_center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerHorizontal="true"
+        android:textColor="#FFFFFF"
+        android:textAllCaps="false"
+        android:background="@drawable/player_info_center"
+        android:textSize="13sp"
+        android:layout_alignParentTop="true"
+        android:text="Team Unknown" />
+    <Button
+        android:id="@+id/dummy_btn_left"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:textAllCaps="false"
+        android:layout_alignParentTop="true"
+        android:textColor="#FFFFFF"
+        android:background="@drawable/player_info_left"
+        android:textSize="13sp"
+        android:text="Age:\n?" />
+    <Button
+        android:id="@+id/dummy_btn_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:textColor="#FFFFFF"
+        android:textAllCaps="false"
+        android:background="@drawable/player_info_right"
+        android:textSize="13sp"
+        android:text="Bye:\n?" />
+</RelativeLayout>
