@@ -151,7 +151,6 @@ public class RankingsDBWrapper {
 
     public Player getPlayer(Context context, String name, String position) {
         SQLiteDatabase db = getInstance(context).getReadableDatabase();
-        Log.d("JEFFDB", DBUtils.sanitizePlayerName(name));
         Cursor result = getMultiKeyEntry(db, Constants.PLAYER_NAME_COLUMN, Constants.PLAYER_POSITION_COLUMN, DBUtils.sanitizePlayerName(name), position,
                 Constants.PLAYER_TABLE_NAME);
         Player player = DBUtils.cursorToPlayer(result);

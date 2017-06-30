@@ -28,6 +28,7 @@ import com.devingotaswitch.rankings.domain.Team;
 import com.devingotaswitch.rankings.sources.ParsePlayerNews;
 import com.devingotaswitch.utils.Constants;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -44,6 +45,7 @@ public class PlayerInfo extends AppCompatActivity {
     private SimpleAdapter adapter;
     private ListView infoList;
 
+    private static DecimalFormat df = new DecimalFormat("#.##");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +57,6 @@ public class PlayerInfo extends AppCompatActivity {
         rankings = Rankings.init();
         String playerId = getIntent().getStringExtra(Constants.PLAYER_ID);
         Player mostlyFleshedPlayer = rankings.getPlayer(playerId);
-        Log.d("JEFFPI", mostlyFleshedPlayer.getName());
         player = rankingsDB.getPlayer(this, mostlyFleshedPlayer.getName(), mostlyFleshedPlayer.getPosition());
 
         // Set toolbar for this screen
@@ -151,6 +152,8 @@ public class PlayerInfo extends AppCompatActivity {
                 return true;
             }
         });
+
+        displayRanks();
     }
 
     private void getNote(String existing) {
@@ -201,7 +204,55 @@ public class PlayerInfo extends AppCompatActivity {
 
     private void displayRanks() {
         data.clear();
-        // TODO: populate this
+
+        Map<String, String> ecr = new HashMap<>();
+        ecr.put(Constants.PLAYER_BASIC, "ECR: " + player.getEcr());
+        int ecrRank = getEcr(null, player.getEcr());
+        int ecrRankPos = getEcr(player.getPosition(), player.getEcr());
+        String ecrSub = getRankingSub(ecrRank, ecrRankPos);
+        if (player.getRisk() != null) {
+            ecrSub += Constants.LINE_BREAK + "Risk: " + player.getRisk();
+        }
+        ecr.put(Constants.PLAYER_INFO, ecrSub);
+        data.add(ecr);
+
+        Map<String, String> adp = new HashMap<>();
+        adp.put(Constants.PLAYER_BASIC, "ADP: " + player.getAdp());
+        int adpRank = getAdp(null, player.getAdp());
+        int adpPos = getAdp(player.getPosition(), player.getAdp());
+        adp.put(Constants.PLAYER_INFO, getRankingSub(adpRank, adpPos));
+        data.add(adp);
+
+        Map<String, String> auc = new HashMap<>();
+        auc.put(Constants.PLAYER_BASIC, "Auction Value: $" + df.format(player.getAuctionValue()));
+        int aucRank = getAuc(null, player.getAuctionValue());
+        int aucPos = getAuc(player.getPosition(), player.getAuctionValue());
+        auc.put(Constants.PLAYER_INFO, getRankingSub(aucRank, aucPos));
+        data.add(auc);
+
+        if (player.getProjection() != null) {
+            Map<String, String> proj = new HashMap<>();
+            proj.put(Constants.PLAYER_BASIC, "Projection: " + player.getProjection());
+            int projRank = getProj(null, player.getProjection());
+            int projPos = getProj(player.getPosition(), player.getProjection());
+            proj.put(Constants.PLAYER_INFO, getRankingSub(projRank, projPos));
+            data.add(proj);
+
+            Map<String, String> paa = new HashMap<>();
+            paa.put(Constants.PLAYER_BASIC, "PAA: " + df.format(player.getPaa()));
+            int paaRank = getPaa(null, player.getPaa());
+            int paaPos = getPaa(player.getPosition(), player.getPaa());
+            paa.put(Constants.PLAYER_INFO, getRankingSub(paaRank, paaPos));
+            data.add(paa);
+
+            Map<String, String> xVal = new HashMap<>();
+            xVal.put(Constants.PLAYER_BASIC, "xVal: " + df.format(player.getxVal()));
+            int xValRank = getXVal(null, player.getxVal());
+            int xValPos = getXVal(player.getPosition(), player.getxVal());
+            xVal.put(Constants.PLAYER_INFO, getRankingSub(xValRank, xValPos));
+            data.add(xVal);
+        }
+
         adapter.notifyDataSetChanged();
     }
 
@@ -228,6 +279,12 @@ public class PlayerInfo extends AppCompatActivity {
             note.put(Constants.PLAYER_BASIC, player.getNote());
             note.put(Constants.PLAYER_INFO, Constants.NOTE_SUB);
             data.add(note);
+        }
+
+        if (!StringUtils.isBlank(player.getInjuryStatus())) {
+            Map<String, String> injury = new HashMap<>();
+            injury.put(Constants.PLAYER_BASIC, player.getInjuryStatus());
+            data.add(injury);
         }
 
         if (!StringUtils.isBlank(player.getStats())) {
@@ -299,4 +356,93 @@ public class PlayerInfo extends AppCompatActivity {
     public void populateNews(List<PlayerNews> fetchedNews) {
         this.playerNews = fetchedNews;
     }
+
+
+    private String getRankingSub(int rank, int posRank) {
+        return new StringBuilder("Ranked ")
+                .append(posRank)
+                .append(" positionally, ")
+                .append(rank)
+                .append(" overall")
+                .toString();
+    }
+
+    private int getEcr(String pos, double source) {
+        int rank = 1;
+        for (String key : rankings.getPlayers().keySet()) {
+            Player player = rankings.getPlayer(key);
+            if (pos == null || pos.equals(player.getPosition())) {
+                if (player.getEcr() < source) {
+                    rank++;
+                }
+            }
+        }
+        return rank;
+    }
+
+    private int getAdp(String pos, double source) {
+        int rank = 1;
+        for (String key : rankings.getPlayers().keySet()) {
+            Player player = rankings.getPlayer(key);
+            if (pos == null || pos.equals(player.getPosition())) {
+                if (player.getAdp() < source) {
+                    rank++;
+                }
+            }
+        }
+        return rank;
+    }
+
+    private int getAuc(String pos, double source) {
+        int rank = 1;
+        for (String key : rankings.getPlayers().keySet()) {
+            Player player = rankings.getPlayer(key);
+            if (pos == null || pos.equals(player.getPosition())) {
+                if (player.getAuctionValue() > source) {
+                    rank++;
+                }
+            }
+        }
+        return rank;
+    }
+
+    private int getProj(String pos, double source) {
+        int rank = 1;
+        for (String key : rankings.getPlayers().keySet()) {
+            Player player = rankings.getPlayer(key);
+            if (pos == null || pos.equals(player.getPosition())) {
+                if (player.getProjection() > source) {
+                    rank++;
+                }
+            }
+        }
+        return rank;
+    }
+
+    private int getPaa(String pos, double source) {
+        int rank = 1;
+        for (String key : rankings.getPlayers().keySet()) {
+            Player player = rankings.getPlayer(key);
+            if (pos == null || pos.equals(player.getPosition())) {
+                if (player.getPaa() > source) {
+                    rank++;
+                }
+            }
+        }
+        return rank;
+    }
+
+    private int getXVal(String pos, double source) {
+        int rank = 1;
+        for (String key : rankings.getPlayers().keySet()) {
+            Player player = rankings.getPlayer(key);
+            if (pos == null || pos.equals(player.getPosition())) {
+                if (player.getxVal() > source) {
+                    rank++;
+                }
+            }
+        }
+        return rank;
+    }
+
 }
