@@ -132,6 +132,9 @@ public class Constants {
     public final static String PLAYER_BASIC = "main";
     public final static String PLAYER_INFO = "info";
     public final static String PLAYER_STATUS = "status";
+    public final static String DROPDOWN_MAIN = "main";
+    public final static String DROPDOWN_SUB = "sub";
+    public final static String POS_TEAM_DELIMITER = " - ";
     public final static String NOTE_SUB = "Click to update note, click and hold to clear";
     public final static String DEFAULT_NOTE = "No note found";
 }

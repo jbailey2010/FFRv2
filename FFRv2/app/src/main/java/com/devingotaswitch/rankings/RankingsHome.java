@@ -17,13 +17,16 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -33,6 +36,7 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserDetails;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GetDetailsHandler;
+import com.amazonaws.util.StringUtils;
 import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.fileio.LocalSettingsHelper;
 import com.devingotaswitch.fileio.RankingsDBWrapper;
@@ -77,6 +81,7 @@ public class RankingsHome extends AppCompatActivity {
     private LeagueSettings currentLeague;
     private Rankings rankings;
     private LinearLayout rankingsBase;
+    private RelativeLayout searchBase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +92,7 @@ public class RankingsHome extends AppCompatActivity {
         // Set toolbar for this screen
         toolbar = (Toolbar) findViewById(R.id.main_toolbar);
         toolbar.setTitle("");
+        toolbar.setElevation(0);
         TextView main_title = (TextView) findViewById(R.id.main_toolbar_title);
         main_title.setText("Rankings");
         setSupportActionBar(toolbar);
@@ -225,6 +231,7 @@ public class RankingsHome extends AppCompatActivity {
     private void init() {
         // Rankings stuff
         rankingsDB = new RankingsDBWrapper();
+        searchBase = (RelativeLayout)findViewById(R.id.rankings_search_base);
         initRankingsContext();
 
         // Cogneato stuff
@@ -251,10 +258,12 @@ public class RankingsHome extends AppCompatActivity {
             // Otherwise, if no league is set up, display that message
             clearAndAddView(R.layout.content_rankings_no_league);
             rankings = Rankings.initWithDefaults(currentLeague);
+            searchBase.setVisibility(View.GONE);
         } else {
             // If neither of the above, there's a league but no ranks. Tell the user.
             clearAndAddView(R.layout.content_rankings_no_ranks);
             rankings = Rankings.initWithDefaults(currentLeague);
+            searchBase.setVisibility(View.GONE);
         }
     }
 
@@ -276,6 +285,7 @@ public class RankingsHome extends AppCompatActivity {
     }
 
     private void displayRankings(List<String> orderedIds) {
+        searchBase.setVisibility(View.VISIBLE);
         DecimalFormat df = new DecimalFormat(Constants.NUMBER_FORMAT);
 
         ListView listview = (ListView) findViewById(R.id.rankings_list);
@@ -340,6 +350,54 @@ public class RankingsHome extends AppCompatActivity {
                 displayPlayerInfo(playerKey);
             }
         });
+
+        setSearchAutocomplete();
+    }
+
+    private void setSearchAutocomplete() {
+        final AutoCompleteTextView searchInput = (AutoCompleteTextView) searchBase.findViewById(R.id.ranking_search);
+        searchInput.setAdapter(null);
+
+        final List<Map<String, String>> data = new ArrayList<>();
+        for (String key : rankings.getPlayers().keySet()) {
+            Player player = rankings.getPlayer(key);
+            if (rankings.getLeagueSettings().getRosterSettings().isPositionValid(player.getPosition()) &&
+                    !StringUtils.isBlank(player.getTeamName()) && player.getTeamName().length() > 3 &&
+                    !Constants.DST.equals(player.getPosition())) {
+
+                Map<String, String> datum = new HashMap<>();
+                datum.put(Constants.DROPDOWN_MAIN, player.getName());
+                datum.put(Constants.DROPDOWN_SUB, player.getPosition() + Constants.POS_TEAM_DELIMITER + player.getTeamName());
+                data.add(datum);
+            }
+        }
+        List<Map<String, String>> dataSorted = GeneralUtils.sortData(data);
+        final SimpleAdapter mAdapter = new SimpleAdapter(this, dataSorted,
+                android.R.layout.simple_list_item_2, new String[] { Constants.DROPDOWN_MAIN,
+                Constants.DROPDOWN_SUB }, new int[] { android.R.id.text1,
+                android.R.id.text2 });
+        searchInput.setAdapter(mAdapter);
+
+        final AutoCompleteTextView localCopy = searchInput;
+        searchInput.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String name = ((TextView)view.findViewById(android.R.id.text1)).getText().toString();
+                String posAndTeam = ((TextView)view.findViewById(android.R.id.text2)).getText().toString();
+                String pos = posAndTeam.split(Constants.POS_TEAM_DELIMITER)[0];
+                String team = posAndTeam.split(Constants.POS_TEAM_DELIMITER)[1];
+                localCopy.setText("");
+                displayPlayerInfo(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + pos);
+            }
+        });
+
+        searchInput.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                localCopy.setText("");
+                return true;
+            }
+        });
     }
 
     private void displayPlayerInfo(String playerKey) {
@@ -354,8 +412,8 @@ public class RankingsHome extends AppCompatActivity {
         String name = playerMain.getText().toString().split(Constants.RANKINGS_LIST_DELIMITER)[1];
         String teamPosBye = playerInfo.getText().toString().split(Constants.LINE_BREAK)[0];
         String teamPos = teamPosBye.split(" \\(")[0];
-        String team = teamPos.split(" - ")[1];
-        String pos = teamPos.split(" - ")[0];
+        String team = teamPos.split(Constants.POS_TEAM_DELIMITER)[1];
+        String pos = teamPos.split(Constants.POS_TEAM_DELIMITER)[0];
 
         return new StringBuilder(name)
                 .append(Constants.PLAYER_ID_DELIMITER)
@@ -367,7 +425,7 @@ public class RankingsHome extends AppCompatActivity {
 
     private String generateOutputSubtext(Player player, DecimalFormat df) {
         StringBuilder sub = new StringBuilder(player.getPosition())
-                .append(" - ")
+                .append(Constants.POS_TEAM_DELIMITER)
                 .append(player.getTeamName());
         Team team = rankings.getTeam(player);
         if (team != null) {

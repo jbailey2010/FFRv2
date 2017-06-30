@@ -246,7 +246,7 @@ public class PlayerInfo extends AppCompatActivity {
             data.add(paa);
 
             Map<String, String> xVal = new HashMap<>();
-            xVal.put(Constants.PLAYER_BASIC, "xVal: " + df.format(player.getxVal()));
+            xVal.put(Constants.PLAYER_BASIC, "X Value: " + df.format(player.getxVal()));
             int xValRank = getXVal(null, player.getxVal());
             int xValPos = getXVal(player.getPosition(), player.getxVal());
             xVal.put(Constants.PLAYER_INFO, getRankingSub(xValRank, xValPos));
@@ -283,13 +283,14 @@ public class PlayerInfo extends AppCompatActivity {
 
         if (!StringUtils.isBlank(player.getInjuryStatus())) {
             Map<String, String> injury = new HashMap<>();
+            injury.put(Constants.PLAYER_INFO, "Injury status");
             injury.put(Constants.PLAYER_BASIC, player.getInjuryStatus());
             data.add(injury);
         }
 
         if (!StringUtils.isBlank(player.getStats())) {
             Map<String, String> stats = new HashMap<>();
-            stats.put(Constants.PLAYER_INFO, "Last year's stats");
+            stats.put(Constants.PLAYER_INFO, "2016 stats");
             stats.put(Constants.PLAYER_BASIC, player.getStats());
             data.add(stats);
         }
