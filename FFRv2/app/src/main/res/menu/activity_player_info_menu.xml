@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.devingotaswitch.rankings.RankingsHome">
+    <item android:id="@+id/player_info_add_watched"
+          android:title="Add to watch list"
+          app:showAsAction="never"/>
+    <item android:id="@+id/player_info_remove_watched"
+          android:title="Remove from watch list"
+          app:showAsAction="never"/>/>
+</menu>

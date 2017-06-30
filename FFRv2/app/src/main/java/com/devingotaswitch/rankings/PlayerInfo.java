@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -44,6 +46,8 @@ public class PlayerInfo extends AppCompatActivity {
     private List<Map<String, String>> data;
     private SimpleAdapter adapter;
     private ListView infoList;
+    private MenuItem addWatch;
+    private MenuItem removeWatch;
 
     private static DecimalFormat df = new DecimalFormat("#.##");
 
@@ -77,6 +81,57 @@ public class PlayerInfo extends AppCompatActivity {
         });
 
         init();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.activity_player_info_menu, menu);
+        addWatch = menu.findItem(R.id.player_info_add_watched);
+        removeWatch = menu.findItem(R.id.player_info_remove_watched);
+        hideMenuItemOnWatchStatus();
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Find which menu item was selected
+        int menuItem = item.getItemId();
+        switch(menuItem) {
+            case R.id.player_info_add_watched:
+                addWatched();
+                return true;
+            case R.id.player_info_remove_watched:
+                removeWatched();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
+    }
+
+    private void addWatched() {
+        player.setWatched(true);
+        Toast.makeText(this, player.getName() + " added to watch list", Toast.LENGTH_SHORT).show();
+        rankingsDB.updatePlayerWatchedStatus(this, player);
+        hideMenuItemOnWatchStatus();
+    }
+
+    private void removeWatched() {
+        player.setWatched(false);
+        Toast.makeText(this, player.getName() + " removed from watch list", Toast.LENGTH_SHORT).show();
+        rankingsDB.updatePlayerWatchedStatus(this, player);
+        hideMenuItemOnWatchStatus();
+    }
+
+    private void hideMenuItemOnWatchStatus() {
+        if (player.isWatched()) {
+            addWatch.setVisible(false);
+            removeWatch.setVisible(true);
+        } else {
+            addWatch.setVisible(true);
+            removeWatch.setVisible(false);
+        }
     }
 
     private void init() {
