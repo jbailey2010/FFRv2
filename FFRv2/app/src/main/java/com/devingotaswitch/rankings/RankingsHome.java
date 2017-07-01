@@ -207,7 +207,7 @@ public class RankingsHome extends AppCompatActivity {
 
         final CheckBox watched = (CheckBox)filterBase.findViewById(R.id.rankings_filter_watched);
         final EditText maxPlayersField = (EditText)filterBase.findViewById(R.id.max_players_visible);
-        maxPlayersField.setText(maxPlayers);
+        maxPlayersField.setText(String.valueOf(maxPlayers));
 
         Button submit = (Button)filterBase.findViewById(R.id.rankings_filter_submit);
         submit.setOnClickListener(new View.OnClickListener() {
