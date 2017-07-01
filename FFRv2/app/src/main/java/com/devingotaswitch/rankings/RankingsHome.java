@@ -69,6 +69,7 @@ public class RankingsHome extends AppCompatActivity {
     private CognitoUserDetails details;
     private String username;
 
+    private MenuItem filterItem;
     private NavigationView nDrawer;
     private DrawerLayout mDrawer;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -116,6 +117,7 @@ public class RankingsHome extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.activity_rankings_menu, menu);
+        filterItem = menu.findItem(R.id.filter_rankings);
         return true;
     }
 
@@ -277,12 +279,14 @@ public class RankingsHome extends AppCompatActivity {
             rankings = Rankings.initWithDefaults(currentLeague);
             searchBase.setVisibility(View.GONE);
             buttonBase.setVisibility(View.GONE);
+            filterItem.setVisible(false);
         } else {
             // If neither of the above, there's a league but no ranks. Tell the user.
             clearAndAddView(R.layout.content_rankings_no_ranks);
             rankings = Rankings.initWithDefaults(currentLeague);
             searchBase.setVisibility(View.GONE);
             buttonBase.setVisibility(View.GONE);
+            filterItem.setVisible(false);
         }
     }
 
@@ -306,6 +310,7 @@ public class RankingsHome extends AppCompatActivity {
     private void displayRankings(List<String> orderedIds) {
         searchBase.setVisibility(View.VISIBLE);
         buttonBase.setVisibility(View.VISIBLE);
+        filterItem.setVisible(true);
         DecimalFormat df = new DecimalFormat(Constants.NUMBER_FORMAT);
 
         ListView listview = (ListView) findViewById(R.id.rankings_list);

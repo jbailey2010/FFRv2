@@ -228,13 +228,9 @@ public class ADPSimulator extends AppCompatActivity {
                 String possibleName = ParsingUtils.normalizeNames(td.get(i));
                 String possiblePos = td.get(i+1);
                 String possibleTeam = ParsingUtils.normalizeTeams(td.get(i+2));
-                String possibleKey = new StringBuilder(possibleName)
-                        .append(Constants.PLAYER_ID_DELIMITER)
-                        .append(possibleTeam)
-                        .append(Constants.PLAYER_ID_DELIMITER)
-                        .append(possiblePos)
-                        .toString();
-                if (possibleKey.equals(player.getUniqueId())) {
+                if (possiblePos.equals(player.getPosition()) && possibleTeam.equals(player.getTeamName()) &&
+                        (possibleName.equals(player.getName().replaceAll("\\.", "")) ||
+                        possibleName.equals(player.getName()))) {
                     return "Odds " + player.getName() + " is available at pick " + pick
                             + ": " + td.get(i + 4);
                 }
