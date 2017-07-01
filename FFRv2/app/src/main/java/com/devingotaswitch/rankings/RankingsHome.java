@@ -242,6 +242,13 @@ public class RankingsHome extends AppCompatActivity {
         searchBase = (RelativeLayout)findViewById(R.id.rankings_search_base);
         buttonBase = (LinearLayout) findViewById(R.id.rankings_button_bar);
         maxPlayers = LocalSettingsHelper.getNumVisiblePlayers(this);
+        Button adpSimulator = (Button)buttonBase.findViewById(R.id.rankings_simulator);
+        adpSimulator.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getAdpSimulator();
+            }
+        });
         initRankingsContext();
 
         // Cogneato stuff
@@ -421,6 +428,11 @@ public class RankingsHome extends AppCompatActivity {
     private void displayPlayerInfo(String playerKey) {
         Intent intent = new Intent(this, PlayerInfo.class);
         intent.putExtra(Constants.PLAYER_ID, playerKey);
+        startActivity(intent);
+    }
+
+    private void getAdpSimulator() {
+        Intent intent = new Intent(this, ADPSimulator.class);
         startActivity(intent);
     }
 

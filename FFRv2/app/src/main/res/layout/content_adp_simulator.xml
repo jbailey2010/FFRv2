@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              xmlns:tools="http://schemas.android.com/tools"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
+              android:layout_marginLeft="@dimen/activity_horizontal_margin"
+              android:layout_marginRight="@dimen/activity_horizontal_margin"
+              android:layout_marginTop="@dimen/activity_vertical_margin"
+              android:orientation="vertical"
+              tools:context="com.devingotaswitch.rankings.PlayerInfo"
+              tools:showIn="@layout/activity_adp_simulator">
+
+    <AutoCompleteTextView
+        android:id="@+id/adp_player_selection"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="@dimen/activity_text_padding"
+        android:paddingRight="@dimen/activity_text_padding"
+        android:layout_margin="2dp"
+        android:hint="Select a player"
+        android:background="@drawable/text_border_selector" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/activity_text_padding"
+            android:paddingRight="@dimen/activity_text_padding"
+            android:id="@+id/adp_pick_round"
+            android:background="@drawable/text_border_selector"
+            android:hint="Round of pick"
+            android:layout_weight="1"
+            android:layout_margin="2dp"
+            android:inputType="number"/>
+
+        <EditText
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:paddingLeft="@dimen/activity_text_padding"
+            android:paddingRight="@dimen/activity_text_padding"
+            android:id="@+id/adp_pick_in_round"
+            android:background="@drawable/text_border_selector"
+            android:hint="Pick in round"
+            android:layout_weight="1"
+            android:layout_margin="2dp"
+            android:inputType="number"/>
+    </LinearLayout>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Submit"
+        android:textAllCaps="false"
+        android:textSize="@dimen/activity_button_text_size"
+        android:textColor="@color/white"
+        android:layout_weight="1"
+        android:layout_margin="3dp"
+        android:background="@drawable/button_selector"
+        android:id="@+id/adp_submit_button" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/adp_output_view"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text=""/>
+</LinearLayout>
