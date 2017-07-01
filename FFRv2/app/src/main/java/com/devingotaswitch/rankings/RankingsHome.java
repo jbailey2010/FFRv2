@@ -23,6 +23,7 @@ import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -66,8 +67,6 @@ public class RankingsHome extends AppCompatActivity {
     private CognitoUser user;
     private CognitoUserSession session;
     private CognitoUserDetails details;
-
-    // User details
     private String username;
 
     private NavigationView nDrawer;
@@ -82,6 +81,8 @@ public class RankingsHome extends AppCompatActivity {
     private Rankings rankings;
     private LinearLayout rankingsBase;
     private RelativeLayout searchBase;
+    private LinearLayout buttonBase;
+    private int maxPlayers;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -205,6 +206,8 @@ public class RankingsHome extends AppCompatActivity {
         positions.setAdapter(positionAdapter);
 
         final CheckBox watched = (CheckBox)filterBase.findViewById(R.id.rankings_filter_watched);
+        final EditText maxPlayersField = (EditText)filterBase.findViewById(R.id.max_players_visible);
+        maxPlayersField.setText(maxPlayers);
 
         Button submit = (Button)filterBase.findViewById(R.id.rankings_filter_submit);
         submit.setOnClickListener(new View.OnClickListener() {
@@ -223,6 +226,11 @@ public class RankingsHome extends AppCompatActivity {
                 if (isWatched) {
                     filteredIds = rankings.getWatchedPlayers(filteredIds);
                 }
+                String maxPlayersInput = maxPlayersField.getText().toString();
+                if (GeneralUtils.isInteger(maxPlayersInput)) {
+                    maxPlayers = Integer.parseInt(maxPlayersInput);
+                    LocalSettingsHelper.saveNumVisiblePlayers(getApplication(), maxPlayers);
+                }
                 displayRankings(filteredIds);
             }
         });
@@ -232,6 +240,8 @@ public class RankingsHome extends AppCompatActivity {
         // Rankings stuff
         rankingsDB = new RankingsDBWrapper();
         searchBase = (RelativeLayout)findViewById(R.id.rankings_search_base);
+        buttonBase = (LinearLayout) findViewById(R.id.rankings_button_bar);
+        maxPlayers = LocalSettingsHelper.getNumVisiblePlayers(this);
         initRankingsContext();
 
         // Cogneato stuff
@@ -259,11 +269,13 @@ public class RankingsHome extends AppCompatActivity {
             clearAndAddView(R.layout.content_rankings_no_league);
             rankings = Rankings.initWithDefaults(currentLeague);
             searchBase.setVisibility(View.GONE);
+            buttonBase.setVisibility(View.GONE);
         } else {
             // If neither of the above, there's a league but no ranks. Tell the user.
             clearAndAddView(R.layout.content_rankings_no_ranks);
             rankings = Rankings.initWithDefaults(currentLeague);
             searchBase.setVisibility(View.GONE);
+            buttonBase.setVisibility(View.GONE);
         }
     }
 
@@ -286,6 +298,7 @@ public class RankingsHome extends AppCompatActivity {
 
     private void displayRankings(List<String> orderedIds) {
         searchBase.setVisibility(View.VISIBLE);
+        buttonBase.setVisibility(View.VISIBLE);
         DecimalFormat df = new DecimalFormat(Constants.NUMBER_FORMAT);
 
         ListView listview = (ListView) findViewById(R.id.rankings_list);
@@ -297,6 +310,7 @@ public class RankingsHome extends AppCompatActivity {
                 new int[] { R.id.player_basic, R.id.player_info,
                 R.id.player_status });
         listview.setAdapter(adapter);
+        int displayedPlayers = 0;
         for (String playerKey : orderedIds) {
             Player player = rankings.getPlayer(playerKey);
             if (rankings.getLeagueSettings().getRosterSettings().isPositionValid(player.getPosition())) {
@@ -319,6 +333,10 @@ public class RankingsHome extends AppCompatActivity {
                     datum.put(Constants.PLAYER_STATUS, Integer.toString(R.drawable.star));
                 }
                 data.add(datum);
+                displayedPlayers++;
+                if (displayedPlayers == maxPlayers) {
+                    break;
+                }
             }
         }
         adapter.notifyDataSetChanged();

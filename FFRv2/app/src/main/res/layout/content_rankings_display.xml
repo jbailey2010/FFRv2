@@ -38,7 +38,25 @@
                 android:id="@+id/rankings_filter_watched"
                 android:text="Watched"
                 android:checked="false"
-                android:layout_weight="5"/>
+                android:layout_weight="1"/>
+
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:paddingLeft="@dimen/activity_text_padding"
+                android:paddingRight="@dimen/activity_text_padding"
+                android:id="@+id/max_players_visible"
+                android:background="@drawable/text_border_selector"
+                android:hint="# of players shown"
+                android:text="500"
+                android:layout_weight="1"
+                android:layout_margin="2dp"
+                android:inputType="number"/>
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
             <Button
                 android:layout_width="0dp"
@@ -58,10 +76,10 @@
         android:id="@+id/rankings_list"
         android:layout_width="fill_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/rankings_filter_base"
         android:clickable="true"
         android:divider="@drawable/list_divider"
-        android:dividerHeight="1dp" >
+        android:dividerHeight="1dp"
+        android:layout_below="@+id/rankings_filter_base">
 
     </ListView>
 </RelativeLayout>

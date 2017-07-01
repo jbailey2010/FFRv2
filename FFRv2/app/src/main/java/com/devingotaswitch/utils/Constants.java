@@ -27,7 +27,7 @@ public class Constants {
 
     // SP: defaults
     public static final String NOT_SET_KEY = "NOT_SAVED";
-    public static final Integer DEFAULT_NUM_PLAYERS = 1000;
+    public static final Integer DEFAULT_NUM_PLAYERS = 500;
     public static final Boolean NOT_SET_BOOLEAN = false;
 
     // League settings: SQL
