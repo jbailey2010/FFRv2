@@ -18,7 +18,7 @@ public class ParseFA {
 
     public static void parseFAClasses(Rankings rankings) throws IOException {
         List<String> td = JsoupUtils.handleLists("https://www.profootballfocus.com/pro-2017-free-agency-tracker/",
-                "table tbody.row-hover tr td");
+                "article table tbody tr td");
         Map<String, String> arrivingFA = new HashMap<>();
         Map<String, String> departingFA = new HashMap<>();
         for (int i = 0; i < td.size(); i+=7) {

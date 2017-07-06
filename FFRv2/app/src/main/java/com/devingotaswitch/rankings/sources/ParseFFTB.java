@@ -40,7 +40,7 @@ public class ParseFFTB {
     }
 
     private static void parseFFTBPage(Rankings rankings, String url, String pos)
-            throws MalformedURLException, IOException {
+            throws IOException {
         List<String> brokenUp = JsoupUtils.handleLists(url, "td");
         int min = 0;
         for (int i = 0; i < brokenUp.size(); i++) {
@@ -53,6 +53,7 @@ public class ParseFFTB {
             if (i + 8 > brokenUp.size()) {
                 break;
             }
+
             String name = "";
             String team = brokenUp.get(i + 1);
             if (Constants.DST.equals(pos)) {
@@ -63,16 +64,14 @@ public class ParseFFTB {
             String age = brokenUp.get(i + 4);
             String val = brokenUp.get(i + 6);
             String bye = brokenUp.get(i + 3);
+
             if (team.split(" ").length <= 3) {
                 val = val.substring(1, val.length());
-                try {
-                    
-                    Player player = ParsingUtils.getPlayerFromRankings(name, team, pos, Double.parseDouble(val));
+                Player player = ParsingUtils.getPlayerFromRankings(name, team, pos, Double.parseDouble(val));
+                if (GeneralUtils.isInteger(age)) {
                     player.setAge(Integer.parseInt(age));
-                    rankings.processNewPlayer(player);
-                } catch (NumberFormatException e) {
-                    break;
                 }
+                rankings.processNewPlayer(player);
             }
             Team newTeam = new Team();
             newTeam.setBye(bye);

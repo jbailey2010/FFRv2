@@ -212,10 +212,6 @@ public class RankingsFetcher {
             publishProgress("Getting last year's stats...");
             try {
                 ParseStats.setStats(rankings);
-
-                for (String key : rankings.getPlayers().keySet()) {
-                    Player player = rankings.getPlayer(key);
-                }
             } catch (Exception e) {
                 Log.e(TAG, "Failed to get player stats", e);
             }
