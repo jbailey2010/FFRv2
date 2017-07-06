@@ -124,9 +124,14 @@ public class Constants {
     // Other internal stuff
     public final static String NUMBER_FORMAT = "#.##";
     public final static String PLAYER_ID_DELIMITER = ".";
+    public final static String HASH_DELIMITER = "###";
     public final static String LINE_BREAK = "\n";
     public final static String RANKINGS_LIST_DELIMITER = ": ";
     public final static String PLAYER_ID = "player_id";
+
+    // Draft
+    public final static String CURRENT_DRAFT = "current_draft";
+    public final static String CURRENT_TEAM = "current_team";
 
     // Display rankings utilities
     public final static String PLAYER_BASIC = "main";

@@ -7,6 +7,7 @@ import android.util.Log;
 import com.devingotaswitch.fileio.LocalSettingsHelper;
 import com.devingotaswitch.fileio.RankingsDBWrapper;
 import com.devingotaswitch.rankings.RankingsHome;
+import com.devingotaswitch.rankings.domain.Draft;
 import com.devingotaswitch.rankings.domain.LeagueSettings;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
@@ -54,7 +55,8 @@ public class RankingsLoader {
             Map<String, Player> players = rankingsDB.getPlayers(act);
             Map<String, Team> teams = rankingsDB.getTeams(act);
             List<String> orderedIds = rankingsDB.getPlayersSorted(act, currentLeague);
-            return Rankings.init(teams, players, orderedIds, currentLeague);
+            Draft draft = LocalSettingsHelper.loadDraft(act, players, currentLeague);
+            return Rankings.init(teams, players, orderedIds, currentLeague, draft);
         }
     }
 

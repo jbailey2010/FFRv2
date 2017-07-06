@@ -8,5 +8,14 @@
           app:showAsAction="never"/>
     <item android:id="@+id/player_info_remove_watched"
           android:title="Remove from watch list"
-          app:showAsAction="never"/>/>
+          app:showAsAction="never"/>
+    <item android:id="@+id/player_info_draft_me"
+          android:title="Draft to your team"
+          app:showAsAction="never"/>
+    <item android:id="@+id/player_info_draft_someone"
+          android:title="Draft to another team"
+          app:showAsAction="never"/>
+    <item android:id="@+id/player_info_undraft"
+          android:title="Undraft player"
+          app:showAsAction="never"/>
 </menu>

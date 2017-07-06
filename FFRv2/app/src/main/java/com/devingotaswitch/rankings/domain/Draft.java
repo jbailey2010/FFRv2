@@ -3,17 +3,20 @@ package com.devingotaswitch.rankings.domain;
 import android.content.Context;
 import android.widget.Toast;
 
+import com.devingotaswitch.fileio.LocalSettingsHelper;
 import com.devingotaswitch.utils.Constants;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class Draft {
 
     private Set<String> draftedPlayers;
-    private Set<String> myPlayers;
+    private Map<String, Integer> myPlayers;
     private List<Player> myQbs;
     private List<Player> myRbs;
     private List<Player> myWrs;
@@ -21,8 +24,6 @@ public class Draft {
     private List<Player> myDsts;
     private List<Player> myKs;
 
-    private boolean isAuction;
-    private int remainingSalary;
     private double draftValue;
 
     public Draft(LeagueSettings leagueSettings) {
@@ -33,10 +34,7 @@ public class Draft {
         myTes = new ArrayList<>();
         myDsts = new ArrayList<>();
         myKs = new ArrayList<>();
-        myPlayers = new HashSet<>();
-
-        remainingSalary = leagueSettings.getAuctionBudget();
-        isAuction = leagueSettings.isAuction();
+        myPlayers = new HashMap<>();
         draftValue = 0.0;
     }
 
@@ -44,7 +42,7 @@ public class Draft {
         return draftedPlayers;
     }
 
-    public Set<String> getMyPlayers() {
+    public Map<String, Integer> getMyPlayers() {
         return myPlayers;
     }
 
@@ -72,22 +70,52 @@ public class Draft {
         return myKs;
     }
 
-    public int getRemainingSalary() {
-        return remainingSalary;
-    }
-
     public double getDraftValue() {
         return draftValue;
     }
 
-    public void draftPlayer(Context context, Player player, boolean myPick, int cost) {
-        if (draftedPlayers.contains(player.getUniqueId())) {
-            Toast.makeText(context, "Player already drafted", Toast.LENGTH_LONG).show();
+    public double getTotalPAA() {
+        return getQBPAA() + getRBPAA() + getWRPAA() + getTEPAA() + getDSTPAA() + getKPAA();
+    }
+
+    public double getQBPAA() {
+        return getPAAForPos(myQbs, Constants.QB);
+    }
+
+    public double getWRPAA() {
+        return getPAAForPos(myWrs, Constants.RB);
+    }
+
+    public double getRBPAA() {
+        return getPAAForPos(myRbs, Constants.WR);
+    }
+
+    public double getTEPAA() {
+        return getPAAForPos(myTes, Constants.TE);
+    }
+
+    public double getDSTPAA() {
+        return getPAAForPos(myDsts, Constants.DST);
+    }
+
+    public double getKPAA() {
+        return getPAAForPos(myKs, Constants.K);
+    }
+
+    private double getPAAForPos(List<Player> players, String position) {
+        double posPAA = 0.0;
+        for (Player player : players) {
+            if (position.equals(player.getPosition())) {
+                posPAA += player.getPaa();
+            }
         }
+        return posPAA;
+    }
+
+    public void draftPlayer(Player player, boolean myPick, int cost) {
         draftedPlayers.add(player.getUniqueId());
         if (myPick) {
-            this.myPlayers.add(player.getUniqueId());
-            this.remainingSalary -= cost;
+            this.myPlayers.put(player.getUniqueId(), cost);
             this.draftValue += (player.getAuctionValue() - (double) cost);
             if (Constants.QB.equals(player.getPosition())) {
                 myQbs.add(player);
@@ -105,11 +133,11 @@ public class Draft {
         }
     }
 
-    public void unDraftPlayer(Context context, Player player, boolean myPick, int cost) {
+    public void unDraftPlayer(Player player) {
         draftedPlayers.remove(player.getUniqueId());
-        if (myPick) {
+        if (isDraftedByMe(player)) {
+            int cost = myPlayers.get(player.getUniqueId());
             this.myPlayers.remove(player.getUniqueId());
-            this.remainingSalary += cost;
             this.draftValue -= (player.getAuctionValue() - (double) cost);
             if (Constants.QB.equals(player.getPosition())) {
                 myQbs.remove(player);
@@ -127,11 +155,34 @@ public class Draft {
         }
     }
 
-    public boolean isOnMyTeam(Player player) {
-        return myPlayers.contains(player.getUniqueId());
+    public boolean isDraftedByMe(Player player) {
+        return myPlayers.containsKey(player.getUniqueId());
     }
 
-    public void resetDraft() {
+    public boolean isDrafted(Player player) { return draftedPlayers.contains(player.getUniqueId()); }
+
+    public String draftedToSerializedString() {
+        StringBuilder draftedStr = new StringBuilder();
+        for (String key : draftedPlayers) {
+            draftedStr.append(key)
+                    .append(Constants.HASH_DELIMITER);
+        }
+        return draftedStr.toString();
+    }
+
+    public String myTeamToSerializedString() {
+        StringBuilder myTeamStr = new StringBuilder();
+        for (String key : myPlayers.keySet()) {
+            int cost = myPlayers.get(key);
+            myTeamStr.append(key)
+                    .append(Constants.HASH_DELIMITER)
+                    .append(cost)
+                    .append(Constants.HASH_DELIMITER);
+        }
+        return myTeamStr.toString();
+    }
+
+    public void resetDraft(Context context) {
         myQbs.clear();
         myRbs.clear();
         myWrs.clear();
@@ -140,6 +191,6 @@ public class Draft {
         myKs.clear();
         draftedPlayers.clear();
         draftValue = 0.0;
-        remainingSalary = 200;
+        LocalSettingsHelper.clearDraft(context);
     }
 }

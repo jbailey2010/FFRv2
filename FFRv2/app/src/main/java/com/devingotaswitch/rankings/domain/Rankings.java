@@ -20,6 +20,7 @@ public class Rankings {
     private static Map<String, Player> players;
     private static Map<String, Team> teams;
     private static List<String> orderedIds;
+    private static Draft draft;
     private static LeagueSettings leagueSettings;
     private static RankingsFetcher processor;
     private static RankingsLoader loader;
@@ -29,17 +30,19 @@ public class Rankings {
     }
 
     public static Rankings initWithDefaults(LeagueSettings leagueSettings) {
-        return init(new HashMap<String, Team>(), new HashMap<String, Player>(), new ArrayList<String>(), leagueSettings);
+        return init(new HashMap<String, Team>(), new HashMap<String, Player>(), new ArrayList<String>(), leagueSettings,
+                new Draft(leagueSettings));
     }
 
     public static Rankings init(Map<String, Team> inputTeams, Map<String, Player> inputPlayers, List<String> inputIds,
-                                LeagueSettings inputSettings) {
+                                LeagueSettings inputSettings, Draft inputDraft) {
         players = inputPlayers;
         teams = inputTeams;
         leagueSettings = inputSettings;
         processor = new RankingsFetcher();
         loader = new RankingsLoader();
         orderedIds = inputIds;
+        draft = inputDraft;
         return new Rankings();
     }
 
@@ -57,6 +60,10 @@ public class Rankings {
 
     public void setOrderedIds(List<String> orderedIds) {
         this.orderedIds = orderedIds;
+    }
+
+    public Draft getDraft() {
+        return draft;
     }
 
     public List<Player> getQbs() {

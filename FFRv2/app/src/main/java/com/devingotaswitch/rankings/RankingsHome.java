@@ -118,6 +118,7 @@ public class RankingsHome extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.activity_rankings_menu, menu);
         filterItem = menu.findItem(R.id.filter_rankings);
+        filterItem.setVisible(false);
         return true;
     }
 
@@ -279,14 +280,12 @@ public class RankingsHome extends AppCompatActivity {
             rankings = Rankings.initWithDefaults(currentLeague);
             searchBase.setVisibility(View.GONE);
             buttonBase.setVisibility(View.GONE);
-            filterItem.setVisible(false);
         } else {
             // If neither of the above, there's a league but no ranks. Tell the user.
             clearAndAddView(R.layout.content_rankings_no_ranks);
             rankings = Rankings.initWithDefaults(currentLeague);
             searchBase.setVisibility(View.GONE);
             buttonBase.setVisibility(View.GONE);
-            filterItem.setVisible(false);
         }
     }
 
@@ -325,7 +324,8 @@ public class RankingsHome extends AppCompatActivity {
         int displayedPlayers = 0;
         for (String playerKey : orderedIds) {
             Player player = rankings.getPlayer(playerKey);
-            if (rankings.getLeagueSettings().getRosterSettings().isPositionValid(player.getPosition())) {
+            if (rankings.getLeagueSettings().getRosterSettings().isPositionValid(player.getPosition()) &&
+                    !rankings.getDraft().isDrafted(player)) {
                 String playerBasicContent;
                 if (rankings.getLeagueSettings().isAuction()) {
                     playerBasicContent = new StringBuilder(String.valueOf(df.format(player.getAuctionValueCustom(rankings))))

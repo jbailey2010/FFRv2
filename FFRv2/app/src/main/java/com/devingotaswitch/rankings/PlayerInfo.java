@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,6 +23,7 @@ import android.widget.Toast;
 
 import com.amazonaws.util.StringUtils;
 import com.devingotaswitch.ffrv2.R;
+import com.devingotaswitch.fileio.LocalSettingsHelper;
 import com.devingotaswitch.fileio.RankingsDBWrapper;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.PlayerNews;
@@ -29,6 +31,7 @@ import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.domain.Team;
 import com.devingotaswitch.rankings.sources.ParsePlayerNews;
 import com.devingotaswitch.utils.Constants;
+import com.devingotaswitch.utils.GeneralUtils;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -48,6 +51,9 @@ public class PlayerInfo extends AppCompatActivity {
     private ListView infoList;
     private MenuItem addWatch;
     private MenuItem removeWatch;
+    private MenuItem draftMe;
+    private MenuItem draftOther;
+    private MenuItem undraft;
 
     private static DecimalFormat df = new DecimalFormat("#.##");
 
@@ -89,7 +95,11 @@ public class PlayerInfo extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.activity_player_info_menu, menu);
         addWatch = menu.findItem(R.id.player_info_add_watched);
         removeWatch = menu.findItem(R.id.player_info_remove_watched);
+        draftMe = menu.findItem(R.id.player_info_draft_me);
+        draftOther = menu.findItem(R.id.player_info_draft_someone);
+        undraft = menu.findItem(R.id.player_info_undraft);
         hideMenuItemOnWatchStatus();
+        hideMenuItemsOnDraftStatus();
         return true;
     }
 
@@ -103,6 +113,19 @@ public class PlayerInfo extends AppCompatActivity {
                 return true;
             case R.id.player_info_remove_watched:
                 removeWatched();
+                return true;
+            case R.id.player_info_draft_me:
+                if (rankings.getLeagueSettings().isAuction()) {
+                    getAuctionCost();
+                } else {
+                    draftByMe(0);
+                }
+                return true;
+            case R.id.player_info_draft_someone:
+                draftBySomeone();
+                return true;
+            case R.id.player_info_undraft:
+                undraftPlayer();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -131,6 +154,83 @@ public class PlayerInfo extends AppCompatActivity {
         } else {
             addWatch.setVisible(true);
             removeWatch.setVisible(false);
+        }
+    }
+
+    private void getAuctionCost() {
+        LayoutInflater li = LayoutInflater.from(this);
+        View noteView = li.inflate(R.layout.user_input_popup, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                this);
+
+        alertDialogBuilder.setView(noteView);
+        final EditText userInput = (EditText) noteView
+                .findViewById(R.id.user_input_popup_input);
+        userInput.setInputType(InputType.TYPE_CLASS_NUMBER);
+        userInput.setHint("Auction cost");
+
+        TextView title = (TextView)noteView.findViewById(R.id.user_input_popup_title);
+        title.setText("How much did " + player.getName() + " cost?");
+        final Context localCopy = this;
+        alertDialogBuilder
+                .setPositiveButton("Save",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                String costStr = userInput.getText().toString();
+                                if (StringUtils.isBlank(costStr) || !GeneralUtils.isInteger(costStr)) {
+                                    Toast.makeText(localCopy, "Must provide a number for cost", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    draftByMe(Integer.parseInt(costStr));
+                                    dialog.dismiss();
+                                }
+                            }
+                        })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                dialog.cancel();
+                            }
+                        });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+    private void draftByMe(int cost) {
+        rankings.getDraft().draftPlayer(player, true, cost);
+        Toast.makeText(this, player.getName() + " drafted by you", Toast.LENGTH_SHORT).show();
+        saveDraft();
+        hideMenuItemsOnDraftStatus();
+        displayRanks();
+    }
+
+    private void draftBySomeone() {
+        rankings.getDraft().draftPlayer(player, false, 0);
+        Toast.makeText(this, player.getName() + " marked as drafted", Toast.LENGTH_SHORT).show();
+        saveDraft();
+        hideMenuItemsOnDraftStatus();
+        displayRanks();
+    }
+
+    private void undraftPlayer() {
+        rankings.getDraft().unDraftPlayer(player);
+        Toast.makeText(this, player.getName() + " undrafted", Toast.LENGTH_SHORT).show();
+        saveDraft();
+        hideMenuItemsOnDraftStatus();
+    }
+
+    private void saveDraft() {
+        LocalSettingsHelper.saveDraft(this, rankings.getDraft());
+    }
+
+    private void hideMenuItemsOnDraftStatus() {
+        if (rankings.getDraft().isDrafted(player)) {
+            draftMe.setVisible(false);
+            draftOther.setVisible(false);
+            undraft.setVisible(true);
+        } else {
+            draftMe.setVisible(true);
+            draftOther.setVisible(true);
+            undraft.setVisible(false);
         }
     }
 
@@ -318,11 +418,21 @@ public class PlayerInfo extends AppCompatActivity {
         context.put(Constants.PLAYER_BASIC, "Current status");
         StringBuilder playerSub = new StringBuilder();
         if (player.isWatched()) {
-            playerSub.append("In your watch list")
-                    .append(Constants.LINE_BREAK);
+            playerSub.append("In your watch list");
         }
-        // TODO: are they drafted?
-        playerSub.append("Currently available");
+        if (rankings.getDraft().isDrafted(player)) {
+            playerSub.append(Constants.LINE_BREAK);
+            if (rankings.getDraft().isDraftedByMe(player)) {
+                playerSub.append("On your team");
+            } else {
+                playerSub.append("On another team");
+            }
+        } else {
+            playerSub.append(Constants.LINE_BREAK)
+                    .append("Currently available");
+        }
+        context.put(Constants.PLAYER_INFO, playerSub.toString());
+        data.add(context);
 
         if (StringUtils.isBlank(player.getNote())) {
             Map<String, String> note = new HashMap<>();
@@ -338,15 +448,15 @@ public class PlayerInfo extends AppCompatActivity {
 
         if (!StringUtils.isBlank(player.getInjuryStatus())) {
             Map<String, String> injury = new HashMap<>();
-            injury.put(Constants.PLAYER_INFO, "Injury status");
-            injury.put(Constants.PLAYER_BASIC, player.getInjuryStatus());
+            injury.put(Constants.PLAYER_BASIC, "Injury status");
+            injury.put(Constants.PLAYER_INFO, player.getInjuryStatus());
             data.add(injury);
         }
 
         if (!StringUtils.isBlank(player.getStats())) {
             Map<String, String> stats = new HashMap<>();
-            stats.put(Constants.PLAYER_INFO, "2016 stats");
-            stats.put(Constants.PLAYER_BASIC, player.getStats());
+            stats.put(Constants.PLAYER_BASIC, "2016 stats");
+            stats.put(Constants.PLAYER_INFO, player.getStats());
             data.add(stats);
         }
 

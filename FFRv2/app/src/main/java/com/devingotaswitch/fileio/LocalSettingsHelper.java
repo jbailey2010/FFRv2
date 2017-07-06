@@ -3,8 +3,17 @@ package com.devingotaswitch.fileio;
 import android.content.Context;
 import android.content.SharedPreferences;
 
+import com.amazonaws.util.StringUtils;
 import com.devingotaswitch.rankings.RankingsHome;
+import com.devingotaswitch.rankings.domain.Draft;
+import com.devingotaswitch.rankings.domain.LeagueSettings;
+import com.devingotaswitch.rankings.domain.Player;
+import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.utils.Constants;
+
+import java.util.HashSet;
+import java.util.Map;
+import java.util.Set;
 
 public class LocalSettingsHelper {
 
@@ -38,5 +47,43 @@ public class LocalSettingsHelper {
 
     public static void saveRankingsFetched(Context cont, boolean wereFetched) {
         getSharedPreferences(cont).edit().putBoolean(Constants.RANKINGS_FETCHED, wereFetched).apply();
+    }
+
+    public static void saveDraft(Context cont, Draft draft) {
+        SharedPreferences.Editor editor = getSharedPreferences(cont).edit();
+        editor.putString(Constants.CURRENT_DRAFT, draft.draftedToSerializedString());
+        editor.putString(Constants.CURRENT_TEAM, draft.myTeamToSerializedString());
+        editor.apply();
+    }
+
+    public static Draft loadDraft(Context cont, Map<String, Player> players, LeagueSettings settings) {
+        String draftStr = getSharedPreferences(cont).getString(Constants.CURRENT_DRAFT, null);
+        String teamStr = getSharedPreferences(cont).getString(Constants.CURRENT_TEAM, null);
+        Draft draft = new Draft(settings);
+        if (!StringUtils.isBlank(draftStr)) {
+            String[] drafted = draftStr.split(Constants.HASH_DELIMITER);
+            for (String key : drafted) {
+                Player player = players.get(key);
+                if (!draft.isDrafted(player)) {
+                    draft.draftPlayer(player, false, 0);
+                }
+            }
+        }
+        if (!StringUtils.isBlank(teamStr)) {
+            String[] myTeam = teamStr.split(Constants.HASH_DELIMITER);
+            for (int i = 0; i < myTeam.length; i+=2) {
+                String key = myTeam[i];
+                int cost = Integer.parseInt(myTeam[i+1]);
+                draft.draftPlayer(players.get(key), true, cost);
+            }
+        }
+        return draft;
+    }
+
+    public static void clearDraft(Context cont) {
+        SharedPreferences.Editor editor = getSharedPreferences(cont).edit();
+        editor.remove(Constants.CURRENT_DRAFT);
+        editor.remove(Constants.CURRENT_TEAM);
+        editor.apply();
     }
 }
