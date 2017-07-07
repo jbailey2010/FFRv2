@@ -107,6 +107,12 @@ public class RankingsHome extends AppCompatActivity {
 
         nDrawer = (NavigationView) findViewById(R.id.nav_view);
         setNavDrawer();
+        rankingsDB = new RankingsDBWrapper();
+        String currentLeagueId = LocalSettingsHelper.getCurrentLeagueName(this);
+        if (LocalSettingsHelper.wasPresent(currentLeagueId)) {
+            currentLeague = rankingsDB.getLeague(this, currentLeagueId);
+        }
+
         init();
         View navigationHeader = nDrawer.getHeaderView(0);
         TextView navHeaderSubTitle = (TextView) navigationHeader.findViewById(R.id.textViewNavUserSub);
@@ -118,7 +124,7 @@ public class RankingsHome extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.activity_rankings_menu, menu);
         filterItem = menu.findItem(R.id.filter_rankings);
-        filterItem.setVisible(false);
+        setFilterItemVisibility();
         return true;
     }
 
@@ -144,7 +150,19 @@ public class RankingsHome extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+
         initRankingsContext();
+    }
+
+    private void setFilterItemVisibility() {
+        if (rankings == null) {
+            rankings = Rankings.initWithDefaults(currentLeague);
+        }
+        if (rankings.getLeagueSettings() != null && rankings.getPlayers().size() > 0) {
+            filterItem.setVisible(true);
+        } else {
+            filterItem.setVisible(false);
+        }
     }
 
     private void toggleFilterView() {
@@ -241,7 +259,6 @@ public class RankingsHome extends AppCompatActivity {
 
     private void init() {
         // Rankings stuff
-        rankingsDB = new RankingsDBWrapper();
         searchBase = (RelativeLayout)findViewById(R.id.rankings_search_base);
         buttonBase = (LinearLayout) findViewById(R.id.rankings_button_bar);
         maxPlayers = LocalSettingsHelper.getNumVisiblePlayers(this);
@@ -316,7 +333,9 @@ public class RankingsHome extends AppCompatActivity {
     private void displayRankings(List<String> orderedIds) {
         searchBase.setVisibility(View.VISIBLE);
         buttonBase.setVisibility(View.VISIBLE);
-        filterItem.setVisible(true);
+        if (filterItem != null) {
+            filterItem.setVisible(true);
+        }
         DecimalFormat df = new DecimalFormat(Constants.NUMBER_FORMAT);
 
         ListView listview = (ListView) findViewById(R.id.rankings_list);
