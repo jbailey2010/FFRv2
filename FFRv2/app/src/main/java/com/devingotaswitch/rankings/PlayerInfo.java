@@ -418,18 +418,16 @@ public class PlayerInfo extends AppCompatActivity {
         context.put(Constants.PLAYER_BASIC, "Current status");
         StringBuilder playerSub = new StringBuilder();
         if (player.isWatched()) {
-            playerSub.append("In your watch list");
+            playerSub.append("In your watch list").append(Constants.LINE_BREAK);
         }
         if (rankings.getDraft().isDrafted(player)) {
-            playerSub.append(Constants.LINE_BREAK);
             if (rankings.getDraft().isDraftedByMe(player)) {
                 playerSub.append("On your team");
             } else {
                 playerSub.append("On another team");
             }
         } else {
-            playerSub.append(Constants.LINE_BREAK)
-                    .append("Currently available");
+            playerSub.append("Currently available");
         }
         context.put(Constants.PLAYER_INFO, playerSub.toString());
         data.add(context);

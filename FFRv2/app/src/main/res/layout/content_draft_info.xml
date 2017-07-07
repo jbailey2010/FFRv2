@@ -12,12 +12,6 @@
     android:layout_marginRight="@dimen/activity_horizontal_margin"
     tools:showIn="@layout/activity_draft_info">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/draft_info_header"
-        android:text="Text"
-        android:textAppearance="?android:attr/textAppearanceMedium"/>
     <LinearLayout
         android:orientation="vertical"
         android:id="@+id/draft_info_base"

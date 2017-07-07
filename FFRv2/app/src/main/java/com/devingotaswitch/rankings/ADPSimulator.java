@@ -192,10 +192,11 @@ public class ADPSimulator extends AppCompatActivity {
             String type = "standard";
             ScoringSettings scoring = rankings.getLeagueSettings().getScoringSettings();
             RosterSettings roster = rankings.getLeagueSettings().getRosterSettings();
-            if (roster.getQbCount() > 1 || (roster.getFlex() != null && roster.getQbCount() > 0 &&
+            // TODO Tool seems to be broken for this. When fixed, add back in.
+            /*if (roster.getQbCount() > 1 || (roster.getFlex() != null && roster.getQbCount() > 0 &&
                     roster.getFlex().getQbrbwrteCount() > 0)) {
                 type = "2qb";
-            } else if (scoring.getReceptions() > 0.0) {
+            } else */if (scoring.getReceptions() > 0.0) {
                 type = "ppr";
             }
             String teams = "8";

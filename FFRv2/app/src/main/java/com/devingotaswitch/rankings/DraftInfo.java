@@ -2,10 +2,9 @@ package com.devingotaswitch.rankings;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -35,7 +34,6 @@ public class DraftInfo extends AppCompatActivity {
     private Rankings rankings;
 
     private LinearLayout baseLayout;
-    private TextView headerView;
     private MenuItem viewTeam;
     private MenuItem undraftPlayers;
 
@@ -109,29 +107,24 @@ public class DraftInfo extends AppCompatActivity {
 
     private void init() {
         baseLayout = (LinearLayout) findViewById(R.id.draft_info_base);
-        headerView = (TextView) findViewById(R.id.draft_info_header);
         displayTeam();
     }
 
     private void displayTeam() {
-        headerView.setVisibility(View.GONE);
-        View view = clearAndAddView(R.layout.base_single_textview_layout);
-        TextView teamView = (TextView)view.findViewById(R.id.base_textview);
-        StringBuilder teamOutput = new StringBuilder("Your team:")
-            .append(Constants.LINE_BREAK)
-            .append(getTeamStr());
+        View view = clearAndAddView(R.layout.content_draft_info_team);
+        TextView teamView = (TextView)view.findViewById(R.id.base_textview_team);
+        StringBuilder teamOutput = new StringBuilder(getTeamStr());
         if (rankings.getLeagueSettings().isAuction()) {
             teamOutput.append(getAuctionValue());
         }
-        teamOutput.append(getPAALeft());
-
         teamView.setText(teamOutput.toString());
+
+        TextView paaLeft = (TextView)view.findViewById(R.id.base_textview_paa_left);
+        paaLeft.setText(getPAALeft());
     }
 
     private String getPAALeft() {
-        StringBuilder paaLeft = new StringBuilder("PAA 3/5/10 players back:")
-                .append(Constants.LINE_BREAK)
-                .append(Constants.LINE_BREAK);
+        StringBuilder paaLeft = new StringBuilder();
         RosterSettings roster = rankings.getLeagueSettings().getRosterSettings();
         if (roster.isPositionValid(Constants.QB)) {
             paaLeft.append(rankings.getDraft().getPAALeft(Constants.QB, rankings))
@@ -163,8 +156,6 @@ public class DraftInfo extends AppCompatActivity {
     private String getAuctionValue() {
         return new StringBuilder("Value: ")
                 .append(df.format(rankings.getDraft().getDraftValue()))
-                .append(Constants.LINE_BREAK)
-                .append(Constants.LINE_BREAK)
                 .toString();
     }
 
@@ -172,8 +163,7 @@ public class DraftInfo extends AppCompatActivity {
         StringBuilder teamOutput = new StringBuilder();
         RosterSettings roster = rankings.getLeagueSettings().getRosterSettings();
         if (roster.isPositionValid(Constants.QB)) {
-            teamOutput.append(Constants.LINE_BREAK)
-                    .append(Constants.QB)
+            teamOutput.append(Constants.QB)
                     .append("s: ")
                     .append(getPosString(rankings.getDraft().getMyQbs(), rankings.getDraft().getQBPAA()));
         }
@@ -232,9 +222,7 @@ public class DraftInfo extends AppCompatActivity {
     }
 
     private void displayPlayers() {
-        headerView.setText("Click and hold on a drafted player to undraft them");
-        headerView.setVisibility(View.VISIBLE);
-        View view = clearAndAddView(R.layout.base_single_listview_layout);
+        View view = clearAndAddView(R.layout.content_draft_info_undraft);
         ListView listview = (ListView)view.findViewById(R.id.base_list);
         listview.setAdapter(null);
         final List<Map<String, String>> data = new ArrayList<>();

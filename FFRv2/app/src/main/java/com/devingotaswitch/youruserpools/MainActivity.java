@@ -473,7 +473,6 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    //
     AuthenticationHandler authenticationHandler = new AuthenticationHandler() {
         @Override
         public void onSuccess(CognitoUserSession cognitoUserSession, CognitoDevice device) {

@@ -78,10 +78,10 @@ public class CUPHelper {
         phoneVerified = false;
         phoneAvailable = false;
 
-        currUserAttributes = new HashSet<String>();
-        currDisplayedItems = new ArrayList<ItemToDisplay>();
-        firstTimeLogInDetails = new ArrayList<ItemToDisplay>();
-        firstTimeLogInUpDatedAttributes= new HashMap<String, String>();
+        currUserAttributes = new HashSet<>();
+        currDisplayedItems = new ArrayList<>();
+        firstTimeLogInDetails = new ArrayList<>();
+        firstTimeLogInUpDatedAttributes= new HashMap<>();
     }
 
     static boolean shouldRefreshCUP() {
