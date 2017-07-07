@@ -252,6 +252,13 @@ public class RankingsHome extends AppCompatActivity {
                 getAdpSimulator();
             }
         });
+        Button draftInfo = (Button)buttonBase.findViewById(R.id.rankings_draft_info);
+        draftInfo.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getDraftInfo();
+            }
+        });
         initRankingsContext();
 
         // Cogneato stuff
@@ -438,6 +445,11 @@ public class RankingsHome extends AppCompatActivity {
 
     private void getAdpSimulator() {
         Intent intent = new Intent(this, ADPSimulator.class);
+        startActivity(intent);
+    }
+
+    private void getDraftInfo() {
+        Intent intent = new Intent(this, DraftInfo.class);
         startActivity(intent);
     }
 

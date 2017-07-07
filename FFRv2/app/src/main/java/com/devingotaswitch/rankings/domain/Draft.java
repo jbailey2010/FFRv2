@@ -6,16 +6,19 @@ import android.widget.Toast;
 import com.devingotaswitch.fileio.LocalSettingsHelper;
 import com.devingotaswitch.utils.Constants;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Set;
 
 public class Draft {
 
-    private Set<String> draftedPlayers;
+    private List<String> draftedPlayers;
     private Map<String, Integer> myPlayers;
     private List<Player> myQbs;
     private List<Player> myRbs;
@@ -26,8 +29,8 @@ public class Draft {
 
     private double draftValue;
 
-    public Draft(LeagueSettings leagueSettings) {
-        draftedPlayers = new HashSet<>();
+    public Draft() {
+        draftedPlayers = new ArrayList<>();
         myQbs = new ArrayList<>();
         myRbs = new ArrayList<>();
         myWrs = new ArrayList<>();
@@ -38,7 +41,7 @@ public class Draft {
         draftValue = 0.0;
     }
 
-    public Set<String> getDraftedPlayers() {
+    public List<String> getDraftedPlayers() {
         return draftedPlayers;
     }
 
@@ -83,11 +86,11 @@ public class Draft {
     }
 
     public double getWRPAA() {
-        return getPAAForPos(myWrs, Constants.RB);
+        return getPAAForPos(myWrs, Constants.WR);
     }
 
     public double getRBPAA() {
-        return getPAAForPos(myRbs, Constants.WR);
+        return getPAAForPos(myRbs, Constants.RB);
     }
 
     public double getTEPAA() {
@@ -180,6 +183,52 @@ public class Draft {
                     .append(Constants.HASH_DELIMITER);
         }
         return myTeamStr.toString();
+    }
+
+    public String getPAALeft(String pos, Rankings rankings) {
+        DecimalFormat df = new DecimalFormat("#.#");
+        String result = pos + "s: ";
+        double paaLeft = 0.0;
+        int counter = 0;
+        PriorityQueue<Player> inter = new PriorityQueue<>(
+                300, new Comparator<Player>() {
+            @Override
+            public int compare(Player a, Player b) {
+                if (a.getProjection() > b.getProjection()) {
+                    return -1;
+                }
+                if (a.getProjection() < b.getProjection()) {
+                    return 1;
+                }
+                return 0;
+            }
+        });
+        for (String key : rankings.getPlayers().keySet()) {
+            Player player = rankings.getPlayer(key);
+            if (!this.isDrafted(player)
+                    && pos.equals(player.getPosition())) {
+                inter.add(player);
+            }
+        }
+        while (!inter.isEmpty()) {
+            Player player = inter.poll();
+            paaLeft += player.getPaa();
+            counter++;
+            if (counter == 10) {
+                result += df.format(paaLeft);
+                break;
+            }
+            if (counter == 3) {
+                result += df.format(paaLeft) + "/";
+            }
+            if (counter == 5) {
+                result += df.format(paaLeft) + "/";
+            }
+        }
+        if (result.endsWith("/")) {
+            result = result.substring(0, result.length() - 1);
+        }
+        return result;
     }
 
     public void resetDraft(Context context) {

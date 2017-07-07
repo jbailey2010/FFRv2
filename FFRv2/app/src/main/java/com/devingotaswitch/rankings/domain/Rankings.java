@@ -31,7 +31,7 @@ public class Rankings {
 
     public static Rankings initWithDefaults(LeagueSettings leagueSettings) {
         return init(new HashMap<String, Team>(), new HashMap<String, Player>(), new ArrayList<String>(), leagueSettings,
-                new Draft(leagueSettings));
+                new Draft());
     }
 
     public static Rankings init(Map<String, Team> inputTeams, Map<String, Player> inputPlayers, List<String> inputIds,
@@ -119,7 +119,8 @@ public class Rankings {
     public List<Player> getKs() {
         List<Player> pos = new ArrayList<>();
         for (String key : players.keySet()) {
-            if (key.contains(Constants.K)) {
+            Player player = getPlayer(key);
+            if (player.getPosition().equals(Constants.K)) {
                 pos.add(players.get(key));
             }
         }

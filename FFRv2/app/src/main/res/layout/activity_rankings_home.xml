@@ -64,7 +64,7 @@
                 style="?android:buttonBarStyle"
                 android:textAllCaps="false"
                 android:textColor="@color/white"
-                android:text="Draft Info"/>
+                android:text="Current Draft"/>
             <Button
                 android:layout_width="0dp"
                 android:layout_height="match_parent"

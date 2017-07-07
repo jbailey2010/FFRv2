@@ -56,10 +56,18 @@ public class LocalSettingsHelper {
         editor.apply();
     }
 
-    public static Draft loadDraft(Context cont, Map<String, Player> players, LeagueSettings settings) {
+    public static Draft loadDraft(Context cont, Map<String, Player> players) {
         String draftStr = getSharedPreferences(cont).getString(Constants.CURRENT_DRAFT, null);
         String teamStr = getSharedPreferences(cont).getString(Constants.CURRENT_TEAM, null);
-        Draft draft = new Draft(settings);
+        Draft draft = new Draft();
+        if (!StringUtils.isBlank(teamStr)) {
+            String[] myTeam = teamStr.split(Constants.HASH_DELIMITER);
+            for (int i = 0; i < myTeam.length; i+=2) {
+                String key = myTeam[i];
+                int cost = Integer.parseInt(myTeam[i+1]);
+                draft.draftPlayer(players.get(key), true, cost);
+            }
+        }
         if (!StringUtils.isBlank(draftStr)) {
             String[] drafted = draftStr.split(Constants.HASH_DELIMITER);
             for (String key : drafted) {
@@ -67,14 +75,6 @@ public class LocalSettingsHelper {
                 if (!draft.isDrafted(player)) {
                     draft.draftPlayer(player, false, 0);
                 }
-            }
-        }
-        if (!StringUtils.isBlank(teamStr)) {
-            String[] myTeam = teamStr.split(Constants.HASH_DELIMITER);
-            for (int i = 0; i < myTeam.length; i+=2) {
-                String key = myTeam[i];
-                int cost = Integer.parseInt(myTeam[i+1]);
-                draft.draftPlayer(players.get(key), true, cost);
             }
         }
         return draft;

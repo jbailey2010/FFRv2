@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.devingotaswitch.rankings.RankingsHome">
+    <item android:id="@+id/draft_info_clear"
+          android:title="Clear Draft"
+          app:showAsAction="never"/>
+    <item android:id="@+id/draft_info_team"
+          android:title="Your Team"
+          app:showAsAction="never"/>
+    <item android:id="@+id/draft_info_players"
+          android:title="Undraft Players"
+          app:showAsAction="never"/>
+</menu>
