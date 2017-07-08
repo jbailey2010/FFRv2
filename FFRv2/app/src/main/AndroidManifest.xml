@@ -76,6 +76,11 @@
             android:label="@string/title_activity_draft_info"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity
+            android:name="com.devingotaswitch.rankings.FantasyNews"
+            android:label="@string/title_activity_fantasy_news"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>

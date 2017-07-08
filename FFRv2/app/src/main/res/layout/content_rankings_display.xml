@@ -74,7 +74,7 @@
     </LinearLayout>
     <ListView
         android:id="@+id/rankings_list"
-        android:layout_width="fill_parent"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clickable="true"
         android:divider="@drawable/list_divider"

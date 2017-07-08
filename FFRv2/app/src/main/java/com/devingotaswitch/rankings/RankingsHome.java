@@ -523,6 +523,10 @@ public class RankingsHome extends AppCompatActivity {
 
         // Find which item was selected
         switch(item.getItemId()) {
+            case R.id.nav_player_news:
+                // See player news
+                playerNews();
+                break;
             case R.id.nav_league_settings:
                 // Set league settings
                 leagueSettings();
@@ -544,6 +548,11 @@ public class RankingsHome extends AppCompatActivity {
                 signOut();
                 break;
         }
+    }
+
+    private void playerNews() {
+        Intent playerNews = new Intent(this, FantasyNews.class);
+        startActivity(playerNews);
     }
 
     private void leagueSettings() {

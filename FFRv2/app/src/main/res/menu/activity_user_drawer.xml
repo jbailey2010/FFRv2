@@ -4,6 +4,9 @@
     <item android:title="Rankings">
         <menu>
             <item
+                android:id="@+id/nav_player_news"
+                android:title="Player News"/>
+            <item
                 android:id="@+id/nav_league_settings"
                 android:title="League Settings"/>
             <item

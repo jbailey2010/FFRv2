@@ -21,4 +21,5 @@
     <string name="title_activity_new_password">NewPassword</string>
     <string name="title_activity_player_info">PlayerInfo</string>
     <string name="title_activity_draft_info">DraftInfo</string>
+    <string name="title_activity_fantasy_news">FantasyNews</string>
 </resources>
