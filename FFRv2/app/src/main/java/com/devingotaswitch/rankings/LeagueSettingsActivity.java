@@ -154,6 +154,8 @@ public class LeagueSettingsActivity extends AppCompatActivity {
             isSnake.setSelected(true);
             isSnake.setChecked(true);
         }
+        Button delete = (Button)findViewById(R.id.league_settings_delete_league);
+        delete.setVisibility(View.VISIBLE);
         Button save = (Button) view.findViewById(R.id.league_settings_create_default);
         save.setText("Update");
         Button advanced = (Button) view.findViewById(R.id.league_settings_advanced_settings);
@@ -183,6 +185,16 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                 displayRoster(currentLeague, updates);
             }
         });
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (leagues.size() > 1) {
+                    deleteLeague(currentLeague);
+                } else {
+                    Toast.makeText(localCopy, "Can't delete league, none would remain", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
 
         setCurrentLeague(currentLeague);
     }
@@ -191,6 +203,8 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         View view = initializeLeagueSettingsBase();
         Button advanced = (Button) view.findViewById(R.id.league_settings_advanced_settings);
         Button save = (Button) view.findViewById(R.id.league_settings_create_default);
+        Button delete = (Button) view.findViewById(R.id.league_settings_delete_league);
+        delete.setVisibility(View.GONE);
         final EditText leagueName = (EditText)view.findViewById(R.id.league_settings_name);
         leagueName.setVisibility(View.VISIBLE);
         final EditText teamCount = (EditText)view.findViewById(R.id.league_settings_team_count);
@@ -891,6 +905,10 @@ public class LeagueSettingsActivity extends AppCompatActivity {
 
     private void deleteLeague(LeagueSettings league) {
         rankingsDB.deleteLeague(this, league);
+        leagues.remove(league.getName());
+        currLeague = leagues.get(leagues.keySet().iterator().next());
+        initializeLeagueSpinner();
+        Toast.makeText(this, league.getName() + " deleted", Toast.LENGTH_SHORT).show();
     }
 
     private void updateLeague(Map<String, String> scoringUpdates, Map<String, String> rosterUpdates,
