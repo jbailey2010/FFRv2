@@ -22,4 +22,5 @@
     <string name="title_activity_player_info">PlayerInfo</string>
     <string name="title_activity_draft_info">DraftInfo</string>
     <string name="title_activity_fantasy_news">FantasyNews</string>
+    <string name="title_activity_export_rankings">ExportRankings</string>
 </resources>

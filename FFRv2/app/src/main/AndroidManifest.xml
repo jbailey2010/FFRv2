@@ -4,6 +4,7 @@
 
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 
     <application
         android:allowBackup="true"
@@ -79,6 +80,11 @@
         <activity
             android:name="com.devingotaswitch.rankings.FantasyNews"
             android:label="@string/title_activity_fantasy_news"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
+        <activity
+            android:name="com.devingotaswitch.rankings.ExportRankings"
+            android:label="@string/title_activity_export_rankings"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
     </application>

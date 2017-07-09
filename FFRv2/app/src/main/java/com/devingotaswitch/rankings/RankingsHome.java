@@ -535,6 +535,10 @@ public class RankingsHome extends AppCompatActivity {
                 // Refresh ranks
                 refreshRanks();
                 break;
+            case R.id.nav_export_rankings:
+                // Export rankings
+                exportRanks();
+                break;
             case R.id.nav_user_profile:
                 // See profile
                 viewProfile();
@@ -558,6 +562,15 @@ public class RankingsHome extends AppCompatActivity {
     private void leagueSettings() {
         Intent leagueSettingsActivity = new Intent(this, LeagueSettingsActivity.class);
         startActivity(leagueSettingsActivity);
+    }
+
+    private void exportRanks() {
+        if (rankings.getPlayers().size() > 0) {
+            Intent exportRanksActivity = new Intent(this, ExportRankings.class);
+            startActivity(exportRanksActivity);
+        } else {
+            Toast.makeText(this, "No rankings saved to export", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private void refreshRanks() {

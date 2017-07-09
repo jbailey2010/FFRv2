@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+    android:layout_marginRight="@dimen/activity_horizontal_margin"
+    android:layout_marginTop="12dp"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.devingotaswitch.rankings.ExportRankings"
+    tools:showIn="@layout/activity_export_rankings">
+
+    <TextView
+        android:id="@+id/export_rankings_instructions"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Click the button below to export the current set of rankings. Note that they are customized to the current league settings."/>
+
+    <TextView
+        android:id="@+id/export_rankings_instructions_sub"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textSize="13sp"
+        android:layout_below="@+id/export_rankings_instructions"
+        android:layout_marginTop="8dp"
+        android:text="A CSV file will be saved to the SD card as well."/>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Export"
+        android:textAllCaps="false"
+        android:textSize="@dimen/activity_button_text_size"
+        android:textColor="@color/white"
+        android:layout_below="@+id/export_rankings_instructions_sub"
+        android:layout_marginLeft="3dp"
+        android:layout_marginRight="3dp"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/button_selector"
+        android:id="@+id/export_rankings_button" />
+
+</RelativeLayout>
+
