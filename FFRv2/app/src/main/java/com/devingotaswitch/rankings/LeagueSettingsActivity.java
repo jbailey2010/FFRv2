@@ -3,6 +3,7 @@ package com.devingotaswitch.rankings;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -44,6 +45,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
     private ProgressDialog waitDialog;
     private RankingsDBWrapper rankingsDB;
     private LinearLayout baseLayout;
+    private boolean rankingsUpdated;
 
     Map<String, LeagueSettings> leagues;
     private LeagueSettings currLeague;
@@ -67,9 +69,12 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                onBackPressed();
+                Intent intent = new Intent(getApplicationContext(), RankingsHome.class);
+                intent.putExtra(Constants.RANKINGS_UPDATED, rankingsUpdated);
+                getApplication().startActivity(intent);
             }
         });
+        rankingsUpdated = false;
 
         init();
     }
@@ -897,6 +902,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         rankingsDB.insertLeague(this, league);
         setCurrentLeague(league);
         initLeagues();
+        rankingsUpdated = true;
     }
 
     private void setCurrentLeague(LeagueSettings league) {
@@ -909,6 +915,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         currLeague = leagues.get(leagues.keySet().iterator().next());
         initializeLeagueSpinner();
         Toast.makeText(this, league.getName() + " deleted", Toast.LENGTH_SHORT).show();
+        rankingsUpdated = true;
     }
 
     private void updateLeague(Map<String, String> scoringUpdates, Map<String, String> rosterUpdates,
@@ -916,38 +923,9 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         rankingsDB.updateLeague(this, leagueUpdates, rosterUpdates, scoringUpdates, league);
         setCurrentLeague(league);
         initLeagues();
-    }
-
-    private void showWaitDialog(String message) {
-        closeWaitDialog();
-        waitDialog = new ProgressDialog(this);
-        waitDialog.setTitle(message);
-        waitDialog.show();
-    }
-
-    private void showDialogMessage(String title, String body) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(title).setMessage(body).setNeutralButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                try {
-                    userDialog.dismiss();
-                } catch (Exception e) {
-                    // Log failure
-                    Log.e(TAG,"Dialog dismiss failed");
-                }
-            }
-        });
-        userDialog = builder.create();
-        userDialog.show();
-    }
-
-    private void closeWaitDialog() {
-        try {
-            waitDialog.dismiss();
-        }
-        catch (Exception e) {
-            //
+        if (leagueUpdates != null && (leagueUpdates.containsKey(Constants.IS_AUCTION_COLUMN) ||
+                        leagueUpdates.containsKey(Constants.AUCTION_BUDGET_COLUMN))) {
+            rankingsUpdated = true;
         }
     }
 }

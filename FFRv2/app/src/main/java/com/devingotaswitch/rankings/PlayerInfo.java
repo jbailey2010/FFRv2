@@ -135,6 +135,7 @@ public class PlayerInfo extends AppCompatActivity {
 
     private void addWatched() {
         player.setWatched(true);
+        rankings.getPlayer(player.getUniqueId()).setWatched(true);
         Toast.makeText(this, player.getName() + " added to watch list", Toast.LENGTH_SHORT).show();
         rankingsDB.updatePlayerWatchedStatus(this, player);
         hideMenuItemOnWatchStatus();
@@ -142,6 +143,7 @@ public class PlayerInfo extends AppCompatActivity {
 
     private void removeWatched() {
         player.setWatched(false);
+        rankings.getPlayer(player.getUniqueId()).setWatched(false);
         Toast.makeText(this, player.getName() + " removed from watch list", Toast.LENGTH_SHORT).show();
         rankingsDB.updatePlayerWatchedStatus(this, player);
         hideMenuItemOnWatchStatus();

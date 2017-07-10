@@ -128,6 +128,7 @@ public class Constants {
     public final static String LINE_BREAK = "\n";
     public final static String RANKINGS_LIST_DELIMITER = ": ";
     public final static String PLAYER_ID = "player_id";
+    public final static String RANKINGS_UPDATED = "rankings_updated";
 
     // Draft
     public final static String CURRENT_DRAFT = "current_draft";

@@ -84,6 +84,7 @@ public class RankingsHome extends AppCompatActivity {
     private RelativeLayout searchBase;
     private LinearLayout buttonBase;
     private int maxPlayers;
+    private boolean loadRanks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -111,6 +112,11 @@ public class RankingsHome extends AppCompatActivity {
         String currentLeagueId = LocalSettingsHelper.getCurrentLeagueName(this);
         if (LocalSettingsHelper.wasPresent(currentLeagueId)) {
             currentLeague = rankingsDB.getLeague(this, currentLeagueId);
+        }
+        loadRanks = false;
+        if (getIntent().getExtras() != null && getIntent().getExtras().getBoolean(Constants.RANKINGS_UPDATED)) {
+            Log.d(TAG, "Setting load ranks to true!");
+            loadRanks = true;
         }
 
         init();
@@ -297,7 +303,11 @@ public class RankingsHome extends AppCompatActivity {
     private void establishLayout() {
         if (LocalSettingsHelper.wereRankingsFetched(this)) {
             // If rankings are saved, load (and ultimately display) them
-            Rankings.loadRankings(this, rankingsDB);
+            if (rankings == null || rankings.getPlayers().size() == 0 || loadRanks) {
+                Rankings.loadRankings(this, rankingsDB);
+            } else {
+                processNewRankings(rankings, false);
+            }
         } else if (!LocalSettingsHelper.wasPresent(LocalSettingsHelper.getCurrentLeagueName(this))) {
             // Otherwise, if no league is set up, display that message
             clearAndAddView(R.layout.content_rankings_no_league);
