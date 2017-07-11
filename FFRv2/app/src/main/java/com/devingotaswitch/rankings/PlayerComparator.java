@@ -217,7 +217,7 @@ public class PlayerComparator extends AppCompatActivity {
         if (playerA.getEcr() < playerB.getEcr()) {
             ecrA.setBackgroundColor(Color.parseColor(BETTER_COLOR));
             ecrB.setBackgroundColor(Color.parseColor(WORSE_COLOR));
-        } else {
+        } else if (playerA.getEcr() > playerB.getEcr()){
             ecrA.setBackgroundColor(Color.parseColor(WORSE_COLOR));
             ecrB.setBackgroundColor(Color.parseColor(BETTER_COLOR));
         }
@@ -230,7 +230,7 @@ public class PlayerComparator extends AppCompatActivity {
         if (playerA.getAdp() < playerB.getAdp()) {
             adpA.setBackgroundColor(Color.parseColor(BETTER_COLOR));
             adpB.setBackgroundColor(Color.parseColor(WORSE_COLOR));
-        } else {
+        } else if (playerA.getAdp() > playerB.getAdp()){
             adpA.setBackgroundColor(Color.parseColor(WORSE_COLOR));
             adpB.setBackgroundColor(Color.parseColor(BETTER_COLOR));
         }
@@ -245,7 +245,7 @@ public class PlayerComparator extends AppCompatActivity {
         if (sosForA < sosForB) {
             sosA.setBackgroundColor(Color.parseColor(BETTER_COLOR));
             sosB.setBackgroundColor(Color.parseColor(WORSE_COLOR));
-        } else {
+        } else if (sosForA > sosForB){
             sosA.setBackgroundColor(Color.parseColor(WORSE_COLOR));
             sosB.setBackgroundColor(Color.parseColor(BETTER_COLOR));
         }
@@ -259,7 +259,7 @@ public class PlayerComparator extends AppCompatActivity {
         if (playerA.getProjection() > playerB.getProjection()) {
             projA.setBackgroundColor(Color.parseColor(BETTER_COLOR));
             projB.setBackgroundColor(Color.parseColor(WORSE_COLOR));
-        } else {
+        } else if (playerA.getProjection() < playerB.getProjection()){
             projA.setBackgroundColor(Color.parseColor(WORSE_COLOR));
             projB.setBackgroundColor(Color.parseColor(BETTER_COLOR));
         }
@@ -272,7 +272,7 @@ public class PlayerComparator extends AppCompatActivity {
         if (playerA.getPaa() > playerB.getPaa()) {
             paaA.setBackgroundColor(Color.parseColor(BETTER_COLOR));
             paaB.setBackgroundColor(Color.parseColor(WORSE_COLOR));
-        } else {
+        } else if (playerA.getPaa() < playerB.getPaa()){
             paaA.setBackgroundColor(Color.parseColor(WORSE_COLOR));
             paaB.setBackgroundColor(Color.parseColor(BETTER_COLOR));
         }
@@ -285,7 +285,7 @@ public class PlayerComparator extends AppCompatActivity {
         if (playerA.getxVal() > playerB.getxVal()) {
             xvalA.setBackgroundColor(Color.parseColor(BETTER_COLOR));
             xvalB.setBackgroundColor(Color.parseColor(WORSE_COLOR));
-        } else {
+        } else if (playerA.getxVal() < playerB.getxVal()){
             xvalA.setBackgroundColor(Color.parseColor(WORSE_COLOR));
             xvalB.setBackgroundColor(Color.parseColor(BETTER_COLOR));
         }
@@ -314,7 +314,7 @@ public class PlayerComparator extends AppCompatActivity {
         if (ecrValA > ecrValB) {
             ecrA.setBackgroundColor(Color.parseColor(BETTER_COLOR));
             ecrB.setBackgroundColor(Color.parseColor(WORSE_COLOR));
-        } else {
+        } else if (ecrValA < ecrValB) {
             ecrA.setBackgroundColor(Color.parseColor(WORSE_COLOR));
             ecrB.setBackgroundColor(Color.parseColor(BETTER_COLOR));
         }
