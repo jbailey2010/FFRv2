@@ -180,6 +180,8 @@ public class PlayerComparator extends AppCompatActivity {
 
         LinearLayout outputBase = (LinearLayout)findViewById(R.id.comparator_output_base);
         outputBase.setVisibility(View.VISIBLE);
+        inputA.clearFocus();
+        inputB.clearFocus();
 
         // Name
         TextView nameA = (TextView)findViewById(R.id.comparator_name_a);
@@ -215,11 +217,11 @@ public class PlayerComparator extends AppCompatActivity {
         ecrA.setText(String.valueOf(playerA.getEcr()));
         ecrB.setText(String.valueOf(playerB.getEcr()));
         if (playerA.getEcr() < playerB.getEcr()) {
-            ecrA.setBackgroundColor(Color.parseColor(BETTER_COLOR));
-            ecrB.setBackgroundColor(Color.parseColor(WORSE_COLOR));
+            setColors(ecrA, ecrB);
         } else if (playerA.getEcr() > playerB.getEcr()){
-            ecrA.setBackgroundColor(Color.parseColor(WORSE_COLOR));
-            ecrB.setBackgroundColor(Color.parseColor(BETTER_COLOR));
+            setColors(ecrB, ecrA);
+        } else {
+            clearColors(ecrA, ecrB);
         }
 
         //ADP
@@ -228,11 +230,11 @@ public class PlayerComparator extends AppCompatActivity {
         adpA.setText(String.valueOf(playerA.getAdp()));
         adpB.setText(String.valueOf(playerB.getAdp()));
         if (playerA.getAdp() < playerB.getAdp()) {
-            adpA.setBackgroundColor(Color.parseColor(BETTER_COLOR));
-            adpB.setBackgroundColor(Color.parseColor(WORSE_COLOR));
+            setColors(adpA, adpB);
         } else if (playerA.getAdp() > playerB.getAdp()){
-            adpA.setBackgroundColor(Color.parseColor(WORSE_COLOR));
-            adpB.setBackgroundColor(Color.parseColor(BETTER_COLOR));
+            setColors(adpB, adpA);
+        } else {
+            clearColors(adpA, adpB);
         }
 
         // SOS
@@ -243,11 +245,11 @@ public class PlayerComparator extends AppCompatActivity {
         sosA.setText(String.valueOf(sosForA));
         sosB.setText(String.valueOf(sosForB));
         if (sosForA < sosForB) {
-            sosA.setBackgroundColor(Color.parseColor(BETTER_COLOR));
-            sosB.setBackgroundColor(Color.parseColor(WORSE_COLOR));
+            setColors(sosA, sosB);
         } else if (sosForA > sosForB){
-            sosA.setBackgroundColor(Color.parseColor(WORSE_COLOR));
-            sosB.setBackgroundColor(Color.parseColor(BETTER_COLOR));
+            setColors(sosB, sosA);
+        } else {
+            clearColors(sosA, sosB);
         }
 
         // Projection
@@ -257,11 +259,11 @@ public class PlayerComparator extends AppCompatActivity {
         projA.setText(df.format(playerA.getProjection()));
         projB.setText(df.format(playerB.getProjection()));
         if (playerA.getProjection() > playerB.getProjection()) {
-            projA.setBackgroundColor(Color.parseColor(BETTER_COLOR));
-            projB.setBackgroundColor(Color.parseColor(WORSE_COLOR));
+            setColors(projA, projB);
         } else if (playerA.getProjection() < playerB.getProjection()){
-            projA.setBackgroundColor(Color.parseColor(WORSE_COLOR));
-            projB.setBackgroundColor(Color.parseColor(BETTER_COLOR));
+            setColors(projB, projA);
+        } else {
+            clearColors(projA, projB);
         }
 
         // PAA
@@ -270,11 +272,11 @@ public class PlayerComparator extends AppCompatActivity {
         paaA.setText(df.format(playerA.getPaa()));
         paaB.setText(df.format(playerB.getPaa()));
         if (playerA.getPaa() > playerB.getPaa()) {
-            paaA.setBackgroundColor(Color.parseColor(BETTER_COLOR));
-            paaB.setBackgroundColor(Color.parseColor(WORSE_COLOR));
+            setColors(paaA, paaB);
         } else if (playerA.getPaa() < playerB.getPaa()){
-            paaA.setBackgroundColor(Color.parseColor(WORSE_COLOR));
-            paaB.setBackgroundColor(Color.parseColor(BETTER_COLOR));
+            setColors(paaB, paaA);
+        } else {
+            clearColors(paaA, paaB);
         }
 
         // XVal
@@ -283,12 +285,22 @@ public class PlayerComparator extends AppCompatActivity {
         xvalA.setText(df.format(playerA.getxVal()));
         xvalB.setText(df.format(playerB.getxVal()));
         if (playerA.getxVal() > playerB.getxVal()) {
-            xvalA.setBackgroundColor(Color.parseColor(BETTER_COLOR));
-            xvalB.setBackgroundColor(Color.parseColor(WORSE_COLOR));
+            setColors(xvalA, xvalB);
         } else if (playerA.getxVal() < playerB.getxVal()){
-            xvalA.setBackgroundColor(Color.parseColor(WORSE_COLOR));
-            xvalB.setBackgroundColor(Color.parseColor(BETTER_COLOR));
+            setColors(xvalB, xvalA);
+        } else {
+            clearColors(xvalA, xvalB);
         }
+    }
+
+    private void clearColors(TextView playerA, TextView playerB) {
+        playerA.setBackgroundColor(Color.parseColor(WORSE_COLOR));
+        playerB.setBackgroundColor(Color.parseColor(WORSE_COLOR));
+    }
+
+    private void setColors(TextView winner, TextView loser) {
+        winner.setBackgroundColor(Color.parseColor(BETTER_COLOR));
+        loser.setBackgroundColor(Color.parseColor(WORSE_COLOR));
     }
 
     private void goToPlayerInfo(Player player) {
@@ -312,11 +324,11 @@ public class PlayerComparator extends AppCompatActivity {
         int ecrValA = Integer.parseInt(trimmedA);
         int ecrValB = Integer.parseInt(trimmedB);
         if (ecrValA > ecrValB) {
-            ecrA.setBackgroundColor(Color.parseColor(BETTER_COLOR));
-            ecrB.setBackgroundColor(Color.parseColor(WORSE_COLOR));
+            setColors(ecrA, ecrB);
         } else if (ecrValA < ecrValB) {
-            ecrA.setBackgroundColor(Color.parseColor(WORSE_COLOR));
-            ecrB.setBackgroundColor(Color.parseColor(BETTER_COLOR));
+            setColors(ecrB, ecrA);
+        } else {
+            clearColors(ecrA, ecrB);
         }
     }
 

@@ -7,7 +7,7 @@
   </component>
   <component name="AndroidLogFilters">
     <option name="TOOL_WINDOW_LOG_LEVEL" value="verbose" />
-    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Firebase" />
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f5fe9503-cc09-4a8d-b7d9-507f98789a95" name="Default" comment="">
@@ -61,8 +61,8 @@
       <file leaf-file-name="PlayerComparator.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerComparator.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="549">
-              <caret line="316" column="20" selection-start-line="316" selection-start-column="20" selection-end-line="316" selection-end-column="20" />
+            <state relative-caret-position="327">
+              <caret line="220" column="56" selection-start-line="220" selection-start-column="56" selection-end-line="220" selection-end-column="56" />
               <folding>
                 <element signature="e#4437#4624#0" expanded="true" />
                 <element signature="e#4623#4624#0" expanded="true" />
@@ -72,10 +72,10 @@
                 <element signature="e#5688#5689#0" expanded="true" />
                 <element signature="e#5730#6526#0" expanded="true" />
                 <element signature="e#6525#6526#0" expanded="true" />
-                <element signature="e#7971#8128#0" expanded="true" />
-                <element signature="e#8127#8128#0" expanded="true" />
-                <element signature="e#8164#8321#0" expanded="true" />
-                <element signature="e#8320#8321#0" expanded="true" />
+                <element signature="e#8029#8186#0" expanded="true" />
+                <element signature="e#8185#8186#0" expanded="true" />
+                <element signature="e#8222#8379#0" expanded="true" />
+                <element signature="e#8378#8379#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -3030,8 +3030,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerComparator.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="549">
-          <caret line="316" column="20" selection-start-line="316" selection-start-column="20" selection-end-line="316" selection-end-column="20" />
+        <state relative-caret-position="327">
+          <caret line="220" column="56" selection-start-line="220" selection-start-column="56" selection-end-line="220" selection-end-column="56" />
           <folding>
             <element signature="e#4437#4624#0" expanded="true" />
             <element signature="e#4623#4624#0" expanded="true" />
@@ -3041,10 +3041,10 @@
             <element signature="e#5688#5689#0" expanded="true" />
             <element signature="e#5730#6526#0" expanded="true" />
             <element signature="e#6525#6526#0" expanded="true" />
-            <element signature="e#7971#8128#0" expanded="true" />
-            <element signature="e#8127#8128#0" expanded="true" />
-            <element signature="e#8164#8321#0" expanded="true" />
-            <element signature="e#8320#8321#0" expanded="true" />
+            <element signature="e#8029#8186#0" expanded="true" />
+            <element signature="e#8185#8186#0" expanded="true" />
+            <element signature="e#8222#8379#0" expanded="true" />
+            <element signature="e#8378#8379#0" expanded="true" />
           </folding>
         </state>
       </provider>
