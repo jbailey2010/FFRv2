@@ -79,7 +79,7 @@ public class ParsePlayerNews {
 
     }
 
-	private static String playerNameUrl(String playerName, String teamName) {
+	public static String playerNameUrl(String playerName, String teamName) {
 
 		if (!playerName.contains(Constants.DST)) {
 			String[] nameSet = playerName.toLowerCase().replaceAll("\\.", "")

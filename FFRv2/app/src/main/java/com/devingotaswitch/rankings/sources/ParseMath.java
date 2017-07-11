@@ -34,16 +34,18 @@ public class ParseMath {
         kLimit = 1.0;
 
         if (roster.getQbCount() > 1 || (roster.getQbCount()>0 && roster.getFlex() != null && roster.getFlex().getQbrbwrteCount() > 0)) {
-            qbLimit +=2;
+            qbLimit+=4;
             teLimit--;
-            rbLimit--;
-        }
-        if (roster.getTeCount() > 1) {
-            teLimit ++;
+            rbLimit-=2;
             wrLimit--;
         }
+        if (roster.getTeCount() > 1) {
+            teLimit+=2;
+            wrLimit--;
+            rbLimit--;
+        }
         if (roster.getDstCount() == 0) {
-            dLimit = 0.0;
+            dLimit=0.0;
             rbLimit++;
             wrLimit++;
         }

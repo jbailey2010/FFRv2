@@ -282,6 +282,13 @@ public class RankingsHome extends AppCompatActivity {
                 getDraftInfo();
             }
         });
+        Button comparePlayers = (Button)buttonBase.findViewById(R.id.rankings_comparator);
+        comparePlayers.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                comparePlayers();
+            }
+        });
         initRankingsContext();
 
         // Cogneato stuff
@@ -479,6 +486,11 @@ public class RankingsHome extends AppCompatActivity {
 
     private void getDraftInfo() {
         Intent intent = new Intent(this, DraftInfo.class);
+        startActivity(intent);
+    }
+
+    private void comparePlayers() {
+        Intent intent = new Intent(this, PlayerComparator.class);
         startActivity(intent);
     }
 
