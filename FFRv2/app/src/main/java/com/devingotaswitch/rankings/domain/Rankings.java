@@ -1,6 +1,7 @@
 package com.devingotaswitch.rankings.domain;
 
 import android.app.Activity;
+import android.util.Log;
 
 import com.devingotaswitch.fileio.RankingsDBWrapper;
 import com.devingotaswitch.rankings.RankingsHome;
@@ -181,6 +182,7 @@ public class Rankings {
         } else {
             Player existingPlayer = players.get(player.getUniqueId());
             players.put(player.getUniqueId(), ParsingUtils.conditionallyAddContext(existingPlayer, player));
+
         }
     }
 

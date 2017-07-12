@@ -116,6 +116,7 @@ public class Constants {
     public static final String PLAYER_PROJECTION_COLUMN = "projection";
     public static final String PLAYER_PAA_COLUMN = "paa";
     public static final String PLAYER_XVAL_COLUMN = "xval";
+    public static final String PLAYER_TIER_COLUMN = "positional_tier";
     // Team name is already in team settings
     public static final String PLAYER_NOTE_COLUMN = "player_note";
     public static final String PLAYER_WATCHED_COLUMN = "player_watched";
@@ -138,6 +139,7 @@ public class Constants {
     public final static String PLAYER_BASIC = "main";
     public final static String PLAYER_INFO = "info";
     public final static String PLAYER_STATUS = "status";
+    public final static String PLAYER_TIER = "tier";
     public final static String DROPDOWN_MAIN = "main";
     public final static String DROPDOWN_SUB = "sub";
     public final static String POS_TEAM_DELIMITER = " - ";

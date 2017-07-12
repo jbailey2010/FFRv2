@@ -357,6 +357,10 @@ public class ParseMath {
                 paaCount++;
             }
         }
+        if ( paaCount == 0.0) {
+            // Just to prevent divide by 0 madness if a projection breaks
+            return 1.0;
+        }
         return paaTotal / paaCount;
     }
 
@@ -391,15 +395,25 @@ public class ParseMath {
         List<Set<Player>> rbTiers = getTiersInternal(sortedRBs, 1, 1, 1, 6.5, new ArrayList<Set<Player>>(), new HashSet<Player>());
         List<Set<Player>> wrTiers = getTiersInternal(sortedWRs, 1, 1, 1, 6.5, new ArrayList<Set<Player>>(), new HashSet<Player>());
         List<Set<Player>> teTiers = getTiersInternal(sortedTEs, 1, 1, 1, 6.5, new ArrayList<Set<Player>>(), new HashSet<Player>());
+
+        setTiers(rankings, qbTiers);
+        setTiers(rankings, rbTiers);
+        setTiers(rankings, wrTiers);
+        setTiers(rankings, teTiers);
+    }
+
+    private static void setTiers(Rankings rankings, List<Set<Player>> tierList) {
+        for (int i = 0; i < tierList.size(); i++) {
+            Set<Player> currTier = tierList.get(i);
+            int tierId = i + 1;
+            for (Player player : currTier) {
+                player.setPositionalTier(tierId);
+            }
+        }
     }
 
     private static List<Set<Player>> getTiersInternal(List<Player> sorted, int currIndex, int tierCount, int tierTotal,
                                          double tierThreshold, List<Set<Player>> tierSet, Set<Player> currTier) {
-        if (sorted.size() == 0) {
-            // TODO: delete this once it's moved
-            return tierSet;
-        }
-
         Player playerA = sorted.get(currIndex - 1);
         Player playerB = sorted.get(currIndex);
         double diff = playerB.getEcr() - playerA.getEcr();

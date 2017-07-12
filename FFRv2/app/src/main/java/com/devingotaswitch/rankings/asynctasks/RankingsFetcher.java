@@ -163,6 +163,14 @@ public class RankingsFetcher {
             ParseMath.getECRAuctionValue(rankings);
             publishProgress("Fetching rankings... 12/14");
 
+            Log.i(TAG, "Getting positional tiers");
+            publishProgress("Getting player positional tiers...");
+            try {
+                ParseMath.getTiers(rankings);
+            } catch (Exception e) {
+                Log.e(TAG, "Failed to get tiers", e);
+            }
+
             Log.i(TAG, "Getting paa calculations");
             publishProgress("Calculating PAA...");
             try {
@@ -251,7 +259,7 @@ public class RankingsFetcher {
             List<String> orderedIds = new ArrayList<>();
             PriorityQueue<Player> playerQueue;
             if (rankings.getLeagueSettings().isAuction()) {
-                playerQueue = new PriorityQueue<>(300,
+                playerQueue = new PriorityQueue<>(500,
                         new Comparator<Player>() {
                             @Override
                             public int compare(Player a, Player b) {
@@ -265,7 +273,7 @@ public class RankingsFetcher {
                             }
                         });
             } else {
-                playerQueue = new PriorityQueue<>(300,
+                playerQueue = new PriorityQueue<>(500,
                         new Comparator<Player>() {
                             @Override
                             public int compare(Player a, Player b) {
