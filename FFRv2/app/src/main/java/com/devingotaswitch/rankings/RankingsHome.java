@@ -472,6 +472,8 @@ public class RankingsHome extends AppCompatActivity {
                 return true;
             }
         });
+
+        ParseMath.getTiers(rankings);
     }
 
     private void displayPlayerInfo(String playerKey) {

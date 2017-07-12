@@ -13,9 +13,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.PriorityQueue;
+import java.util.Set;
 
 public class ParseMath {
     private static double qbLimit;
@@ -378,4 +380,81 @@ public class ParseMath {
                 (player.getAuctionValueCustom(rankings) / topPlayer.getAuctionValueCustom(rankings))));
     }
 
+    public static void getTiers(Rankings rankings) {
+        // sort the input data
+        List<Player> sortedQBs = getSortedPlayers(rankings.getQbs());
+        List<Player> sortedRBs = getSortedPlayers(rankings.getRbs());
+        List<Player> sortedWRs = getSortedPlayers(rankings.getWrs());
+        List<Player> sortedTEs = getSortedPlayers(rankings.getTes());
+        List<Player> sortedDSTs = getSortedPlayers(rankings.getDsts());
+        List<Player> sortedKs = getSortedPlayers(rankings.getKs());
+
+        List<Set<Player>> qbTiers = getTiersInternal(sortedQBs, 1, 1, 1, 6.5, new ArrayList<Set<Player>>(), new HashSet<Player>());
+
+        List<Set<Player>> rbTiers = getTiersInternal(sortedRBs, 1, 1, 1, 6.5, new ArrayList<Set<Player>>(), new HashSet<Player>());
+        for (int i = 0; i < rbTiers.size(); i++) {
+            Log.d("TEST", "--------tier " + i + "---------");
+            Set<Player> currTier = rbTiers.get(i);
+            for (Player player : currTier) {
+                Log.d("TEST", player.getName() + ": " + player.getEcr());
+            }
+        }
+    }
+
+    private static List<Set<Player>> getTiersInternal(List<Player> sorted, int currIndex, int tierCount, int tierTotal,
+                                         double tierThreshold, List<Set<Player>> tierSet, Set<Player> currTier) {
+        if (sorted.size() == 0) {
+            // TODO: delete this once it's moved
+            return tierSet;
+        }
+
+        Player playerA = sorted.get(currIndex - 1);
+        Player playerB = sorted.get(currIndex);
+        double diff = playerB.getEcr() - playerA.getEcr();
+        double portion = (diff / playerA.getEcr()) * 100.0;
+        currTier.add(playerA);
+        boolean newTier = false;
+        if (portion > tierThreshold) {
+            if (tierCount == 1 || (tierCount > 1&& tierTotal > 1)) {
+                tierCount++;
+                tierTotal = 0;
+                tierSet.add(currTier);
+                newTier = true;
+            } else {
+                tierTotal++;
+                currTier.add(playerB);
+            }
+        } else {
+            tierTotal++;
+            currTier.add(playerB);
+        }
+        if (currIndex + 1 >= sorted.size()) {
+            tierSet.add(currTier);
+            return tierSet;
+        }
+        return getTiersInternal(sorted, ++currIndex, tierCount, tierTotal, tierThreshold, tierSet,
+                newTier ? new HashSet<Player>() : currTier);
+    }
+
+    private static List<Player> getSortedPlayers(List<Player> pos) {
+        PriorityQueue<Player> sorted = new PriorityQueue<Player>(
+                100, new Comparator<Player>() {
+            @Override
+            public int compare(Player a, Player b) {
+                if (a.getEcr() > b.getEcr()) {
+                    return 1;
+                }
+                if (a.getEcr() < b.getEcr()) {
+                    return -1;
+                }
+                return 0;
+            }
+        });
+        sorted.addAll(pos);
+        List<Player> results = new ArrayList<>();
+        while (!sorted.isEmpty()) {
+            results.add(sorted.poll());
+        }
+        return results;
+    }
 }
