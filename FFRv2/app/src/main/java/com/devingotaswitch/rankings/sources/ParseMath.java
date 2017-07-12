@@ -8,6 +8,8 @@ import com.devingotaswitch.rankings.domain.RosterSettings;
 import com.devingotaswitch.rankings.domain.RosterSettings.Flex;
 import com.devingotaswitch.utils.Constants;
 
+import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -360,4 +362,20 @@ public class ParseMath {
         int rosterSize = roster.getRosterSize();
         return (auctionBudget - rosterSize) / (rosterSize - roster.getBenchCount());
     }
+
+    public static double getLeverage(Player player, Rankings rankings) {
+        DecimalFormat df = new DecimalFormat(Constants.NUMBER_FORMAT);
+        Player topPlayer = null;
+        double maxVal = 0.0;
+        for (String key : rankings.getOrderedIds()) {
+            Player possibleTop = rankings.getPlayer(key);
+            if (possibleTop.getAuctionValue() > maxVal && possibleTop.getPosition().equals(player.getPosition())) {
+                maxVal = possibleTop.getAuctionValue();
+                topPlayer = possibleTop;
+            }
+        }
+        return Double.parseDouble(df.format((player.getProjection() / topPlayer.getProjection()) /
+                (player.getAuctionValueCustom(rankings) / topPlayer.getAuctionValueCustom(rankings))));
+    }
+
 }

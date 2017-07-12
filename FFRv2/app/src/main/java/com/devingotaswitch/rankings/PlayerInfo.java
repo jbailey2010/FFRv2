@@ -29,6 +29,7 @@ import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.PlayerNews;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.domain.Team;
+import com.devingotaswitch.rankings.sources.ParseMath;
 import com.devingotaswitch.rankings.sources.ParsePlayerNews;
 import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.GeneralUtils;
@@ -384,7 +385,11 @@ public class PlayerInfo extends AppCompatActivity {
         auc.put(Constants.PLAYER_BASIC, "Auction Value: $" + df.format(player.getAuctionValue()));
         int aucRank = getAuc(null, player.getAuctionValue());
         int aucPos = getAuc(player.getPosition(), player.getAuctionValue());
-        auc.put(Constants.PLAYER_INFO, getRankingSub(aucRank, aucPos));
+        String auctionSub = new StringBuilder(getRankingSub(aucRank, aucPos))
+                .append(Constants.LINE_BREAK)
+                .append(getLeverage())
+                .toString();
+        auc.put(Constants.PLAYER_INFO, auctionSub);
         data.add(auc);
 
         if (player.getProjection() != null) {
@@ -523,6 +528,11 @@ public class PlayerInfo extends AppCompatActivity {
         this.playerNews = fetchedNews;
     }
 
+    private String getLeverage() {
+        return new StringBuilder("Leverage: ")
+                .append(ParseMath.getLeverage(player, rankings))
+                .toString();
+    }
 
     private String getRankingSub(int rank, int posRank) {
         return new StringBuilder("Ranked ")
