@@ -386,19 +386,11 @@ public class ParseMath {
         List<Player> sortedRBs = getSortedPlayers(rankings.getRbs());
         List<Player> sortedWRs = getSortedPlayers(rankings.getWrs());
         List<Player> sortedTEs = getSortedPlayers(rankings.getTes());
-        List<Player> sortedDSTs = getSortedPlayers(rankings.getDsts());
-        List<Player> sortedKs = getSortedPlayers(rankings.getKs());
 
         List<Set<Player>> qbTiers = getTiersInternal(sortedQBs, 1, 1, 1, 6.5, new ArrayList<Set<Player>>(), new HashSet<Player>());
-
         List<Set<Player>> rbTiers = getTiersInternal(sortedRBs, 1, 1, 1, 6.5, new ArrayList<Set<Player>>(), new HashSet<Player>());
-        for (int i = 0; i < rbTiers.size(); i++) {
-            Log.d("TEST", "--------tier " + i + "---------");
-            Set<Player> currTier = rbTiers.get(i);
-            for (Player player : currTier) {
-                Log.d("TEST", player.getName() + ": " + player.getEcr());
-            }
-        }
+        List<Set<Player>> wrTiers = getTiersInternal(sortedWRs, 1, 1, 1, 6.5, new ArrayList<Set<Player>>(), new HashSet<Player>());
+        List<Set<Player>> teTiers = getTiersInternal(sortedTEs, 1, 1, 1, 6.5, new ArrayList<Set<Player>>(), new HashSet<Player>());
     }
 
     private static List<Set<Player>> getTiersInternal(List<Player> sorted, int currIndex, int tierCount, int tierTotal,

@@ -69,7 +69,8 @@ public class Rankings {
     public List<Player> getQbs() {
         List<Player> pos = new ArrayList<>();
         for (String key : players.keySet()) {
-            if (key.contains(Constants.QB)) {
+            Player player = getPlayer(key);
+            if (player.getPosition().equals(Constants.QB)) {
                 pos.add(players.get(key));
             }
         }
@@ -79,7 +80,8 @@ public class Rankings {
     public List<Player> getRbs() {
         List<Player> pos = new ArrayList<>();
         for (String key : players.keySet()) {
-            if (key.contains(Constants.RB)) {
+            Player player = getPlayer(key);
+            if (player.getPosition().equals(Constants.RB)) {
                 pos.add(players.get(key));
             }
         }
@@ -89,7 +91,8 @@ public class Rankings {
     public List<Player> getWrs() {
         List<Player> pos = new ArrayList<>();
         for (String key : players.keySet()) {
-            if (key.contains(Constants.WR)) {
+            Player player = getPlayer(key);
+            if (player.getPosition().equals(Constants.WR)) {
                 pos.add(players.get(key));
             }
         }
@@ -99,7 +102,8 @@ public class Rankings {
     public List<Player> getTes() {
         List<Player> pos = new ArrayList<>();
         for (String key : players.keySet()) {
-            if (key.contains(Constants.TE)) {
+            Player player = getPlayer(key);
+            if (player.getPosition().equals(Constants.TE)) {
                 pos.add(players.get(key));
             }
         }
@@ -109,7 +113,8 @@ public class Rankings {
     public List<Player> getDsts() {
         List<Player> pos = new ArrayList<>();
         for (String key : players.keySet()) {
-            if (key.contains(Constants.DST)) {
+            Player player = getPlayer(key);
+            if (player.getPosition().equals(Constants.DST)) {
                 pos.add(players.get(key));
             }
         }
