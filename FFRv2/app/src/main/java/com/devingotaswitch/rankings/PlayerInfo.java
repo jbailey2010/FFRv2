@@ -407,7 +407,11 @@ public class PlayerInfo extends AppCompatActivity {
             paa.put(Constants.PLAYER_BASIC, "PAA: " + df.format(player.getPaa()));
             int paaRank = getPaa(null, player.getPaa());
             int paaPos = getPaa(player.getPosition(), player.getPaa());
-            paa.put(Constants.PLAYER_INFO, getRankingSub(paaRank, paaPos));
+            String subRank = getRankingSub(paaRank, paaPos);
+            if (player.getAuctionValue() > 0.0) {
+                subRank += Constants.LINE_BREAK + "PAAPD: " + df.format(player.getPaa() / player.getAuctionValue());
+            }
+            paa.put(Constants.PLAYER_INFO, subRank);
             data.add(paa);
 
             Map<String, String> xVal = new HashMap<>();

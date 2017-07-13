@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.devingotaswitch.rankings.PlayerSorter"
+    tools:showIn="@layout/activity_player_sorter">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:id="@+id/sort_players_header">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <Spinner
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginTop="3dp"
+                android:id="@+id/sort_players_position"/>
+            <Spinner
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginLeft="3dp"
+                android:layout_marginRight="3dp"
+                android:layout_marginTop="3dp"
+                android:id="@+id/sort_players_factor"/>
+        </LinearLayout>
+        <Button
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:text="Submit"
+            android:textAllCaps="false"
+            android:layout_margin="3dp"
+            android:textSize="@dimen/activity_button_text_size"
+            android:textColor="@color/white"
+            android:layout_weight="1"
+            android:background="@drawable/button_selector"
+            android:id="@+id/sort_players_submit" />
+    </LinearLayout>
+    <ListView
+        android:id="@+id/sort_players_output"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clickable="true"
+        android:divider="@drawable/list_divider"
+        android:dividerHeight="1dp"
+        android:layout_below="@+id/sort_players_header"/>
+
+</RelativeLayout>

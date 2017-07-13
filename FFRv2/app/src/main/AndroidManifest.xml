@@ -92,6 +92,11 @@
             android:label="@string/title_activity_player_comparator"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <activity
+            android:name="com.devingotaswitch.rankings.PlayerSorter"
+            android:label="@string/title_activity_player_sorter"
+            android:theme="@style/AppTheme.NoActionBar">
+        </activity>
     </application>
 
 </manifest>
