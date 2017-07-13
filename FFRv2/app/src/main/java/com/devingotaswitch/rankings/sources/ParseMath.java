@@ -38,10 +38,10 @@ public class ParseMath {
         kLimit = 1.0;
 
         if (roster.getQbCount() > 1 || (roster.getQbCount()>0 && roster.getFlex() != null && roster.getFlex().getQbrbwrteCount() > 0)) {
-            qbLimit+=4;
-            teLimit--;
-            rbLimit-=2;
-            wrLimit--;
+            qbLimit+=8;
+            teLimit-=2;
+            rbLimit-=3;
+            wrLimit-=3;
         }
         if (roster.getTeCount() > 1) {
             teLimit+=2;
