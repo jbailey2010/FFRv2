@@ -11,6 +11,7 @@ import com.devingotaswitch.utils.Constants;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -266,23 +267,22 @@ public class ParseMath {
     private static double getPositionalProjection(double limit, List<Player> players) {
         double posCounter;
         double posTotal = 0.0;
-        PriorityQueue<Player> playerQueue = new PriorityQueue<>(300,
-                new Comparator<Player>() {
-                    @Override
-                    public int compare(Player a, Player b) {
-                        if (a.getProjection() > b.getProjection()) {
-                            return -1;
-                        }
-                        if (a.getProjection() < b.getProjection()) {
-                            return 1;
-                        }
-                        return 0;
-                    }
-                });
-        playerQueue.addAll(players);
-        int posCap = Math.min((int) limit, playerQueue.size());
+        Comparator comparator = new Comparator<Player>() {
+            @Override
+            public int compare(Player a, Player b) {
+                if (a.getProjection() > b.getProjection()) {
+                    return -1;
+                }
+                if (a.getProjection() < b.getProjection()) {
+                    return 1;
+                }
+                return 0;
+            }
+        };
+        Collections.sort(players, comparator);
+        int posCap = Math.min((int) limit, players.size());
         for (posCounter = 0; posCounter < posCap; posCounter++) {
-            posTotal += playerQueue.poll().getProjection();
+            posTotal += players.get((int)posCounter).getProjection();
         }
         posTotal /= posCounter;
         return posTotal;
@@ -443,8 +443,7 @@ public class ParseMath {
     }
 
     private static List<Player> getSortedPlayers(List<Player> pos) {
-        PriorityQueue<Player> sorted = new PriorityQueue<Player>(
-                100, new Comparator<Player>() {
+        Comparator comparator = new Comparator<Player>() {
             @Override
             public int compare(Player a, Player b) {
                 if (a.getEcr() > b.getEcr()) {
@@ -455,12 +454,8 @@ public class ParseMath {
                 }
                 return 0;
             }
-        });
-        sorted.addAll(pos);
-        List<Player> results = new ArrayList<>();
-        while (!sorted.isEmpty()) {
-            results.add(sorted.poll());
-        }
-        return results;
+        };
+        Collections.sort(pos, comparator);
+        return pos;
     }
 }

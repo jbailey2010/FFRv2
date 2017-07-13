@@ -28,6 +28,7 @@ import com.devingotaswitch.rankings.sources.ParseYahoo;
 import com.devingotaswitch.utils.GeneralUtils;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 import java.util.PriorityQueue;
@@ -257,10 +258,9 @@ public class RankingsFetcher {
 
         private List<String> getOrderedIds() {
             List<String> orderedIds = new ArrayList<>();
-            PriorityQueue<Player> playerQueue;
+            Comparator<Player> comparator;
             if (rankings.getLeagueSettings().isAuction()) {
-                playerQueue = new PriorityQueue<>(500,
-                        new Comparator<Player>() {
+                comparator = new Comparator<Player>() {
                             @Override
                             public int compare(Player a, Player b) {
                                 if (a.getAuctionValue() > b.getAuctionValue()) {
@@ -271,10 +271,9 @@ public class RankingsFetcher {
                                 }
                                 return 0;
                             }
-                        });
+                        };
             } else {
-                playerQueue = new PriorityQueue<>(500,
-                        new Comparator<Player>() {
+                comparator = new Comparator<Player>() {
                             @Override
                             public int compare(Player a, Player b) {
                                 if (a.getEcr() > b.getEcr()) {
@@ -285,11 +284,11 @@ public class RankingsFetcher {
                                 }
                                 return 0;
                             }
-                        });
+                        };
             }
-            playerQueue.addAll(rankings.getPlayers().values());
-            while (!playerQueue.isEmpty()) {
-                Player player = playerQueue.poll();
+            List<Player> playerList = new ArrayList<>(rankings.getPlayers().values());
+            Collections.sort(playerList, comparator);
+            for (Player player : playerList) {
                 orderedIds.add(player.getUniqueId());
             }
             return orderedIds;
