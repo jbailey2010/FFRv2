@@ -19,6 +19,20 @@ public class Constants {
     public final static String ALL_POSITIONS = "All Positions";
     public final static String ALL_TEAMS = "All Teams";
 
+    // Sort factors
+    public final static String SORT_ALL = "Default Sort";
+    public final static String SORT_ECR = "ECR";
+    public final static String SORT_ADP = "ADP";
+    public final static String SORT_UNDERDRAFTED = "Underdrafted";
+    public final static String SORT_AUCTION = "Auction Value";
+    public final static String SORT_PROJECTION = "Projection";
+    public final static String SORT_PAA = "Points Above Average";
+    public final static String SORT_PAAPD = "Points Above Average Per Dollar";
+    public final static String SORT_XVAL = "X Value";
+    public final static String SORT_RISK = "Risk";
+    public final static String SORT_SOS = "Positional SOS";
+    public final static String SORT_TIERS = "Positional Tier";
+
     // SP: keys
     public static final String APP_KEY = "FFRv2";
     public static final String LEAGUE_NAME = "CURRENT_LEAGUE_NAME";

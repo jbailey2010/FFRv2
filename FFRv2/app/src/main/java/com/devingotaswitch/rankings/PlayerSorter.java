@@ -10,9 +10,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -20,11 +23,14 @@ import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.fileio.RankingsDBWrapper;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
+import com.devingotaswitch.rankings.domain.RosterSettings;
 import com.devingotaswitch.rankings.domain.Team;
 import com.devingotaswitch.utils.Constants;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -60,23 +66,123 @@ public class PlayerSorter extends AppCompatActivity {
             }
         });
 
-        /*
-        ECR
-        ADP
-        Underdrafted
-        Auc
-        Projection
-        PAA
-        PAAPD
-        XVal
-        Risk
-        Positional SOS
-        Tiers
-         */
+        init();
     }
 
+    private void init() {
+        final Spinner positions = (Spinner)findViewById(R.id.sort_players_position);
+        List<String> posList = new ArrayList<>();
+        RosterSettings roster = rankings.getLeagueSettings().getRosterSettings();
+        posList.add(Constants.ALL_POSITIONS);
+        if (roster.getQbCount() > 0) {
+            posList.add(Constants.QB);
+        }
+        if (roster.getRbCount() > 0) {
+            posList.add(Constants.RB);
+        }
+        if (roster.getWrCount() > 0) {
+            posList.add(Constants.WR);
+        }
+        if (roster.getTeCount() > 0) {
+            posList.add(Constants.TE);
+        }
+        if (roster.getDstCount() > 0) {
+            posList.add(Constants.DST);
+        }
+        if (roster.getkCount() > 0) {
+            posList.add(Constants.K);
+        }
+        if (roster.getRbCount() > 0 && roster.getWrCount() > 0) {
+            posList.add(Constants.RBWR);
+        }
+        if (roster.getRbCount() > 0 && roster.getTeCount() > 0) {
+            posList.add(Constants.RBTE);
+        }
+        if (roster.getRbCount() > 0 && roster.getWrCount() > 0 && roster.getTeCount() > 0) {
+            posList.add(Constants.RBWRTE);
+        }
+        if (roster.getWrCount() > 0 && roster.getTeCount() > 0) {
+            posList.add(Constants.WRTE);
+        }
+        if (roster.getQbCount() > 0 && roster.getRbCount() > 0 && roster.getWrCount() > 0 && roster.getTeCount() > 0) {
+            posList.add(Constants.QBRBWRTE);
+        }
+        ArrayAdapter<String> positionAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, posList);
+        positions.setAdapter(positionAdapter);
 
-    private void displayResults(List<String> orderedIds) {
+        final Spinner factors = (Spinner)findViewById(R.id.sort_players_factor);
+        List<String> factorList = new ArrayList<>();
+        factorList.add(Constants.SORT_ALL);
+        factorList.add(Constants.SORT_ECR);
+        factorList.add(Constants.SORT_ADP);
+        factorList.add(Constants.SORT_UNDERDRAFTED);
+        factorList.add(Constants.SORT_AUCTION);
+        factorList.add(Constants.SORT_PROJECTION);
+        factorList.add(Constants.SORT_PAA);
+        factorList.add(Constants.SORT_PAAPD);
+        factorList.add(Constants.SORT_XVAL);
+        factorList.add(Constants.SORT_RISK);
+        factorList.add(Constants.SORT_SOS);
+        factorList.add(Constants.SORT_TIERS);
+        ArrayAdapter<String> factorAdapter = new ArrayAdapter<>(this,
+                android.R.layout.simple_spinner_item, factorList);
+        factors.setAdapter(factorAdapter);
+
+        Button submit = (Button)findViewById(R.id.sort_players_submit);
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String currentPosition = ((TextView)positions.getSelectedView()).getText().toString();
+                List<String> filteredIds = new ArrayList<>(rankings.getOrderedIds());
+                if (!Constants.ALL_POSITIONS.equals(currentPosition)) {
+                    filteredIds = rankings.getPlayersByPosition(filteredIds, currentPosition);
+                }
+                String factor = ((TextView)factors.getSelectedView()).getText().toString();
+                sortPlayers(filteredIds, factor);
+            }
+        });
+    }
+
+    private void sortPlayers(List<String> playerIds, String factor) {
+        Comparator<Player> comparator = null;
+        if (Constants.SORT_ECR.equals(factor)) {
+            comparator = getECRComparator();
+        } else if (Constants.SORT_ADP.equals(factor)) {
+            comparator = getADPComparator();
+        } else if (Constants.SORT_UNDERDRAFTED.equals(factor)) {
+            comparator = getUnderdraftedComparator();
+        } else if (Constants.SORT_AUCTION.equals(factor)) {
+            comparator = getAuctionComparator();
+        } else if (Constants.SORT_PROJECTION.equals(factor)) {
+            comparator = getProjectionComparator();
+        } else if (Constants.SORT_PAA.equals(factor)) {
+            comparator = getPAAComparator();
+        } else if (Constants.SORT_PAAPD.equals(factor)) {
+            comparator = getPAAPDComparator();
+        } else if (Constants.SORT_XVAL.equals(factor)) {
+            comparator = getXValComparator();
+        } else if (Constants.SORT_RISK.equals(factor)) {
+            comparator = getRiskComparator();
+        } else if (Constants.SORT_SOS.equals(factor)) {
+            comparator = getSOSComparator();
+        } else if (Constants.SORT_TIERS.equals(factor)) {
+            comparator = getTiersComparator();
+            playerIds = rankings.getPlayersByPosition(playerIds, Constants.QBRBWRTE);
+        }
+
+        List<Player> players = new ArrayList<>();
+        for (String id : playerIds) {
+            players.add(rankings.getPlayer(id));
+        }
+        if (comparator != null) {
+            // If it's null, it was default, which means the already ordered list
+            Collections.sort(players, comparator);
+        }
+        displayResults(players, factor);
+    }
+
+    private void displayResults(List<Player> players, String factor) {
         DecimalFormat df = new DecimalFormat(Constants.NUMBER_FORMAT);
 
         ListView listview = (ListView) findViewById(R.id.sort_players_output);
@@ -88,24 +194,11 @@ public class PlayerSorter extends AppCompatActivity {
                 new int[] { R.id.player_basic, R.id.player_info,
                         R.id.player_status, R.id.player_tier });
         listview.setAdapter(adapter);
-        for (String playerKey : orderedIds) {
-            Player player = rankings.getPlayer(playerKey);
+        for (Player player : players) {
             if (rankings.getLeagueSettings().getRosterSettings().isPositionValid(player.getPosition())) {
-                String playerBasicContent;
-                if (rankings.getLeagueSettings().isAuction()) {
-                    playerBasicContent = new StringBuilder(String.valueOf(df.format(player.getAuctionValueCustom(rankings))))
-                            .append(Constants.RANKINGS_LIST_DELIMITER)
-                            .append(player.getName())
-                            .toString();
-                } else {
-                    playerBasicContent = new StringBuilder(String.valueOf(player.getEcr()))
-                            .append(Constants.RANKINGS_LIST_DELIMITER)
-                            .append(player.getName())
-                            .toString();
-                }
                 Map<String, String> datum = new HashMap<>(3);
-                datum.put(Constants.PLAYER_BASIC, playerBasicContent);
-                datum.put(Constants.PLAYER_INFO, generateOutputSubtext(player, df));
+                datum.put(Constants.PLAYER_BASIC, getMainTextForFactor(player, factor));
+                datum.put(Constants.PLAYER_INFO, getSubTextForFactor(player, factor, df));
                 if (player.isWatched()) {
                     datum.put(Constants.PLAYER_STATUS, Integer.toString(R.drawable.star));
                 }
@@ -158,6 +251,261 @@ public class PlayerSorter extends AppCompatActivity {
         intent.putExtra(Constants.PLAYER_ID, playerKey);
         startActivity(intent);
     }
+
+    private Comparator<Player> getECRComparator() {
+        return new Comparator<Player>() {
+            @Override
+            public int compare(Player a, Player b) {
+                if (a.getEcr() > b.getEcr()) {
+                    return 1;
+                }
+                if (a.getEcr() < b.getEcr()) {
+                    return -1;
+                }
+                return 0;
+            }
+        };
+    }
+
+    private Comparator<Player> getADPComparator() {
+        return new Comparator<Player>() {
+            @Override
+            public int compare(Player a, Player b) {
+                if (a.getAdp() > b.getAdp()) {
+                    return 1;
+                }
+                if (a.getAdp() < b.getAdp()) {
+                    return -1;
+                }
+                return 0;
+            }
+        };
+    }
+
+    private Comparator<Player> getUnderdraftedComparator() {
+        return new Comparator<Player>() {
+            @Override
+            public int compare(Player a, Player b) {
+                double diffA = a.getEcr() - a.getAdp();
+                double diffB = b.getEcr() - b.getAdp();
+                if (diffA > diffB) {
+                    return 1;
+                }
+                if (diffA < diffB) {
+                    return -1;
+                }
+                return 0;
+            }
+        };
+    }
+
+    private Comparator<Player> getAuctionComparator() {
+        return new Comparator<Player>() {
+            @Override
+            public int compare(Player a, Player b) {
+                if (a.getAuctionValue() > b.getAuctionValue()) {
+                    return -1;
+                }
+                if (a.getAuctionValue() < b.getAuctionValue()) {
+                    return 1;
+                }
+                return 0;
+            }
+        };
+    }
+
+    private Comparator<Player> getProjectionComparator() {
+        return new Comparator<Player>() {
+            @Override
+            public int compare(Player a, Player b) {
+                if (a.getProjection() > b.getProjection()) {
+                    return -1;
+                }
+                if (a.getProjection() < b.getProjection()) {
+                    return 1;
+                }
+                return 0;
+            }
+        };
+    }
+
+    private Comparator<Player> getPAAComparator() {
+        return new Comparator<Player>() {
+            @Override
+            public int compare(Player a, Player b) {
+                if (a.getPaa() > b.getPaa()) {
+                    return -1;
+                }
+                if (a.getPaa() < b.getPaa()) {
+                    return 1;
+                }
+                return 0;
+            }
+        };
+    }
+
+    private Comparator<Player> getPAAPDComparator() {
+        return new Comparator<Player>() {
+            @Override
+            public int compare(Player a, Player b) {
+                double paapdA = getPAAPD(a);
+                double paapdB = getPAAPD(b);
+                if (paapdA > paapdB) {
+                    return -1;
+                }
+                if (paapdA < paapdB) {
+                    return 1;
+                }
+                return 0;
+            }
+        };
+    }
+
+    private double getPAAPD(Player a) {
+        double paapdA = a.getPaa() / a.getAuctionValue();
+        if (a.getAuctionValue() == 0.0) {
+            paapdA = 0.0;
+        }
+        return paapdA;
+    }
+
+    private Comparator<Player> getXValComparator() {
+        return new Comparator<Player>() {
+            @Override
+            public int compare(Player a, Player b) {
+                if (a.getxVal() > b.getxVal()) {
+                    return -1;
+                }
+                if (a.getxVal() < b.getxVal()) {
+                    return 1;
+                }
+                return 0;
+            }
+        };
+    }
+
+    private Comparator<Player> getRiskComparator() {
+        return new Comparator<Player>() {
+            @Override
+            public int compare(Player a, Player b) {
+                if (a.getRisk() > b.getRisk()) {
+                    return 1;
+                }
+                if (a.getRisk() < b.getRisk()) {
+                    return -1;
+                }
+                return 0;
+            }
+        };
+    }
+
+    private Comparator<Player> getTiersComparator() {
+        return new Comparator<Player>() {
+            @Override
+            public int compare(Player a, Player b) {
+                if (a.getPositionalTier() > b.getPositionalTier()) {
+                    return 1;
+                }
+                if (a.getPositionalTier() < b.getPositionalTier()) {
+                    return -1;
+                }
+                return 0;
+            }
+        };
+    }
+
+    private Comparator<Player> getSOSComparator() {
+        return new Comparator<Player>() {
+            @Override
+            public int compare(Player a, Player b) {
+                int sosA = getSOS(a);
+                int sosB = getSOS(b);
+                if (sosA > sosB) {
+                    return 1;
+                }
+                if (sosA < sosB) {
+                    return -1;
+                }
+                return 0;
+            }
+        };
+    }
+
+    private int getSOS(Player player) {
+        Team team = rankings.getTeam(player);
+        if (team == null) {
+            return 32;
+        }
+        return team.getSosForPosition(player.getPosition());
+    }
+
+    private String getMainTextForFactor(Player player, String factor) {
+        String prefix = "";
+        DecimalFormat df = new DecimalFormat(Constants.NUMBER_FORMAT);
+        if (Constants.SORT_ALL.equals(factor)) {
+            if (rankings.getLeagueSettings().isAuction()) {
+                prefix = df.format(player.getAuctionValueCustom(rankings));
+            } else {
+                prefix = String.valueOf(player.getEcr());
+            }
+        } else if (Constants.SORT_ECR.equals(factor)) {
+            prefix = String.valueOf(player.getEcr());
+        } else if (Constants.SORT_ADP.equals(factor)) {
+            prefix = String.valueOf(player.getAdp());
+        } else if (Constants.SORT_UNDERDRAFTED.equals(factor)) {
+            prefix = df.format(player.getEcr() - player.getAdp());
+        } else if (Constants.SORT_AUCTION.equals(factor)) {
+            prefix = df.format(player.getAuctionValueCustom(rankings));
+        } else if (Constants.SORT_PROJECTION.equals(factor)) {
+            prefix = df.format(player.getProjection());
+        } else if (Constants.SORT_PAA.equals(factor)) {
+            prefix = df.format(player.getPaa());
+        } else if (Constants.SORT_PAAPD.equals(factor)) {
+            prefix = df.format(getPAAPD(player));
+        } else if (Constants.SORT_XVAL.equals(factor)) {
+            prefix = df.format(player.getxVal());
+        } else if (Constants.SORT_RISK.equals(factor)) {
+            prefix = String.valueOf(player.getRisk());
+        } else if (Constants.SORT_SOS.equals(factor)) {
+            prefix = String.valueOf(getSOS(player));
+        } else if (Constants.SORT_TIERS.equals(factor)) {
+            prefix = String.valueOf(player.getPositionalTier());
+        }
+
+        return new StringBuilder(prefix)
+                .append(Constants.RANKINGS_LIST_DELIMITER)
+                .append(player.getName())
+                .toString();
+    }
+
+    private String getSubTextForFactor(Player player, String factor, DecimalFormat df) {
+        StringBuilder subtextBuilder = new StringBuilder(generateOutputSubtext(player, new DecimalFormat((Constants.NUMBER_FORMAT))));
+        if (!Constants.SORT_PROJECTION.equals(factor)) {
+            subtextBuilder.append(Constants.LINE_BREAK)
+                    .append("Projection: ")
+                    .append(player.getProjection());
+        }
+        if (Constants.SORT_UNDERDRAFTED.equals(factor)) {
+            subtextBuilder.append(Constants.LINE_BREAK)
+                    .append("ECR: ")
+                    .append(player.getEcr())
+                    .append(Constants.LINE_BREAK)
+                    .append("ADP: ")
+                    .append(player.getAdp());
+        }
+        boolean isAuction = rankings.getLeagueSettings().isAuction();
+        if (isAuction && !Constants.SORT_AUCTION.equals(factor) && !Constants.SORT_ALL.equals(factor)) {
+            subtextBuilder.append(Constants.LINE_BREAK)
+                    .append("Auction Value: ")
+                    .append(df.format(player.getAuctionValueCustom(rankings)));
+        } else if (!isAuction && !Constants.SORT_ECR.equals(factor) && !Constants.SORT_ALL.equals(factor)) {
+            subtextBuilder.append(Constants.LINE_BREAK)
+                    .append("ECR: ")
+                    .append(String.valueOf(player.getEcr()));
+        }
+        return subtextBuilder.toString();
+    }
+
 
     private String generateOutputSubtext(Player player, DecimalFormat df) {
         StringBuilder sub = new StringBuilder(player.getPosition())

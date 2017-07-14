@@ -408,8 +408,8 @@ public class PlayerInfo extends AppCompatActivity {
             int paaRank = getPaa(null, player.getPaa());
             int paaPos = getPaa(player.getPosition(), player.getPaa());
             String subRank = getRankingSub(paaRank, paaPos);
-            if (player.getAuctionValue() > 0.0) {
-                subRank += Constants.LINE_BREAK + "PAA/$: " + df.format(player.getPaa() / player.getAuctionValue());
+            if (player.getAuctionValueCustom(rankings) > 0.0) {
+                subRank += Constants.LINE_BREAK + "PAA/$: " + df.format(player.getPaa() / player.getAuctionValueCustom(rankings));
             }
             paa.put(Constants.PLAYER_INFO, subRank);
             data.add(paa);
