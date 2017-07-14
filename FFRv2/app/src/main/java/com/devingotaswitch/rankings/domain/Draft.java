@@ -1,6 +1,7 @@
 package com.devingotaswitch.rankings.domain;
 
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import com.devingotaswitch.fileio.LocalSettingsHelper;
@@ -8,6 +9,7 @@ import com.devingotaswitch.utils.Constants;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -190,8 +192,8 @@ public class Draft {
         String result = pos + "s: ";
         double paaLeft = 0.0;
         int counter = 0;
-        PriorityQueue<Player> inter = new PriorityQueue<>(
-                300, new Comparator<Player>() {
+
+        Comparator<Player> comparator = new Comparator<Player>() {
             @Override
             public int compare(Player a, Player b) {
                 if (a.getProjection() > b.getProjection()) {
@@ -202,16 +204,16 @@ public class Draft {
                 }
                 return 0;
             }
-        });
-        for (String key : rankings.getPlayers().keySet()) {
-            Player player = rankings.getPlayer(key);
-            if (!this.isDrafted(player)
-                    && pos.equals(player.getPosition())) {
-                inter.add(player);
+        };
+        List<Player> players = new ArrayList<>();
+        for (Player player : rankings.getPlayers().values()) {
+            if (!isDrafted(player) && player.getPosition().equals(pos)) {
+                players.add(player);
             }
         }
-        while (!inter.isEmpty()) {
-            Player player = inter.poll();
+        Collections.sort(players, comparator);
+
+        for (Player player : players) {
             paaLeft += player.getPaa();
             counter++;
             if (counter == 10) {
