@@ -5,6 +5,7 @@ import android.util.Log;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.utils.GeneralUtils;
 import com.devingotaswitch.utils.JsoupUtils;
+import com.devingotaswitch.utils.ParsingUtils;
 
 import org.jsoup.nodes.Document;
 
@@ -24,19 +25,24 @@ public class ParseESPN {
                 break;
             }
         }
-        for (int i = 0; i < brokenValues.size(); i++) {
-            Log.d("ESPN", i + ": " + brokenValues.get(i));
-        }
         for (int i = min; i < brokenValues.size(); i += 8) {
             if (i + 1 >= brokenValues.size()) {
                 break;
             }
-            String name = brokenValues.get(i + 1).split(", ")[0].replace("*", "");
-            String team = brokenValues.get(i + 1).split(", ")[1];
+            String name;
+            String team;
+            if (brokenValues.contains(", ")) {
+                name = brokenValues.get(i + 1).split(", ")[0].replace("*", "");
+                team = brokenValues.get(i + 1).split(", ")[1];
+            } else {
+                // Defense
+                name = brokenValues.get(i + 1);
+                team = name.split(" D/ST")[0];
+            }
             String val = brokenValues.get(i + 5);
-            double worth = Double.parseDouble(val);
+            Double worth = Double.parseDouble(val);
             String pos = brokenValues.get(i+2);
-            Log.d("ESPN", name + ": " + team + ", " + pos + " - " + worth);
+            rankings.processNewPlayer(ParsingUtils.getPlayerFromRankings(name, team, pos, worth));
         }
     }
 }
