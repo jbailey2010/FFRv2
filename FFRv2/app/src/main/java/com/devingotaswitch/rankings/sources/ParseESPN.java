@@ -31,7 +31,7 @@ public class ParseESPN {
             }
             String name;
             String team;
-            if (brokenValues.contains(", ")) {
+            if (brokenValues.get(i+1).contains(", ")) {
                 name = brokenValues.get(i + 1).split(", ")[0].replace("*", "");
                 team = brokenValues.get(i + 1).split(", ")[1];
             } else {
