@@ -87,6 +87,13 @@ public class PlayerComparator extends AppCompatActivity {
         init();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        init();
+    }
+
     private void init() {
         final List<Map<String, String>> data = new ArrayList<>();
         for (String key : rankings.getPlayers().keySet()) {

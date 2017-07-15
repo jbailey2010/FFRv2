@@ -79,6 +79,13 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         init();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        init();
+    }
+
     private void init() {
         if (rankingsDB == null) {
             rankingsDB = new RankingsDBWrapper();

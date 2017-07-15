@@ -56,6 +56,7 @@ public class PlayerInfo extends AppCompatActivity {
     private MenuItem draftOther;
     private MenuItem undraft;
 
+    private static String playerId;
     private static DecimalFormat df = new DecimalFormat("#.##");
 
     @Override
@@ -66,7 +67,7 @@ public class PlayerInfo extends AppCompatActivity {
 
         rankingsDB = new RankingsDBWrapper();
         rankings = Rankings.init();
-        String playerId = getIntent().getStringExtra(Constants.PLAYER_ID);
+        playerId = getIntent().getStringExtra(Constants.PLAYER_ID);
         Player mostlyFleshedPlayer = rankings.getPlayer(playerId);
         player = rankingsDB.getPlayer(this, mostlyFleshedPlayer.getName(), mostlyFleshedPlayer.getPosition());
 
@@ -86,6 +87,16 @@ public class PlayerInfo extends AppCompatActivity {
                 onBackPressed();
             }
         });
+
+        init();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        Player mostlyFleshedPlayer = rankings.getPlayer(playerId);
+        player = rankingsDB.getPlayer(this, mostlyFleshedPlayer.getName(), mostlyFleshedPlayer.getPosition());
 
         init();
     }

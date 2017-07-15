@@ -76,6 +76,13 @@ public class FantasyNews extends AppCompatActivity {
         init();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        init();
+    }
+
     private void init() {
         List<String> sources = new ArrayList<>();
         sources.add(RW_HEADLINE_TITLE);

@@ -158,7 +158,7 @@ public class RankingsHome extends AppCompatActivity {
     public void onResume() {
         super.onResume();
 
-        initRankingsContext();
+        init();
     }
 
     private void setFilterItemVisibility() {

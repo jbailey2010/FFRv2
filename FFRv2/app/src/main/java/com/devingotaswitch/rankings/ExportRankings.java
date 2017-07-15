@@ -66,6 +66,13 @@ public class ExportRankings extends AppCompatActivity {
         init();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        init();
+    }
+
     private void init() {
         Button submit = (Button)findViewById(R.id.export_rankings_button);
         submit.setOnClickListener(new View.OnClickListener() {

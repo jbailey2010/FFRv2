@@ -72,6 +72,13 @@ public class ADPSimulator extends AppCompatActivity {
         init();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        init();
+    }
+
     private void init() {
         searchInput = (AutoCompleteTextView)findViewById(R.id.adp_player_selection);
         searchInput.setAdapter(null);

@@ -69,6 +69,13 @@ public class PlayerSorter extends AppCompatActivity {
         init();
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+
+        init();
+    }
+
     private void init() {
         final Spinner positions = (Spinner)findViewById(R.id.sort_players_position);
         List<String> posList = new ArrayList<>();

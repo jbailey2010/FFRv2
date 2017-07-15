@@ -54,6 +54,7 @@ public class ParsingUtils {
         playerFixes.put("Malcolm Floyd", "Malcom Floyd");
         playerFixes.put("Terrelle Pryor Sr.", "Terrelle Pryor");
         playerFixes.put("Wesley Welker", "Wes Welker");
+        playerFixes.put("Mike Gilislee", "Mike Gillislee");
         playerFixes.put("LaVon Brazil", "LaVon Brazill");
         playerFixes.put("Steve Hauschka", "Steven Hauschka");
         playerFixes.put("Ben Watson", "Benjamin Watson");
