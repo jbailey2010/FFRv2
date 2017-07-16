@@ -50,8 +50,8 @@
         android:layout_height="match_parent"
         android:id="@+id/comparator_output_base"
         android:visibility="gone"
-        android:layout_below="@+id/comparator_header_base"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:layout_below="@+id/comparator_header_base">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="0dp"
@@ -218,6 +218,39 @@
                 android:gravity="center"
                 android:layout_height="match_parent"
                 android:id="@+id/comparator_adp_b"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:orientation="horizontal"
+            android:background="#fafafa"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/comparator_auc_a"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/comparator_auc_title"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:background="#F3F3F3"
+                android:layout_weight="1"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:text="Auction Val"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_height="match_parent"
+                android:id="@+id/comparator_auc_b"/>
 
         </LinearLayout>
         <LinearLayout

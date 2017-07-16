@@ -189,6 +189,7 @@ public class PlayerComparator extends AppCompatActivity {
         outputBase.setVisibility(View.VISIBLE);
         inputA.clearFocus();
         inputB.clearFocus();
+        DecimalFormat df = new DecimalFormat("#.##");
 
         // Name
         TextView nameA = (TextView)findViewById(R.id.comparator_name_a);
@@ -244,6 +245,19 @@ public class PlayerComparator extends AppCompatActivity {
             clearColors(adpA, adpB);
         }
 
+        // Auctin value
+        TextView aucA = (TextView)findViewById(R.id.comparator_auc_a);
+        TextView aucB = (TextView)findViewById(R.id.comparator_auc_b);
+        aucA.setText(df.format(playerA.getAuctionValueCustom(rankings)));
+        aucB.setText(df.format(playerB.getAuctionValueCustom(rankings)));
+        if (playerA.getAuctionValue() > playerB.getAuctionValue()) {
+            setColors(aucA, aucB);
+        } else if (playerA.getAuctionValue() < playerB.getAuctionValue()) {
+            setColors(aucB, aucA);
+        } else {
+            clearColors(aucA, aucB);
+        }
+
         // SOS
         TextView sosA = (TextView)findViewById(R.id.comparator_sos_a);
         TextView sosB = (TextView)findViewById(R.id.comparator_sos_b);
@@ -260,7 +274,6 @@ public class PlayerComparator extends AppCompatActivity {
         }
 
         // Projection
-        DecimalFormat df = new DecimalFormat("#.##");
         TextView projA = (TextView)findViewById(R.id.comparator_proj_a);
         TextView projB = (TextView)findViewById(R.id.comparator_proj_b);
         projA.setText(df.format(playerA.getProjection()));
