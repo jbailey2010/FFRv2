@@ -51,12 +51,12 @@ public class ParseMath {
         }
         if (roster.getDstCount() == 0) {
             dLimit=0.0;
-            rbLimit++;
+            teLimit++;
             wrLimit++;
         }
         if (roster.getkCount() == 0) {
             kLimit = 0.0;
-            wrLimit++;
+            teLimit++;
         }
 
         Log.d("XVal", "XVal QB Limit: " + qbLimit);

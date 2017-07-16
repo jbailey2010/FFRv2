@@ -27,6 +27,7 @@ import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.fileio.RankingsDBWrapper;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
+import com.devingotaswitch.rankings.sources.ParseMath;
 import com.devingotaswitch.rankings.sources.ParsePlayerNews;
 import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.GeneralUtils;
@@ -245,7 +246,7 @@ public class PlayerComparator extends AppCompatActivity {
             clearColors(adpA, adpB);
         }
 
-        // Auctin value
+        // Auction value
         TextView aucA = (TextView)findViewById(R.id.comparator_auc_a);
         TextView aucB = (TextView)findViewById(R.id.comparator_auc_b);
         aucA.setText(df.format(playerA.getAuctionValueCustom(rankings)));
@@ -256,6 +257,21 @@ public class PlayerComparator extends AppCompatActivity {
             setColors(aucB, aucA);
         } else {
             clearColors(aucA, aucB);
+        }
+
+        // Leverage
+        TextView levA = (TextView)findViewById(R.id.comparator_lev_a);
+        TextView levB = (TextView)findViewById(R.id.comparator_lev_b);
+        double levAVal = ParseMath.getLeverage(playerA, rankings);
+        double levBVal = ParseMath.getLeverage(playerB, rankings);
+        levA.setText(String.valueOf(levAVal));
+        levB.setText(String.valueOf(levBVal));
+        if (levAVal > levBVal) {
+            setColors(levA, levB);
+        } else if (levAVal < levBVal) {
+            setColors(levB, levA);
+        } else {
+            clearColors(levA, levB);
         }
 
         // SOS
@@ -311,6 +327,20 @@ public class PlayerComparator extends AppCompatActivity {
         } else {
             clearColors(xvalA, xvalB);
         }
+
+        // Risk
+        TextView riskA = (TextView)findViewById(R.id.comparator_risk_a);
+        TextView riskB = (TextView)findViewById(R.id.comparator_risk_b);
+        riskA.setText(String.valueOf(playerA.getRisk()));
+        riskB.setText(String.valueOf(playerB.getRisk()));
+        if (playerA.getRisk() < playerB.getRisk()) {
+            setColors(riskA, riskB);
+        } else if (playerA.getRisk() > playerB.getRisk()) {
+            setColors(riskB, riskA);
+        } else {
+            clearColors(riskA, riskB);
+        }
+
     }
 
     private void clearColors(TextView playerA, TextView playerB) {
