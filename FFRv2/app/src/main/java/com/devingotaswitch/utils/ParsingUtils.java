@@ -279,7 +279,8 @@ public class ParsingUtils {
         String name = uName.toLowerCase();
         if (name.contains("cincinnati")) {
             uName = "Bengals D/ST";
-        } else if (name.contains("cleveland")) {
+        } else if (name.contains("cleveland") && (name.split(" ").length == 1 || (name.split(" ").length == 2 &&
+                name.split(" ")[0].toLowerCase().equals("cleveland")))) {
             uName = "Browns D/ST";
         } else if (name.contains("pittsburgh")) {
             uName = "Steelers D/ST";
@@ -301,8 +302,6 @@ public class ParsingUtils {
             uName = "Texans D/ST";
         } else if (name.contains("tennessee")) {
             uName = "Titans D/ST";
-        } else if (name.contains("cleveland")) {
-            uName = "Browns D/ST";
         } else if (name.contains("san diego") || name.contains("los angeles chargers") || name.contains("la chargers") || name.contains("chargers")) {
             uName = "Chargers D/ST";
         } else if (name.contains("kansas city")) {
