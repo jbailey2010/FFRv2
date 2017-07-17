@@ -27,6 +27,7 @@ import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.fileio.RankingsDBWrapper;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
+import com.devingotaswitch.rankings.domain.Team;
 import com.devingotaswitch.rankings.sources.ParseMath;
 import com.devingotaswitch.rankings.sources.ParsePlayerNews;
 import com.devingotaswitch.utils.Constants;
@@ -216,6 +217,13 @@ public class PlayerComparator extends AppCompatActivity {
         ageA.setText(playerA.getAge() > 0 ? String.valueOf(playerA.getAge()) : "?");
         ageB.setText(playerA.getAge() > 0 ? String.valueOf(playerB.getAge()) : "?");
 
+        TextView byeA = (TextView)findViewById(R.id.comparator_bye_a);
+        TextView byeB = (TextView)findViewById(R.id.comparator_bye_b);
+        Team teamA = rankings.getTeam(playerA);
+        Team teamB = rankings.getTeam(playerB);
+        byeA.setText(teamA != null ? teamA.getBye() : "?");
+        byeB.setText(teamB != null ? teamB.getBye() : "?");
+
         // ECR (default to hidden)
         LinearLayout ecrRow = (LinearLayout)findViewById(R.id.expert_output_row);
         ecrRow.setVisibility(View.GONE);
@@ -305,11 +313,11 @@ public class PlayerComparator extends AppCompatActivity {
         // PAA
         TextView paaA = (TextView)findViewById(R.id.comparator_paa_a);
         TextView paaB = (TextView)findViewById(R.id.comparator_paa_b);
-        paaA.setText(df.format(playerA.getPaa()));
-        paaB.setText(df.format(playerB.getPaa()));
-        if (playerA.getPaa() > playerB.getPaa()) {
+        paaA.setText(df.format(playerA.getPaa()) + " (" + df.format(playerA.getScaledPAA(rankings)) + ")");
+        paaB.setText(df.format(playerB.getPaa()) + " (" + df.format(playerB.getScaledPAA(rankings)) + ")");
+        if (playerA.getScaledPAA(rankings) > playerB.getScaledPAA(rankings)) {
             setColors(paaA, paaB);
-        } else if (playerA.getPaa() < playerB.getPaa()){
+        } else if (playerA.getScaledPAA(rankings) < playerB.getScaledPAA(rankings)){
             setColors(paaB, paaA);
         } else {
             clearColors(paaA, paaB);
@@ -318,11 +326,11 @@ public class PlayerComparator extends AppCompatActivity {
         // XVal
         TextView xvalA = (TextView)findViewById(R.id.comparator_xval_a);
         TextView xvalB = (TextView)findViewById(R.id.comparator_xval_b);
-        xvalA.setText(df.format(playerA.getxVal()));
-        xvalB.setText(df.format(playerB.getxVal()));
-        if (playerA.getxVal() > playerB.getxVal()) {
+        xvalA.setText(df.format(playerA.getxVal()) + " (" + df.format(playerA.getScaledXVal(rankings)) + ")");
+        xvalB.setText(df.format(playerB.getxVal()) + " (" + df.format(playerB.getScaledXVal(rankings)) + ")");
+        if (playerA.getScaledXVal(rankings) > playerB.getScaledXVal(rankings)) {
             setColors(xvalA, xvalB);
-        } else if (playerA.getxVal() < playerB.getxVal()){
+        } else if (playerA.getScaledXVal(rankings) < playerB.getScaledXVal(rankings)){
             setColors(xvalB, xvalA);
         } else {
             clearColors(xvalA, xvalB);

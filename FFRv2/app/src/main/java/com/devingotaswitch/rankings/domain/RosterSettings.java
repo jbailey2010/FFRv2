@@ -1,5 +1,7 @@
 package com.devingotaswitch.rankings.domain;
 
+import android.util.Log;
+
 import com.devingotaswitch.utils.Constants;
 
 import java.util.HashSet;
@@ -141,6 +143,40 @@ public class RosterSettings {
             size += flex.getQbrbwrteCount() + flex.getRbwrteCount() + flex.getRbteCount() + flex.getRbwrCount() + flex.getWrteCount();
         }
         return size;
+    }
+
+    public int getNumberStartedOfPos(String position) {
+        int total = 0;
+        if (Constants.QB.equals(position)) {
+            total = getQbCount();
+            if (flex != null) {
+                // Assume all qbs
+                total += flex.getQbrbwrteCount();
+            }
+        } else if (Constants.RB.equals(position)) {
+            total = getRbCount();
+            if (flex != null) {
+                total += flex.getRbteCount();
+                total += flex.getRbwrCount();
+                total += flex.getRbwrteCount();
+            }
+        } else if (Constants.WR.equals(position)) {
+            total = getWrCount();
+            if (flex != null) {
+                total += flex.getWrteCount();
+                total += flex.getRbwrCount();
+                total += flex.getRbwrteCount();
+            }
+        } else if (Constants.TE.equals(position)) {
+            total = getTeCount();
+            // Assume no flex spot would go to a te
+        } else if (Constants.DST.equals(position)) {
+            total = getDstCount();
+        } else if (Constants.K.equals(position)) {
+            total = getkCount();
+        }
+
+        return total;
     }
 
     public boolean isPositionValid(String pos) {

@@ -75,6 +75,23 @@ public class Draft {
         return myKs;
     }
 
+    public List<Player> getPlayersDraftedForPos(String position) {
+        if (Constants.QB.equals(position)) {
+            return getMyQbs();
+        } else if (Constants.RB.equals(position)) {
+            return getMyRbs();
+        } else if (Constants.WR.equals(position)) {
+            return getMyWrs();
+        } else if (Constants.TE.equals(position)) {
+            return getMyTes();
+        } else if (Constants.DST.equals(position)) {
+            return getMyDsts();
+        } else if (Constants.K.equals(position)) {
+            return getMyKs();
+        }
+        return new ArrayList<>();
+    }
+
     public double getDraftValue() {
         return draftValue;
     }

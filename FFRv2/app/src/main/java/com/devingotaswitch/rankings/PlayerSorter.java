@@ -128,8 +128,10 @@ public class PlayerSorter extends AppCompatActivity {
         factorList.add(Constants.SORT_AUCTION);
         factorList.add(Constants.SORT_PROJECTION);
         factorList.add(Constants.SORT_PAA);
+        factorList.add(Constants.SORT_PAA_SCALED);
         factorList.add(Constants.SORT_PAAPD);
         factorList.add(Constants.SORT_XVAL);
+        factorList.add(Constants.SORT_XVAL_SCALED);
         factorList.add(Constants.SORT_RISK);
         factorList.add(Constants.SORT_SOS);
         factorList.add(Constants.SORT_TIERS);
@@ -166,10 +168,14 @@ public class PlayerSorter extends AppCompatActivity {
             comparator = getProjectionComparator();
         } else if (Constants.SORT_PAA.equals(factor)) {
             comparator = getPAAComparator();
+        } else if (Constants.SORT_PAA_SCALED.equals(factor)) {
+            comparator = getPAAScaledComparator();
         } else if (Constants.SORT_PAAPD.equals(factor)) {
             comparator = getPAAPDComparator();
         } else if (Constants.SORT_XVAL.equals(factor)) {
             comparator = getXValComparator();
+        } else if (Constants.SORT_XVAL_SCALED.equals(factor)) {
+            comparator = getXValScaledComparator();
         } else if (Constants.SORT_RISK.equals(factor)) {
             comparator = getRiskComparator();
         } else if (Constants.SORT_SOS.equals(factor)) {
@@ -352,6 +358,21 @@ public class PlayerSorter extends AppCompatActivity {
         };
     }
 
+    private Comparator<Player> getPAAScaledComparator() {
+        return new Comparator<Player>() {
+            @Override
+            public int compare(Player a, Player b) {
+                if (a.getScaledPAA(rankings) > b.getScaledPAA(rankings)) {
+                    return -1;
+                }
+                if (a.getScaledPAA(rankings) < b.getScaledPAA(rankings)) {
+                    return 1;
+                }
+                return 0;
+            }
+        };
+    }
+
     private Comparator<Player> getPAAPDComparator() {
         return new Comparator<Player>() {
             @Override
@@ -385,6 +406,21 @@ public class PlayerSorter extends AppCompatActivity {
                     return -1;
                 }
                 if (a.getxVal() < b.getxVal()) {
+                    return 1;
+                }
+                return 0;
+            }
+        };
+    }
+
+    private Comparator<Player> getXValScaledComparator() {
+        return new Comparator<Player>() {
+            @Override
+            public int compare(Player a, Player b) {
+                if (a.getScaledXVal(rankings) > b.getScaledXVal(rankings)) {
+                    return -1;
+                }
+                if (a.getScaledXVal(rankings) < b.getScaledXVal(rankings)) {
                     return 1;
                 }
                 return 0;
@@ -468,10 +504,14 @@ public class PlayerSorter extends AppCompatActivity {
             prefix = df.format(player.getProjection());
         } else if (Constants.SORT_PAA.equals(factor)) {
             prefix = df.format(player.getPaa());
+        } else if (Constants.SORT_PAA_SCALED.equals(factor)) {
+            prefix = df.format(player.getScaledPAA(rankings));
         } else if (Constants.SORT_PAAPD.equals(factor)) {
             prefix = df.format(getPAAPD(player));
         } else if (Constants.SORT_XVAL.equals(factor)) {
             prefix = df.format(player.getxVal());
+        } else if (Constants.SORT_XVAL_SCALED.equals(factor)) {
+            prefix = df.format(player.getScaledXVal(rankings));
         } else if (Constants.SORT_RISK.equals(factor)) {
             prefix = String.valueOf(player.getRisk());
         } else if (Constants.SORT_SOS.equals(factor)) {

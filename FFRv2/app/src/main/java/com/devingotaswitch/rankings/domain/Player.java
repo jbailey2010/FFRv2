@@ -151,4 +151,35 @@ public class Player {
                 .append(position)
                 .toString();
     }
+
+    public Double getScaledPAA(Rankings rankings) {
+        return getScaledValue(getPaa(), rankings.getLeagueSettings().getRosterSettings().getNumberStartedOfPos(getPosition()),
+                rankings.getDraft().getPlayersDraftedForPos(getPosition()).size());
+    }
+
+    public Double getScaledXVal(Rankings rankings) {
+        return getScaledValue(getxVal(), rankings.getLeagueSettings().getRosterSettings().getNumberStartedOfPos(getPosition()),
+                rankings.getDraft().getPlayersDraftedForPos(getPosition()).size());
+    }
+
+    private double getScaledValue(Double value, int numStarted, int numDrafted) {
+        double scaleFactor = 0.0;
+        if (numStarted == 0) {
+            scaleFactor = 0.0;
+        } else if (numDrafted == 0 || numDrafted < numStarted) {
+            scaleFactor = 1.0;
+        } else {
+            scaleFactor = 1.0 - (((double)numDrafted - (numStarted - 1)) * 0.2);
+            if (scaleFactor <= 0.0) {
+                scaleFactor = 0.2;
+            }
+        }
+
+        if (value < 0) {
+            // If it's negative, multiplying by a smaller value would make it look better
+            return value / scaleFactor;
+        } else {
+            return value * scaleFactor;
+        }
+    }
 }

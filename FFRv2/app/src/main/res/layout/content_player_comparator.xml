@@ -128,6 +128,38 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/comparator_view_height"
+            android:background="#fafafa"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/comparator_bye_a"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:layout_weight="1"/>
+
+            <TextView
+                android:id="@+id/comparator_bye_title"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:background="#F3F3F3"
+                android:gravity="center"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:text="Bye"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_height="match_parent"
+                android:id="@+id/comparator_bye_b"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/comparator_view_height"
             android:orientation="horizontal"
             android:background="#fafafa"
             android:id="@+id/expert_output_row"
@@ -409,7 +441,7 @@
                 android:background="#F3F3F3"
                 android:textSize="14sp"
                 android:textStyle="bold"
-                android:text="Points Above Average"/>
+                android:text="PAA (Scaled)"/>
 
             <TextView
                 android:layout_width="0dp"
@@ -441,7 +473,7 @@
                 android:textSize="14sp"
                 android:textStyle="bold"
                 android:layout_weight="1"
-                android:text="X Value"/>
+                android:text="XValue (Scaled)"/>
 
             <TextView
                 android:layout_width="0dp"

@@ -27,8 +27,10 @@ public class Constants {
     public final static String SORT_AUCTION = "Auction Value";
     public final static String SORT_PROJECTION = "Projection";
     public final static String SORT_PAA = "Points Above Average";
+    public final static String SORT_PAA_SCALED = "Scaled Points Above Average";
     public final static String SORT_PAAPD = "Points Above Average Per Dollar";
     public final static String SORT_XVAL = "X Value";
+    public final static String SORT_XVAL_SCALED = "Scaled X Value";
     public final static String SORT_RISK = "Risk";
     public final static String SORT_SOS = "Positional SOS";
     public final static String SORT_TIERS = "Positional Tier";
