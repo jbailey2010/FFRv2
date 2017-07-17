@@ -8,6 +8,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -19,12 +20,14 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.amazonaws.util.StringUtils;
 import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.fileio.RankingsDBWrapper;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.domain.RosterSettings;
 import com.devingotaswitch.rankings.domain.Team;
+import com.devingotaswitch.rankings.extras.MultiSelectionSpinner;
 import com.devingotaswitch.rankings.sources.ParseMath;
 import com.devingotaswitch.utils.Constants;
 
@@ -139,6 +142,13 @@ public class PlayerSorter extends AppCompatActivity {
                 android.R.layout.simple_spinner_item, factorList);
         factors.setAdapter(factorAdapter);
 
+        final MultiSelectionSpinner spinner=(MultiSelectionSpinner)findViewById(R.id.sort_players_additional_factors);
+        List<String> list = new ArrayList<>();
+        list.add(Constants.SORT_HIDE_DRAFTED);
+        list.add(Constants.SORT_ONLY_HEALTHY);
+        list.add(Constants.SORT_EASY_SOS);
+        spinner.setItems(list, Constants.SORT_DEFAULT_STRING);
+
         Button submit = (Button)findViewById(R.id.sort_players_submit);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -149,12 +159,12 @@ public class PlayerSorter extends AppCompatActivity {
                     filteredIds = rankings.getPlayersByPosition(filteredIds, currentPosition);
                 }
                 String factor = ((TextView)factors.getSelectedView()).getText().toString();
-                sortPlayers(filteredIds, factor);
+                sortPlayers(filteredIds, factor, spinner.getSelectedStrings());
             }
         });
     }
 
-    private void sortPlayers(List<String> playerIds, String factor) {
+    private void sortPlayers(List<String> playerIds, String factor, List<String> booleanFactors) {
         Comparator<Player> comparator = null;
         if (Constants.SORT_ECR.equals(factor)) {
             comparator = getECRComparator();
@@ -187,7 +197,21 @@ public class PlayerSorter extends AppCompatActivity {
 
         List<Player> players = new ArrayList<>();
         for (String id : playerIds) {
-            players.add(rankings.getPlayer(id));
+            Player player = rankings.getPlayer(id);
+            if (booleanFactors.contains(Constants.SORT_HIDE_DRAFTED) && rankings.getDraft().isDrafted(player)) {
+                continue;
+            } else if (booleanFactors.contains(Constants.SORT_EASY_SOS)) {
+                Team team = rankings.getTeam(player);
+                if (team == null || (team != null && team.getSosForPosition(player.getPosition()) > 10)) {
+                    continue;
+                }
+            } else if (booleanFactors.contains(Constants.SORT_ONLY_HEALTHY)) {
+                if (!StringUtils.isBlank(player.getInjuryStatus())) {
+                    continue;
+                }
+            }
+
+            players.add(player);
         }
         if (comparator != null) {
             // If it's null, it was default, which means the already ordered list

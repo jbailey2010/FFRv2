@@ -35,6 +35,12 @@ public class Constants {
     public final static String SORT_SOS = "Positional SOS";
     public final static String SORT_TIERS = "Positional Tier";
 
+    // Sort boolean factors
+    public final static String SORT_DEFAULT_STRING = "Additional Factors";
+    public final static String SORT_HIDE_DRAFTED = "Hide Drafted";
+    public final static String SORT_EASY_SOS = "Easy SOS";
+    public final static String SORT_ONLY_HEALTHY = "Healthy";
+
     // SP: keys
     public static final String APP_KEY = "FFRv2";
     public static final String LEAGUE_NAME = "CURRENT_LEAGUE_NAME";
