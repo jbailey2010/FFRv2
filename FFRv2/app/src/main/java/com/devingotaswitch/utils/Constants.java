@@ -40,6 +40,10 @@ public class Constants {
     public final static String SORT_HIDE_DRAFTED = "Hide Drafted";
     public final static String SORT_EASY_SOS = "Easy SOS";
     public final static String SORT_ONLY_HEALTHY = "Healthy";
+    public final static String SORT_ONLY_WATCHED = "Watched";
+
+    // Sort boolean thresholds
+    public final static Integer SORT_EASY_SOS_THRESHOLD = 10;
 
     // SP: keys
     public static final String APP_KEY = "FFRv2";

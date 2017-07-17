@@ -147,6 +147,7 @@ public class PlayerSorter extends AppCompatActivity {
         list.add(Constants.SORT_HIDE_DRAFTED);
         list.add(Constants.SORT_ONLY_HEALTHY);
         list.add(Constants.SORT_EASY_SOS);
+        list.add(Constants.SORT_ONLY_WATCHED);
         spinner.setItems(list, Constants.SORT_DEFAULT_STRING);
 
         Button submit = (Button)findViewById(R.id.sort_players_submit);
@@ -200,13 +201,20 @@ public class PlayerSorter extends AppCompatActivity {
             Player player = rankings.getPlayer(id);
             if (booleanFactors.contains(Constants.SORT_HIDE_DRAFTED) && rankings.getDraft().isDrafted(player)) {
                 continue;
-            } else if (booleanFactors.contains(Constants.SORT_EASY_SOS)) {
+            }
+            if (booleanFactors.contains(Constants.SORT_EASY_SOS)) {
                 Team team = rankings.getTeam(player);
-                if (team == null || (team != null && team.getSosForPosition(player.getPosition()) > 10)) {
+                if (team == null || (team != null && team.getSosForPosition(player.getPosition()) > Constants.SORT_EASY_SOS_THRESHOLD)) {
                     continue;
                 }
-            } else if (booleanFactors.contains(Constants.SORT_ONLY_HEALTHY)) {
+            }
+            if (booleanFactors.contains(Constants.SORT_ONLY_HEALTHY)) {
                 if (!StringUtils.isBlank(player.getInjuryStatus())) {
+                    continue;
+                }
+            }
+            if  (booleanFactors.contains(Constants.SORT_ONLY_WATCHED)) {
+                if (!player.isWatched()) {
                     continue;
                 }
             }
