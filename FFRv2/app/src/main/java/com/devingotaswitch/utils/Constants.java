@@ -161,8 +161,6 @@ public class Constants {
     public final static String RANKINGS_LIST_DELIMITER = ": ";
     public final static String PLAYER_ID = "player_id";
     public final static String RANKINGS_UPDATED = "rankings_updated";
-    public final static String RANKINGS_SELECTED_INDEX = "rankings_index";
-    public final static Integer DEFAULT_SELECTED_INDEX = 0;
 
     // Draft
     public final static String CURRENT_DRAFT = "current_draft";

@@ -18,6 +18,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
@@ -86,6 +87,8 @@ public class RankingsHome extends AppCompatActivity {
     private LinearLayout buttonBase;
     private int maxPlayers;
     private boolean loadRanks;
+    private static Integer selectedIndex = 0;
+    private boolean ranksDisplayed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -116,7 +119,6 @@ public class RankingsHome extends AppCompatActivity {
         }
         loadRanks = false;
         if (getIntent().getExtras() != null && getIntent().getExtras().getBoolean(Constants.RANKINGS_UPDATED)) {
-            Log.d(TAG, "Setting load ranks to true!");
             loadRanks = true;
         }
 
@@ -356,6 +358,7 @@ public class RankingsHome extends AppCompatActivity {
     }
 
     private void displayRankings(List<String> orderedIds) {
+        ranksDisplayed = false;
         searchBase.setVisibility(View.VISIBLE);
         buttonBase.setVisibility(View.VISIBLE);
         if (filterItem != null) {
@@ -431,9 +434,26 @@ public class RankingsHome extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String playerKey = getPlayerKeyFromListViewItem(view);
+                Log.d("JEFF", "Overloading click to " + position);
+                selectedIndex = position;
                 displayPlayerInfo(playerKey);
             }
         });
+        listview.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (ranksDisplayed) {
+                    // A flag is used to green light this set, otherwise onScroll is set to 0 on initial display
+                    selectedIndex = firstVisibleItem;
+                }
+            }
+        });
+        listview.setSelection(selectedIndex);
+        ranksDisplayed = true;
 
         setSearchAutocomplete();
     }

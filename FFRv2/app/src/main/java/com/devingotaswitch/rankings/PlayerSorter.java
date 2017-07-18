@@ -211,7 +211,7 @@ public class PlayerSorter extends AppCompatActivity {
             }
             if (booleanFactors.contains(Constants.SORT_EASY_SOS)) {
                 Team team = rankings.getTeam(player);
-                if (team == null || (team != null && team.getSosForPosition(player.getPosition()) > Constants.SORT_EASY_SOS_THRESHOLD)) {
+                if (team == null || (team.getSosForPosition(player.getPosition()) > Constants.SORT_EASY_SOS_THRESHOLD)) {
                     continue;
                 }
             }
@@ -604,7 +604,7 @@ public class PlayerSorter extends AppCompatActivity {
     }
 
     private String getSubTextForFactor(Player player, String factor, DecimalFormat df) {
-        StringBuilder subtextBuilder = new StringBuilder(generateOutputSubtext(player, new DecimalFormat((Constants.NUMBER_FORMAT))));
+        StringBuilder subtextBuilder = new StringBuilder(generateOutputSubtext(player));
         if (!Constants.SORT_PROJECTION.equals(factor)) {
             subtextBuilder.append(Constants.LINE_BREAK)
                     .append("Projection: ")
@@ -632,7 +632,7 @@ public class PlayerSorter extends AppCompatActivity {
     }
 
 
-    private String generateOutputSubtext(Player player, DecimalFormat df) {
+    private String generateOutputSubtext(Player player) {
         StringBuilder sub = new StringBuilder(player.getPosition())
                 .append(Constants.POS_TEAM_DELIMITER)
                 .append(player.getTeamName());
