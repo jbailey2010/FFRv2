@@ -137,6 +137,7 @@ public class PlayerSorter extends AppCompatActivity {
         factorList.add(Constants.SORT_PAAPD);
         factorList.add(Constants.SORT_XVAL);
         factorList.add(Constants.SORT_XVAL_SCALED);
+        factorList.add(Constants.SORT_XVALPD);
         factorList.add(Constants.SORT_RISK);
         factorList.add(Constants.SORT_SOS);
         factorList.add(Constants.SORT_TIERS);
@@ -191,6 +192,8 @@ public class PlayerSorter extends AppCompatActivity {
             comparator = getXValComparator();
         } else if (Constants.SORT_XVAL_SCALED.equals(factor)) {
             comparator = getXValScaledComparator();
+        } else if (Constants.SORT_XVALPD.equals(factor)) {
+            comparator = getXvalPDComparator();
         } else if (Constants.SORT_RISK.equals(factor)) {
             comparator = getRiskComparator();
         } else if (Constants.SORT_SOS.equals(factor)) {
@@ -437,11 +440,19 @@ public class PlayerSorter extends AppCompatActivity {
     }
 
     private double getPAAPD(Player a) {
-        double paapdA = a.getPaa() / a.getAuctionValue();
+        double paapdA = a.getPaa() / a.getAuctionValueCustom(rankings);
         if (a.getAuctionValue() == 0.0) {
             paapdA = 0.0;
         }
         return paapdA;
+    }
+
+    private double getXvalPD(Player a) {
+        double xvalpdA = a.getxVal() / a.getAuctionValueCustom(rankings);
+        if (a.getAuctionValue() == 0) {
+            xvalpdA = 0.0;
+        }
+        return xvalpdA;
     }
 
     private Comparator<Player> getXValComparator() {
@@ -452,6 +463,23 @@ public class PlayerSorter extends AppCompatActivity {
                     return -1;
                 }
                 if (a.getxVal() < b.getxVal()) {
+                    return 1;
+                }
+                return 0;
+            }
+        };
+    }
+
+    private Comparator<Player> getXvalPDComparator() {
+        return new Comparator<Player>() {
+            @Override
+            public int compare(Player a, Player b) {
+                double xvalpdA = getXvalPD(a);
+                double xvalpdB = getXvalPD(b);
+                if (xvalpdA > xvalpdB) {
+                    return -1;
+                }
+                if (xvalpdA < xvalpdB) {
                     return 1;
                 }
                 return 0;
@@ -558,6 +586,8 @@ public class PlayerSorter extends AppCompatActivity {
             prefix = df.format(player.getxVal());
         } else if (Constants.SORT_XVAL_SCALED.equals(factor)) {
             prefix = df.format(player.getScaledXVal(rankings));
+        } else if (Constants.SORT_XVALPD.equals(factor)) {
+            prefix = df.format(getXvalPD(player));
         } else if (Constants.SORT_RISK.equals(factor)) {
             prefix = String.valueOf(player.getRisk());
         } else if (Constants.SORT_SOS.equals(factor)) {

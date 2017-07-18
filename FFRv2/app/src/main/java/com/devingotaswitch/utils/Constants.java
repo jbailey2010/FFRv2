@@ -31,6 +31,7 @@ public class Constants {
     public final static String SORT_PAAPD = "Points Above Average Per Dollar";
     public final static String SORT_XVAL = "X Value";
     public final static String SORT_XVAL_SCALED = "Scaled X Value";
+    public final static String SORT_XVALPD = "X Value Per Dollar";
     public final static String SORT_RISK = "Risk";
     public final static String SORT_SOS = "Positional SOS";
     public final static String SORT_TIERS = "Positional Tier";
