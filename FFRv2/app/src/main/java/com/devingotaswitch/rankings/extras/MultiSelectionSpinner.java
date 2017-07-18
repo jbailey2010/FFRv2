@@ -8,20 +8,21 @@ import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 
 public class MultiSelectionSpinner extends android.support.v7.widget.AppCompatSpinner implements
         DialogInterface.OnMultiChoiceClickListener
 {
     String[] _items = null;
     boolean[] mSelection = null;
-    private static String defaultDisplay;
+    private String defaultDisplay;
 
     ArrayAdapter<String> simple_adapter;
 
-    public MultiSelectionSpinner(Context context)
-    {
+    public MultiSelectionSpinner(Context context) {
         super(context);
 
         simple_adapter = new ArrayAdapter<>(context,
@@ -129,8 +130,8 @@ public class MultiSelectionSpinner extends android.support.v7.widget.AppCompatSp
         simple_adapter.add(buildSelectedItemString());
     }
 
-    public List<String> getSelectedStrings() {
-        List<String> selection = new LinkedList<>();
+    public Set<String> getSelectedStrings() {
+        Set<String> selection = new HashSet<>();
         for (int i = 0; i < _items.length; ++i) {
             if (mSelection[i]) {
                 selection.add(_items[i]);

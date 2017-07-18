@@ -36,8 +36,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class PlayerSorter extends AppCompatActivity {
 
@@ -148,6 +150,8 @@ public class PlayerSorter extends AppCompatActivity {
         list.add(Constants.SORT_ONLY_HEALTHY);
         list.add(Constants.SORT_EASY_SOS);
         list.add(Constants.SORT_ONLY_WATCHED);
+        list.add(Constants.SORT_UNDER_30);
+        list.add(Constants.SORT_IGNORE_LATE);
         spinner.setItems(list, Constants.SORT_DEFAULT_STRING);
 
         Button submit = (Button)findViewById(R.id.sort_players_submit);
@@ -165,7 +169,7 @@ public class PlayerSorter extends AppCompatActivity {
         });
     }
 
-    private void sortPlayers(List<String> playerIds, String factor, List<String> booleanFactors) {
+    private void sortPlayers(List<String> playerIds, String factor, Set<String> booleanFactors) {
         Comparator<Player> comparator = null;
         if (Constants.SORT_ECR.equals(factor)) {
             comparator = getECRComparator();
@@ -215,6 +219,16 @@ public class PlayerSorter extends AppCompatActivity {
             }
             if  (booleanFactors.contains(Constants.SORT_ONLY_WATCHED)) {
                 if (!player.isWatched()) {
+                    continue;
+                }
+            }
+            if (booleanFactors.contains(Constants.SORT_UNDER_30)) {
+                if (player.getAge() == 0 || player.getAge() >= Constants.SORT_YOUNG_THRESHOLD) {
+                    continue;
+                }
+            }
+            if (booleanFactors.contains(Constants.SORT_IGNORE_LATE)) {
+                if (player.getAuctionValue() < Constants.SORT_IGNORE_LATE_THRESHOLD) {
                     continue;
                 }
             }
