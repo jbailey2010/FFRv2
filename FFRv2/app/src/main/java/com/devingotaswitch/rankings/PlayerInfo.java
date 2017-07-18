@@ -430,11 +430,11 @@ public class PlayerInfo extends AppCompatActivity {
             xVal.put(Constants.PLAYER_BASIC, "X Value: " + df.format(player.getxVal()));
             int xValRank = getXVal(null, player.getxVal());
             int xValPos = getXVal(player.getPosition(), player.getxVal());
-            String xValSub = new StringBuilder(getRankingSub(xValRank, xValPos))
-                    .append(Constants.LINE_BREAK)
-                    .append("Scaled X Value: ")
-                    .append(df.format(player.getScaledXVal(rankings)))
-                    .toString();
+            String xValSub = getRankingSub(xValRank, xValPos);
+            if (player.getAuctionValueCustom(rankings) > 0.0) {
+                xValSub  += Constants.LINE_BREAK + "X Value/$: " + df.format(player.getxVal() / player.getAuctionValueCustom(rankings));
+            }
+            xValSub += Constants.LINE_BREAK + "Scaled X Value: " + df.format(player.getScaledXVal(rankings));
             xVal.put(Constants.PLAYER_INFO, xValSub);
             data.add(xVal);
         }
