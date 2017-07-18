@@ -692,11 +692,6 @@ public class RankingsHome extends AppCompatActivity {
     }
 
     private void exit () {
-        Intent intent = new Intent();
-        if(username == null)
-            username = "";
-        intent.putExtra("name",username);
-        setResult(RESULT_OK, intent);
-        finish();
+        finishAffinity();
     }
 }
