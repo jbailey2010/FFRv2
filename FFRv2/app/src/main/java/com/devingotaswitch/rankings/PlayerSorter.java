@@ -248,7 +248,7 @@ public class PlayerSorter extends AppCompatActivity {
     private void displayResults(List<Player> players, String factor) {
         DecimalFormat df = new DecimalFormat(Constants.NUMBER_FORMAT);
 
-        ListView listview = (ListView) findViewById(R.id.sort_players_output);
+        final ListView listview = (ListView) findViewById(R.id.sort_players_output);
         listview.setAdapter(null);
         final List<Map<String, String>> data = new ArrayList<>();
         final SimpleAdapter adapter = new SimpleAdapter(this, data,
@@ -304,6 +304,7 @@ public class PlayerSorter extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String playerKey = getPlayerKeyFromListViewItem(view);
+                listview.setSelection(position);
                 displayPlayerInfo(playerKey);
             }
         });
