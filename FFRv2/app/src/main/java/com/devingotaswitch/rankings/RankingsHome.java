@@ -434,7 +434,6 @@ public class RankingsHome extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String playerKey = getPlayerKeyFromListViewItem(view);
-                Log.d("JEFF", "Overloading click to " + position);
                 selectedIndex = position;
                 displayPlayerInfo(playerKey);
             }

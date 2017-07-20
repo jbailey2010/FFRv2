@@ -41,7 +41,8 @@
             android:layout_marginRight="10dp"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:clickable="true"
+            android:clickable="false"
+            android:listSelector="@android:color/transparent"
             android:divider="@drawable/list_divider"
             android:dividerHeight="1dp"
             android:layout_below="@+id/news_header_base"/>
