@@ -25,4 +25,5 @@
     <string name="title_activity_export_rankings">ExportRankings</string>
     <string name="title_activity_player_comparator">PlayerComparator</string>
     <string name="title_activity_player_sorter">PlayerSorter</string>
+    <string name="title_activity_help">HelpActivity</string>
 </resources>

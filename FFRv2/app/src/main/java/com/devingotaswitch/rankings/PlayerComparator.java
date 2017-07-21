@@ -144,8 +144,6 @@ public class PlayerComparator extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Please select two different players", Toast.LENGTH_SHORT).show();
                 } else if (playerB != null) {
                     displayResults(playerA, playerB);
-                } else {
-                    Toast.makeText(getApplicationContext(), playerA.getName() + " selected, please pick a second player", Toast.LENGTH_SHORT).show();
                 }
             }
         });
@@ -158,8 +156,6 @@ public class PlayerComparator extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), "Please select two different players", Toast.LENGTH_SHORT).show();
                 } else if (playerA != null) {
                     displayResults(playerA, playerB);
-                } else {
-                    Toast.makeText(getApplicationContext(), playerB.getName() + " selected, please pick a second player", Toast.LENGTH_SHORT).show();
                 }
             }
         });

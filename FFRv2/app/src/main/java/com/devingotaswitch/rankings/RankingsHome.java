@@ -602,6 +602,10 @@ public class RankingsHome extends AppCompatActivity {
                 // Export rankings
                 exportRanks();
                 break;
+            case R.id.nav_rankings_help:
+                // Help info
+                getHelp();
+                break;
             case R.id.nav_user_profile:
                 // See profile
                 viewProfile();
@@ -634,6 +638,11 @@ public class RankingsHome extends AppCompatActivity {
         } else {
             Toast.makeText(this, "No rankings saved to export", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    private void getHelp() {
+        Intent intent = new Intent(this, HelpActivity.class);
+        startActivity(intent);
     }
 
     private void refreshRanks() {
