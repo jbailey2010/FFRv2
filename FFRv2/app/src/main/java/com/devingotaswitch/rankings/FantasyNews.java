@@ -114,7 +114,7 @@ public class FantasyNews extends AppCompatActivity {
     }
 
     private void displayNews(List<PlayerNews> news) {
-        ListView listview = (ListView) findViewById(R.id.news_list);
+        final ListView listview = (ListView) findViewById(R.id.news_list);
         listview.setAdapter(null);
         final List<Map<String, String>> data = new ArrayList<>();
         final SimpleAdapter adapter = new SimpleAdapter(this, data,
@@ -134,6 +134,12 @@ public class FantasyNews extends AppCompatActivity {
             data.add(datum);
         }
         adapter.notifyDataSetChanged();
+        findViewById(R.id.main_toolbar_title).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listview.smoothScrollToPosition(0);
+            }
+        });
     }
 
     class ParseNews extends AsyncTask<Object, Void, List<PlayerNews>> {
