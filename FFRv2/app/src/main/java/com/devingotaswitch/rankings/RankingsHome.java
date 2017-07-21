@@ -366,7 +366,7 @@ public class RankingsHome extends AppCompatActivity {
         }
         DecimalFormat df = new DecimalFormat(Constants.NUMBER_FORMAT);
 
-        ListView listview = (ListView) findViewById(R.id.rankings_list);
+        final ListView listview = (ListView) findViewById(R.id.rankings_list);
         listview.setAdapter(null);
         final List<Map<String, String>> data = new ArrayList<>();
         final SimpleAdapter adapter = new SimpleAdapter(this, data,
@@ -453,6 +453,12 @@ public class RankingsHome extends AppCompatActivity {
         });
         listview.setSelection(selectedIndex);
         ranksDisplayed = true;
+        findViewById(R.id.main_toolbar_title).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listview.smoothScrollToPosition(0);
+            }
+        });
 
         setSearchAutocomplete();
     }
