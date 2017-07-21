@@ -5,6 +5,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+    android:layout_marginRight="@dimen/activity_horizontal_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.devingotaswitch.rankings.HelpActivity"
     tools:showIn="@layout/activity_help">
@@ -17,6 +19,43 @@
         <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginTop="10dp"
+                android:layout_centerHorizontal="true"
+                android:text="League Settings"
+                android:id="@+id/help_league_header"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:layout_marginTop="10dp"
+                android:text="To begin, you'll want to set up a 'league' via the side menu. This will save the league settings for which rankings will be customized, including both roster and scoring settings, auction options, number of teams, and more. You can save several to switch between as needed, but be sure to refresh rankings if you do need to switch!"
+                android:layout_below="@+id/help_league_header"
+                android:id="@+id/help_league_body"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="16sp"
+                android:layout_marginTop="10dp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/help_league_body"
+                android:text="Rankings"
+                android:id="@+id/help_rankings_header"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="14sp"
+                android:layout_marginTop="10dp"
+                android:text="Once you have a league set up, you can get some rankings. This can be done via the side menu, and will aggregate several different rankings (both auction and snake), injury status, sos, and much more for hundreds of players. Once they've been fetched once, they'll display on app start every time. They are customized to your league, so if you switch or update leagues, do refresh! You can then further filter down as needed via the filter icon in the top menu. \n\n Clicking into a player will allow you to see more, and clicking and holding will add that player to your watch list (indicated by a star image)."
+                android:layout_below="@+id/help_rankings_header"
+                android:id="@+id/help_rankings_body"/>
+
 
 
         </RelativeLayout>
