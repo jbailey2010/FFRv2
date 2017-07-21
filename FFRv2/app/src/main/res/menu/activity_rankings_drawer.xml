@@ -5,15 +5,19 @@
         <menu>
             <item
                 android:id="@+id/nav_player_news"
+                android:icon="@drawable/news"
                 android:title="Player News"/>
             <item
                 android:id="@+id/nav_league_settings"
+                android:icon="@drawable/settings"
                 android:title="League Settings"/>
             <item
                 android:id="@+id/nav_refresh_ranks"
+                android:icon="@drawable/refresh"
                 android:title="Get Rankings"/>
             <item
                 android:id="@+id/nav_export_rankings"
+                android:icon="@drawable/export"
                 android:title="Export Rankings"/>
         </menu>
     </item>
@@ -22,12 +26,15 @@
         <menu>
             <item
                 android:id="@+id/nav_user_profile"
+                android:icon="@drawable/profile"
                 android:title="Your Profile"/>
             <item
                 android:id="@+id/nav_user_change_password"
+                android:icon="@drawable/password"
                 android:title="Change password" />
             <item
                 android:id="@+id/nav_user_sign_out"
+                android:icon="@drawable/sign_out"
                 android:title="Sign out" />
         </menu>
     </item>
