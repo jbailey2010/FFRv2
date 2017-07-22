@@ -23,13 +23,11 @@ public class GeneralUtils {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    public static List<Map<String, String>> sortData(
-            List<Map<String, String>> data) {
-        Collections.sort(data, new Comparator<Map<String, String>>() {
-            public int compare(Map<String, String> a, Map<String, String> b) {
-                String aNorm = a.get("main").toLowerCase();
-                String bNorm = b.get("main").toLowerCase();
-                int judgment = aNorm.compareTo(bNorm);
+    public static List<String> sortData(
+            List<String> data) {
+        Collections.sort(data, new Comparator<String>() {
+            public int compare(String a, String b) {
+                int judgment = a.compareTo(b);
                 if (judgment < 0) {
                     return -1;
                 }

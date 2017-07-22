@@ -17,6 +17,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.amazonaws.util.StringUtils;
+import com.devingotaswitch.extras.FilterWithSpaceAdapter;
 import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
@@ -83,31 +84,34 @@ public class ADPSimulator extends AppCompatActivity {
         searchInput = (AutoCompleteTextView)findViewById(R.id.adp_player_selection);
         searchInput.setAdapter(null);
 
-        final List<Map<String, String>> data = new ArrayList<>();
+        final List<String> dropdownList = new ArrayList<>();
         for (String key : rankings.getPlayers().keySet()) {
             Player player = rankings.getPlayer(key);
             if (rankings.getLeagueSettings().getRosterSettings().isPositionValid(player.getPosition()) &&
                     !StringUtils.isBlank(player.getTeamName()) && player.getTeamName().length() > 3 &&
                     !Constants.DST.equals(player.getPosition())) {
 
-                Map<String, String> datum = new HashMap<>();
-                datum.put(Constants.DROPDOWN_MAIN, player.getName());
-                datum.put(Constants.DROPDOWN_SUB, player.getPosition() + Constants.POS_TEAM_DELIMITER + player.getTeamName());
-                data.add(datum);
+                String dropdownStr = new StringBuilder(player.getName())
+                        .append(" (")
+                        .append(player.getPosition())
+                        .append(Constants.POS_TEAM_DELIMITER)
+                        .append(player.getTeamName())
+                        .append(")")
+                        .toString();
+                dropdownList.add(dropdownStr);
             }
         }
-        List<Map<String, String>> dataSorted = GeneralUtils.sortData(data);
-        final SimpleAdapter mAdapter = new SimpleAdapter(this, dataSorted,
-                android.R.layout.simple_list_item_2, new String[] { Constants.DROPDOWN_MAIN,
-                Constants.DROPDOWN_SUB }, new int[] { android.R.id.text1,
-                android.R.id.text2 });
+        List<String> dataSorted = GeneralUtils.sortData(dropdownList);
+        final FilterWithSpaceAdapter mAdapter = new FilterWithSpaceAdapter<>(this,
+                android.R.layout.simple_dropdown_item_1line, dataSorted.toArray(new String[0]));
         searchInput.setAdapter(mAdapter);
 
         searchInput.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String name = ((TextView)view.findViewById(android.R.id.text1)).getText().toString();
-                String posAndTeam = ((TextView)view.findViewById(android.R.id.text2)).getText().toString();
+                String fullStr = ((TextView)view.findViewById(android.R.id.text1)).getText().toString();
+                String posAndTeam = fullStr.split(" \\(")[1].split("\\)")[0];
+                String name = fullStr.split(" \\(")[0];
                 String pos = posAndTeam.split(Constants.POS_TEAM_DELIMITER)[0];
                 String team = posAndTeam.split(Constants.POS_TEAM_DELIMITER)[1];
                 setPlayerToBeChecked(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + pos);
