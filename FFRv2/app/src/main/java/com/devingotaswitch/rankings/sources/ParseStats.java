@@ -131,7 +131,15 @@ public class ParseStats {
                         + player[player.length - 2] + Constants.LINE_BREAK);
                 data.append("Interceptions: " + player[player.length - 3]
                         + Constants.LINE_BREAK);
-                data.append("Fumbles Lost: " + player[player.length - 4]);
+                data.append("Fumbles Lost: " + player[player.length - 4])
+                        .append(Constants.LINE_BREAK);
+                if (player.length > 17) {
+                    data.append("DVOA: ")
+                            .append(player[player.length - 15]);
+                } else {
+                    data.append("DVOA: ")
+                            .append(player[player.length - 13]);
+                }
                 qbPlayers.put(getPlayerIdKey(name, team, Constants.QB), data.toString());
             }
         }
@@ -186,7 +194,16 @@ public class ParseStats {
                         + Constants.LINE_BREAK);
                 data.append("Touchdowns: " + player[player.length - 3 + incr]
                         + Constants.LINE_BREAK);
-                data.append("Fumbles: " + player[player.length - 2 + incr]);
+                data.append("Fumbles: " + player[player.length - 2 + incr])
+                        .append(Constants.LINE_BREAK);
+                if (player.length > 12) {
+                    data.append("DVOA: ")
+                            .append(player[player.length - 9 + incr]);
+                } else {
+                    data.append("DVOA: ")
+                            .append(player[player.length - 8 + incr]);
+                }
+
                 rbPlayers.put(getPlayerIdKey(name, team, Constants.RB), data.toString());
             }
         }
@@ -231,7 +248,16 @@ public class ParseStats {
                         + Constants.LINE_BREAK);
                 data.append("Touchdowns: " + player[player.length - 4] + Constants.LINE_BREAK);
                 data.append("Catch Rate: " + player[player.length - 3] + Constants.LINE_BREAK);
-                data.append("Fumbles: " + player[player.length - 2]);
+                data.append("Fumbles: ")
+                        .append(player[player.length - 2])
+                        .append(Constants.LINE_BREAK);
+                if (player.length > 13) {
+                    data.append("DVOA: ")
+                            .append(player[player.length - 10]);
+                } else {
+                    data.append("DVOA: ")
+                            .append(player[player.length - 9]);
+                }
                 wrPlayers.put(getPlayerIdKey(name, team, Constants.WR), data.toString());
             }
         }
@@ -265,7 +291,16 @@ public class ParseStats {
                     + Constants.LINE_BREAK);
             data.append("Touchdowns: " + player[player.length - 4] + Constants.LINE_BREAK);
             data.append("Catch Rate: " + player[player.length - 3] + Constants.LINE_BREAK);
-            data.append("Fumbles: " + player[player.length - 2]);
+            data.append("Fumbles: ")
+                    .append(player[player.length - 2])
+                    .append(Constants.LINE_BREAK);
+            if (player.length > 13) {
+                data.append("DVOA: ")
+                        .append(player[player.length - 10]);
+            } else {
+                data.append("DVOA: ")
+                        .append(player[player.length - 9]);
+            }
             tePlayers.put(getPlayerIdKey(name, team, Constants.TE), data.toString());
         }
         return tePlayers;
