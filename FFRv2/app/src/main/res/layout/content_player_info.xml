@@ -109,5 +109,9 @@
         android:clickable="true"
         android:divider="@drawable/list_divider"
         android:dividerHeight="1dp"
+        android:clipToPadding="false"
+        android:scrollbarStyle="outsideInset"
+        android:overScrollFooter="@android:color/transparent"
+        android:footerDividersEnabled="false"
         android:layout_below="@+id/player_info_header"/>
 </RelativeLayout>

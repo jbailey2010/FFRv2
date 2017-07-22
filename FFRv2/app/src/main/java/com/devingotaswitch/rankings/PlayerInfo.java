@@ -458,7 +458,7 @@ public class PlayerInfo extends AppCompatActivity {
                 playerSub.append("On another team");
             }
         } else {
-            playerSub.append("Currently available");
+            playerSub.append("Available");
         }
         context.put(Constants.PLAYER_INFO, playerSub.toString());
         data.add(context);
