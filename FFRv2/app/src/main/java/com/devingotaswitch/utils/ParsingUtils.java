@@ -188,6 +188,7 @@ public class ParsingUtils {
         teamFixes.put("dallas", "Dallas Cowboys");
         teamFixes.put("cowboys", "Dallas Cowboys");
         teamFixes.put("was", "Washington Redskins");
+        teamFixes.put("wsh", "Washington Redskins");
         teamFixes.put("washington", "Washington Redskins");
         teamFixes.put("redskins", "Washington Redskins");
         teamFixes.put("atl", "Atlanta Falcons");
