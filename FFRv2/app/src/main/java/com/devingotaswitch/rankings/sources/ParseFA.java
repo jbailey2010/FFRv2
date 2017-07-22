@@ -23,6 +23,7 @@ public class ParseFA {
         Map<String, String> departingFA = new HashMap<>();
         for (int i = 0; i < td.size(); i+=7) {
             String name = ParsingUtils.normalizeNames(td.get(i));
+            String grade = td.get(i+1).split(" \\(")[0];
             String pos = td.get(i+2);
             String age = td.get(i+3);
             String oldTeam = ParsingUtils.normalizeTeams(td.get(i+4).split(" \\(")[0]);
@@ -38,7 +39,9 @@ public class ParseFA {
                         .append(pos)
                         .append(" (")
                         .append(snaps)
-                        .append(" snaps in 2016)")
+                        .append(" snaps, ")
+                        .append(grade)
+                        .append(" PFF grade)")
                         .toString();
 
                 if (arrivingFA.containsKey(newTeam)) {
