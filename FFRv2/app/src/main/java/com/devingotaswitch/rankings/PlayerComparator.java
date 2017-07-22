@@ -98,26 +98,7 @@ public class PlayerComparator extends AppCompatActivity {
     }
 
     private void init() {
-        final List<String> dropdownList = new ArrayList<>();
-        for (String key : rankings.getPlayers().keySet()) {
-            Player player = rankings.getPlayer(key);
-            if (rankings.getLeagueSettings().getRosterSettings().isPositionValid(player.getPosition()) &&
-                    !StringUtils.isBlank(player.getTeamName()) && player.getTeamName().length() > 3 &&
-                    !Constants.DST.equals(player.getPosition()) && !Constants.K.equals(player.getPosition())) {
-
-                String dropdownStr = new StringBuilder(player.getName())
-                        .append(" (")
-                        .append(player.getPosition())
-                        .append(Constants.POS_TEAM_DELIMITER)
-                        .append(player.getTeamName())
-                        .append(")")
-                        .toString();
-                dropdownList.add(dropdownStr);
-            }
-        }
-        List<String> dataSorted = GeneralUtils.sortData(dropdownList);
-        final FilterWithSpaceAdapter mAdapter = new FilterWithSpaceAdapter<>(this,
-                android.R.layout.simple_dropdown_item_1line, dataSorted.toArray(new String[0]));
+        final FilterWithSpaceAdapter mAdapter = GeneralUtils.getPlayerSearchAdapter(rankings, this);
 
         inputA = (AutoCompleteTextView) findViewById(R.id.comparator_input_a);
         inputB = (AutoCompleteTextView) findViewById(R.id.comparator_input_b);
@@ -165,12 +146,7 @@ public class PlayerComparator extends AppCompatActivity {
     }
 
     private Player getPlayerFromView(View view) {
-        String fullStr = ((TextView)view.findViewById(android.R.id.text1)).getText().toString();
-        String posAndTeam = fullStr.split(" \\(")[1].split("\\)")[0];
-        String name = fullStr.split(" \\(")[0];
-        String pos = posAndTeam.split(Constants.POS_TEAM_DELIMITER)[0];
-        String team = posAndTeam.split(Constants.POS_TEAM_DELIMITER)[1];
-        return rankings.getPlayer(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + pos);
+        return rankings.getPlayer(GeneralUtils.getPlayerIdFromSearchView(view));
     }
 
     private void clearInputs() {

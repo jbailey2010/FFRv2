@@ -467,39 +467,15 @@ public class RankingsHome extends AppCompatActivity {
     private void setSearchAutocomplete() {
         final AutoCompleteTextView searchInput = (AutoCompleteTextView) searchBase.findViewById(R.id.ranking_search);
         searchInput.setAdapter(null);
-
-        final List<String> dropdownList = new ArrayList<>();
-        for (String key : rankings.getPlayers().keySet()) {
-            Player player = rankings.getPlayer(key);
-            if (rankings.getLeagueSettings().getRosterSettings().isPositionValid(player.getPosition()) &&
-                    !StringUtils.isBlank(player.getTeamName()) && player.getTeamName().length() > 3 &&
-                    !Constants.DST.equals(player.getPosition())) {
-                String dropdownStr = new StringBuilder(player.getName())
-                        .append(" (")
-                        .append(player.getPosition())
-                        .append(Constants.POS_TEAM_DELIMITER)
-                        .append(player.getTeamName())
-                        .append(")")
-                        .toString();
-                dropdownList.add(dropdownStr);
-            }
-        }
-        List<String> dataSorted = GeneralUtils.sortData(dropdownList);
-        final FilterWithSpaceAdapter mAdapter = new FilterWithSpaceAdapter<>(this,
-                android.R.layout.simple_dropdown_item_1line, dataSorted.toArray(new String[0]));
+        final FilterWithSpaceAdapter mAdapter = GeneralUtils.getPlayerSearchAdapter(rankings, this);
         searchInput.setAdapter(mAdapter);
 
         final AutoCompleteTextView localCopy = searchInput;
         searchInput.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String fullStr = ((TextView)view.findViewById(android.R.id.text1)).getText().toString();
-                String posAndTeam = fullStr.split(" \\(")[1].split("\\)")[0];
-                String name = fullStr.split(" \\(")[0];
-                String pos = posAndTeam.split(Constants.POS_TEAM_DELIMITER)[0];
-                String team = posAndTeam.split(Constants.POS_TEAM_DELIMITER)[1];
                 localCopy.setText("");
-                displayPlayerInfo(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + pos);
+                displayPlayerInfo(GeneralUtils.getPlayerIdFromSearchView(view));
             }
         });
 

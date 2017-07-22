@@ -1,9 +1,18 @@
 package com.devingotaswitch.utils;
 
+import android.app.Activity;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.view.View;
+import android.widget.TextView;
 
+import com.amazonaws.util.StringUtils;
+import com.devingotaswitch.extras.FilterWithSpaceAdapter;
+import com.devingotaswitch.rankings.domain.Player;
+import com.devingotaswitch.rankings.domain.Rankings;
+
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
@@ -65,5 +74,36 @@ public class GeneralUtils {
 
     public static long getLatency(long start) {
         return (System.currentTimeMillis() - start) / SECONDS_CONVERSION_THRESHOLD;
+    }
+
+    public static FilterWithSpaceAdapter<String> getPlayerSearchAdapter(Rankings rankings, Activity activity) {
+        final List<String> dropdownList = new ArrayList<>();
+        for (String key : rankings.getPlayers().keySet()) {
+            Player player = rankings.getPlayer(key);
+            if (rankings.getLeagueSettings().getRosterSettings().isPositionValid(player.getPosition()) &&
+                    !StringUtils.isBlank(player.getTeamName()) && player.getTeamName().length() > 3 &&
+                    !Constants.DST.equals(player.getPosition())) {
+                String dropdownStr = new StringBuilder(player.getName())
+                        .append(" (")
+                        .append(player.getPosition())
+                        .append(Constants.POS_TEAM_DELIMITER)
+                        .append(player.getTeamName())
+                        .append(")")
+                        .toString();
+                dropdownList.add(dropdownStr);
+            }
+        }
+        List<String> dataSorted = GeneralUtils.sortData(dropdownList);
+        return new FilterWithSpaceAdapter<String>(activity,
+                android.R.layout.simple_dropdown_item_1line, dataSorted.toArray(new String[0]));
+    }
+
+    public static String getPlayerIdFromSearchView(View view) {
+        String fullStr = ((TextView)view.findViewById(android.R.id.text1)).getText().toString();
+        String posAndTeam = fullStr.split(" \\(")[1].split("\\)")[0];
+        String name = fullStr.split(" \\(")[0];
+        String pos = posAndTeam.split(Constants.POS_TEAM_DELIMITER)[0];
+        String team = posAndTeam.split(Constants.POS_TEAM_DELIMITER)[1];
+        return name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + pos;
     }
 }
