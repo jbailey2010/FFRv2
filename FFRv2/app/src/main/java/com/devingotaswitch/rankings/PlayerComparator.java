@@ -191,7 +191,7 @@ public class PlayerComparator extends AppCompatActivity {
         TextView ageA = (TextView)findViewById(R.id.comparator_age_a);
         TextView ageB = (TextView)findViewById(R.id.comparator_age_b);
         ageA.setText(playerA.getAge() > 0 ? String.valueOf(playerA.getAge()) : "?");
-        ageB.setText(playerA.getAge() > 0 ? String.valueOf(playerB.getAge()) : "?");
+        ageB.setText(playerB.getAge() > 0 ? String.valueOf(playerB.getAge()) : "?");
 
         TextView byeA = (TextView)findViewById(R.id.comparator_bye_a);
         TextView byeB = (TextView)findViewById(R.id.comparator_bye_b);

@@ -149,9 +149,10 @@ public class RankingsDBWrapper {
                 Constants.PLAYER_NAME_COLUMN, Constants.PLAYER_POSITION_COLUMN);
     }
 
-    public Player getPlayer(Context context, String name, String position) {
+    public Player getPlayer(Context context, String name, String team, String position) {
         SQLiteDatabase db = getInstance(context).getReadableDatabase();
-        Cursor result = getMultiKeyEntry(db, Constants.PLAYER_NAME_COLUMN, Constants.PLAYER_POSITION_COLUMN, DBUtils.sanitizePlayerName(name), position,
+        Cursor result = getThreeKeyEntry(db, Constants.PLAYER_NAME_COLUMN, Constants.TEAM_NAME_COLUMN,
+                Constants.PLAYER_POSITION_COLUMN, DBUtils.sanitizePlayerName(name), team, position,
                 Constants.PLAYER_TABLE_NAME);
         Player player = DBUtils.cursorToPlayer(result);
         player = loadPlayerCustomFields(db, player);
@@ -160,8 +161,8 @@ public class RankingsDBWrapper {
     }
 
     private Player loadPlayerCustomFields(SQLiteDatabase db, Player player) {
-        Cursor result = getMultiKeyEntry(db, Constants.PLAYER_NAME_COLUMN, Constants.PLAYER_POSITION_COLUMN,
-                DBUtils.sanitizePlayerName(player.getName()), player.getPosition(), Constants.PLAYER_CUSTOM_TABLE_NAME);
+        Cursor result = getThreeKeyEntry(db, Constants.PLAYER_NAME_COLUMN, Constants.TEAM_NAME_COLUMN, Constants.PLAYER_POSITION_COLUMN,
+                DBUtils.sanitizePlayerName(player.getName()), player.getTeamName(), player.getPosition(), Constants.PLAYER_CUSTOM_TABLE_NAME);
         player = DBUtils.cursorToCustomPlayer(result, player);
         result.close();
         return player;
@@ -312,6 +313,14 @@ public class RankingsDBWrapper {
 
     private Cursor getMultiKeyEntry(SQLiteDatabase db, String columnOne, String columnTwo, String valueOne, String valueTwo, String tableName) {
         Cursor result = db.rawQuery(DBUtils.getSelectMultipleString(tableName, columnOne, columnTwo, valueOne, valueTwo), null);
+        result.moveToFirst();
+        return result;
+    }
+
+    private Cursor getThreeKeyEntry(SQLiteDatabase db, String columnOne, String columnTwo, String columnThree,
+                                    String valueOne, String valueTwo, String valueThree, String tableName) {
+        Cursor result = db.rawQuery(DBUtils.getSelectThreeAttrString(tableName, columnOne, columnTwo, columnThree,
+                valueOne, valueTwo, valueThree), null);
         result.moveToFirst();
         return result;
     }

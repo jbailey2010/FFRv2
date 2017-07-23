@@ -48,6 +48,26 @@ public class DBUtils {
                 .toString();
     }
 
+    public static String getSelectThreeAttrString(String tableName, String idOne, String idTwo, String idThree,
+                                                  String valueOne, String valueTwo, String valueThree) {
+        return new StringBuilder("SELECT * FROM ")
+                .append(tableName)
+                .append(" WHERE ")
+                .append(idOne)
+                .append(" = \'")
+                .append(valueOne)
+                .append("\' AND ")
+                .append(idTwo)
+                .append(" = \'")
+                .append(valueTwo)
+                .append("\' AND ")
+                .append(idThree)
+                .append(" = \'")
+                .append(valueThree)
+                .append("\'")
+                .toString();
+    }
+
     public static String getDeleteAllString(String tableName) {
         return new StringBuilder("DELETE FROM ")
                 .append(tableName)

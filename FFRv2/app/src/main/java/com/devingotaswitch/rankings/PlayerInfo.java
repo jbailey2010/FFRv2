@@ -69,7 +69,7 @@ public class PlayerInfo extends AppCompatActivity {
         rankings = Rankings.init();
         playerId = getIntent().getStringExtra(Constants.PLAYER_ID);
         Player mostlyFleshedPlayer = rankings.getPlayer(playerId);
-        player = rankingsDB.getPlayer(this, mostlyFleshedPlayer.getName(), mostlyFleshedPlayer.getPosition());
+        player = rankingsDB.getPlayer(this, mostlyFleshedPlayer.getName(), mostlyFleshedPlayer.getTeamName(), mostlyFleshedPlayer.getPosition());
 
         // Set toolbar for this screen
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_player_info);
@@ -96,7 +96,7 @@ public class PlayerInfo extends AppCompatActivity {
         super.onResume();
 
         Player mostlyFleshedPlayer = rankings.getPlayer(playerId);
-        player = rankingsDB.getPlayer(this, mostlyFleshedPlayer.getName(), mostlyFleshedPlayer.getPosition());
+        player = rankingsDB.getPlayer(this, mostlyFleshedPlayer.getName(), mostlyFleshedPlayer.getTeamName(), mostlyFleshedPlayer.getPosition());
 
         init();
     }
