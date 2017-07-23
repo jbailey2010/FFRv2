@@ -153,7 +153,8 @@ public class FantasyNews extends AppCompatActivity {
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String[] newsMainArr = ((TextView)view.findViewById(R.id.player_basic)).getText().toString().split(" ");
+                String[] newsMainArr = ((TextView)view.findViewById(R.id.player_basic)).getText().toString()
+                        .replaceAll(":", "").replaceAll(",", "").split(" ");
                 for (int i = 0; i < newsMainArr.length - 1; i++) {
                     String possibleName = new StringBuilder(newsMainArr[i])
                             .append(" ")

@@ -12,11 +12,7 @@
   <component name="ChangeListManager">
     <list default="true" id="f5fe9503-cc09-4a8d-b7d9-507f98789a95" name="Default" comment="">
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/fileio/RankingsDBWrapper.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/fileio/RankingsDBWrapper.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/FantasyNews.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/FantasyNews.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/DBUtils.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/DBUtils.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/content_fantasy_news.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/content_fantasy_news.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/content_help.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/content_help.xml" />
     </list>
     <ignored path="AmazonCognitoYourUserPoolsDemo.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -85,27 +81,27 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FantasyNews.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="FantasyNews.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/FantasyNews.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="209">
-              <caret line="145" column="23" selection-start-line="145" selection-start-column="23" selection-end-line="145" selection-end-column="23" />
+            <state relative-caret-position="385">
+              <caret line="156" column="64" selection-start-line="156" selection-start-column="64" selection-end-line="156" selection-end-column="64" />
               <folding>
-                <element signature="e#5593#6346#0" expanded="true" />
-                <element signature="e#6345#6346#0" expanded="true" />
+                <element signature="e#5593#6411#0" expanded="true" />
+                <element signature="e#6410#6411#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="content_help.xml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="content_help.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/content_help.xml">
           <provider editor-type-id="android-designer2">
             <state />
           </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="636">
-              <caret line="168" column="221" selection-start-line="168" selection-start-column="221" selection-end-line="168" selection-end-column="221" />
+            <state relative-caret-position="152">
+              <caret line="146" column="52" selection-start-line="146" selection-start-column="52" selection-end-line="146" selection-end-column="52" />
               <folding />
             </state>
           </provider>
@@ -1873,8 +1869,8 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/fileio/RankingsDBWrapper.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/DBUtils.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/content_fantasy_news.xml" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/FantasyNews.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/content_help.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/FantasyNews.java" />
       </list>
     </option>
   </component>
@@ -3073,25 +3069,25 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/FantasyNews.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="209">
-          <caret line="145" column="23" selection-start-line="145" selection-start-column="23" selection-end-line="145" selection-end-column="23" />
-          <folding>
-            <element signature="e#5593#6346#0" expanded="true" />
-            <element signature="e#6345#6346#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/content_help.xml">
       <provider editor-type-id="android-designer2">
         <state />
       </provider>
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="636">
-          <caret line="168" column="221" selection-start-line="168" selection-start-column="221" selection-end-line="168" selection-end-column="221" />
+        <state relative-caret-position="152">
+          <caret line="146" column="52" selection-start-line="146" selection-start-column="52" selection-end-line="146" selection-end-column="52" />
           <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/FantasyNews.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="385">
+          <caret line="156" column="64" selection-start-line="156" selection-start-column="64" selection-end-line="156" selection-end-column="64" />
+          <folding>
+            <element signature="e#5593#6411#0" expanded="true" />
+            <element signature="e#6410#6411#0" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
