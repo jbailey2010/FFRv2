@@ -166,7 +166,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="13sp"
                 android:layout_marginTop="10dp"
-                android:text="Accessible via the side menu, pick from your preferred news source to get the latest and greatest fantasy football news!"
+                android:text="Accessible via the side menu, pick from your preferred news source to get the latest and greatest fantasy football news! If a player is named in the news, click on it to expand that player's information."
                 android:layout_below="@+id/help_news_header"
                 android:id="@+id/help_news_body"/>
 

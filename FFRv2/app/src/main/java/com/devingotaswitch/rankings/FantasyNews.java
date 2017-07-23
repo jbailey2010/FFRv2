@@ -3,6 +3,7 @@ package com.devingotaswitch.rankings;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -12,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
@@ -49,6 +51,8 @@ public class FantasyNews extends AppCompatActivity {
 
     private static final String TAG = "ParseNews";
 
+    private static Map<String, String> nameToId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,6 +88,11 @@ public class FantasyNews extends AppCompatActivity {
     }
 
     private void init() {
+        nameToId = new HashMap<>();
+        for (String key : rankings.getPlayers().keySet()) {
+            Player player = rankings.getPlayer(key);
+            nameToId.put(player.getName(), key);
+        }
         List<String> sources = new ArrayList<>();
         sources.add(RW_HEADLINE_TITLE);
         sources.add(RW_PLAYER_TITLE);
@@ -140,6 +149,28 @@ public class FantasyNews extends AppCompatActivity {
                 listview.smoothScrollToPosition(0);
             }
         });
+
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                String[] newsMainArr = ((TextView)view.findViewById(R.id.player_basic)).getText().toString().split(" ");
+                for (int i = 0; i < newsMainArr.length - 1; i++) {
+                    String possibleName = new StringBuilder(newsMainArr[i])
+                            .append(" ")
+                            .append(newsMainArr[i+1])
+                            .toString();
+                    if (nameToId.containsKey(possibleName)) {
+                        displayPlayerInfo(nameToId.get(possibleName));
+                    }
+                }
+            }
+        });
+    }
+
+    private void displayPlayerInfo(String playerKey) {
+        Intent intent = new Intent(this, PlayerInfo.class);
+        intent.putExtra(Constants.PLAYER_ID, playerKey);
+        startActivity(intent);
     }
 
     class ParseNews extends AsyncTask<Object, Void, List<PlayerNews>> {

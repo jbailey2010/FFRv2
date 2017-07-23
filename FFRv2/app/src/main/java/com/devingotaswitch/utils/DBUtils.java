@@ -33,21 +33,6 @@ public class DBUtils {
                 .toString();
     }
 
-    public static String getSelectMultipleString(String tableName, String idOne, String idTwo, String valueOne, String valueTwo) {
-        return new StringBuilder("SELECT * FROM ")
-                .append(tableName)
-                .append(" WHERE ")
-                .append(idOne)
-                .append(" = \'")
-                .append(valueOne)
-                .append("\' AND ")
-                .append(idTwo)
-                .append(" = \'")
-                .append(valueTwo)
-                .append("\'")
-                .toString();
-    }
-
     public static String getSelectThreeAttrString(String tableName, String idOne, String idTwo, String idThree,
                                                   String valueOne, String valueTwo, String valueThree) {
         return new StringBuilder("SELECT * FROM ")

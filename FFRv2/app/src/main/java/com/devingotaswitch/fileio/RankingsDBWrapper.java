@@ -311,12 +311,6 @@ public class RankingsDBWrapper {
         return result;
     }
 
-    private Cursor getMultiKeyEntry(SQLiteDatabase db, String columnOne, String columnTwo, String valueOne, String valueTwo, String tableName) {
-        Cursor result = db.rawQuery(DBUtils.getSelectMultipleString(tableName, columnOne, columnTwo, valueOne, valueTwo), null);
-        result.moveToFirst();
-        return result;
-    }
-
     private Cursor getThreeKeyEntry(SQLiteDatabase db, String columnOne, String columnTwo, String columnThree,
                                     String valueOne, String valueTwo, String valueThree, String tableName) {
         Cursor result = db.rawQuery(DBUtils.getSelectThreeAttrString(tableName, columnOne, columnTwo, columnThree,
