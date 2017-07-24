@@ -1,4 +1,4 @@
-package com.devingotaswitch.extras;
+package com.devingotaswitch.rankings.extras;
 
 import java.util.ArrayList;
 import java.util.Arrays;

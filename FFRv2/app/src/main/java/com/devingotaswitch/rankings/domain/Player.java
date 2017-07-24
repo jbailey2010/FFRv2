@@ -18,7 +18,7 @@ public class Player {
     private boolean isWatched;
     private Double auctionValue = 0.0;
     private Double numRankings = 0.0;
-    private Double risk;
+    private Double risk = 50.0;
     private Double projection = 0.0;
     private Double paa;
     private Double xVal;
@@ -136,6 +136,9 @@ public class Player {
 
     public void setPositionalTier(int tier) { this.positionalTier = tier; }
 
+    public double getRankingCount() {
+        return numRankings;
+    }
     public void handleNewValue(Double newValue) {
         double auctionTotal = auctionValue * numRankings;
         numRankings++;

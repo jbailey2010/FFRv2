@@ -308,6 +308,12 @@ public class PlayerSorter extends AppCompatActivity {
                 displayPlayerInfo(playerKey);
             }
         });
+        ((TextView) findViewById(R.id.main_toolbar_title)).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listview.smoothScrollToPosition(0);
+            }
+        });
     }
 
     private void displayPlayerInfo(String playerKey) {
