@@ -16,25 +16,18 @@ public class ParseSOS {
 
     public static void getSOS(Rankings rankings) throws IOException {
         List<String> allArr = JsoupUtils.handleLists(
-                "http://www.fftoolbox.com/football/strength_of_schedule.cfm",
-                "tr.c");
-        String[][] team = new String[allArr.size()][];
+                "https://www.fantasypros.com/nfl/strength-of-schedule.php",
+                "table.table-striped tbody tr td");
 
-        for (int i = 0; i < allArr.size(); i++) {
-            team[i] = allArr.get(i).split(" ");
-            String teamName = ParsingUtils.normalizeTeams(team[i][0]);
+        for (int i = 0; i < allArr.size(); i+=13) {
+            String teamName = ParsingUtils.normalizeTeams(allArr.get(i));
             Team currentTeam = rankings.getTeam(teamName);
-            currentTeam.setQbSos(Integer.parseInt(cleanRanking(team[i][1])));
-            currentTeam.setRbSos(Integer.parseInt(cleanRanking(team[i][2])));
-            currentTeam.setWrSos(Integer.parseInt(cleanRanking(team[i][3])));
-            currentTeam.setTeSos(Integer.parseInt(cleanRanking(team[i][4])));
-            currentTeam.setkSos(Integer.parseInt(cleanRanking(team[i][5])));
-            currentTeam.setDstSos(Integer.parseInt(cleanRanking(team[i][6])));
+            currentTeam.setQbSos(Integer.parseInt(allArr.get(i+1)));
+            currentTeam.setRbSos(Integer.parseInt(allArr.get(i+3)));
+            currentTeam.setWrSos(Integer.parseInt(allArr.get(i+5)));
+            currentTeam.setTeSos(Integer.parseInt(allArr.get(i+7)));
+            currentTeam.setkSos(Integer.parseInt(allArr.get(i+9)));
+            currentTeam.setDstSos(Integer.parseInt(allArr.get(i+11)));
         }
-    }
-
-    private static String cleanRanking(String input) {
-        return input.replaceAll("rd", "").replaceAll("st", "")
-                .replaceAll("nd", "").replaceAll("th", "");
     }
 }

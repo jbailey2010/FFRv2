@@ -21,11 +21,15 @@ import java.util.List;
 
 public class ParsePlayerNews {
 
+    private static final String TAG = "ParsePlayerNews";
+
 
     public static void startNews(String playerName, String playerTeam, PlayerInfo activity) {
         String baseUrl = "http://www.fantasypros.com/nfl/news/"
                 + playerNameUrl(playerName, playerTeam) + ".php";
-        NewsParser objParse = new NewsParser(activity, baseUrl);
+        String notesUrl = "http://www.fantasypros.com/nfl/notes/"
+                + playerNameUrl(playerName, playerTeam) + ".php";
+        NewsParser objParse = new NewsParser(activity, baseUrl, notesUrl);
         objParse.execute();
     }
 
@@ -33,10 +37,12 @@ public class ParsePlayerNews {
             AsyncTask<Object, String, List<PlayerNews>> {
         PlayerInfo act;
         String urlNews;
+        String urlNotes;
 
-        NewsParser(PlayerInfo activity, String url) {
+        NewsParser(PlayerInfo activity, String url, String altUrl) {
             act = activity;
             urlNews = url;
+            urlNotes = altUrl;
         }
 
         @Override
@@ -57,9 +63,22 @@ public class ParsePlayerNews {
             List<PlayerNews> newsList = new ArrayList<>();
             try {
                 urlNews = urlNews.toLowerCase();
-                Document doc = JsoupUtils.getDocument(urlNews);
+                Document doc = JsoupUtils.getDocument(urlNotes);
                 Elements noteElems = doc.select("div.body-row div.content");
                 for (Element element : noteElems) {
+                    // First, get the 'notes'
+                    String title = element.child(0).text();
+                    String date = element.parent().parent().child(1).child(1).text();
+                    PlayerNews news = new PlayerNews();
+                    news.setNews(title);
+                    news.setImpact(Constants.LINE_BREAK + date);
+
+                    newsList.add(news);
+                }
+                doc = JsoupUtils.getDocument(urlNews);
+                noteElems = doc.select("div.body-row div.content");
+                for (Element element : noteElems) {
+                    // Then get the 'news'
                     String title = element.child(1).text();
                     String body = element.child(3).text();
                     String date = element.parent().parent().child(1).child(1).text();
@@ -69,9 +88,8 @@ public class ParsePlayerNews {
 
                     newsList.add(news);
                 }
-            } catch (IOException e) {
-                return newsList;
-            } catch (IndexOutOfBoundsException e) {
+            } catch (Exception e) {
+                Log.e(TAG, "Failed to get news", e);
                 return newsList;
             }
             return newsList;
