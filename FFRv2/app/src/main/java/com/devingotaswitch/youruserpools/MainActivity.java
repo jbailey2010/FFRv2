@@ -17,6 +17,7 @@ import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoDevice;
@@ -84,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
         // Initialize application
         CUPHelper.init(getApplicationContext());
         CIBHelper.init(getApplicationContext());
+        setDisplayForLoading();
         initApp();
         findCurrent();
     }
@@ -476,7 +478,7 @@ public class MainActivity extends AppCompatActivity {
     AuthenticationHandler authenticationHandler = new AuthenticationHandler() {
         @Override
         public void onSuccess(CognitoUserSession cognitoUserSession, CognitoDevice device) {
-            Log.e(TAG, "Auth Success");
+            Log.i(TAG, "Auth Success");
             CUPHelper.setCurrSession(cognitoUserSession);
             closeWaitDialog();
             launchUser();
@@ -487,6 +489,7 @@ public class MainActivity extends AppCompatActivity {
             closeWaitDialog();
             Locale.setDefault(Locale.US);
             getUserAuthentication(authenticationContinuation, username);
+            setDisplayForSignIn();
         }
 
         @Override
@@ -498,6 +501,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void authenticationChallenge(ChallengeContinuation continuation) {
             Log.d(TAG, "Authentication challenge thrown, should never happen.");
+            setDisplayForSignIn();
         }
 
         @Override
@@ -512,8 +516,23 @@ public class MainActivity extends AppCompatActivity {
             inUsername.setBackground(getDrawable(R.drawable.text_border_error));
 
             showDialogMessage("Sign-in failed", CUPHelper.formatException(e));
+            setDisplayForSignIn();
         }
     };
+
+    private void setDisplayForSignIn() {
+        RelativeLayout buffer = (RelativeLayout)findViewById(R.id.rankings_splash_buffer);
+        buffer.setVisibility(View.GONE);
+        RelativeLayout fields = (RelativeLayout)findViewById(R.id.rankings_splash_bottom);
+        fields.setVisibility(View.VISIBLE);
+    }
+
+    private void setDisplayForLoading() {
+        RelativeLayout buffer = (RelativeLayout)findViewById(R.id.rankings_splash_buffer);
+        buffer.setVisibility(View.VISIBLE);
+        RelativeLayout fields = (RelativeLayout)findViewById(R.id.rankings_splash_bottom);
+        fields.setVisibility(View.GONE);
+    }
 
     private void clearInput() {
         if(inUsername == null) {
