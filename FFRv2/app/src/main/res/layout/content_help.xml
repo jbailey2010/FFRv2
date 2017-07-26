@@ -71,9 +71,10 @@
                 android:layout_height="wrap_content"
                 android:textSize="13sp"
                 android:layout_marginTop="10dp"
-                android:text="Once you click on a player or search for one, you'll get all the information the app has. By default, it shows specific ranks for that player, the first tab. The second tab is player info, things specific to that player but outside of ranks, including a slot to save a custom per player note. Third is team info, which is relevant info about the player's team. The fourth is news, where the app will try to get the latest news about that player. This may be empty if there's no internet connection or it's a player with the same name as another. \n\nFrom the menu, you can draft/undraft a player or add them to/remove them from your watch list. Drafting a player will remove them from the rankings list temporarily, and drafting to your team will save it against the current draft."
+                android:text="Once you click on a player or search for one, you'll get all the information the app has. By default, it shows specific ranks for that player, the first tab. The second tab is player info, things specific to that player but outside of ranks, including a slot to save a custom per player note. Third is team info, which is relevant info about the player's team. The fourth is news, where the app will try to get the latest news about that player. \n\nFrom the menu, you can draft/undraft a player (more info below) or add them to/remove them from your watch list."
                 android:layout_below="@+id/help_info_header"
                 android:id="@+id/help_info_body"/>
+
 
             <TextView
                 android:layout_width="wrap_content"
@@ -83,6 +84,25 @@
                 android:layout_marginTop="20dp"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@+id/help_info_body"
+                android:text="Drafting"
+                android:id="@+id/help_draft_header"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="13sp"
+                android:layout_marginTop="10dp"
+                android:text="The app can be used to be a live reference as you draft, hiding drafted players and adjusting numbers as you go. You can draft players from two places - the player info page menu and the rankings list, by swiping (left to someone else's team, right to your own). \n\nAs you draft, the app will track the current state. You can see your team (as well as some metrics) via the current draft button. This will also show you the PAA remaining a few spots back at each position. If you accidentally drafted someone, you can also undraft someone from here."
+                android:layout_below="@+id/help_draft_header"
+                android:id="@+id/help_draft_body"/>
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="15sp"
+                android:layout_marginTop="20dp"
+                android:layout_centerHorizontal="true"
+                android:layout_below="@+id/help_draft_body"
                 android:text="ADP Simulator"
                 android:id="@+id/help_adp_header"/>
             <TextView
@@ -128,7 +148,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="13sp"
                 android:layout_marginTop="10dp"
-                android:text="Curious to sort by something other than ecr or auction value? The sort players button lets you pick any combination of factors, positions, and additional requirements! Much like the rankings, clicking on a player will expand the rest of their information, and clicking and holding will add them to your watch list."
+                android:text="Curious to sort by something other than ecr or auction value? The sort players button lets you pick any combination of factors, positions, and additional requirements! Much like the rankings, clicking on a player will expand the rest of their information, and clicking and holding will add them to your watch list. Clicking the title on the top bar will scroll to the top."
                 android:layout_below="@+id/help_sort_header"
                 android:id="@+id/help_sort_body"/>
 
@@ -140,25 +160,6 @@
                 android:layout_marginTop="20dp"
                 android:layout_centerHorizontal="true"
                 android:layout_below="@+id/help_sort_body"
-                android:text="Current Draft"
-                android:id="@+id/help_draft_header"/>
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="13sp"
-                android:layout_marginTop="10dp"
-                android:text="As you draft, the app will track the current state. You can see your team (as well as some metrics) via the current draft button. This will also show you the PAA remaining a few spots back at each position. If you accidentally drafted someone, you can also undraft someone from here."
-                android:layout_below="@+id/help_draft_header"
-                android:id="@+id/help_draft_body"/>
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textStyle="bold"
-                android:textSize="15sp"
-                android:layout_marginTop="20dp"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@+id/help_draft_body"
                 android:text="News"
                 android:id="@+id/help_news_header"/>
             <TextView
