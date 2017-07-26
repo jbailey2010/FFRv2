@@ -1,5 +1,7 @@
 package com.devingotaswitch.rankings;
 
+import android.app.Activity;
+import android.app.Application;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -12,7 +14,9 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.InputType;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -36,6 +40,7 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserDetails;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GetDetailsHandler;
+import com.amazonaws.util.StringUtils;
 import com.devingotaswitch.rankings.extras.FilterWithSpaceAdapter;
 import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.fileio.LocalSettingsHelper;
@@ -45,6 +50,7 @@ import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.domain.RosterSettings;
 import com.devingotaswitch.rankings.domain.Team;
+import com.devingotaswitch.rankings.extras.SwipeDismissTouchListener;
 import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.GeneralUtils;
 import com.devingotaswitch.youruserpools.CIBHelper;
@@ -435,9 +441,47 @@ public class RankingsHome extends AppCompatActivity {
                 displayPlayerInfo(playerKey);
             }
         });
+        final Activity localCopy = this;
+        final SwipeDismissTouchListener swipeListener = new SwipeDismissTouchListener(listview,
+                new SwipeDismissTouchListener.DismissCallbacks() {
+                    @Override
+                    public boolean canDismiss(int position) {
+                        return true;
+                    }
+
+                    @Override
+                    public void onDismiss(ListView listView,
+                                          int[] reverseSortedPositions,
+                                          boolean rightDismiss) {
+                        for (int position : reverseSortedPositions) {
+                            Log.d(TAG, "Looking at position " + position);
+                            Map<String, String> datum = data.get(position);
+                            String name = datum.get(Constants.PLAYER_BASIC).split(Constants.RANKINGS_LIST_DELIMITER)[1];
+                            String posAndTeam = datum.get(Constants.PLAYER_INFO).split("\n")[0].split(" \\(")[0];
+                            String pos = posAndTeam.split(Constants.POS_TEAM_DELIMITER)[0];
+                            String team = posAndTeam.split(Constants.POS_TEAM_DELIMITER)[1];
+                            Player player  = rankings.getPlayer(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + pos);
+                            Log.d(TAG, "Maybe removing " + player.getUniqueId());
+                            if (!rightDismiss) {
+                                rankings.getDraft().draftBySomeone(rankings, player, localCopy);
+                            } else {
+                                if (rankings.getLeagueSettings().isAuction()) {
+                                    getAuctionCost(player, position, data, datum, adapter);
+                                } else {
+                                    draftByMe(player, 0);
+                                }
+                            }
+                            data.remove(position);
+                        }
+                        adapter.notifyDataSetChanged();
+                        // TODO: draft
+                    }
+                });
+        listview.setOnTouchListener(swipeListener);
         listview.setOnScrollListener(new AbsListView.OnScrollListener() {
             @Override
             public void onScrollStateChanged(AbsListView view, int scrollState) {
+                swipeListener.setEnabled(scrollState != AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL);
             }
 
             @Override
@@ -458,6 +502,51 @@ public class RankingsHome extends AppCompatActivity {
         });
 
         setSearchAutocomplete();
+    }
+
+    private void getAuctionCost(final Player player, final int position, final List<Map<String, String>> data,
+                                final Map<String, String> datum, final SimpleAdapter adapter) {
+        LayoutInflater li = LayoutInflater.from(this);
+        View noteView = li.inflate(R.layout.user_input_popup, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                this);
+
+        alertDialogBuilder.setView(noteView);
+        final EditText userInput = (EditText) noteView
+                .findViewById(R.id.user_input_popup_input);
+        userInput.setInputType(InputType.TYPE_CLASS_NUMBER);
+        userInput.setHint("Auction cost");
+
+        TextView title = (TextView)noteView.findViewById(R.id.user_input_popup_title);
+        title.setText("How much did " + player.getName() + " cost?");
+        final Context localCopy = this;
+        alertDialogBuilder
+                .setPositiveButton("Save",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                String costStr = userInput.getText().toString();
+                                if (StringUtils.isBlank(costStr) || !GeneralUtils.isInteger(costStr)) {
+                                    Toast.makeText(localCopy, "Must provide a number for cost", Toast.LENGTH_SHORT).show();
+                                } else {
+                                    draftByMe(player, Integer.parseInt(costStr));
+                                    dialog.dismiss();
+                                }
+                            }
+                        })
+                .setNegativeButton("Cancel",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                data.add(position, datum);
+                                adapter.notifyDataSetChanged();
+                                dialog.cancel();
+                            }
+                        });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+    private void draftByMe(Player player, int cost) {
+        rankings.getDraft().draftByMe(rankings, player, this, cost);
     }
 
     private void setSearchAutocomplete() {

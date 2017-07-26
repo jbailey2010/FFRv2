@@ -210,30 +210,20 @@ public class PlayerInfo extends AppCompatActivity {
     }
 
     private void draftByMe(int cost) {
-        rankings.getDraft().draftPlayer(player, true, cost);
-        Toast.makeText(this, player.getName() + " drafted by you", Toast.LENGTH_SHORT).show();
-        saveDraft();
+        rankings.getDraft().draftByMe(rankings, player, this, cost);
         hideMenuItemsOnDraftStatus();
         displayRanks();
     }
 
     private void draftBySomeone() {
-        rankings.getDraft().draftPlayer(player, false, 0);
-        Toast.makeText(this, player.getName() + " marked as drafted", Toast.LENGTH_SHORT).show();
-        saveDraft();
+        rankings.getDraft().draftBySomeone(rankings, player, this);
         hideMenuItemsOnDraftStatus();
         displayRanks();
     }
 
     private void undraftPlayer() {
-        rankings.getDraft().unDraftPlayer(player);
-        Toast.makeText(this, player.getName() + " undrafted", Toast.LENGTH_SHORT).show();
-        saveDraft();
+        rankings.getDraft().undraft(rankings, player, this);
         hideMenuItemsOnDraftStatus();
-    }
-
-    private void saveDraft() {
-        LocalSettingsHelper.saveDraft(this, rankings.getDraft());
     }
 
     private void hideMenuItemsOnDraftStatus() {

@@ -272,9 +272,7 @@ public class DraftInfo extends AppCompatActivity {
     private void undraftPlayer(View view) {
         String key = getPlayerKeyFromListViewItem(view);
         Player player = rankings.getPlayer(key);
-        rankings.getDraft().unDraftPlayer(player);
-        Toast.makeText(this, player.getName() + " undrafted", Toast.LENGTH_SHORT).show();
-        LocalSettingsHelper.saveDraft(this, rankings.getDraft());
+        rankings.getDraft().undraft(rankings, player, this);
         displayPlayers();
     }
 

@@ -1,5 +1,6 @@
 package com.devingotaswitch.rankings.domain;
 
+import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 import android.widget.Toast;
@@ -155,7 +156,7 @@ public class Draft {
         }
     }
 
-    public void unDraftPlayer(Player player) {
+    private void unDraftPlayer(Player player) {
         draftedPlayers.remove(player.getUniqueId());
         if (isDraftedByMe(player)) {
             int cost = myPlayers.get(player.getUniqueId());
@@ -260,5 +261,27 @@ public class Draft {
         draftedPlayers.clear();
         draftValue = 0.0;
         LocalSettingsHelper.clearDraft(context);
+    }
+
+    public void draftBySomeone(Rankings rankings, Player player, Activity act) {
+        draftPlayer(player, false, 0);
+        Toast.makeText(act, player.getName() + " marked as drafted", Toast.LENGTH_SHORT).show();
+        saveDraft(rankings, act);
+    }
+
+    public void draftByMe(Rankings rankings, Player player, Activity act, int cost) {
+        draftPlayer(player, true, cost);
+        Toast.makeText(act, player.getName() + " drafted by you", Toast.LENGTH_SHORT).show();
+        saveDraft(rankings, act);
+    }
+
+    public void undraft(Rankings rankings, Player player, Activity act) {
+        unDraftPlayer(player);
+        Toast.makeText(act, player.getName() + " undrafted", Toast.LENGTH_SHORT).show();
+        saveDraft(rankings, act);
+    }
+
+    private void saveDraft(Rankings rankings, Activity act) {
+        LocalSettingsHelper.saveDraft(act, rankings.getDraft());
     }
 }
