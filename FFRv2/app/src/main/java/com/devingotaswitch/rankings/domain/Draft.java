@@ -101,6 +101,44 @@ public class Draft {
         return getQBPAA() + getRBPAA() + getWRPAA() + getTEPAA() + getDSTPAA() + getKPAA();
     }
 
+    public double getTotalXVal() {
+        return getQBXval() + getRBXval() + getWRXval() + getTEXval() + getDSTXval() + getKXval();
+    }
+
+    public double getQBXval() {
+        return getXValForPos(myQbs, Constants.QB);
+    }
+
+    public double getWRXval() {
+        return getXValForPos(myWrs, Constants.WR);
+    }
+
+    public double getRBXval() {
+        return getXValForPos(myRbs, Constants.RB);
+    }
+
+    public double getTEXval() {
+        return getXValForPos(myTes, Constants.TE);
+    }
+
+    public double getDSTXval() {
+        return getXValForPos(myDsts, Constants.DST);
+    }
+
+    public double getKXval() {
+        return getXValForPos(myKs, Constants.K);
+    }
+
+    private double getXValForPos(List<Player> players, String position) {
+        double posXval = 0.0;
+        for (Player player : players) {
+            if (position.equals(player.getPosition())) {
+                posXval += player.getxVal();
+            }
+        }
+        return posXval;
+    }
+
     public double getQBPAA() {
         return getPAAForPos(myQbs, Constants.QB);
     }

@@ -172,46 +172,49 @@ public class DraftInfo extends AppCompatActivity {
         if (roster.isPositionValid(Constants.QB)) {
             teamOutput.append(Constants.QB)
                     .append("s: ")
-                    .append(getPosString(rankings.getDraft().getMyQbs(), rankings.getDraft().getQBPAA()));
+                    .append(getPosString(rankings.getDraft().getMyQbs(), rankings.getDraft().getQBPAA(), rankings.getDraft().getQBXval()));
         }
         if (roster.isPositionValid(Constants.RB)) {
             teamOutput.append(Constants.LINE_BREAK)
                     .append(Constants.RB)
                     .append("s: ")
-                    .append(getPosString(rankings.getDraft().getMyRbs(), rankings.getDraft().getRBPAA()));
+                    .append(getPosString(rankings.getDraft().getMyRbs(), rankings.getDraft().getRBPAA(), rankings.getDraft().getRBXval()));
         }
         if (roster.isPositionValid(Constants.WR)) {
             teamOutput.append(Constants.LINE_BREAK)
                     .append(Constants.WR)
                     .append("s: ")
-                    .append(getPosString(rankings.getDraft().getMyWrs(), rankings.getDraft().getWRPAA()));
+                    .append(getPosString(rankings.getDraft().getMyWrs(), rankings.getDraft().getWRPAA(), rankings.getDraft().getWRXval()));
         }
         if (roster.isPositionValid(Constants.TE)) {
             teamOutput.append(Constants.LINE_BREAK)
                     .append(Constants.TE)
                     .append("s: ")
-                    .append(getPosString(rankings.getDraft().getMyTes(), rankings.getDraft().getTEPAA()));
+                    .append(getPosString(rankings.getDraft().getMyTes(), rankings.getDraft().getTEPAA(), rankings.getDraft().getTEXval()));
         }
         if (roster.isPositionValid(Constants.DST)) {
             teamOutput.append(Constants.LINE_BREAK)
                     .append(Constants.DST)
                     .append("s: ")
-                    .append(getPosString(rankings.getDraft().getMyDsts(), rankings.getDraft().getDSTPAA()));
+                    .append(getPosString(rankings.getDraft().getMyDsts(), rankings.getDraft().getDSTPAA(), rankings.getDraft().getDSTXval()));
         }
         if (roster.isPositionValid(Constants.K)) {
             teamOutput.append(Constants.LINE_BREAK)
                     .append(Constants.K)
                     .append("s: ")
-                    .append(getPosString(rankings.getDraft().getMyKs(), rankings.getDraft().getKPAA()));
+                    .append(getPosString(rankings.getDraft().getMyKs(), rankings.getDraft().getKPAA(), rankings.getDraft().getKXval()));
         }
         return teamOutput.append(Constants.LINE_BREAK)
                 .append("Total PAA: ")
                 .append(df.format(rankings.getDraft().getTotalPAA()))
                 .append(Constants.LINE_BREAK)
+                .append("Total XVal: ")
+                .append(df.format(rankings.getDraft().getTotalXVal()))
+                .append(Constants.LINE_BREAK)
                 .toString();
     }
 
-    private String getPosString(List<Player> players, double posPAA) {
+    private String getPosString(List<Player> players, double posPAA, double posXVal) {
         if (players.size() == 0) {
             return "None";
         }
@@ -222,8 +225,10 @@ public class DraftInfo extends AppCompatActivity {
         }
         String playerStr = posStr.toString();
         return new StringBuilder(playerStr.substring(0, playerStr.length() - 2))
-                .append(" (PAA: ")
+                .append(" (")
                 .append(df.format(posPAA))
+                .append(", ")
+                .append(df.format(posXVal))
                 .append(")")
                 .toString();
     }

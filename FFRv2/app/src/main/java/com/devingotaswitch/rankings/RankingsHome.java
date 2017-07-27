@@ -326,7 +326,18 @@ public class RankingsHome extends AppCompatActivity {
             if (rankings == null || rankings.getPlayers().size() == 0 || loadRanks) {
                 Rankings.loadRankings(this, rankingsDB);
             } else {
-                processNewRankings(rankings, false);
+                boolean nullPlayer = false;
+                for (String key : rankings.getPlayers().keySet()) {
+                    if (rankings.getPlayer(key) == null) {
+                        nullPlayer = true;
+                    }
+                }
+                if (nullPlayer) {
+                    Log.d(TAG, "Null value was found, re-loading rankings.");
+                    Rankings.loadRankings(this, rankingsDB);
+                } else {
+                    processNewRankings(rankings, false);
+                }
             }
         } else if (!LocalSettingsHelper.wasPresent(LocalSettingsHelper.getCurrentLeagueName(this))) {
             // Otherwise, if no league is set up, display that message
@@ -527,6 +538,8 @@ public class RankingsHome extends AppCompatActivity {
                                 String costStr = userInput.getText().toString();
                                 if (StringUtils.isBlank(costStr) || !GeneralUtils.isInteger(costStr)) {
                                     Toast.makeText(localCopy, "Must provide a number for cost", Toast.LENGTH_SHORT).show();
+                                    data.add(position, datum);
+                                    adapter.notifyDataSetChanged();
                                 } else {
                                     draftByMe(player, Integer.parseInt(costStr));
                                     dialog.dismiss();
