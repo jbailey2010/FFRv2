@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -19,6 +20,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoDevice;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
@@ -33,6 +35,7 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.Authentic
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.ForgotPasswordHandler;
 import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.rankings.RankingsHome;
+import com.devingotaswitch.utils.GeneralUtils;
 
 import java.util.Locale;
 import java.util.Map;
@@ -70,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
         // Set toolbar for this screen
         toolbar = (Toolbar) findViewById(R.id.main_toolbar);
         toolbar.setTitle("");
-        TextView main_title = (TextView) findViewById(R.id.main_toolbar_title);
+        final TextView main_title = (TextView) findViewById(R.id.main_toolbar_title);
         main_title.setText("Sign in");
         setSupportActionBar(toolbar);
 
@@ -89,6 +92,7 @@ public class MainActivity extends AppCompatActivity {
         initApp();
         findCurrent();
     }
+
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -126,7 +130,7 @@ public class MainActivity extends AppCompatActivity {
                         // We have the user details, so sign in!
                         username = name;
                         password = userPasswd;
-                        CUPHelper.getPool().getUser(username).getSessionInBackground(authenticationHandler);
+                        CUPHelper.getPool().getUser(username).getSessionInBackground(new FFRAuthHandler(false));
                     }
                 }
                 break;
@@ -276,7 +280,7 @@ public class MainActivity extends AppCompatActivity {
         }
 
         showWaitDialog("Signing in...");
-        CUPHelper.getPool().getUser(username).getSessionInBackground(authenticationHandler);
+        CUPHelper.getPool().getUser(username).getSessionInBackground(new FFRAuthHandler(false));
     }
 
     private void forgotpasswordUser() {
@@ -312,11 +316,6 @@ public class MainActivity extends AppCompatActivity {
         Intent mfaActivity = new Intent(this, MFAActivity.class);
         mfaActivity.putExtra("mode", multiFactorAuthenticationContinuation.getParameters().getDeliveryMedium());
         startActivityForResult(mfaActivity, 5);
-    }
-
-    private void firstTimeSignIn() {
-        Intent newPasswordActivity = new Intent(this, NewPassword.class);
-        startActivityForResult(newPasswordActivity, 6);
     }
 
     private void continueWithFirstTimeSignIn() {
@@ -360,13 +359,18 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void findCurrent() {
+        Log.d(TAG, "In find current");
         CognitoUser user = CUPHelper.getPool().getCurrentUser();
         username = user.getUserId();
         if(username != null) {
             CUPHelper.setUser(username);
             inUsername.setText(user.getUserId());
-            user.getSessionInBackground(authenticationHandler);
+            Log.d(TAG, "Calling get session");
+            user.getSessionInBackground(new FFRAuthHandler(true));
+        } else {
+            setDisplayForSignIn();
         }
+        Log.d(TAG, "After username wasn't null");
     }
 
     private void getUserAuthentication(AuthenticationContinuation continuation, String username) {
@@ -475,7 +479,13 @@ public class MainActivity extends AppCompatActivity {
         }
     };
 
-    AuthenticationHandler authenticationHandler = new AuthenticationHandler() {
+    private class FFRAuthHandler implements AuthenticationHandler {
+        private boolean isRefresh;
+
+        FFRAuthHandler(boolean refresh) {
+            this.isRefresh = refresh;
+        }
+
         @Override
         public void onSuccess(CognitoUserSession cognitoUserSession, CognitoDevice device) {
             Log.i(TAG, "Auth Success");
@@ -507,6 +517,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onFailure(Exception e) {
             closeWaitDialog();
+
             TextView label = (TextView) findViewById(R.id.textViewUserIdMessage);
             label.setText("Sign-in failed");
             inPassword.setBackground(getDrawable(R.drawable.text_border_error));
@@ -515,10 +526,28 @@ public class MainActivity extends AppCompatActivity {
             label.setText("Sign-in failed");
             inUsername.setBackground(getDrawable(R.drawable.text_border_error));
 
-            showDialogMessage("Sign-in failed", CUPHelper.formatException(e));
-            setDisplayForSignIn();
+            if (!GeneralUtils.confirmInternet(getApplication())) {
+                notifyUserOnInternet(isRefresh);
+            } else {
+                showDialogMessage("Sign-in failed", CUPHelper.formatException(e));
+                setDisplayForSignIn();
+            }
         }
-    };
+    }
+
+    private void notifyUserOnInternet(boolean isRefresh) {
+        View.OnClickListener snackBarListener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                findCurrent();
+            }
+        };
+        if (isRefresh) {
+            Snackbar.make(inUsername, "No internet connection", Snackbar.LENGTH_INDEFINITE).setAction("Re-connect", snackBarListener).show();
+        } else {
+            Snackbar.make(inUsername, "No internet connection", Snackbar.LENGTH_LONG).show();
+        }
+    }
 
     private void setDisplayForSignIn() {
         RelativeLayout buffer = (RelativeLayout)findViewById(R.id.rankings_splash_buffer);

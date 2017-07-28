@@ -305,7 +305,6 @@ public class RankingsHome extends AppCompatActivity {
         initRankingsContext();
 
         // Cogneato stuff
-        Bundle extras = getIntent().getExtras();
         username = CUPHelper.getCurrUser();
         user = CUPHelper.getPool().getUser(username);
         getDetails();
