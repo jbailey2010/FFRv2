@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -180,11 +181,11 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                 }
                 Map<String, String> updates = getLeagueUpdates(currentLeague, leagueName, teamCount, isAuction, auctionBudget);
                 if (updates == null) {
-                    Toast.makeText(localCopy, "No updates given.", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(findViewById(R.id.activity_league_settings_base), "No updates given", Snackbar.LENGTH_SHORT).show();
                     return;
                 }
                 updateLeague(null, null, updates, currentLeague);
-                Toast.makeText(localCopy, currentLeague.getName() + " updated", Toast.LENGTH_SHORT).show();
+                Snackbar.make(findViewById(R.id.activity_league_settings_base), currentLeague.getName() + " updated", Snackbar.LENGTH_SHORT).show();
             }
         });
         advanced.setOnClickListener(new View.OnClickListener() {
@@ -203,7 +204,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                 if (leagues.size() > 1) {
                     deleteLeague(currentLeague);
                 } else {
-                    Toast.makeText(localCopy, "Can't delete league, none would remain", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(findViewById(R.id.activity_league_settings_base), "Can't delete league, none would remain", Snackbar.LENGTH_SHORT).show();
                 }
             }
         });
@@ -231,7 +232,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                 }
                 LeagueSettings defaults = getLeagueSettingsFromFirstPage(leagueName, teamCount, isAuction, auctionBudget);
                 saveNewLeague(defaults);
-                Toast.makeText(localCopy, defaults.getName() + " saved", Toast.LENGTH_SHORT).show();
+                Snackbar.make(findViewById(R.id.activity_league_settings_base), defaults.getName() + " saved", Snackbar.LENGTH_SHORT).show();
             }
         });
         advanced.setOnClickListener(new View.OnClickListener() {
@@ -251,27 +252,28 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         String givenTeamCount = teamCount.getText().toString();
         String givenAuctionBudget = auctionBudget.getText().toString();
         if (StringUtils.isBlank(givenName)) {
-            Toast.makeText(this, "League name can't be empty", Toast.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(R.id.activity_league_settings_base), "League name can't be empty", Snackbar.LENGTH_SHORT).show();
             return false;
         } if (StringUtils.isBlank(givenTeamCount) ||
                 !GeneralUtils.isInteger(givenTeamCount)) {
-            Toast.makeText(this, "Team count must be an integer", Toast.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(R.id.activity_league_settings_base), "Team count must be set", Snackbar.LENGTH_SHORT).show();
             return false;
         }
         int teamCountInt = Integer.parseInt(givenTeamCount);
         if (teamCountInt < 1 || teamCountInt > 32) {
-            Toast.makeText(this, "Invalid team count, must be between 1 and 32", Toast.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(R.id.activity_league_settings_base), "Team count must be between 1 and 32", Snackbar.LENGTH_SHORT).show();
             return false;
         }
 
         if (isAuction.isChecked()) {
             if (StringUtils.isBlank(givenAuctionBudget) || !GeneralUtils.isInteger(givenAuctionBudget)) {
-                Toast.makeText(this, "Auction budget must be an integer", Toast.LENGTH_SHORT).show();
+                Snackbar.make(findViewById(R.id.activity_league_settings_base), "Auction budget must be set", Snackbar.LENGTH_SHORT).show();
                 return false;
             }
             int auctionBudgetInt = Integer.parseInt(givenAuctionBudget);
             if (auctionBudgetInt < 1) {
-                Toast.makeText(this, "Invalid auction budget, must be a positive number", Toast.LENGTH_SHORT).show();
+                Snackbar.make(findViewById(R.id.activity_league_settings_base), "Auction budget must be a positive number", Snackbar.LENGTH_SHORT).show();
+                return false;
             }
         }
         return true;
@@ -368,11 +370,11 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                 }
                 Map<String, String> rosterUpdates = getRosterUpdates(qbs, rbs, wrs, tes, dsts, ks, bench, currentLeague);
                 if (rosterUpdates == null && leagueUpdates == null) {
-                    Toast.makeText(localCopy, "No updates given.", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(findViewById(R.id.activity_league_settings_base), "No updates given", Snackbar.LENGTH_SHORT).show();
                     return;
                 }
                 updateLeague(null, rosterUpdates, leagueUpdates, currentLeague);
-                Toast.makeText(localCopy, currentLeague.getName() + " updated", Toast.LENGTH_SHORT).show();
+                Snackbar.make(findViewById(R.id.activity_league_settings_base), currentLeague.getName() + " updated", Snackbar.LENGTH_SHORT).show();
             }
         });
         advanced.setOnClickListener(new View.OnClickListener() {
@@ -409,7 +411,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                 RosterSettings defaults = getRosterSettingsFromFirstPage(qbs, rbs, wrs, tes, dsts, ks, bench);
                 newLeague.setRosterSettings(defaults);
                 saveNewLeague(newLeague);
-                Toast.makeText(localCopy, newLeague.getName() + " saved", Toast.LENGTH_SHORT).show();
+                Snackbar.make(findViewById(R.id.activity_league_settings_base), newLeague.getName() + " saved", Snackbar.LENGTH_SHORT).show();
             }
         });
         advanced.setOnClickListener(new View.OnClickListener() {
@@ -454,31 +456,31 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         String kStr = ks.getText().toString();
         String benchStr = bench.getText().toString();
         if (StringUtils.isBlank(qbStr) || !GeneralUtils.isInteger(qbStr)) {
-            Toast.makeText(this, "QB count must be an integer", Toast.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(R.id.activity_league_settings_base), "QB count must be a number", Snackbar.LENGTH_SHORT).show();
             return false;
         }
         if (StringUtils.isBlank(rbStr) || !GeneralUtils.isInteger(rbStr)) {
-            Toast.makeText(this, "RB count must be an integer", Toast.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(R.id.activity_league_settings_base), "RB count must be a number", Snackbar.LENGTH_SHORT).show();
             return false;
         }
         if (StringUtils.isBlank(wrStr) || !GeneralUtils.isInteger(wrStr)) {
-            Toast.makeText(this, "WR count must be an integer", Toast.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(R.id.activity_league_settings_base), "WR count must be a number", Snackbar.LENGTH_SHORT).show();
             return false;
         }
         if (StringUtils.isBlank(teStr) || !GeneralUtils.isInteger(teStr)) {
-            Toast.makeText(this, "TE count must be an integer", Toast.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(R.id.activity_league_settings_base), "TE count must be a number", Snackbar.LENGTH_SHORT).show();
             return false;
         }
         if (StringUtils.isBlank(dstStr) || !GeneralUtils.isInteger(dstStr)) {
-            Toast.makeText(this, "DST count must be an integer", Toast.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(R.id.activity_league_settings_base), "DST count must be a number", Snackbar.LENGTH_SHORT).show();
             return false;
         }
         if (StringUtils.isBlank(kStr) || !GeneralUtils.isInteger(kStr)) {
-            Toast.makeText(this, "K count must be an integer", Toast.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(R.id.activity_league_settings_base), "K count must be a number", Snackbar.LENGTH_SHORT).show();
             return false;
         }
         if (StringUtils.isBlank(benchStr) || !GeneralUtils.isInteger(benchStr)) {
-            Toast.makeText(this, "Bench count must be an integer", Toast.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(R.id.activity_league_settings_base), "Bench count must be a number", Snackbar.LENGTH_SHORT).show();
             return false;
         }
         return true;
@@ -557,10 +559,11 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                 }
                 Map<String, String> rosterUpdates = getFlexUpdates(rbwr, rbte, rbwrte, wrte, op, baseRosterUpdates, currentLeague);
                 if (rosterUpdates == null && leagueUpdates == null) {
-                    Toast.makeText(localCopy, "No updates given.", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(findViewById(R.id.activity_league_settings_base), "No updates given", Snackbar.LENGTH_SHORT).show();
+                    return;
                 }
                 updateLeague(null, rosterUpdates, leagueUpdates, currentLeague);
-                Toast.makeText(localCopy, currentLeague.getName() + " updated", Toast.LENGTH_SHORT).show();
+                Snackbar.make(findViewById(R.id.activity_league_settings_base), currentLeague.getName() + " updated", Snackbar.LENGTH_SHORT).show();
             }
         });
         advanced.setOnClickListener(new View.OnClickListener() {
@@ -595,7 +598,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                 RosterSettings.Flex defaults = getFlexSettingsFromFirstPage(rbwr, rbte, rbwrte, wrte, op);
                 newLeague.getRosterSettings().setFlex(defaults);
                 saveNewLeague(newLeague);
-                Toast.makeText(localCopy, newLeague.getName() + " saved", Toast.LENGTH_SHORT).show();
+                Snackbar.make(findViewById(R.id.activity_league_settings_base), newLeague.getName() + " saved", Snackbar.LENGTH_SHORT).show();
             }
         });
         advanced.setOnClickListener(new View.OnClickListener() {
@@ -636,23 +639,23 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         String wrteStr = wrte.getText().toString();
         String opStr = op.getText().toString();
         if (StringUtils.isBlank(rbwrStr) || !GeneralUtils.isInteger(rbwrStr)) {
-            Toast.makeText(this, "RB/WR count must be an integer", Toast.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(R.id.activity_league_settings_base), "RB/WR count must be a number", Snackbar.LENGTH_SHORT).show();
             return false;
         }
         if (StringUtils.isBlank(rbteStr) || !GeneralUtils.isInteger(rbteStr)) {
-            Toast.makeText(this, "RB/TE count must be an integer", Toast.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(R.id.activity_league_settings_base), "RB/TE count must be a number", Snackbar.LENGTH_SHORT).show();
             return false;
         }
         if (StringUtils.isBlank(rbwrteStr) || !GeneralUtils.isInteger(rbwrteStr)) {
-            Toast.makeText(this, "RB/WR/TE count must be an integer", Toast.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(R.id.activity_league_settings_base), "RB/WR/TE count must be a number", Snackbar.LENGTH_SHORT).show();
             return false;
         }
         if (StringUtils.isBlank(wrteStr) || !GeneralUtils.isInteger(wrteStr)) {
-            Toast.makeText(this, "WR/TE count must be an integer", Toast.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(R.id.activity_league_settings_base), "WR/TE count must be a number", Snackbar.LENGTH_SHORT).show();
             return false;
         }
         if (StringUtils.isBlank(opStr) || !GeneralUtils.isInteger(opStr)) {
-            Toast.makeText(this, "DST count must be an integer", Toast.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(R.id.activity_league_settings_base), "QB/RB/WR/TE count must be a number", Snackbar.LENGTH_SHORT).show();
             return false;
         }
         return true;
@@ -724,7 +727,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                         ints, fumbles, ppr);
                 newLeague.setScoringSettings(scoring);
                 saveNewLeague(newLeague);
-                Toast.makeText(localCopy, newLeague.getName() + " saved", Toast.LENGTH_SHORT).show();
+                Snackbar.make(findViewById(R.id.activity_league_settings_base), newLeague.getName() + " saved", Snackbar.LENGTH_SHORT).show();
             }
         });
     }
@@ -764,11 +767,11 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                 Map<String, String> scoringUpdates = getScoringUpdates(passTds, rushTds, recTds, passYds, rushYds, recYds,
                         ints, fumbles, ppr, currentLeague);
                 if (rosterUpdates == null && leagueUpdates == null && scoringUpdates == null) {
-                    Toast.makeText(localCopy, "No updates given.", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(findViewById(R.id.activity_league_settings_base), "No updates given", Snackbar.LENGTH_SHORT).show();
                     return;
                 }
                 updateLeague(scoringUpdates, rosterUpdates, leagueUpdates, currentLeague);
-                Toast.makeText(localCopy, currentLeague.getName() + " updated", Toast.LENGTH_SHORT).show();
+                Snackbar.make(findViewById(R.id.activity_league_settings_base), currentLeague.getName() + " updated", Snackbar.LENGTH_SHORT).show();
             }
         });
     }
@@ -809,39 +812,39 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         String fumblesStr = fumbles.getText().toString();
         String recStr = receptions.getText().toString();
         if (StringUtils.isBlank(pTdsStr) || !GeneralUtils.isInteger(pTdsStr)) {
-            Toast.makeText(this, "Pts/passing td must be an integer", Toast.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(R.id.activity_league_settings_base), "Pts/passing td must be an integer", Snackbar.LENGTH_SHORT).show();
             return false;
         }
         if (StringUtils.isBlank(ruTdsStr) || !GeneralUtils.isInteger(ruTdsStr)) {
-            Toast.makeText(this, "Pts/rushing td must be an integer", Toast.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(R.id.activity_league_settings_base), "Pts/rushing td must be an integer", Snackbar.LENGTH_SHORT).show();
             return false;
         }
         if (StringUtils.isBlank(reTdsStr) || !GeneralUtils.isInteger(reTdsStr)) {
-            Toast.makeText(this, "Pts/receiving td must be an integer", Toast.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(R.id.activity_league_settings_base), "Pts/receiving td must be an integer", Snackbar.LENGTH_SHORT).show();
             return false;
         }
         if (StringUtils.isBlank(pYdsStr) || !GeneralUtils.isInteger(pYdsStr)) {
-            Toast.makeText(this, "Passing yards/point must be an integer", Toast.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(R.id.activity_league_settings_base), "Passing yards/point must be an integer", Snackbar.LENGTH_SHORT).show();
             return false;
         }
         if (StringUtils.isBlank(ruYdsStr) || !GeneralUtils.isInteger(ruYdsStr)) {
-            Toast.makeText(this, "Rushing yards/point must be an integer", Toast.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(R.id.activity_league_settings_base), "Rushing yards/point must be an integer", Snackbar.LENGTH_SHORT).show();
             return false;
         }
         if (StringUtils.isBlank(reYdsStr) || !GeneralUtils.isInteger(reYdsStr)) {
-            Toast.makeText(this, "Receiving yards/point must be an integer", Toast.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(R.id.activity_league_settings_base), "Receiving yards/point must be an integer", Snackbar.LENGTH_SHORT).show();
             return false;
         }
         if (StringUtils.isBlank(intStr) || !GeneralUtils.isInteger(intStr)) {
-            Toast.makeText(this, "Points/int must be an integer", Toast.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(R.id.activity_league_settings_base), "Points/int must be an integer", Snackbar.LENGTH_SHORT).show();
             return false;
         }
         if (StringUtils.isBlank(fumblesStr) || !GeneralUtils.isInteger(fumblesStr)) {
-            Toast.makeText(this, "Points/fumble must be an integer", Toast.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(R.id.activity_league_settings_base), "Points/fumble must be an integer", Snackbar.LENGTH_SHORT).show();
             return false;
         }
         if (StringUtils.isBlank(recStr) || !GeneralUtils.isDouble(recStr)) {
-            Toast.makeText(this, "Points/reception must be an number (decimals allowed)", Toast.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(R.id.activity_league_settings_base), "Points/reception must be an number (decimals allowed)", Snackbar.LENGTH_SHORT).show();
             return false;
         }
         return true;
@@ -921,7 +924,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         leagues.remove(league.getName());
         currLeague = leagues.get(leagues.keySet().iterator().next());
         initializeLeagueSpinner();
-        Toast.makeText(this, league.getName() + " deleted", Toast.LENGTH_SHORT).show();
+        Snackbar.make(baseLayout, league.getName() + " deleted", Snackbar.LENGTH_SHORT).show();
         rankingsUpdated = true;
     }
 

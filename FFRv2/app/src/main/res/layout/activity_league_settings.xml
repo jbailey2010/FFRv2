@@ -5,6 +5,7 @@
                                                  android:layout_width="match_parent"
                                                  android:layout_height="match_parent"
                                                  android:fitsSystemWindows="true"
+                                                 android:id="@+id/activity_league_settings_base"
                                                  tools:context="com.devingotaswitch.rankings.LeagueSettingsActivity">
 
     <android.support.design.widget.AppBarLayout

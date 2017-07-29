@@ -21,6 +21,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -551,9 +552,11 @@ public class RankingsHome extends AppCompatActivity {
                             public void onClick(DialogInterface dialog,int id) {
                                 String costStr = userInput.getText().toString();
                                 if (StringUtils.isBlank(costStr) || !GeneralUtils.isInteger(costStr)) {
-                                    Toast.makeText(getApplicationContext(), "Must provide a number for cost", Toast.LENGTH_SHORT).show();
+                                    Snackbar.make(findViewById(R.id.user_drawer_layout), "Must provide a number for cost", Snackbar.LENGTH_SHORT).show();
                                     data.add(position, datum);
                                     adapter.notifyDataSetChanged();
+                                    InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                                    imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
                                 } else {
                                     draftByMe(player, Integer.parseInt(costStr));
                                     dialog.dismiss();

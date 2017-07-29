@@ -43,10 +43,12 @@
         <activity
             android:name="com.devingotaswitch.youruserpools.ChangePasswordActivity"
             android:label="@string/title_activity_change_password"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name="com.devingotaswitch.youruserpools.VerifyActivity"
             android:label="@string/title_activity_verify"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name="com.devingotaswitch.youruserpools.NewPassword"
@@ -60,8 +62,8 @@
         <activity
             android:name="com.devingotaswitch.rankings.LeagueSettingsActivity"
             android:label="League Settings"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@style/AppTheme.NoActionBar">
-            >
         </activity>
         <activity
             android:name="com.devingotaswitch.rankings.PlayerInfo"

@@ -112,7 +112,6 @@ public class UserActivity extends AppCompatActivity {
         }
         CognitoUserAttributes updatedUserAttributes = new CognitoUserAttributes();
         updatedUserAttributes.addAttribute(attributeType, attributeValue);
-        Toast.makeText(getApplicationContext(), attributeType + ": " + attributeValue, Toast.LENGTH_LONG);
         showWaitDialog("Updating...");
         CUPHelper.getPool().getUser(CUPHelper.getCurrUser()).updateAttributesInBackground(updatedUserAttributes, updateHandler);
     }
@@ -171,8 +170,6 @@ public class UserActivity extends AppCompatActivity {
         @Override
         public void onSuccess() {
             closeWaitDialog();
-            // Attribute was deleted
-            Toast.makeText(getApplicationContext(), "Deleted", Toast.LENGTH_SHORT);
 
             // Fetch user details from the the service
             getDetails();

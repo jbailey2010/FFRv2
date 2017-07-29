@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -174,7 +175,6 @@ public class VerifyActivity extends AppCompatActivity {
             reqPhoneVerf.setText("Phone number verified");
             reqPhoneVerf.setTextColor(Color.parseColor("#37A51C"));
             reqPhoneVerf.setClickable(false);
-            Toast.makeText(getApplicationContext(), "Phone number verified", Toast.LENGTH_LONG).show();
 
             hideCodeTX();
         }
@@ -188,7 +188,6 @@ public class VerifyActivity extends AppCompatActivity {
             reqPhoneVerf.setText("Phone number verified");
             reqPhoneVerf.setTextColor(Color.parseColor("#37A51C"));
             reqPhoneVerf.setClickable(false);
-            Toast.makeText(getApplicationContext(), "Phone number verified", Toast.LENGTH_LONG).show();
 
             hideCodeTX();
          }

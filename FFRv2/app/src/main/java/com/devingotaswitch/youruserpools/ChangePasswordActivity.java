@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -142,8 +143,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         @Override
         public void onSuccess() {
             closeWaitDialog();
-            //showDialogMessage("Success!","Password has been changed",true);
-            Toast.makeText(getApplicationContext(),"Your password was changed",Toast.LENGTH_LONG).show();
+            Snackbar.make(changeButton, "Password changed", Snackbar.LENGTH_LONG).show();
             clearInput();
         }
 
