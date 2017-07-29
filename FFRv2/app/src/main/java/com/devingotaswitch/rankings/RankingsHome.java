@@ -56,6 +56,7 @@ import com.devingotaswitch.utils.GeneralUtils;
 import com.devingotaswitch.youruserpools.CIBHelper;
 import com.devingotaswitch.youruserpools.CUPHelper;
 import com.devingotaswitch.youruserpools.ChangePasswordActivity;
+import com.devingotaswitch.youruserpools.MainActivity;
 import com.devingotaswitch.youruserpools.UserActivity;
 
 import java.text.DecimalFormat;
@@ -747,7 +748,8 @@ public class RankingsHome extends AppCompatActivity {
     private void signOut() {
         user.signOut();
         CIBHelper.signOut();
-        exit();
+        Intent intent = new Intent(this, MainActivity.class);
+        startActivity(intent);
     }
 
     private void getDetails() {
@@ -765,7 +767,9 @@ public class RankingsHome extends AppCompatActivity {
         @Override
         public void onFailure(Exception exception) {
             closeWaitDialog();
-            showDialogMessage("Could not fetch user details!", CUPHelper.formatException(exception), true);
+            Log.d(TAG, "Failed to get user: " + CUPHelper.formatException(exception));
+            Toast.makeText(getApplicationContext(), "Unable to validate account, please sign in again", Toast.LENGTH_SHORT).show();
+            signOut();
         }
     };
 
@@ -774,31 +778,7 @@ public class RankingsHome extends AppCompatActivity {
             waitDialog.dismiss();
         }
         catch (Exception e) {
-            //
         }
-    }
-
-    private void showDialogMessage(String title, String body, final boolean exit) {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(title).setMessage(body).setNeutralButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                try {
-                    userDialog.dismiss();
-                    if(exit) {
-                        exit();
-                    }
-                } catch (Exception e) {
-                    // Log failure
-                    Log.e(TAG,"Dialog dismiss failed");
-                    if(exit) {
-                        exit();
-                    }
-                }
-            }
-        });
-        userDialog = builder.create();
-        userDialog.show();
     }
 
     private void exit () {

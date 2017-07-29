@@ -359,18 +359,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void findCurrent() {
-        Log.d(TAG, "In find current");
         CognitoUser user = CUPHelper.getPool().getCurrentUser();
         username = user.getUserId();
         if(username != null) {
             CUPHelper.setUser(username);
             inUsername.setText(user.getUserId());
-            Log.d(TAG, "Calling get session");
             user.getSessionInBackground(new FFRAuthHandler(true));
         } else {
             setDisplayForSignIn();
         }
-        Log.d(TAG, "After username wasn't null");
     }
 
     private void getUserAuthentication(AuthenticationContinuation continuation, String username) {
