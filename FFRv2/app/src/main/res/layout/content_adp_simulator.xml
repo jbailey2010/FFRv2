@@ -8,6 +8,7 @@
               android:layout_marginRight="@dimen/activity_horizontal_margin"
               android:layout_marginTop="@dimen/activity_vertical_margin"
               android:orientation="vertical"
+              android:id="@+id/content_adp_simulator_base"
               tools:context="com.devingotaswitch.rankings.PlayerInfo"
               tools:showIn="@layout/activity_adp_simulator">
 

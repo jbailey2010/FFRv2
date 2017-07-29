@@ -1,13 +1,18 @@
 package com.devingotaswitch.rankings;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -95,25 +100,23 @@ public class ADPSimulator extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (playerToSearch == null) {
-                    Toast.makeText(getApplicationContext(),
-                            "Invalid player input, please use the dropdown to help pick a player", Toast.LENGTH_LONG).show();
+                    Snackbar.make(findViewById(R.id.content_adp_simulator_base), "Invalid player, use the dropdown to pick", Snackbar.LENGTH_SHORT).show();
                     return;
                 }
                 String roundStr = roundInput.getText().toString();
                 String pickStr = pickInput.getText().toString();
                 if (!GeneralUtils.isInteger(roundStr) || !GeneralUtils.isInteger(pickStr)) {
-                    Toast.makeText(getApplicationContext(),
-                            "Invalid round/pick info given, both must be given numbers", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(findViewById(R.id.content_adp_simulator_base), "Pick/round must be provided as numbers", Snackbar.LENGTH_SHORT).show();
                     return;
                 }
                 int round = Integer.parseInt(roundStr);
                 int pick = Integer.parseInt(pickStr);
                 if (pick > rankings.getLeagueSettings().getTeamCount()) {
-                    Toast.makeText(getApplicationContext(),
-                            "Invalid pick given, pick was more than number of teams configured", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(findViewById(R.id.content_adp_simulator_base), "Pick can't be higher than team count", Snackbar.LENGTH_SHORT).show();
                     return;
                 }
                 int overallPick = ((round - 1) * rankings.getLeagueSettings().getTeamCount()) + pick;
+
                 getADPOddsForInput(overallPick);
             }
         });

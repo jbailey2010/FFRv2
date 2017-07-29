@@ -102,7 +102,7 @@ public class FantasyNews extends AppCompatActivity {
                 android.R.layout.simple_spinner_item, sources);
         sourcesSpinner.setAdapter(teamAdapter);
 
-        Button submit = (Button)findViewById(R.id.news_selection_submit);
+        final Button submit = (Button)findViewById(R.id.news_selection_submit);
         final Context localCopy = this;
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -111,7 +111,7 @@ public class FantasyNews extends AppCompatActivity {
                     String selectedSource = ((TextView)sourcesSpinner.getSelectedView()).getText().toString();
                     getNews(selectedSource);
                 } else {
-                    Toast.makeText(localCopy, "No internet connection", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(submit, "No internet connection", Snackbar.LENGTH_SHORT).show();
                 }
             }
         });

@@ -465,16 +465,14 @@ public class RankingsHome extends AppCompatActivity {
                                           int[] reverseSortedPositions,
                                           boolean rightDismiss) {
                         for (int position : reverseSortedPositions) {
-                            Log.d(TAG, "Looking at position " + position);
                             Map<String, String> datum = data.get(position);
                             String name = datum.get(Constants.PLAYER_BASIC).split(Constants.RANKINGS_LIST_DELIMITER)[1];
                             String posAndTeam = datum.get(Constants.PLAYER_INFO).split("\n")[0].split(" \\(")[0];
                             String pos = posAndTeam.split(Constants.POS_TEAM_DELIMITER)[0];
                             String team = posAndTeam.split(Constants.POS_TEAM_DELIMITER)[1];
                             Player player  = rankings.getPlayer(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + pos);
-                            Log.d(TAG, "Maybe removing " + player.getUniqueId());
                             if (!rightDismiss) {
-                                rankings.getDraft().draftBySomeone(rankings, player, localCopy);
+                                rankings.getDraft().draftBySomeone(rankings, player, localCopy, findViewById(R.id.user_drawer_layout));
                             } else {
                                 if (rankings.getLeagueSettings().isAuction()) {
                                     getAuctionCost(player, position, data, datum, adapter);
@@ -485,7 +483,6 @@ public class RankingsHome extends AppCompatActivity {
                             data.remove(position);
                         }
                         adapter.notifyDataSetChanged();
-                        // TODO: draft
                     }
                 });
         listview.setOnTouchListener(swipeListener);
@@ -559,7 +556,7 @@ public class RankingsHome extends AppCompatActivity {
     }
 
     private void draftByMe(Player player, int cost) {
-        rankings.getDraft().draftByMe(rankings, player, this, cost);
+        rankings.getDraft().draftByMe(rankings, player, this, cost, findViewById(R.id.user_drawer_layout));
     }
 
     private void setSearchAutocomplete() {

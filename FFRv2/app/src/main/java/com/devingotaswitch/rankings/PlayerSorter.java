@@ -289,11 +289,11 @@ public class PlayerSorter extends AppCompatActivity {
                 Player player = rankings.getPlayer(playerKey);
                 if (player.isWatched()) {
                     player.setWatched(false);
-                    Toast.makeText(context, player.getName() + " removed from watch list.", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(listview, player.getName() + " removed from watch list", Snackbar.LENGTH_SHORT).show();
                     playerStatus.setImageResource(0);
                 } else {
                     player.setWatched(true);
-                    Toast.makeText(context, player.getName() + " added to watch list.", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(listview, player.getName() + " added to watch list", Snackbar.LENGTH_SHORT).show();
                     playerStatus.setImageResource(R.drawable.star);
                 }
                 rankingsDB.updatePlayerWatchedStatus(context, player);

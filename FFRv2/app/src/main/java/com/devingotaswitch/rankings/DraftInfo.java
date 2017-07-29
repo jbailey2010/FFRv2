@@ -2,6 +2,7 @@ package com.devingotaswitch.rankings;
 
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -108,7 +109,7 @@ public class DraftInfo extends AppCompatActivity {
 
     private void clearDraft() {
         rankings.getDraft().resetDraft(this);
-        Toast.makeText(this, "Draft cleared", Toast.LENGTH_SHORT).show();
+        Snackbar.make(baseLayout, "Draft cleared", Snackbar.LENGTH_SHORT).show();
         displayTeam();
     }
 
@@ -277,7 +278,7 @@ public class DraftInfo extends AppCompatActivity {
     private void undraftPlayer(View view) {
         String key = getPlayerKeyFromListViewItem(view);
         Player player = rankings.getPlayer(key);
-        rankings.getDraft().undraft(rankings, player, this);
+        rankings.getDraft().undraft(rankings, player, this, baseLayout);
         displayPlayers();
     }
 

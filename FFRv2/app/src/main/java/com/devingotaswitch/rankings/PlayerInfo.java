@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -148,7 +149,13 @@ public class PlayerInfo extends AppCompatActivity {
     private void addWatched() {
         player.setWatched(true);
         rankings.getPlayer(player.getUniqueId()).setWatched(true);
-        Toast.makeText(this, player.getName() + " added to watch list", Toast.LENGTH_SHORT).show();
+        final View.OnClickListener removeWatch = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                removeWatched();
+            }
+        };
+        Snackbar.make(infoList, player.getName() + " added to watch list", Snackbar.LENGTH_SHORT).setAction("Undo", removeWatch).show();
         rankingsDB.updatePlayerWatchedStatus(this, player);
         hideMenuItemOnWatchStatus();
     }
@@ -156,7 +163,13 @@ public class PlayerInfo extends AppCompatActivity {
     private void removeWatched() {
         player.setWatched(false);
         rankings.getPlayer(player.getUniqueId()).setWatched(false);
-        Toast.makeText(this, player.getName() + " removed from watch list", Toast.LENGTH_SHORT).show();
+        final View.OnClickListener addWatch = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                addWatched();
+            }
+        };
+        Snackbar.make(infoList, player.getName() + " removed from watch list", Snackbar.LENGTH_SHORT).setAction("Undo", addWatch).show();
         rankingsDB.updatePlayerWatchedStatus(this, player);
         hideMenuItemOnWatchStatus();
     }
@@ -192,7 +205,7 @@ public class PlayerInfo extends AppCompatActivity {
                             public void onClick(DialogInterface dialog,int id) {
                                 String costStr = userInput.getText().toString();
                                 if (StringUtils.isBlank(costStr) || !GeneralUtils.isInteger(costStr)) {
-                                    Toast.makeText(localCopy, "Must provide a number for cost", Toast.LENGTH_SHORT).show();
+                                    Snackbar.make(infoList, "Must provide a number for cost", Snackbar.LENGTH_SHORT).show();
                                 } else {
                                     draftByMe(Integer.parseInt(costStr));
                                     dialog.dismiss();
@@ -210,19 +223,19 @@ public class PlayerInfo extends AppCompatActivity {
     }
 
     private void draftByMe(int cost) {
-        rankings.getDraft().draftByMe(rankings, player, this, cost);
+        rankings.getDraft().draftByMe(rankings, player, this, cost, infoList);
         hideMenuItemsOnDraftStatus();
         displayRanks();
     }
 
     private void draftBySomeone() {
-        rankings.getDraft().draftBySomeone(rankings, player, this);
+        rankings.getDraft().draftBySomeone(rankings, player, this, infoList);
         hideMenuItemsOnDraftStatus();
         displayRanks();
     }
 
     private void undraftPlayer() {
-        rankings.getDraft().undraft(rankings, player, this);
+        rankings.getDraft().undraft(rankings, player, this, infoList);
         hideMenuItemsOnDraftStatus();
     }
 
@@ -338,7 +351,7 @@ public class PlayerInfo extends AppCompatActivity {
                             public void onClick(DialogInterface dialog,int id) {
                                 String newNote = userInput.getText().toString();
                                 if (StringUtils.isBlank(newNote)) {
-                                    Toast.makeText(localCopy, "No note given", Toast.LENGTH_SHORT).show();
+                                    Snackbar.make(infoList, "No note given", Snackbar.LENGTH_SHORT).show();
                                 } else {
                                     setNoteAndDisplayIt(newNote);
                                     dialog.dismiss();

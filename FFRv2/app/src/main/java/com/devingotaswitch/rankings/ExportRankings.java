@@ -40,6 +40,8 @@ public class ExportRankings extends AppCompatActivity {
     private static final String FILE_NAME = "rankings.csv";
     private static final String TAG = "ExportRankings";
 
+    private Button submit;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -74,7 +76,7 @@ public class ExportRankings extends AppCompatActivity {
     }
 
     private void init() {
-        Button submit = (Button)findViewById(R.id.export_rankings_button);
+        submit = (Button)findViewById(R.id.export_rankings_button);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -104,15 +106,13 @@ public class ExportRankings extends AppCompatActivity {
                 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
            exportRankings();
        } else {
-           Toast.makeText(this, "Can't export rankings without write to file permissions", Toast.LENGTH_SHORT).show();
+           Snackbar.make(submit, "Can't export without permission", Snackbar.LENGTH_SHORT).show();
        }
        return;
     }
 
     private void exportRankings() {
         try {
-            Toast.makeText(this, "Exporting rankings...", Toast.LENGTH_SHORT).show();
-
             saveCSV();
 
             String baseDir = android.os.Environment.getExternalStorageDirectory().getAbsolutePath();
@@ -127,7 +127,7 @@ public class ExportRankings extends AppCompatActivity {
 
         } catch (Exception e) {
             Log.e(TAG, "Failed to export rankings", e);
-            Toast.makeText(this, "Failed to export rankings", Toast.LENGTH_SHORT).show();
+            Snackbar.make(submit, "Failed to export", Snackbar.LENGTH_SHORT).show();
         }
     }
 

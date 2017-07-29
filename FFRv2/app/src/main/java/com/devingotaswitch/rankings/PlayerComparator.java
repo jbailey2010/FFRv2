@@ -7,6 +7,7 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -116,7 +117,7 @@ public class PlayerComparator extends AppCompatActivity {
                 playerA = getPlayerFromView(view);
                 inputA.setText(playerA.getName());
                 if (playerB != null && playerA.getUniqueId().equals(playerB.getUniqueId())) {
-                    Toast.makeText(getApplicationContext(), "Please select two different players", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(inputA, "Select two different players", Snackbar.LENGTH_SHORT).show();
                 } else if (playerB != null) {
                     displayResults(playerA, playerB);
                 }
@@ -128,7 +129,7 @@ public class PlayerComparator extends AppCompatActivity {
                 playerB = getPlayerFromView(view);
                 inputB.setText(playerB.getName());
                 if (playerA != null && playerA.getUniqueId().equals(playerB.getUniqueId())) {
-                    Toast.makeText(getApplicationContext(), "Please select two different players", Toast.LENGTH_SHORT).show();
+                    Snackbar.make(inputB, "Select two different players", Snackbar.LENGTH_SHORT).show();
                 } else if (playerA != null) {
                     displayResults(playerA, playerB);
                 }

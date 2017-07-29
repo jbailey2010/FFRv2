@@ -2,9 +2,12 @@ package com.devingotaswitch.rankings.domain;
 
 import android.app.Activity;
 import android.content.Context;
+import android.support.design.widget.Snackbar;
 import android.util.Log;
+import android.view.View;
 import android.widget.Toast;
 
+import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.fileio.LocalSettingsHelper;
 import com.devingotaswitch.utils.Constants;
 
@@ -301,21 +304,21 @@ public class Draft {
         LocalSettingsHelper.clearDraft(context);
     }
 
-    public void draftBySomeone(Rankings rankings, Player player, Activity act) {
+    public void draftBySomeone(Rankings rankings, Player player, Activity act, View view) {
         draftPlayer(player, false, 0);
-        Toast.makeText(act, player.getName() + " marked as drafted", Toast.LENGTH_SHORT).show();
+        Snackbar.make(view, player.getName() + " marked as drafted", Snackbar.LENGTH_SHORT).show();
         saveDraft(rankings, act);
     }
 
-    public void draftByMe(Rankings rankings, Player player, Activity act, int cost) {
+    public void draftByMe(Rankings rankings, Player player, Activity act, int cost, View view) {
         draftPlayer(player, true, cost);
-        Toast.makeText(act, player.getName() + " drafted by you", Toast.LENGTH_SHORT).show();
+        Snackbar.make(view, player.getName() + " drafted by you", Snackbar.LENGTH_SHORT).show();
         saveDraft(rankings, act);
     }
 
-    public void undraft(Rankings rankings, Player player, Activity act) {
+    public void undraft(Rankings rankings, Player player, Activity act, View view) {
         unDraftPlayer(player);
-        Toast.makeText(act, player.getName() + " undrafted", Toast.LENGTH_SHORT).show();
+        Snackbar.make(view, player.getName() + " undrafted", Snackbar.LENGTH_SHORT).show();
         saveDraft(rankings, act);
     }
 
