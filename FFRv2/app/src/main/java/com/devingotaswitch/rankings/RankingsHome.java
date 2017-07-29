@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
@@ -429,15 +430,31 @@ public class RankingsHome extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 String playerKey = getPlayerKeyFromListViewItem(view);
-                ImageView playerStatus = (ImageView)view.findViewById(R.id.player_status);
-                Player player = rankings.getPlayer(playerKey);
+                final ImageView playerStatus = (ImageView)view.findViewById(R.id.player_status);
+                final Player player = rankings.getPlayer(playerKey);
                 if (player.isWatched()) {
                     player.setWatched(false);
-                    Toast.makeText(context, player.getName() + " removed from watch list.", Toast.LENGTH_SHORT).show();
+                    View.OnClickListener add = new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            player.setWatched(true);
+                            playerStatus.setImageResource(R.drawable.star);
+                            rankingsDB.updatePlayerWatchedStatus(context, player);
+                        }
+                    };
+                    Snackbar.make(buttonBase, player.getName() + " removed from watch list", Snackbar.LENGTH_SHORT).setAction("Undo", add).show();
                     playerStatus.setImageResource(0);
                 } else {
                     player.setWatched(true);
-                    Toast.makeText(context, player.getName() + " added to watch list.", Toast.LENGTH_SHORT).show();
+                    View.OnClickListener remove = new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            player.setWatched(false);
+                            playerStatus.setImageResource(0);
+                            rankingsDB.updatePlayerWatchedStatus(context, player);
+                        }
+                    };
+                    Snackbar.make(buttonBase, player.getName() + " added to watch list", Snackbar.LENGTH_SHORT).setAction("Undo", remove).show();
                     playerStatus.setImageResource(R.drawable.star);
                 }
                 rankingsDB.updatePlayerWatchedStatus(context, player);
@@ -534,7 +551,7 @@ public class RankingsHome extends AppCompatActivity {
                             public void onClick(DialogInterface dialog,int id) {
                                 String costStr = userInput.getText().toString();
                                 if (StringUtils.isBlank(costStr) || !GeneralUtils.isInteger(costStr)) {
-                                    Toast.makeText(localCopy, "Must provide a number for cost", Toast.LENGTH_SHORT).show();
+                                    Toast.makeText(getApplicationContext(), "Must provide a number for cost", Toast.LENGTH_SHORT).show();
                                     data.add(position, datum);
                                     adapter.notifyDataSetChanged();
                                 } else {
@@ -710,7 +727,7 @@ public class RankingsHome extends AppCompatActivity {
             Intent exportRanksActivity = new Intent(this, ExportRankings.class);
             startActivity(exportRanksActivity);
         } else {
-            Toast.makeText(this, "No rankings saved to export", Toast.LENGTH_SHORT).show();
+            Snackbar.make(buttonBase, "No rankings saved to export", Snackbar.LENGTH_SHORT).show();
         }
     }
 
@@ -725,10 +742,10 @@ public class RankingsHome extends AppCompatActivity {
             if (LocalSettingsHelper.wasPresent(LocalSettingsHelper.getCurrentLeagueName(this))) {
                 rankings.refreshRankings(this);
             } else {
-                Toast.makeText(this, "Please set up a league before getting rankings", Toast.LENGTH_LONG).show();
+                Snackbar.make(buttonBase, "Set up a league before getting rankings", Snackbar.LENGTH_LONG).show();
             }
         } else {
-            Toast.makeText(this, "No internet connection", Toast.LENGTH_SHORT).show();
+            Snackbar.make(buttonBase, "No internet connection", Snackbar.LENGTH_SHORT).show();
         }
     }
 
@@ -765,7 +782,7 @@ public class RankingsHome extends AppCompatActivity {
         public void onFailure(Exception exception) {
             closeWaitDialog();
             Log.d(TAG, "Failed to get user: " + CUPHelper.formatException(exception));
-            Toast.makeText(getApplicationContext(), "Unable to validate account, please sign in again", Toast.LENGTH_SHORT).show();
+            Snackbar.make(buttonBase, "Can't validate account, please sign in again", Snackbar.LENGTH_SHORT).show();
             signOut();
         }
     };
