@@ -223,13 +223,25 @@ public class PlayerInfo extends AppCompatActivity {
     }
 
     private void draftByMe(int cost) {
-        rankings.getDraft().draftByMe(rankings, player, this, cost, infoList);
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                undraftPlayer();
+            }
+        };
+        rankings.getDraft().draftByMe(rankings, player, this, cost, infoList, listener);
         hideMenuItemsOnDraftStatus();
         displayRanks();
     }
 
     private void draftBySomeone() {
-        rankings.getDraft().draftBySomeone(rankings, player, this, infoList);
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                undraftPlayer();
+            }
+        };
+        rankings.getDraft().draftBySomeone(rankings, player, this, infoList, listener);
         hideMenuItemsOnDraftStatus();
         displayRanks();
     }

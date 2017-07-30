@@ -304,15 +304,23 @@ public class Draft {
         LocalSettingsHelper.clearDraft(context);
     }
 
-    public void draftBySomeone(Rankings rankings, Player player, Activity act, View view) {
+    public void draftBySomeone(Rankings rankings, Player player, Activity act, View view, View.OnClickListener listener) {
         draftPlayer(player, false, 0);
-        Snackbar.make(view, player.getName() + " marked as drafted", Snackbar.LENGTH_SHORT).show();
+        if (listener == null) {
+            Snackbar.make(view, player.getName() + " marked as drafted", Snackbar.LENGTH_SHORT).show();
+        } else {
+            Snackbar.make(view, player.getName() + " marked as drafted", Snackbar.LENGTH_LONG).setAction("Undo", listener).show();
+        }
         saveDraft(rankings, act);
     }
 
-    public void draftByMe(Rankings rankings, Player player, Activity act, int cost, View view) {
+    public void draftByMe(Rankings rankings, Player player, Activity act, int cost, View view, View.OnClickListener listener) {
         draftPlayer(player, true, cost);
-        Snackbar.make(view, player.getName() + " drafted by you", Snackbar.LENGTH_SHORT).show();
+        if (listener == null) {
+            Snackbar.make(view, player.getName() + " drafted by you", Snackbar.LENGTH_SHORT).show();
+        } else {
+            Snackbar.make(view, player.getName() + " drafted by you", Snackbar.LENGTH_LONG).setAction("Undo", listener).show();
+        }
         saveDraft(rankings, act);
     }
 

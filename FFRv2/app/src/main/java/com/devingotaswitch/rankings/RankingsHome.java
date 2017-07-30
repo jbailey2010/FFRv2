@@ -482,20 +482,28 @@ public class RankingsHome extends AppCompatActivity {
                     public void onDismiss(ListView listView,
                                           int[] reverseSortedPositions,
                                           boolean rightDismiss) {
-                        for (int position : reverseSortedPositions) {
-                            Map<String, String> datum = data.get(position);
+                        for (final int position : reverseSortedPositions) {
+                            final Map<String, String> datum = data.get(position);
                             String name = datum.get(Constants.PLAYER_BASIC).split(Constants.RANKINGS_LIST_DELIMITER)[1];
                             String posAndTeam = datum.get(Constants.PLAYER_INFO).split("\n")[0].split(" \\(")[0];
                             String pos = posAndTeam.split(Constants.POS_TEAM_DELIMITER)[0];
                             String team = posAndTeam.split(Constants.POS_TEAM_DELIMITER)[1];
-                            Player player  = rankings.getPlayer(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + pos);
+                            final Player player  = rankings.getPlayer(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + pos);
+                            View.OnClickListener listener = new View.OnClickListener() {
+                                @Override
+                                public void onClick(View v) {
+                                    rankings.getDraft().undraft(rankings, player, localCopy, findViewById(R.id.user_drawer_layout));
+                                    data.add(position, datum);
+                                    adapter.notifyDataSetChanged();
+                                }
+                            };
                             if (!rightDismiss) {
-                                rankings.getDraft().draftBySomeone(rankings, player, localCopy, findViewById(R.id.user_drawer_layout));
+                                rankings.getDraft().draftBySomeone(rankings, player, localCopy, findViewById(R.id.user_drawer_layout), listener);
                             } else {
                                 if (rankings.getLeagueSettings().isAuction()) {
-                                    getAuctionCost(player, position, data, datum, adapter);
+                                    getAuctionCost(player, position, data, datum, adapter, listener);
                                 } else {
-                                    draftByMe(player, 0);
+                                    draftByMe(player, 0, listener);
                                 }
                             }
                             data.remove(position);
@@ -531,7 +539,7 @@ public class RankingsHome extends AppCompatActivity {
     }
 
     private void getAuctionCost(final Player player, final int position, final List<Map<String, String>> data,
-                                final Map<String, String> datum, final SimpleAdapter adapter) {
+                                final Map<String, String> datum, final SimpleAdapter adapter, final View.OnClickListener listener) {
         LayoutInflater li = LayoutInflater.from(this);
         View noteView = li.inflate(R.layout.user_input_popup, null);
         AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
@@ -558,7 +566,9 @@ public class RankingsHome extends AppCompatActivity {
                                     InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
                                     imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
                                 } else {
-                                    draftByMe(player, Integer.parseInt(costStr));
+                                    InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                                    imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                                    draftByMe(player, Integer.parseInt(costStr), listener);
                                     dialog.dismiss();
                                 }
                             }
@@ -575,8 +585,8 @@ public class RankingsHome extends AppCompatActivity {
         alertDialog.show();
     }
 
-    private void draftByMe(Player player, int cost) {
-        rankings.getDraft().draftByMe(rankings, player, this, cost, findViewById(R.id.user_drawer_layout));
+    private void draftByMe(Player player, int cost, View.OnClickListener listener) {
+        rankings.getDraft().draftByMe(rankings, player, this, cost, findViewById(R.id.user_drawer_layout), listener);
     }
 
     private void setSearchAutocomplete() {
