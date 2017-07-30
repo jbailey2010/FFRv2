@@ -111,7 +111,7 @@ public class FantasyNews extends AppCompatActivity {
                     String selectedSource = ((TextView)sourcesSpinner.getSelectedView()).getText().toString();
                     getNews(selectedSource);
                 } else {
-                    Snackbar.make(submit, "No internet connection", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(submit, "No internet connection", Snackbar.LENGTH_LONG).show();
                 }
             }
         });

@@ -106,7 +106,7 @@ public class ExportRankings extends AppCompatActivity {
                 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
            exportRankings();
        } else {
-           Snackbar.make(submit, "Can't export without permission", Snackbar.LENGTH_SHORT).show();
+           Snackbar.make(submit, "Can't export without permission", Snackbar.LENGTH_LONG).show();
        }
        return;
     }

@@ -443,7 +443,7 @@ public class RankingsHome extends AppCompatActivity {
                             rankingsDB.updatePlayerWatchedStatus(context, player);
                         }
                     };
-                    Snackbar.make(buttonBase, player.getName() + " removed from watch list", Snackbar.LENGTH_SHORT).setAction("Undo", add).show();
+                    Snackbar.make(buttonBase, player.getName() + " removed from watch list", Snackbar.LENGTH_LONG).setAction("Undo", add).show();
                     playerStatus.setImageResource(0);
                 } else {
                     player.setWatched(true);
@@ -455,7 +455,7 @@ public class RankingsHome extends AppCompatActivity {
                             rankingsDB.updatePlayerWatchedStatus(context, player);
                         }
                     };
-                    Snackbar.make(buttonBase, player.getName() + " added to watch list", Snackbar.LENGTH_SHORT).setAction("Undo", remove).show();
+                    Snackbar.make(buttonBase, player.getName() + " added to watch list", Snackbar.LENGTH_LONG).setAction("Undo", remove).show();
                     playerStatus.setImageResource(R.drawable.star);
                 }
                 rankingsDB.updatePlayerWatchedStatus(context, player);
@@ -758,7 +758,7 @@ public class RankingsHome extends AppCompatActivity {
                 Snackbar.make(buttonBase, "Set up a league before getting rankings", Snackbar.LENGTH_LONG).show();
             }
         } else {
-            Snackbar.make(buttonBase, "No internet connection", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(buttonBase, "No internet connection", Snackbar.LENGTH_LONG).show();
         }
     }
 

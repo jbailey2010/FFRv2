@@ -100,7 +100,7 @@ public class ADPSimulator extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (playerToSearch == null) {
-                    Snackbar.make(findViewById(R.id.content_adp_simulator_base), "Invalid player, use the dropdown to pick", Snackbar.LENGTH_SHORT).show();
+                    Snackbar.make(findViewById(R.id.content_adp_simulator_base), "Invalid player, use the dropdown to pick", Snackbar.LENGTH_LONG).show();
                     return;
                 }
                 String roundStr = roundInput.getText().toString();

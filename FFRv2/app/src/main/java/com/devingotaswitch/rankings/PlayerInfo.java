@@ -155,7 +155,7 @@ public class PlayerInfo extends AppCompatActivity {
                 removeWatched();
             }
         };
-        Snackbar.make(infoList, player.getName() + " added to watch list", Snackbar.LENGTH_SHORT).setAction("Undo", removeWatch).show();
+        Snackbar.make(infoList, player.getName() + " added to watch list", Snackbar.LENGTH_LONG).setAction("Undo", removeWatch).show();
         rankingsDB.updatePlayerWatchedStatus(this, player);
         hideMenuItemOnWatchStatus();
     }
@@ -169,7 +169,7 @@ public class PlayerInfo extends AppCompatActivity {
                 addWatched();
             }
         };
-        Snackbar.make(infoList, player.getName() + " removed from watch list", Snackbar.LENGTH_SHORT).setAction("Undo", addWatch).show();
+        Snackbar.make(infoList, player.getName() + " removed from watch list", Snackbar.LENGTH_LONG).setAction("Undo", addWatch).show();
         rankingsDB.updatePlayerWatchedStatus(this, player);
         hideMenuItemOnWatchStatus();
     }

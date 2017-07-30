@@ -285,15 +285,33 @@ public class PlayerSorter extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 String playerKey = getPlayerKeyFromListViewItem(view);
-                ImageView playerStatus = (ImageView)view.findViewById(R.id.player_status);
-                Player player = rankings.getPlayer(playerKey);
+                final ImageView playerStatus = (ImageView)view.findViewById(R.id.player_status);
+                final Player player = rankings.getPlayer(playerKey);
                 if (player.isWatched()) {
                     player.setWatched(false);
-                    Snackbar.make(listview, player.getName() + " removed from watch list", Snackbar.LENGTH_SHORT).show();
+                    View.OnClickListener listener = new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            player.setWatched(true);
+                            playerStatus.setImageResource(R.drawable.star);
+                            rankingsDB.updatePlayerWatchedStatus(context, player);
+                        }
+                    };
+                    Snackbar.make(listview, player.getName() + " removed from watch list", Snackbar.LENGTH_LONG)
+                            .setAction("Undo", listener).show();
                     playerStatus.setImageResource(0);
                 } else {
                     player.setWatched(true);
-                    Snackbar.make(listview, player.getName() + " added to watch list", Snackbar.LENGTH_SHORT).show();
+                    View.OnClickListener listener = new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            player.setWatched(false);
+                            playerStatus.setImageResource(0);
+                            rankingsDB.updatePlayerWatchedStatus(context, player);
+                        }
+                    };
+                    Snackbar.make(listview, player.getName() + " added to watch list", Snackbar.LENGTH_LONG)
+                            .setAction("Undo", listener).show();
                     playerStatus.setImageResource(R.drawable.star);
                 }
                 rankingsDB.updatePlayerWatchedStatus(context, player);
