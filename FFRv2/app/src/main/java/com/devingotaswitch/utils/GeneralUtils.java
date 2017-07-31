@@ -78,8 +78,7 @@ public class GeneralUtils {
         for (String key : rankings.getPlayers().keySet()) {
             Player player = rankings.getPlayer(key);
             if (rankings.getLeagueSettings().getRosterSettings().isPositionValid(player.getPosition()) &&
-                    !StringUtils.isBlank(player.getTeamName()) && player.getTeamName().length() > 3 &&
-                    !Constants.DST.equals(player.getPosition())) {
+                    !StringUtils.isBlank(player.getTeamName()) && player.getTeamName().length() > 3) {
                 String dropdownStr = new StringBuilder(player.getName())
                         .append(" (")
                         .append(player.getPosition())
