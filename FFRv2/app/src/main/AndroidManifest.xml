@@ -72,7 +72,7 @@
         </activity>
         <activity
             android:name="com.devingotaswitch.rankings.ADPSimulator"
-            android:windowSoftInputMode="adjustResize"
+            android:windowSoftInputMode="adjustResize|stateHidden"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
@@ -93,6 +93,7 @@
         <activity
             android:name="com.devingotaswitch.rankings.PlayerComparator"
             android:label="@string/title_activity_player_comparator"
+            android:windowSoftInputMode="stateHidden"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
