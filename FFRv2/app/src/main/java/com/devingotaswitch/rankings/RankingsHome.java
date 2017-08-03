@@ -29,6 +29,7 @@ import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -277,28 +278,28 @@ public class RankingsHome extends AppCompatActivity {
         searchBase = (RelativeLayout)findViewById(R.id.rankings_search_base);
         buttonBase = (LinearLayout) findViewById(R.id.rankings_button_bar);
         maxPlayers = LocalSettingsHelper.getNumVisiblePlayers(this);
-        Button adpSimulator = (Button)buttonBase.findViewById(R.id.rankings_simulator);
+        ImageButton adpSimulator = (ImageButton)buttonBase.findViewById(R.id.rankings_simulator);
         adpSimulator.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getAdpSimulator();
             }
         });
-        Button draftInfo = (Button)buttonBase.findViewById(R.id.rankings_draft_info);
+        ImageButton draftInfo = (ImageButton)buttonBase.findViewById(R.id.rankings_draft_info);
         draftInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getDraftInfo();
             }
         });
-        Button comparePlayers = (Button)buttonBase.findViewById(R.id.rankings_comparator);
+        ImageButton comparePlayers = (ImageButton)buttonBase.findViewById(R.id.rankings_comparator);
         comparePlayers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 comparePlayers();
             }
         });
-        Button sortPlayers = (Button)buttonBase.findViewById(R.id.rankings_sort);
+        ImageButton sortPlayers = (ImageButton)buttonBase.findViewById(R.id.rankings_sort);
         sortPlayers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -306,6 +307,9 @@ public class RankingsHome extends AppCompatActivity {
             }
         });
         initRankingsContext();
+
+        InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
 
         // Cogneato stuff
         username = CUPHelper.getCurrUser();

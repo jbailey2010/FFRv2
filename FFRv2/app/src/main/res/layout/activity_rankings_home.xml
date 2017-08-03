@@ -52,49 +52,53 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:id="@+id/rankings_button_bar"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_alignParentBottom="true"
             android:orientation="horizontal">
-            <Button
+            <ImageButton
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:id="@+id/rankings_draft_info"
                 android:background="@color/player_info_buttons"
                 style="?android:buttonBarStyle"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:text="Current Draft"/>
-            <Button
+                android:src="@drawable/draft_white"
+                android:adjustViewBounds="true"
+                android:padding="10dp"
+                android:scaleType="centerInside"/>
+            <ImageButton
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:id="@+id/rankings_comparator"
                 android:background="@color/player_info_buttons"
                 style="?android:buttonBarStyle"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:text="Compare Players"/>
-            <Button
+                android:src="@drawable/people_white"
+                android:adjustViewBounds="true"
+                android:padding="10dp"
+                android:scaleType="centerInside"/>
+            <ImageButton
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:id="@+id/rankings_sort"
                 android:background="@color/player_info_buttons"
                 style="?android:buttonBarStyle"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:text="Sort Players"/>
-            <Button
+                android:src="@drawable/sort_white"
+                android:adjustViewBounds="true"
+                android:padding="10dp"
+                android:scaleType="centerInside"/>
+            <ImageButton
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_weight="1"
                 android:id="@+id/rankings_simulator"
                 android:background="@color/player_info_buttons"
                 style="?android:buttonBarStyle"
-                android:textAllCaps="false"
-                android:textColor="@color/white"
-                android:text="ADP Simulator"/>
+                android:src="@drawable/simulator_white"
+                android:adjustViewBounds="true"
+                android:padding="10dp"
+                android:scaleType="centerInside"/>
         </LinearLayout>
     </RelativeLayout>
 
