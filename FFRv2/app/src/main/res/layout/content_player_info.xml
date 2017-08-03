@@ -16,46 +16,50 @@
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
-        <Button
+        <ImageButton
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_weight="1"
             android:id="@+id/player_info_ranks"
             android:background="@color/player_info_buttons"
-            style="?android:buttonBarStyle"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:text="Ranks"/>
-        <Button
+            android:src="@drawable/ranks_white"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"
+            android:padding="10dp"
+            style="?android:buttonBarStyle"/>
+        <ImageButton
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_weight="1"
             android:id="@+id/player_info_about"
             android:background="@color/player_info_buttons"
             style="?android:buttonBarStyle"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:text="Player Info"/>
-        <Button
+            android:src="@drawable/person_white"
+            android:adjustViewBounds="true"
+            android:padding="10dp"
+            android:scaleType="centerInside"/>
+        <ImageButton
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_weight="1"
             android:id="@+id/player_info_team"
             android:background="@color/player_info_buttons"
             style="?android:buttonBarStyle"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:text="Team Info"/>
-        <Button
+            android:src="@drawable/people_white"
+            android:adjustViewBounds="true"
+            android:padding="10dp"
+            android:scaleType="centerInside"/>
+        <ImageButton
             android:layout_width="0dp"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:layout_weight="1"
+            android:padding="10dp"
             android:id="@+id/player_info_news"
             android:background="@color/player_info_buttons"
             style="?android:buttonBarStyle"
-            android:textAllCaps="false"
-            android:textColor="@color/white"
-            android:text="News"/>
+            android:src="@drawable/news_white"
+            android:adjustViewBounds="true"
+            android:scaleType="centerInside"/>
     </LinearLayout>
 
     <View

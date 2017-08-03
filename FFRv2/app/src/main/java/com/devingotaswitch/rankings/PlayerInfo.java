@@ -17,6 +17,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
@@ -287,10 +288,10 @@ public class PlayerInfo extends AppCompatActivity {
                         R.id.player_status });
         infoList.setAdapter(adapter);
 
-        Button ranks = (Button)findViewById(R.id.player_info_ranks);
-        Button info = (Button) findViewById(R.id.player_info_about);
-        Button team = (Button) findViewById(R.id.player_info_team);
-        Button news = (Button) findViewById(R.id.player_info_news);
+        ImageButton ranks = (ImageButton)findViewById(R.id.player_info_ranks);
+        ImageButton info = (ImageButton) findViewById(R.id.player_info_about);
+        ImageButton team = (ImageButton) findViewById(R.id.player_info_team);
+        ImageButton news = (ImageButton) findViewById(R.id.player_info_news);
         ranks.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
