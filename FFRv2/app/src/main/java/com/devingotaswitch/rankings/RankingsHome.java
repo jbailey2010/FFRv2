@@ -167,6 +167,9 @@ public class RankingsHome extends AppCompatActivity {
     public void onResume() {
         super.onResume();
 
+        InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+
         init();
     }
 
