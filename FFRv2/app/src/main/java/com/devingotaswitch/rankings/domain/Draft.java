@@ -307,9 +307,9 @@ public class Draft {
     public void draftBySomeone(Rankings rankings, Player player, Activity act, View view, View.OnClickListener listener) {
         draftPlayer(player, false, 0);
         if (listener == null) {
-            Snackbar.make(view, player.getName() + " marked as drafted", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(view, player.getName() + " drafted", Snackbar.LENGTH_SHORT).show();
         } else {
-            Snackbar.make(view, player.getName() + " marked as drafted", Snackbar.LENGTH_LONG).setAction("Undo", listener).show();
+            Snackbar.make(view, player.getName() + " drafted", Snackbar.LENGTH_LONG).setAction("Undo", listener).show();
         }
         saveDraft(rankings, act);
     }
