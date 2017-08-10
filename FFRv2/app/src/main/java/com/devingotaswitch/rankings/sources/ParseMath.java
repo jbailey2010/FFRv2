@@ -407,7 +407,6 @@ public class ParseMath {
             Set<Player> currTier = tierList.get(i);
             int tierId = i + 1;
             for (Player player : currTier) {
-                Log.d("JEFF", player.getUniqueId() + ": " + getECRADPDistance(player));
                 player.setPositionalTier(tierId);
             }
         }
@@ -417,8 +416,8 @@ public class ParseMath {
                                          double tierThreshold, List<Set<Player>> tierSet, Set<Player> currTier) {
         Player playerA = sorted.get(currIndex - 1);
         Player playerB = sorted.get(currIndex);
-        double diff = playerB.getEcr() - playerA.getEcr();
-        double portion = (diff / playerA.getEcr()) * 100.0;
+        double diff = getECRADPDistance(playerB) - getECRADPDistance(playerA);
+        double portion = (diff / getECRADPDistance(playerA)) * 100.0;
         currTier.add(playerA);
         boolean newTier = false;
         if (portion > tierThreshold) {
@@ -449,10 +448,10 @@ public class ParseMath {
             public int compare(Player a, Player b) {
                 Double aDist = getECRADPDistance(a);
                 Double bDist = getECRADPDistance(b);
-                if (a.getEcr() > b.getEcr()) {
+                if (aDist > bDist) {
                     return 1;
                 }
-                if (a.getEcr() < b.getEcr()) {
+                if (aDist < bDist) {
                     return -1;
                 }
                 return 0;
@@ -465,7 +464,6 @@ public class ParseMath {
     private static Double getECRADPDistance(Player player) {
         Double ecrDist = player.getEcr() * player.getEcr();
         Double adpDist = player.getAdp() * player.getAdp();
-        Log.d("JEFF", player.getName() + ": " + player.getEcr() + " - " + ecrDist + ", " + player.getAdp() + " - " + adpDist);
         return Math.sqrt(adpDist + ecrDist);
     }
 }

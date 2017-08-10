@@ -51,12 +51,12 @@ public class ParseECR {
                 break;
             }
         }
-        for (int i = min; i < td.size(); i += 10) {
+        for (int i = min; i < td.size(); i += 11) {
             String check = td.get(i);
             while(check.split(" ").length == 1 || td.get(i).contains("Tier ") || td.get(i).contains("EDIT")) {
                 check = td.get(++i);
             }
-            if (i + 10 >= td.size()) {
+            if (i + 9 >= td.size()) {
                 break;
             }
             String filteredName = td.get(i).split(
