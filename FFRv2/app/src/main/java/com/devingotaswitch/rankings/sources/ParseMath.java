@@ -407,6 +407,7 @@ public class ParseMath {
             Set<Player> currTier = tierList.get(i);
             int tierId = i + 1;
             for (Player player : currTier) {
+                Log.d("JEFF", player.getUniqueId() + ": " + getECRADPDistance(player));
                 player.setPositionalTier(tierId);
             }
         }
@@ -446,6 +447,8 @@ public class ParseMath {
         Comparator comparator = new Comparator<Player>() {
             @Override
             public int compare(Player a, Player b) {
+                Double aDist = getECRADPDistance(a);
+                Double bDist = getECRADPDistance(b);
                 if (a.getEcr() > b.getEcr()) {
                     return 1;
                 }
@@ -457,5 +460,12 @@ public class ParseMath {
         };
         Collections.sort(pos, comparator);
         return pos;
+    }
+
+    private static Double getECRADPDistance(Player player) {
+        Double ecrDist = player.getEcr() * player.getEcr();
+        Double adpDist = player.getAdp() * player.getAdp();
+        Log.d("JEFF", player.getName() + ": " + player.getEcr() + " - " + ecrDist + ", " + player.getAdp() + " - " + adpDist);
+        return Math.sqrt(adpDist + ecrDist);
     }
 }

@@ -84,22 +84,13 @@ public class ParseECR {
         try {
             for (int i = 0; i < td.size(); i++) {
 
-                if (td.get(i + 1).contains(Constants.QB)
-                        || td.get(i + 1).contains(Constants.RB)
-                        || td.get(i + 1).contains(Constants.WR)
-                        || td.get(i + 1).contains(Constants.TE)) {
+                if (GeneralUtils.isInteger(td.get(i))) {
                     min = i;
                     break;
                 }
             }
-            for (int i = min; i < td.size(); i += 9) {
-                if (td.get(i).split(" ").length == 1) {
-                    i++;
-                    if (i > td.size()) {
-                        break;
-                    }
-                }
-                String filteredName = td.get(i).split(
+            for (int i = min; i < td.size(); i += 10) {
+                String filteredName = td.get(i + 1).split(
                         " \\(")[0].split(", ")[0];
                 String team = ParsingUtils.normalizeTeams(filteredName.substring(filteredName.lastIndexOf(" ")).trim());
                 String withoutTeam = filteredName.substring(0, filteredName.lastIndexOf(" "));
@@ -107,8 +98,8 @@ public class ParseECR {
                 if (i + 6 >= td.size()) {
                     break;
                 }
-                Double adpStr = Double.parseDouble(td.get(i + 7));
-                String posInd = td.get(i + 1)
+                Double adpStr = Double.parseDouble(td.get(i + 9));
+                String posInd = td.get(i + 2)
                         .replaceAll("(\\d+,\\d+)|\\d+", "")
                         .replaceAll("DST", Constants.DST);
                 if (Constants.DST.equals(posInd)) {
