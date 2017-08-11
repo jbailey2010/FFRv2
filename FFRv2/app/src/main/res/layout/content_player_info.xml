@@ -9,7 +9,6 @@
     tools:context="com.devingotaswitch.rankings.PlayerInfo"
     tools:showIn="@layout/activity_player_info">
 
-
     <LinearLayout
         android:layout_width="match_parent"
         android:id="@+id/player_info_buttons"
@@ -118,4 +117,40 @@
         android:overScrollFooter="@android:color/transparent"
         android:footerDividersEnabled="false"
         android:layout_below="@+id/player_info_header"/>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:id="@+id/player_info_buttons_bottom"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:orientation="horizontal">
+        <View
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:id="@+id/ranks_button_selected"
+            android:layout_height="3dp"
+            android:background="@color/white"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:visibility="invisible"
+            android:id="@+id/player_info_button_selected"
+            android:layout_height="3dp"
+            android:background="@color/white"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:visibility="invisible"
+            android:id="@+id/team_info_button_selected"
+            android:layout_height="3dp"
+            android:background="@color/white"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:visibility="invisible"
+            android:id="@+id/news_button_selected"
+            android:layout_height="3dp"
+            android:background="@color/white"/>
+    </LinearLayout>
 </RelativeLayout>

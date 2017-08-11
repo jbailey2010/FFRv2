@@ -394,6 +394,15 @@ public class PlayerInfo extends AppCompatActivity {
     private void displayRanks() {
         data.clear();
 
+        View ranks = findViewById(R.id.ranks_button_selected);
+        View playerSelected = findViewById(R.id.player_info_button_selected);
+        View team = findViewById(R.id.team_info_button_selected);
+        View news = findViewById(R.id.news_button_selected);
+        ranks.setVisibility(View.VISIBLE);
+        playerSelected.setVisibility(View.INVISIBLE);
+        team.setVisibility(View.INVISIBLE);
+        news.setVisibility(View.INVISIBLE);
+
         Map<String, String> ecr = new HashMap<>();
         ecr.put(Constants.PLAYER_BASIC, "ECR: " + player.getEcr());
         int ecrRank = getEcr(null, player.getEcr());
@@ -465,6 +474,15 @@ public class PlayerInfo extends AppCompatActivity {
     private void displayInfo() {
         data.clear();
 
+        View ranks = findViewById(R.id.ranks_button_selected);
+        View playerSelected = findViewById(R.id.player_info_button_selected);
+        View teamInfo = findViewById(R.id.team_info_button_selected);
+        View news = findViewById(R.id.news_button_selected);
+        ranks.setVisibility(View.INVISIBLE);
+        playerSelected.setVisibility(View.VISIBLE);
+        teamInfo.setVisibility(View.INVISIBLE);
+        news.setVisibility(View.INVISIBLE);
+
         Map<String, String> context = new HashMap<>();
         context.put(Constants.PLAYER_BASIC, "Current status");
         StringBuilder playerSub = new StringBuilder();
@@ -524,6 +542,16 @@ public class PlayerInfo extends AppCompatActivity {
 
     private void displayTeam() {
         data.clear();
+
+        View ranks = findViewById(R.id.ranks_button_selected);
+        View playerSelected = findViewById(R.id.player_info_button_selected);
+        View teamInfo = findViewById(R.id.team_info_button_selected);
+        View news = findViewById(R.id.news_button_selected);
+        ranks.setVisibility(View.INVISIBLE);
+        playerSelected.setVisibility(View.INVISIBLE);
+        teamInfo.setVisibility(View.VISIBLE);
+        news.setVisibility(View.INVISIBLE);
+
         Team team = rankings.getTeam(player);
         if (team == null) {
             Map<String, String> datum = new HashMap<>();
@@ -552,6 +580,16 @@ public class PlayerInfo extends AppCompatActivity {
 
     private void displayNews() {
         data.clear();
+
+        View ranks = findViewById(R.id.ranks_button_selected);
+        View playerSelected = findViewById(R.id.player_info_button_selected);
+        View team = findViewById(R.id.team_info_button_selected);
+        View newsInfo = findViewById(R.id.news_button_selected);
+        ranks.setVisibility(View.INVISIBLE);
+        playerSelected.setVisibility(View.INVISIBLE);
+        team.setVisibility(View.INVISIBLE);
+        newsInfo.setVisibility(View.VISIBLE);
+
         if (playerNews == null || playerNews.isEmpty()) {
             Map<String, String> news = new HashMap<>();
             news.put(Constants.PLAYER_BASIC, "No news available for this player");
