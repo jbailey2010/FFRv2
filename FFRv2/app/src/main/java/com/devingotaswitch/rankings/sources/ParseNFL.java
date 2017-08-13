@@ -78,7 +78,11 @@ public class ParseNFL {
             String worth = td.get(i + 3);
             double val = Double.parseDouble(worth);
             String team = nameSet[nameSet.length - 1];
-            if (td.get(i).contains("View News") || td.get(i).contains("View Videos")) {
+            if (td.get(i).contains("View News") && td.get(i).contains("View Videos")) {
+                // Sometimes it's <name> <pos> - <team> View News View Videos
+                team = nameSet[nameSet.length - 5];
+            }
+            else if (td.get(i).contains("View News") || td.get(i).contains("View Videos")) {
                 // Sometimes it's <name> <pos> - <team> View News/Videos
                 team = nameSet[nameSet.length - 3];
             }
