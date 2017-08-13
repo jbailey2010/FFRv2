@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.util.AttributeSet;
+import android.util.Log;
 import android.widget.ArrayAdapter;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
@@ -86,18 +87,24 @@ public class MultiSelectionSpinner extends android.support.v7.widget.AppCompatSp
     }
 
     public void setSelection(List<String> selection) {
+        int found = 0;
         for (int i = 0; i < mSelection.length; i++) {
             mSelection[i] = false;
         }
         for (String sel : selection) {
             for (int j = 0; j < _items.length; ++j) {
                 if (_items[j].equals(sel)) {
+                    found++;
                     mSelection[j] = true;
                 }
             }
         }
         simple_adapter.clear();
-        simple_adapter.add(buildSelectedItemString());
+        if (found == 0) {
+            simple_adapter.add(defaultDisplay);
+        } else {
+            simple_adapter.add(buildSelectedItemString());
+        }
     }
 
     public void setSelection(int index) {

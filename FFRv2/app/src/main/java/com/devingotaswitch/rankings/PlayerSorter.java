@@ -35,6 +35,7 @@ import com.devingotaswitch.utils.Constants;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -47,6 +48,10 @@ public class PlayerSorter extends AppCompatActivity {
 
     private Rankings rankings;
     private RankingsDBWrapper rankingsDB;
+
+    private int posIndex = 0;
+    private int sortIndex = 0;
+    private Set<String> factorStrings = new HashSet<>(Collections.singletonList(Constants.SORT_DEFAULT_STRING));
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -160,6 +165,10 @@ public class PlayerSorter extends AppCompatActivity {
         list.add(Constants.SORT_IGNORE_LATE);
         spinner.setItems(list, Constants.SORT_DEFAULT_STRING);
 
+        positions.setSelection(posIndex);
+        factors.setSelection(sortIndex);
+        spinner.setSelection(new ArrayList<>(factorStrings));
+
         Button submit = (Button)findViewById(R.id.sort_players_submit);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -170,6 +179,9 @@ public class PlayerSorter extends AppCompatActivity {
                     filteredIds = rankings.getPlayersByPosition(filteredIds, currentPosition);
                 }
                 String factor = ((TextView)factors.getSelectedView()).getText().toString();
+                posIndex = positions.getSelectedItemPosition();
+                sortIndex = factors.getSelectedItemPosition();
+                factorStrings = spinner.getSelectedStrings();
                 sortPlayers(filteredIds, factor, spinner.getSelectedStrings());
             }
         });
