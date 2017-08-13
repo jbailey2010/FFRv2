@@ -170,7 +170,12 @@ public class RankingsHome extends AppCompatActivity {
         InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
 
-        init();
+        try {
+            init();
+        } catch(Exception e) {
+            rankings = null;
+            init();
+        }
     }
 
     private void setFilterItemVisibility() {

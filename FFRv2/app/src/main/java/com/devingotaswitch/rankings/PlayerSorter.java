@@ -134,6 +134,7 @@ public class PlayerSorter extends AppCompatActivity {
         factorList.add(Constants.SORT_ECR);
         factorList.add(Constants.SORT_ADP);
         factorList.add(Constants.SORT_UNDERDRAFTED);
+        factorList.add(Constants.SORT_OVERDRAFTED);
         factorList.add(Constants.SORT_AUCTION);
         factorList.add(Constants.SORT_PROJECTION);
         factorList.add(Constants.SORT_PAA);
@@ -182,6 +183,8 @@ public class PlayerSorter extends AppCompatActivity {
             comparator = getADPComparator();
         } else if (Constants.SORT_UNDERDRAFTED.equals(factor)) {
             comparator = getUnderdraftedComparator();
+        } else if (Constants.SORT_OVERDRAFTED.equals(factor)) {
+            comparator = getOverdraftedComparator();
         } else if (Constants.SORT_AUCTION.equals(factor)) {
             comparator = getAuctionComparator();
         } else if (Constants.SORT_PROJECTION.equals(factor)) {
@@ -384,6 +387,23 @@ public class PlayerSorter extends AppCompatActivity {
                     return 1;
                 }
                 if (diffA < diffB) {
+                    return -1;
+                }
+                return 0;
+            }
+        };
+    }
+
+    private Comparator<Player> getOverdraftedComparator() {
+        return new Comparator<Player>() {
+            @Override
+            public int compare(Player a, Player b) {
+                double diffA = a.getEcr() - a.getAdp();
+                double diffB = b.getEcr() - b.getAdp();
+                if (diffA < diffB) {
+                    return 1;
+                }
+                if (diffA > diffB) {
                     return -1;
                 }
                 return 0;
@@ -599,7 +619,7 @@ public class PlayerSorter extends AppCompatActivity {
             prefix = String.valueOf(player.getEcr());
         } else if (Constants.SORT_ADP.equals(factor)) {
             prefix = String.valueOf(player.getAdp());
-        } else if (Constants.SORT_UNDERDRAFTED.equals(factor)) {
+        } else if (Constants.SORT_UNDERDRAFTED.equals(factor) || Constants.SORT_OVERDRAFTED.equals(factor)) {
             prefix = df.format(player.getEcr() - player.getAdp());
         } else if (Constants.SORT_AUCTION.equals(factor)) {
             prefix = df.format(player.getAuctionValueCustom(rankings));
@@ -638,7 +658,7 @@ public class PlayerSorter extends AppCompatActivity {
                     .append("Projection: ")
                     .append(player.getProjection());
         }
-        if (Constants.SORT_UNDERDRAFTED.equals(factor)) {
+        if (Constants.SORT_UNDERDRAFTED.equals(factor) || Constants.SORT_OVERDRAFTED.equals(factor)) {
             subtextBuilder.append(Constants.LINE_BREAK)
                     .append("ECR: ")
                     .append(player.getEcr())
