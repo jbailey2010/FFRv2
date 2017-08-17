@@ -174,6 +174,11 @@ public class RankingsHome extends AppCompatActivity {
             init();
         } catch(Exception e) {
             rankings = null;
+            rankingsDB = new RankingsDBWrapper();
+            String currentLeagueId = LocalSettingsHelper.getCurrentLeagueName(this);
+            if (LocalSettingsHelper.wasPresent(currentLeagueId)) {
+                currentLeague = rankingsDB.getLeague(this, currentLeagueId);
+            }
             init();
         }
     }

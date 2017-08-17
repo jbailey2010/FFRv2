@@ -7,6 +7,7 @@ import android.util.Log;
 import com.devingotaswitch.fileio.LocalSettingsHelper;
 import com.devingotaswitch.fileio.RankingsDBWrapper;
 import com.devingotaswitch.rankings.domain.Player;
+import com.devingotaswitch.rankings.sources.ParseCBS;
 import com.devingotaswitch.rankings.sources.ParseDraft;
 import com.devingotaswitch.rankings.sources.ParseDraftWizard;
 import com.devingotaswitch.rankings.sources.ParseECR;
@@ -81,19 +82,6 @@ public class RankingsFetcher {
             }
             publishProgress("Fetching rankings... 1/14");
 
-
-            /*
-            // TODO: see if values show up later?
-            Log.i(TAG, "Getting CBS rankings");
-            try {
-                ParseCBS.cbsRankings(rankings);
-            } catch (Exception e) {
-                Log.e(TAG, "Failed to parse CBS", e);
-            }
-            publishProgress("Fetching rankings... 2/14");
-            */
-
-            // TODO: This shit won't connect
             Log.i(TAG, "Getting ESPN ADV rankings");
             try {
                 ParseESPN.parseESPNAggregate(rankings);
@@ -150,8 +138,6 @@ public class RankingsFetcher {
             } catch (Exception e) {
                 Log.e(TAG, "Failed to parse projections", e);
             }
-
-            // TODO: decide isRegularSeasoon here
 
             Log.i(TAG, "Getting ECR/ADP rankings");
             publishProgress("Getting adp...");
