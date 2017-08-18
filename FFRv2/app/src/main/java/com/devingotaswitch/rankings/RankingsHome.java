@@ -103,36 +103,9 @@ public class RankingsHome extends AppCompatActivity {
         setContentView(R.layout.activity_rankings_home);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        // Set toolbar for this screen
-        toolbar = (Toolbar) findViewById(R.id.main_toolbar);
-        toolbar.setTitle("");
-        toolbar.setElevation(0);
-        TextView main_title = (TextView) findViewById(R.id.main_toolbar_title);
-        main_title.setText("Rankings");
-        setSupportActionBar(toolbar);
-
-        // Set navigation drawer for this screen
-        mDrawer = (DrawerLayout) findViewById(R.id.user_drawer_layout);
-        mDrawerToggle = new ActionBarDrawerToggle(this,mDrawer, toolbar, R.string.nav_drawer_open, R.string.nav_drawer_close);
-        mDrawer.addDrawerListener(mDrawerToggle);
-        mDrawerToggle.syncState();
-
-        nDrawer = (NavigationView) findViewById(R.id.nav_view);
-        setNavDrawer();
-        rankingsDB = new RankingsDBWrapper();
-        String currentLeagueId = LocalSettingsHelper.getCurrentLeagueName(this);
-        if (LocalSettingsHelper.wasPresent(currentLeagueId)) {
-            currentLeague = rankingsDB.getLeague(this, currentLeagueId);
-        }
-        loadRanks = false;
-        if (getIntent().getExtras() != null && getIntent().getExtras().getBoolean(Constants.RANKINGS_UPDATED)) {
-            loadRanks = true;
-        }
+        initApp();
 
         init();
-        View navigationHeader = nDrawer.getHeaderView(0);
-        TextView navHeaderSubTitle = (TextView) navigationHeader.findViewById(R.id.textViewNavUserSub);
-        navHeaderSubTitle.setText(username);
     }
 
     @Override
@@ -173,13 +146,13 @@ public class RankingsHome extends AppCompatActivity {
         try {
             init();
         } catch(Exception e) {
-            rankings = null;
-            rankingsDB = new RankingsDBWrapper();
-            String currentLeagueId = LocalSettingsHelper.getCurrentLeagueName(this);
-            if (LocalSettingsHelper.wasPresent(currentLeagueId)) {
-                currentLeague = rankingsDB.getLeague(this, currentLeagueId);
+            try {
+                initApp();
+                init();
+            } catch (Exception e2) {
+                Intent intent = new Intent(this, MainActivity.class);
+                startActivity(intent);
             }
-            init();
         }
     }
 
@@ -192,6 +165,37 @@ public class RankingsHome extends AppCompatActivity {
         } else {
             filterItem.setVisible(false);
         }
+    }
+
+    private void initApp() {
+        // Set toolbar for this screen
+        toolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        toolbar.setTitle("");
+        toolbar.setElevation(0);
+        TextView main_title = (TextView) findViewById(R.id.main_toolbar_title);
+        main_title.setText("Rankings");
+        setSupportActionBar(toolbar);
+
+        // Set navigation drawer for this screen
+        mDrawer = (DrawerLayout) findViewById(R.id.user_drawer_layout);
+        mDrawerToggle = new ActionBarDrawerToggle(this,mDrawer, toolbar, R.string.nav_drawer_open, R.string.nav_drawer_close);
+        mDrawer.addDrawerListener(mDrawerToggle);
+        mDrawerToggle.syncState();
+
+        nDrawer = (NavigationView) findViewById(R.id.nav_view);
+        setNavDrawer();
+        rankingsDB = new RankingsDBWrapper();
+        String currentLeagueId = LocalSettingsHelper.getCurrentLeagueName(this);
+        if (LocalSettingsHelper.wasPresent(currentLeagueId)) {
+            currentLeague = rankingsDB.getLeague(this, currentLeagueId);
+        }
+        loadRanks = false;
+        if (getIntent().getExtras() != null && getIntent().getExtras().getBoolean(Constants.RANKINGS_UPDATED)) {
+            loadRanks = true;
+        }
+        View navigationHeader = nDrawer.getHeaderView(0);
+        TextView navHeaderSubTitle = (TextView) navigationHeader.findViewById(R.id.textViewNavUserSub);
+        navHeaderSubTitle.setText(username);
     }
 
     private void toggleFilterView() {
