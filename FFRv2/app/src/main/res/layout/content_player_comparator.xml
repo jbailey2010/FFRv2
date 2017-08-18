@@ -411,7 +411,7 @@
                 android:background="#F3F3F3"
                 android:textStyle="bold"
                 android:layout_weight="1"
-                android:text="Projections"/>
+                android:text="Projection"/>
 
             <TextView
                 android:layout_width="0dp"
