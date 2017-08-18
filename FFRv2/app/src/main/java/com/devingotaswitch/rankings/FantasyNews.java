@@ -64,7 +64,7 @@ public class FantasyNews extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_player_news);
         toolbar.setTitle("");
         TextView main_title = (TextView) findViewById(R.id.main_toolbar_title);
-        main_title.setText("Fantasy News");
+        main_title.setText("News");
         setSupportActionBar(toolbar);
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
