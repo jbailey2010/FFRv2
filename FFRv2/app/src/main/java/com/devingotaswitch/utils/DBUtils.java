@@ -2,8 +2,6 @@ package com.devingotaswitch.utils;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.graphics.drawable.Drawable;
-import android.util.Log;
 
 import com.devingotaswitch.rankings.domain.LeagueSettings;
 import com.devingotaswitch.rankings.domain.Player;
@@ -83,7 +81,7 @@ public class DBUtils {
 
     public static ContentValues leagueToContentValues(LeagueSettings league) {
         ContentValues values = new ContentValues();
-        values.put(Constants.NAME_COLUMN, league.getName());
+        values.put(Constants.NAME_COLUMN, sanitizeName(league.getName()));
         values.put(Constants.TEAM_COUNT_COLUMN, league.getTeamCount());
         values.put(Constants.IS_AUCTION_COLUMN, league.isAuction());
         values.put(Constants.AUCTION_BUDGET_COLUMN, league.getAuctionBudget());
@@ -94,7 +92,7 @@ public class DBUtils {
 
     public static LeagueSettings cursorToLeague(Cursor result, RosterSettings roster, ScoringSettings scoring) {
         return new LeagueSettings(
-                result.getString(result.getColumnIndex(Constants.NAME_COLUMN)),
+                desanitizeName(result.getString(result.getColumnIndex(Constants.NAME_COLUMN))),
                 result.getInt(result.getColumnIndex(Constants.TEAM_COUNT_COLUMN)),
                 result.getInt(result.getColumnIndex(Constants.IS_AUCTION_COLUMN)) != 0,
                 result.getInt(result.getColumnIndex(Constants.AUCTION_BUDGET_COLUMN)),
@@ -207,7 +205,7 @@ public class DBUtils {
     public static Player cursorToCustomPlayer(Cursor result, Player player) {
         player.setNote(result.getString(result.getColumnIndex(Constants.PLAYER_NOTE_COLUMN)));
         player.setWatched(result.getInt(result.getColumnIndex(Constants.PLAYER_WATCHED_COLUMN)) > 0);
-        player.setName(desanitizePlayerName(result.getString(result.getColumnIndex(Constants.PLAYER_NAME_COLUMN))));
+        player.setName(desanitizeName(result.getString(result.getColumnIndex(Constants.PLAYER_NAME_COLUMN))));
         player.setPosition(result.getString(result.getColumnIndex(Constants.PLAYER_POSITION_COLUMN)));
         player.setTeamName(result.getString(result.getColumnIndex(Constants.TEAM_NAME_COLUMN)));
         return player;
@@ -231,7 +229,7 @@ public class DBUtils {
 
     public static Player cursorToPlayerBasic(Cursor result) {
         Player player = new Player();
-        player.setName(desanitizePlayerName(result.getString(result.getColumnIndex(Constants.PLAYER_NAME_COLUMN))));
+        player.setName(desanitizeName(result.getString(result.getColumnIndex(Constants.PLAYER_NAME_COLUMN))));
         player.setPosition(result.getString(result.getColumnIndex(Constants.PLAYER_POSITION_COLUMN)));
         player.setTeamName(result.getString(result.getColumnIndex(Constants.TEAM_NAME_COLUMN)));
         return player;
@@ -239,7 +237,7 @@ public class DBUtils {
 
     public static ContentValues customPlayerToContentValues(Player player) {
         ContentValues values = new ContentValues();
-        values.put(Constants.PLAYER_NAME_COLUMN, sanitizePlayerName(player.getName()));
+        values.put(Constants.PLAYER_NAME_COLUMN, sanitizeName(player.getName()));
         values.put(Constants.PLAYER_POSITION_COLUMN, player.getPosition());
         values.put(Constants.TEAM_NAME_COLUMN, player.getTeamName());
         values.put(Constants.PLAYER_NOTE_COLUMN, player.getNote());
@@ -249,7 +247,7 @@ public class DBUtils {
 
     public static ContentValues playerToContentValues(Player player) {
         ContentValues values = new ContentValues();
-        values.put(Constants.PLAYER_NAME_COLUMN, sanitizePlayerName(player.getName()));
+        values.put(Constants.PLAYER_NAME_COLUMN, sanitizeName(player.getName()));
         values.put(Constants.PLAYER_POSITION_COLUMN, player.getPosition());
         values.put(Constants.TEAM_NAME_COLUMN, player.getTeamName());
         values.put(Constants.PLAYER_AGE_COLUMN, player.getAge());
@@ -280,11 +278,11 @@ public class DBUtils {
         return input.replaceAll("PER", "%").replaceAll("SPL", ": ").replaceAll("NL", "\n");
     }
 
-    public static String sanitizePlayerName(String playerName) {
-        return playerName.replaceAll("'", "APOS");
+    public static String sanitizeName(String name) {
+        return name.replaceAll("'", "APOS");
     }
 
-    private static String desanitizePlayerName(String sanitizedName) {
+    private static String desanitizeName(String sanitizedName) {
         return sanitizedName.replaceAll("APOS", "'");
     }
 }

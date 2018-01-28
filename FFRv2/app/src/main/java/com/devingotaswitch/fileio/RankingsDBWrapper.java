@@ -5,7 +5,6 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.devingotaswitch.rankings.domain.LeagueSettings;
 import com.devingotaswitch.rankings.domain.Player;
@@ -66,7 +65,7 @@ public class RankingsDBWrapper {
         Cursor result = getAllEntries(db, Constants.PLAYER_TABLE_NAME);
         while(!result.isAfterLast()){
             Player player = DBUtils.cursorToPlayer(result);
-            if (watchedIds.contains(DBUtils.sanitizePlayerName(player.getUniqueId()))) {
+            if (watchedIds.contains(DBUtils.sanitizeName(player.getUniqueId()))) {
                 player.setWatched(true);
             }
             players.put(player.getUniqueId(), player);
@@ -136,7 +135,7 @@ public class RankingsDBWrapper {
         SQLiteDatabase db = getInstance(context).getWritableDatabase();
         ContentValues values = new ContentValues();
         values.put(Constants.PLAYER_WATCHED_COLUMN, player.isWatched() ? "1": "0");
-        updateMultipleKeyEntry(db, DBUtils.sanitizePlayerName(player.getName()), player.getPosition(), values, Constants.PLAYER_CUSTOM_TABLE_NAME,
+        updateMultipleKeyEntry(db, DBUtils.sanitizeName(player.getName()), player.getPosition(), values, Constants.PLAYER_CUSTOM_TABLE_NAME,
                 Constants.PLAYER_NAME_COLUMN, Constants.PLAYER_POSITION_COLUMN);
     }
 
@@ -145,14 +144,14 @@ public class RankingsDBWrapper {
         ContentValues values = new ContentValues();
         values.put(Constants.PLAYER_NOTE_COLUMN, note);
 
-        updateMultipleKeyEntry(db, DBUtils.sanitizePlayerName(player.getName()), player.getPosition(), values, Constants.PLAYER_CUSTOM_TABLE_NAME,
+        updateMultipleKeyEntry(db, DBUtils.sanitizeName(player.getName()), player.getPosition(), values, Constants.PLAYER_CUSTOM_TABLE_NAME,
                 Constants.PLAYER_NAME_COLUMN, Constants.PLAYER_POSITION_COLUMN);
     }
 
     public Player getPlayer(Context context, String name, String team, String position) {
         SQLiteDatabase db = getInstance(context).getReadableDatabase();
         Cursor result = getThreeKeyEntry(db, Constants.PLAYER_NAME_COLUMN, Constants.TEAM_NAME_COLUMN,
-                Constants.PLAYER_POSITION_COLUMN, DBUtils.sanitizePlayerName(name), team, position,
+                Constants.PLAYER_POSITION_COLUMN, DBUtils.sanitizeName(name), team, position,
                 Constants.PLAYER_TABLE_NAME);
         Player player = DBUtils.cursorToPlayer(result);
         player = loadPlayerCustomFields(db, player);
@@ -162,7 +161,7 @@ public class RankingsDBWrapper {
 
     private Player loadPlayerCustomFields(SQLiteDatabase db, Player player) {
         Cursor result = getThreeKeyEntry(db, Constants.PLAYER_NAME_COLUMN, Constants.TEAM_NAME_COLUMN, Constants.PLAYER_POSITION_COLUMN,
-                DBUtils.sanitizePlayerName(player.getName()), player.getTeamName(), player.getPosition(), Constants.PLAYER_CUSTOM_TABLE_NAME);
+                DBUtils.sanitizeName(player.getName()), player.getTeamName(), player.getPosition(), Constants.PLAYER_CUSTOM_TABLE_NAME);
         player = DBUtils.cursorToCustomPlayer(result, player);
         result.close();
         return player;
@@ -219,7 +218,7 @@ public class RankingsDBWrapper {
 
     public LeagueSettings getLeague(Context context, String leagueId) {
         SQLiteDatabase db = getInstance(context).getReadableDatabase();
-        Cursor result = getEntry(db, leagueId, Constants.LEAGUE_TABLE_NAME, Constants.NAME_COLUMN);
+        Cursor result = getEntry(db, DBUtils.sanitizeName(leagueId), Constants.LEAGUE_TABLE_NAME, Constants.NAME_COLUMN);
         LeagueSettings league = cursorToFullLeague(db, result);
         result.close();
         return league;
