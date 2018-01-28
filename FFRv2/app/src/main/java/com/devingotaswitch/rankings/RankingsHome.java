@@ -195,7 +195,7 @@ public class RankingsHome extends AppCompatActivity {
         }
         View navigationHeader = nDrawer.getHeaderView(0);
         TextView navHeaderSubTitle = (TextView) navigationHeader.findViewById(R.id.textViewNavUserSub);
-        navHeaderSubTitle.setText(username);
+        navHeaderSubTitle.setText(CUPHelper.getCurrUser());
     }
 
     private void toggleFilterView() {
