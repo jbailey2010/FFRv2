@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.devingotaswitch.rankings.domain.LeagueSettings;
 import com.devingotaswitch.rankings.domain.Player;
@@ -13,6 +14,7 @@ import com.devingotaswitch.rankings.domain.ScoringSettings;
 import com.devingotaswitch.rankings.domain.Team;
 import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.DBUtils;
+import com.devingotaswitch.youruserpools.CUPHelper;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,8 +28,10 @@ public class RankingsDBWrapper {
     private static RankingsDBHelper rankingsDB;
 
     private synchronized RankingsDBHelper getInstance(Context context) {
-        if (rankingsDB == null) {
-            rankingsDB = new RankingsDBHelper(context);
+        String user = CUPHelper.getCurrUser();
+        Log.d("Jeff", user + ", " + rankingsDB.getDBOwner());
+        if (rankingsDB == null || !user.equals(rankingsDB.getDBOwner())) {
+            rankingsDB = new RankingsDBHelper(context, user);
         }
         return rankingsDB;
     }

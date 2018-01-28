@@ -8,11 +8,19 @@ import com.devingotaswitch.utils.Constants;
 
 public class RankingsDBHelper extends SQLiteOpenHelper {
     public static final int DATABASE_VERSION = 1;
-    public static final String DATABASE_NAME = "Rankings.db";
+    private static final String DATABASE_NAME_SUFFIX = "Rankings.db";
 
-    RankingsDBHelper(Context context) {
-        super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    public static String userName;
+
+    RankingsDBHelper(Context context, String userName) {
+        super(context, userName + DATABASE_NAME_SUFFIX, null, DATABASE_VERSION);
+        this.userName = userName;
     }
+
+    public static String getDBOwner() {
+        return userName;
+    }
+
     public void onCreate(SQLiteDatabase db) {
         db.execSQL(getCreateScoringTableSQL());
         db.execSQL(getCreateRosterTableSQL());

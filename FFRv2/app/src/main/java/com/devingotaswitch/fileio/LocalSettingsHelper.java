@@ -10,6 +10,7 @@ import com.devingotaswitch.rankings.domain.LeagueSettings;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.utils.Constants;
+import com.devingotaswitch.youruserpools.CUPHelper;
 
 import java.util.HashSet;
 import java.util.Map;
@@ -22,7 +23,8 @@ public class LocalSettingsHelper {
     }
 
     private static SharedPreferences getSharedPreferences(Context cont) {
-        return cont.getSharedPreferences(Constants.APP_KEY, Context.MODE_PRIVATE);
+        String userName = CUPHelper.getCurrUser();
+        return cont.getSharedPreferences(userName + Constants.APP_KEY, Context.MODE_PRIVATE);
     }
 
     public static String getCurrentLeagueName(Context cont) {
