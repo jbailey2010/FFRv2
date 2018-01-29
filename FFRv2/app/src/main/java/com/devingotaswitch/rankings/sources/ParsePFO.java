@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.utils.Constants;
+import com.devingotaswitch.utils.GeneralUtils;
 import com.devingotaswitch.utils.JsoupUtils;
 import com.devingotaswitch.utils.ParsingUtils;
 
@@ -21,11 +22,18 @@ public class ParsePFO {
         List<String> td = JsoupUtils.handleLists(
                 "http://www.footballoutsiders.com/stats/ol", "td");
         Map<String, String> data = new HashMap<>();
-        for (int i = 18; i < td.size(); i += 16) {
+        int start = 0;
+        for (int i = 0; i < td.size(); i++) {
+            if (GeneralUtils.isInteger(td.get(i))) {
+                start = i;
+                break;
+            }
+        }
+        for (int i = start; i < td.size(); i += 16) {
             if (td.get(i).equals("RUN BLOCKING")) {
                 i += 2;
                 continue;
-            } else if (td.get(i + 1).equals("Team")) {
+            } else if (td.get(i + 1).equals("Team") || "".equals(td.get(i+1))) {
                 i += 16;
                 continue;
             } else if (td.get(i + 1).equals("NFL")) {

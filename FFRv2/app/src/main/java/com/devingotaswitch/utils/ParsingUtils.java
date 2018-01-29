@@ -159,6 +159,7 @@ public class ParsingUtils {
         teamFixes.put("denver", "Denver Broncos");
         teamFixes.put("broncos", "Denver Broncos");
         teamFixes.put("sd", "Los Angeles Chargers");
+        teamFixes.put("lach", "Los Angeles Chargers");
         teamFixes.put("sdc", "Los Angeles Chargers");
         teamFixes.put("san diego", "Los Angeles Chargers");
         teamFixes.put("chargers", "Los Angeles Chargers");
