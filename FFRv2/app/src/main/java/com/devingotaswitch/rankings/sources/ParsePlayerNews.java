@@ -77,7 +77,7 @@ public class ParsePlayerNews {
                         newsList.add(news);
                     }
                 } catch (Exception e) {
-                    Log.e(TAG, "Failed to get player news from " + urlNews, e);
+                    Log.e(TAG, "Failed to get player notes from " + urlNews, e);
                 }
                 doc = JsoupUtils.getDocument(urlNews);
                 noteElems = doc.select("div.body-row div.content");

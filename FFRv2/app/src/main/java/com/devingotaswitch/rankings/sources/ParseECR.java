@@ -9,6 +9,9 @@ import com.devingotaswitch.utils.GeneralUtils;
 import com.devingotaswitch.utils.JsoupUtils;
 import com.devingotaswitch.utils.ParsingUtils;
 
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -47,17 +50,15 @@ public class ParseECR {
         int min = 0;
         for (int i = 0; i < td.size(); i++) {
             if (GeneralUtils.isInteger(td.get(i))) {
-                min = i + 1;
+                min = i + 2;
                 break;
             }
         }
-        for (int i = min; i < td.size(); i += 11) {
-            String check = td.get(i);
-            while(check.split(" ").length == 1 || td.get(i).contains("Tier ") || td.get(i).contains("EDIT")) {
-                check = td.get(++i);
-            }
+        for (int i = min; i < td.size(); i += 9) {
             if (i + 9 >= td.size()) {
                 break;
+            } else if ("".equals(td.get(i))) {
+                i++;
             }
             String filteredName = td.get(i).split(
                     " \\(")[0].split(", ")[0];
@@ -74,6 +75,9 @@ public class ParseECR {
             }
             ecr.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + posInd, ecrVal);
             risk.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + posInd, riskVal);
+            if (td.get(i + 7).contains("Tier")) {
+                i += 2;
+            }
         }
     }
 
