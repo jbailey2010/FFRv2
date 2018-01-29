@@ -65,15 +65,19 @@ public class ParsePlayerNews {
                 urlNews = urlNews.toLowerCase();
                 Document doc = JsoupUtils.getDocument(urlNotes);
                 Elements noteElems = doc.select("div.body-row div.content");
-                for (Element element : noteElems) {
-                    // First, get the 'notes'
-                    String title = element.child(0).text();
-                    String date = element.parent().parent().child(1).child(1).text();
-                    PlayerNews news = new PlayerNews();
-                    news.setNews(title);
-                    news.setImpact(Constants.LINE_BREAK + date);
+                try {
+                    for (Element element : noteElems) {
+                        // First, get the 'notes'
+                        String title = element.child(0).text();
+                        String date = element.parent().parent().child(1).child(1).text();
+                        PlayerNews news = new PlayerNews();
+                        news.setNews(title);
+                        news.setImpact(Constants.LINE_BREAK + date);
 
-                    newsList.add(news);
+                        newsList.add(news);
+                    }
+                } catch (Exception e) {
+                    Log.e(TAG, "Failed to get player news from " + urlNews, e);
                 }
                 doc = JsoupUtils.getDocument(urlNews);
                 noteElems = doc.select("div.body-row div.content");
