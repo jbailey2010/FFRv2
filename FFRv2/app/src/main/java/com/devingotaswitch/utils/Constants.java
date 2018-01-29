@@ -37,6 +37,19 @@ public class Constants {
     public final static String SORT_SOS = "Positional SOS";
     public final static String SORT_TIERS = "Positional Tier";
 
+    // Help topics
+    public final static String HELP_LEAGUE = "League Settings";
+    public final static String HELP_RANKINGS = "Rankings";
+    public final static String HELP_PLAYER_INFO = "Player Info";
+    public final static String HELP_DRAFTING = "Drafting";
+    public final static String HELP_ADP_SIMULARTOR = "ADP Simulator";
+    public final static String HELP_COMPARE_PLAYERS = "Compare Players";
+    public final static String HELP_SORT_PLAYERS = "Sort Players";
+    public final static String HELP_NEWS = "News";
+    public final static String HELP_EXPORT = "Exporting Rankings";
+    public final static String HELP_PROFILE = "Your Profile";
+    public final static String HELP_STATS = "Stat Explanations";
+
     // Sort boolean factors
     public final static String SORT_DEFAULT_STRING = "Additional Factors";
     public final static String SORT_HIDE_DRAFTED = "Hide Drafted";
