@@ -96,6 +96,32 @@ public class Draft {
         return new ArrayList<>();
     }
 
+    public List<Player> getPlayersWithSameByeAndPos(Player player, Rankings rankings) {
+        return getPlayersWithSameBye(getPlayersDraftedForPos(player.getPosition()),
+                rankings, rankings.getTeam(player).getBye());
+    }
+
+    public List<Player> getPlayersWithSameBye(Player player, Rankings rankings) {
+        List<Player> allMyPicks = new ArrayList<>();
+        allMyPicks.addAll(getMyQbs());
+        allMyPicks.addAll(getMyRbs());
+        allMyPicks.addAll(getMyWrs());
+        allMyPicks.addAll(getMyTes());
+        allMyPicks.addAll(getMyDsts());
+        allMyPicks.addAll(getMyKs());
+        return getPlayersWithSameBye(allMyPicks, rankings, rankings.getTeam(player).getBye());
+    }
+
+    private List<Player> getPlayersWithSameBye(List<Player> toCheck, Rankings rankings, String bye) {
+        List<Player> sameBye = new ArrayList<>();
+        for (Player posPlayer : toCheck) {
+            if (bye.equals(rankings.getTeam(posPlayer).getBye())) {
+                sameBye.add(posPlayer);
+            }
+        }
+        return sameBye;
+    }
+
     public double getDraftValue() {
         return draftValue;
     }
