@@ -1,6 +1,8 @@
 package com.devingotaswitch.utils;
 
 public class Constants {
+    public final static String YEAR_KEY = "2018";
+    public final static String LAST_YEAR_KEY = String.valueOf(Integer.parseInt(YEAR_KEY) - 1);
     // Positions
     public final static String QB = "QB";
     public final static String RB = "RB";

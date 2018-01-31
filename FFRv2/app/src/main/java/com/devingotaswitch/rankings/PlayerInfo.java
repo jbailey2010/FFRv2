@@ -522,7 +522,7 @@ public class PlayerInfo extends AppCompatActivity {
 
         if (!StringUtils.isBlank(player.getStats())) {
             Map<String, String> stats = new HashMap<>();
-            stats.put(Constants.PLAYER_BASIC, "2016 stats");
+            stats.put(Constants.PLAYER_BASIC, Constants.LAST_YEAR_KEY + " stats");
             stats.put(Constants.PLAYER_INFO, player.getStats());
             data.add(stats);
         }

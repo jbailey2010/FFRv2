@@ -9,6 +9,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -71,7 +72,7 @@ public class HelpActivity extends AppCompatActivity {
         helpProfile = (TextView)findViewById(R.id.help_profile_body);
         helpStats = (TextView)findViewById(R.id.help_stats_body);
 
-        Spinner spinner = (Spinner)findViewById(R.id.help_topics);
+        final Spinner spinner = (Spinner)findViewById(R.id.help_topics);
         List<String> posList = new ArrayList<>();
         posList.add(Constants.HELP_LEAGUE);
         posList.add(Constants.HELP_RANKINGS);
@@ -88,15 +89,13 @@ public class HelpActivity extends AppCompatActivity {
         ArrayAdapter<String> positionAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, posList);
         spinner.setAdapter(positionAdapter);
-        spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String selected = parent.getItemAtPosition(position).toString();
-                updateLayout(selected);
-            }
 
+        Button submit = (Button)findViewById(R.id.help_selection_submit);
+        submit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onNothingSelected(AdapterView<?> parent) {
+            public void onClick(View v) {
+                String selected = spinner.getSelectedItem().toString();
+                updateLayout(selected);
             }
         });
     }
