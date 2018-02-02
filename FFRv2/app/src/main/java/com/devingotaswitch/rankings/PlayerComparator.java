@@ -418,8 +418,8 @@ public class PlayerComparator extends AppCompatActivity {
                 String percentOne = elems.get(0).text();
                 String percentTwo = elems.get(1).text();
                 Element tableElem = elems.get(0).parent().parent().parent().parent();
-                String nameOne = tableElem.child(1).child(1).child(1).child(0).text();
-                String nameTwo = tableElem.child(1).child(1).child(2).child(0).text();
+                String nameOne = tableElem.child(1).child(1).child(1).child(0).child(0).child(0).text();
+                String nameTwo = tableElem.child(1).child(1).child(2).child(0).child(0).child(0).text();
                 if (playerA.getName().equals(nameOne)) {
                     results.put(playerA.getUniqueId(), percentOne);
                     results.put(playerB.getUniqueId(), percentTwo);
