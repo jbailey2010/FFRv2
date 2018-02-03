@@ -113,6 +113,7 @@
         android:divider="@drawable/list_divider"
         android:dividerHeight="1dp"
         android:clipToPadding="false"
+        android:listSelector="@android:color/transparent"
         android:scrollbarStyle="outsideInset"
         android:overScrollFooter="@android:color/transparent"
         android:footerDividersEnabled="false"
