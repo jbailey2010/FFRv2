@@ -48,7 +48,6 @@
                 android:id="@+id/max_players_visible"
                 android:background="@drawable/text_border_selector"
                 android:hint="# of players shown"
-                android:text="500"
                 android:layout_weight="1"
                 android:layout_margin="2dp"
                 android:inputType="number"/>

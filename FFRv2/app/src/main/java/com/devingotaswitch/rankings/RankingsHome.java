@@ -285,6 +285,8 @@ public class RankingsHome extends AppCompatActivity {
                     maxPlayers = Integer.parseInt(maxPlayersInput);
                     LocalSettingsHelper.saveNumVisiblePlayers(getApplication(), maxPlayers);
                 }
+                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.hideSoftInputFromWindow(filterBase.getWindowToken(), 0);
                 displayRankings(filteredIds);
             }
         });
