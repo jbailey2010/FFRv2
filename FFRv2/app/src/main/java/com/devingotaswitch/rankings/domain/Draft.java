@@ -325,6 +325,7 @@ public class Draft {
         myTes.clear();
         myDsts.clear();
         myKs.clear();
+        myPlayers.clear();
         draftedPlayers.clear();
         draftValue = 0.0;
         LocalSettingsHelper.clearDraft(context);

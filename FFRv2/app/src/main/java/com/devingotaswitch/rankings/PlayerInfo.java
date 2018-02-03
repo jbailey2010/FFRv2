@@ -499,21 +499,26 @@ public class PlayerInfo extends AppCompatActivity {
             playerSub.append("Available")
                     .append(Constants.LINE_BREAK);
 
-            // TODO: should this print more specific info? Names?
-            List<Player> sameBye = rankings.getDraft().getPlayersWithSameBye(player, rankings);
-            if (sameBye.size() > 1 || sameBye.size() == 0) {
-                playerSub.append("Same bye as " + sameBye.size() + " players on your team");
-            } else {
-                playerSub.append("Same bye as " + sameBye.size() + " player on your team");
-            }
-            if (sameBye.size() > 0) {
-                // No sense printing that it's the same as no players AND no <position>s
-                playerSub.append(Constants.LINE_BREAK);
-                List<Player> sameByeAndPos = rankings.getDraft().getPlayersWithSameByeAndPos(player, rankings);
-                if (sameByeAndPos.size() > 1) {
-                    playerSub.append("Same bye as " + sameByeAndPos.size() + " " + player.getPosition() + "s on your team");
+            if (rankings.getDraft().getMyPlayers().size() > 0) {
+                for (String key : rankings.getDraft().getMyPlayers().keySet()) {
+                    Log.e("Jeff", key);
+                }
+                // TODO: should this print more specific info? Names?
+                List<Player> sameBye = rankings.getDraft().getPlayersWithSameBye(player, rankings);
+                if (sameBye.size() > 1 || sameBye.size() == 0) {
+                    playerSub.append("Same bye as " + sameBye.size() + " players on your team");
                 } else {
-                    playerSub.append("Same bye as " + sameByeAndPos.size() + " " + player.getPosition() + " on your team");
+                    playerSub.append("Same bye as " + sameBye.size() + " player on your team");
+                }
+                if (sameBye.size() > 0) {
+                    // No sense printing that it's the same as no players AND no <position>s
+                    playerSub.append(Constants.LINE_BREAK);
+                    List<Player> sameByeAndPos = rankings.getDraft().getPlayersWithSameByeAndPos(player, rankings);
+                    if (sameByeAndPos.size() > 1) {
+                        playerSub.append("Same bye as " + sameByeAndPos.size() + " " + player.getPosition() + "s on your team");
+                    } else {
+                        playerSub.append("Same bye as " + sameByeAndPos.size() + " " + player.getPosition() + " on your team");
+                    }
                 }
             }
         }
