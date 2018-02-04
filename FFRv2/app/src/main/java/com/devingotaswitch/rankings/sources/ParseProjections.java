@@ -19,19 +19,18 @@ import java.util.Map;
 public class ParseProjections {
     public static void projPointsWrapper(Rankings rankings)
             throws IOException {
-        // TODO: don't think week=draft is ultimately a must, complicates regular season mode
         Map<String, Double> points = new HashMap<>();
-        qbProj("http://www.fantasypros.com/nfl/projections/qb.php?year=2017&week=draft",
+        qbProj("http://www.fantasypros.com/nfl/projections/qb.php?year=" + Constants.YEAR_KEY + "&week=draft",
                 points, rankings, Constants.QB);
-        rbProj("http://www.fantasypros.com/nfl/projections/rb.php?year=2017&week=draft",
+        rbProj("http://www.fantasypros.com/nfl/projections/rb.php?year=" + Constants.YEAR_KEY + "&week=draft",
                 points, rankings, Constants.RB);
-        wrProj("http://www.fantasypros.com/nfl/projections/wr.php?year=2017&week=draft",
+        wrProj("http://www.fantasypros.com/nfl/projections/wr.php?year=" + Constants.YEAR_KEY + "&week=draft",
                 points, rankings, Constants.WR);
-        teProj("http://www.fantasypros.com/nfl/projections/te.php?year=2017&week=draft",
+        teProj("http://www.fantasypros.com/nfl/projections/te.php?year=" + Constants.YEAR_KEY + "&week=draft",
                 points, rankings, Constants.TE);
-        defProj("http://www.fantasypros.com/nfl/projections/dst.php?year=2017&week=draft",
+        defProj("http://www.fantasypros.com/nfl/projections/dst.php?year=" + Constants.YEAR_KEY + "&week=draft",
                 points, Constants.DST);
-        kProj("http://www.fantasypros.com/nfl/projections/k.php?year=2017&week=draft",
+        kProj("http://www.fantasypros.com/nfl/projections/k.php?year=" + Constants.YEAR_KEY + "&week=draft",
                 points, Constants.K);
 
         for (String playerId : rankings.getPlayers().keySet()) {
@@ -241,7 +240,7 @@ public class ParseProjections {
                 break;
             }
         }
-        for (int i = min; i < td.size(); i += 11) {
+        for (int i = min; i < td.size(); i += 10) {
             String name = "";
             String[] nameSet = td.get(i).split(" ");
             if (nameSet.length == 1) {
@@ -258,7 +257,7 @@ public class ParseProjections {
             name = name.substring(0, name.length() - 1);
             String team = ParsingUtils.normalizeTeams(name);
             name = ParsingUtils.normalizeDefenses(name);
-            Double proj = Double.parseDouble(td.get(i+10));
+            Double proj = Double.parseDouble(td.get(i+9));
             points.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + pos, proj);
         }
     }

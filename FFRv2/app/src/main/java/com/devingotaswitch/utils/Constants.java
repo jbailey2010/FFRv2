@@ -29,12 +29,15 @@ public class Constants {
     public final static String SORT_OVERDRAFTED = "Over Drafted";
     public final static String SORT_AUCTION = "Auction Value";
     public final static String SORT_PROJECTION = "Projection";
-    public final static String SORT_PAA = "Points Above Average";
-    public final static String SORT_PAA_SCALED = "Scaled Points Above Average";
-    public final static String SORT_PAAPD = "Points Above Average Per Dollar";
+    public final static String SORT_PAA = "PAA";
+    public final static String SORT_PAA_SCALED = "Scaled PAA";
+    public final static String SORT_PAAPD = "PAA Per Dollar";
     public final static String SORT_XVAL = "X Value";
     public final static String SORT_XVAL_SCALED = "Scaled X Value";
     public final static String SORT_XVALPD = "X Value Per Dollar";
+    public final static String SORT_VOLS = "VoLS";
+    public final static String SORT_VOLS_SCALED = "Scaled VoLS";
+    public final static String SORT_VOLSPD = "VoLS Per Dollar";
     public final static String SORT_RISK = "Risk";
     public final static String SORT_SOS = "Positional SOS";
     public final static String SORT_TIERS = "Positional Tier";
@@ -163,6 +166,7 @@ public class Constants {
     public static final String PLAYER_PROJECTION_COLUMN = "projection";
     public static final String PLAYER_PAA_COLUMN = "paa";
     public static final String PLAYER_XVAL_COLUMN = "xval";
+    public static final String PLAYER_VORP_COLUMN = "vorp";
     public static final String PLAYER_TIER_COLUMN = "positional_tier";
     // Team name is already in team settings
     public static final String PLAYER_NOTE_COLUMN = "player_note";

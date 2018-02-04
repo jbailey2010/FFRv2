@@ -74,17 +74,14 @@ public class RankingsHome extends AppCompatActivity {
 
     // Cognito user objects
     private CognitoUser user;
-    private CognitoUserSession session;
-    private CognitoUserDetails details;
     private String username;
+    private ProgressDialog waitDialog;
 
     private MenuItem filterItem;
     private NavigationView nDrawer;
     private DrawerLayout mDrawer;
     private ActionBarDrawerToggle mDrawerToggle;
     private Toolbar toolbar;
-    private AlertDialog userDialog;
-    private ProgressDialog waitDialog;
 
     private RankingsDBWrapper rankingsDB;
     private LeagueSettings currentLeague;

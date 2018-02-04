@@ -32,7 +32,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
-import java.util.PriorityQueue;
 
 public class RankingsFetcher {
     private static final String TAG = "RankingsFetcher";
@@ -165,6 +164,14 @@ public class RankingsFetcher {
                 ParseMath.setPlayerPAA(rankings);
             } catch(Exception e) {
                 Log.e(TAG, "Failed to calculate PAA", e);
+            }
+
+            Log.i(TAG, "Getting VoRP calculations");
+            publishProgress("Calculating VoRP...");
+            try {
+                ParseMath.setPlayerVoLS(rankings);
+            } catch (Exception e) {
+                Log.e(TAG, "Failed to calculate VoRP", e);
             }
 
             Log.i(TAG, "Setting player xvals");

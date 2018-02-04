@@ -20,13 +20,13 @@ public class ParseWalterFootball {
         ScoringSettings s = rankings.getLeagueSettings().getScoringSettings();
         if (r.getQbCount() > 1 || (r.getFlex() != null && r.getFlex().getQbrbwrteCount() > 0)) {
             wfRankingsHelper(rankings,
-                    "http://walterfootball.com/fantasycheatsheet/2017/twoqb");
+                    "http://walterfootball.com/fantasycheatsheet/" + Constants.YEAR_KEY + "/twoqb");
         } else if (s.getReceptions() > 0) {
             wfRankingsHelper(rankings,
-                    "http://walterfootball.com/fantasycheatsheet/2017/ppr");
+                    "http://walterfootball.com/fantasycheatsheet/" + Constants.YEAR_KEY + "/ppr");
         } else {
             wfRankingsHelper(rankings,
-                    "http://walterfootball.com/fantasycheatsheet/2017/traditional");
+                    "http://walterfootball.com/fantasycheatsheet/" + Constants.YEAR_KEY + "/traditional");
         }
     }
 

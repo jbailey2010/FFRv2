@@ -23,11 +23,9 @@ import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.amazonaws.util.StringUtils;
 import com.devingotaswitch.ffrv2.R;
-import com.devingotaswitch.fileio.LocalSettingsHelper;
 import com.devingotaswitch.fileio.RankingsDBWrapper;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.PlayerNews;
@@ -466,6 +464,18 @@ public class PlayerInfo extends AppCompatActivity {
             xValSub += Constants.LINE_BREAK + "Scaled X Value: " + df.format(player.getScaledXVal(rankings));
             xVal.put(Constants.PLAYER_INFO, xValSub);
             data.add(xVal);
+
+            Map<String, String> voLS = new HashMap<>();
+            voLS.put(Constants.PLAYER_BASIC, "VoLS: " + df.format(player.getvOLS()));
+            int voLSRank = getVoLSRank(null, player.getvOLS());
+            int voLSPos = getVoLSRank(player.getPosition(), player.getvOLS());
+            String voLSSub = getRankingSub(voLSRank, voLSPos);
+            if (player.getAuctionValueCustom(rankings) > 0.0) {
+                voLSSub += Constants.LINE_BREAK + "VoLS/$: " + df.format(player.getvOLS() / player.getAuctionValueCustom(rankings));
+            }
+            voLSSub += Constants.LINE_BREAK + "Scaled VoLS: " + df.format(player.getScaledVoLS(rankings));
+            voLS.put(Constants.PLAYER_INFO, voLSSub);
+            data.add(voLS);
         }
 
         adapter.notifyDataSetChanged();
@@ -727,4 +737,16 @@ public class PlayerInfo extends AppCompatActivity {
         return rank;
     }
 
+    private int getVoLSRank(String pos, double source) {
+        int rank = 1;
+        for (String key : rankings.getPlayers().keySet()) {
+            Player player = rankings.getPlayer(key);
+            if (pos == null || pos.equals(player.getPosition())) {
+                if (player.getvOLS() > source) {
+                    rank++;
+                }
+            }
+        }
+        return rank;
+    }
 }

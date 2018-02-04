@@ -148,6 +148,9 @@ public class PlayerSorter extends AppCompatActivity {
         factorList.add(Constants.SORT_XVAL);
         factorList.add(Constants.SORT_XVAL_SCALED);
         factorList.add(Constants.SORT_XVALPD);
+        factorList.add(Constants.SORT_VOLS);
+        factorList.add(Constants.SORT_VOLS_SCALED);
+        factorList.add(Constants.SORT_VOLSPD);
         factorList.add(Constants.SORT_RISK);
         factorList.add(Constants.SORT_SOS);
         factorList.add(Constants.SORT_TIERS);
@@ -213,6 +216,12 @@ public class PlayerSorter extends AppCompatActivity {
             comparator = getXValScaledComparator();
         } else if (Constants.SORT_XVALPD.equals(factor)) {
             comparator = getXvalPDComparator();
+        } else if (Constants.SORT_VOLS.equals(factor)) {
+            comparator = getVoLSComparator();
+        } else if (Constants.SORT_VOLS_SCALED.equals(factor)) {
+            comparator = getVoLSScaledComparator();
+        } else if (Constants.SORT_VOLSPD.equals(factor)) {
+            comparator = getVoLSPDComparator();
         } else if (Constants.SORT_RISK.equals(factor)) {
             comparator = getRiskComparator();
         } else if (Constants.SORT_SOS.equals(factor)) {
@@ -516,6 +525,14 @@ public class PlayerSorter extends AppCompatActivity {
         return xvalpdA;
     }
 
+    private double getVoLSPD(Player a) {
+        double volspdA = a.getvOLS() / a.getAuctionValueCustom(rankings);
+        if (a.getAuctionValue() == 0) {
+            volspdA = 0.0;
+        }
+        return volspdA;
+    }
+
     private Comparator<Player> getXValComparator() {
         return new Comparator<Player>() {
             @Override
@@ -524,6 +541,21 @@ public class PlayerSorter extends AppCompatActivity {
                     return -1;
                 }
                 if (a.getxVal() < b.getxVal()) {
+                    return 1;
+                }
+                return 0;
+            }
+        };
+    }
+
+    private Comparator<Player> getVoLSComparator() {
+        return new Comparator<Player>() {
+            @Override
+            public int compare(Player a, Player b) {
+                if (a.getvOLS() > b.getvOLS()) {
+                    return -1;
+                }
+                if (a.getvOLS() < b.getvOLS()) {
                     return 1;
                 }
                 return 0;
@@ -548,6 +580,23 @@ public class PlayerSorter extends AppCompatActivity {
         };
     }
 
+    private Comparator<Player> getVoLSPDComparator() {
+        return new Comparator<Player>() {
+            @Override
+            public int compare(Player a, Player b) {
+                double volspdA = getVoLSPD(a);
+                double volspdB = getVoLSPD(b);
+                if (volspdA > volspdB) {
+                    return -1;
+                }
+                if (volspdA < volspdB) {
+                    return 1;
+                }
+                return 0;
+            }
+        };
+    }
+
     private Comparator<Player> getXValScaledComparator() {
         return new Comparator<Player>() {
             @Override
@@ -556,6 +605,21 @@ public class PlayerSorter extends AppCompatActivity {
                     return -1;
                 }
                 if (a.getScaledXVal(rankings) < b.getScaledXVal(rankings)) {
+                    return 1;
+                }
+                return 0;
+            }
+        };
+    }
+
+    private Comparator<Player> getVoLSScaledComparator() {
+        return new Comparator<Player>() {
+            @Override
+            public int compare(Player a, Player b) {
+                if (a.getScaledVoLS(rankings) > b.getScaledVoLS(rankings)) {
+                    return -1;
+                }
+                if (a.getScaledVoLS(rankings) < b.getScaledVoLS(rankings)) {
                     return 1;
                 }
                 return 0;
@@ -649,6 +713,12 @@ public class PlayerSorter extends AppCompatActivity {
             prefix = df.format(player.getScaledXVal(rankings));
         } else if (Constants.SORT_XVALPD.equals(factor)) {
             prefix = df.format(getXvalPD(player));
+        } else if (Constants.SORT_VOLS.equals(factor)) {
+            prefix = df.format(player.getvOLS());
+        } else if (Constants.SORT_VOLS_SCALED.equals(factor)) {
+            prefix = df.format(player.getScaledVoLS(rankings));
+        } else if (Constants.SORT_VOLSPD.equals(factor)) {
+            prefix = df.format(getVoLSPD(player));
         } else if (Constants.SORT_RISK.equals(factor)) {
             prefix = String.valueOf(player.getRisk());
         } else if (Constants.SORT_SOS.equals(factor)) {

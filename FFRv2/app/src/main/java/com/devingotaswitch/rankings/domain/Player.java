@@ -22,6 +22,7 @@ public class Player {
     private Double projection = 0.0;
     private Double paa;
     private Double xVal;
+    private Double vOLS;
     private Integer positionalTier;
 
     public String getName() {
@@ -132,6 +133,14 @@ public class Player {
         this.xVal = xVal;
     }
 
+    public Double getvOLS() {
+        return vOLS;
+    }
+
+    public void setvOLS(Double vOLS) {
+        this.vOLS = vOLS;
+    }
+
     public Integer getPositionalTier() { return positionalTier; }
 
     public void setPositionalTier(int tier) { this.positionalTier = tier; }
@@ -162,6 +171,11 @@ public class Player {
 
     public Double getScaledXVal(Rankings rankings) {
         return getScaledValue(getxVal(), rankings.getLeagueSettings().getRosterSettings().getNumberStartedOfPos(getPosition()),
+                rankings.getDraft().getPlayersDraftedForPos(getPosition()).size());
+    }
+
+    public Double getScaledVoLS(Rankings rankings) {
+        return getScaledValue(getvOLS(), rankings.getLeagueSettings().getRosterSettings().getNumberStartedOfPos(getPosition()),
                 rankings.getDraft().getPlayersDraftedForPos(getPosition()).size());
     }
 

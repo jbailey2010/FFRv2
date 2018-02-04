@@ -238,6 +238,58 @@ public class ParseMath {
         }
     }
 
+    public static void setPlayerVoLS(Rankings rankings) {
+        setPAALimits(rankings);
+        double qbLS = getPositionalReplacementProjection(qbLimit, rankings.getQbs());
+        double rbLS = getPositionalReplacementProjection(rbLimit, rankings.getRbs());
+        double wrLS = getPositionalReplacementProjection(wrLimit, rankings.getWrs());
+        double teLS = getPositionalReplacementProjection(teLimit, rankings.getTes());
+        double dLS = getPositionalReplacementProjection(dLimit, rankings.getDsts());
+        double kLS = getPositionalReplacementProjection(kLimit, rankings.getKs());
+        for (String key : rankings.getPlayers().keySet()) {
+            Player player = rankings.getPlayer(key);
+            if (Constants.QB.equals(player.getPosition())) {
+                player.setvOLS(player.getProjection() - qbLS);
+            } else if (Constants.RB.equals(player.getPosition())) {
+                player.setvOLS(player.getProjection() - rbLS);
+            } else if (Constants.WR.equals(player.getPosition())) {
+                player.setvOLS(player.getProjection() - wrLS);
+            } else if (Constants.TE.equals(player.getPosition())) {
+                player.setvOLS(player.getProjection() - teLS);
+            } else if (Constants.DST.equals(player.getPosition())) {
+                player.setvOLS(player.getProjection() - dLS);
+            } else if (Constants.K.equals(player.getPosition())) {
+                player.setvOLS(player.getProjection() - kLS);
+            }
+        }
+    }
+
+    private static double getPositionalReplacementProjection(Double limit, List<Player> position) {
+        if (limit == 0.0) {
+            return 0.0;
+        }
+        Comparator comparator = new Comparator<Player>() {
+            @Override
+            public int compare(Player a, Player b) {
+                if (a.getProjection() > b.getProjection()) {
+                    return -1;
+                }
+                if (a.getProjection() < b.getProjection()) {
+                    return 1;
+                }
+                return 0;
+            }
+        };
+        Collections.sort(position, comparator);
+        Player player = null;
+        if (limit.intValue() <= position.size()) {
+            player = position.get(limit.intValue()-1);
+        } else {
+            player = position.get(position.size() - 1);
+        }
+        return player.getProjection();
+    }
+
     public static void setPlayerPAA(Rankings rankings) {
         setPAALimits(rankings);
         double qbTotal = getPositionalProjection(qbLimit, rankings.getQbs());

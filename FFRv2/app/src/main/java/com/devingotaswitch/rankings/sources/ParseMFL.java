@@ -20,7 +20,7 @@ public class ParseMFL {
             Constants.TE, Constants.DST, Constants.K));
     public static void getMFLAAVs(Rankings rankings) throws IOException {
         List<String> td = JsoupUtils.handleLists(
-                "http://www03.myfantasyleague.com/2017/aav?COUNT=500&POS=*&CUTOFF=5&IS_PPR=1&IS_KEEPER=-1&TIME=",
+                "http://www03.myfantasyleague.com/" + Constants.YEAR_KEY + "/aav?COUNT=500&POS=*&CUTOFF=5&IS_PPR=1&IS_KEEPER=-1&TIME=",
                 "table.report tbody tr td");
 
         int min = 0;
