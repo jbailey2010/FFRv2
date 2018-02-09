@@ -14,7 +14,6 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_marginTop="5dp"
         android:id="@+id/sort_players_header">
         <LinearLayout
             android:layout_width="match_parent"
@@ -43,8 +42,28 @@
                 android:id="@+id/sort_players_additional_factors"
                 android:layout_width="0dp"
                 android:layout_weight="2"
+                android:layout_height="wrap_content"/>
+            <CheckBox
+                android:id="@+id/sort_players_reverse"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="3dp"/>
+                android:layout_weight="1"
+                android:text="Reverse Order"
+                android:textSize="16dp" />
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            android:orientation="horizontal">
+            <EditText
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:inputType="number"
+                android:hint="# of players shown"
+                android:id="@+id/sort_players_number_shown"/>
+
             <Button
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -65,6 +84,7 @@
         android:clickable="true"
         android:divider="@drawable/list_divider"
         android:dividerHeight="1dp"
+        android:footerDividersEnabled="false"
         android:layout_below="@+id/sort_players_header"/>
 
 </RelativeLayout>

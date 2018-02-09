@@ -15,6 +15,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -32,6 +34,7 @@ import com.devingotaswitch.rankings.domain.Team;
 import com.devingotaswitch.rankings.extras.MultiSelectionSpinner;
 import com.devingotaswitch.rankings.sources.ParseMath;
 import com.devingotaswitch.utils.Constants;
+import com.devingotaswitch.utils.GeneralUtils;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -172,6 +175,10 @@ public class PlayerSorter extends AppCompatActivity {
         factors.setSelection(sortIndex);
         spinner.setSelection(new ArrayList<>(factorStrings));
 
+        final CheckBox reverse = (CheckBox)findViewById(R.id.sort_players_reverse);
+
+        final EditText numberShown = (EditText) findViewById(R.id.sort_players_number_shown);
+
         Button submit = (Button)findViewById(R.id.sort_players_submit);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -185,12 +192,18 @@ public class PlayerSorter extends AppCompatActivity {
                 posIndex = positions.getSelectedItemPosition();
                 sortIndex = factors.getSelectedItemPosition();
                 factorStrings = spinner.getSelectedStrings();
-                sortPlayers(filteredIds, factor, spinner.getSelectedStrings());
+
+                String numberShownStr = numberShown.getText().toString();
+                int numberShown = 1000;
+                if (!StringUtils.isBlank(numberShownStr) && GeneralUtils.isInteger(numberShownStr)) {
+                    numberShown = Integer.parseInt(numberShownStr);
+                }
+                sortPlayers(filteredIds, factor, spinner.getSelectedStrings(), reverse.isChecked(), numberShown);
             }
         });
     }
 
-    private void sortPlayers(List<String> playerIds, String factor, Set<String> booleanFactors) {
+    private void sortPlayers(List<String> playerIds, String factor, Set<String> booleanFactors, boolean reversePlayers, int numberShown) {
         Comparator<Player> comparator = null;
         if (Constants.SORT_ECR.equals(factor)) {
             comparator = getECRComparator();
@@ -270,10 +283,13 @@ public class PlayerSorter extends AppCompatActivity {
             // If it's null, it was default, which means the already ordered list
             Collections.sort(players, comparator);
         }
-        displayResults(players, factor);
+        if (reversePlayers) {
+            Collections.reverse(players);
+        }
+        displayResults(players, factor, numberShown);
     }
 
-    private void displayResults(List<Player> players, String factor) {
+    private void displayResults(List<Player> players, String factor, int maxShown) {
         DecimalFormat df = new DecimalFormat(Constants.NUMBER_FORMAT);
 
         final ListView listview = (ListView) findViewById(R.id.sort_players_output);
@@ -285,8 +301,12 @@ public class PlayerSorter extends AppCompatActivity {
                 new int[] { R.id.player_basic, R.id.player_info,
                         R.id.player_status, R.id.player_tier });
         listview.setAdapter(adapter);
+        int displayedCount = 0;
         for (Player player : players) {
             if (rankings.getLeagueSettings().getRosterSettings().isPositionValid(player.getPosition())) {
+                if (displayedCount >= maxShown) {
+                    break;
+                }
                 Map<String, String> datum = new HashMap<>(3);
                 datum.put(Constants.PLAYER_BASIC, getMainTextForFactor(player, factor));
                 datum.put(Constants.PLAYER_INFO, getSubTextForFactor(player, factor, df));
@@ -305,6 +325,7 @@ public class PlayerSorter extends AppCompatActivity {
                 }
                 datum.put(Constants.PLAYER_TIER, tierBase);
                 data.add(datum);
+                displayedCount++;
             }
         }
         adapter.notifyDataSetChanged();
@@ -360,6 +381,12 @@ public class PlayerSorter extends AppCompatActivity {
                 listview.smoothScrollToPosition(0);
             }
         });
+
+        View view = this.getCurrentFocus();
+        if (view != null) {
+            InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
+            imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
+        }
     }
 
     private void displayPlayerInfo(String playerKey) {

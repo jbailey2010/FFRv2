@@ -99,6 +99,7 @@
         <activity
             android:name="com.devingotaswitch.rankings.PlayerSorter"
             android:label="@string/title_activity_player_sorter"
+            android:windowSoftInputMode="stateHidden"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity
