@@ -2,14 +2,20 @@ package com.devingotaswitch.rankings;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
@@ -35,6 +41,11 @@ import com.devingotaswitch.rankings.extras.MultiSelectionSpinner;
 import com.devingotaswitch.rankings.sources.ParseMath;
 import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.GeneralUtils;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -51,6 +62,11 @@ public class PlayerSorter extends AppCompatActivity {
 
     private Rankings rankings;
     private RankingsDBWrapper rankingsDB;
+
+    private MenuItem graphItem;
+    private List<Player> players = new ArrayList<>();
+    private String factor = null;
+    private int sortMax;
 
     private int posIndex = 0;
     private int sortIndex = 0;
@@ -85,6 +101,29 @@ public class PlayerSorter extends AppCompatActivity {
         });
 
         init();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.activity_sort_menu, menu);
+        graphItem = menu.findItem(R.id.graph_sort);
+        graphItem.setVisible(false);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        // Find which menu item was selected
+        int menuItem = item.getItemId();
+        switch(menuItem) {
+            case R.id.graph_sort:
+                graphSort();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+
+        }
     }
 
     @Override
@@ -188,22 +227,23 @@ public class PlayerSorter extends AppCompatActivity {
                 if (!Constants.ALL_POSITIONS.equals(currentPosition)) {
                     filteredIds = rankings.getPlayersByPosition(filteredIds, currentPosition);
                 }
-                String factor = ((TextView)factors.getSelectedView()).getText().toString();
+                factor = ((TextView)factors.getSelectedView()).getText().toString();
                 posIndex = positions.getSelectedItemPosition();
                 sortIndex = factors.getSelectedItemPosition();
                 factorStrings = spinner.getSelectedStrings();
 
                 String numberShownStr = numberShown.getText().toString();
-                int numberShown = 1000;
+                sortMax = 1000;
                 if (!StringUtils.isBlank(numberShownStr) && GeneralUtils.isInteger(numberShownStr)) {
-                    numberShown = Integer.parseInt(numberShownStr);
+                    sortMax = Integer.parseInt(numberShownStr);
                 }
-                sortPlayers(filteredIds, factor, spinner.getSelectedStrings(), reverse.isChecked(), numberShown);
+                sortPlayers(filteredIds, spinner.getSelectedStrings(), reverse.isChecked());
+                graphItem.setVisible(true);
             }
         });
     }
 
-    private void sortPlayers(List<String> playerIds, String factor, Set<String> booleanFactors, boolean reversePlayers, int numberShown) {
+    private void sortPlayers(List<String> playerIds, Set<String> booleanFactors, boolean reversePlayers) {
         Comparator<Player> comparator = null;
         if (Constants.SORT_ECR.equals(factor)) {
             comparator = getECRComparator();
@@ -244,7 +284,7 @@ public class PlayerSorter extends AppCompatActivity {
             playerIds = rankings.getPlayersByPosition(playerIds, Constants.QBRBWRTE);
         }
 
-        List<Player> players = new ArrayList<>();
+        players.clear();
         for (String id : playerIds) {
             Player player = rankings.getPlayer(id);
             if (booleanFactors.contains(Constants.SORT_HIDE_DRAFTED) && rankings.getDraft().isDrafted(player)) {
@@ -286,10 +326,10 @@ public class PlayerSorter extends AppCompatActivity {
         if (reversePlayers) {
             Collections.reverse(players);
         }
-        displayResults(players, factor, numberShown);
+        displayResults(players);
     }
 
-    private void displayResults(List<Player> players, String factor, int maxShown) {
+    private void displayResults(List<Player> players) {
         DecimalFormat df = new DecimalFormat(Constants.NUMBER_FORMAT);
 
         final ListView listview = (ListView) findViewById(R.id.sort_players_output);
@@ -304,12 +344,12 @@ public class PlayerSorter extends AppCompatActivity {
         int displayedCount = 0;
         for (Player player : players) {
             if (rankings.getLeagueSettings().getRosterSettings().isPositionValid(player.getPosition())) {
-                if (displayedCount >= maxShown) {
+                if (displayedCount >= sortMax) {
                     break;
                 }
                 Map<String, String> datum = new HashMap<>(3);
-                datum.put(Constants.PLAYER_BASIC, getMainTextForFactor(player, factor));
-                datum.put(Constants.PLAYER_INFO, getSubTextForFactor(player, factor, df));
+                datum.put(Constants.PLAYER_BASIC, getMainTextForFactor(player));
+                datum.put(Constants.PLAYER_INFO, getSubTextForFactor(player, df));
                 if (player.isWatched()) {
                     datum.put(Constants.PLAYER_STATUS, Integer.toString(R.drawable.star));
                 }
@@ -709,50 +749,8 @@ public class PlayerSorter extends AppCompatActivity {
         return team.getSosForPosition(player.getPosition());
     }
 
-    private String getMainTextForFactor(Player player, String factor) {
-        String prefix = "";
-        DecimalFormat df = new DecimalFormat(Constants.NUMBER_FORMAT);
-        if (Constants.SORT_ALL.equals(factor)) {
-            if (rankings.getLeagueSettings().isAuction()) {
-                prefix = df.format(player.getAuctionValueCustom(rankings));
-            } else {
-                prefix = String.valueOf(player.getEcr());
-            }
-        } else if (Constants.SORT_ECR.equals(factor)) {
-            prefix = String.valueOf(player.getEcr());
-        } else if (Constants.SORT_ADP.equals(factor)) {
-            prefix = String.valueOf(player.getAdp());
-        } else if (Constants.SORT_UNDERDRAFTED.equals(factor) || Constants.SORT_OVERDRAFTED.equals(factor)) {
-            prefix = df.format(player.getEcr() - player.getAdp());
-        } else if (Constants.SORT_AUCTION.equals(factor)) {
-            prefix = df.format(player.getAuctionValueCustom(rankings));
-        } else if (Constants.SORT_PROJECTION.equals(factor)) {
-            prefix = df.format(player.getProjection());
-        } else if (Constants.SORT_PAA.equals(factor)) {
-            prefix = df.format(player.getPaa());
-        } else if (Constants.SORT_PAA_SCALED.equals(factor)) {
-            prefix = df.format(player.getScaledPAA(rankings));
-        } else if (Constants.SORT_PAAPD.equals(factor)) {
-            prefix = df.format(getPAAPD(player));
-        } else if (Constants.SORT_XVAL.equals(factor)) {
-            prefix = df.format(player.getxVal());
-        } else if (Constants.SORT_XVAL_SCALED.equals(factor)) {
-            prefix = df.format(player.getScaledXVal(rankings));
-        } else if (Constants.SORT_XVALPD.equals(factor)) {
-            prefix = df.format(getXvalPD(player));
-        } else if (Constants.SORT_VOLS.equals(factor)) {
-            prefix = df.format(player.getvOLS());
-        } else if (Constants.SORT_VOLS_SCALED.equals(factor)) {
-            prefix = df.format(player.getScaledVoLS(rankings));
-        } else if (Constants.SORT_VOLSPD.equals(factor)) {
-            prefix = df.format(getVoLSPD(player));
-        } else if (Constants.SORT_RISK.equals(factor)) {
-            prefix = String.valueOf(player.getRisk());
-        } else if (Constants.SORT_SOS.equals(factor)) {
-            prefix = String.valueOf(getSOS(player));
-        } else if (Constants.SORT_TIERS.equals(factor)) {
-            prefix = String.valueOf(player.getPositionalTier());
-        }
+    private String getMainTextForFactor(Player player) {
+        String prefix = getMainTextPrefixForPlayer(player);
 
         return new StringBuilder(prefix)
                 .append(Constants.RANKINGS_LIST_DELIMITER)
@@ -760,7 +758,53 @@ public class PlayerSorter extends AppCompatActivity {
                 .toString();
     }
 
-    private String getSubTextForFactor(Player player, String factor, DecimalFormat df) {
+    private String getMainTextPrefixForPlayer(Player player) {
+        DecimalFormat df = new DecimalFormat(Constants.NUMBER_FORMAT);
+        if (Constants.SORT_ALL.equals(factor)) {
+            if (rankings.getLeagueSettings().isAuction()) {
+                return df.format(player.getAuctionValueCustom(rankings));
+            } else {
+                return String.valueOf(player.getEcr());
+            }
+        } else if (Constants.SORT_ECR.equals(factor)) {
+            return String.valueOf(player.getEcr());
+        } else if (Constants.SORT_ADP.equals(factor)) {
+            return String.valueOf(player.getAdp());
+        } else if (Constants.SORT_UNDERDRAFTED.equals(factor) || Constants.SORT_OVERDRAFTED.equals(factor)) {
+            return df.format(player.getEcr() - player.getAdp());
+        } else if (Constants.SORT_AUCTION.equals(factor)) {
+            return df.format(player.getAuctionValueCustom(rankings));
+        } else if (Constants.SORT_PROJECTION.equals(factor)) {
+            return df.format(player.getProjection());
+        } else if (Constants.SORT_PAA.equals(factor)) {
+            return df.format(player.getPaa());
+        } else if (Constants.SORT_PAA_SCALED.equals(factor)) {
+            return df.format(player.getScaledPAA(rankings));
+        } else if (Constants.SORT_PAAPD.equals(factor)) {
+            return df.format(getPAAPD(player));
+        } else if (Constants.SORT_XVAL.equals(factor)) {
+            return df.format(player.getxVal());
+        } else if (Constants.SORT_XVAL_SCALED.equals(factor)) {
+            return df.format(player.getScaledXVal(rankings));
+        } else if (Constants.SORT_XVALPD.equals(factor)) {
+            return df.format(getXvalPD(player));
+        } else if (Constants.SORT_VOLS.equals(factor)) {
+            return df.format(player.getvOLS());
+        } else if (Constants.SORT_VOLS_SCALED.equals(factor)) {
+            return df.format(player.getScaledVoLS(rankings));
+        } else if (Constants.SORT_VOLSPD.equals(factor)) {
+            return df.format(getVoLSPD(player));
+        } else if (Constants.SORT_RISK.equals(factor)) {
+            return String.valueOf(player.getRisk());
+        } else if (Constants.SORT_SOS.equals(factor)) {
+            return String.valueOf(getSOS(player));
+        } else if (Constants.SORT_TIERS.equals(factor)) {
+            return String.valueOf(player.getPositionalTier());
+        }
+        return "";
+    }
+
+    private String getSubTextForFactor(Player player, DecimalFormat df) {
         StringBuilder subtextBuilder = new StringBuilder(generateOutputSubtext(player));
         if (!Constants.SORT_PROJECTION.equals(factor)) {
             subtextBuilder.append(Constants.LINE_BREAK)
@@ -817,5 +861,88 @@ public class PlayerSorter extends AppCompatActivity {
                 .append(Constants.PLAYER_ID_DELIMITER)
                 .append(pos)
                 .toString();
+    }
+
+    private void graphSort() {
+        LayoutInflater li = LayoutInflater.from(this);
+        View graphView = li.inflate(R.layout.sort_graph_popup, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                this);
+
+        alertDialogBuilder.setView(graphView);
+        LineChart lineGraph = (LineChart) graphView.findViewById(R.id.sort_graph);
+        List<Entry> entries = new ArrayList<>();
+        List<Entry> qbs = new ArrayList<>();
+        List<Entry> rbs = new ArrayList<>();
+        List<Entry> wrs = new ArrayList<>();
+        List<Entry> tes = new ArrayList<>();
+        List<Entry> dsts = new ArrayList<>();
+        List<Entry> ks = new ArrayList<>();
+        for (int i = 0; i < Math.min(sortMax, players.size()); i++) {
+            Player player = players.get(i);
+            double value = Double.parseDouble(getMainTextPrefixForPlayer(player));
+            entries.add(new Entry(i, (int) value));
+            if (Constants.QB.equals(player.getPosition())) {
+                qbs.add(new Entry(qbs.size(), (int) value));
+            } else if (Constants.RB.equals(player.getPosition())) {
+                rbs.add(new Entry(rbs.size(), (int) value));
+            } else if (Constants.WR.equals(player.getPosition())) {
+                wrs.add(new Entry(wrs.size(), (int) value));
+            } else if (Constants.TE.equals(player.getPosition())) {
+                tes.add(new Entry(tes.size(), (int) value));
+            } else if (Constants.DST.equals(player.getPosition())) {
+                dsts.add(new Entry(dsts.size(), (int) value));
+            } else if (Constants.K.equals(player.getPosition())) {
+                ks.add(new Entry(ks.size(), (int) value));
+            }
+        }
+        LineDataSet allPositions = getLineDataSet(entries, "All Positions", "blue");
+        LineData lineData = new LineData();
+
+        conditionallyAddData(lineData, qbs, "QBs", "green");
+        conditionallyAddData(lineData, rbs, "RBs", "red");
+        conditionallyAddData(lineData, wrs, "WRs", "purple");
+        conditionallyAddData(lineData, tes, "TEs", "yellow");
+        conditionallyAddData(lineData, dsts, "DSTs", "black");
+        conditionallyAddData(lineData, ks, "Ks", "grey");
+
+        if (lineData.getDataSetCount() > 1) {
+            lineData.addDataSet(allPositions);
+        }
+
+        lineGraph.setData(lineData);
+        Description description = new Description();
+        description.setText(factor);
+        description.setTextSize(12f);
+        lineGraph.setDescription(description);
+        lineGraph.invalidate();
+        lineGraph.setTouchEnabled(true);
+        lineGraph.setPinchZoom(true);
+        lineGraph.setDragEnabled(true);
+
+        alertDialogBuilder
+                .setNegativeButton("Dismiss",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                dialog.cancel();
+                            }
+                        });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+    private void conditionallyAddData(LineData lineData, List<Entry> entries, String label, String color) {
+        if (entries.size() > 0) {
+            lineData.addDataSet(getLineDataSet(entries, label, color));
+        }
+    }
+
+    private LineDataSet getLineDataSet(List<Entry> entries, String label, String color) {
+        LineDataSet dataSet = new LineDataSet(entries, label);
+        dataSet.setColor(Color.parseColor(color));
+        dataSet.setDrawIcons(false);
+        dataSet.setDrawValues(false);
+        dataSet.setDrawCircles(false);
+        return dataSet;
     }
 }
