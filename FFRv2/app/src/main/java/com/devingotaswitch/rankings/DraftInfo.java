@@ -1,9 +1,12 @@
 package com.devingotaswitch.rankings;
 
 import android.app.Activity;
+import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -26,6 +29,14 @@ import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.domain.RosterSettings;
 import com.devingotaswitch.rankings.domain.Team;
 import com.devingotaswitch.utils.Constants;
+import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.BarData;
+import com.github.mikephil.charting.data.BarDataSet;
+import com.github.mikephil.charting.data.BarEntry;
+import com.github.mikephil.charting.data.Entry;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -114,6 +125,7 @@ public class DraftInfo extends AppCompatActivity {
 
     private void clearDraft() {
         rankings.getDraft().resetDraft(this);
+        (findViewById(R.id.team_graph)).setVisibility(View.GONE);
         Snackbar.make(baseLayout, "Draft cleared", Snackbar.LENGTH_SHORT).show();
         displayTeam();
     }
@@ -131,6 +143,8 @@ public class DraftInfo extends AppCompatActivity {
             teamOutput.append(getAuctionValue());
         }
         teamView.setText(teamOutput.toString());
+
+        graphTeam();
 
         TextView paaLeft = (TextView)view.findViewById(R.id.base_textview_paa_left);
         paaLeft.setText(getPAALeft());
@@ -331,5 +345,74 @@ public class DraftInfo extends AppCompatActivity {
         View child = getLayoutInflater().inflate(viewId, null);
         baseLayout.addView(child);
         return child;
+    }
+
+    private void graphTeam() {
+        Draft draft = rankings.getDraft();
+        if (draft.getMyPlayers().size() == 0) {
+            return;
+        }
+        BarChart teamPAA = (BarChart)findViewById(R.id.team_graph);
+        BarData barData = new BarData();
+
+        conditionallyAddData(draft.getMyQbs(), barData.getDataSetCount(), draft.getQBPAA(), barData, "QBs", "green");
+        conditionallyAddData(draft.getMyRbs(), barData.getDataSetCount(), draft.getRBPAA(), barData, "RBs", "red");
+        conditionallyAddData(draft.getMyWrs(), barData.getDataSetCount(), draft.getWRPAA(), barData, "WRs", "blue");
+        conditionallyAddData(draft.getMyTes(), barData.getDataSetCount(), draft.getTEPAA(), barData, "TEs", "yellow");
+        conditionallyAddData(draft.getMyKs(), barData.getDataSetCount(), draft.getKPAA(), barData, "DSTs", "black");
+        conditionallyAddData(draft.getMyDsts(), barData.getDataSetCount(), draft.getDSTPAA(), barData, "Ks", "grey");
+
+        if (barData.getDataSetCount() > 1) {
+            List<BarEntry> entries = new ArrayList<>();
+            BarEntry entry = new BarEntry(barData.getDataSetCount(), (int) draft.getTotalPAA());
+            entries.add(entry);
+            barData.addDataSet(getBarDataSet(entries, "All", "purple"));
+        }
+
+        teamPAA.setData(barData);
+        Description description = new Description();
+        description.setText("\nPAA");
+        description.setTextSize(12f);
+        teamPAA.setDescription(description);
+        teamPAA.invalidate();
+        teamPAA.setTouchEnabled(true);
+        teamPAA.setPinchZoom(true);
+        teamPAA.setDragEnabled(true);
+        teamPAA.animateX(1500);
+        teamPAA.animateY(1500);
+
+        YAxis left = teamPAA.getAxisLeft();
+        left.setDrawAxisLine(false);
+        left.setDrawGridLines(false);
+        left.setDrawLabels(false);
+        left.setDrawZeroLine(true);
+        teamPAA.getAxisRight().setEnabled(false);
+        teamPAA.getXAxis().setEnabled(false);
+        Legend legend = teamPAA.getLegend();
+        legend.setTextSize(10f);
+        legend.setDrawInside(false);
+        legend.setHorizontalAlignment(Legend.LegendHorizontalAlignment.LEFT);
+        legend.setVerticalAlignment(Legend.LegendVerticalAlignment.CENTER);
+        legend.setOrientation(Legend.LegendOrientation.VERTICAL);
+        teamPAA.setVisibility(View.VISIBLE);
+    }
+
+    private void conditionallyAddData(List<Player> players, int xIndex, double posPaa,
+                                      BarData barData, String label, String color) {
+        List<BarEntry> entries = new ArrayList<>();
+        if (players.size() > 0) {
+            BarEntry entry = new BarEntry(xIndex, (int) posPaa);
+            entries.add(entry);
+            barData.addDataSet(getBarDataSet(entries, label, color));
+            xIndex++;
+        }
+    }
+
+    private BarDataSet getBarDataSet(List<BarEntry> entries, String label, String color) {
+        BarDataSet dataSet = new BarDataSet(entries, label);
+        dataSet.setColor(Color.parseColor(color));
+        dataSet.setValueTextSize(10f);
+        //dataSet.setDrawValues(false);
+        return dataSet;
     }
 }

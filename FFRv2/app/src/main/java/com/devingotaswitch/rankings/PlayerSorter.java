@@ -919,6 +919,8 @@ public class PlayerSorter extends AppCompatActivity {
         lineGraph.setTouchEnabled(true);
         lineGraph.setPinchZoom(true);
         lineGraph.setDragEnabled(true);
+        lineGraph.animateX(1500);
+        lineGraph.animateY(1500);
 
         alertDialogBuilder
                 .setNegativeButton("Dismiss",

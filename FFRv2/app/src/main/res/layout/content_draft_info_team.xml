@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
               android:layout_width="match_parent"
               android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -18,10 +21,16 @@
         android:layout_below="@+id/draft_info_team_header"
         android:text="Text"
         android:textSize="14sp"/>
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/team_graph"
+        android:layout_below="@+id/base_textview_team"
+        android:layout_width="match_parent"
+        android:visibility="gone"
+        android:layout_height="150dp"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/base_textview_team"
+        android:layout_below="@+id/team_graph"
         android:id="@+id/draft_info_team_header_paa"
         android:layout_marginTop="15dp"
         android:text="PAA 3/5/10 players back:"
@@ -35,5 +44,5 @@
         android:layout_marginTop="15dp"
         android:text="Text"
         android:textSize="14sp"/>
-
-</RelativeLayout>
+    </RelativeLayout>
+</ScrollView>
