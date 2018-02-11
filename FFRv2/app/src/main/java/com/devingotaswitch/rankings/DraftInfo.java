@@ -20,6 +20,7 @@ import android.widget.Toast;
 
 import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.fileio.LocalSettingsHelper;
+import com.devingotaswitch.rankings.domain.Draft;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.domain.RosterSettings;
@@ -174,52 +175,56 @@ public class DraftInfo extends AppCompatActivity {
     private String getTeamStr() {
         StringBuilder teamOutput = new StringBuilder();
         RosterSettings roster = rankings.getLeagueSettings().getRosterSettings();
+        Draft draft = rankings.getDraft();
         if (roster.isPositionValid(Constants.QB)) {
             teamOutput.append(Constants.QB)
                     .append("s: ")
-                    .append(getPosString(rankings.getDraft().getMyQbs(), rankings.getDraft().getQBPAA(), rankings.getDraft().getQBXval()));
+                    .append(getPosString(draft.getMyQbs(), draft.getQBPAA(), draft.getQBXval(), draft.getQBVoLS()));
         }
         if (roster.isPositionValid(Constants.RB)) {
             teamOutput.append(Constants.LINE_BREAK)
                     .append(Constants.RB)
                     .append("s: ")
-                    .append(getPosString(rankings.getDraft().getMyRbs(), rankings.getDraft().getRBPAA(), rankings.getDraft().getRBXval()));
+                    .append(getPosString(draft.getMyRbs(), draft.getRBPAA(), draft.getRBXval(), draft.getRBVoLS()));
         }
         if (roster.isPositionValid(Constants.WR)) {
             teamOutput.append(Constants.LINE_BREAK)
                     .append(Constants.WR)
                     .append("s: ")
-                    .append(getPosString(rankings.getDraft().getMyWrs(), rankings.getDraft().getWRPAA(), rankings.getDraft().getWRXval()));
+                    .append(getPosString(draft.getMyWrs(), draft.getWRPAA(), draft.getWRXval(), draft.getWRVoLS()));
         }
         if (roster.isPositionValid(Constants.TE)) {
             teamOutput.append(Constants.LINE_BREAK)
                     .append(Constants.TE)
                     .append("s: ")
-                    .append(getPosString(rankings.getDraft().getMyTes(), rankings.getDraft().getTEPAA(), rankings.getDraft().getTEXval()));
+                    .append(getPosString(draft.getMyTes(), draft.getTEPAA(), draft.getTEXval(), draft.getTEVoLS()));
         }
         if (roster.isPositionValid(Constants.DST)) {
             teamOutput.append(Constants.LINE_BREAK)
                     .append(Constants.DST)
                     .append("s: ")
-                    .append(getPosString(rankings.getDraft().getMyDsts(), rankings.getDraft().getDSTPAA(), rankings.getDraft().getDSTXval()));
+                    .append(getPosString(draft.getMyDsts(), draft.getDSTPAA(), draft.getDSTXval(), draft.getDSTVoLS()));
         }
         if (roster.isPositionValid(Constants.K)) {
             teamOutput.append(Constants.LINE_BREAK)
                     .append(Constants.K)
                     .append("s: ")
-                    .append(getPosString(rankings.getDraft().getMyKs(), rankings.getDraft().getKPAA(), rankings.getDraft().getKXval()));
+                    .append(getPosString(draft.getMyKs(), draft.getKPAA(), draft.getKXval(), draft.getKVoLS()));
         }
         return teamOutput.append(Constants.LINE_BREAK)
                 .append("Total PAA: ")
-                .append(df.format(rankings.getDraft().getTotalPAA()))
+                .append(df.format(draft.getTotalPAA()))
                 .append(Constants.LINE_BREAK)
                 .append("Total XVal: ")
-                .append(df.format(rankings.getDraft().getTotalXVal()))
+                .append(df.format(draft.getTotalXVal()))
+                .append(Constants.LINE_BREAK)
+                .append("Total VoLS: ")
+                .append(df.format(draft.getTotalVoLS()))
                 .append(Constants.LINE_BREAK)
                 .toString();
     }
 
-    private String getPosString(List<Player> players, double posPAA, double posXVal) {
+    private String getPosString(List<Player> players, double posPAA, double posXVal, double posVoLS) {
         if (players.size() == 0) {
             return "None";
         }
@@ -234,6 +239,8 @@ public class DraftInfo extends AppCompatActivity {
                 .append(df.format(posPAA))
                 .append(", ")
                 .append(df.format(posXVal))
+                .append(", ")
+                .append(df.format(posVoLS))
                 .append(")")
                 .toString();
     }

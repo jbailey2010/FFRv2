@@ -6,7 +6,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/draft_info_team_header"
-        android:text="Your team (PAA, XVal):"
+        android:text="Your team (PAA, XVal, VoLS):"
         android:layout_marginTop="10dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="bold"/>

@@ -134,70 +134,102 @@ public class Draft {
         return getQBXval() + getRBXval() + getWRXval() + getTEXval() + getDSTXval() + getKXval();
     }
 
+    public double getTotalVoLS() {
+        return getQBVoLS() + getRBVoLS() + getWRVoLS() + getTEVoLS() + getDSTVoLS() + getKVoLS();
+    }
+
     public double getQBXval() {
-        return getXValForPos(myQbs, Constants.QB);
+        return getXValForPos(myQbs);
     }
 
     public double getWRXval() {
-        return getXValForPos(myWrs, Constants.WR);
+        return getXValForPos(myWrs);
     }
 
     public double getRBXval() {
-        return getXValForPos(myRbs, Constants.RB);
+        return getXValForPos(myRbs);
     }
 
     public double getTEXval() {
-        return getXValForPos(myTes, Constants.TE);
+        return getXValForPos(myTes);
     }
 
     public double getDSTXval() {
-        return getXValForPos(myDsts, Constants.DST);
+        return getXValForPos(myDsts);
     }
 
     public double getKXval() {
-        return getXValForPos(myKs, Constants.K);
+        return getXValForPos(myKs);
     }
 
-    private double getXValForPos(List<Player> players, String position) {
+    private double getXValForPos(List<Player> players) {
         double posXval = 0.0;
         for (Player player : players) {
-            if (position.equals(player.getPosition())) {
-                posXval += player.getxVal();
-            }
+            posXval += player.getxVal();
         }
         return posXval;
     }
 
+    public double getQBVoLS() {
+        return getVoLSForPos(myQbs);
+    }
+
+    public double getRBVoLS() {
+        return getVoLSForPos(myRbs);
+    }
+
+    public double getWRVoLS() {
+        return getVoLSForPos(myWrs);
+    }
+
+    public double getTEVoLS() {
+        return getVoLSForPos(myTes);
+    }
+
+    public double getDSTVoLS() {
+        return getVoLSForPos(myDsts);
+    }
+
+    public double getKVoLS() {
+        return getVoLSForPos(myKs);
+    }
+
+    private double getVoLSForPos(List<Player> players) {
+        double posVoLS = 0.0;
+        for (Player player : players) {
+            posVoLS += player.getvOLS();
+        }
+        return posVoLS;
+    }
+
     public double getQBPAA() {
-        return getPAAForPos(myQbs, Constants.QB);
+        return getPAAForPos(myQbs);
     }
 
     public double getWRPAA() {
-        return getPAAForPos(myWrs, Constants.WR);
+        return getPAAForPos(myWrs);
     }
 
     public double getRBPAA() {
-        return getPAAForPos(myRbs, Constants.RB);
+        return getPAAForPos(myRbs);
     }
 
     public double getTEPAA() {
-        return getPAAForPos(myTes, Constants.TE);
+        return getPAAForPos(myTes);
     }
 
     public double getDSTPAA() {
-        return getPAAForPos(myDsts, Constants.DST);
+        return getPAAForPos(myDsts);
     }
 
     public double getKPAA() {
-        return getPAAForPos(myKs, Constants.K);
+        return getPAAForPos(myKs);
     }
 
-    private double getPAAForPos(List<Player> players, String position) {
+    private double getPAAForPos(List<Player> players) {
         double posPAA = 0.0;
         for (Player player : players) {
-            if (position.equals(player.getPosition())) {
-                posPAA += player.getPaa();
-            }
+            posPAA += player.getPaa();
         }
         return posPAA;
     }
