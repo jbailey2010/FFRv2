@@ -32,6 +32,7 @@ import com.devingotaswitch.utils.Constants;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
+import com.github.mikephil.charting.components.LegendEntry;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
@@ -148,6 +149,8 @@ public class DraftInfo extends AppCompatActivity {
 
         TextView paaLeft = (TextView)view.findViewById(R.id.base_textview_paa_left);
         paaLeft.setText(getPAALeft());
+
+        graphPAALeft();
     }
 
     private String getPAALeft() {
@@ -345,6 +348,52 @@ public class DraftInfo extends AppCompatActivity {
         View child = getLayoutInflater().inflate(viewId, null);
         baseLayout.addView(child);
         return child;
+    }
+
+    private void graphPAALeft() {
+        BarChart barChart = (BarChart) findViewById(R.id.paa_left_graph);
+        BarData barData = new BarData();
+
+        conditionallyGraphPosition(barData, Constants.QB);
+        conditionallyGraphPosition(barData, Constants.RB);
+        conditionallyGraphPosition(barData, Constants.WR);
+        conditionallyGraphPosition(barData, Constants.TE);
+        conditionallyGraphPosition(barData, Constants.DST);
+        conditionallyGraphPosition(barData, Constants.K);
+
+        barChart.setData(barData);
+        YAxis left = barChart.getAxisLeft();
+        left.setDrawZeroLine(true);
+        barChart.getAxisRight().setEnabled(false);
+        barChart.getXAxis().setEnabled(false);
+        barChart.setDescription(null);
+        barChart.invalidate();
+        barChart.setTouchEnabled(true);
+        barChart.setPinchZoom(true);
+        barChart.setDragEnabled(true);
+        barChart.getLegend().setCustom(new ArrayList<LegendEntry>());
+        barChart.animateX(1500);
+        barChart.animateY(1500);
+    }
+
+    private void conditionallyGraphPosition(BarData barData, String position) {
+        if (rankings.getLeagueSettings().getRosterSettings().isPositionValid(position)) {
+            List<BarEntry> entries = new ArrayList<>();
+            List<Player> players = rankings.getDraft().getSortedAvailablePlayersForPosition(position, rankings);
+
+            double threeBack = rankings.getDraft().getPAANAvailablePlayersBack(players, 3);
+            double fiveBack = rankings.getDraft().getPAANAvailablePlayersBack(players, 5);
+            double tenBack = rankings.getDraft().getPAANAvailablePlayersBack(players, 10);
+            BarEntry stackedEntry = new BarEntry(barData.getDataSetCount(),
+                    new float[] {(float)threeBack, (float)fiveBack, (float)tenBack});
+            stackedEntry.setData(position);
+
+            entries.add(stackedEntry);
+            BarDataSet barDataSet = new BarDataSet(entries, position);
+            barDataSet.setColors(new int[] {Color.BLUE, Color.GREEN, Color.CYAN});
+            barDataSet.setDrawValues(false);
+            barData.addDataSet(barDataSet);
+        }
     }
 
     private void graphTeam() {

@@ -44,5 +44,16 @@
         android:layout_marginTop="15dp"
         android:text="Text"
         android:textSize="14sp"/>
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/paa_left_graph"
+        android:layout_below="@+id/base_textview_paa_left"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/paa_left_graph"
+        android:layout_marginTop="10dp"
+        android:text="Positional PAA Remaining\nCharted in the same order as listed above\nBlue = 3 Players Back\nGreen = 5 Players Back\nLight Blue = 10 Players Back"/>
     </RelativeLayout>
 </ScrollView>

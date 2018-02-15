@@ -304,12 +304,7 @@ public class Draft {
         return myTeamStr.toString();
     }
 
-    public String getPAALeft(String pos, Rankings rankings) {
-        DecimalFormat df = new DecimalFormat("#.#");
-        String result = pos + "s: ";
-        double paaLeft = 0.0;
-        int counter = 0;
-
+    public List<Player> getSortedAvailablePlayersForPosition(String pos, Rankings rankings) {
         Comparator<Player> comparator = new Comparator<Player>() {
             @Override
             public int compare(Player a, Player b) {
@@ -329,21 +324,31 @@ public class Draft {
             }
         }
         Collections.sort(players, comparator);
+        return players;
+    }
 
+    public double getPAANAvailablePlayersBack(List<Player> players, int limit) {
+        int counter = 0;
+        double paaLeft = 0.0;
         for (Player player : players) {
             paaLeft += player.getPaa();
             counter++;
-            if (counter == 10) {
-                result += df.format(paaLeft);
+            if (counter == limit) {
                 break;
             }
-            if (counter == 3) {
-                result += df.format(paaLeft) + "/";
-            }
-            if (counter == 5) {
-                result += df.format(paaLeft) + "/";
-            }
         }
+        return paaLeft;
+    }
+
+    public String getPAALeft(String pos, Rankings rankings) {
+        DecimalFormat df = new DecimalFormat("#.#");
+        String result = pos + "s: ";
+        List<Player> players = getSortedAvailablePlayersForPosition(pos, rankings);
+
+        result += df.format(getPAANAvailablePlayersBack(players, 3)) + "/";
+        result += df.format(getPAANAvailablePlayersBack(players, 5)) + "/";
+        result += df.format(getPAANAvailablePlayersBack(players, 10));
+
         if (result.endsWith("/")) {
             result = result.substring(0, result.length() - 1);
         }
