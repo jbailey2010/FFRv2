@@ -1,7 +1,5 @@
 package com.devingotaswitch.rankings.sources;
 
-import android.util.Log;
-
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.domain.Team;
 import com.devingotaswitch.utils.Constants;
@@ -16,7 +14,7 @@ public class ParseDraft {
 
     public static void parseTeamDraft(Rankings rankings) throws IOException {
         List<String> perPick = JsoupUtils
-                .handleLists(
+                .parseURLWithUA(
                         "https://www.sbnation.com/nfl/2017/4/27/15372494/2017-nfl-draft-results-pick-by-pick",
                         "table.p-data-table tbody tr td");
         HashMap<String, String> picks = new HashMap<>();

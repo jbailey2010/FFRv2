@@ -1,21 +1,17 @@
 package com.devingotaswitch.rankings.sources;
 
-import android.util.Log;
-
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.domain.Team;
-import com.devingotaswitch.utils.GeneralUtils;
 import com.devingotaswitch.utils.JsoupUtils;
 import com.devingotaswitch.utils.ParsingUtils;
 
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 
 public class ParseSOS {
 
     public static void getSOS(Rankings rankings) throws IOException {
-        List<String> allArr = JsoupUtils.handleLists(
+        List<String> allArr = JsoupUtils.parseURLWithUA(
                 "https://www.fantasypros.com/nfl/strength-of-schedule.php",
                 "table.table-striped tbody tr td");
 

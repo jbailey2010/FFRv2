@@ -1,8 +1,5 @@
 package com.devingotaswitch.rankings.sources;
 
-import android.util.Log;
-
-import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.JsoupUtils;
@@ -19,7 +16,7 @@ public class ParseMFL {
     private static Set<String> positions = new HashSet<>(Arrays.asList(Constants.QB, Constants.RB, Constants.WR,
             Constants.TE, Constants.DST, Constants.K));
     public static void getMFLAAVs(Rankings rankings) throws IOException {
-        List<String> td = JsoupUtils.handleLists(
+        List<String> td = JsoupUtils.parseURLWithUA(
                 "http://www03.myfantasyleague.com/" + Constants.YEAR_KEY + "/aav?COUNT=500&POS=*&CUTOFF=5&IS_PPR=1&IS_KEEPER=-1&TIME=",
                 "table.report tbody tr td");
 

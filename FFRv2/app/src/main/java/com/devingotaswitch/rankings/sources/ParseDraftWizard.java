@@ -1,7 +1,5 @@
 package com.devingotaswitch.rankings.sources;
 
-import android.util.Log;
-
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.utils.JsoupUtils;
@@ -39,7 +37,7 @@ public class ParseDraftWizard {
 
     public static void parseRanksWorker(Rankings rankings, String url)
             throws IOException {
-        List<String> td = JsoupUtils.handleLists(url,
+        List<String> td = JsoupUtils.parseURLWithUA(url,
                 "table#OverallTable td");
         int startingIndex = 0;
         for (int i = 0; i < td.size(); i++) {

@@ -1,7 +1,5 @@
 package com.devingotaswitch.rankings.sources;
 
-import android.util.Log;
-
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.domain.Team;
 import com.devingotaswitch.utils.Constants;
@@ -17,7 +15,7 @@ import java.util.Map;
 public class ParseFA {
 
     public static void parseFAClasses(Rankings rankings) throws IOException {
-        List<String> td = JsoupUtils.handleLists("https://www.profootballfocus.com/pro-2017-free-agency-tracker/",
+        List<String> td = JsoupUtils.parseURLWithUA("https://www.profootballfocus.com/" + Constants.YEAR_KEY + "-nfl-free-agency-tracker/",
                 "article table tbody tr td");
         Map<String, String> arrivingFA = new HashMap<>();
         Map<String, String> departingFA = new HashMap<>();

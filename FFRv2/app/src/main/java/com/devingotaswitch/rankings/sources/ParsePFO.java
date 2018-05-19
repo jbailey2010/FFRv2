@@ -1,7 +1,5 @@
 package com.devingotaswitch.rankings.sources;
 
-import android.util.Log;
-
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.GeneralUtils;
@@ -19,7 +17,7 @@ import java.util.Set;
 
 public class ParsePFO {
     public static void parsePFOLineData(Rankings rankings) throws IOException {
-        List<String> td = JsoupUtils.handleLists(
+        List<String> td = JsoupUtils.parseURLWithUA(
                 "http://www.footballoutsiders.com/stats/ol", "td");
         Map<String, String> data = new HashMap<>();
         int start = 0;

@@ -1,7 +1,5 @@
 package com.devingotaswitch.rankings.sources;
 
-import android.util.Log;
-
 import com.amazonaws.util.StringUtils;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
@@ -19,7 +17,7 @@ public class ParseInjuries {
     public static Map<String, String> parsePlayerInjuries(Rankings rankings)
             throws IOException {
         Map<String, String> injuries = new HashMap<>();
-        List<String> perRow = JsoupUtils.handleLists(
+        List<String> perRow = JsoupUtils.parseURLWithUA(
                 "http://www.rotoworld.com/teams/injuries/nfl/all/", "td");
         for (int i = 7; i < perRow.size(); i++) {
             String pos = perRow.get(i + 2);

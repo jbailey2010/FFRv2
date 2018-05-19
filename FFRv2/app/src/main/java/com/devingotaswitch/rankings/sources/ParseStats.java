@@ -1,8 +1,5 @@
 package com.devingotaswitch.rankings.sources;
 
-import android.content.Context;
-import android.util.Log;
-
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.utils.Constants;
@@ -13,7 +10,6 @@ import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class ParseStats {
 
@@ -94,7 +90,7 @@ public class ParseStats {
     }
 
     private static Map<String, String> parseQBStats() throws IOException {
-        List<String> rows = JsoupUtils.handleLists(
+        List<String> rows = JsoupUtils.parseURLWithUA(
                 "http://www.footballoutsiders.com/stats/qb", "tr");
         Map<String, String> qbPlayers = new HashMap<>();
         for (int i = 0; i < rows.size(); i++) {
@@ -147,7 +143,7 @@ public class ParseStats {
     }
 
     private static Map<String, String> parseRBStats() throws IOException {
-        List<String> rows = JsoupUtils.handleLists(
+        List<String> rows = JsoupUtils.parseURLWithUA(
                 "http://www.footballoutsiders.com/stats/rb", "tr");
         Map<String, String> rbPlayers = new HashMap<>();
         for (int i = 0; i < rows.size(); i++) {
@@ -211,7 +207,7 @@ public class ParseStats {
     }
 
     private static Map<String, String> parseWRStats() throws IOException {
-        List<String> rows = JsoupUtils.handleLists(
+        List<String> rows = JsoupUtils.parseURLWithUA(
                 "http://www.footballoutsiders.com/stats/wr", "tr");
         Map<String, String> wrPlayers = new HashMap<>();
         for (int i = 0; i < rows.size(); i++) {
@@ -265,7 +261,7 @@ public class ParseStats {
     }
 
     private static Map<String, String> parseTEStats() throws IOException {
-        List<String> rows = JsoupUtils.handleLists(
+        List<String> rows = JsoupUtils.parseURLWithUA(
                 "http://www.footballoutsiders.com/stats/te", "tr");
         Map<String, String> tePlayers = new HashMap<>();
         for (int i = 0; i < rows.size(); i++) {

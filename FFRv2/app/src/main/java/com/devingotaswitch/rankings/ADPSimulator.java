@@ -2,7 +2,6 @@ package com.devingotaswitch.rankings;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.support.design.widget.Snackbar;
@@ -11,14 +10,12 @@ import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.devingotaswitch.rankings.extras.FilterWithSpaceAdapter;
 import com.devingotaswitch.ffrv2.R;
@@ -208,7 +205,7 @@ public class ADPSimulator extends AppCompatActivity {
 
     private String getPlayerADPOdds(String url, Player player, int pick) {
         try {
-            List<String> td = JsoupUtils.handleLists(url,
+            List<String> td = JsoupUtils.parseURLWithUA(url,
                     "table.scenario-calculator td");
             for (int i = 0; i < td.size(); i+=6) {
                 String possibleName = ParsingUtils.normalizeNames(td.get(i));

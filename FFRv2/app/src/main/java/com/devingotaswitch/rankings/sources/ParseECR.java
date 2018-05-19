@@ -1,16 +1,11 @@
 package com.devingotaswitch.rankings.sources;
 
-import android.util.Log;
-
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.GeneralUtils;
 import com.devingotaswitch.utils.JsoupUtils;
 import com.devingotaswitch.utils.ParsingUtils;
-
-import org.jsoup.nodes.Document;
-import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -46,7 +41,7 @@ public class ParseECR {
 
     private static void parseECRWorker(String url,
                                       Map<String, Double> ecr, Map<String, Double> risk) throws IOException {
-        List<String> td = JsoupUtils.handleLists(url, "table.player-table tbody tr td");
+        List<String> td = JsoupUtils.parseURLWithUA(url, "table.player-table tbody tr td");
         int min = 0;
         for (int i = 0; i < td.size(); i++) {
             if (GeneralUtils.isInteger(td.get(i))) {
@@ -83,7 +78,7 @@ public class ParseECR {
 
     private static void parseADPWorker(Map<String, Double> adp, String adpUrl)
             throws IOException {
-        List<String> td = JsoupUtils.handleLists(adpUrl, "table.player-table tbody tr td");
+        List<String> td = JsoupUtils.parseURLWithUA(adpUrl, "table.player-table tbody tr td");
         int min = 0;
         try {
             for (int i = 0; i < td.size(); i++) {
@@ -94,6 +89,11 @@ public class ParseECR {
                 }
             }
             for (int i = min; i < td.size(); i += 10) {
+                if (i + 10 >= td.size()) {
+                    break;
+                } else if ("".equals(td.get(i))) {
+                    i++;
+                }
                 String filteredName = td.get(i + 1).split(
                         " \\(")[0].split(", ")[0];
                 String team = ParsingUtils.normalizeTeams(filteredName.substring(filteredName.lastIndexOf(" ")).trim());

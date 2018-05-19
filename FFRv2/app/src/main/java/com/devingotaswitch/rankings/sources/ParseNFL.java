@@ -1,7 +1,5 @@
 package com.devingotaswitch.rankings.sources;
 
-import android.util.Log;
-
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.utils.Constants;
@@ -41,7 +39,7 @@ public class ParseNFL {
 
     private static void parseNFLAAVWorker(Rankings rankings, String url)
             throws IOException {
-        List<String> td = JsoupUtils.handleLists(url, "td");
+        List<String> td = JsoupUtils.parseURLWithUA(url, "td");
         for (int i = 0; i < td.size(); i += 4) {
             String nameSet[] = td.get(i).split(" ");
             String name = "";

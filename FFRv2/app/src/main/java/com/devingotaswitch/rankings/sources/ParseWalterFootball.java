@@ -1,8 +1,5 @@
 package com.devingotaswitch.rankings.sources;
 
-import android.util.Log;
-
-import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.domain.RosterSettings;
 import com.devingotaswitch.rankings.domain.ScoringSettings;
@@ -32,7 +29,7 @@ public class ParseWalterFootball {
 
     private static void wfRankingsHelper(Rankings rankings, String url)
             throws IOException, ArrayIndexOutOfBoundsException {
-        List<String> perPlayer = JsoupUtils.handleLists(url,
+        List<String> perPlayer = JsoupUtils.parseURLWithUA(url,
                 "ol.fantasy-board div li");
         String[][] all = new String[perPlayer.size()][];
         for (int i = 0; i < perPlayer.size(); i++) {

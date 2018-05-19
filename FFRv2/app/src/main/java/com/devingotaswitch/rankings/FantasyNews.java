@@ -1,13 +1,11 @@
 package com.devingotaswitch.rankings;
 
-import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -20,7 +18,6 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.rankings.domain.Player;
@@ -221,9 +218,9 @@ public class FantasyNews extends AppCompatActivity {
     private List<PlayerNews> parseNewsRoto(String url) throws IOException {
         List<PlayerNews> newsSet = new ArrayList<>();
         Document doc = Jsoup.connect(url).timeout(0).get();
-        List<String> reportSet = JsoupUtils.handleListsMulti(doc, "div.report");
-        List<String> impactSet = JsoupUtils.handleListsMulti(doc, "div.impact");
-        List<String> dateSet = JsoupUtils.handleListsMulti(doc, "div.date");
+        List<String> reportSet = JsoupUtils.getElemsFromDoc(doc, "div.report");
+        List<String> impactSet = JsoupUtils.getElemsFromDoc(doc, "div.impact");
+        List<String> dateSet = JsoupUtils.getElemsFromDoc(doc, "div.date");
         for(int i = 0; i < reportSet.size(); i++)
         {
             PlayerNews news = new PlayerNews();
@@ -239,7 +236,7 @@ public class FantasyNews extends AppCompatActivity {
         List<PlayerNews> newsSet = new ArrayList<>();
         String url = "http://football.myfantasyleague.com/2017/news_articles";
         Document doc = Jsoup.connect(url).timeout(0).get();
-        List<String> title = JsoupUtils.handleListsMulti(doc, "td.headline b a");
+        List<String> title = JsoupUtils.getElemsFromDoc(doc, "td.headline b a");
         Elements elems = doc.select("tr.oddtablerow");
         Elements elems2 = doc.select("tr.eventablerow");
         List<String> news = new ArrayList<String>();
@@ -249,7 +246,7 @@ public class FantasyNews extends AppCompatActivity {
             news.add(odd.text());
             news.add(even.text());
         }
-        List<String> time = JsoupUtils.handleListsMulti(doc, "td.timestamp");
+        List<String> time = JsoupUtils.getElemsFromDoc(doc, "td.timestamp");
         for(int i = 0; i < 75; i++){
             String newsStr = news.get(i);
             newsStr = newsStr.substring(newsStr.indexOf(")") + 2);

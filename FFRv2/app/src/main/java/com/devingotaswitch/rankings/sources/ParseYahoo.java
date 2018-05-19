@@ -1,8 +1,5 @@
 package com.devingotaswitch.rankings.sources;
 
-import android.util.Log;
-
-import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.JsoupUtils;
@@ -41,7 +38,7 @@ public class ParseYahoo {
 
     private static void parseYahoo(Rankings rankings, String url, String pos)
             throws IOException {
-        List<String> td = JsoupUtils.handleLists(url, "td");
+        List<String> td = JsoupUtils.parseURLWithUA(url, "td");
         int startingIndex = 0;
         for (int i = 0; i < td.size(); i++) {
             if (td.get(i).contains("Note") || td.get(i).contains("Notes")) {

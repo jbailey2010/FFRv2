@@ -1,20 +1,16 @@
 package com.devingotaswitch.rankings.sources;
 
-import android.util.Log;
-
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.utils.GeneralUtils;
 import com.devingotaswitch.utils.JsoupUtils;
 import com.devingotaswitch.utils.ParsingUtils;
-
-import org.jsoup.nodes.Document;
 
 import java.io.IOException;
 import java.util.List;
 
 public class ParseESPN {
     public static void parseESPNAggregate(Rankings rankings) throws IOException {
-        List<String> brokenValues = JsoupUtils.handleLists(
+        List<String> brokenValues = JsoupUtils.parseURLWithUA(
                 "http://games.espn.go.com/ffl/livedraftresults",
                 "table.tableBody tbody tr td");
 

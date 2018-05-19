@@ -12,7 +12,9 @@ import java.util.List;
 public class JsoupUtils {
 
     public static Document getDocument(String url) throws IOException {
-        return Jsoup.connect(url).get();
+        return Jsoup.connect(url)
+                .timeout(0)
+                .get();
     }
 
     public static Document getDocumentWithUA(String url) throws IOException {
@@ -23,18 +25,18 @@ public class JsoupUtils {
                 .get();
     }
 
-    public static List<String> handleLists(String url, String params)
-            throws IOException {
-        List<String> elems = new ArrayList<>();
-        Document doc = getDocumentWithUA(url);
-        Elements links = doc.select(params);
-        for (Element element : links) {
-            elems.add(element.text());
-        }
-        return elems;
+    public static List<String> parseURLWithoutUA(String url, String params) throws IOException {
+        Document doc = getDocument(url);
+        return getElemsFromDoc(doc, params);
     }
 
-    public static List<String> handleListsMulti(Document doc, String params) throws IOException {
+    public static List<String> parseURLWithUA(String url, String params)
+            throws IOException {
+        Document doc = getDocumentWithUA(url);
+        return getElemsFromDoc(doc, params);
+    }
+
+    public static List<String> getElemsFromDoc(Document doc, String params) throws IOException {
         List<String> elems = new ArrayList<>();
         Elements links = doc.select(params);
         for (Element element : links) {

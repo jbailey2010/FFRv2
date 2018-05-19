@@ -1,7 +1,5 @@
 package com.devingotaswitch.rankings.sources;
 
-import android.util.Log;
-
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.domain.Team;
@@ -21,27 +19,28 @@ public class ParseFFTB {
         String teams = String.valueOf(rankings.getLeagueSettings().getTeamCount());
         parseFFTBPage(
                 rankings,
-                "http://www.fftoolbox.com/football/2017/auction-values.cfm?pos=QB&teams=" + teams + "&budget=200", Constants.QB);
+                "http://www.fftoolbox.com/football/" + Constants.YEAR_KEY + "/auction-values.cfm?pos=QB&teams=" + teams + "&budget=200", Constants.QB);
         parseFFTBPage(
                 rankings,
-                "http://www.fftoolbox.com/football/2017/auction-values.cfm?pos=RB&teams=" + teams + "&budget=200", Constants.RB);
+                "http://www.fftoolbox.com/football/" + Constants.YEAR_KEY + "/auction-values.cfm?pos=RB&teams=" + teams + "&budget=200", Constants.RB);
         parseFFTBPage(
                 rankings,
-                "http://www.fftoolbox.com/football/2017/auction-values.cfm?pos=WR&teams=" + teams + "&budget=200", Constants.WR);
+                "http://www.fftoolbox.com/football/" + Constants.YEAR_KEY + "/auction-values.cfm?pos=WR&teams=" + teams + "&budget=200", Constants.WR);
         parseFFTBPage(
                 rankings,
-                "http://www.fftoolbox.com/football/2017/auction-values.cfm?pos=TE&teams=" + teams + "&budget=200", Constants.TE);
+                "http://www.fftoolbox.com/football/" + Constants.YEAR_KEY + "/auction-values.cfm?pos=TE&teams=" + teams + "&budget=200", Constants.TE);
         parseFFTBPage(
                 rankings,
-                "http://www.fftoolbox.com/football/2017/auction-values.cfm?pos=PK&teams=" + teams + "&budget=200", Constants.K);
+                "http://www.fftoolbox.com/football/" + Constants.YEAR_KEY + "/auction-values.cfm?pos=PK&teams=" + teams + "&budget=200", Constants.K);
         parseFFTBPage(
                 rankings,
-                "http://www.fftoolbox.com/football/2017/auction-values.cfm?pos=Def&teams=" + teams + "&budget=200", Constants.DST);
+                "http://www.fftoolbox.com/football/" + Constants.YEAR_KEY + "/auction-values.cfm?pos=Def&teams=" + teams + "&budget=200", Constants.DST);
     }
 
     private static void parseFFTBPage(Rankings rankings, String url, String pos)
             throws IOException {
-        List<String> brokenUp = JsoupUtils.handleLists(url, "td");
+        System.out.println(url);
+        List<String> brokenUp = JsoupUtils.parseURLWithoutUA(url, "td");
         int min = 0;
         for (int i = 0; i < brokenUp.size(); i++) {
             if (GeneralUtils.isInteger(brokenUp.get(i))) {

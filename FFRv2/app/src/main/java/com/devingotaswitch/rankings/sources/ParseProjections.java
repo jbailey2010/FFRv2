@@ -1,8 +1,5 @@
 package com.devingotaswitch.rankings.sources;
 
-import android.content.Context;
-import android.util.Log;
-
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.utils.Constants;
@@ -46,7 +43,7 @@ public class ParseProjections {
     private static void qbProj(String url, Map<String, Double> points,
                               Rankings rankings, String pos) throws IOException {
         DecimalFormat df = new DecimalFormat(Constants.NUMBER_FORMAT);
-        List<String> td = JsoupUtils.handleLists(url, "table.table-bordered tbody tr td");
+        List<String> td = JsoupUtils.parseURLWithUA(url, "table.table-bordered tbody tr td");
 
         int min = 0;
         for (int i = 0; i < td.size(); i++) {
@@ -92,7 +89,7 @@ public class ParseProjections {
     private static void rbProj(String url, Map<String, Double> points,
                               Rankings rankings, String pos) throws IOException {
         DecimalFormat df = new DecimalFormat(Constants.NUMBER_FORMAT);
-        List<String> td = JsoupUtils.handleLists(url, "table.table-bordered tbody tr td");
+        List<String> td = JsoupUtils.parseURLWithUA(url, "table.table-bordered tbody tr td");
 
         int min = 0;
 
@@ -141,7 +138,7 @@ public class ParseProjections {
     private static void wrProj(String url, Map<String, Double> points,
                               Rankings rankings, String pos) throws IOException {
         DecimalFormat df = new DecimalFormat(Constants.NUMBER_FORMAT);
-        List<String> td = JsoupUtils.handleLists(url, "table.table-bordered tbody tr td");
+        List<String> td = JsoupUtils.parseURLWithUA(url, "table.table-bordered tbody tr td");
 
         int min = 0;
 
@@ -190,7 +187,7 @@ public class ParseProjections {
     private static void teProj(String url, Map<String, Double> points,
                               Rankings rankings, String pos) throws IOException {
         DecimalFormat df = new DecimalFormat(Constants.NUMBER_FORMAT);
-        List<String> td = JsoupUtils.handleLists(url, "table.table-bordered tbody tr td");
+        List<String> td = JsoupUtils.parseURLWithUA(url, "table.table-bordered tbody tr td");
 
         int min = 0;
         for (int i = 0; i < td.size(); i++) {
@@ -231,7 +228,7 @@ public class ParseProjections {
     }
 
     private static void defProj(String url, Map<String, Double> points, String pos) throws IOException {
-        List<String> td = JsoupUtils.handleLists(url, "table.table-bordered tbody tr td");
+        List<String> td = JsoupUtils.parseURLWithUA(url, "table.table-bordered tbody tr td");
 
         int min = 0;
         for (int i = 0; i < td.size(); i++) {
@@ -264,7 +261,7 @@ public class ParseProjections {
 
     private static void kProj(String url, Map<String, Double> points,
                              String pos) throws IOException {
-        List<String> td = JsoupUtils.handleLists(url, "table.table-bordered tbody tr td");
+        List<String> td = JsoupUtils.parseURLWithUA(url, "table.table-bordered tbody tr td");
 
         int min = 0;
         for (int i = 0; i < td.size(); i++) {
