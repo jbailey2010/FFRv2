@@ -7,6 +7,8 @@ import com.devingotaswitch.utils.GeneralUtils;
 import com.devingotaswitch.utils.JsoupUtils;
 import com.devingotaswitch.utils.ParsingUtils;
 
+import org.jsoup.nodes.Document;
+
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
@@ -41,7 +43,9 @@ public class ParseECR {
 
     private static void parseECRWorker(String url,
                                       Map<String, Double> ecr, Map<String, Double> risk) throws IOException {
-        List<String> td = JsoupUtils.parseURLWithUA(url, "table.player-table tbody tr td");
+        Document doc = JsoupUtils.getDocument(url);
+        List<String> names = JsoupUtils.getElemsFromDoc(doc, "table.player-table tbody tr td span.full-name");
+        List<String> td = JsoupUtils.getElemsFromDoc(doc, "table.player-table tbody tr td");
         int min = 0;
         for (int i = 0; i < td.size(); i++) {
             if (GeneralUtils.isInteger(td.get(i))) {
@@ -49,24 +53,25 @@ public class ParseECR {
                 break;
             }
         }
+        int playerCount = 0;
         for (int i = min; i < td.size(); i += 9) {
             if (i + 9 >= td.size()) {
                 break;
             } else if ("".equals(td.get(i))) {
                 i++;
             }
+            String fullName = names.get(playerCount++);
             String filteredName = td.get(i).split(
                     " \\(")[0].split(", ")[0];
-            String withoutTeam = filteredName.substring(0, filteredName.lastIndexOf(" "));
             String team = ParsingUtils.normalizeTeams(filteredName.substring(filteredName.lastIndexOf(" ")).trim());
             String name = ParsingUtils
-                    .normalizeNames(ParsingUtils.normalizeDefenses(withoutTeam));
+                    .normalizeNames(ParsingUtils.normalizeDefenses(fullName));
             double ecrVal = Double.parseDouble(td.get(i + 5));
             double riskVal = Double.parseDouble(td.get(i + 6));
             String posInd = td.get(i + 1).replaceAll("(\\d+,\\d+)|\\d+", "")
                     .replaceAll("DST", Constants.DST);
             if (Constants.DST.equals(posInd)) {
-                team = ParsingUtils.normalizeTeams(withoutTeam);
+                team = ParsingUtils.normalizeTeams(fullName);
             }
             ecr.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + posInd, ecrVal);
             risk.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + posInd, riskVal);

@@ -14,7 +14,6 @@ import com.devingotaswitch.rankings.sources.ParseESPN;
 import com.devingotaswitch.rankings.sources.ParseFA;
 import com.devingotaswitch.rankings.sources.ParseFFTB;
 import com.devingotaswitch.rankings.sources.ParseInjuries;
-import com.devingotaswitch.rankings.sources.ParseMFL;
 import com.devingotaswitch.rankings.sources.ParseMath;
 import com.devingotaswitch.rankings.sources.ParseNFL;
 import com.devingotaswitch.rankings.sources.ParsePFO;
@@ -104,14 +103,6 @@ public class RankingsFetcher {
                 Log.e(TAG, "Failed to parse Yahoo", e);
             }
             publishProgress("Fetching rankings... 6/14");
-
-            Log.i(TAG, "Getting MFL rankings");
-            try {
-                ParseMFL.getMFLAAVs(rankings);
-            } catch(Exception e) {
-                Log.e(TAG, "Failed to parse MFL", e);
-            }
-            publishProgress("Fetching rankings... 7/14");
 
             Log.i(TAG, "Getting NFL rankings");
             try {

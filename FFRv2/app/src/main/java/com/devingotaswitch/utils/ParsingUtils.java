@@ -359,6 +359,10 @@ public class ParsingUtils {
             playerName = normalizeDefenses(playerName);
         } else if (playerName.contains("Veon") && playerName.contains("Bell")) {
             playerName = "Le'Veon Bell";
+        } else if (playerName.endsWith("II")) {
+            playerName = playerName.replace(" II", "");
+        } else if (playerName.endsWith("III")) {
+            playerName = playerName.replace(" III", "");
         }
         return playerName;
     }
