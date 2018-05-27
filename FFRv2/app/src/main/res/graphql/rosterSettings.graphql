@@ -1,0 +1,35 @@
+mutation CreateRosterSettings($input: CreateRosterSettingsInput) {
+  createRosterSettings(input: $input) {
+    leagueId
+  }
+}
+
+mutation UpdateRosterSettings($input: UpdateRosterSettingsInput) {
+  updateRosterSettings(input: $input) {
+    leagueId
+  }
+}
+
+mutation DeleteRosterSettings($input: DeleteRosterSettingsInput) {
+  deleteRosterSettings(input: $input) {
+    leagueId
+  }
+}
+
+query GetRosterSettings($id: String) {
+  getRosterSettings(leagueId: $id) {
+    leagueId
+	qbCount
+	rbCount
+	wrCount
+	teCount
+	dstCount
+	kCount
+	benchCount
+	rbwrCount
+	rbwrteCount
+	rbteCount
+	wrteCount
+	qbrbwrteCount
+  }
+}

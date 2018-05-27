@@ -7,9 +7,7 @@
             "mutationType": {
                 "name": "Mutation"
             },
-            "subscriptionType": {
-                "name": "Subscription"
-            },
+            "subscriptionType": null,
             "types": [
                 {
                     "kind": "OBJECT",
@@ -44,39 +42,6 @@
                             "deprecationReason": null
                         },
                         {
-                            "name": "listRosterSettings",
-                            "description": null,
-                            "args": [
-                                {
-                                    "name": "first",
-                                    "description": null,
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "Int",
-                                        "ofType": null
-                                    },
-                                    "defaultValue": null
-                                },
-                                {
-                                    "name": "after",
-                                    "description": null,
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "String",
-                                        "ofType": null
-                                    },
-                                    "defaultValue": null
-                                }
-                            ],
-                            "type": {
-                                "kind": "OBJECT",
-                                "name": "RosterSettingsConnection",
-                                "ofType": null
-                            },
-                            "isDeprecated": false,
-                            "deprecationReason": null
-                        },
-                        {
                             "name": "getScoringSettings",
                             "description": null,
                             "args": [
@@ -98,39 +63,6 @@
                             "type": {
                                 "kind": "OBJECT",
                                 "name": "ScoringSettings",
-                                "ofType": null
-                            },
-                            "isDeprecated": false,
-                            "deprecationReason": null
-                        },
-                        {
-                            "name": "listScoringSettings",
-                            "description": null,
-                            "args": [
-                                {
-                                    "name": "first",
-                                    "description": null,
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "Int",
-                                        "ofType": null
-                                    },
-                                    "defaultValue": null
-                                },
-                                {
-                                    "name": "after",
-                                    "description": null,
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "String",
-                                        "ofType": null
-                                    },
-                                    "defaultValue": null
-                                }
-                            ],
-                            "type": {
-                                "kind": "OBJECT",
-                                "name": "ScoringSettingsConnection",
                                 "ofType": null
                             },
                             "isDeprecated": false,
@@ -182,30 +114,28 @@
                             "description": null,
                             "args": [
                                 {
-                                    "name": "first",
+                                    "name": "leagueId",
                                     "description": null,
                                     "type": {
-                                        "kind": "SCALAR",
-                                        "name": "Int",
-                                        "ofType": null
-                                    },
-                                    "defaultValue": null
-                                },
-                                {
-                                    "name": "after",
-                                    "description": null,
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "String",
-                                        "ofType": null
+                                        "kind": "NON_NULL",
+                                        "name": null,
+                                        "ofType": {
+                                            "kind": "SCALAR",
+                                            "name": "String",
+                                            "ofType": null
+                                        }
                                     },
                                     "defaultValue": null
                                 }
                             ],
                             "type": {
-                                "kind": "OBJECT",
-                                "name": "TeamConnection",
-                                "ofType": null
+                                "kind": "LIST",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "OBJECT",
+                                    "name": "Team",
+                                    "ofType": null
+                                }
                             },
                             "isDeprecated": false,
                             "deprecationReason": null
@@ -256,30 +186,28 @@
                             "description": null,
                             "args": [
                                 {
-                                    "name": "first",
+                                    "name": "leagueId",
                                     "description": null,
                                     "type": {
-                                        "kind": "SCALAR",
-                                        "name": "Int",
-                                        "ofType": null
-                                    },
-                                    "defaultValue": null
-                                },
-                                {
-                                    "name": "after",
-                                    "description": null,
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "String",
-                                        "ofType": null
+                                        "kind": "NON_NULL",
+                                        "name": null,
+                                        "ofType": {
+                                            "kind": "SCALAR",
+                                            "name": "String",
+                                            "ofType": null
+                                        }
                                     },
                                     "defaultValue": null
                                 }
                             ],
                             "type": {
-                                "kind": "OBJECT",
-                                "name": "PlayerConnection",
-                                "ofType": null
+                                "kind": "LIST",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "OBJECT",
+                                    "name": "Player",
+                                    "ofType": null
+                                }
                             },
                             "isDeprecated": false,
                             "deprecationReason": null
@@ -326,34 +254,32 @@
                             "deprecationReason": null
                         },
                         {
-                            "name": "listLeagues",
+                            "name": "listLeagueIds",
                             "description": null,
                             "args": [
                                 {
-                                    "name": "first",
+                                    "name": "ownerId",
                                     "description": null,
                                     "type": {
-                                        "kind": "SCALAR",
-                                        "name": "Int",
-                                        "ofType": null
-                                    },
-                                    "defaultValue": null
-                                },
-                                {
-                                    "name": "after",
-                                    "description": null,
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "String",
-                                        "ofType": null
+                                        "kind": "NON_NULL",
+                                        "name": null,
+                                        "ofType": {
+                                            "kind": "SCALAR",
+                                            "name": "String",
+                                            "ofType": null
+                                        }
                                     },
                                     "defaultValue": null
                                 }
                             ],
                             "type": {
-                                "kind": "OBJECT",
-                                "name": "LeagueConnection",
-                                "ofType": null
+                                "kind": "LIST",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                }
                             },
                             "isDeprecated": false,
                             "deprecationReason": null
@@ -557,45 +483,6 @@
                 },
                 {
                     "kind": "OBJECT",
-                    "name": "RosterSettingsConnection",
-                    "description": null,
-                    "fields": [
-                        {
-                            "name": "items",
-                            "description": null,
-                            "args": [],
-                            "type": {
-                                "kind": "LIST",
-                                "name": null,
-                                "ofType": {
-                                    "kind": "OBJECT",
-                                    "name": "RosterSettings",
-                                    "ofType": null
-                                }
-                            },
-                            "isDeprecated": false,
-                            "deprecationReason": null
-                        },
-                        {
-                            "name": "nextToken",
-                            "description": null,
-                            "args": [],
-                            "type": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
-                            },
-                            "isDeprecated": false,
-                            "deprecationReason": null
-                        }
-                    ],
-                    "inputFields": null,
-                    "interfaces": [],
-                    "enumValues": null,
-                    "possibleTypes": null
-                },
-                {
-                    "kind": "OBJECT",
                     "name": "ScoringSettings",
                     "description": null,
                     "fields": [
@@ -736,45 +623,6 @@
                     "fields": null,
                     "inputFields": null,
                     "interfaces": null,
-                    "enumValues": null,
-                    "possibleTypes": null
-                },
-                {
-                    "kind": "OBJECT",
-                    "name": "ScoringSettingsConnection",
-                    "description": null,
-                    "fields": [
-                        {
-                            "name": "items",
-                            "description": null,
-                            "args": [],
-                            "type": {
-                                "kind": "LIST",
-                                "name": null,
-                                "ofType": {
-                                    "kind": "OBJECT",
-                                    "name": "ScoringSettings",
-                                    "ofType": null
-                                }
-                            },
-                            "isDeprecated": false,
-                            "deprecationReason": null
-                        },
-                        {
-                            "name": "nextToken",
-                            "description": null,
-                            "args": [],
-                            "type": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
-                            },
-                            "isDeprecated": false,
-                            "deprecationReason": null
-                        }
-                    ],
-                    "inputFields": null,
-                    "interfaces": [],
                     "enumValues": null,
                     "possibleTypes": null
                 },
@@ -937,45 +785,6 @@
                         },
                         {
                             "name": "faClass",
-                            "description": null,
-                            "args": [],
-                            "type": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
-                            },
-                            "isDeprecated": false,
-                            "deprecationReason": null
-                        }
-                    ],
-                    "inputFields": null,
-                    "interfaces": [],
-                    "enumValues": null,
-                    "possibleTypes": null
-                },
-                {
-                    "kind": "OBJECT",
-                    "name": "TeamConnection",
-                    "description": null,
-                    "fields": [
-                        {
-                            "name": "items",
-                            "description": null,
-                            "args": [],
-                            "type": {
-                                "kind": "LIST",
-                                "name": null,
-                                "ofType": {
-                                    "kind": "OBJECT",
-                                    "name": "Team",
-                                    "ofType": null
-                                }
-                            },
-                            "isDeprecated": false,
-                            "deprecationReason": null
-                        },
-                        {
-                            "name": "nextToken",
                             "description": null,
                             "args": [],
                             "type": {
@@ -1263,45 +1072,6 @@
                 },
                 {
                     "kind": "OBJECT",
-                    "name": "PlayerConnection",
-                    "description": null,
-                    "fields": [
-                        {
-                            "name": "items",
-                            "description": null,
-                            "args": [],
-                            "type": {
-                                "kind": "LIST",
-                                "name": null,
-                                "ofType": {
-                                    "kind": "OBJECT",
-                                    "name": "Player",
-                                    "ofType": null
-                                }
-                            },
-                            "isDeprecated": false,
-                            "deprecationReason": null
-                        },
-                        {
-                            "name": "nextToken",
-                            "description": null,
-                            "args": [],
-                            "type": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
-                            },
-                            "isDeprecated": false,
-                            "deprecationReason": null
-                        }
-                    ],
-                    "inputFields": null,
-                    "interfaces": [],
-                    "enumValues": null,
-                    "possibleTypes": null
-                },
-                {
-                    "kind": "OBJECT",
                     "name": "League",
                     "description": null,
                     "fields": [
@@ -1468,45 +1238,6 @@
                             "deprecationReason": null
                         }
                     ],
-                    "possibleTypes": null
-                },
-                {
-                    "kind": "OBJECT",
-                    "name": "LeagueConnection",
-                    "description": null,
-                    "fields": [
-                        {
-                            "name": "items",
-                            "description": null,
-                            "args": [],
-                            "type": {
-                                "kind": "LIST",
-                                "name": null,
-                                "ofType": {
-                                    "kind": "OBJECT",
-                                    "name": "League",
-                                    "ofType": null
-                                }
-                            },
-                            "isDeprecated": false,
-                            "deprecationReason": null
-                        },
-                        {
-                            "name": "nextToken",
-                            "description": null,
-                            "args": [],
-                            "type": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
-                            },
-                            "isDeprecated": false,
-                            "deprecationReason": null
-                        }
-                    ],
-                    "inputFields": null,
-                    "interfaces": [],
-                    "enumValues": null,
                     "possibleTypes": null
                 },
                 {
@@ -1716,33 +1447,6 @@
                                         "ofType": {
                                             "kind": "INPUT_OBJECT",
                                             "name": "UpdateTeamInput",
-                                            "ofType": null
-                                        }
-                                    },
-                                    "defaultValue": null
-                                }
-                            ],
-                            "type": {
-                                "kind": "OBJECT",
-                                "name": "Team",
-                                "ofType": null
-                            },
-                            "isDeprecated": false,
-                            "deprecationReason": null
-                        },
-                        {
-                            "name": "deleteTeam",
-                            "description": null,
-                            "args": [
-                                {
-                                    "name": "input",
-                                    "description": null,
-                                    "type": {
-                                        "kind": "NON_NULL",
-                                        "name": null,
-                                        "ofType": {
-                                            "kind": "INPUT_OBJECT",
-                                            "name": "DeleteTeamInput",
                                             "ofType": null
                                         }
                                     },
@@ -2795,45 +2499,6 @@
                 },
                 {
                     "kind": "INPUT_OBJECT",
-                    "name": "DeleteTeamInput",
-                    "description": null,
-                    "fields": null,
-                    "inputFields": [
-                        {
-                            "name": "id",
-                            "description": null,
-                            "type": {
-                                "kind": "NON_NULL",
-                                "name": null,
-                                "ofType": {
-                                    "kind": "SCALAR",
-                                    "name": "String",
-                                    "ofType": null
-                                }
-                            },
-                            "defaultValue": null
-                        },
-                        {
-                            "name": "leagueId",
-                            "description": null,
-                            "type": {
-                                "kind": "NON_NULL",
-                                "name": null,
-                                "ofType": {
-                                    "kind": "SCALAR",
-                                    "name": "String",
-                                    "ofType": null
-                                }
-                            },
-                            "defaultValue": null
-                        }
-                    ],
-                    "interfaces": null,
-                    "enumValues": null,
-                    "possibleTypes": null
-                },
-                {
-                    "kind": "INPUT_OBJECT",
                     "name": "CreatePlayerInput",
                     "description": null,
                     "fields": null,
@@ -3491,206 +3156,6 @@
                         }
                     ],
                     "interfaces": null,
-                    "enumValues": null,
-                    "possibleTypes": null
-                },
-                {
-                    "kind": "OBJECT",
-                    "name": "Subscription",
-                    "description": null,
-                    "fields": [
-                        {
-                            "name": "onCreateLeague",
-                            "description": null,
-                            "args": [
-                                {
-                                    "name": "leagueId",
-                                    "description": null,
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "String",
-                                        "ofType": null
-                                    },
-                                    "defaultValue": null
-                                },
-                                {
-                                    "name": "ownerId",
-                                    "description": null,
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "String",
-                                        "ofType": null
-                                    },
-                                    "defaultValue": null
-                                },
-                                {
-                                    "name": "name",
-                                    "description": null,
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "String",
-                                        "ofType": null
-                                    },
-                                    "defaultValue": null
-                                },
-                                {
-                                    "name": "teamCount",
-                                    "description": null,
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "Int",
-                                        "ofType": null
-                                    },
-                                    "defaultValue": null
-                                },
-                                {
-                                    "name": "auctionBudget",
-                                    "description": null,
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "Int",
-                                        "ofType": null
-                                    },
-                                    "defaultValue": null
-                                }
-                            ],
-                            "type": {
-                                "kind": "OBJECT",
-                                "name": "League",
-                                "ofType": null
-                            },
-                            "isDeprecated": false,
-                            "deprecationReason": null
-                        },
-                        {
-                            "name": "onUpdateLeague",
-                            "description": null,
-                            "args": [
-                                {
-                                    "name": "leagueId",
-                                    "description": null,
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "String",
-                                        "ofType": null
-                                    },
-                                    "defaultValue": null
-                                },
-                                {
-                                    "name": "ownerId",
-                                    "description": null,
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "String",
-                                        "ofType": null
-                                    },
-                                    "defaultValue": null
-                                },
-                                {
-                                    "name": "name",
-                                    "description": null,
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "String",
-                                        "ofType": null
-                                    },
-                                    "defaultValue": null
-                                },
-                                {
-                                    "name": "teamCount",
-                                    "description": null,
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "Int",
-                                        "ofType": null
-                                    },
-                                    "defaultValue": null
-                                },
-                                {
-                                    "name": "auctionBudget",
-                                    "description": null,
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "Int",
-                                        "ofType": null
-                                    },
-                                    "defaultValue": null
-                                }
-                            ],
-                            "type": {
-                                "kind": "OBJECT",
-                                "name": "League",
-                                "ofType": null
-                            },
-                            "isDeprecated": false,
-                            "deprecationReason": null
-                        },
-                        {
-                            "name": "onDeleteLeague",
-                            "description": null,
-                            "args": [
-                                {
-                                    "name": "leagueId",
-                                    "description": null,
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "String",
-                                        "ofType": null
-                                    },
-                                    "defaultValue": null
-                                },
-                                {
-                                    "name": "ownerId",
-                                    "description": null,
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "String",
-                                        "ofType": null
-                                    },
-                                    "defaultValue": null
-                                },
-                                {
-                                    "name": "name",
-                                    "description": null,
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "String",
-                                        "ofType": null
-                                    },
-                                    "defaultValue": null
-                                },
-                                {
-                                    "name": "teamCount",
-                                    "description": null,
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "Int",
-                                        "ofType": null
-                                    },
-                                    "defaultValue": null
-                                },
-                                {
-                                    "name": "auctionBudget",
-                                    "description": null,
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "Int",
-                                        "ofType": null
-                                    },
-                                    "defaultValue": null
-                                }
-                            ],
-                            "type": {
-                                "kind": "OBJECT",
-                                "name": "League",
-                                "ofType": null
-                            },
-                            "isDeprecated": false,
-                            "deprecationReason": null
-                        }
-                    ],
-                    "inputFields": null,
-                    "interfaces": [],
                     "enumValues": null,
                     "possibleTypes": null
                 },

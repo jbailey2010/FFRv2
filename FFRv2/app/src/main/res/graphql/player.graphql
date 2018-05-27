@@ -1,0 +1,66 @@
+mutation CreatePlayer($input: CreatePlayerInput) {
+  createPlayer(input: $input) {
+    id
+    leagueId
+  }
+}
+
+mutation UpdatePlayer($input: UpdatePlayerInput) {
+  updatePlayer(input: $input) {
+    id
+    leagueId
+  }
+}
+
+mutation DeletePlayer($input: DeletePlayerInput) {
+  deletePlayer(input: $input) {
+    id
+    leagueId
+  }
+}
+
+query GetPlayer($id: String, $leagueId: String) {
+  getPlayer(id: $id, leagueId: $leagueId) {
+	id
+	leagueId
+	name
+	age
+	position
+	ecr
+	adp
+	teamName
+	note
+	stats
+	injuryStatus
+	isWatched
+	auctionValue
+	numRankings
+	risk
+	projection
+	paa
+	xVal
+	vOLS
+	positionalTier
+  }
+}
+
+query ListPlayers($leagueId: String) {
+  listPlayers(leagueId: $leagueId) {
+	id
+	leagueId
+	name
+	age
+	position
+	ecr
+	adp
+	teamName
+	isWatched
+	auctionValue
+	risk
+	projection
+	paa
+	xVal
+	vOLS
+	positionalTier
+  }
+}

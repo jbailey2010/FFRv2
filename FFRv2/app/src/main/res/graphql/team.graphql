@@ -1,0 +1,56 @@
+mutation CreateTeam($input: CreateTeamInput) {
+  createTeam(input: $input) {
+    id
+    leagueId
+  }
+}
+
+mutation UpdateTeam($input: UpdateTeamInput) {
+  updateTeam(input: $input) {
+    id
+    leagueId
+  }
+}
+
+mutation DeleteTeam($input: DeleteTeamInput) {
+  deleteTeam(input: $input) {
+    id
+    leagueId
+  }
+}
+
+query GetTeam($id: String, $leagueId: String) {
+  getTeam(id: $id, leagueId: $leagueId) {
+	id
+	leagueId
+	name
+	oLineRanks
+	draftClass
+	qbSos
+	rbSos
+	wrSos
+	teSos
+	dstSos
+	kSos
+	bye
+	faClass
+  }
+}
+
+query ListTeams($leagueId: String) {
+  listTeams(leagueId: $leagueId) {
+	id
+	leagueId
+	name
+	oLineRanks
+	draftClass
+	qbSos
+	rbSos
+	wrSos
+	teSos
+	dstSos
+	kSos
+	bye
+	faClass
+  }
+}
