@@ -25,22 +25,20 @@ public class ParseDraft {
             String name = perPick.get(i+4);
             String pos = perPick.get(i+5);
             String college = perPick.get(i+6);
-            String draftData = new StringBuilder(round)
-                    .append(".")
-                    .append(pick)
-                    .append(": ")
-                    .append(name)
-                    .append(", ")
-                    .append(pos)
-                    .append(" - ")
-                    .append(college)
-                    .toString();
+            String draftData = round +
+                    "." +
+                    pick +
+                    ": " +
+                    name +
+                    ", " +
+                    pos +
+                    " - " +
+                    college;
             if (picks.containsKey(team)) {
                 String existingData = picks.get(team);
-                String updated = new StringBuilder(existingData)
-                        .append(Constants.LINE_BREAK)
-                        .append(draftData)
-                        .toString();
+                String updated = existingData +
+                        Constants.LINE_BREAK +
+                        draftData;
                 picks.put(team, updated);
             }
             else {

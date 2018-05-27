@@ -54,12 +54,11 @@ public class ParseStats {
     }
 
     private static String getPlayerIdKey(String name, String team, String pos) {
-        return new StringBuilder(name)
-                .append(Constants.PLAYER_ID_DELIMITER)
-                .append(team)
-                .append(Constants.PLAYER_ID_DELIMITER)
-                .append(pos)
-                .toString();
+        return name +
+                Constants.PLAYER_ID_DELIMITER +
+                team +
+                Constants.PLAYER_ID_DELIMITER +
+                pos;
     }
 
     private static String getUniqueIdFirstInitial(Player player) {
@@ -70,23 +69,21 @@ public class ParseStats {
         } else {
             testName = name[0].charAt(0) + "." + name[1];
         }
-        return new StringBuilder(testName)
-                .append(Constants.PLAYER_ID_DELIMITER)
-                .append(player.getTeamName())
-                .append(Constants.PLAYER_ID_DELIMITER)
-                .append(player.getPosition())
-                .toString();
+        return testName +
+                Constants.PLAYER_ID_DELIMITER +
+                player.getTeamName() +
+                Constants.PLAYER_ID_DELIMITER +
+                player.getPosition();
     }
 
     private static String getUniqueIdFirstTwoLetters(Player player) {
         String[] name = player.getName().split(" ");
         String testName = name[0].substring(0,2) + "." + name[1];
-        return new StringBuilder(testName)
-                .append(Constants.PLAYER_ID_DELIMITER)
-                .append(player.getTeamName())
-                .append(Constants.PLAYER_ID_DELIMITER)
-                .append(player.getPosition())
-                .toString();
+        return testName +
+                Constants.PLAYER_ID_DELIMITER +
+                player.getTeamName() +
+                Constants.PLAYER_ID_DELIMITER +
+                player.getPosition();
     }
 
     private static Map<String, String> parseQBStats() throws IOException {
@@ -114,20 +111,13 @@ public class ParseStats {
                 qbPlayers.put(getPlayerIdKey(name, team, Constants.QB), normal);
                 continue;
             } else {
-                data.append("Pass Attempts: " + player[player.length - 9]
-                        + Constants.LINE_BREAK);
-                data.append("Yards: "
-                        + player[player.length - 8].replace(",", "")
-                        + Constants.LINE_BREAK);
-                data.append("Adjusted Yards: "
-                        + player[player.length - 7].replace(",", "")
-                        + Constants.LINE_BREAK);
-                data.append("Touchdowns: " + player[player.length - 6] + Constants.LINE_BREAK);
-                data.append("Completion Percentage: "
-                        + player[player.length - 2] + Constants.LINE_BREAK);
-                data.append("Interceptions: " + player[player.length - 3]
-                        + Constants.LINE_BREAK);
-                data.append("Fumbles Lost: " + player[player.length - 4])
+                data.append("Pass Attempts: ").append(player[player.length - 9]).append(Constants.LINE_BREAK);
+                data.append("Yards: ").append(player[player.length - 8].replace(",", "")).append(Constants.LINE_BREAK);
+                data.append("Adjusted Yards: ").append(player[player.length - 7].replace(",", "")).append(Constants.LINE_BREAK);
+                data.append("Touchdowns: ").append(player[player.length - 6]).append(Constants.LINE_BREAK);
+                data.append("Completion Percentage: ").append(player[player.length - 2]).append(Constants.LINE_BREAK);
+                data.append("Interceptions: ").append(player[player.length - 3]).append(Constants.LINE_BREAK);
+                data.append("Fumbles Lost: ").append(player[player.length - 4])
                         .append(Constants.LINE_BREAK);
                 if (player.length > 17) {
                     data.append("DVOA: ")
@@ -165,32 +155,24 @@ public class ParseStats {
                 String effectiveYards = player[player.length - 4];
                 String tds = player[player.length - 3];
                 String catchRate = player[player.length - 2];
-                StringBuilder normal = new StringBuilder(rbPlayers.get(getPlayerIdKey(name, team, Constants.RB)));
-                normal.append("\nTargets: " + catches + Constants.LINE_BREAK);
-                normal.append("Catch Rate: " + catchRate + Constants.LINE_BREAK);
-                normal.append("Receiving Yards: " + yards + Constants.LINE_BREAK);
-                normal.append("Adjusted Receiving Yards: " + effectiveYards
-                        + Constants.LINE_BREAK);
-                normal.append("Receiving Touchdowns: " + tds);
+                String normal = rbPlayers.get(getPlayerIdKey(name, team, Constants.RB)) + "\nTargets: " + catches + Constants.LINE_BREAK +
+                        "Catch Rate: " + catchRate + Constants.LINE_BREAK +
+                        "Receiving Yards: " + yards + Constants.LINE_BREAK +
+                        "Adjusted Receiving Yards: " + effectiveYards + Constants.LINE_BREAK +
+                        "Receiving Touchdowns: " + tds;
                 rbPlayers.put(getPlayerIdKey(name, team, Constants.RB),
-                        normal.toString());
+                        normal);
                 continue;
             } else {
                 int incr = 1;
                 if (player[player.length - 2].contains("%")) {
                     incr = -1;
                 }
-                data.append("Carries: " + player[player.length - 6 + incr]
-                        + Constants.LINE_BREAK);
-                data.append("Yards: "
-                        + player[player.length - 5 + incr].replace(",", "")
-                        + Constants.LINE_BREAK);
-                data.append("Adjusted Yards: "
-                        + player[player.length - 4 + incr].replace(",", "")
-                        + Constants.LINE_BREAK);
-                data.append("Touchdowns: " + player[player.length - 3 + incr]
-                        + Constants.LINE_BREAK);
-                data.append("Fumbles: " + player[player.length - 2 + incr])
+                data.append("Carries: ").append(player[player.length - 6 + incr]).append(Constants.LINE_BREAK);
+                data.append("Yards: ").append(player[player.length - 5 + incr].replace(",", "")).append(Constants.LINE_BREAK);
+                data.append("Adjusted Yards: ").append(player[player.length - 4 + incr].replace(",", "")).append(Constants.LINE_BREAK);
+                data.append("Touchdowns: ").append(player[player.length - 3 + incr]).append(Constants.LINE_BREAK);
+                data.append("Fumbles: ").append(player[player.length - 2 + incr])
                         .append(Constants.LINE_BREAK);
                 if (player.length > 12) {
                     data.append("DVOA: ")
@@ -237,13 +219,11 @@ public class ParseStats {
                 wrPlayers.put(getPlayerIdKey(name, team, Constants.WR), normal);
                 continue;
             } else {
-                data.append("Targets: " + player[player.length - 7] + Constants.LINE_BREAK);
-                data.append("Yards: " + player[player.length - 6] + Constants.LINE_BREAK);
-                data.append("Adjusted Yards: "
-                        + player[player.length - 5].replace(",", "")
-                        + Constants.LINE_BREAK);
-                data.append("Touchdowns: " + player[player.length - 4] + Constants.LINE_BREAK);
-                data.append("Catch Rate: " + player[player.length - 3] + Constants.LINE_BREAK);
+                data.append("Targets: ").append(player[player.length - 7]).append(Constants.LINE_BREAK);
+                data.append("Yards: ").append(player[player.length - 6]).append(Constants.LINE_BREAK);
+                data.append("Adjusted Yards: ").append(player[player.length - 5].replace(",", "")).append(Constants.LINE_BREAK);
+                data.append("Touchdowns: ").append(player[player.length - 4]).append(Constants.LINE_BREAK);
+                data.append("Catch Rate: ").append(player[player.length - 3]).append(Constants.LINE_BREAK);
                 data.append("Fumbles: ")
                         .append(player[player.length - 2])
                         .append(Constants.LINE_BREAK);
@@ -280,13 +260,11 @@ public class ParseStats {
                     && player.length < 15) {
                 continue;
             }
-            data.append("Targets: " + player[player.length - 7] + Constants.LINE_BREAK);
-            data.append("Yards: " + player[player.length - 6] + Constants.LINE_BREAK);
-            data.append("Adjusted Yards: "
-                    + player[player.length - 5].replace(",", "")
-                    + Constants.LINE_BREAK);
-            data.append("Touchdowns: " + player[player.length - 4] + Constants.LINE_BREAK);
-            data.append("Catch Rate: " + player[player.length - 3] + Constants.LINE_BREAK);
+            data.append("Targets: ").append(player[player.length - 7]).append(Constants.LINE_BREAK);
+            data.append("Yards: ").append(player[player.length - 6]).append(Constants.LINE_BREAK);
+            data.append("Adjusted Yards: ").append(player[player.length - 5].replace(",", "")).append(Constants.LINE_BREAK);
+            data.append("Touchdowns: ").append(player[player.length - 4]).append(Constants.LINE_BREAK);
+            data.append("Catch Rate: ").append(player[player.length - 3]).append(Constants.LINE_BREAK);
             data.append("Fumbles: ")
                     .append(player[player.length - 2])
                     .append(Constants.LINE_BREAK);

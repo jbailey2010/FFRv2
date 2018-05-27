@@ -30,32 +30,29 @@ public class ParseFA {
 
             // Ignore re-signings and bit players
             if (!oldTeam.equals(newTeam) && GeneralUtils.isInteger(snaps) && Integer.parseInt(snaps) > 200) {
-                String playerEntry = new StringBuilder (name)
-                        .append(": ")
-                        .append(age)
-                        .append(", ")
-                        .append(pos)
-                        .append(" (")
-                        .append(snaps)
-                        .append(" snaps, ")
-                        .append(grade)
-                        .append(" PFF grade)")
-                        .toString();
+                String playerEntry = name +
+                        ": " +
+                        age +
+                        ", " +
+                        pos +
+                        " (" +
+                        snaps +
+                        " snaps, " +
+                        grade +
+                        " PFF grade)";
 
                 if (arrivingFA.containsKey(newTeam)) {
-                    String updatedEntry = new StringBuilder(arrivingFA.get(newTeam))
-                            .append(Constants.LINE_BREAK)
-                            .append(playerEntry)
-                            .toString();
+                    String updatedEntry = arrivingFA.get(newTeam) +
+                            Constants.LINE_BREAK +
+                            playerEntry;
                     arrivingFA.put(newTeam, updatedEntry);
                 } else {
                     arrivingFA.put(newTeam, playerEntry);
                 }
                 if (departingFA.containsKey(oldTeam)) {
-                    String updatedEntry = new StringBuilder(departingFA.get(oldTeam))
-                            .append(Constants.LINE_BREAK)
-                            .append(playerEntry)
-                            .toString();
+                    String updatedEntry = departingFA.get(oldTeam) +
+                            Constants.LINE_BREAK +
+                            playerEntry;
                     departingFA.put(oldTeam, updatedEntry);
                 } else {
                     departingFA.put(oldTeam, playerEntry);
@@ -65,15 +62,14 @@ public class ParseFA {
         for (String key : arrivingFA.keySet()) {
             Team team = rankings.getTeam(key);
             if (team != null) {
-                String faClass = new StringBuilder("Arriving:")
-                        .append(Constants.LINE_BREAK)
-                        .append(arrivingFA.get(key))
-                        .append(Constants.LINE_BREAK)
-                        .append(Constants.LINE_BREAK)
-                        .append("Departing:")
-                        .append(Constants.LINE_BREAK)
-                        .append(departingFA.get(key))
-                        .toString();
+                String faClass = "Arriving:" +
+                        Constants.LINE_BREAK +
+                        arrivingFA.get(key) +
+                        Constants.LINE_BREAK +
+                        Constants.LINE_BREAK +
+                        "Departing:" +
+                        Constants.LINE_BREAK +
+                        departingFA.get(key);
                 team.setFaClass(faClass);
             }
         }

@@ -34,13 +34,7 @@ public class GeneralUtils {
         Collections.sort(data, new Comparator<String>() {
             public int compare(String a, String b) {
                 int judgment = a.compareTo(b);
-                if (judgment < 0) {
-                    return -1;
-                }
-                if (judgment > 0) {
-                    return 1;
-                }
-                return 0;
+                return Integer.compare(judgment, 0);
             }
         });
         return data;
@@ -79,13 +73,12 @@ public class GeneralUtils {
             Player player = rankings.getPlayer(key);
             if (rankings.getLeagueSettings().getRosterSettings().isPositionValid(player.getPosition()) &&
                     !StringUtils.isBlank(player.getTeamName()) && player.getTeamName().length() > 3) {
-                String dropdownStr = new StringBuilder(player.getName())
-                        .append(" (")
-                        .append(player.getPosition())
-                        .append(Constants.POS_TEAM_DELIMITER)
-                        .append(player.getTeamName())
-                        .append(")")
-                        .toString();
+                String dropdownStr = player.getName() +
+                        " (" +
+                        player.getPosition() +
+                        Constants.POS_TEAM_DELIMITER +
+                        player.getTeamName() +
+                        ")";
                 dropdownList.add(dropdownStr);
             }
         }

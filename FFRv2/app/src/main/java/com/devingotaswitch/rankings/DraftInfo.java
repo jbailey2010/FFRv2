@@ -178,9 +178,8 @@ public class DraftInfo extends AppCompatActivity {
     }
 
     private String getAuctionValue() {
-        return new StringBuilder("Value: ")
-                .append(df.format(rankings.getDraft().getDraftValue()))
-                .toString();
+        return "Value: " +
+                df.format(rankings.getDraft().getDraftValue());
     }
 
     private String getTeamStr() {
@@ -245,15 +244,14 @@ public class DraftInfo extends AppCompatActivity {
                     .append(", ");
         }
         String playerStr = posStr.toString();
-        return new StringBuilder(playerStr.substring(0, playerStr.length() - 2))
-                .append(" (")
-                .append(df.format(posPAA))
-                .append(", ")
-                .append(df.format(posXVal))
-                .append(", ")
-                .append(df.format(posVoLS))
-                .append(")")
-                .toString();
+        return playerStr.substring(0, playerStr.length() - 2) +
+                " (" +
+                df.format(posPAA) +
+                ", " +
+                df.format(posXVal) +
+                ", " +
+                df.format(posVoLS) +
+                ")";
     }
 
     private void displayPlayers() {
@@ -271,15 +269,13 @@ public class DraftInfo extends AppCompatActivity {
             Player player = rankings.getPlayer(playerKey);
             String playerBasicContent;
             if (rankings.getLeagueSettings().isAuction()) {
-                playerBasicContent = new StringBuilder(String.valueOf(df.format(player.getAuctionValueCustom(rankings))))
-                        .append(Constants.RANKINGS_LIST_DELIMITER)
-                        .append(player.getName())
-                        .toString();
+                playerBasicContent = String.valueOf(df.format(player.getAuctionValueCustom(rankings))) +
+                        Constants.RANKINGS_LIST_DELIMITER +
+                        player.getName();
             } else {
-                playerBasicContent = new StringBuilder(String.valueOf(player.getEcr()))
-                        .append(Constants.RANKINGS_LIST_DELIMITER)
-                        .append(player.getName())
-                        .toString();
+                playerBasicContent = String.valueOf(player.getEcr()) +
+                        Constants.RANKINGS_LIST_DELIMITER +
+                        player.getName();
             }
             Map<String, String> datum = new HashMap<>(3);
             datum.put(Constants.PLAYER_BASIC, playerBasicContent);
@@ -313,12 +309,11 @@ public class DraftInfo extends AppCompatActivity {
         String team = teamPos.split(Constants.POS_TEAM_DELIMITER)[1];
         String pos = teamPos.split(Constants.POS_TEAM_DELIMITER)[0];
 
-        return new StringBuilder(name)
-                .append(Constants.PLAYER_ID_DELIMITER)
-                .append(team)
-                .append(Constants.PLAYER_ID_DELIMITER)
-                .append(pos)
-                .toString();
+        return name +
+                Constants.PLAYER_ID_DELIMITER +
+                team +
+                Constants.PLAYER_ID_DELIMITER +
+                pos;
     }
 
     private String generateOutputSubtext(Player player, DecimalFormat df) {

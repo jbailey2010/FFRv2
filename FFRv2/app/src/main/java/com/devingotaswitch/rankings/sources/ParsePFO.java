@@ -55,19 +55,12 @@ public class ParsePFO {
             String secLevelRank = td.get(i + 9);
             String openField = td.get(i + 10);
             String openFieldRank = td.get(i + 11);
-            StringBuilder runData = new StringBuilder(1000);
-            runData.append(adjYPC + " adjusted team yards per carry ("
-                    + adjYPCRank + ")\n");
-            runData.append(power + " success rate with < 3 yards per go ("
-                    + powerRank + ")\n");
-            runData.append(stuff + " rate of being stuffed at the line ("
-                    + stuffRank + ")\n");
-            runData.append(secLevel
-                    + " YPC earned between 5 and 10 yards past LOS ("
-                    + secLevelRank + ")\n");
-            runData.append(openField + " YPC earned 10+ yards past LOS ("
-                    + openFieldRank + ")");
-            data.put(team1 + "/run", runData.toString());
+            String runData = adjYPC + " adjusted team yards per carry (" + adjYPCRank + ")\n" +
+                    power + " success rate with < 3 yards per go (" + powerRank + ")\n" +
+                    stuff + " rate of being stuffed at the line (" + stuffRank + ")\n" +
+                    secLevel + " YPC earned between 5 and 10 yards past LOS (" + secLevelRank + ")\n" +
+                    openField + " YPC earned 10+ yards past LOS (" + openFieldRank + ")";
+            data.put(team1 + "/run", runData);
             data.put(team1 + "/runranks", "Run Block Ranking: " + adjYPCRank);
         }
         List<String> teams = new ArrayList<>();
@@ -90,13 +83,7 @@ public class ParsePFO {
                                 .parseInt(passA)) / 2.0;
                         double overallB = (double) (Integer.parseInt(runB) + Integer
                                 .parseInt(passB)) / 2.0;
-                        if (overallA > overallB) {
-                            return 1;
-                        }
-                        if (overallA < overallB) {
-                            return -1;
-                        }
-                        return 0;
+                        return Double.compare(overallA, overallB);
                     }
                 });
         for (String team : teams) {
@@ -114,17 +101,16 @@ public class ParsePFO {
             }
         }
         for (String team : teams) {
-            String val = new StringBuilder(data.get(team + "/pass"))
-                    .append(data.get(team + "/run"))
-                    .append(Constants.LINE_BREAK)
-                    .append(Constants.LINE_BREAK)
-                    .append(data.get(team + "/passranks"))
-                    .append(Constants.LINE_BREAK)
-                    .append(data.get(team + "/runranks"))
-                    .append(Constants.LINE_BREAK)
-                    .append("Overall Ranking: ")
-                    .append(data.get(team + "/overallranks"))
-                    .toString();
+            String val = data.get(team + "/pass") +
+                    data.get(team + "/run") +
+                    Constants.LINE_BREAK +
+                    Constants.LINE_BREAK +
+                    data.get(team + "/passranks") +
+                    Constants.LINE_BREAK +
+                    data.get(team + "/runranks") +
+                    Constants.LINE_BREAK +
+                    "Overall Ranking: " +
+                    data.get(team + "/overallranks");
             rankings.getTeam(team).setoLineRanks(val);
         }
     }

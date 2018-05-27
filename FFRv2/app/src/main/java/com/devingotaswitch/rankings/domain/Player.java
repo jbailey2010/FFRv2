@@ -154,12 +154,11 @@ public class Player {
     }
 
     public String getUniqueId() {
-        return new StringBuilder(name)
-                .append(Constants.PLAYER_ID_DELIMITER)
-                .append(teamName)
-                .append(Constants.PLAYER_ID_DELIMITER)
-                .append(position)
-                .toString();
+        return name +
+                Constants.PLAYER_ID_DELIMITER +
+                teamName +
+                Constants.PLAYER_ID_DELIMITER +
+                position;
     }
 
     public Double getScaledPAA(Rankings rankings) {

@@ -230,21 +230,21 @@ public class RegisterUser extends AppCompatActivity {
                 String userInput = givenName.getText().toString();
                 if (userInput != null) {
                     if (userInput.length() > 0) {
-                        userAttributes.addAttribute(CUPHelper.getSignUpFieldsC2O().get(givenName.getHint()).toString(), userInput);
+                        userAttributes.addAttribute(CUPHelper.getSignUpFieldsC2O().get(givenName.getHint()), userInput);
                     }
                 }
 
                 userInput = email.getText().toString();
                 if (userInput != null) {
                     if (userInput.length() > 0) {
-                        userAttributes.addAttribute(CUPHelper.getSignUpFieldsC2O().get(email.getHint()).toString(), userInput);
+                        userAttributes.addAttribute(CUPHelper.getSignUpFieldsC2O().get(email.getHint()), userInput);
                     }
                 }
 
                 userInput = phone.getText().toString();
                 if (userInput != null) {
                     if (userInput.length() > 0) {
-                        userAttributes.addAttribute(CUPHelper.getSignUpFieldsC2O().get(phone.getHint()).toString(), userInput);
+                        userAttributes.addAttribute(CUPHelper.getSignUpFieldsC2O().get(phone.getHint()), userInput);
                     }
                 }
 

@@ -747,10 +747,9 @@ public class PlayerSorter extends AppCompatActivity {
     private String getMainTextForFactor(Player player) {
         String prefix = getMainTextPrefixForPlayer(player);
 
-        return new StringBuilder(prefix)
-                .append(Constants.RANKINGS_LIST_DELIMITER)
-                .append(player.getName())
-                .toString();
+        return prefix +
+                Constants.RANKINGS_LIST_DELIMITER +
+                player.getName();
     }
 
     private String getMainTextPrefixForPlayer(Player player) {
@@ -850,12 +849,11 @@ public class PlayerSorter extends AppCompatActivity {
         String team = teamPos.split(Constants.POS_TEAM_DELIMITER)[1];
         String pos = teamPos.split(Constants.POS_TEAM_DELIMITER)[0];
 
-        return new StringBuilder(name)
-                .append(Constants.PLAYER_ID_DELIMITER)
-                .append(team)
-                .append(Constants.PLAYER_ID_DELIMITER)
-                .append(pos)
-                .toString();
+        return name +
+                Constants.PLAYER_ID_DELIMITER +
+                team +
+                Constants.PLAYER_ID_DELIMITER +
+                pos;
     }
 
     private void graphSort() {

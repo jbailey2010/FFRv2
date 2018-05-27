@@ -409,15 +409,13 @@ public class RankingsHome extends AppCompatActivity {
                     !rankings.getDraft().isDrafted(player)) {
                 String playerBasicContent;
                 if (rankings.getLeagueSettings().isAuction()) {
-                    playerBasicContent = new StringBuilder(String.valueOf(df.format(player.getAuctionValueCustom(rankings))))
-                            .append(Constants.RANKINGS_LIST_DELIMITER)
-                            .append(player.getName())
-                            .toString();
+                    playerBasicContent = String.valueOf(df.format(player.getAuctionValueCustom(rankings))) +
+                            Constants.RANKINGS_LIST_DELIMITER +
+                            player.getName();
                 } else {
-                    playerBasicContent = new StringBuilder(String.valueOf(player.getEcr()))
-                            .append(Constants.RANKINGS_LIST_DELIMITER)
-                            .append(player.getName())
-                            .toString();
+                    playerBasicContent = String.valueOf(player.getEcr()) +
+                            Constants.RANKINGS_LIST_DELIMITER +
+                            player.getName();
                 }
                 Map<String, String> datum = new HashMap<>(3);
                 datum.put(Constants.PLAYER_BASIC, playerBasicContent);
@@ -659,12 +657,11 @@ public class RankingsHome extends AppCompatActivity {
         String team = teamPos.split(Constants.POS_TEAM_DELIMITER)[1];
         String pos = teamPos.split(Constants.POS_TEAM_DELIMITER)[0];
 
-        return new StringBuilder(name)
-                .append(Constants.PLAYER_ID_DELIMITER)
-                .append(team)
-                .append(Constants.PLAYER_ID_DELIMITER)
-                .append(pos)
-                .toString();
+        return name +
+                Constants.PLAYER_ID_DELIMITER +
+                team +
+                Constants.PLAYER_ID_DELIMITER +
+                pos;
     }
 
     private String generateOutputSubtext(Player player, DecimalFormat df) {

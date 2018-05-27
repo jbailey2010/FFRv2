@@ -426,10 +426,9 @@ public class PlayerInfo extends AppCompatActivity {
         auc.put(Constants.PLAYER_BASIC, "Auction Value: $" + df.format(player.getAuctionValue()));
         int aucRank = getAuc(null, player.getAuctionValue());
         int aucPos = getAuc(player.getPosition(), player.getAuctionValue());
-        String auctionSub = new StringBuilder(getRankingSub(aucRank, aucPos))
-                .append(Constants.LINE_BREAK)
-                .append(getLeverage())
-                .toString();
+        String auctionSub = getRankingSub(aucRank, aucPos) +
+                Constants.LINE_BREAK +
+                getLeverage();
         auc.put(Constants.PLAYER_INFO, auctionSub);
         data.add(auc);
 
@@ -657,18 +656,16 @@ public class PlayerInfo extends AppCompatActivity {
     }
 
     private String getLeverage() {
-        return new StringBuilder("Leverage: ")
-                .append(ParseMath.getLeverage(player, rankings))
-                .toString();
+        return "Leverage: " +
+                ParseMath.getLeverage(player, rankings);
     }
 
     private String getRankingSub(int rank, int posRank) {
-        return new StringBuilder("Ranked ")
-                .append(posRank)
-                .append(" positionally, ")
-                .append(rank)
-                .append(" overall")
-                .toString();
+        return "Ranked " +
+                posRank +
+                " positionally, " +
+                rank +
+                " overall";
     }
 
     private int getEcr(String pos, double source) {

@@ -15,60 +15,54 @@ import java.util.Map;
 public class DBUtils {
 
     public static String getSelectAllString(String tableName) {
-        return new StringBuilder("SELECT * FROM ")
-                .append(tableName)
-                .toString();
+        return "SELECT * FROM " +
+                tableName;
     }
 
     public static String getSelectSingleString(String tableName, String idColumn, String idValue) {
-        return new StringBuilder("SELECT * FROM ")
-                .append(tableName)
-                .append(" WHERE ")
-                .append(idColumn)
-                .append(" = \'")
-                .append(idValue)
-                .append("\'")
-                .toString();
+        return "SELECT * FROM " +
+                tableName +
+                " WHERE " +
+                idColumn +
+                " = \'" +
+                idValue +
+                "\'";
     }
 
     public static String getSelectThreeAttrString(String tableName, String idOne, String idTwo, String idThree,
                                                   String valueOne, String valueTwo, String valueThree) {
-        return new StringBuilder("SELECT * FROM ")
-                .append(tableName)
-                .append(" WHERE ")
-                .append(idOne)
-                .append(" = \'")
-                .append(valueOne)
-                .append("\' AND ")
-                .append(idTwo)
-                .append(" = \'")
-                .append(valueTwo)
-                .append("\' AND ")
-                .append(idThree)
-                .append(" = \'")
-                .append(valueThree)
-                .append("\'")
-                .toString();
+        return "SELECT * FROM " +
+                tableName +
+                " WHERE " +
+                idOne +
+                " = \'" +
+                valueOne +
+                "\' AND " +
+                idTwo +
+                " = \'" +
+                valueTwo +
+                "\' AND " +
+                idThree +
+                " = \'" +
+                valueThree +
+                "\'";
     }
 
     public static String getDeleteAllString(String tableName) {
-        return new StringBuilder("DELETE FROM ")
-                .append(tableName)
-                .toString();
+        return "DELETE FROM " +
+                tableName;
     }
 
     public static String getUpdateAndDeleteKeyString(String idColumn) {
-        return new StringBuilder(idColumn)
-                .append(" = ?")
-                .toString();
+        return idColumn +
+                " = ?";
     }
 
     public static String getMultiKeyUpdateAndDeleteKeyString(String columnOne, String columnTwo) {
-        return new StringBuilder(columnOne)
-                .append(" = ? AND ")
-                .append(columnTwo)
-                .append(" = ?")
-                .toString();
+        return columnOne +
+                " = ? AND " +
+                columnTwo +
+                " = ?";
     }
 
     public static ContentValues updatedValuesToContentValues(Map<String, String> updatedValues) {

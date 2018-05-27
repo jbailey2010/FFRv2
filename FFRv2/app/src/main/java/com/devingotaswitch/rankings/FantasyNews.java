@@ -132,11 +132,10 @@ public class FantasyNews extends AppCompatActivity {
         for (PlayerNews newsItem : news) {
             Map<String, String> datum = new HashMap<>(3);
             datum.put(Constants.PLAYER_BASIC, newsItem.getNews());
-            datum.put(Constants.PLAYER_INFO, new StringBuilder(newsItem.getImpact())
-                    .append(Constants.LINE_BREAK)
-                    .append(Constants.LINE_BREAK)
-                    .append(newsItem.getDate())
-                    .toString());
+            datum.put(Constants.PLAYER_INFO, newsItem.getImpact() +
+                    Constants.LINE_BREAK +
+                    Constants.LINE_BREAK +
+                    newsItem.getDate());
             data.add(datum);
         }
         adapter.notifyDataSetChanged();
@@ -153,10 +152,9 @@ public class FantasyNews extends AppCompatActivity {
                 String[] newsMainArr = ((TextView)view.findViewById(R.id.player_basic)).getText().toString()
                         .replaceAll(":", "").replaceAll(",", "").replaceAll("\\?", "").split(" ");
                 for (int i = 0; i < newsMainArr.length - 1; i++) {
-                    String possibleName = new StringBuilder(newsMainArr[i])
-                            .append(" ")
-                            .append(newsMainArr[i+1])
-                            .toString();
+                    String possibleName = newsMainArr[i] +
+                            " " +
+                            newsMainArr[i + 1];
                     if (nameToId.containsKey(possibleName)) {
                         displayPlayerInfo(nameToId.get(possibleName));
                     }
