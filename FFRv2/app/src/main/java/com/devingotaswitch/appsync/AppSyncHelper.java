@@ -5,7 +5,7 @@ import android.content.Context;
 import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
 import com.devingotaswitch.utils.AWSClientFactory;
 
-public class AppSyncHelper {
+class AppSyncHelper {
 
     private static AWSAppSyncClient APPSYNC_CLIENT;
 

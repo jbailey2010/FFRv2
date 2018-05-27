@@ -4,24 +4,21 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.util.AttributeSet;
-import android.util.Log;
 import android.widget.ArrayAdapter;
-import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
 public class MultiSelectionSpinner extends android.support.v7.widget.AppCompatSpinner implements
         DialogInterface.OnMultiChoiceClickListener
 {
-    String[] _items = null;
-    boolean[] mSelection = null;
+    private String[] _items = null;
+    private boolean[] mSelection = null;
     private String defaultDisplay;
 
-    ArrayAdapter<String> simple_adapter;
+    private final ArrayAdapter<String> simple_adapter;
 
     public MultiSelectionSpinner(Context context) {
         super(context);

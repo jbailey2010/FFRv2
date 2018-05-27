@@ -1,7 +1,5 @@
 package com.devingotaswitch.rankings.sources;
 
-import android.app.Activity;
-import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
 
@@ -10,12 +8,10 @@ import com.devingotaswitch.rankings.domain.PlayerNews;
 import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.JsoupUtils;
 
-import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -33,21 +29,16 @@ public class ParsePlayerNews {
         objParse.execute();
     }
 
-    public static class NewsParser extends
+    static class NewsParser extends
             AsyncTask<Object, String, List<PlayerNews>> {
-        PlayerInfo act;
+        final PlayerInfo act;
         String urlNews;
-        String urlNotes;
+        final String urlNotes;
 
         NewsParser(PlayerInfo activity, String url, String altUrl) {
             act = activity;
             urlNews = url;
             urlNotes = altUrl;
-        }
-
-        @Override
-        protected void onPreExecute() {
-            super.onPreExecute();
         }
 
         @Override
@@ -108,7 +99,8 @@ public class ParsePlayerNews {
 					.replaceAll("\\'", "").split(" ");
 			StringBuilder nameBuilder = new StringBuilder(100);
 			for (String name : nameSet) {
-				nameBuilder.append(name + "-");
+				nameBuilder.append(name)
+                        .append("-");
 			}
 			String base = nameBuilder.toString();
 			base = base.substring(0, base.length() - 1);
@@ -120,7 +112,8 @@ public class ParsePlayerNews {
 					.split(" ");
 			StringBuilder nameBuilder = new StringBuilder(100);
 			for (String name : nameSet) {
-				nameBuilder.append(name + "-");
+				nameBuilder.append(name)
+                        .append("-");
 			}
 			nameBuilder.append("defense");
 			return nameBuilder.toString();

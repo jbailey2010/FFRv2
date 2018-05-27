@@ -4,17 +4,12 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import com.amazonaws.util.StringUtils;
-import com.devingotaswitch.rankings.RankingsHome;
 import com.devingotaswitch.rankings.domain.Draft;
-import com.devingotaswitch.rankings.domain.LeagueSettings;
 import com.devingotaswitch.rankings.domain.Player;
-import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.youruserpools.CUPHelper;
 
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 public class LocalSettingsHelper {
 

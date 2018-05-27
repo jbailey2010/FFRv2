@@ -1,15 +1,12 @@
 package com.devingotaswitch.rankings;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,10 +16,8 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.devingotaswitch.ffrv2.R;
-import com.devingotaswitch.fileio.LocalSettingsHelper;
 import com.devingotaswitch.rankings.domain.Draft;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
@@ -37,7 +32,6 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
-import com.github.mikephil.charting.data.Entry;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -53,7 +47,7 @@ public class DraftInfo extends AppCompatActivity {
     private MenuItem viewTeam;
     private MenuItem undraftPlayers;
 
-    DecimalFormat df = new DecimalFormat("#.##");
+    private final DecimalFormat df = new DecimalFormat("#.##");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -390,7 +384,7 @@ public class DraftInfo extends AppCompatActivity {
 
             entries.add(stackedEntry);
             BarDataSet barDataSet = new BarDataSet(entries, position);
-            barDataSet.setColors(new int[] {Color.BLUE, Color.GREEN, Color.CYAN});
+            barDataSet.setColors(Color.BLUE, Color.GREEN, Color.CYAN);
             barDataSet.setDrawValues(false);
             barData.addDataSet(barDataSet);
         }

@@ -5,17 +5,12 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.graphics.Rect;
 import android.os.SystemClock;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
-import android.widget.AbsListView;
 import android.widget.ListView;
-
-import android.widget.RelativeLayout;
-import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -24,18 +19,18 @@ import java.util.List;
 
 public class SwipeDismissTouchListener implements View.OnTouchListener {
     // Cached ViewConfiguration and system-wide constant values
-    private int mSlop;
-    private int mMinFlingVelocity;
-    private int mMaxFlingVelocity;
-    private long mAnimationTime;
+    private final int mSlop;
+    private final int mMinFlingVelocity;
+    private final int mMaxFlingVelocity;
+    private final long mAnimationTime;
 
     // Fixed properties
-    private ListView mListView;
-    private DismissCallbacks mCallbacks;
+    private final ListView mListView;
+    private final DismissCallbacks mCallbacks;
     private int mViewWidth = 1; // 1 and not 0 to prevent dividing by zero
 
     // Transient properties
-    private List<PendingDismissData> mPendingDismisses = new ArrayList<PendingDismissData>();
+    private final List<PendingDismissData> mPendingDismisses = new ArrayList<>();
     private int mDismissAnimationRefCount = 0;
     private float mDownX;
     private float mDownY;
@@ -249,10 +244,10 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
     }
 
     class PendingDismissData implements Comparable<PendingDismissData> {
-        public int position;
-        public View view;
+        final int position;
+        final View view;
 
-        public PendingDismissData(int position, View view) {
+        PendingDismissData(int position, View view) {
             this.position = position;
             this.view = view;
         }

@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -16,7 +15,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserAttributes;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserCodeDeliveryDetails;
@@ -34,9 +32,7 @@ public class VerifyActivity extends AppCompatActivity {
 
     private EditText verifCode;
 
-    private CognitoUserAttributes userAttributes;
-
-    private String PHONE_NUMBER_KEY = "phone_number";
+    private final String PHONE_NUMBER_KEY = "phone_number";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,7 +126,7 @@ public class VerifyActivity extends AppCompatActivity {
         CUPHelper.getPool().getUser(CUPHelper.getCurrUser()).getDetailsInBackground(detailsHandler);
     }
 
-    VerificationHandler verReqHandler = new VerificationHandler() {
+    private final VerificationHandler verReqHandler = new VerificationHandler() {
         @Override
         public void onSuccess(CognitoUserCodeDeliveryDetails cognitoUserCodeDeliveryDetails) {
             // Show message
@@ -149,7 +145,7 @@ public class VerifyActivity extends AppCompatActivity {
         }
     };
 
-    GenericHandler verHandler = new GenericHandler() {
+    private final GenericHandler verHandler = new GenericHandler() {
         @Override
         public void onSuccess() {
             // Refresh the screen
@@ -164,7 +160,7 @@ public class VerifyActivity extends AppCompatActivity {
         }
     };
 
-    GetDetailsHandler detailsHandler = new GetDetailsHandler() {
+    private final GetDetailsHandler detailsHandler = new GetDetailsHandler() {
         @Override
         public void onSuccess(CognitoUserDetails cognitoUserDetails) {
             closeWaitDialog();

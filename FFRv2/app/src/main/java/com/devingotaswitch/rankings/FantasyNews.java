@@ -172,10 +172,10 @@ public class FantasyNews extends AppCompatActivity {
     }
 
     class ParseNews extends AsyncTask<Object, Void, List<PlayerNews>> {
-        ProgressDialog pdia;
-        FantasyNews act;
-        String source;
-        public ParseNews(FantasyNews act, String source) {
+        final ProgressDialog pdia;
+        final FantasyNews act;
+        final String source;
+        ParseNews(FantasyNews act, String source) {
             pdia = new ProgressDialog(act);
             pdia.setCancelable(false);
             this.act = act;
@@ -239,7 +239,7 @@ public class FantasyNews extends AppCompatActivity {
         List<String> title = JsoupUtils.getElemsFromDoc(doc, "td.headline b a");
         Elements elems = doc.select("tr.oddtablerow");
         Elements elems2 = doc.select("tr.eventablerow");
-        List<String> news = new ArrayList<String>();
+        List<String> news = new ArrayList<>();
         for(int i = 0; i < elems.size(); i++){
             Element odd = elems.get(i).child(2);
             Element even= elems2.get(i).child(2);

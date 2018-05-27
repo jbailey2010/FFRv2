@@ -1,7 +1,5 @@
 package com.devingotaswitch.rankings.domain;
 
-import android.util.Log;
-
 import com.devingotaswitch.utils.Constants;
 
 public class Player {

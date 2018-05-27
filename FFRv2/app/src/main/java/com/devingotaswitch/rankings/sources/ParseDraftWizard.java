@@ -35,7 +35,7 @@ public class ParseDraftWizard {
         parseRanksWorker(rankings, url);
     }
 
-    public static void parseRanksWorker(Rankings rankings, String url)
+    private static void parseRanksWorker(Rankings rankings, String url)
             throws IOException {
         List<String> td = JsoupUtils.parseURLWithUA(url,
                 "table#OverallTable td");

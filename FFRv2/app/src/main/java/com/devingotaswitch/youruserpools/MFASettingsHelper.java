@@ -17,9 +17,8 @@ import com.devingotaswitch.ffrv2.R;
 
 import java.util.Map;
 
-public class MFASettingsHelper {
+class MFASettingsHelper {
     private Switch smsSwitch;
-    private Switch emailSwitch;
 
     private Map<String, String> settings;
     private CognitoUserSettings newSettings;
@@ -29,7 +28,7 @@ public class MFASettingsHelper {
 
     private boolean settingsChanged;
 
-    private Activity activity;
+    private final Activity activity;
 
     public MFASettingsHelper(Activity activity) {
         this.activity = activity;
@@ -90,7 +89,7 @@ public class MFASettingsHelper {
         CUPHelper.getPool().getUser(CUPHelper.getCurrUser()).getDetailsInBackground(detailsHandler);
     }
 
-    GenericHandler updateSettingHandler = new GenericHandler() {
+    private final GenericHandler updateSettingHandler = new GenericHandler() {
         @Override
         public void onSuccess() {
             // Success
@@ -107,7 +106,7 @@ public class MFASettingsHelper {
         }
     };
 
-    GetDetailsHandler detailsHandler = new GetDetailsHandler() {
+    private final GetDetailsHandler detailsHandler = new GetDetailsHandler() {
         @Override
         public void onSuccess(CognitoUserDetails cognitoUserDetails) {
             closeWaitDialog();

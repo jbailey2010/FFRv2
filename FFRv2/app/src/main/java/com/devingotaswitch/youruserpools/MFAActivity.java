@@ -19,8 +19,6 @@ import com.devingotaswitch.ffrv2.R;
 public class MFAActivity extends AppCompatActivity {
     private TextView mfaScreenText;
     private EditText mfaInput;
-    private Button sendMfa;
-    private AlertDialog userDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

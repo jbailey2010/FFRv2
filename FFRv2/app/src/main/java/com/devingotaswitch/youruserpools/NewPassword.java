@@ -21,12 +21,10 @@ import android.widget.TextView;
 import com.devingotaswitch.ffrv2.R;
 
 public class NewPassword extends AppCompatActivity {
-    private String TAG = "NewPassword";
     private EditText newPassword;
 
     private Button continueSignIn;
     private AlertDialog userDialog;
-    private ProgressDialog waitDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

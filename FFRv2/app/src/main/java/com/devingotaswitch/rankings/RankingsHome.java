@@ -1,7 +1,6 @@
 package com.devingotaswitch.rankings;
 
 import android.app.Activity;
-import android.app.Application;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -37,11 +36,9 @@ import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserDetails;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GetDetailsHandler;
 import com.amazonaws.util.StringUtils;
 import com.devingotaswitch.rankings.extras.FilterWithSpaceAdapter;
@@ -185,10 +182,7 @@ public class RankingsHome extends AppCompatActivity {
         if (LocalSettingsHelper.wasPresent(currentLeagueId)) {
             currentLeague = rankingsDB.getLeague(this, currentLeagueId);
         }
-        loadRanks = false;
-        if (getIntent().getExtras() != null && getIntent().getExtras().getBoolean(Constants.RANKINGS_UPDATED)) {
-            loadRanks = true;
-        }
+        loadRanks = getIntent().getExtras() != null && getIntent().getExtras().getBoolean(Constants.RANKINGS_UPDATED);
         View navigationHeader = nDrawer.getHeaderView(0);
         TextView navHeaderSubTitle = (TextView) navigationHeader.findViewById(R.id.textViewNavUserSub);
         navHeaderSubTitle.setText(CUPHelper.getCurrUser());
@@ -206,8 +200,7 @@ public class RankingsHome extends AppCompatActivity {
         // be out of date on visibility change.
         displayRankings(rankings.getOrderedIds());
         final Spinner teams = (Spinner)filterBase.findViewById(R.id.rankings_filter_teams);
-        List<String> teamList = new ArrayList<>();
-        teamList.addAll(rankings.getTeams().keySet());
+        List<String> teamList = new ArrayList<>(rankings.getTeams().keySet());
         Collections.sort(teamList);
         teamList.add(0, Constants.ALL_TEAMS);
         ArrayAdapter<String> teamAdapter = new ArrayAdapter<>(this,
@@ -385,11 +378,10 @@ public class RankingsHome extends AppCompatActivity {
         }
     }
 
-    private View clearAndAddView(int viewId) {
+    private void clearAndAddView(int viewId) {
         rankingsBase.removeAllViews();
         View child = getLayoutInflater().inflate(viewId, null);
         rankingsBase.addView(child);
-        return child;
     }
 
     private void displayRankings(List<String> orderedIds) {
@@ -801,7 +793,7 @@ public class RankingsHome extends AppCompatActivity {
         CUPHelper.getPool().getUser(username).getDetailsInBackground(detailsHandler);
     }
 
-    GetDetailsHandler detailsHandler = new GetDetailsHandler() {
+    private final GetDetailsHandler detailsHandler = new GetDetailsHandler() {
         @Override
         public void onSuccess(CognitoUserDetails cognitoUserDetails) {
             closeWaitDialog();

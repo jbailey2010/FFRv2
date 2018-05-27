@@ -22,12 +22,10 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.SignUpHan
 import com.devingotaswitch.ffrv2.R;
 
 public class RegisterUser extends AppCompatActivity {
-    private final String TAG = "SignUp";
 
     private EditText username;
     private EditText password;
     private EditText givenName;
-    private EditText familyName;
     private EditText email;
     private EditText phone;
 
@@ -258,7 +256,7 @@ public class RegisterUser extends AppCompatActivity {
         });
     }
 
-    SignUpHandler signUpHandler = new SignUpHandler() {
+    private final SignUpHandler signUpHandler = new SignUpHandler() {
         @Override
         public void onSuccess(CognitoUser user, boolean signUpConfirmationState,
                               CognitoUserCodeDeliveryDetails cognitoUserCodeDeliveryDetails) {

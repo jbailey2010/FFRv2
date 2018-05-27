@@ -6,11 +6,11 @@ import android.database.sqlite.SQLiteOpenHelper;
 
 import com.devingotaswitch.utils.Constants;
 
-public class RankingsDBHelper extends SQLiteOpenHelper {
-    public static final int DATABASE_VERSION = 1;
+class RankingsDBHelper extends SQLiteOpenHelper {
+    private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME_SUFFIX = "Rankings.db";
 
-    public static String userName;
+    private static String userName;
 
     RankingsDBHelper(Context context, String userName) {
         super(context, userName + DATABASE_NAME_SUFFIX, null, DATABASE_VERSION);

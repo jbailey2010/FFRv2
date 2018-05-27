@@ -1,13 +1,11 @@
 package com.devingotaswitch.rankings;
 
 import android.Manifest;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
@@ -17,7 +15,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.amazonaws.util.StringUtils;
 import com.devingotaswitch.ffrv2.R;
@@ -108,7 +105,6 @@ public class ExportRankings extends AppCompatActivity {
        } else {
            Snackbar.make(submit, "Can't export without permission", Snackbar.LENGTH_LONG).show();
        }
-       return;
     }
 
     private void exportRankings() {

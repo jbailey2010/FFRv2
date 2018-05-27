@@ -14,7 +14,7 @@ import java.util.Map;
 
 public class ParseInjuries {
 
-    public static Map<String, String> parsePlayerInjuries(Rankings rankings)
+    public static void parsePlayerInjuries(Rankings rankings)
             throws IOException {
         Map<String, String> injuries = new HashMap<>();
         List<String> perRow = JsoupUtils.parseURLWithUA(
@@ -41,6 +41,5 @@ public class ParseInjuries {
                 player.setInjuryStatus(injuryStatus);
             }
         }
-        return injuries;
     }
 }

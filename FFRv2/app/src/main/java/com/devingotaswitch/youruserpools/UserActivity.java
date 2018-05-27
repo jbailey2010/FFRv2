@@ -15,7 +15,6 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserAttributes;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserCodeDeliveryDetails;
@@ -130,7 +129,7 @@ public class UserActivity extends AppCompatActivity {
         startActivityForResult(attrbutesActivity, 21);
     }
 
-    GetDetailsHandler detailsHandler = new GetDetailsHandler() {
+    private final GetDetailsHandler detailsHandler = new GetDetailsHandler() {
         @Override
         public void onSuccess(CognitoUserDetails cognitoUserDetails) {
             closeWaitDialog();
@@ -148,7 +147,7 @@ public class UserActivity extends AppCompatActivity {
 
     // Callback handlers
 
-    UpdateAttributesHandler updateHandler = new UpdateAttributesHandler() {
+    private final UpdateAttributesHandler updateHandler = new UpdateAttributesHandler() {
         @Override
         public void onSuccess(List<CognitoUserCodeDeliveryDetails> attributesVerificationList) {
             // Update successful
@@ -166,7 +165,7 @@ public class UserActivity extends AppCompatActivity {
         }
     };
 
-    GenericHandler deleteHandler = new GenericHandler() {
+    private final GenericHandler deleteHandler = new GenericHandler() {
         @Override
         public void onSuccess() {
             closeWaitDialog();

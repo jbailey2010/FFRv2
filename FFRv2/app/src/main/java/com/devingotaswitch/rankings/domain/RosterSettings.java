@@ -1,7 +1,5 @@
 package com.devingotaswitch.rankings.domain;
 
-import android.util.Log;
-
 import com.devingotaswitch.utils.Constants;
 
 import java.util.HashSet;
@@ -20,7 +18,7 @@ public class RosterSettings {
     private int benchCount;
     private Flex flex;
 
-    private Set<String> validPositions;
+    private final Set<String> validPositions;
 
     public RosterSettings() {
         this(UUID.randomUUID().toString(), Constants.ONE_STARTER, Constants.TWO_STARTERS, Constants.TWO_STARTERS, Constants.ONE_STARTER, Constants.ONE_STARTER,

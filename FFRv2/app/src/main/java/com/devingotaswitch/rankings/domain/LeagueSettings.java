@@ -2,8 +2,6 @@ package com.devingotaswitch.rankings.domain;
 
 import com.devingotaswitch.utils.Constants;
 
-import java.util.UUID;
-
 public class LeagueSettings {
 
     private String name;

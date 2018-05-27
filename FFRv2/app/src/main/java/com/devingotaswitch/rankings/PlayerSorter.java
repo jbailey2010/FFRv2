@@ -7,12 +7,10 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -28,7 +26,6 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.amazonaws.util.StringUtils;
 import com.devingotaswitch.ffrv2.R;
@@ -38,7 +35,6 @@ import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.domain.RosterSettings;
 import com.devingotaswitch.rankings.domain.Team;
 import com.devingotaswitch.rankings.extras.MultiSelectionSpinner;
-import com.devingotaswitch.rankings.sources.ParseMath;
 import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.GeneralUtils;
 import com.github.mikephil.charting.charts.LineChart;
@@ -49,7 +45,6 @@ import com.github.mikephil.charting.data.LineDataSet;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -64,7 +59,7 @@ public class PlayerSorter extends AppCompatActivity {
     private RankingsDBWrapper rankingsDB;
 
     private MenuItem graphItem;
-    private List<Player> players = new ArrayList<>();
+    private final List<Player> players = new ArrayList<>();
     private String factor = null;
     private int sortMax;
 
@@ -415,7 +410,7 @@ public class PlayerSorter extends AppCompatActivity {
                 displayPlayerInfo(playerKey);
             }
         });
-        ((TextView) findViewById(R.id.main_toolbar_title)).setOnClickListener(new View.OnClickListener() {
+        (findViewById(R.id.main_toolbar_title)).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 listview.smoothScrollToPosition(0);

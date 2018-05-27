@@ -11,14 +11,11 @@ import android.widget.TextView;
 import com.devingotaswitch.ffrv2.R;
 
 
-public class UserAttributesAdapter extends BaseAdapter {
-    private String TAG = "UserAttributesAdapter";
-    private Context context;
-    private int count;
+class UserAttributesAdapter extends BaseAdapter {
+    private final int count;
     private static LayoutInflater layoutInflater;
 
     public UserAttributesAdapter(Context context) {
-        this.context = context;
 
         count = CUPHelper.getItemCount();
 

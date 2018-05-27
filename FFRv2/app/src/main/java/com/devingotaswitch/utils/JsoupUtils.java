@@ -17,7 +17,7 @@ public class JsoupUtils {
                 .get();
     }
 
-    public static Document getDocumentWithUA(String url) throws IOException {
+    private static Document getDocumentWithUA(String url) throws IOException {
         return Jsoup.connect(url)
                 .userAgent("Mozilla/5.0 (Windows NT 6.1; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/58.0.3029.110 Safari/537.36")
                 .followRedirects(true)
@@ -36,7 +36,7 @@ public class JsoupUtils {
         return getElemsFromDoc(doc, params);
     }
 
-    public static List<String> getElemsFromDoc(Document doc, String params) throws IOException {
+    public static List<String> getElemsFromDoc(Document doc, String params) {
         List<String> elems = new ArrayList<>();
         Elements links = doc.select(params);
         for (Element element : links) {

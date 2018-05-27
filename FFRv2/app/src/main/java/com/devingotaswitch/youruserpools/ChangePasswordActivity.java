@@ -14,7 +14,6 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHandler;
 import com.devingotaswitch.ffrv2.R;
@@ -139,7 +138,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         CUPHelper.getPool().getUser(CUPHelper.getCurrUser()).changePasswordInBackground(cPass, nPass, callback);
     }
 
-    GenericHandler callback = new GenericHandler() {
+    private final GenericHandler callback = new GenericHandler() {
         @Override
         public void onSuccess() {
             closeWaitDialog();

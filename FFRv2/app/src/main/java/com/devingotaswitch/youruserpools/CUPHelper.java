@@ -4,12 +4,9 @@ import android.content.Context;
 import android.graphics.Color;
 import android.util.Log;
 
-import com.amazonaws.SDKGlobalConfiguration;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserDetails;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
 import com.devingotaswitch.utils.AWSClientFactory;
 
 import java.util.ArrayList;
@@ -144,16 +141,9 @@ public class CUPHelper {
         return firstTimeLogInDetails.get(position);
     }
 
-    public static void setUserAttributeForDisplayFirstLogIn(Map<String, String> currAttributes, List<String> requiredAttributes) {
-        firstTimeLogInUserAttributes = currAttributes;
-        firstTimeLogInRequiredAttributes = requiredAttributes;
-        firstTimeLogInUpDatedAttributes = new HashMap<String, String>();
-        refreshDisplayItemsForFirstTimeLogin();
-    }
-
     public static void setUserAttributeForFirstTimeLogin(String attributeName, String attributeValue) {
         if (firstTimeLogInUserAttributes ==  null) {
-            firstTimeLogInUserAttributes = new HashMap<String, String>();
+            firstTimeLogInUserAttributes = new HashMap<>();
         }
         firstTimeLogInUserAttributes.put(attributeName, attributeValue);
         firstTimeLogInUpDatedAttributes.put(attributeName, attributeValue);
@@ -174,7 +164,7 @@ public class CUPHelper {
 
     private static void refreshDisplayItemsForFirstTimeLogin() {
         firstTimeLogInItemsCount = 0;
-        firstTimeLogInDetails = new ArrayList<ItemToDisplay>();
+        firstTimeLogInDetails = new ArrayList<>();
 
         for(Map.Entry<String, String> attr: firstTimeLogInUserAttributes.entrySet()) {
             if ("phone_number_verified".equals(attr.getKey()) || "email_verified".equals(attr.getKey())) {
@@ -201,7 +191,7 @@ public class CUPHelper {
 
     private static void setData() {
         // Set attribute display sequence
-        attributeDisplaySeq = new ArrayList<String>();
+        attributeDisplaySeq = new ArrayList<>();
         attributeDisplaySeq.add("given_name");
         attributeDisplaySeq.add("middle_name");
         attributeDisplaySeq.add("family_name");
@@ -209,7 +199,7 @@ public class CUPHelper {
         attributeDisplaySeq.add("phone_number");
         attributeDisplaySeq.add("email");
 
-        signUpFieldsC2O = new HashMap<String, String>();
+        signUpFieldsC2O = new HashMap<>();
         signUpFieldsC2O.put("Given name", "given_name");
         signUpFieldsC2O.put("Family name", "family_name");
         signUpFieldsC2O.put("Nick name", "nickname");
@@ -219,7 +209,7 @@ public class CUPHelper {
         signUpFieldsC2O.put("Email","email");
         signUpFieldsC2O.put("Middle name","middle_name");
 
-        signUpFieldsO2C = new HashMap<String, String>();
+        signUpFieldsO2C = new HashMap<>();
         signUpFieldsO2C.put("given_name", "Given name");
         signUpFieldsO2C.put("family_name", "Family name");
         signUpFieldsO2C.put("nickname", "Nick name");
@@ -240,7 +230,7 @@ public class CUPHelper {
 
         phoneAvailable = false;
 
-        currDisplayedItems = new ArrayList<ItemToDisplay>();
+        currDisplayedItems = new ArrayList<>();
         currUserAttributes.clear();
         itemCount = 0;
 

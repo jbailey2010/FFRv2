@@ -10,14 +10,11 @@ import android.widget.TextView;
 import com.devingotaswitch.ffrv2.R;
 
 
-public class FirstTimeLoginAttributesDisplayAdapter extends BaseAdapter {
-    private String TAG = "FirstTimeLoginDetails";
-    private Context context;
-    private int count;
+class FirstTimeLoginAttributesDisplayAdapter extends BaseAdapter {
+    private final int count;
     private static LayoutInflater layoutInflater;
 
     public FirstTimeLoginAttributesDisplayAdapter(Context context) {
-        this.context = context;
 
         count = CUPHelper.getFirstTimeLogInItemsCount();
 

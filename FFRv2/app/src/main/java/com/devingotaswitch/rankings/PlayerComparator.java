@@ -18,7 +18,6 @@ import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.devingotaswitch.rankings.extras.FilterWithSpaceAdapter;
 import com.devingotaswitch.ffrv2.R;
@@ -372,10 +371,10 @@ public class PlayerComparator extends AppCompatActivity {
     }
 
     private class ParseFP extends AsyncTask<Object, Void, Map<String, String>> {
-        private ProgressDialog pdia;
-        private PlayerComparator act;
-        private Player playerA;
-        private Player playerB;
+        private final ProgressDialog pdia;
+        private final PlayerComparator act;
+        private final Player playerA;
+        private final Player playerB;
 
         ParseFP(PlayerComparator activity, Player playerA, Player playerB) {
             pdia = new ProgressDialog(activity);

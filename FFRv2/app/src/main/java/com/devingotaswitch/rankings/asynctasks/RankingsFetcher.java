@@ -36,10 +36,10 @@ public class RankingsFetcher {
     private static final String TAG = "RankingsFetcher";
 
     public class RanksAggregator extends AsyncTask<Object, String, Rankings> {
-        private ProgressDialog pdia;
-        private RankingsHome act;
-        private LeagueSettings leagueSettings;
-        private Rankings rankings;
+        private final ProgressDialog pdia;
+        private final RankingsHome act;
+        private final LeagueSettings leagueSettings;
+        private final Rankings rankings;
         private long start;
 
         public RanksAggregator(RankingsHome activity, Rankings rankings, LeagueSettings leagueSettings) {

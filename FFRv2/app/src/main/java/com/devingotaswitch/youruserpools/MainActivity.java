@@ -20,7 +20,6 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoDevice;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
@@ -96,16 +95,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Open/Close the navigation drawer when menu icon is selected
-        if (mDrawerToggle.onOptionsItemSelected(item)) {
-            return true;
-        }
+        return mDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
 
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
-    protected void onPostCreate(Bundle savedInstanceState) {
-        super.onPostCreate(savedInstanceState);
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -453,7 +444,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     // Callbacks
-    ForgotPasswordHandler forgotPasswordHandler = new ForgotPasswordHandler() {
+    private final ForgotPasswordHandler forgotPasswordHandler = new ForgotPasswordHandler() {
         @Override
         public void onSuccess() {
             closeWaitDialog();
@@ -476,7 +467,7 @@ public class MainActivity extends AppCompatActivity {
     };
 
     private class FFRAuthHandler implements AuthenticationHandler {
-        private boolean isRefresh;
+        private final boolean isRefresh;
 
         FFRAuthHandler(boolean refresh) {
             this.isRefresh = refresh;

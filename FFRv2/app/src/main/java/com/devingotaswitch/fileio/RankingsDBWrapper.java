@@ -127,7 +127,7 @@ public class RankingsDBWrapper {
                 " WHERE " + Constants.PLAYER_WATCHED_COLUMN + " = 1", null );
         result.moveToFirst();
 
-        while(result.isAfterLast() == false){
+        while(!result.isAfterLast()){
             players.add(DBUtils.cursorToCustomPlayer(result, new Player()));
             result.moveToNext();
         }
@@ -211,7 +211,7 @@ public class RankingsDBWrapper {
         SQLiteDatabase db = getInstance(context).getReadableDatabase();
         Cursor result = db.rawQuery(DBUtils.getSelectAllString(Constants.LEAGUE_TABLE_NAME), null);
         result.moveToFirst();
-        while(result.isAfterLast() == false) {
+        while(!result.isAfterLast()) {
             LeagueSettings league = cursorToFullLeague(db, result);
             leagues.put(league.getName(), league);
             result.moveToNext();
@@ -231,8 +231,7 @@ public class RankingsDBWrapper {
     private LeagueSettings cursorToFullLeague(SQLiteDatabase db, Cursor result) {
         String rosterId = result.getString(result.getColumnIndex(Constants.ROSTER_ID_COLUMN));
         String scoringId = result.getString(result.getColumnIndex(Constants.SCORING_ID_COLUMN));
-        LeagueSettings league = DBUtils.cursorToLeague(result, getRoster(db, rosterId), getScoring(db, scoringId));
-        return league;
+        return DBUtils.cursorToLeague(result, getRoster(db, rosterId), getScoring(db, scoringId));
     }
 
     public void insertLeague(Context context, LeagueSettings league) {

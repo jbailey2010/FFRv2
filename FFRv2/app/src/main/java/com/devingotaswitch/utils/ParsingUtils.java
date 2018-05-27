@@ -1,7 +1,5 @@
 package com.devingotaswitch.utils;
 
-import android.util.Log;
-
 import com.amazonaws.util.StringUtils;
 import com.devingotaswitch.rankings.domain.Player;
 

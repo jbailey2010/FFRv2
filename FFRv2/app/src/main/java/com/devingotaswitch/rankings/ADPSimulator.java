@@ -144,8 +144,8 @@ public class ADPSimulator extends AppCompatActivity {
     }
 
     private class ParseADPOdds extends AsyncTask<Object, Void, String> {
-        private ProgressDialog pdia;
-        private Rankings rankings;
+        private final ProgressDialog pdia;
+        private final Rankings rankings;
 
         ParseADPOdds(ADPSimulator activity, Rankings rankings) {
             pdia = new ProgressDialog(activity);

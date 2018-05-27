@@ -15,7 +15,7 @@ import java.util.List;
 public class ParseFFTB {
 
     public static void parseFFTBRankingsWrapper(Rankings rankings)
-            throws MalformedURLException, IOException {
+            throws IOException {
         String teams = String.valueOf(rankings.getLeagueSettings().getTeamCount());
         parseFFTBPage(
                 rankings,

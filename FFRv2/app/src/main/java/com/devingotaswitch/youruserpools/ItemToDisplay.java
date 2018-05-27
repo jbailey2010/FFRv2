@@ -18,9 +18,9 @@ public class ItemToDisplay {
     private String dataDrawable;
 
     // Constructor
-    protected ItemToDisplay(String labelText, String dataText, String messageText,
-                            int labelColor, int dataColor, int messageColor,
-                            int dataBackground, String dataDrawable) {
+    ItemToDisplay(String labelText, String dataText, String messageText,
+                  int labelColor, int dataColor, int messageColor,
+                  int dataBackground, String dataDrawable) {
         this.labelText = labelText;
         this.dataText = dataText;
         this.messageText = messageText;

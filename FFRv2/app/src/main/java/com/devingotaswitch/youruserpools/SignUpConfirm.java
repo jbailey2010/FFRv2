@@ -196,7 +196,7 @@ public class SignUpConfirm extends AppCompatActivity {
 
     }
 
-    GenericHandler confHandler = new GenericHandler() {
+    private final GenericHandler confHandler = new GenericHandler() {
         @Override
         public void onSuccess() {
             showDialogMessage("Success!",userName+" has been confirmed!", true);
@@ -216,7 +216,7 @@ public class SignUpConfirm extends AppCompatActivity {
         }
     };
 
-    VerificationHandler resendConfCodeHandler = new VerificationHandler() {
+    private final VerificationHandler resendConfCodeHandler = new VerificationHandler() {
         @Override
         public void onSuccess(CognitoUserCodeDeliveryDetails cognitoUserCodeDeliveryDetails) {
             TextView mainTitle = (TextView) findViewById(R.id.textViewConfirmTitle);

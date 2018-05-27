@@ -2,7 +2,6 @@ package com.devingotaswitch.rankings;
 
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.support.design.widget.Snackbar;
@@ -10,7 +9,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -21,7 +19,6 @@ import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.amazonaws.util.StringUtils;
 import com.devingotaswitch.ffrv2.R;
@@ -48,7 +45,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
     private LinearLayout baseLayout;
     private boolean rankingsUpdated;
 
-    Map<String, LeagueSettings> leagues;
+    private Map<String, LeagueSettings> leagues;
     private LeagueSettings currLeague;
 
     @Override

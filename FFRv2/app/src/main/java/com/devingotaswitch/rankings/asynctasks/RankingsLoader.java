@@ -18,13 +18,13 @@ import java.util.List;
 import java.util.Map;
 
 public class RankingsLoader {
-    private static String TAG = "RankingLoader";
+    private static final String TAG = "RankingLoader";
 
     public class RanksLoader extends AsyncTask<Object, String, Rankings> {
-        private ProgressDialog pdia;
-        private RankingsHome act;
+        private final ProgressDialog pdia;
+        private final RankingsHome act;
         private long start;
-        private RankingsDBWrapper rankingsDB;
+        private final RankingsDBWrapper rankingsDB;
 
         public RanksLoader(RankingsHome activity, RankingsDBWrapper rankingsDB) {
             this.pdia = new ProgressDialog(activity);
@@ -61,10 +61,10 @@ public class RankingsLoader {
     }
 
     public class RanksSaver extends AsyncTask<Object, String, Void> {
-        private ProgressDialog pdia;
-        private RankingsHome act;
+        private final ProgressDialog pdia;
+        private final RankingsHome act;
         private long start;
-        private RankingsDBWrapper rankingsDB;
+        private final RankingsDBWrapper rankingsDB;
 
         public RanksSaver(RankingsHome activity, RankingsDBWrapper rankingsDB) {
             this.pdia = new ProgressDialog(activity);

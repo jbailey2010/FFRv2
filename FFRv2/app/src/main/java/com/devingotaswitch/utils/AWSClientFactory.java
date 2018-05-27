@@ -36,13 +36,12 @@ public class AWSClientFactory {
     }
 
     private static CognitoUserPoolsAuthProvider getUserPools(final Context context) {
-        final CognitoUserPoolsAuthProvider provider = new BasicCognitoUserPoolsAuthProvider(new CognitoUserPool(
+        return new BasicCognitoUserPoolsAuthProvider(new CognitoUserPool(
                 context,
                 USER_POOL_ID,
                 CLIENT_ID,
                 CLIENT_SECRET,
                 REGION));
-        return provider;
     }
 
     /*

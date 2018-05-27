@@ -214,24 +214,6 @@ public class FilterWithSpaceAdapter<T> extends BaseAdapter implements
     }
 
     /**
-     * Adds the specified items at the end of the array.
-     *
-     * @param items
-     *            The items to add at the end of the array.
-     */
-    public void addAll(T... items) {
-        synchronized (mLock) {
-            if (mOriginalValues != null) {
-                Collections.addAll(mOriginalValues, items);
-            } else {
-                Collections.addAll(mObjects, items);
-            }
-        }
-        if (mNotifyOnChange)
-            notifyDataSetChanged();
-    }
-
-    /**
      * Inserts the specified object at the specified index in the array.
      *
      * @param object
@@ -467,7 +449,7 @@ public class FilterWithSpaceAdapter<T> extends BaseAdapter implements
             Context context, int textArrayResId, int textViewResId) {
         CharSequence[] strings = context.getResources().getTextArray(
                 textArrayResId);
-        return new FilterWithSpaceAdapter<CharSequence>(context, textViewResId,
+        return new FilterWithSpaceAdapter<>(context, textViewResId,
                 strings);
     }
 
@@ -495,14 +477,14 @@ public class FilterWithSpaceAdapter<T> extends BaseAdapter implements
 
             if (mOriginalValues == null) {
                 synchronized (mLock) {
-                    mOriginalValues = new ArrayList<T>(mObjects);
+                    mOriginalValues = new ArrayList<>(mObjects);
                 }
             }
 
             if (prefix == null || prefix.length() == 0) {
                 ArrayList<T> list;
                 synchronized (mLock) {
-                    list = new ArrayList<T>(mOriginalValues);
+                    list = new ArrayList<>(mOriginalValues);
                 }
                 results.values = list;
                 results.count = list.size();
@@ -511,11 +493,11 @@ public class FilterWithSpaceAdapter<T> extends BaseAdapter implements
 
                 ArrayList<T> values;
                 synchronized (mLock) {
-                    values = new ArrayList<T>(mOriginalValues);
+                    values = new ArrayList<>(mOriginalValues);
                 }
 
                 final int count = values.size();
-                final ArrayList<T> newValues = new ArrayList<T>();
+                final ArrayList<T> newValues = new ArrayList<>();
 
                 for (int i = 0; i < count; i++) {
                     final T value = values.get(i);

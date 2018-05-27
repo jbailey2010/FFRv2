@@ -29,7 +29,7 @@ public class GeneralUtils {
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
-    public static List<String> sortData(
+    private static List<String> sortData(
             List<String> data) {
         Collections.sort(data, new Comparator<String>() {
             public int compare(String a, String b) {
@@ -90,7 +90,7 @@ public class GeneralUtils {
             }
         }
         List<String> dataSorted = GeneralUtils.sortData(dropdownList);
-        return new FilterWithSpaceAdapter<String>(activity,
+        return new FilterWithSpaceAdapter<>(activity,
                 android.R.layout.simple_dropdown_item_1line, dataSorted.toArray(new String[0]));
     }
 

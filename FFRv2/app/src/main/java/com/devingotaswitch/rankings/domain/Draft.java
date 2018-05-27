@@ -3,11 +3,8 @@ package com.devingotaswitch.rankings.domain;
 import android.app.Activity;
 import android.content.Context;
 import android.support.design.widget.Snackbar;
-import android.util.Log;
 import android.view.View;
-import android.widget.Toast;
 
-import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.fileio.LocalSettingsHelper;
 import com.devingotaswitch.utils.Constants;
 
@@ -16,22 +13,19 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.PriorityQueue;
-import java.util.Set;
 
 public class Draft {
 
-    private List<String> draftedPlayers;
-    private Map<String, Integer> myPlayers;
-    private List<Player> myQbs;
-    private List<Player> myRbs;
-    private List<Player> myWrs;
-    private List<Player> myTes;
-    private List<Player> myDsts;
-    private List<Player> myKs;
+    private final List<String> draftedPlayers;
+    private final Map<String, Integer> myPlayers;
+    private final List<Player> myQbs;
+    private final List<Player> myRbs;
+    private final List<Player> myWrs;
+    private final List<Player> myTes;
+    private final List<Player> myDsts;
+    private final List<Player> myKs;
 
     private double draftValue;
 
