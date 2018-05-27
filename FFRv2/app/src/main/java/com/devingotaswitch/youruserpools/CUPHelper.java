@@ -1,30 +1,21 @@
 package com.devingotaswitch.youruserpools;
 
 import android.content.Context;
-import android.content.Intent;
 import android.graphics.Color;
 import android.util.Log;
 
 import com.amazonaws.SDKGlobalConfiguration;
-import com.amazonaws.auth.CognitoCachingCredentialsProvider;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoDevice;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserAttributes;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserDetails;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.AuthenticationContinuation;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.MultiFactorAuthenticationContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
-import com.amazonaws.regions.Regions;
-import com.amazonaws.services.cognitoidentityprovider.model.AttributeType;
-import com.amazonaws.util.StringUtils;
+import com.devingotaswitch.utils.AWSClientFactory;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Locale;
 import java.util.Map;
 import java.util.Set;
 
@@ -33,7 +24,7 @@ public class CUPHelper {
     private static Map<String, String> signUpFieldsC2O;
     private static Map<String, String> signUpFieldsO2C;
 
-    private static CognitoUserPool userPool;
+    private static CognitoUserPool CUP_CLIENT;
     private static String user;
 
     private static List<ItemToDisplay> currDisplayedItems;
@@ -48,11 +39,6 @@ public class CUPHelper {
     private static Map<String, String> firstTimeLogInUpDatedAttributes;
     private static String firstTimeLoginNewPassword;
 
-    private static final String USER_POOL_ID = "us-west-2_LMdno4yy1";
-    private static final String CLIENT_ID = "1d6n52mmd2m28t270fnu7ntbca";
-    private static final String CLIENT_SECRET = "nh4tkf4kbppd2rckd4g5j0qhn1q55l2h4lcq8kqjahg1nlfe4r9";
-    private static final Regions COGNITO_REGION = Regions.US_WEST_2;
-
     // User details from the service
     private static CognitoUserSession currSession;
     private static CognitoUserDetails userDetails;
@@ -66,13 +52,13 @@ public class CUPHelper {
     public static void init(Context context) {
         setData();
 
-        if (userPool != null) {
+        if (CUP_CLIENT != null) {
             return;
         }
 
-        if (userPool == null) {
+        if (CUP_CLIENT == null) {
             // Create a user pool with default ClientConfiguration
-            userPool = new CognitoUserPool(context, USER_POOL_ID, CLIENT_ID, CLIENT_SECRET, COGNITO_REGION);
+            CUP_CLIENT = AWSClientFactory.getUserPoolsInstance(context);
         }
 
         phoneVerified = false;
@@ -84,25 +70,8 @@ public class CUPHelper {
         firstTimeLogInUpDatedAttributes= new HashMap<>();
     }
 
-    static boolean shouldRefreshCUP() {
-        if (userPool == null) {
-            return false;
-        } else if (getCurrSession() == null) {
-            return true;
-        }
-        long currentTime = System.currentTimeMillis()
-                - SDKGlobalConfiguration.getGlobalTimeOffset() * 1000;
-        long timeRemaining = getCurrSession().getIdToken().getExpiration().getTime()
-                - currentTime;
-        return timeRemaining < REFRESH_THRESHOLD_MILLIS;
-    }
-
-    public static void refreshSessionForUser(CognitoUser user, AuthenticationHandler handler) {
-        user.getSessionInBackground(handler);
-    }
-
     public static CognitoUserPool getPool() {
-        return userPool;
+        return CUP_CLIENT;
     }
 
     public static Map<String, String> getSignUpFieldsC2O() {
@@ -140,14 +109,6 @@ public class CUPHelper {
 
     public static boolean isPhoneAvailable() {
         return phoneAvailable;
-    }
-
-    public static String getIdentityPoolLoginKey() {
-        return new StringBuilder("cognito-idp.")
-                .append(COGNITO_REGION.getName())
-                .append(".amazonaws.com/")
-                .append(USER_POOL_ID)
-                .toString();
     }
 
     public static String formatException(Exception exception) {

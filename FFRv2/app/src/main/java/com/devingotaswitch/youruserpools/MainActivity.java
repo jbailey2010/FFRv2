@@ -87,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
 
         // Initialize application
         CUPHelper.init(getApplicationContext());
-        CIBHelper.init(getApplicationContext());
         setDisplayForLoading();
         initApp();
         findCurrent();

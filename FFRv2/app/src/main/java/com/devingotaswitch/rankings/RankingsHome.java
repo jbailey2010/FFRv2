@@ -56,7 +56,6 @@ import com.devingotaswitch.rankings.domain.Team;
 import com.devingotaswitch.rankings.extras.SwipeDismissTouchListener;
 import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.GeneralUtils;
-import com.devingotaswitch.youruserpools.CIBHelper;
 import com.devingotaswitch.youruserpools.CUPHelper;
 import com.devingotaswitch.youruserpools.ChangePasswordActivity;
 import com.devingotaswitch.youruserpools.MainActivity;
@@ -794,7 +793,6 @@ public class RankingsHome extends AppCompatActivity {
 
     private void signOut() {
         user.signOut();
-        CIBHelper.signOut();
         Intent intent = new Intent(this, MainActivity.class);
         startActivity(intent);
     }
