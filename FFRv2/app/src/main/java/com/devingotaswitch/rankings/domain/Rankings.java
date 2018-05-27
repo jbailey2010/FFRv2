@@ -1,5 +1,7 @@
 package com.devingotaswitch.rankings.domain;
 
+import android.util.Log;
+
 import com.devingotaswitch.fileio.RankingsDBWrapper;
 import com.devingotaswitch.rankings.RankingsHome;
 import com.devingotaswitch.rankings.asynctasks.RankingsFetcher;
