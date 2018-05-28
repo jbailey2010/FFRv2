@@ -187,14 +187,6 @@ public class RankingsDBWrapper {
         return teams;
     }
 
-    public Team getTeam(Context context, String teamName) {
-        SQLiteDatabase db = getInstance(context).getReadableDatabase();
-        Cursor result = getEntry(db, teamName, Constants.TEAM_TABLE_NAME, Constants.TEAM_NAME_COLUMN);
-        Team team = DBUtils.cursorToTeam(result);
-        result.close();
-        return team;
-    }
-
     public void saveTeams(Context context, Collection<Team> teams) {
         SQLiteDatabase db = getInstance(context).getWritableDatabase();
         Set<ContentValues> values = new HashSet<>();
