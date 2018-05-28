@@ -1,0 +1,65 @@
+mutation CreateLeague($input: CreateLeagueInput!) {
+  createLeague(input: $input) {
+    leagueId
+    ownerId
+  }
+}
+
+mutation UpdateLeague($input: UpdateLeagueInput!) {
+  updateLeague(input: $input) {
+    leagueId
+    ownerId
+  }
+}
+
+mutation DeleteLeague($input: DeleteLeagueInput!) {
+  deleteLeague(input: $input) {
+    leagueId
+    ownerId
+  }
+}
+
+query GetLeague($leagueId: String!, $ownerId: String!) {
+  getLeague(leagueId: $leagueId, ownerId: $ownerId) {
+    leagueId
+    ownerId
+    name
+    teamCount
+    leagueType
+    auctionBudget
+    scoringSettings {
+      leagueId
+      passingTds
+      rushingTds
+      receivingTds
+      fumbles
+      interceptions
+      passingYards
+      rushingYards
+      receivingYards
+      receptions
+    }
+    rosterSettings {
+      leagueId
+	  qbCount
+	  rbCount
+	  wrCount
+	  teCount
+	  dstCount
+	  kCount
+	  benchCount
+	  rbwrCount
+	  rbwrteCount
+	  rbteCount
+	  wrteCount
+	  qbrbwrteCount
+    }
+  }
+}
+
+query ListLeagueIds($ownerId: String!) {
+  listLeagueIds(ownerId: $ownerId) {
+    leagueId
+    ownerId
+  }
+}

@@ -1,25 +1,25 @@
-mutation CreatePlayer($input: CreatePlayerInput) {
+mutation CreatePlayer($input: CreatePlayerInput!) {
   createPlayer(input: $input) {
     id
     leagueId
   }
 }
 
-mutation UpdatePlayer($input: UpdatePlayerInput) {
+mutation UpdatePlayer($input: UpdatePlayerInput!) {
   updatePlayer(input: $input) {
     id
     leagueId
   }
 }
 
-mutation DeletePlayer($input: DeletePlayerInput) {
+mutation DeletePlayer($input: DeletePlayerInput!) {
   deletePlayer(input: $input) {
     id
     leagueId
   }
 }
 
-query GetPlayer($id: String, $leagueId: String) {
+query GetPlayer($id: String!, $leagueId: String!) {
   getPlayer(id: $id, leagueId: $leagueId) {
 	id
 	leagueId
@@ -44,7 +44,7 @@ query GetPlayer($id: String, $leagueId: String) {
   }
 }
 
-query ListPlayers($leagueId: String) {
+query ListPlayers($leagueId: String!) {
   listPlayers(leagueId: $leagueId) {
 	id
 	leagueId

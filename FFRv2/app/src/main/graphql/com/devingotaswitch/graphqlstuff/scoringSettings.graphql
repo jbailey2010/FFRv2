@@ -1,22 +1,22 @@
-mutation CreateScoringSettings($input: CreateScoringSettingsInput) {
+mutation CreateScoringSettings($input: CreateScoringSettingsInput!) {
   createScoringSettings(input: $input) {
     leagueId
   }
 }
 
-mutation UpdateScoringSettings($input: UpdateScoringSettingsInput) {
+mutation UpdateScoringSettings($input: UpdateScoringSettingsInput!) {
   updateScoringSettings(input: $input) {
     leagueId
   }
 }
 
-mutation DeleteScoringSettings($input: DeleteScoringSettingsInput) {
+mutation DeleteScoringSettings($input: DeleteScoringSettingsInput!) {
   deleteScoringSettings(input: $input) {
     leagueId
   }
 }
 
-query GetScoringSettings($id: String) {
+query GetScoringSettings($id: String!) {
   getScoringSettings(leagueId: $id) {
     leagueId
     passingTds

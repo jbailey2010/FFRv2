@@ -8,6 +8,9 @@ public class LeagueSettings {
     private int teamCount;
 
     private boolean isAuction;
+    private boolean isDynasty;
+    private boolean isRookie;
+    private boolean isSnake;
     private int auctionBudget;
 
     private ScoringSettings scoringSettings;
@@ -51,6 +54,14 @@ public class LeagueSettings {
 
     public boolean isAuction() {
         return isAuction;
+    }
+
+    public boolean isDynasty() {
+        return isDynasty;
+    }
+
+    public boolean isRookie() {
+        return isRookie;
     }
 
     public void setAuction(boolean auction) {
