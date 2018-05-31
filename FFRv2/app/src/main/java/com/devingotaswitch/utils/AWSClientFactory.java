@@ -20,7 +20,7 @@ public class AWSClientFactory {
      */
     private static volatile AWSAppSyncClient APPSYNC_CLIENT;
     // AppSync constants
-    private static final String API_ID = "w55fqd2wojecflyd4ojdb4qegm";
+    private static final String API_ID = "";
     private static final String API_URL = "https://" + API_ID + ".appsync-api.us-west-2.amazonaws.com/graphql";
 
     public static AWSAppSyncClient getAppSyncInstance(final Context context) {
