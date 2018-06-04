@@ -1,0 +1,58 @@
+query GetCommentsOnPlayer($playerId: String!, $nextToken: String!) {
+  getCommentsOnPlayer(playerId: $playerId, nextToken: $nextToken) {
+    items {
+      id
+      playerId
+      date
+      author
+      content
+      upvotes
+      downvotes
+    }
+    nextToken
+  }
+}
+
+mutation CreateComment(
+  $id: ID!,
+  $playerId: String!,
+  $date: String!,
+  $author: String!,
+  $content: String!,
+  $upvotes: Int,
+  $downvotes: Int
+) {
+  createComment(
+    id: $id,
+    playerId: $playerId,
+    date: $date,
+    author: $author,
+    content: $content,
+    upvotes: $upvotes,
+    downvotes: $downvotes
+  ) {
+    id
+  }
+}
+
+mutation DeleteComment($id: ID!) {
+  deleteComment(id: $id) {
+    id
+  }
+}
+
+mutation UpvoteComment($id: ID!) {
+  upvoteComment(id: $id) {
+	id
+	upvotes
+	downvotes
+  }
+}
+
+mutation DownvoteComment($id: ID!) {
+  downvoteComment(id: $id) {
+	id
+	upvotes
+	downvotes
+  }
+}

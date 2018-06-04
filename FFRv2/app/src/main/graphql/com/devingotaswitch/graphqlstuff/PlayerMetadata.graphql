@@ -1,0 +1,38 @@
+query GetPlayerMetadata($playerId: String!) {
+  getPlayerMetadata(playerId: $playerId) {
+	playerId
+	viewCount
+	watchCount
+  }
+}
+
+mutation CreatePlayerMetadata($playerId: String!, $viewCount: Int, $watchCount: Int) {
+  createPlayerMetadata(playerId: $playerId, viewCount: $viewCount, watchCount: $watchCount) {
+	playerId
+  }
+}
+
+mutation IncrementPlayerViewCount($playerId: String!) {
+  incrementPlayerViewCount(playerId: $playerId) {
+	playerId
+	viewCount
+	watchCount
+  }
+}
+
+mutation IncrementPlayerWatchedCount($playerId: String!) {
+  incrementPlayerWatchedCount(playerId: $playerId) {
+	playerId
+	viewCount
+	watchCount
+  }
+}
+
+mutation DecrementPlayerWatchedCount($playerId: String!) {
+  decrementPlayerWatchedCount(playerId: $playerId) {
+	playerId
+	viewCount
+	watchCount
+  }
+}
+

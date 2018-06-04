@@ -126,13 +126,13 @@ public class DraftInfo extends AppCompatActivity {
     }
 
     private void init() {
-        baseLayout = (LinearLayout) findViewById(R.id.draft_info_base);
+        baseLayout = findViewById(R.id.draft_info_base);
         displayTeam();
     }
 
     private void displayTeam() {
         View view = clearAndAddView(R.layout.content_draft_info_team);
-        TextView teamView = (TextView)view.findViewById(R.id.base_textview_team);
+        TextView teamView = view.findViewById(R.id.base_textview_team);
         StringBuilder teamOutput = new StringBuilder(getTeamStr());
         if (rankings.getLeagueSettings().isAuction()) {
             teamOutput.append(getAuctionValue());
@@ -141,7 +141,7 @@ public class DraftInfo extends AppCompatActivity {
 
         graphTeam();
 
-        TextView paaLeft = (TextView)view.findViewById(R.id.base_textview_paa_left);
+        TextView paaLeft = view.findViewById(R.id.base_textview_paa_left);
         paaLeft.setText(getPAALeft());
 
         graphPAALeft();
