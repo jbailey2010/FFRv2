@@ -341,26 +341,6 @@
                                         }
                                     },
                                     "defaultValue": null
-                                },
-                                {
-                                    "name": "viewCount",
-                                    "description": null,
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "Int",
-                                        "ofType": null
-                                    },
-                                    "defaultValue": null
-                                },
-                                {
-                                    "name": "watchCount",
-                                    "description": null,
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "Int",
-                                        "ofType": null
-                                    },
-                                    "defaultValue": null
                                 }
                             ],
                             "type": {
@@ -442,26 +422,6 @@
                                             "name": "String",
                                             "ofType": null
                                         }
-                                    },
-                                    "defaultValue": null
-                                },
-                                {
-                                    "name": "upvotes",
-                                    "description": null,
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "Int",
-                                        "ofType": null
-                                    },
-                                    "defaultValue": null
-                                },
-                                {
-                                    "name": "downvotes",
-                                    "description": null,
-                                    "type": {
-                                        "kind": "SCALAR",
-                                        "name": "Int",
-                                        "ofType": null
                                     },
                                     "defaultValue": null
                                 }

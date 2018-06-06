@@ -18,18 +18,14 @@ mutation CreateComment(
   $playerId: String!,
   $date: String!,
   $author: String!,
-  $content: String!,
-  $upvotes: Int,
-  $downvotes: Int
+  $content: String!
 ) {
   createComment(
     id: $id,
     playerId: $playerId,
     date: $date,
     author: $author,
-    content: $content,
-    upvotes: $upvotes,
-    downvotes: $downvotes
+    content: $content
   ) {
     id
   }

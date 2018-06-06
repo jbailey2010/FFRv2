@@ -6,9 +6,11 @@ query GetPlayerMetadata($playerId: String!) {
   }
 }
 
-mutation CreatePlayerMetadata($playerId: String!, $viewCount: Int, $watchCount: Int) {
-  createPlayerMetadata(playerId: $playerId, viewCount: $viewCount, watchCount: $watchCount) {
+mutation CreatePlayerMetadata($playerId: String!) {
+  createPlayerMetadata(playerId: $playerId) {
 	playerId
+	viewCount
+	watchCount
   }
 }
 
