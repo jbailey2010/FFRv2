@@ -3,22 +3,30 @@ mutation IncrementPlayerViewCount($playerId: String!) {
 	playerId
 	viewCount
 	watchCount
+	draftCount
   }
 }
 
 mutation IncrementPlayerWatchedCount($playerId: String!) {
   incrementPlayerWatchedCount(playerId: $playerId) {
 	playerId
-	viewCount
-	watchCount
   }
 }
 
 mutation DecrementPlayerWatchedCount($playerId: String!) {
   decrementPlayerWatchedCount(playerId: $playerId) {
 	playerId
-	viewCount
-	watchCount
   }
 }
 
+mutation IncrementPlayerDraftedCount($playerId: String!) {
+  incrementPlayerDraftedCount(playerId: $playerId) {
+	playerId
+  }
+}
+
+mutation DecrementPlayerDraftedCount($playerId: String!) {
+  decrementPlayerDraftedCount(playerId: $playerId) {
+	playerId
+  }
+}

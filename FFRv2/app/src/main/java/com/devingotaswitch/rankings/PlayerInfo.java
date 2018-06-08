@@ -53,6 +53,7 @@ public class PlayerInfo extends AppCompatActivity {
 
     private int viewCount = -1;
     private int watchCount= -1;
+    private int draftCount = -1;
 
     private List<Map<String, String>> data;
     private SimpleAdapter adapter;
@@ -349,9 +350,10 @@ public class PlayerInfo extends AppCompatActivity {
         displayRanks();
     }
 
-    public void setAggregatePlayerMetadata(int viewCount, int watchCount) {
+    public void setAggregatePlayerMetadata(int viewCount, int watchCount, int draftCount) {
         this.watchCount = watchCount;
         this.viewCount = viewCount;
+        this.draftCount = draftCount;
     }
 
     private void getNote(String existing) {
@@ -608,6 +610,10 @@ public class PlayerInfo extends AppCompatActivity {
                     .append("In ")
                     .append(watchCount)
                     .append(watchCount == 1 ? " watch list" : " watch lists")
+                    .append(Constants.LINE_BREAK)
+                    .append("Drafted ")
+                    .append(draftCount)
+                    .append(draftCount == 1 ? " time" : " times")
                     .toString();
             activityData.put(Constants.PLAYER_INFO, activityString);
             data.add(activityData);

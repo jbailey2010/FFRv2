@@ -5,6 +5,7 @@ import android.content.Context;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
+import com.devingotaswitch.appsync.AppSyncHelper;
 import com.devingotaswitch.fileio.LocalSettingsHelper;
 import com.devingotaswitch.utils.Constants;
 
@@ -370,6 +371,7 @@ public class Draft {
             Snackbar.make(view, player.getName() + " drafted", Snackbar.LENGTH_LONG).setAction("Undo", listener).show();
         }
         saveDraft(rankings, act);
+        AppSyncHelper.incrementPlayerDraftCount(act, player.getUniqueId());
     }
 
     public void draftByMe(Rankings rankings, Player player, Activity act, int cost, View view, View.OnClickListener listener) {
@@ -380,12 +382,14 @@ public class Draft {
             Snackbar.make(view, player.getName() + " drafted by you", Snackbar.LENGTH_LONG).setAction("Undo", listener).show();
         }
         saveDraft(rankings, act);
+        AppSyncHelper.incrementPlayerDraftCount(act, player.getUniqueId());
     }
 
     public void undraft(Rankings rankings, Player player, Activity act, View view) {
         unDraftPlayer(player);
         Snackbar.make(view, player.getName() + " undrafted", Snackbar.LENGTH_SHORT).show();
         saveDraft(rankings, act);
+        AppSyncHelper.decrementPlayerDraftCount(act, player.getUniqueId());
     }
 
     private void saveDraft(Rankings rankings, Activity act) {

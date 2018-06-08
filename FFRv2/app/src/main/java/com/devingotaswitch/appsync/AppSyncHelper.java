@@ -24,4 +24,12 @@ public class AppSyncHelper {
     public static void decrementPlayerWatchedCount(Context context, String playerId) {
         metadataActivity.decrementWatchCount(context, playerId);
     }
+
+    public static void incrementPlayerDraftCount(Context context, String playerId) {
+        metadataActivity.incrementDraftCount(context, playerId);
+    }
+
+    public static void decrementPlayerDraftCount(Context context, String playerId) {
+        metadataActivity.decrementDraftCount(context, playerId);
+    }
 }

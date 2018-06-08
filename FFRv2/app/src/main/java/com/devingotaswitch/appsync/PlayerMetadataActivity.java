@@ -12,8 +12,10 @@ import com.apollographql.apollo.api.Error;
 import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.exception.ApolloException;
 import com.devingotaswitch.graphqlstuff.CreatePlayerMetadataMutation;
+import com.devingotaswitch.graphqlstuff.DecrementPlayerDraftedCountMutation;
 import com.devingotaswitch.graphqlstuff.DecrementPlayerWatchedCountMutation;
 import com.devingotaswitch.graphqlstuff.GetPlayerMetadataQuery;
+import com.devingotaswitch.graphqlstuff.IncrementPlayerDraftedCountMutation;
 import com.devingotaswitch.graphqlstuff.IncrementPlayerViewCountMutation;
 import com.devingotaswitch.graphqlstuff.IncrementPlayerWatchedCountMutation;
 import com.devingotaswitch.rankings.PlayerInfo;
@@ -51,6 +53,31 @@ class PlayerMetadataActivity extends AppCompatActivity {
                 .enqueue(callback);
     }
 
+    void incrementDraftCount(final Context context, final String playerId) {
+        GraphQLCall.Callback<IncrementPlayerDraftedCountMutation.Data> callback = new GraphQLCall
+                .Callback<IncrementPlayerDraftedCountMutation.Data>() {
+
+            @Override
+            public void onResponse(@Nonnull Response<IncrementPlayerDraftedCountMutation.Data> response) {
+                if (!response.errors().isEmpty()) {
+                    for (Error error : response.errors()) {
+                        Log.e(TAG, "Increment player draft count failed: " + error.message());
+                    }
+                } else {
+                    Log.i(TAG, "Successfully incremented player draft count.");
+                }
+            }
+
+            @Override
+            public void onFailure(@Nonnull ApolloException e) {
+                Log.e(TAG, "Failed to increment draft count.", e);
+            }
+        };
+
+        AWSClientFactory.getAppSyncInstance(context).mutate(IncrementPlayerDraftedCountMutation.builder().playerId(getPlayerId(playerId)).build())
+                .enqueue(callback);
+    }
+
     void decrementWatchCount(final Context context, final String playerId) {
         GraphQLCall.Callback<DecrementPlayerWatchedCountMutation.Data> callback = new GraphQLCall
                 .Callback<DecrementPlayerWatchedCountMutation.Data>() {
@@ -76,6 +103,31 @@ class PlayerMetadataActivity extends AppCompatActivity {
                 .enqueue(callback);
     }
 
+    void decrementDraftCount(final Context context, final String playerId) {
+        GraphQLCall.Callback<DecrementPlayerDraftedCountMutation.Data> callback = new GraphQLCall
+                .Callback<DecrementPlayerDraftedCountMutation.Data>() {
+
+            @Override
+            public void onResponse(@Nonnull Response<DecrementPlayerDraftedCountMutation.Data> response) {
+                if (!response.errors().isEmpty()) {
+                    for (Error error : response.errors()) {
+                        Log.e(TAG, "Decrement player draft count failed: " + error.message());
+                    }
+                } else {
+                    Log.i(TAG, "Successfully decremented player draft count.");
+                }
+            }
+
+            @Override
+            public void onFailure(@Nonnull ApolloException e) {
+                Log.e(TAG, "Failed to decrement draft count.", e);
+            }
+        };
+
+        AWSClientFactory.getAppSyncInstance(context).mutate(DecrementPlayerDraftedCountMutation.builder().playerId(getPlayerId(playerId)).build())
+                .enqueue(callback);
+    }
+
     void incrementViewCount(final Activity activity, final String playerId) {
         GraphQLCall.Callback<IncrementPlayerViewCountMutation.Data> incrementViewCallback = new GraphQLCall
                 .Callback <IncrementPlayerViewCountMutation.Data>() {
@@ -92,7 +144,8 @@ class PlayerMetadataActivity extends AppCompatActivity {
                         @Override
                         public void run() {
                             ((PlayerInfo)activity).setAggregatePlayerMetadata(metadata.viewCount(),
-                                    metadata.watchCount() == null ? 0 : metadata.watchCount());
+                                    metadata.watchCount() == null ? 0 : metadata.watchCount(),
+                                    metadata.draftCount() == null ? 0 : metadata.draftCount());
                         }
                     });
                 }
