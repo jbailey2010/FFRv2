@@ -25,8 +25,9 @@ public class Constants {
     public final static String SORT_ALL = "Default Sort";
     public final static String SORT_ECR = "ECR";
     public final static String SORT_ADP = "ADP";
-    public final static String SORT_UNDERDRAFTED = "Under Drafted";
-    public final static String SORT_OVERDRAFTED = "Over Drafted";
+    public final static String SORT_UNDERDRAFTED = "ADP Under Drafted";
+    public final static String SORT_OVERDRAFTED = "ADP Over Drafted";
+    public final static String SORT_BEST_VALUE = "Best Current Value";
     public final static String SORT_AUCTION = "Auction Value";
     public final static String SORT_PROJECTION = "Projection";
     public final static String SORT_PAA = "PAA";

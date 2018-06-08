@@ -277,10 +277,10 @@ public class PlayerInfo extends AppCompatActivity {
         Button headerRight = (Button)findViewById(R.id.dummy_btn_right);
         Button headerMiddle = (Button)findViewById(R.id.dummy_btn_center);
         if (player.getAge() != null) {
-            headerLeft.setText("Age:\n" + player.getAge());
+            headerLeft.setText("Age:" + Constants.LINE_BREAK +  player.getAge());
         }
         if (rankings.getTeam(player) != null) {
-            headerRight.setText("Bye:\n" + rankings.getTeam(player).getBye());
+            headerRight.setText("Bye:" + Constants.LINE_BREAK + rankings.getTeam(player).getBye());
         }
         headerMiddle.setText(player.getTeamName() + Constants.LINE_BREAK + player.getPosition());
 
@@ -430,7 +430,14 @@ public class PlayerInfo extends AppCompatActivity {
         adp.put(Constants.PLAYER_BASIC, "ADP: " + player.getAdp());
         int adpRank = getAdp(null, player.getAdp());
         int adpPos = getAdp(player.getPosition(), player.getAdp());
-        adp.put(Constants.PLAYER_INFO, getRankingSub(adpRank, adpPos));
+        StringBuilder adpSub = new StringBuilder(getRankingSub(adpRank, adpPos));
+        int draftedPlayers = rankings.getDraft().getDraftedPlayers().size();
+        if (draftedPlayers > 0) {
+            adpSub.append(Constants.LINE_BREAK)
+                    .append("Current draft position: ")
+                    .append(draftedPlayers + 1);
+        }
+        adp.put(Constants.PLAYER_INFO, adpSub.toString());
         data.add(adp);
 
         Map<String, String> auc = new HashMap<>();
@@ -594,11 +601,13 @@ public class PlayerInfo extends AppCompatActivity {
         if (viewCount > 0) {
             Map<String, String> activityData = new HashMap<>();
             activityData.put(Constants.PLAYER_BASIC, "Player popularity");
-            String activityString = new StringBuilder("" + viewCount)
-                    .append(" views\n")
+            String activityString = new StringBuilder("")
+                    .append(viewCount)
+                    .append(viewCount > 1 ? " views" : "view")
+                    .append(Constants.LINE_BREAK)
                     .append("In ")
                     .append(watchCount)
-                    .append(watchCount > 1 ? " watch lists" : " watch list")
+                    .append(watchCount == 1 ? " watch list" : " watch lists")
                     .toString();
             activityData.put(Constants.PLAYER_INFO, activityString);
             data.add(activityData);

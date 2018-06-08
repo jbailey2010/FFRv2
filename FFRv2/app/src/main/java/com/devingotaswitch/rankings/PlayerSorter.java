@@ -170,13 +170,16 @@ public class PlayerSorter extends AppCompatActivity {
                 android.R.layout.simple_spinner_item, posList);
         positions.setAdapter(positionAdapter);
 
-        final Spinner factors = (Spinner)findViewById(R.id.sort_players_factor);
+        final Spinner factors = findViewById(R.id.sort_players_factor);
         List<String> factorList = new ArrayList<>();
         factorList.add(Constants.SORT_ALL);
         factorList.add(Constants.SORT_ECR);
         factorList.add(Constants.SORT_ADP);
         factorList.add(Constants.SORT_UNDERDRAFTED);
         factorList.add(Constants.SORT_OVERDRAFTED);
+        if (rankings.getDraft().getDraftedPlayers().size() > 0) {
+            factorList.add(Constants.SORT_BEST_VALUE);
+        }
         factorList.add(Constants.SORT_AUCTION);
         factorList.add(Constants.SORT_PROJECTION);
         factorList.add(Constants.SORT_PAA);
@@ -209,11 +212,11 @@ public class PlayerSorter extends AppCompatActivity {
         factors.setSelection(sortIndex);
         spinner.setSelection(new ArrayList<>(factorStrings));
 
-        final CheckBox reverse = (CheckBox)findViewById(R.id.sort_players_reverse);
+        final CheckBox reverse = findViewById(R.id.sort_players_reverse);
 
-        final EditText numberShown = (EditText) findViewById(R.id.sort_players_number_shown);
+        final EditText numberShown =  findViewById(R.id.sort_players_number_shown);
 
-        Button submit = (Button)findViewById(R.id.sort_players_submit);
+        Button submit = findViewById(R.id.sort_players_submit);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -248,6 +251,8 @@ public class PlayerSorter extends AppCompatActivity {
             comparator = getUnderdraftedComparator();
         } else if (Constants.SORT_OVERDRAFTED.equals(factor)) {
             comparator = getOverdraftedComparator();
+        } else if (Constants.SORT_BEST_VALUE.equals(factor)) {
+            comparator = getBestValueComparator();
         } else if (Constants.SORT_AUCTION.equals(factor)) {
             comparator = getAuctionComparator();
         } else if (Constants.SORT_PROJECTION.equals(factor)) {
@@ -483,6 +488,24 @@ public class PlayerSorter extends AppCompatActivity {
             public int compare(Player a, Player b) {
                 double diffA = a.getEcr() - a.getAdp();
                 double diffB = b.getEcr() - b.getAdp();
+                if (diffA < diffB) {
+                    return 1;
+                }
+                if (diffA > diffB) {
+                    return -1;
+                }
+                return 0;
+            }
+        };
+    }
+
+    private Comparator<Player> getBestValueComparator() {
+        return new Comparator<Player>() {
+            @Override
+            public int compare(Player a, Player b) {
+                int draftCount = rankings.getDraft().getDraftedPlayers().size();
+                double diffA = a.getEcr() - draftCount;
+                double diffB = b.getEcr() - draftCount;
                 if (diffA < diffB) {
                     return 1;
                 }
@@ -766,6 +789,8 @@ public class PlayerSorter extends AppCompatActivity {
             return String.valueOf(player.getAdp());
         } else if (Constants.SORT_UNDERDRAFTED.equals(factor) || Constants.SORT_OVERDRAFTED.equals(factor)) {
             return df.format(player.getEcr() - player.getAdp());
+        } else if (Constants.SORT_BEST_VALUE.equals(factor)) {
+            return df.format(player.getEcr() - (rankings.getDraft().getDraftedPlayers().size() + 1));
         } else if (Constants.SORT_AUCTION.equals(factor)) {
             return df.format(player.getAuctionValueCustom(rankings));
         } else if (Constants.SORT_PROJECTION.equals(factor)) {
@@ -812,6 +837,13 @@ public class PlayerSorter extends AppCompatActivity {
                     .append(Constants.LINE_BREAK)
                     .append("ADP: ")
                     .append(player.getAdp());
+        } else if (Constants.SORT_BEST_VALUE.equals(factor)) {
+            subtextBuilder.append(Constants.LINE_BREAK)
+                    .append("ECR: ")
+                    .append(player.getEcr())
+                    .append(Constants.LINE_BREAK)
+                    .append("Current Draft Position: ")
+                    .append(rankings.getDraft().getDraftedPlayers().size());
         }
         boolean isAuction = rankings.getLeagueSettings().isAuction();
         if (isAuction && !Constants.SORT_AUCTION.equals(factor) && !Constants.SORT_ALL.equals(factor)) {
