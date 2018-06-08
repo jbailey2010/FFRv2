@@ -51,6 +51,9 @@ public class PlayerInfo extends AppCompatActivity {
     private List<PlayerNews> playerNews;
     private RankingsDBWrapper rankingsDB;
 
+    private int viewCount = -1;
+    private int watchCount= -1;
+
     private List<Map<String, String>> data;
     private SimpleAdapter adapter;
     private ListView infoList;
@@ -347,7 +350,8 @@ public class PlayerInfo extends AppCompatActivity {
     }
 
     public void setAggregatePlayerMetadata(int viewCount, int watchCount) {
-        Log.i(TAG, "View count: " + viewCount + ", watch count: " + watchCount);
+        this.watchCount = watchCount;
+        this.viewCount = viewCount;
     }
 
     private void getNote(String existing) {
@@ -516,9 +520,6 @@ public class PlayerInfo extends AppCompatActivity {
                     .append(Constants.LINE_BREAK);
 
             if (rankings.getDraft().getMyPlayers().size() > 0) {
-                for (String key : rankings.getDraft().getMyPlayers().keySet()) {
-                    Log.e("Jeff", key);
-                }
                 // TODO: should this print more specific info? Names?
                 List<Player> sameBye = rankings.getDraft().getPlayersWithSameBye(player, rankings);
                 if (sameBye.size() > 1 || sameBye.size() == 0) {
@@ -588,6 +589,19 @@ public class PlayerInfo extends AppCompatActivity {
                 sosData.put(Constants.PLAYER_INFO, "1 is easiest, 32 is hardest");
                 data.add(sosData);
             }
+        }
+
+        if (viewCount > 0) {
+            Map<String, String> activityData = new HashMap<>();
+            activityData.put(Constants.PLAYER_BASIC, "Player popularity");
+            String activityString = new StringBuilder("" + viewCount)
+                    .append(" views\n")
+                    .append("In ")
+                    .append(watchCount)
+                    .append(watchCount > 1 ? " watch lists" : " watch list")
+                    .toString();
+            activityData.put(Constants.PLAYER_INFO, activityString);
+            data.add(activityData);
         }
         adapter.notifyDataSetChanged();
     }

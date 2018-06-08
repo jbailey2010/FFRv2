@@ -1,11 +1,3 @@
-mutation CreatePlayerMetadata($playerId: String!) {
-  createPlayerMetadata(playerId: $playerId) {
-	playerId
-	viewCount
-	watchCount
-  }
-}
-
 mutation IncrementPlayerViewCount($playerId: String!) {
   incrementPlayerViewCount(playerId: $playerId) {
 	playerId

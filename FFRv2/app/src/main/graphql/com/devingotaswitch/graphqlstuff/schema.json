@@ -247,33 +247,6 @@
                     "description": null,
                     "fields": [
                         {
-                            "name": "createPlayerMetadata",
-                            "description": null,
-                            "args": [
-                                {
-                                    "name": "playerId",
-                                    "description": null,
-                                    "type": {
-                                        "kind": "NON_NULL",
-                                        "name": null,
-                                        "ofType": {
-                                            "kind": "SCALAR",
-                                            "name": "String",
-                                            "ofType": null
-                                        }
-                                    },
-                                    "defaultValue": null
-                                }
-                            ],
-                            "type": {
-                                "kind": "OBJECT",
-                                "name": "PlayerMetadata",
-                                "ofType": null
-                            },
-                            "isDeprecated": false,
-                            "deprecationReason": null
-                        },
-                        {
                             "name": "createComment",
                             "description": null,
                             "args": [

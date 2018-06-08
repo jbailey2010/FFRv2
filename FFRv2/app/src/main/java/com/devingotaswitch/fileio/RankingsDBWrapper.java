@@ -7,6 +7,7 @@ import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
 import android.util.Log;
 
+import com.devingotaswitch.appsync.AppSyncHelper;
 import com.devingotaswitch.rankings.domain.LeagueSettings;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.RosterSettings;
@@ -141,6 +142,11 @@ public class RankingsDBWrapper {
         values.put(Constants.PLAYER_WATCHED_COLUMN, player.isWatched() ? "1": "0");
         updateMultipleKeyEntry(db, DBUtils.sanitizeName(player.getName()), player.getPosition(), values, Constants.PLAYER_CUSTOM_TABLE_NAME,
                 Constants.PLAYER_NAME_COLUMN, Constants.PLAYER_POSITION_COLUMN);
+        if (player.isWatched()) {
+            AppSyncHelper.incrementPlayerWatchedCount(context, player.getUniqueId());
+        } else {
+            AppSyncHelper.decrementPlayerWatchedCount(context, player.getUniqueId());
+        }
     }
 
     public void updatePlayerNote(Context context, Player player, String note) {
