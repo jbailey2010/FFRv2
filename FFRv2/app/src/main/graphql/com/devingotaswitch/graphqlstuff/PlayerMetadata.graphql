@@ -1,11 +1,3 @@
-query GetPlayerMetadata($playerId: String!) {
-  getPlayerMetadata(playerId: $playerId) {
-	playerId
-	viewCount
-	watchCount
-  }
-}
-
 mutation CreatePlayerMetadata($playerId: String!) {
   createPlayerMetadata(playerId: $playerId) {
 	playerId

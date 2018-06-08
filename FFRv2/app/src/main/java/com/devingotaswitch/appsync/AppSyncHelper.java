@@ -15,7 +15,7 @@ public class AppSyncHelper {
 
     /**
      * If the query to get the metadata returns null, create is called internally.
-     * If it's successful, it will also trigger a view count increment, as this is
+     * The get will come from a view increment, as this is
      * only to be called from the player info page. Meaning, if it's created, it will be with
      * one view. If it's retrieved, it will update to be x+1 views.
      *
@@ -23,7 +23,6 @@ public class AppSyncHelper {
      * @param playerId the player for which metadata is wanted.
      */
     public static void getOrCreatePlayerMetadataAndIncrementViewCount(Activity activity, String playerId) {
-        AWSAppSyncClient appSync = AWSClientFactory.getAppSyncInstance(activity);
-        metadataActivity.getPlayerMetadata(activity, appSync, playerId);
+        metadataActivity.incrementViewCount(activity, playerId);
     }
 }

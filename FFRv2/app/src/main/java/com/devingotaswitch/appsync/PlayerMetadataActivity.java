@@ -13,6 +13,8 @@ import com.apollographql.apollo.exception.ApolloException;
 import com.devingotaswitch.graphqlstuff.CreatePlayerMetadataMutation;
 import com.devingotaswitch.graphqlstuff.GetPlayerMetadataQuery;
 import com.devingotaswitch.graphqlstuff.IncrementPlayerViewCountMutation;
+import com.devingotaswitch.rankings.PlayerInfo;
+import com.devingotaswitch.utils.AWSClientFactory;
 import com.devingotaswitch.utils.Constants;
 
 import javax.annotation.Nonnull;
@@ -21,7 +23,7 @@ class PlayerMetadataActivity extends AppCompatActivity {
 
     private static final String TAG = "PlayerMetadataActivity";
 
-    void createPlayerMetadata(Activity activity, AWSAppSyncClient appSync, String playerId) {
+    private void createPlayerMetadata(final Activity activity, final String playerId) {
         GraphQLCall.Callback<CreatePlayerMetadataMutation.Data> createCallback = new GraphQLCall.Callback <CreatePlayerMetadataMutation.Data>() {
             @Override
             public void onResponse(@Nonnull final Response<CreatePlayerMetadataMutation.Data> response) {
@@ -29,14 +31,14 @@ class PlayerMetadataActivity extends AppCompatActivity {
                     for (Error error : response.errors()) {
                         Log.e(TAG, "Create player metadata failed: " + error.message());
                     }
-                } else if (response.data() == null) {
+                } else if (response.data() == null || response.data().createPlayerMetadata() == null) {
                     Log.d(TAG, "Mutation had an empty response. This should never happen.");
                 } else {
-                    CreatePlayerMetadataMutation.CreatePlayerMetadata metadata = response.data().createPlayerMetadata();
+                    final CreatePlayerMetadataMutation.CreatePlayerMetadata metadata = response.data().createPlayerMetadata();
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            // TODO: display on player info
+                            ((PlayerInfo)activity).setAggregatePlayerMetadata(metadata.viewCount(), metadata.watchCount());
                         }
                     });
                 }
@@ -47,64 +49,41 @@ class PlayerMetadataActivity extends AppCompatActivity {
                 Log.e(TAG, "Failed to perform create player metadata", e);
             }
         };
-        appSync.mutate(CreatePlayerMetadataMutation.builder().playerId(getPlayerId(playerId)).build())
+        AWSClientFactory.getAppSyncInstance(activity).mutate(CreatePlayerMetadataMutation.builder().playerId(getPlayerId(playerId)).build())
                 .enqueue(createCallback);
     }
 
-    void getPlayerMetadata(final Activity activity, final AWSAppSyncClient appSync, final String playerId) {
-        GraphQLCall.Callback<GetPlayerMetadataQuery.Data> getCallback = new GraphQLCall.Callback <GetPlayerMetadataQuery.Data>() {
-            @Override
-            public void onResponse(@Nonnull final Response<GetPlayerMetadataQuery.Data> response) {
-                if (!response.errors().isEmpty()) {
-                    for (Error error : response.errors()) {
-                        Log.e(TAG, "Get player metadata failed: " + error.message());
-                    }
-                } else if (response.data() == null || response.data().getPlayerMetadata() == null) {
-                    createPlayerMetadata(activity, appSync, playerId);
-                } else {
-                    GetPlayerMetadataQuery.GetPlayerMetadata metadata = response.data().getPlayerMetadata();
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            // TODO: display on player info
-                        }
-                    });
-                    incrementViewCount(appSync, playerId);
-                }
-            }
-
-            @Override
-            public void onFailure(@Nonnull ApolloException e) {
-                Log.e(TAG, "Failed to perform get player metadata", e);
-            }
-        };
-
-        appSync.query(GetPlayerMetadataQuery.builder().playerId(getPlayerId(playerId)).build())
-                .responseFetcher(AppSyncResponseFetchers.NETWORK_FIRST)
-                .enqueue(getCallback);
-    }
-
-    private void incrementViewCount(final AWSAppSyncClient appSync, final String playerId) {
+    void incrementViewCount(final Activity activity, final String playerId) {
         GraphQLCall.Callback<IncrementPlayerViewCountMutation.Data> incrementWatchCallback = new GraphQLCall
                 .Callback <IncrementPlayerViewCountMutation.Data>() {
             @Override
             public void onResponse(@Nonnull final Response<IncrementPlayerViewCountMutation.Data> response) {
                 if (!response.errors().isEmpty()) {
                     for (Error error : response.errors()) {
-                        Log.e(TAG, "Increment player watch count failed: " + error.message());
+                        Log.e(TAG, "Increment player view count failed: " + error.message());
                     }
+                } else  if (response.data() == null || response.data().incrementPlayerViewCount() == null ||
+                        response.data().incrementPlayerViewCount().viewCount() == null) {
+                    createPlayerMetadata(activity, playerId);
                 } else {
-                    Log.i(TAG, "Increment player watch count succeeded.");
+                    final IncrementPlayerViewCountMutation.IncrementPlayerViewCount metadata = response.data().incrementPlayerViewCount();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ((PlayerInfo)activity).setAggregatePlayerMetadata(metadata.viewCount(),
+                                    metadata.watchCount() == null ? 0 : metadata.watchCount());
+                        }
+                    });
                 }
             }
 
             @Override
             public void onFailure(@Nonnull ApolloException e) {
-                Log.e(TAG, "Failed to perform increment player watch count.", e);
+                Log.e(TAG, "Failed to perform increment player view count.", e);
             }
         };
 
-        appSync.mutate(IncrementPlayerViewCountMutation.builder().playerId(getPlayerId(playerId)).build())
+        AWSClientFactory.getAppSyncInstance(activity).mutate(IncrementPlayerViewCountMutation.builder().playerId(getPlayerId(playerId)).build())
                 .enqueue(incrementWatchCallback);
     }
 

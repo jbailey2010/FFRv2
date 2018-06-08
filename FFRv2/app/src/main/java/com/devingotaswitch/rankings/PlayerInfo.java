@@ -25,6 +25,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.amazonaws.util.StringUtils;
+import com.devingotaswitch.appsync.AppSyncHelper;
 import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.fileio.RankingsDBWrapper;
 import com.devingotaswitch.rankings.domain.Player;
@@ -43,6 +44,7 @@ import java.util.List;
 import java.util.Map;
 
 public class PlayerInfo extends AppCompatActivity {
+    private static final String TAG = "PlayerInfo";
 
     private Rankings rankings;
     private Player player;
@@ -93,6 +95,7 @@ public class PlayerInfo extends AppCompatActivity {
         });
 
         init();
+        AppSyncHelper.getOrCreatePlayerMetadataAndIncrementViewCount(this, player.getUniqueId());
     }
 
     @Override
@@ -341,6 +344,10 @@ public class PlayerInfo extends AppCompatActivity {
         });
 
         displayRanks();
+    }
+
+    public void setAggregatePlayerMetadata(int viewCount, int watchCount) {
+        Log.i(TAG, "View count: " + viewCount + ", watch count: " + watchCount);
     }
 
     private void getNote(String existing) {

@@ -25,8 +25,11 @@ public class JsoupUtils {
                 .get();
     }
 
-    public static List<String> parseURLWithoutUA(String url, String params) throws IOException {
-        Document doc = getDocument(url);
+    public static List<String> parseURLWithoutUAOrTls(String url, String params) throws IOException {
+        Document doc = Jsoup.connect(url)
+                .timeout(0)
+                .validateTLSCertificates(false)
+                .get();
         return getElemsFromDoc(doc, params);
     }
 

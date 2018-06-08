@@ -1,5 +1,6 @@
 package com.devingotaswitch.rankings.sources;
 
+import com.amazonaws.util.StringUtils;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.utils.Constants;
@@ -57,7 +58,8 @@ public class ParseECR {
         for (int i = min; i < td.size(); i += 9) {
             if (i + 9 >= td.size()) {
                 break;
-            } else if ("".equals(td.get(i))) {
+            }
+            while (td.get(i).split(" ").length < 3 && i < td.size()) {
                 i++;
             }
             String fullName = names.get(playerCount++);
