@@ -15,25 +15,23 @@ public class ParseDraft {
     public static void parseTeamDraft(Rankings rankings) throws IOException {
         List<String> perPick = JsoupUtils
                 .parseURLWithUA(
-                        "https://www.sbnation.com/nfl/2017/4/27/15372494/2017-nfl-draft-results-pick-by-pick",
-                        "table.p-data-table tbody tr td");
+                        "http://www.nfl.com/draft/history/fulldraft",
+                        "table.data-table1 tbody tr td");
         HashMap<String, String> picks = new HashMap<>();
-        for (int i = 0; i < perPick.size(); i+= 7) {
-            String round = perPick.get(i);
-            String pick = perPick.get(i+1);
-            String team = ParsingUtils.normalizeTeams(perPick.get(i+3));
-            String name = perPick.get(i+4);
-            String pos = perPick.get(i+5);
-            String college = perPick.get(i+6);
-            String draftData = round +
-                    "." +
-                    pick +
-                    ": " +
-                    name +
-                    ", " +
-                    pos +
-                    " - " +
-                    college;
+        for (int i = 0; i < perPick.size(); i+= 5) {
+            String pick = perPick.get(i);
+            String team = ParsingUtils.normalizeTeams(perPick.get(i+1));
+            String name = perPick.get(i+2);
+            String pos = perPick.get(i+3);
+            String college = perPick.get(i+4);
+            String draftData = new StringBuilder(pick)
+                    .append(": ")
+                    .append(name)
+                    .append(", ")
+                    .append(pos)
+                    .append(" - ")
+                    .append(college)
+                    .toString();
             if (picks.containsKey(team)) {
                 String existingData = picks.get(team);
                 String updated = existingData +

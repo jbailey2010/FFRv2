@@ -12,17 +12,13 @@
   </component>
   <component name="AndroidLogFilters">
     <option name="TOOL_WINDOW_LOG_LEVEL" value="verbose" />
-    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Firebase" />
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f5fe9503-cc09-4a8d-b7d9-507f98789a95" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/graphql/com/devingotaswitch/graphqlstuff/PlayerMetadata.graphql" afterPath="$PROJECT_DIR$/app/src/main/graphql/com/devingotaswitch/graphqlstuff/PlayerMetadata.graphql" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/graphql/com/devingotaswitch/graphqlstuff/schema.json" afterPath="$PROJECT_DIR$/app/src/main/graphql/com/devingotaswitch/graphqlstuff/schema.json" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/appsync/AppSyncHelper.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/appsync/AppSyncHelper.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/appsync/PlayerMetadataActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/appsync/PlayerMetadataActivity.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/Draft.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/Draft.java" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerSorter.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerSorter.java" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParseDraft.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParseDraft.java" />
     </list>
     <ignored path="AmazonCognitoYourUserPoolsDemo.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -97,21 +93,31 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PlayerInfo.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="PlayerInfo.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="193">
-              <caret line="603" column="53" lean-forward="true" selection-start-line="603" selection-start-column="53" selection-end-line="603" selection-end-column="53" />
+              <caret line="603" column="53" lean-forward="false" selection-start-line="603" selection-start-column="53" selection-end-line="603" selection-end-column="53" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Draft.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/Draft.java">
+      <file leaf-file-name="PlayerSorter.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerSorter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="65">
-              <caret line="367" column="31" lean-forward="true" selection-start-line="367" selection-start-column="31" selection-end-line="367" selection-end-column="31" />
+            <state relative-caret-position="832">
+              <caret line="180" column="16" lean-forward="false" selection-start-line="180" selection-start-column="16" selection-end-line="180" selection-end-column="16" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ParseDraft.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParseDraft.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="295">
+              <caret line="46" column="30" lean-forward="true" selection-start-line="46" selection-start-column="30" selection-end-line="46" selection-end-column="30" />
               <folding />
             </state>
           </provider>
@@ -2335,7 +2341,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/AppSyncHelper.java" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParseYahoo.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/extras/FilterWithSpaceAdapter.java" />
@@ -2379,13 +2384,14 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParseECR.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/JsoupUtils.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/fileio/RankingsDBWrapper.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerSorter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/Constants.java" />
         <option value="$PROJECT_DIR$/app/src/main/graphql/com/devingotaswitch/graphqlstuff/PlayerMetadata.graphql" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/appsync/AppSyncHelper.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/appsync/PlayerMetadataActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/Draft.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerSorter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParseDraft.java" />
       </list>
     </option>
   </component>
@@ -2543,6 +2549,17 @@
               <item name="devingotaswitch" type="462c0819:PsiDirectoryNode" />
               <item name="rankings" type="462c0819:PsiDirectoryNode" />
               <item name="domain" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="FFRv2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="FFRv2" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="devingotaswitch" type="462c0819:PsiDirectoryNode" />
+              <item name="rankings" type="462c0819:PsiDirectoryNode" />
+              <item name="sources" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="FFRv2" type="b2602c69:ProjectViewProjectNode" />
@@ -3034,14 +3051,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/Team.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="4" column="13" lean-forward="false" selection-start-line="4" selection-start-column="13" selection-end-line="4" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.amazonaws/aws-android-sdk-appsync/2.6.16/c1d03cf92e4304409c9b7a79dd3fda663b6254a9/aws-android-sdk-appsync-2.6.16-sources.jar!/com/amazonaws/mobileconnectors/appsync/AWSAppSyncClient.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-589">
@@ -3396,17 +3405,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerSorter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="119">
-          <caret line="792" column="99" lean-forward="false" selection-start-line="792" selection-start-column="99" selection-end-line="792" selection-end-column="99" />
-          <folding>
-            <element signature="e#37417#37642#0" expanded="false" />
-            <element signature="e#37641#37642#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/Constants.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="212">
@@ -3462,7 +3460,23 @@
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="193">
-          <caret line="603" column="53" lean-forward="true" selection-start-line="603" selection-start-column="53" selection-end-line="603" selection-end-column="53" />
+          <caret line="603" column="53" lean-forward="false" selection-start-line="603" selection-start-column="53" selection-end-line="603" selection-end-column="53" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerSorter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="832">
+          <caret line="180" column="16" lean-forward="false" selection-start-line="180" selection-start-column="16" selection-end-line="180" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParseDraft.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="295">
+          <caret line="46" column="30" lean-forward="true" selection-start-line="46" selection-start-column="30" selection-end-line="46" selection-end-column="30" />
           <folding />
         </state>
       </provider>
