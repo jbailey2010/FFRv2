@@ -77,7 +77,10 @@ public class DBUtils {
         ContentValues values = new ContentValues();
         values.put(Constants.NAME_COLUMN, sanitizeName(league.getName()));
         values.put(Constants.TEAM_COUNT_COLUMN, league.getTeamCount());
+        values.put(Constants.IS_SNAKE_COLUMN, league.isSnake());
         values.put(Constants.IS_AUCTION_COLUMN, league.isAuction());
+        values.put(Constants.IS_DYNASTY_STARTUP_COLUMN, league.isDynasty());
+        values.put(Constants.IS_DYNASTY_ROOKIE_COLUMN, league.isRookie());
         values.put(Constants.AUCTION_BUDGET_COLUMN, league.getAuctionBudget());
         values.put(Constants.SCORING_ID_COLUMN, league.getScoringSettings().getId());
         values.put(Constants.ROSTER_ID_COLUMN, league.getRosterSettings().getId());
@@ -88,7 +91,10 @@ public class DBUtils {
         return new LeagueSettings(
                 desanitizeName(result.getString(result.getColumnIndex(Constants.NAME_COLUMN))),
                 result.getInt(result.getColumnIndex(Constants.TEAM_COUNT_COLUMN)),
+                result.getInt(result.getColumnIndex(Constants.IS_SNAKE_COLUMN)) != 0,
                 result.getInt(result.getColumnIndex(Constants.IS_AUCTION_COLUMN)) != 0,
+                result.getInt(result.getColumnIndex(Constants.IS_DYNASTY_STARTUP_COLUMN)) != 0,
+                result.getInt(result.getColumnIndex(Constants.IS_DYNASTY_ROOKIE_COLUMN)) != 0,
                 result.getInt(result.getColumnIndex(Constants.AUCTION_BUDGET_COLUMN)),
                 scoring,
                 roster

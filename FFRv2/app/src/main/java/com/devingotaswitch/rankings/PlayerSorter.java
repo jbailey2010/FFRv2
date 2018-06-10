@@ -177,8 +177,7 @@ public class PlayerSorter extends AppCompatActivity {
         factorList.add(Constants.SORT_ADP);
         factorList.add(Constants.SORT_UNDERDRAFTED);
         factorList.add(Constants.SORT_OVERDRAFTED);
-        if (!rankings.getLeagueSettings().isAuction() && !rankings.getLeagueSettings().isDynasty() && ! rankings.getLeagueSettings().isRookie() &&
-                rankings.getDraft().getDraftedPlayers().size() > 0) {
+        if (rankings.getLeagueSettings().isSnake() && rankings.getDraft().getDraftedPlayers().size() > 0) {
             factorList.add(Constants.SORT_BEST_VALUE);
         }
         factorList.add(Constants.SORT_AUCTION);

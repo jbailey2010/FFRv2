@@ -45,12 +45,15 @@ class RankingsDBHelper extends SQLiteOpenHelper {
 
     private String getCreateLeagueTableSQL() {
         return "CREATE TABLE " + Constants.LEAGUE_TABLE_NAME + " (" +
-                Constants.NAME_COLUMN            + " TEXT PRIMARY KEY," +
-                Constants.TEAM_COUNT_COLUMN      + " INTEGER," +
-                Constants.IS_AUCTION_COLUMN      + " BOOLEAN," +
-                Constants.AUCTION_BUDGET_COLUMN  + " INTEGER," +
-                Constants.SCORING_ID_COLUMN      + " TEXT," +
-                Constants.ROSTER_ID_COLUMN       + " TEXT);";
+                Constants.NAME_COLUMN                + " TEXT PRIMARY KEY," +
+                Constants.TEAM_COUNT_COLUMN          + " INTEGER," +
+                Constants.IS_SNAKE_COLUMN            + " BOOLEAN," +
+                Constants.IS_AUCTION_COLUMN          + " BOOLEAN," +
+                Constants.IS_DYNASTY_STARTUP_COLUMN  + " BOOLEAN," +
+                Constants.IS_DYNASTY_ROOKIE_COLUMN   + " BOOLEAN," +
+                Constants.AUCTION_BUDGET_COLUMN      + " INTEGER," +
+                Constants.SCORING_ID_COLUMN          + " TEXT," +
+                Constants.ROSTER_ID_COLUMN           + " TEXT);";
     }
 
     private String getDeleteLeagueTableSQL() {

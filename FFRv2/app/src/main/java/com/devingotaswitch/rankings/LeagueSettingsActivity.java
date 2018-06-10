@@ -39,8 +39,6 @@ public class LeagueSettingsActivity extends AppCompatActivity {
     private final String TAG="LeagueSettings";
     private final String CREATE_NEW_LEAGUE_SPINNER_ITEM = "Create New League";
 
-    private AlertDialog userDialog;
-    private ProgressDialog waitDialog;
     private RankingsDBWrapper rankingsDB;
     private LinearLayout baseLayout;
     private boolean rankingsUpdated;
@@ -55,9 +53,9 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         // Set toolbar for this screen
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_league_settings);
+        Toolbar toolbar =  findViewById(R.id.toolbar_league_settings);
         toolbar.setTitle("");
-        TextView main_title = (TextView) findViewById(R.id.main_toolbar_title);
+        TextView main_title =  findViewById(R.id.main_toolbar_title);
         main_title.setText("League Settings");
         setSupportActionBar(toolbar);
 
@@ -88,7 +86,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         if (rankingsDB == null) {
             rankingsDB = new RankingsDBWrapper();
         }
-        baseLayout = (LinearLayout) findViewById(R.id.league_settings_base);
+        baseLayout =  findViewById(R.id.league_settings_base);
         initLeagues();
     }
 
@@ -105,7 +103,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
     }
 
     private void initializeLeagueSpinner() {
-        Spinner spinner = (Spinner) findViewById(R.id.league_settings_spinner);
+        Spinner spinner =  findViewById(R.id.league_settings_spinner);
         if (leagues.isEmpty()) {
             spinner.setVisibility(View.INVISIBLE);
             return;
@@ -145,38 +143,46 @@ public class LeagueSettingsActivity extends AppCompatActivity {
 
     private void displayLeague(final LeagueSettings currentLeague) {
         View view = initializeLeagueSettingsBase();
-        final EditText leagueName = (EditText)view.findViewById(R.id.league_settings_name);
+        final EditText leagueName = view.findViewById(R.id.league_settings_name);
         leagueName.setText(currentLeague.getName());
         leagueName.setVisibility(View.GONE);
 
-        final EditText teamCount = (EditText)view.findViewById(R.id.league_settings_team_count);
+        final EditText teamCount = view.findViewById(R.id.league_settings_team_count);
         teamCount.setText(String.valueOf(currentLeague.getTeamCount()));
-        final EditText auctionBudget = (EditText)view.findViewById(R.id.league_settings_auction_budget);
+        final EditText auctionBudget = view.findViewById(R.id.league_settings_auction_budget);
 
-        final RadioButton isAuction = (RadioButton)view.findViewById(R.id.league_settings_auction);
-        RadioButton isSnake = (RadioButton)view.findViewById(R.id.league_settings_snake);
+        final RadioButton isAuction = view.findViewById(R.id.league_settings_auction);
+        final RadioButton isSnake = view.findViewById(R.id.league_settings_snake);
+        final RadioButton isDynasty = view.findViewById(R.id.league_settings_dynasty_startup);
+        final RadioButton isRookie = view.findViewById(R.id.league_settings_dynasty_rookie);
 
         if (currentLeague.isAuction()) {
             isAuction.setSelected(true);
             isAuction.setChecked(true);
             auctionBudget.setText(String.valueOf(currentLeague.getAuctionBudget()));
-        } else {
+        } else if (currentLeague.isSnake()){
             isSnake.setSelected(true);
             isSnake.setChecked(true);
+        } else if (currentLeague.isDynasty()) {
+            isDynasty.setSelected(true);
+            isDynasty.setChecked(true);
+        } else if (currentLeague.isRookie()) {
+            isRookie.setSelected(true);
+            isRookie.setChecked(true);
         }
-        Button delete = (Button)findViewById(R.id.league_settings_delete_league);
+        Button delete = findViewById(R.id.league_settings_delete_league);
         delete.setVisibility(View.VISIBLE);
-        Button save = (Button) view.findViewById(R.id.league_settings_create_default);
+        Button save =  view.findViewById(R.id.league_settings_create_default);
         save.setText("Update");
-        Button advanced = (Button) view.findViewById(R.id.league_settings_advanced_settings);
-        final Context localCopy = this;
+        Button advanced =  view.findViewById(R.id.league_settings_advanced_settings);
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!validateLeagueInputs(leagueName, teamCount, auctionBudget, isAuction)) {
                     return;
                 }
-                Map<String, String> updates = getLeagueUpdates(currentLeague, leagueName, teamCount, isAuction, auctionBudget);
+                Map<String, String> updates = getLeagueUpdates(currentLeague, leagueName, teamCount, isAuction, isSnake,
+                        isDynasty, isRookie, auctionBudget);
                 if (updates == null) {
                     Snackbar.make(findViewById(R.id.activity_league_settings_base), "No updates given", Snackbar.LENGTH_SHORT).show();
                     return;
@@ -191,7 +197,8 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                 if (!validateLeagueInputs(leagueName, teamCount, auctionBudget, isAuction)) {
                     return;
                 }
-                Map<String, String> updates = getLeagueUpdates(currentLeague, leagueName, teamCount, isAuction, auctionBudget);
+                Map<String, String> updates = getLeagueUpdates(currentLeague, leagueName, teamCount, isAuction, isSnake,
+                        isDynasty, isRookie, auctionBudget);
                 displayRoster(currentLeague, updates);
             }
         });
@@ -211,23 +218,26 @@ public class LeagueSettingsActivity extends AppCompatActivity {
 
     private void displayNoLeague() {
         View view = initializeLeagueSettingsBase();
-        Button advanced = (Button) view.findViewById(R.id.league_settings_advanced_settings);
-        Button save = (Button) view.findViewById(R.id.league_settings_create_default);
-        Button delete = (Button) view.findViewById(R.id.league_settings_delete_league);
+        Button advanced = view.findViewById(R.id.league_settings_advanced_settings);
+        Button save =  view.findViewById(R.id.league_settings_create_default);
+        Button delete =  view.findViewById(R.id.league_settings_delete_league);
         delete.setVisibility(View.GONE);
-        final EditText leagueName = (EditText)view.findViewById(R.id.league_settings_name);
+        final EditText leagueName = view.findViewById(R.id.league_settings_name);
         leagueName.setVisibility(View.VISIBLE);
-        final EditText teamCount = (EditText)view.findViewById(R.id.league_settings_team_count);
-        final EditText auctionBudget = (EditText)view.findViewById(R.id.league_settings_auction_budget);
-        final RadioButton isAuction = (RadioButton)view.findViewById(R.id.league_settings_auction);
-        final Context localCopy = this;
+        final EditText teamCount = view.findViewById(R.id.league_settings_team_count);
+        final EditText auctionBudget = view.findViewById(R.id.league_settings_auction_budget);
+        final RadioButton isAuction = view.findViewById(R.id.league_settings_auction);
+        final RadioButton isSnake = view.findViewById(R.id.league_settings_snake);
+        final RadioButton isDynasty = view.findViewById(R.id.league_settings_dynasty_startup);
+        final RadioButton isRookie = view.findViewById(R.id.league_settings_dynasty_rookie);
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!validateLeagueInputs(leagueName, teamCount, auctionBudget, isAuction)) {
                     return;
                 }
-                LeagueSettings defaults = getLeagueSettingsFromFirstPage(leagueName, teamCount, isAuction, auctionBudget);
+                LeagueSettings defaults = getLeagueSettingsFromFirstPage(leagueName, teamCount, isAuction, isSnake,
+                        isDynasty, isRookie, auctionBudget);
                 saveNewLeague(defaults);
                 Snackbar.make(findViewById(R.id.activity_league_settings_base), defaults.getName() + " saved", Snackbar.LENGTH_SHORT).show();
             }
@@ -238,7 +248,8 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                 if (!validateLeagueInputs(leagueName, teamCount, auctionBudget, isAuction)) {
                     return;
                 }
-                LeagueSettings defaults = getLeagueSettingsFromFirstPage(leagueName, teamCount, isAuction, auctionBudget);
+                LeagueSettings defaults = getLeagueSettingsFromFirstPage(leagueName, teamCount, isAuction, isSnake,
+                        isDynasty, isRookie, auctionBudget);
                 displayRosterNoLeague(defaults);
             }
         });
@@ -277,7 +288,8 @@ public class LeagueSettingsActivity extends AppCompatActivity {
     }
 
     private Map<String, String> getLeagueUpdates(LeagueSettings league, EditText name, EditText teamCount,
-                                                 RadioButton isAuction, EditText auctionBudget) {
+                                                 RadioButton isAuction, RadioButton isSnake, RadioButton isDynasty,
+                                                 RadioButton isRookie, EditText auctionBudget) {
         Map<String, String> updates = new HashMap<>();
         if (!league.getName().equals(name.getText().toString())) {
             updates.put(Constants.NAME_COLUMN, name.getText().toString());
@@ -291,6 +303,18 @@ public class LeagueSettingsActivity extends AppCompatActivity {
             updates.put(Constants.IS_AUCTION_COLUMN, isAuction.isChecked() ? "1" : "0");
             league.setAuction(isAuction.isChecked());
         }
+        if (isSnake.isChecked() != league.isSnake()) {
+            updates.put(Constants.IS_SNAKE_COLUMN, isSnake.isChecked() ? "1" : "0");
+            league.setSnake(isSnake.isChecked());
+        }
+        if (isDynasty.isChecked() != league.isDynasty()) {
+            updates.put(Constants.IS_DYNASTY_STARTUP_COLUMN, isDynasty.isChecked() ? "1" : "0");
+            league.setDynasty(isDynasty.isChecked());
+        }
+        if(isRookie.isChecked() != league.isRookie()) {
+            updates.put(Constants.IS_DYNASTY_ROOKIE_COLUMN, isRookie.isChecked() ? "1" : "0");
+            league.setRookie(isRookie.isChecked());
+        }
         if (isAuction.isChecked() && league.getAuctionBudget() != Integer.parseInt(auctionBudget.getText().toString())) {
             updates.put(Constants.AUCTION_BUDGET_COLUMN, auctionBudget.getText().toString());
             league.setAuctionBudget(Integer.parseInt(auctionBudget.getText().toString()));
@@ -302,6 +326,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
     }
 
     private LeagueSettings getLeagueSettingsFromFirstPage(EditText leagueName, EditText teamCount, RadioButton isAuction,
+                                                          RadioButton isSnake, RadioButton isDynasty, RadioButton isRookie,
                                                           EditText auctionBudget) {
 
         int realBudget = 200;
@@ -309,8 +334,8 @@ public class LeagueSettingsActivity extends AppCompatActivity {
             realBudget = Integer.parseInt(auctionBudget.getText().toString());
         }
         return new LeagueSettings(leagueName.getText().toString(),
-                Integer.parseInt(teamCount.getText().toString()), isAuction.isChecked(),
-                realBudget);
+                Integer.parseInt(teamCount.getText().toString()), isSnake.isChecked(), isAuction.isChecked(),
+                isDynasty.isChecked(), isRookie.isChecked(), realBudget);
     }
 
     private View initializeLeagueSettingsBase() {
@@ -319,18 +344,18 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         baseLayout.addView(child);
 
         // Hide auction budget on snake selection
-        final EditText auctionBudget = (EditText)child.findViewById(R.id.league_settings_auction_budget);
-        final TextView auctionBudgetHeader = (TextView)child.findViewById(R.id.league_settings_auction_budget_header);
-        RadioButton isSnake = (RadioButton)child.findViewById(R.id.league_settings_snake);
-        isSnake.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        final EditText auctionBudget = child.findViewById(R.id.league_settings_auction_budget);
+        final TextView auctionBudgetHeader = child.findViewById(R.id.league_settings_auction_budget_header);
+        RadioButton isAuction = child.findViewById(R.id.league_settings_auction);
+        isAuction.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
                 if (isChecked) {
-                    auctionBudget.setVisibility(View.GONE);
-                    auctionBudgetHeader.setVisibility(View.GONE);
-                } else {
                     auctionBudget.setVisibility(View.VISIBLE);
                     auctionBudgetHeader.setVisibility(View.VISIBLE);
+                } else {
+                    auctionBudget.setVisibility(View.GONE);
+                    auctionBudgetHeader.setVisibility(View.GONE);
                 }
             }
         });
@@ -339,25 +364,24 @@ public class LeagueSettingsActivity extends AppCompatActivity {
 
     private void displayRoster(final LeagueSettings currentLeague, final Map<String, String> leagueUpdates) {
         View view = initializeLeagueSettingsRoster();
-        Button update = (Button) view.findViewById(R.id.league_roster_create_default);
+        Button update =  view.findViewById(R.id.league_roster_create_default);
         update.setText("Update");
-        Button advanced = (Button) view.findViewById(R.id.league_roster_advanced_settings);
+        Button advanced =  view.findViewById(R.id.league_roster_advanced_settings);
         RosterSettings roster = currentLeague.getRosterSettings();
-        final EditText qbs = (EditText)view.findViewById(R.id.league_settings_qbs);
+        final EditText qbs = view.findViewById(R.id.league_settings_qbs);
         qbs.setText(String.valueOf(roster.getQbCount()));
-        final EditText rbs = (EditText)view.findViewById(R.id.league_settings_rbs);
+        final EditText rbs = view.findViewById(R.id.league_settings_rbs);
         rbs.setText(String.valueOf(roster.getRbCount()));
-        final EditText wrs = (EditText)view.findViewById(R.id.league_settings_wrs);
+        final EditText wrs = view.findViewById(R.id.league_settings_wrs);
         wrs.setText(String.valueOf(roster.getWrCount()));
-        final EditText tes = (EditText)view.findViewById(R.id.league_settings_tes);
+        final EditText tes = view.findViewById(R.id.league_settings_tes);
         tes.setText(String.valueOf(roster.getTeCount()));
-        final EditText dsts = (EditText)view.findViewById(R.id.league_settings_dsts);
+        final EditText dsts = view.findViewById(R.id.league_settings_dsts);
         dsts.setText(String.valueOf(roster.getDstCount()));
-        final EditText ks = (EditText)view.findViewById(R.id.league_settings_ks);
+        final EditText ks = view.findViewById(R.id.league_settings_ks);
         ks.setText(String.valueOf(roster.getkCount()));
-        final EditText bench = (EditText)view.findViewById(R.id.league_settings_bench);
+        final EditText bench = view.findViewById(R.id.league_settings_bench);
         bench.setText(String.valueOf(roster.getBenchCount()));
-        final Context localCopy = this;
 
         update.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -388,16 +412,15 @@ public class LeagueSettingsActivity extends AppCompatActivity {
 
     private void displayRosterNoLeague(final LeagueSettings newLeague) {
         View view = initializeLeagueSettingsRoster();
-        final EditText qbs = (EditText)view.findViewById(R.id.league_settings_qbs);
-        final EditText rbs = (EditText)view.findViewById(R.id.league_settings_rbs);
-        final EditText wrs = (EditText)view.findViewById(R.id.league_settings_wrs);
-        final EditText tes = (EditText)view.findViewById(R.id.league_settings_tes);
-        final EditText dsts = (EditText)view.findViewById(R.id.league_settings_dsts);
-        final EditText ks = (EditText)view.findViewById(R.id.league_settings_ks);
-        final EditText bench = (EditText)view.findViewById(R.id.league_settings_bench);
-        Button save = (Button) view.findViewById(R.id.league_roster_create_default);
-        Button advanced = (Button) view.findViewById(R.id.league_roster_advanced_settings);
-        final Context localCopy = this;
+        final EditText qbs = view.findViewById(R.id.league_settings_qbs);
+        final EditText rbs = view.findViewById(R.id.league_settings_rbs);
+        final EditText wrs = view.findViewById(R.id.league_settings_wrs);
+        final EditText tes = view.findViewById(R.id.league_settings_tes);
+        final EditText dsts = view.findViewById(R.id.league_settings_dsts);
+        final EditText ks = view.findViewById(R.id.league_settings_ks);
+        final EditText bench = view.findViewById(R.id.league_settings_bench);
+        Button save =  view.findViewById(R.id.league_roster_create_default);
+        Button advanced =  view.findViewById(R.id.league_roster_advanced_settings);
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -533,20 +556,19 @@ public class LeagueSettingsActivity extends AppCompatActivity {
     private void displayFlex(final LeagueSettings currentLeague, final Map<String, String> leagueUpdates,
                              final Map<String, String> baseRosterUpdates) {
         View view = initializeLeagueSettingsFlex();
-        final EditText rbwr = (EditText)view.findViewById(R.id.league_flex_rbwr);
-        final EditText rbte = (EditText)view.findViewById(R.id.league_flex_rbte);
-        final EditText rbwrte = (EditText)view.findViewById(R.id.league_flex_rbwrte);
-        final EditText wrte = (EditText)view.findViewById(R.id.league_flex_wrte);
-        final EditText op = (EditText)view.findViewById(R.id.league_flex_op);
+        final EditText rbwr = view.findViewById(R.id.league_flex_rbwr);
+        final EditText rbte = view.findViewById(R.id.league_flex_rbte);
+        final EditText rbwrte = view.findViewById(R.id.league_flex_rbwrte);
+        final EditText wrte = view.findViewById(R.id.league_flex_wrte);
+        final EditText op = view.findViewById(R.id.league_flex_op);
         rbwr.setText(String.valueOf(currentLeague.getRosterSettings().getFlex().getRbwrCount()));
         rbte.setText(String.valueOf(currentLeague.getRosterSettings().getFlex().getRbteCount()));
         rbwrte.setText(String.valueOf(currentLeague.getRosterSettings().getFlex().getRbwrteCount()));
         wrte.setText(String.valueOf(currentLeague.getRosterSettings().getFlex().getWrteCount()));
         op.setText(String.valueOf(currentLeague.getRosterSettings().getFlex().getQbrbwrteCount()));
-        Button update = (Button)findViewById(R.id.league_flex_create_default);
+        Button update = findViewById(R.id.league_flex_create_default);
         update.setText("Update");
-        Button advanced = (Button)findViewById(R.id.league_flex_advanced_settings);
-        final Context localCopy = this;
+        Button advanced = findViewById(R.id.league_flex_advanced_settings);
 
         update.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -577,14 +599,13 @@ public class LeagueSettingsActivity extends AppCompatActivity {
 
     private void displayFlexNoLeague(final LeagueSettings newLeague) {
         View view = initializeLeagueSettingsFlex();
-        final EditText rbwr = (EditText)view.findViewById(R.id.league_flex_rbwr);
-        final EditText rbte = (EditText)view.findViewById(R.id.league_flex_rbte);
-        final EditText rbwrte = (EditText)view.findViewById(R.id.league_flex_rbwrte);
-        final EditText wrte = (EditText)view.findViewById(R.id.league_flex_wrte);
-        final EditText op = (EditText)view.findViewById(R.id.league_flex_op);
-        Button advanced = (Button)findViewById(R.id.league_flex_advanced_settings);
-        Button save = (Button)findViewById(R.id.league_flex_create_default);
-        final Context localCopy = this;
+        final EditText rbwr = view.findViewById(R.id.league_flex_rbwr);
+        final EditText rbte = view.findViewById(R.id.league_flex_rbte);
+        final EditText rbwrte = view.findViewById(R.id.league_flex_rbwrte);
+        final EditText wrte = view.findViewById(R.id.league_flex_wrte);
+        final EditText op = view.findViewById(R.id.league_flex_op);
+        Button advanced = findViewById(R.id.league_flex_advanced_settings);
+        Button save = findViewById(R.id.league_flex_create_default);
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -701,17 +722,16 @@ public class LeagueSettingsActivity extends AppCompatActivity {
 
     private void displayScoringNoTeam(final LeagueSettings newLeague) {
         View view = initializeLeagueSettingsScoring();
-        final EditText passTds = (EditText) view.findViewById(R.id.league_scoring_passing_tds);
-        final EditText rushTds = (EditText) view.findViewById(R.id.league_scoring_rushing_tds);
-        final EditText recTds = (EditText) view.findViewById(R.id.league_scoring_receiving_tds);
-        final EditText passYds = (EditText) view.findViewById(R.id.league_scoring_yds_per_passing_pt);
-        final EditText rushYds = (EditText) view.findViewById(R.id.league_scoring_yds_per_rushing_point);
-        final EditText recYds = (EditText) view.findViewById(R.id.league_scoring_yds_per_receiving_point);
-        final EditText ints = (EditText) view.findViewById(R.id.league_scoring_ints);
-        final EditText fumbles = (EditText) view.findViewById(R.id.league_scoring_fumbles);
-        final EditText ppr = (EditText) view.findViewById(R.id.league_scoring_ppr);
-        final Button save = (Button)view.findViewById(R.id.league_scoring_save);
-        final Context localCopy = this;
+        final EditText passTds =  view.findViewById(R.id.league_scoring_passing_tds);
+        final EditText rushTds =  view.findViewById(R.id.league_scoring_rushing_tds);
+        final EditText recTds =  view.findViewById(R.id.league_scoring_receiving_tds);
+        final EditText passYds =  view.findViewById(R.id.league_scoring_yds_per_passing_pt);
+        final EditText rushYds =  view.findViewById(R.id.league_scoring_yds_per_rushing_point);
+        final EditText recYds =  view.findViewById(R.id.league_scoring_yds_per_receiving_point);
+        final EditText ints =  view.findViewById(R.id.league_scoring_ints);
+        final EditText fumbles =  view.findViewById(R.id.league_scoring_fumbles);
+        final EditText ppr =  view.findViewById(R.id.league_scoring_ppr);
+        final Button save = view.findViewById(R.id.league_scoring_save);
 
         save.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -732,18 +752,17 @@ public class LeagueSettingsActivity extends AppCompatActivity {
     private void displayScoring(final LeagueSettings currentLeague, final Map<String, String> leagueUpdates,
                              final Map<String, String> rosterUpdates) {
         View view = initializeLeagueSettingsScoring();
-        final EditText passTds = (EditText) view.findViewById(R.id.league_scoring_passing_tds);
-        final EditText rushTds = (EditText) view.findViewById(R.id.league_scoring_rushing_tds);
-        final EditText recTds = (EditText) view.findViewById(R.id.league_scoring_receiving_tds);
-        final EditText passYds = (EditText) view.findViewById(R.id.league_scoring_yds_per_passing_pt);
-        final EditText rushYds = (EditText) view.findViewById(R.id.league_scoring_yds_per_rushing_point);
-        final EditText recYds = (EditText) view.findViewById(R.id.league_scoring_yds_per_receiving_point);
-        final EditText ints = (EditText) view.findViewById(R.id.league_scoring_ints);
-        final EditText fumbles = (EditText) view.findViewById(R.id.league_scoring_fumbles);
-        final EditText ppr = (EditText) view.findViewById(R.id.league_scoring_ppr);
-        final Button update = (Button)view.findViewById(R.id.league_scoring_save);
+        final EditText passTds =  view.findViewById(R.id.league_scoring_passing_tds);
+        final EditText rushTds =  view.findViewById(R.id.league_scoring_rushing_tds);
+        final EditText recTds =  view.findViewById(R.id.league_scoring_receiving_tds);
+        final EditText passYds =  view.findViewById(R.id.league_scoring_yds_per_passing_pt);
+        final EditText rushYds =  view.findViewById(R.id.league_scoring_yds_per_rushing_point);
+        final EditText recYds =  view.findViewById(R.id.league_scoring_yds_per_receiving_point);
+        final EditText ints =  view.findViewById(R.id.league_scoring_ints);
+        final EditText fumbles =  view.findViewById(R.id.league_scoring_fumbles);
+        final EditText ppr =  view.findViewById(R.id.league_scoring_ppr);
+        final Button update = view.findViewById(R.id.league_scoring_save);
         update.setText("Update");
-        final Context localCopy = this;
         passTds.setText(String.valueOf(currentLeague.getScoringSettings().getPassingTds()));
         rushTds.setText(String.valueOf(currentLeague.getScoringSettings().getRushingTds()));
         recTds.setText(String.valueOf(currentLeague.getScoringSettings().getReceivingTds()));

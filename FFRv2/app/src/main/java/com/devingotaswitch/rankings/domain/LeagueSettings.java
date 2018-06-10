@@ -16,21 +16,20 @@ public class LeagueSettings {
     private ScoringSettings scoringSettings;
     private RosterSettings rosterSettings;
 
-    public LeagueSettings(ScoringSettings scoring, RosterSettings roster) {
-        this(Constants.DEFAULT_NAME, Constants.DEFAULT_TEAM_COUNT, Constants.DEFAULT_IS_AUCTION,
-                Constants.DEFAULT_AUCTION_BUDGET, scoring, roster);
-    }
-
-    public LeagueSettings(String name, int teamCount, boolean isAuction, int auctionBudget) {
-        this(name, teamCount, isAuction, auctionBudget, new ScoringSettings(),
+    public LeagueSettings(String name, int teamCount, boolean isSnake, boolean isAuction, boolean isDynasty,
+                          boolean isRookie, int auctionBudget) {
+        this(name, teamCount, isSnake, isAuction, isDynasty, isRookie, auctionBudget, new ScoringSettings(),
                 new RosterSettings());
     }
 
-    public LeagueSettings(String name, int teamCount, boolean isAuction,
-                          int auctionBudget, ScoringSettings scoring, RosterSettings roster) {
+    public LeagueSettings(String name, int teamCount, boolean isSnake, boolean isAuction, boolean isDynasty,
+                          boolean isRookie, int auctionBudget, ScoringSettings scoring, RosterSettings roster) {
         this.setName(name);
         this.setTeamCount(teamCount);
+        this.setSnake(isSnake);
         this.setAuction(isAuction);
+        this.setDynasty(isDynasty);
+        this.setRookie(isRookie);
         this.setAuctionBudget(auctionBudget);
         this.setScoringSettings(scoring);
         this.setRosterSettings(roster);
@@ -64,8 +63,24 @@ public class LeagueSettings {
         return isRookie;
     }
 
+    public boolean isSnake() {
+        return isSnake;
+    }
+
     public void setAuction(boolean auction) {
         isAuction = auction;
+    }
+
+    public void setDynasty(boolean dynasty) {
+        isDynasty = dynasty;
+    }
+
+    public void setRookie(boolean rookie) {
+        isRookie = rookie;
+    }
+
+    public void setSnake(boolean snake) {
+        isSnake = snake;
     }
 
     public int getAuctionBudget() {

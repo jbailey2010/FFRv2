@@ -86,6 +86,9 @@ public class Constants {
     public static final String NAME_COLUMN = "league_name";
     public static final String TEAM_COUNT_COLUMN = "team_count";
     public static final String IS_AUCTION_COLUMN = "is_auction";
+    public static final String IS_DYNASTY_STARTUP_COLUMN = "is_dynasty_startup";
+    public static final String IS_DYNASTY_ROOKIE_COLUMN = "is_dynasty_rookie";
+    public static final String IS_SNAKE_COLUMN = "Is_snake";
     public static final String AUCTION_BUDGET_COLUMN = "auction_budget";
     public static final String SCORING_ID_COLUMN = "scoring_id";
     public static final String ROSTER_ID_COLUMN = "roster_id";

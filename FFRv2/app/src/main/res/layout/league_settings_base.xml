@@ -34,6 +34,7 @@
             android:textAppearance="?android:attr/textAppearanceSmall"
             android:textSize="@dimen/activity_text_size_small"
             android:layout_weight="1"
+            android:visibility="gone"
             android:text="Auction Budget"/>
     </LinearLayout>
 
@@ -67,6 +68,7 @@
             android:hint="Auction Budget"
             android:text="200"
             android:layout_weight="1"
+            android:visibility="gone"
             android:inputType="number"/>
     </LinearLayout>
 
@@ -93,14 +95,23 @@
         <RadioButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:id="@+id/league_settings_snake"
+            android:text="Snake"/>
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:id="@+id/league_settings_auction"
-            android:checked="true"
             android:text="Auction"/>
         <RadioButton
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:id="@+id/league_settings_snake"
-            android:text="Snake"/>
+            android:id="@+id/league_settings_dynasty_startup"
+            android:text="Dynasty Startup/Keeper"/>
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/league_settings_dynasty_rookie"
+            android:text="Dynasty Rookie"/>
 
     </RadioGroup>
 
