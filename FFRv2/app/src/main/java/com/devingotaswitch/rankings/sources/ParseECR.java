@@ -26,6 +26,9 @@ public class ParseECR {
         if (rankings.getLeagueSettings().getScoringSettings().getReceptions() > 0) {
             url = "http://www.fantasypros.com/nfl/rankings/ppr-cheatsheets.php";
             adpUrl = "http://www.fantasypros.com/nfl/adp/ppr-overall.php";
+            if (rankings.getLeagueSettings().getScoringSettings().getReceptions() < 1.0) {
+                url = "https://www.fantasypros.com/nfl/rankings/half-point-ppr-cheatsheets.php";
+            }
         }
         parseECRWorker(url, ecr, risk);
         parseADPWorker(adp, adpUrl);
