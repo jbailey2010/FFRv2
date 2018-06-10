@@ -393,7 +393,7 @@ public class RankingsHome extends AppCompatActivity {
         }
         DecimalFormat df = new DecimalFormat(Constants.NUMBER_FORMAT);
 
-        final ListView listview = (ListView) findViewById(R.id.rankings_list);
+        final ListView listview =  findViewById(R.id.rankings_list);
         listview.setAdapter(null);
         final List<Map<String, String>> data = new ArrayList<>();
         final SimpleAdapter adapter = new SimpleAdapter(this, data,
@@ -407,9 +407,21 @@ public class RankingsHome extends AppCompatActivity {
             Player player = rankings.getPlayer(playerKey);
             if (rankings.getLeagueSettings().getRosterSettings().isPositionValid(player.getPosition()) &&
                     !rankings.getDraft().isDrafted(player)) {
+                if (rankings.getLeagueSettings().isRookie() && player.getRookieRank() == 300.0) {
+                    // 300 is 'not set', so skip these. No sense showing a 10 year vet in rookie ranks.
+                    continue;
+                }
                 String playerBasicContent;
                 if (rankings.getLeagueSettings().isAuction()) {
                     playerBasicContent = String.valueOf(df.format(player.getAuctionValueCustom(rankings))) +
+                            Constants.RANKINGS_LIST_DELIMITER +
+                            player.getName();
+                } else if (rankings.getLeagueSettings().isDynasty()) {
+                    playerBasicContent = String.valueOf(player.getDynastyRank()) +
+                            Constants.RANKINGS_LIST_DELIMITER +
+                            player.getName();
+                } else if (rankings.getLeagueSettings().isRookie()) {
+                    playerBasicContent = String.valueOf(player.getRookieRank()) +
                             Constants.RANKINGS_LIST_DELIMITER +
                             player.getName();
                 } else {

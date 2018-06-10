@@ -9,6 +9,8 @@ public class Player {
     private String position;
     private Double ecr = 300.0;
     private Double adp = 300.0;
+    private Double dynastyRank = 300.0;
+    private Double rookieRank = 300.0;
     private String teamName;
     private String note;
     private String stats;
@@ -61,6 +63,22 @@ public class Player {
 
     public void setAdp(Double adp) {
         this.adp = adp;
+    }
+
+    public Double getDynastyRank() {
+        return dynastyRank;
+    }
+
+    public void setDynastyRank(Double dynasty) {
+        this.dynastyRank = dynasty;
+    }
+
+    public Double getRookieRank() {
+        return rookieRank;
+    }
+
+    public void setRookieRank(Double rookie) {
+        this.rookieRank = rookie;
     }
 
     public String getTeamName() {

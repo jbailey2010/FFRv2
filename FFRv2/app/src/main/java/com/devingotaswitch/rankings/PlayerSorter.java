@@ -77,9 +77,9 @@ public class PlayerSorter extends AppCompatActivity {
         rankingsDB = new RankingsDBWrapper();
 
         // Set toolbar for this screen
-        Toolbar toolbar = (Toolbar) findViewById(R.id.player_sorter_toolbar);
+        Toolbar toolbar =  findViewById(R.id.player_sorter_toolbar);
         toolbar.setTitle("");
-        TextView main_title = (TextView) findViewById(R.id.main_toolbar_title);
+        TextView main_title =  findViewById(R.id.main_toolbar_title);
         main_title.setText("Sort Players");
         setSupportActionBar(toolbar);
 
@@ -181,6 +181,8 @@ public class PlayerSorter extends AppCompatActivity {
             factorList.add(Constants.SORT_BEST_VALUE);
         }
         factorList.add(Constants.SORT_AUCTION);
+        factorList.add(Constants.SORT_DYNASTY);
+        factorList.add(Constants.SORT_ROOKIE);
         factorList.add(Constants.SORT_PROJECTION);
         factorList.add(Constants.SORT_PAA);
         factorList.add(Constants.SORT_PAA_SCALED);
@@ -255,6 +257,11 @@ public class PlayerSorter extends AppCompatActivity {
             comparator = getBestValueComparator();
         } else if (Constants.SORT_AUCTION.equals(factor)) {
             comparator = getAuctionComparator();
+        } else if (Constants.SORT_DYNASTY.equals(factor)) {
+            comparator = getDynastyComparator();
+        } else if (Constants.SORT_ROOKIE.equals(factor)) {
+            comparator = getRookieComparator();
+            playerIds = rankings.getPlayersByPosition(playerIds, Constants.QBRBWRTE);
         } else if (Constants.SORT_PROJECTION.equals(factor)) {
             comparator = getProjectionComparator();
         } else if (Constants.SORT_PAA.equals(factor)) {
@@ -287,6 +294,12 @@ public class PlayerSorter extends AppCompatActivity {
         players.clear();
         for (String id : playerIds) {
             Player player = rankings.getPlayer(id);
+            if (((Constants.SORT_ALL.equals(factor) && rankings.getLeagueSettings().isRookie()) || Constants.SORT_ROOKIE.equals(factor)) &&
+                player.getRookieRank() == 300.0) {
+                // Default sort for rookies means only rookies. 300 is default, meaning 'not set', so skip.
+                // Also skip if we're just looking at rookie rank and it's 'not set'.
+                continue;
+            }
             if (booleanFactors.contains(Constants.SORT_HIDE_DRAFTED) && rankings.getDraft().isDrafted(player)) {
                 continue;
             }
@@ -332,7 +345,7 @@ public class PlayerSorter extends AppCompatActivity {
     private void displayResults(List<Player> players) {
         DecimalFormat df = new DecimalFormat(Constants.NUMBER_FORMAT);
 
-        final ListView listview = (ListView) findViewById(R.id.sort_players_output);
+        final ListView listview =  findViewById(R.id.sort_players_output);
         listview.setAdapter(null);
         final List<Map<String, String>> data = new ArrayList<>();
         final SimpleAdapter adapter = new SimpleAdapter(this, data,
@@ -443,6 +456,36 @@ public class PlayerSorter extends AppCompatActivity {
                     return 1;
                 }
                 if (a.getEcr() < b.getEcr()) {
+                    return -1;
+                }
+                return 0;
+            }
+        };
+    }
+
+    private Comparator<Player> getDynastyComparator() {
+        return new Comparator<Player>() {
+            @Override
+            public int compare(Player a, Player b) {
+                if (a.getDynastyRank() > b.getDynastyRank()) {
+                    return 1;
+                }
+                if (a.getDynastyRank() < b.getDynastyRank()) {
+                    return -1;
+                }
+                return 0;
+            }
+        };
+    }
+
+    private Comparator<Player> getRookieComparator() {
+        return new Comparator<Player>() {
+            @Override
+            public int compare(Player a, Player b) {
+                if (a.getRookieRank() > b.getRookieRank()) {
+                    return 1;
+                }
+                if (a.getRookieRank() < b.getRookieRank()) {
                     return -1;
                 }
                 return 0;
@@ -780,6 +823,10 @@ public class PlayerSorter extends AppCompatActivity {
         if (Constants.SORT_ALL.equals(factor)) {
             if (rankings.getLeagueSettings().isAuction()) {
                 return df.format(player.getAuctionValueCustom(rankings));
+            } else if (rankings.getLeagueSettings().isDynasty()) {
+                return String.valueOf(player.getDynastyRank());
+            } else if (rankings.getLeagueSettings().isRookie()) {
+                return String.valueOf(player.getRookieRank());
             } else {
                 return String.valueOf(player.getEcr());
             }
@@ -793,6 +840,10 @@ public class PlayerSorter extends AppCompatActivity {
             return df.format(player.getEcr() - (rankings.getDraft().getDraftedPlayers().size() + 1));
         } else if (Constants.SORT_AUCTION.equals(factor)) {
             return df.format(player.getAuctionValueCustom(rankings));
+        } else if (Constants.SORT_DYNASTY.equals(factor)) {
+            return String.valueOf(player.getDynastyRank());
+        } else if (Constants.SORT_ROOKIE.equals(factor)) {
+            return String.valueOf(player.getRookieRank());
         } else if (Constants.SORT_PROJECTION.equals(factor)) {
             return df.format(player.getProjection());
         } else if (Constants.SORT_PAA.equals(factor)) {
@@ -873,8 +924,8 @@ public class PlayerSorter extends AppCompatActivity {
     }
 
     private String getPlayerKeyFromListViewItem(View view) {
-        TextView playerMain = (TextView)view.findViewById(R.id.player_basic);
-        TextView playerInfo = (TextView)view.findViewById(R.id.player_info);
+        TextView playerMain = view.findViewById(R.id.player_basic);
+        TextView playerInfo = view.findViewById(R.id.player_info);
         String name = playerMain.getText().toString().split(Constants.RANKINGS_LIST_DELIMITER)[1];
         String teamPosBye = playerInfo.getText().toString().split(Constants.LINE_BREAK)[0];
         String teamPos = teamPosBye.split(" \\(")[0];
@@ -895,7 +946,7 @@ public class PlayerSorter extends AppCompatActivity {
                 this);
 
         alertDialogBuilder.setView(graphView);
-        LineChart lineGraph = (LineChart) graphView.findViewById(R.id.sort_graph);
+        LineChart lineGraph =  graphView.findViewById(R.id.sort_graph);
         List<Entry> entries = new ArrayList<>();
         List<Entry> qbs = new ArrayList<>();
         List<Entry> rbs = new ArrayList<>();

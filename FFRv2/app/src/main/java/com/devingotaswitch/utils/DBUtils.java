@@ -215,6 +215,8 @@ public class DBUtils {
         Player player = cursorToPlayerBasic(result);
         player.setAdp(result.getDouble(result.getColumnIndex(Constants.PLAYER_ADP_COLUMN)));
         player.setEcr(result.getDouble(result.getColumnIndex(Constants.PLAYER_ECR_COLUMN)));
+        player.setDynastyRank(result.getDouble(result.getColumnIndex(Constants.PLAYER_DYNASTY_COLUMN)));
+        player.setRookieRank(result.getDouble(result.getColumnIndex(Constants.PLAYER_ROOKIE_COLUMN)));
         player.setRisk(result.getDouble(result.getColumnIndex(Constants.PLAYER_RISK_COLUMN)));
         player.setAge(result.getInt(result.getColumnIndex(Constants.PLAYER_AGE_COLUMN)));
         player.setStats(desanitizeStats(result.getString(result.getColumnIndex(Constants.PLAYER_STATS_COLUMN))));
@@ -254,6 +256,8 @@ public class DBUtils {
         values.put(Constants.PLAYER_AGE_COLUMN, player.getAge());
         values.put(Constants.PLAYER_ECR_COLUMN, player.getEcr());
         values.put(Constants.PLAYER_ADP_COLUMN, player.getAdp());
+        values.put(Constants.PLAYER_DYNASTY_COLUMN, player.getDynastyRank());
+        values.put(Constants.PLAYER_ROOKIE_COLUMN, player.getRookieRank());
         values.put(Constants.PLAYER_RISK_COLUMN, player.getRisk());
         values.put(Constants.PLAYER_STATS_COLUMN, sanitizeStats(player.getStats()));
         values.put(Constants.PLAYER_INJURED_COLUMN, player.getInjuryStatus());

@@ -201,14 +201,13 @@ public class PlayerInfo extends AppCompatActivity {
                 this);
 
         alertDialogBuilder.setView(noteView);
-        final EditText userInput = (EditText) noteView
+        final EditText userInput =  noteView
                 .findViewById(R.id.user_input_popup_input);
         userInput.setInputType(InputType.TYPE_CLASS_NUMBER);
         userInput.setHint("Auction cost");
 
-        TextView title = (TextView)noteView.findViewById(R.id.user_input_popup_title);
+        TextView title = noteView.findViewById(R.id.user_input_popup_title);
         title.setText("How much did " + player.getName() + " cost?");
-        final Context localCopy = this;
         alertDialogBuilder
                 .setPositiveButton("Save",
                         new DialogInterface.OnClickListener() {
@@ -274,9 +273,9 @@ public class PlayerInfo extends AppCompatActivity {
     }
 
     private void init() {
-        Button headerLeft = (Button)findViewById(R.id.dummy_btn_left);
-        Button headerRight = (Button)findViewById(R.id.dummy_btn_right);
-        Button headerMiddle = (Button)findViewById(R.id.dummy_btn_center);
+        Button headerLeft = findViewById(R.id.dummy_btn_left);
+        Button headerRight = findViewById(R.id.dummy_btn_right);
+        Button headerMiddle = findViewById(R.id.dummy_btn_center);
         if (player.getAge() != null) {
             headerLeft.setText("Age:" + Constants.LINE_BREAK +  player.getAge());
         }
@@ -288,7 +287,7 @@ public class PlayerInfo extends AppCompatActivity {
         // Kick off the thread to get news
         ParsePlayerNews.startNews(player.getName(), player.getTeamName(), this);
 
-        infoList = (ListView)findViewById(R.id.player_info_list);
+        infoList = findViewById(R.id.player_info_list);
         data = new ArrayList<>();
         adapter = new SimpleAdapter(this, data,
                 R.layout.list_item_layout,
@@ -297,10 +296,10 @@ public class PlayerInfo extends AppCompatActivity {
                         R.id.player_status });
         infoList.setAdapter(adapter);
 
-        ImageButton ranks = (ImageButton)findViewById(R.id.player_info_ranks);
-        ImageButton info = (ImageButton) findViewById(R.id.player_info_about);
-        ImageButton team = (ImageButton) findViewById(R.id.player_info_team);
-        ImageButton news = (ImageButton) findViewById(R.id.player_info_news);
+        ImageButton ranks = findViewById(R.id.player_info_ranks);
+        ImageButton info =  findViewById(R.id.player_info_about);
+        ImageButton team =  findViewById(R.id.player_info_team);
+        ImageButton news =  findViewById(R.id.player_info_news);
         ranks.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -329,7 +328,7 @@ public class PlayerInfo extends AppCompatActivity {
         infoList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView subView = (TextView)view.findViewById(R.id.player_info);
+                TextView subView = view.findViewById(R.id.player_info);
                 String existing = ((TextView)view.findViewById(R.id.player_basic)).getText().toString();
                 if (Constants.NOTE_SUB.equals(subView.getText().toString())) {
                     getNote(existing);
@@ -451,6 +450,25 @@ public class PlayerInfo extends AppCompatActivity {
                 getLeverage();
         auc.put(Constants.PLAYER_INFO, auctionSub);
         data.add(auc);
+
+        Map<String, String> dynasty = new HashMap<>();
+        dynasty.put(Constants.PLAYER_BASIC, "Dynasty/Keeper Rankings: " + player.getDynastyRank());
+        int dynRank = getDynasty(null, player.getDynastyRank());
+        int dynRankPos = getDynasty(player.getPosition(), player.getDynastyRank());
+        String dynSub = getRankingSub(dynRank, dynRankPos);
+        dynasty.put(Constants.PLAYER_INFO, dynSub);
+        data.add(dynasty);
+
+        if (player.getRookieRank() < 300.0) {
+            // 300.0 is the default, so this is basically 'is it set?'
+            Map<String, String> rookie = new HashMap<>();
+            rookie.put(Constants.PLAYER_BASIC, "Rookie Rankings: " + player.getRookieRank());
+            int rookieRank = getRookie(null, player.getRookieRank());
+            int rookieRankPos = getRookie(player.getPosition(), player.getRookieRank());
+            String rookieSub = getRankingSub(rookieRank, rookieRankPos);
+            rookie.put(Constants.PLAYER_INFO, rookieSub);
+            data.add(rookie);
+        }
 
         if (player.getProjection() != null) {
             Map<String, String> proj = new HashMap<>();
@@ -723,6 +741,32 @@ public class PlayerInfo extends AppCompatActivity {
             Player player = rankings.getPlayer(key);
             if (pos == null || pos.equals(player.getPosition())) {
                 if (player.getAdp() < source) {
+                    rank++;
+                }
+            }
+        }
+        return rank;
+    }
+
+    private int getDynasty(String pos, double source) {
+        int rank = 1;
+        for (String key : rankings.getPlayers().keySet()) {
+            Player player = rankings.getPlayer(key);
+            if (pos == null || pos.equals(player.getPosition())) {
+                if (player.getDynastyRank() < source) {
+                    rank++;
+                }
+            }
+        }
+        return rank;
+    }
+
+    private int getRookie(String pos, double source) {
+        int rank = 1;
+        for (String key : rankings.getPlayers().keySet()) {
+            Player player = rankings.getPlayer(key);
+            if (pos == null || pos.equals(player.getPosition())) {
+                if (player.getRookieRank() < source) {
                     rank++;
                 }
             }

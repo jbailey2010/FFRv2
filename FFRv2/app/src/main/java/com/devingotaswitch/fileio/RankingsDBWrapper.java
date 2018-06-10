@@ -30,7 +30,6 @@ public class RankingsDBWrapper {
 
     private synchronized RankingsDBHelper getInstance(Context context) {
         String user = CUPHelper.getCurrUser();
-        Log.d("Jeff", user + ", " + rankingsDB.getDBOwner());
         if (rankingsDB == null || !user.equals(rankingsDB.getDBOwner())) {
             rankingsDB = new RankingsDBHelper(context, user);
         }
@@ -91,6 +90,10 @@ public class RankingsDBWrapper {
         if (leagueSettings.isAuction()) {
             columnName = Constants.AUCTION_VALUE_COLUMN;
             orderSuffix = " DESC";
+        } else if (leagueSettings.isDynasty()) {
+            columnName = Constants.PLAYER_DYNASTY_COLUMN;
+        } else if (leagueSettings.isRookie()) {
+            columnName = Constants.PLAYER_ROOKIE_COLUMN;
         }
 
         String[] projection = {

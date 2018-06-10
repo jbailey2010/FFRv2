@@ -29,6 +29,8 @@ public class Constants {
     public final static String SORT_OVERDRAFTED = "ADP Over Drafted";
     public final static String SORT_BEST_VALUE = "Best Current Value";
     public final static String SORT_AUCTION = "Auction Value";
+    public final static String SORT_DYNASTY = "Dynasty/Keeper Rank";
+    public final static String SORT_ROOKIE = "Rookie Rank";
     public final static String SORT_PROJECTION = "Projection";
     public final static String SORT_PAA = "PAA";
     public final static String SORT_PAA_SCALED = "Scaled PAA";
@@ -94,9 +96,6 @@ public class Constants {
     public static final String ROSTER_ID_COLUMN = "roster_id";
 
     // League settings: defaults
-    public static final String DEFAULT_NAME = "My League";
-    public static final Integer DEFAULT_TEAM_COUNT = 10;
-    public static final Boolean DEFAULT_IS_AUCTION = true;
     public static final Integer DEFAULT_AUCTION_BUDGET = 200;
 
     // Scoring settings: SQL
@@ -164,6 +163,8 @@ public class Constants {
     public static final String PLAYER_AGE_COLUMN = "age";
     public static final String PLAYER_ECR_COLUMN = "ecr";
     public static final String PLAYER_ADP_COLUMN = "adp";
+    public static final String PLAYER_DYNASTY_COLUMN = "dynasty";
+    public static final String PLAYER_ROOKIE_COLUMN = "rookie";
     public static final String PLAYER_RISK_COLUMN = "risk";
     public static final String PLAYER_STATS_COLUMN = "stats";
     public static final String PLAYER_INJURED_COLUMN = "injury_status";
@@ -195,8 +196,6 @@ public class Constants {
     public final static String PLAYER_INFO = "info";
     public final static String PLAYER_STATUS = "status";
     public final static String PLAYER_TIER = "tier";
-    public final static String DROPDOWN_MAIN = "main";
-    public final static String DROPDOWN_SUB = "sub";
     public final static String POS_TEAM_DELIMITER = " - ";
     public final static String NOTE_SUB = "Click to update note, click and hold to clear";
     public final static String DEFAULT_NOTE = "No note found";

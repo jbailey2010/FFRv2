@@ -272,6 +272,14 @@ public class DraftInfo extends AppCompatActivity {
                 playerBasicContent = String.valueOf(df.format(player.getAuctionValueCustom(rankings))) +
                         Constants.RANKINGS_LIST_DELIMITER +
                         player.getName();
+            } else if (rankings.getLeagueSettings().isDynasty()) {
+                playerBasicContent = String.valueOf(player.getDynastyRank()) +
+                        Constants.RANKINGS_LIST_DELIMITER +
+                        player.getName();
+            } else if (rankings.getLeagueSettings().isRookie()) {
+                playerBasicContent = String.valueOf(player.getRookieRank()) +
+                        Constants.RANKINGS_LIST_DELIMITER +
+                        player.getName();
             } else {
                 playerBasicContent = String.valueOf(player.getEcr()) +
                         Constants.RANKINGS_LIST_DELIMITER +

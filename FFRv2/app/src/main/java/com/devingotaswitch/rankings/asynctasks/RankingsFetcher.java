@@ -246,17 +246,43 @@ public class RankingsFetcher {
             Comparator<Player> comparator;
             if (rankings.getLeagueSettings().isAuction()) {
                 comparator = new Comparator<Player>() {
-                            @Override
-                            public int compare(Player a, Player b) {
-                                if (a.getAuctionValue() > b.getAuctionValue()) {
-                                    return -1;
-                                }
-                                if (a.getAuctionValue() < b.getAuctionValue()) {
-                                    return 1;
-                                }
-                                return 0;
-                            }
-                        };
+                    @Override
+                    public int compare(Player a, Player b) {
+                        if (a.getAuctionValue() > b.getAuctionValue()) {
+                            return -1;
+                        }
+                        if (a.getAuctionValue() < b.getAuctionValue()) {
+                            return 1;
+                        }
+                        return 0;
+                    }
+                };
+            } else if (rankings.getLeagueSettings().isDynasty()) {
+                comparator = new Comparator<Player>() {
+                    @Override
+                    public int compare(Player a, Player b) {
+                        if (a.getDynastyRank() > b.getDynastyRank()) {
+                            return 1;
+                        }
+                        if (a.getDynastyRank() < b.getDynastyRank()) {
+                            return -1;
+                        }
+                        return 0;
+                    }
+                };
+            } else if (rankings.getLeagueSettings().isRookie()) {
+                comparator = new Comparator<Player>() {
+                    @Override
+                    public int compare(Player a, Player b) {
+                        if (a.getRookieRank() > b.getRookieRank()) {
+                            return 1;
+                        }
+                        if (a.getRookieRank() < b.getRookieRank()) {
+                            return -1;
+                        }
+                        return 0;
+                    }
+                };
             } else {
                 comparator = new Comparator<Player>() {
                             @Override

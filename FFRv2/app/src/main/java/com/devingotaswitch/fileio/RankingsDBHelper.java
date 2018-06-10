@@ -128,6 +128,8 @@ class RankingsDBHelper extends SQLiteOpenHelper {
                 Constants.PLAYER_ECR_COLUMN        + " REAL," +
                 Constants.PLAYER_RISK_COLUMN       + " REAL," +
                 Constants.PLAYER_ADP_COLUMN        + " REAL," +
+                Constants.PLAYER_DYNASTY_COLUMN    + " REAL," +
+                Constants.PLAYER_ROOKIE_COLUMN     + " REAL," +
                 Constants.AUCTION_VALUE_COLUMN     + " REAL," +
                 Constants.PLAYER_PROJECTION_COLUMN + " REAL," +
                 Constants.PLAYER_PAA_COLUMN        + " REAL," +
