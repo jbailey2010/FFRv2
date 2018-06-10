@@ -9,7 +9,7 @@ import com.devingotaswitch.fileio.RankingsDBWrapper;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.sources.ParseDraft;
 import com.devingotaswitch.rankings.sources.ParseDraftWizard;
-import com.devingotaswitch.rankings.sources.ParseECR;
+import com.devingotaswitch.rankings.sources.ParseFantasyPros;
 import com.devingotaswitch.rankings.sources.ParseESPN;
 import com.devingotaswitch.rankings.sources.ParseFA;
 import com.devingotaswitch.rankings.sources.ParseFFTB;
@@ -128,12 +128,30 @@ public class RankingsFetcher {
                 Log.e(TAG, "Failed to parse projections", e);
             }
 
-            Log.i(TAG, "Getting ECR/ADP rankings");
-            publishProgress("Getting adp...");
+            publishProgress("Getting consensus rankings...");
+            Log.i(TAG, "Getting ECR rankings");
             try {
-                ParseECR.parseECRWrapper(rankings);
+                ParseFantasyPros.parseECRWrapper(rankings);
             } catch(Exception e) {
-                Log.e(TAG, "Failed to parse ecr/adp/risk", e);
+                Log.e(TAG, "Failed to parse ECR/risk", e);
+            }
+            Log.i(TAG, "Getting ADP rankings");
+            try {
+                ParseFantasyPros.parseADPWrapper(rankings);
+            } catch (Exception e) {
+                Log.e(TAG, "Failed to parse ADP", e);
+            }
+            Log.i(TAG, "Getting Dynasty rankings");
+            try {
+                ParseFantasyPros.parseDynastyWrapper(rankings);
+            } catch (Exception e) {
+                Log.e(TAG, "Failed to parse dynasty ranks", e);
+            }
+            Log.i(TAG, "Getting rookie rankings");
+            try {
+                ParseFantasyPros.parseRookieWrapper(rankings);
+            } catch (Exception e) {
+                Log.e(TAG, "Failed to parse rookie ranks", e);
             }
 
             Log.i(TAG, "Getting auction values from adp/ecr");
