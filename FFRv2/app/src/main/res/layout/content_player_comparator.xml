@@ -267,6 +267,74 @@
             android:layout_weight="1">
 
             <TextView
+                android:id="@+id/comparator_dynasty_a"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/comparator_dynasty_title"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:background="#F3F3F3"
+                android:layout_weight="1"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:text="Dynasty/Keeper Rank"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_height="match_parent"
+                android:id="@+id/comparator_dynasty_b"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/comparator_view_height"
+            android:orientation="horizontal"
+            android:background="#fafafa"
+            android:id="@+id/rookie_output_row"
+            android:visibility="gone"
+            android:layout_weight="1">
+
+            <TextView
+                android:id="@+id/comparator_rookie_a"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"/>
+
+            <TextView
+                android:id="@+id/comparator_rookie_title"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:background="#F3F3F3"
+                android:layout_weight="1"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:text="Rookie Rank"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_height="match_parent"
+                android:id="@+id/comparator_rookie_b"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/comparator_view_height"
+            android:orientation="horizontal"
+            android:background="#fafafa"
+            android:layout_weight="1">
+
+            <TextView
                 android:id="@+id/comparator_auc_a"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"

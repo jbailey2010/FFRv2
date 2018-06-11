@@ -94,8 +94,8 @@ public class PlayerComparator extends AppCompatActivity {
     private void init() {
         final FilterWithSpaceAdapter mAdapter = GeneralUtils.getPlayerSearchAdapter(rankings, this);
 
-        inputA = (AutoCompleteTextView) findViewById(R.id.comparator_input_a);
-        inputB = (AutoCompleteTextView) findViewById(R.id.comparator_input_b);
+        inputA =  findViewById(R.id.comparator_input_a);
+        inputB =  findViewById(R.id.comparator_input_b);
         inputA.setAdapter(mAdapter);
         inputB.setAdapter(mAdapter);
 
@@ -164,8 +164,8 @@ public class PlayerComparator extends AppCompatActivity {
         DecimalFormat df = new DecimalFormat("#.##");
 
         // Name
-        TextView nameA = (TextView)findViewById(R.id.comparator_name_a);
-        TextView nameB = (TextView)findViewById(R.id.comparator_name_b);
+        TextView nameA = findViewById(R.id.comparator_name_a);
+        TextView nameB = findViewById(R.id.comparator_name_b);
         nameA.setText(playerA.getName());
         nameB.setText(playerB.getName());
         nameA.setOnClickListener(new View.OnClickListener() {
@@ -182,25 +182,25 @@ public class PlayerComparator extends AppCompatActivity {
         });
 
         // Age
-        TextView ageA = (TextView)findViewById(R.id.comparator_age_a);
-        TextView ageB = (TextView)findViewById(R.id.comparator_age_b);
+        TextView ageA = findViewById(R.id.comparator_age_a);
+        TextView ageB = findViewById(R.id.comparator_age_b);
         ageA.setText(playerA.getAge() > 0 ? String.valueOf(playerA.getAge()) : "?");
         ageB.setText(playerB.getAge() > 0 ? String.valueOf(playerB.getAge()) : "?");
 
-        TextView byeA = (TextView)findViewById(R.id.comparator_bye_a);
-        TextView byeB = (TextView)findViewById(R.id.comparator_bye_b);
+        TextView byeA = findViewById(R.id.comparator_bye_a);
+        TextView byeB = findViewById(R.id.comparator_bye_b);
         Team teamA = rankings.getTeam(playerA);
         Team teamB = rankings.getTeam(playerB);
         byeA.setText(teamA != null ? teamA.getBye() : "?");
         byeB.setText(teamB != null ? teamB.getBye() : "?");
 
-        // ECR (default to hidden)
-        LinearLayout ecrRow = (LinearLayout)findViewById(R.id.expert_output_row);
+        // Expert's selection percentages (default to hidden)
+        LinearLayout ecrRow = findViewById(R.id.expert_output_row);
         ecrRow.setVisibility(View.GONE);
 
         // ECR val
-        TextView ecrA = (TextView)findViewById(R.id.comparator_ecr_val_a);
-        TextView ecrB = (TextView) findViewById(R.id.comparator_ecr_val_b);
+        TextView ecrA = findViewById(R.id.comparator_ecr_val_a);
+        TextView ecrB =  findViewById(R.id.comparator_ecr_val_b);
         ecrA.setText(String.valueOf(playerA.getEcr()));
         ecrB.setText(String.valueOf(playerB.getEcr()));
         if (playerA.getEcr() < playerB.getEcr()) {
@@ -212,8 +212,8 @@ public class PlayerComparator extends AppCompatActivity {
         }
 
         //ADP
-        TextView adpA = (TextView)findViewById(R.id.comparator_adp_a);
-        TextView adpB = (TextView)findViewById(R.id.comparator_adp_b);
+        TextView adpA = findViewById(R.id.comparator_adp_a);
+        TextView adpB = findViewById(R.id.comparator_adp_b);
         adpA.setText(String.valueOf(playerA.getAdp()));
         adpB.setText(String.valueOf(playerB.getAdp()));
         if (playerA.getAdp() < playerB.getAdp()) {
@@ -224,9 +224,53 @@ public class PlayerComparator extends AppCompatActivity {
             clearColors(adpA, adpB);
         }
 
+        // Dynasty/keeper ranks
+        TextView dynA = findViewById(R.id.comparator_dynasty_a);
+        TextView dynB = findViewById(R.id.comparator_dynasty_b);
+        dynA.setText(String.valueOf(playerA.getDynastyRank()));
+        dynB.setText(String.valueOf(playerB.getDynastyRank()));
+        if (playerA.getDynastyRank() < playerB.getDynastyRank()) {
+            setColors(dynA, dynB);
+        } else if (playerB.getDynastyRank() < playerA.getDynastyRank()) {
+            setColors(dynB, dynA);
+        } else {
+            clearColors(dynA, dynB);
+        }
+
+        // Rookie ranks
+        LinearLayout rookieRow = findViewById(R.id.rookie_output_row);
+        if (rankings.getLeagueSettings().isRookie() && (playerA.getRookieRank() < 300.0 || playerB.getRookieRank() < 300.0)) {
+            rookieRow.setVisibility(View.VISIBLE);
+            TextView rookA = findViewById(R.id.comparator_rookie_a);
+            TextView rookB = findViewById(R.id.comparator_rookie_b);
+
+            if (playerA.getRookieRank() == 300.0 && playerB.getRookieRank() < 300.0) {
+                rookA.setText("N/A");
+                rookB.setText(String.valueOf(playerB.getRookieRank()));
+                clearColors(rookB, rookA);
+
+            } else if (playerA.getRookieRank() < 300.0 && playerB.getRookieRank() == 300.0) {
+                rookA.setText(String.valueOf(playerA.getRookieRank()));
+                rookB.setText("N/A");
+                clearColors(rookA, rookB);
+            } else {
+                rookA.setText(String.valueOf(playerA.getRookieRank()));
+                rookB.setText(String.valueOf(playerB.getRookieRank()));
+                if (playerA.getRookieRank() < playerB.getRookieRank()) {
+                    setColors(rookA, rookB);
+                } else if (playerB.getRookieRank() < playerA.getRookieRank()) {
+                    setColors(rookB, rookA);
+                } else {
+                    clearColors(rookA, rookB);
+                }
+            }
+        } else {
+            rookieRow.setVisibility(View.GONE);
+        }
+
         // Auction value
-        TextView aucA = (TextView)findViewById(R.id.comparator_auc_a);
-        TextView aucB = (TextView)findViewById(R.id.comparator_auc_b);
+        TextView aucA = findViewById(R.id.comparator_auc_a);
+        TextView aucB = findViewById(R.id.comparator_auc_b);
         aucA.setText(df.format(playerA.getAuctionValueCustom(rankings)));
         aucB.setText(df.format(playerB.getAuctionValueCustom(rankings)));
         if (playerA.getAuctionValue() > playerB.getAuctionValue()) {
@@ -238,8 +282,8 @@ public class PlayerComparator extends AppCompatActivity {
         }
 
         // Leverage
-        TextView levA = (TextView)findViewById(R.id.comparator_lev_a);
-        TextView levB = (TextView)findViewById(R.id.comparator_lev_b);
+        TextView levA = findViewById(R.id.comparator_lev_a);
+        TextView levB = findViewById(R.id.comparator_lev_b);
         double levAVal = ParseMath.getLeverage(playerA, rankings);
         double levBVal = ParseMath.getLeverage(playerB, rankings);
         levA.setText(String.valueOf(levAVal));
