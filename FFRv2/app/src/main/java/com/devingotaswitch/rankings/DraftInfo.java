@@ -144,6 +144,9 @@ public class DraftInfo extends AppCompatActivity {
         TextView paaLeft = view.findViewById(R.id.base_textview_paa_left);
         paaLeft.setText(getPAALeft());
 
+        TextView playersDrafted = view.findViewById(R.id.base_textview_players_drafted);
+        playersDrafted.setText("Total players drafted: " + rankings.getDraft().getDraftedPlayers().size());
+
         graphPAALeft();
     }
 

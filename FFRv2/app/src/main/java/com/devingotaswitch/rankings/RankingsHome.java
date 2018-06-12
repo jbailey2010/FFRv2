@@ -330,7 +330,7 @@ public class RankingsHome extends AppCompatActivity {
         if (LocalSettingsHelper.wasPresent(currentLeagueId)) {
             currentLeague = rankingsDB.getLeague(this, currentLeagueId);
         }
-        rankingsBase = (LinearLayout)findViewById(R.id.rankings_base_layout);
+        rankingsBase = findViewById(R.id.rankings_base_layout);
         establishLayout();
     }
 
