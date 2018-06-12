@@ -119,7 +119,7 @@ public class DraftInfo extends AppCompatActivity {
     }
 
     private void clearDraft() {
-        rankings.getDraft().resetDraft(this);
+        rankings.getDraft().resetDraft(this, rankings.getLeagueSettings().getName());
         (findViewById(R.id.team_graph)).setVisibility(View.GONE);
         Snackbar.make(baseLayout, "Draft cleared", Snackbar.LENGTH_SHORT).show();
         displayTeam();

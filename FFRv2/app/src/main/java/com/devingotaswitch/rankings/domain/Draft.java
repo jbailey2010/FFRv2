@@ -350,7 +350,7 @@ public class Draft {
         return result;
     }
 
-    public void resetDraft(Context context) {
+    public void resetDraft(Context context, String leagueName) {
         myQbs.clear();
         myRbs.clear();
         myWrs.clear();
@@ -360,7 +360,7 @@ public class Draft {
         myPlayers.clear();
         draftedPlayers.clear();
         draftValue = 0.0;
-        LocalSettingsHelper.clearDraft(context);
+        LocalSettingsHelper.clearDraft(context, leagueName);
     }
 
     public void draftBySomeone(Rankings rankings, Player player, Activity act, View view, View.OnClickListener listener) {
@@ -393,6 +393,6 @@ public class Draft {
     }
 
     private void saveDraft(Rankings rankings, Activity act) {
-        LocalSettingsHelper.saveDraft(act, rankings.getDraft());
+        LocalSettingsHelper.saveDraft(act, rankings.getLeagueSettings().getName(), rankings.getDraft());
     }
 }

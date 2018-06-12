@@ -46,16 +46,16 @@ public class LocalSettingsHelper {
         getSharedPreferences(cont).edit().putBoolean(Constants.RANKINGS_FETCHED, wereFetched).apply();
     }
 
-    public static void saveDraft(Context cont, Draft draft) {
+    public static void saveDraft(Context cont, String leagueName, Draft draft) {
         SharedPreferences.Editor editor = getSharedPreferences(cont).edit();
-        editor.putString(Constants.CURRENT_DRAFT, draft.draftedToSerializedString());
-        editor.putString(Constants.CURRENT_TEAM, draft.myTeamToSerializedString());
+        editor.putString(leagueName + Constants.CURRENT_DRAFT, draft.draftedToSerializedString());
+        editor.putString(leagueName + Constants.CURRENT_TEAM, draft.myTeamToSerializedString());
         editor.apply();
     }
 
-    public static Draft loadDraft(Context cont, Map<String, Player> players) {
-        String draftStr = getSharedPreferences(cont).getString(Constants.CURRENT_DRAFT, null);
-        String teamStr = getSharedPreferences(cont).getString(Constants.CURRENT_TEAM, null);
+    public static Draft loadDraft(Context cont, String leagueName, Map<String, Player> players) {
+        String draftStr = getSharedPreferences(cont).getString(leagueName + Constants.CURRENT_DRAFT, null);
+        String teamStr = getSharedPreferences(cont).getString(leagueName + Constants.CURRENT_TEAM, null);
         Draft draft = new Draft();
         if (!StringUtils.isBlank(teamStr)) {
             String[] myTeam = teamStr.split(Constants.HASH_DELIMITER);
@@ -77,10 +77,10 @@ public class LocalSettingsHelper {
         return draft;
     }
 
-    public static void clearDraft(Context cont) {
+    public static void clearDraft(Context cont, String leagueName) {
         SharedPreferences.Editor editor = getSharedPreferences(cont).edit();
-        editor.remove(Constants.CURRENT_DRAFT);
-        editor.remove(Constants.CURRENT_TEAM);
+        editor.remove(leagueName + Constants.CURRENT_DRAFT);
+        editor.remove(leagueName + Constants.CURRENT_TEAM);
         editor.apply();
     }
 }
