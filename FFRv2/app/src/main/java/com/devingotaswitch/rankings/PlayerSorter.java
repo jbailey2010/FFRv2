@@ -200,14 +200,17 @@ public class PlayerSorter extends AppCompatActivity {
                 android.R.layout.simple_spinner_item, factorList);
         factors.setAdapter(factorAdapter);
 
-        final MultiSelectionSpinner spinner=(MultiSelectionSpinner)findViewById(R.id.sort_players_additional_factors);
+        final MultiSelectionSpinner spinner=findViewById(R.id.sort_players_additional_factors);
         List<String> list = new ArrayList<>();
         list.add(Constants.SORT_HIDE_DRAFTED);
         list.add(Constants.SORT_ONLY_HEALTHY);
         list.add(Constants.SORT_EASY_SOS);
         list.add(Constants.SORT_ONLY_WATCHED);
         list.add(Constants.SORT_UNDER_30);
-        list.add(Constants.SORT_IGNORE_LATE);
+        if (!rankings.getLeagueSettings().isRookie()) {
+            list.add(Constants.SORT_IGNORE_EARLY);
+            list.add(Constants.SORT_IGNORE_LATE);
+        }
         spinner.setItems(list, Constants.SORT_DEFAULT_STRING);
 
         positions.setSelection(posIndex);
@@ -261,7 +264,6 @@ public class PlayerSorter extends AppCompatActivity {
             comparator = getDynastyComparator();
         } else if (Constants.SORT_ROOKIE.equals(factor)) {
             comparator = getRookieComparator();
-            playerIds = rankings.getPlayersByPosition(playerIds, Constants.QBRBWRTE);
         } else if (Constants.SORT_PROJECTION.equals(factor)) {
             comparator = getProjectionComparator();
         } else if (Constants.SORT_PAA.equals(factor)) {
@@ -326,6 +328,11 @@ public class PlayerSorter extends AppCompatActivity {
             }
             if (booleanFactors.contains(Constants.SORT_IGNORE_LATE)) {
                 if (player.getAuctionValue() < Constants.SORT_IGNORE_LATE_THRESHOLD) {
+                    continue;
+                }
+            }
+            if (booleanFactors.contains(Constants.SORT_IGNORE_EARLY)) {
+                if (player.getAuctionValue() > Constants.SORT_IGNORE_EARLY_THRESHOLD) {
                     continue;
                 }
             }

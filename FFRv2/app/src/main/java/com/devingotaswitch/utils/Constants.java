@@ -66,11 +66,13 @@ public class Constants {
     public final static String SORT_ONLY_WATCHED = "Watched";
     public final static String SORT_UNDER_30 = "Under 30";
     public final static String SORT_IGNORE_LATE = "Ignore late rounds";
+    public final static String SORT_IGNORE_EARLY = "Ignore early rounds";
 
     // Sort boolean thresholds
     public final static Integer SORT_EASY_SOS_THRESHOLD = 10;
     public final static Integer SORT_YOUNG_THRESHOLD = 30;
     public final static Double SORT_IGNORE_LATE_THRESHOLD = 4.0;
+    public final static Double SORT_IGNORE_EARLY_THRESHOLD = 25.0;
 
     // SP: keys
     public static final String APP_KEY = "FFRv2";

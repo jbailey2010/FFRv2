@@ -382,6 +382,24 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         ks.setText(String.valueOf(roster.getkCount()));
         final EditText bench = view.findViewById(R.id.league_settings_bench);
         bench.setText(String.valueOf(roster.getBenchCount()));
+        LinearLayout dstskHeader = findViewById(R.id.league_roster_space2);
+        LinearLayout benchHeader = findViewById(R.id.league_roster_space3);
+        if (currentLeague.isRookie()) {
+            dsts.setVisibility(View.GONE);
+            ks.setVisibility(View.GONE);
+            bench.setVisibility(View.GONE);
+            dsts.setText(String.valueOf(0));
+            ks.setText(String.valueOf(0));
+            bench.setText(String.valueOf(0));
+            dstskHeader.setVisibility(View.GONE);
+            benchHeader.setVisibility(View.GONE);
+        } else {
+            dsts.setVisibility(View.VISIBLE);
+            ks.setVisibility(View.VISIBLE);
+            bench.setVisibility(View.VISIBLE);
+            dstskHeader.setVisibility(View.VISIBLE);
+            benchHeader.setVisibility(View.VISIBLE);
+        }
 
         update.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -419,6 +437,27 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         final EditText dsts = view.findViewById(R.id.league_settings_dsts);
         final EditText ks = view.findViewById(R.id.league_settings_ks);
         final EditText bench = view.findViewById(R.id.league_settings_bench);
+        LinearLayout dstskHeader = findViewById(R.id.league_roster_space2);
+        LinearLayout benchHeader = findViewById(R.id.league_roster_space3);
+        if (newLeague.isRookie()) {
+            dsts.setVisibility(View.GONE);
+            ks.setVisibility(View.GONE);
+            bench.setVisibility(View.GONE);
+            dsts.setText(String.valueOf(0));
+            ks.setText(String.valueOf(0));
+            bench.setText(String.valueOf(0));
+            dstskHeader.setVisibility(View.GONE);
+            benchHeader.setVisibility(View.GONE);
+        } else {
+            dsts.setVisibility(View.VISIBLE);
+            ks.setVisibility(View.VISIBLE);
+            bench.setVisibility(View.VISIBLE);
+            dstskHeader.setVisibility(View.VISIBLE);
+            benchHeader.setVisibility(View.VISIBLE);
+            dsts.setText("1");
+            ks.setText("1");
+            bench.setText("6");
+        }
         Button save =  view.findViewById(R.id.league_roster_create_default);
         Button advanced =  view.findViewById(R.id.league_roster_advanced_settings);
 
