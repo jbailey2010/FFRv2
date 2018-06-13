@@ -161,9 +161,6 @@ public class Player {
 
     public void setPositionalTier(int tier) { this.positionalTier = tier; }
 
-    public double getRankingCount() {
-        return numRankings;
-    }
     public void handleNewValue(Double newValue) {
         double auctionTotal = auctionValue * numRankings;
         numRankings++;

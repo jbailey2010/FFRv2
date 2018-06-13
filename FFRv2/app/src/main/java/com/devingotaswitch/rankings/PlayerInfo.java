@@ -370,7 +370,6 @@ public class PlayerInfo extends AppCompatActivity {
 
         TextView title = noteView.findViewById(R.id.user_input_popup_title);
         title.setText("Input a note for " + player.getName());
-        final Context localCopy = this;
         alertDialogBuilder
                 .setPositiveButton("Save",
                         new DialogInterface.OnClickListener() {

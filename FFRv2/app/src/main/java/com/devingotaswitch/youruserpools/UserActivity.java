@@ -30,7 +30,6 @@ import java.util.List;
 public class UserActivity extends AppCompatActivity {
     private final String TAG="UserProfile";
 
-    private Toolbar toolbar;
     private AlertDialog userDialog;
     private ProgressDialog waitDialog;
 
@@ -46,7 +45,7 @@ public class UserActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         // Set toolbar for this screen
-        toolbar = findViewById(R.id.toolbar_user);
+        Toolbar toolbar = findViewById(R.id.toolbar_user);
         toolbar.setTitle("");
         TextView main_title = findViewById(R.id.main_toolbar_title);
         main_title.setText("Account");

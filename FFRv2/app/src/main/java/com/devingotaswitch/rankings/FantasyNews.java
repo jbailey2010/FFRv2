@@ -171,12 +171,10 @@ public class FantasyNews extends AppCompatActivity {
 
     class ParseNews extends AsyncTask<Object, Void, List<PlayerNews>> {
         final ProgressDialog pdia;
-        final FantasyNews act;
         final String source;
         ParseNews(FantasyNews act, String source) {
             pdia = new ProgressDialog(act);
             pdia.setCancelable(false);
-            this.act = act;
             this.source = source;
         }
 
@@ -198,12 +196,16 @@ public class FantasyNews extends AppCompatActivity {
         protected List<PlayerNews> doInBackground(Object... data) {
             List<PlayerNews> news = null;
             try {
-                if (RW_PLAYER_TITLE.equals(source)) {
-                    news = parseNewsRoto("http://www.rotoworld.com/playernews/nfl/football-player-news");
-                } else if (RW_HEADLINE_TITLE.equals(source)) {
-                    news = parseNewsRoto("http://www.rotoworld.com/headlines/nfl/0/football-headlines");
-                } else if (MFL_AGGREGATE_TITLE.equals(source)) {
-                    news = parseMFL();
+                switch (source) {
+                    case RW_PLAYER_TITLE:
+                        news = parseNewsRoto("http://www.rotoworld.com/playernews/nfl/football-player-news");
+                        break;
+                    case RW_HEADLINE_TITLE:
+                        news = parseNewsRoto("http://www.rotoworld.com/headlines/nfl/0/football-headlines");
+                        break;
+                    case MFL_AGGREGATE_TITLE:
+                        news = parseMFL();
+                        break;
                 }
                 return news;
             } catch (Exception e) {

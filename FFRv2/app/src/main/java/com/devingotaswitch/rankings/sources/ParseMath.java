@@ -221,18 +221,25 @@ public class ParseMath {
         double kTotal  = getPositionalProjection(kLimit,  rankings.getKs());
         for (String key : rankings.getPlayers().keySet()) {
             Player player = rankings.getPlayer(key);
-            if (Constants.QB.equals(player.getPosition())) {
-                player.setxVal(player.getProjection() - qbTotal);
-            } else if (Constants.RB.equals(player.getPosition())) {
-                player.setxVal(player.getProjection() - rbTotal);
-            } else if (Constants.WR.equals(player.getPosition())) {
-                player.setxVal(player.getProjection() - wrTotal);
-            } else if (Constants.TE.equals(player.getPosition())) {
-                player.setxVal(player.getProjection() - teTotal);
-            } else if (Constants.DST.equals(player.getPosition())) {
-                player.setxVal(player.getProjection() - dTotal);
-            } else if (Constants.K.equals(player.getPosition())) {
-                player.setxVal(player.getProjection() - kTotal);
+            switch (player.getPosition()) {
+                case Constants.QB:
+                    player.setxVal(player.getProjection() - qbTotal);
+                    break;
+                case Constants.RB:
+                    player.setxVal(player.getProjection() - rbTotal);
+                    break;
+                case Constants.WR:
+                    player.setxVal(player.getProjection() - wrTotal);
+                    break;
+                case Constants.TE:
+                    player.setxVal(player.getProjection() - teTotal);
+                    break;
+                case Constants.DST:
+                    player.setxVal(player.getProjection() - dTotal);
+                    break;
+                case Constants.K:
+                    player.setxVal(player.getProjection() - kTotal);
+                    break;
             }
         }
     }
@@ -247,18 +254,25 @@ public class ParseMath {
         double kLS = getPositionalReplacementProjection(kLimit, rankings.getKs());
         for (String key : rankings.getPlayers().keySet()) {
             Player player = rankings.getPlayer(key);
-            if (Constants.QB.equals(player.getPosition())) {
-                player.setvOLS(player.getProjection() - qbLS);
-            } else if (Constants.RB.equals(player.getPosition())) {
-                player.setvOLS(player.getProjection() - rbLS);
-            } else if (Constants.WR.equals(player.getPosition())) {
-                player.setvOLS(player.getProjection() - wrLS);
-            } else if (Constants.TE.equals(player.getPosition())) {
-                player.setvOLS(player.getProjection() - teLS);
-            } else if (Constants.DST.equals(player.getPosition())) {
-                player.setvOLS(player.getProjection() - dLS);
-            } else if (Constants.K.equals(player.getPosition())) {
-                player.setvOLS(player.getProjection() - kLS);
+            switch (player.getPosition()) {
+                case Constants.QB:
+                    player.setvOLS(player.getProjection() - qbLS);
+                    break;
+                case Constants.RB:
+                    player.setvOLS(player.getProjection() - rbLS);
+                    break;
+                case Constants.WR:
+                    player.setvOLS(player.getProjection() - wrLS);
+                    break;
+                case Constants.TE:
+                    player.setvOLS(player.getProjection() - teLS);
+                    break;
+                case Constants.DST:
+                    player.setvOLS(player.getProjection() - dLS);
+                    break;
+                case Constants.K:
+                    player.setvOLS(player.getProjection() - kLS);
+                    break;
             }
         }
     }
@@ -299,18 +313,25 @@ public class ParseMath {
         double kTotal  = getPositionalProjection(kLimit,  rankings.getKs());
         for (String key : rankings.getPlayers().keySet()) {
             Player player = rankings.getPlayer(key);
-            if (Constants.QB.equals(player.getPosition())) {
-                player.setPaa(player.getProjection() - qbTotal);
-            } else if (Constants.RB.equals(player.getPosition())) {
-                player.setPaa(player.getProjection() - rbTotal);
-            } else if (Constants.WR.equals(player.getPosition())) {
-                player.setPaa(player.getProjection() - wrTotal);
-            } else if (Constants.TE.equals(player.getPosition())) {
-                player.setPaa(player.getProjection() - teTotal);
-            } else if (Constants.DST.equals(player.getPosition())) {
-                player.setPaa(player.getProjection() - dTotal);
-            } else if (Constants.K.equals(player.getPosition())) {
-                player.setPaa(player.getProjection() - kTotal);
+            switch (player.getPosition()) {
+                case Constants.QB:
+                    player.setPaa(player.getProjection() - qbTotal);
+                    break;
+                case Constants.RB:
+                    player.setPaa(player.getProjection() - rbTotal);
+                    break;
+                case Constants.WR:
+                    player.setPaa(player.getProjection() - wrTotal);
+                    break;
+                case Constants.TE:
+                    player.setPaa(player.getProjection() - teTotal);
+                    break;
+                case Constants.DST:
+                    player.setPaa(player.getProjection() - dTotal);
+                    break;
+                case Constants.K:
+                    player.setPaa(player.getProjection() - kTotal);
+                    break;
             }
         }
     }
@@ -447,13 +468,13 @@ public class ParseMath {
         List<Set<Player>> wrTiers = getTiersInternal(sortedWRs, 1, 1, 1, 6.5, new ArrayList<Set<Player>>(), new HashSet<Player>());
         List<Set<Player>> teTiers = getTiersInternal(sortedTEs, 1, 1, 1, 6.5, new ArrayList<Set<Player>>(), new HashSet<Player>());
 
-        setTiers(rankings, qbTiers);
-        setTiers(rankings, rbTiers);
-        setTiers(rankings, wrTiers);
-        setTiers(rankings, teTiers);
+        setTiers(qbTiers);
+        setTiers(rbTiers);
+        setTiers(wrTiers);
+        setTiers(teTiers);
     }
 
-    private static void setTiers(Rankings rankings, List<Set<Player>> tierList) {
+    private static void setTiers(List<Set<Player>> tierList) {
         for (int i = 0; i < tierList.size(); i++) {
             Set<Player> currTier = tierList.get(i);
             int tierId = i + 1;

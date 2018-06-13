@@ -22,7 +22,6 @@ import com.devingotaswitch.ffrv2.R;
 public class NewPassword extends AppCompatActivity {
     private EditText newPassword;
 
-    private Button continueSignIn;
     private AlertDialog userDialog;
 
     @Override
@@ -85,7 +84,7 @@ public class NewPassword extends AppCompatActivity {
             }
         });
 
-        continueSignIn = findViewById(R.id.buttonNewPass);
+        Button continueSignIn = findViewById(R.id.buttonNewPass);
         continueSignIn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

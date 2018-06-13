@@ -76,8 +76,6 @@ public class RankingsHome extends AppCompatActivity {
     private MenuItem filterItem;
     private NavigationView nDrawer;
     private DrawerLayout mDrawer;
-    private ActionBarDrawerToggle mDrawerToggle;
-    private Toolbar toolbar;
 
     private RankingsDBWrapper rankingsDB;
     private LeagueSettings currentLeague;
@@ -162,7 +160,7 @@ public class RankingsHome extends AppCompatActivity {
 
     private void initApp() {
         // Set toolbar for this screen
-        toolbar = findViewById(R.id.main_toolbar);
+        Toolbar toolbar = findViewById(R.id.main_toolbar);
         toolbar.setTitle("");
         toolbar.setElevation(0);
         TextView main_title = findViewById(R.id.main_toolbar_title);
@@ -171,7 +169,7 @@ public class RankingsHome extends AppCompatActivity {
 
         // Set navigation drawer for this screen
         mDrawer = findViewById(R.id.user_drawer_layout);
-        mDrawerToggle = new ActionBarDrawerToggle(this,mDrawer, toolbar, R.string.nav_drawer_open, R.string.nav_drawer_close);
+        ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.nav_drawer_open, R.string.nav_drawer_close);
         mDrawer.addDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
 
@@ -574,7 +572,6 @@ public class RankingsHome extends AppCompatActivity {
 
         TextView title = noteView.findViewById(R.id.user_input_popup_title);
         title.setText("How much did " + player.getName() + " cost?");
-        final Context localCopy = this;
         alertDialogBuilder
                 .setPositiveButton("Save",
                         new DialogInterface.OnClickListener() {

@@ -58,11 +58,6 @@ public class GeneralUtils {
         return true;
     }
 
-    public static String nameifyWords(String line) {
-        return Character.toUpperCase(line.charAt(0))
-                + line.substring(1).toLowerCase();
-    }
-
     public static long getLatency(long start) {
         return (System.currentTimeMillis() - start) / SECONDS_CONVERSION_THRESHOLD;
     }

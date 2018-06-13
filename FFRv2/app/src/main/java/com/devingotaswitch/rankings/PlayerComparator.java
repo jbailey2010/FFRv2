@@ -42,7 +42,6 @@ import java.util.Map;
 public class PlayerComparator extends AppCompatActivity {
 
     private Rankings rankings;
-    private RankingsDBWrapper rankingsDB;
     private Player playerA;
     private Player playerB;
 
@@ -59,7 +58,7 @@ public class PlayerComparator extends AppCompatActivity {
         setContentView(R.layout.activity_player_comparator);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        rankingsDB = new RankingsDBWrapper();
+        RankingsDBWrapper rankingsDB = new RankingsDBWrapper();
         rankings = Rankings.init();
 
         // Set toolbar for this screen

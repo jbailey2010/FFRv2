@@ -20,7 +20,6 @@ import java.util.Map;
 class MFASettingsHelper {
     private Switch smsSwitch;
 
-    private Map<String, String> settings;
     private CognitoUserSettings newSettings;
 
     private ProgressDialog waitDialog;
@@ -45,7 +44,7 @@ class MFASettingsHelper {
             smsSwitch.setChecked(false);
         }
 
-        settings = CUPHelper.getUserDetails().getSettings().getSettings();
+        Map<String, String> settings = CUPHelper.getUserDetails().getSettings().getSettings();
 
         if(settings != null) {
             if(settings.containsKey("phone_number")) {

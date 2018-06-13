@@ -15,7 +15,6 @@ import com.devingotaswitch.ffrv2.R;
 
 
 public class MFAActivity extends AppCompatActivity {
-    private TextView mfaScreenText;
     private EditText mfaInput;
 
     @Override
@@ -58,7 +57,7 @@ public class MFAActivity extends AppCompatActivity {
         if(extras !=null) {
             if(extras.containsKey("mode")) {
                 String mode = extras.getString("mode");
-                mfaScreenText = findViewById(R.id.textViewMFASubTitle);
+                TextView mfaScreenText = findViewById(R.id.textViewMFASubTitle);
                 mfaScreenText.setText("Verification code has been sent via "+mode);
             }
         }

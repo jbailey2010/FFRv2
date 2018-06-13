@@ -2,7 +2,6 @@ package com.devingotaswitch.rankings.extras;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
@@ -85,96 +84,12 @@ public class FilterWithSpaceAdapter<T> extends BaseAdapter implements
      * @param textViewResourceId
      *            The resource ID for a layout file containing a TextView to use
      *            when instantiating views.
-     */
-    public FilterWithSpaceAdapter(Context context, int textViewResourceId) {
-        init(context, textViewResourceId, 0, new ArrayList<T>());
-    }
-
-    /**
-     * Constructor
-     *
-     * @param context
-     *            The current context.
-     * @param resource
-     *            The resource ID for a layout file containing a layout to use
-     *            when instantiating views.
-     * @param textViewResourceId
-     *            The id of the TextView within the layout resource to be
-     *            populated
-     */
-    public FilterWithSpaceAdapter(Context context, int resource,
-                                  int textViewResourceId) {
-        init(context, resource, textViewResourceId, new ArrayList<T>());
-    }
-
-    /**
-     * Constructor
-     *
-     * @param context
-     *            The current context.
-     * @param textViewResourceId
-     *            The resource ID for a layout file containing a TextView to use
-     *            when instantiating views.
      * @param objects
      *            The objects to represent in the ListView.
      */
     public FilterWithSpaceAdapter(Context context, int textViewResourceId,
                                   T[] objects) {
         init(context, textViewResourceId, 0, Arrays.asList(objects));
-    }
-
-    /**
-     * Constructor
-     *
-     * @param context
-     *            The current context.
-     * @param resource
-     *            The resource ID for a layout file containing a layout to use
-     *            when instantiating views.
-     * @param textViewResourceId
-     *            The id of the TextView within the layout resource to be
-     *            populated
-     * @param objects
-     *            The objects to represent in the ListView.
-     */
-    public FilterWithSpaceAdapter(Context context, int resource,
-                                  int textViewResourceId, T[] objects) {
-        init(context, resource, textViewResourceId, Arrays.asList(objects));
-    }
-
-    /**
-     * Constructor
-     *
-     * @param context
-     *            The current context.
-     * @param textViewResourceId
-     *            The resource ID for a layout file containing a TextView to use
-     *            when instantiating views.
-     * @param objects
-     *            The objects to represent in the ListView.
-     */
-    public FilterWithSpaceAdapter(Context context, int textViewResourceId,
-                                  List<T> objects) {
-        init(context, textViewResourceId, 0, objects);
-    }
-
-    /**
-     * Constructor
-     *
-     * @param context
-     *            The current context.
-     * @param resource
-     *            The resource ID for a layout file containing a layout to use
-     *            when instantiating views.
-     * @param textViewResourceId
-     *            The id of the TextView within the layout resource to be
-     *            populated
-     * @param objects
-     *            The objects to represent in the ListView.
-     */
-    public FilterWithSpaceAdapter(Context context, int resource,
-                                  int textViewResourceId, List<T> objects) {
-        init(context, resource, textViewResourceId, objects);
     }
 
     /**
@@ -189,24 +104,6 @@ public class FilterWithSpaceAdapter<T> extends BaseAdapter implements
                 mOriginalValues.add(object);
             } else {
                 mObjects.add(object);
-            }
-        }
-        if (mNotifyOnChange)
-            notifyDataSetChanged();
-    }
-
-    /**
-     * Adds the specified Collection at the end of the array.
-     *
-     * @param collection
-     *            The Collection to add at the end of the array.
-     */
-    public void addAll(Collection<? extends T> collection) {
-        synchronized (mLock) {
-            if (mOriginalValues != null) {
-                mOriginalValues.addAll(collection);
-            } else {
-                mObjects.addAll(collection);
             }
         }
         if (mNotifyOnChange)
@@ -292,24 +189,6 @@ public class FilterWithSpaceAdapter<T> extends BaseAdapter implements
     public void notifyDataSetChanged() {
         super.notifyDataSetChanged();
         mNotifyOnChange = true;
-    }
-
-    /**
-     * Control whether methods that change the list ({@link #add},
-     * {@link #insert}, {@link #remove}, {@link #clear}) automatically call
-     * {@link #notifyDataSetChanged}. If set to false, caller must manually call
-     * notifyDataSetChanged() to have the changes reflected in the attached
-     * view.
-     *
-     * The default is true, and calling notifyDataSetChanged() resets the flag
-     * to true.
-     *
-     * @param notifyOnChange
-     *            if true, modifications to the list will automatically call
-     *            {@link #notifyDataSetChanged}
-     */
-    public void setNotifyOnChange(boolean notifyOnChange) {
-        mNotifyOnChange = notifyOnChange;
     }
 
     private void init(Context context, int resource, int textViewResourceId,
@@ -410,47 +289,12 @@ public class FilterWithSpaceAdapter<T> extends BaseAdapter implements
     }
 
     /**
-     * <p>
-     * Sets the layout resource to create the drop down views.
-     * </p>
-     *
-     * @param resource
-     *            the layout resource defining the drop down views
-     * @see #getDropDownView(int, android.view.View, android.view.ViewGroup)
-     */
-    public void setDropDownViewResource(int resource) {
-        this.mDropDownResource = resource;
-    }
-
-    /**
      * {@inheritDoc}
      */
     @Override
     public View getDropDownView(int position, View convertView, ViewGroup parent) {
         return createViewFromResource(position, convertView, parent,
                 mDropDownResource);
-    }
-
-    /**
-     * Creates a new ArrayAdapter from external resources. The content of the
-     * array is obtained through
-     * {@link android.content.res.Resources#getTextArray(int)}.
-     *
-     * @param context
-     *            The application's environment.
-     * @param textArrayResId
-     *            The identifier of the array to use as the data source.
-     * @param textViewResId
-     *            The identifier of the layout used to create views.
-     *
-     * @return An ArrayAdapter<CharSequence>.
-     */
-    public static FilterWithSpaceAdapter<CharSequence> createFromResource(
-            Context context, int textArrayResId, int textViewResId) {
-        CharSequence[] strings = context.getResources().getTextArray(
-                textArrayResId);
-        return new FilterWithSpaceAdapter<>(context, textViewResId,
-                strings);
     }
 
     /**

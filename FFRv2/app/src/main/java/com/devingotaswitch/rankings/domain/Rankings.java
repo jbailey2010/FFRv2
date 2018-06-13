@@ -207,26 +207,33 @@ public class Rankings {
 
     public List<String> getPlayersByPosition(List<String> source, String position) {
         Set<String> positions = new HashSet<>();
-        if (Constants.RBWR.equals(position)) {
-            positions.add(Constants.RB);
-            positions.add(Constants.WR);
-        } else if (Constants.RBTE.equals(position)) {
-            positions.add(Constants.RB);
-            positions.add(Constants.TE);
-        } else if (Constants.RBWRTE.equals(position)) {
-            positions.add(Constants.RB);
-            positions.add(Constants.WR);
-            positions.add(Constants.TE);
-        } else if (Constants.WRTE.equals(position)) {
-            positions.add(Constants.WR);
-            positions.add(Constants.TE);
-        } else if (Constants.QBRBWRTE.equals(position)) {
-            positions.add(Constants.QB);
-            positions.add(Constants.RB);
-            positions.add(Constants.WR);
-            positions.add(Constants.TE);
-        } else {
-            positions.add(position);
+        switch (position) {
+            case Constants.RBWR:
+                positions.add(Constants.RB);
+                positions.add(Constants.WR);
+                break;
+            case Constants.RBTE:
+                positions.add(Constants.RB);
+                positions.add(Constants.TE);
+                break;
+            case Constants.RBWRTE:
+                positions.add(Constants.RB);
+                positions.add(Constants.WR);
+                positions.add(Constants.TE);
+                break;
+            case Constants.WRTE:
+                positions.add(Constants.WR);
+                positions.add(Constants.TE);
+                break;
+            case Constants.QBRBWRTE:
+                positions.add(Constants.QB);
+                positions.add(Constants.RB);
+                positions.add(Constants.WR);
+                positions.add(Constants.TE);
+                break;
+            default:
+                positions.add(position);
+                break;
         }
         return getPlayersByPositionInternal(source, positions);
     }

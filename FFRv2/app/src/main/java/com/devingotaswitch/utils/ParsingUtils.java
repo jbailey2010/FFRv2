@@ -366,14 +366,22 @@ public class ParsingUtils {
     }
 
     private static String normalizePosition(String position) {
-        if (position.equals("PK")) {
-            position =  Constants.K;
-        } else if (position.equals("DEF") || position.equals("DST")) {
-            position = Constants.DST;
-        } else if (position.equals("WR,RB") || position.equals("WR/RB") || position.equals("RB/WR")) {
-            position = Constants.RB;
-        } else if (position.equals("TE,RB")) {
-            position = Constants.TE;
+        switch (position) {
+            case "PK":
+                position = Constants.K;
+                break;
+            case "DEF":
+            case "DST":
+                position = Constants.DST;
+                break;
+            case "WR,RB":
+            case "WR/RB":
+            case "RB/WR":
+                position = Constants.RB;
+                break;
+            case "TE,RB":
+                position = Constants.TE;
+                break;
         }
         return position;
     }

@@ -29,7 +29,6 @@ public class RegisterUser extends AppCompatActivity {
     private EditText email;
     private EditText phone;
 
-    private Button signUp;
     private AlertDialog userDialog;
     private ProgressDialog waitDialog;
     private String usernameInput;
@@ -203,7 +202,7 @@ public class RegisterUser extends AppCompatActivity {
             }
         });
 
-        signUp = findViewById(R.id.signUp);
+        Button signUp = findViewById(R.id.signUp);
         signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

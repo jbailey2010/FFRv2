@@ -45,7 +45,6 @@ public class MainActivity extends AppCompatActivity {
     private NavigationView nDrawer;
     private DrawerLayout mDrawer;
     private ActionBarDrawerToggle mDrawerToggle;
-    private Toolbar toolbar;
     private AlertDialog userDialog;
     private ProgressDialog waitDialog;
 
@@ -70,7 +69,7 @@ public class MainActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         // Set toolbar for this screen
-        toolbar = findViewById(R.id.main_toolbar);
+        Toolbar toolbar = findViewById(R.id.main_toolbar);
         toolbar.setTitle("");
         final TextView main_title = findViewById(R.id.main_toolbar_title);
         main_title.setText("Sign in");

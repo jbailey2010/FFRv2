@@ -98,28 +98,40 @@ public class HelpActivity extends AppCompatActivity {
 
     private void updateLayout(String selection) {
         hideAll();
-        if (Constants.HELP_LEAGUE.equals(selection)) {
-            makeVisible(helpLeague);
-        } else if (Constants.HELP_RANKINGS.equals(selection)) {
-            makeVisible(helpRankings);
-        } else if (Constants.HELP_PLAYER_INFO.equals(selection)) {
-            makeVisible(helpPlayerInfo);
-        } else if (Constants.HELP_DRAFTING.equals(selection)) {
-            makeVisible(helpDrafting);
-        } else if (Constants.HELP_ADP_SIMULARTOR.equals(selection)) {
-            makeVisible(helpADPSimulator);
-        } else if (Constants.HELP_COMPARE_PLAYERS.equals(selection)) {
-            makeVisible(helpCompare);
-        } else if (Constants.HELP_SORT_PLAYERS.equals(selection)) {
-            makeVisible(helpSort);
-        } else if (Constants.HELP_NEWS.equals(selection)) {
-            makeVisible(helpNews);
-        } else if (Constants.HELP_EXPORT.equals(selection)) {
-            makeVisible(helpExport);
-        } else if (Constants.HELP_PROFILE.equals(selection)) {
-            makeVisible(helpProfile);
-        } else if (Constants.HELP_STATS.equals(selection)) {
-            makeVisible(helpStats);
+        switch (selection) {
+            case Constants.HELP_LEAGUE:
+                makeVisible(helpLeague);
+                break;
+            case Constants.HELP_RANKINGS:
+                makeVisible(helpRankings);
+                break;
+            case Constants.HELP_PLAYER_INFO:
+                makeVisible(helpPlayerInfo);
+                break;
+            case Constants.HELP_DRAFTING:
+                makeVisible(helpDrafting);
+                break;
+            case Constants.HELP_ADP_SIMULARTOR:
+                makeVisible(helpADPSimulator);
+                break;
+            case Constants.HELP_COMPARE_PLAYERS:
+                makeVisible(helpCompare);
+                break;
+            case Constants.HELP_SORT_PLAYERS:
+                makeVisible(helpSort);
+                break;
+            case Constants.HELP_NEWS:
+                makeVisible(helpNews);
+                break;
+            case Constants.HELP_EXPORT:
+                makeVisible(helpExport);
+                break;
+            case Constants.HELP_PROFILE:
+                makeVisible(helpProfile);
+                break;
+            case Constants.HELP_STATS:
+                makeVisible(helpStats);
+                break;
         }
     }
 

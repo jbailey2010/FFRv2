@@ -248,49 +248,71 @@ public class PlayerSorter extends AppCompatActivity {
 
     private void sortPlayers(List<String> playerIds, Set<String> booleanFactors, boolean reversePlayers) {
         Comparator<Player> comparator = null;
-        if (Constants.SORT_ECR.equals(factor)) {
-            comparator = getECRComparator();
-        } else if (Constants.SORT_ADP.equals(factor)) {
-            comparator = getADPComparator();
-        } else if (Constants.SORT_UNDERDRAFTED.equals(factor)) {
-            comparator = getUnderdraftedComparator();
-        } else if (Constants.SORT_OVERDRAFTED.equals(factor)) {
-            comparator = getOverdraftedComparator();
-        } else if (Constants.SORT_BEST_VALUE.equals(factor)) {
-            comparator = getBestValueComparator();
-        } else if (Constants.SORT_AUCTION.equals(factor)) {
-            comparator = getAuctionComparator();
-        } else if (Constants.SORT_DYNASTY.equals(factor)) {
-            comparator = getDynastyComparator();
-        } else if (Constants.SORT_ROOKIE.equals(factor)) {
-            comparator = getRookieComparator();
-        } else if (Constants.SORT_PROJECTION.equals(factor)) {
-            comparator = getProjectionComparator();
-        } else if (Constants.SORT_PAA.equals(factor)) {
-            comparator = getPAAComparator();
-        } else if (Constants.SORT_PAA_SCALED.equals(factor)) {
-            comparator = getPAAScaledComparator();
-        } else if (Constants.SORT_PAAPD.equals(factor)) {
-            comparator = getPAAPDComparator();
-        } else if (Constants.SORT_XVAL.equals(factor)) {
-            comparator = getXValComparator();
-        } else if (Constants.SORT_XVAL_SCALED.equals(factor)) {
-            comparator = getXValScaledComparator();
-        } else if (Constants.SORT_XVALPD.equals(factor)) {
-            comparator = getXvalPDComparator();
-        } else if (Constants.SORT_VOLS.equals(factor)) {
-            comparator = getVoLSComparator();
-        } else if (Constants.SORT_VOLS_SCALED.equals(factor)) {
-            comparator = getVoLSScaledComparator();
-        } else if (Constants.SORT_VOLSPD.equals(factor)) {
-            comparator = getVoLSPDComparator();
-        } else if (Constants.SORT_RISK.equals(factor)) {
-            comparator = getRiskComparator();
-        } else if (Constants.SORT_SOS.equals(factor)) {
-            comparator = getSOSComparator();
-        } else if (Constants.SORT_TIERS.equals(factor)) {
-            comparator = getTiersComparator();
-            playerIds = rankings.getPlayersByPosition(playerIds, Constants.QBRBWRTE);
+        switch (factor) {
+            case Constants.SORT_ECR:
+                comparator = getECRComparator();
+                break;
+            case Constants.SORT_ADP:
+                comparator = getADPComparator();
+                break;
+            case Constants.SORT_UNDERDRAFTED:
+                comparator = getUnderdraftedComparator();
+                break;
+            case Constants.SORT_OVERDRAFTED:
+                comparator = getOverdraftedComparator();
+                break;
+            case Constants.SORT_BEST_VALUE:
+                comparator = getBestValueComparator();
+                break;
+            case Constants.SORT_AUCTION:
+                comparator = getAuctionComparator();
+                break;
+            case Constants.SORT_DYNASTY:
+                comparator = getDynastyComparator();
+                break;
+            case Constants.SORT_ROOKIE:
+                comparator = getRookieComparator();
+                break;
+            case Constants.SORT_PROJECTION:
+                comparator = getProjectionComparator();
+                break;
+            case Constants.SORT_PAA:
+                comparator = getPAAComparator();
+                break;
+            case Constants.SORT_PAA_SCALED:
+                comparator = getPAAScaledComparator();
+                break;
+            case Constants.SORT_PAAPD:
+                comparator = getPAAPDComparator();
+                break;
+            case Constants.SORT_XVAL:
+                comparator = getXValComparator();
+                break;
+            case Constants.SORT_XVAL_SCALED:
+                comparator = getXValScaledComparator();
+                break;
+            case Constants.SORT_XVALPD:
+                comparator = getXvalPDComparator();
+                break;
+            case Constants.SORT_VOLS:
+                comparator = getVoLSComparator();
+                break;
+            case Constants.SORT_VOLS_SCALED:
+                comparator = getVoLSScaledComparator();
+                break;
+            case Constants.SORT_VOLSPD:
+                comparator = getVoLSPDComparator();
+                break;
+            case Constants.SORT_RISK:
+                comparator = getRiskComparator();
+                break;
+            case Constants.SORT_SOS:
+                comparator = getSOSComparator();
+                break;
+            case Constants.SORT_TIERS:
+                comparator = getTiersComparator();
+                playerIds = rankings.getPlayersByPosition(playerIds, Constants.QBRBWRTE);
+                break;
         }
 
         players.clear();
@@ -785,56 +807,58 @@ public class PlayerSorter extends AppCompatActivity {
 
     private String getMainTextPrefixForPlayer(Player player) {
         DecimalFormat df = new DecimalFormat(Constants.NUMBER_FORMAT);
-        if (Constants.SORT_ALL.equals(factor)) {
-            if (rankings.getLeagueSettings().isAuction()) {
-                return df.format(player.getAuctionValueCustom(rankings));
-            } else if (rankings.getLeagueSettings().isDynasty()) {
-                return String.valueOf(player.getDynastyRank());
-            } else if (rankings.getLeagueSettings().isRookie()) {
-                return String.valueOf(player.getRookieRank());
-            } else {
+        switch (factor) {
+            case Constants.SORT_ALL:
+                if (rankings.getLeagueSettings().isAuction()) {
+                    return df.format(player.getAuctionValueCustom(rankings));
+                } else if (rankings.getLeagueSettings().isDynasty()) {
+                    return String.valueOf(player.getDynastyRank());
+                } else if (rankings.getLeagueSettings().isRookie()) {
+                    return String.valueOf(player.getRookieRank());
+                } else {
+                    return String.valueOf(player.getEcr());
+                }
+            case Constants.SORT_ECR:
                 return String.valueOf(player.getEcr());
-            }
-        } else if (Constants.SORT_ECR.equals(factor)) {
-            return String.valueOf(player.getEcr());
-        } else if (Constants.SORT_ADP.equals(factor)) {
-            return String.valueOf(player.getAdp());
-        } else if (Constants.SORT_UNDERDRAFTED.equals(factor) || Constants.SORT_OVERDRAFTED.equals(factor)) {
-            return df.format(player.getEcr() - player.getAdp());
-        } else if (Constants.SORT_BEST_VALUE.equals(factor)) {
-            return df.format(player.getEcr() - (rankings.getDraft().getDraftedPlayers().size() + 1));
-        } else if (Constants.SORT_AUCTION.equals(factor)) {
-            return df.format(player.getAuctionValueCustom(rankings));
-        } else if (Constants.SORT_DYNASTY.equals(factor)) {
-            return String.valueOf(player.getDynastyRank());
-        } else if (Constants.SORT_ROOKIE.equals(factor)) {
-            return String.valueOf(player.getRookieRank());
-        } else if (Constants.SORT_PROJECTION.equals(factor)) {
-            return df.format(player.getProjection());
-        } else if (Constants.SORT_PAA.equals(factor)) {
-            return df.format(player.getPaa());
-        } else if (Constants.SORT_PAA_SCALED.equals(factor)) {
-            return df.format(player.getScaledPAA(rankings));
-        } else if (Constants.SORT_PAAPD.equals(factor)) {
-            return df.format(getPAAPD(player));
-        } else if (Constants.SORT_XVAL.equals(factor)) {
-            return df.format(player.getxVal());
-        } else if (Constants.SORT_XVAL_SCALED.equals(factor)) {
-            return df.format(player.getScaledXVal(rankings));
-        } else if (Constants.SORT_XVALPD.equals(factor)) {
-            return df.format(getXvalPD(player));
-        } else if (Constants.SORT_VOLS.equals(factor)) {
-            return df.format(player.getvOLS());
-        } else if (Constants.SORT_VOLS_SCALED.equals(factor)) {
-            return df.format(player.getScaledVoLS(rankings));
-        } else if (Constants.SORT_VOLSPD.equals(factor)) {
-            return df.format(getVoLSPD(player));
-        } else if (Constants.SORT_RISK.equals(factor)) {
-            return String.valueOf(player.getRisk());
-        } else if (Constants.SORT_SOS.equals(factor)) {
-            return String.valueOf(getSOS(player));
-        } else if (Constants.SORT_TIERS.equals(factor)) {
-            return String.valueOf(player.getPositionalTier());
+            case Constants.SORT_ADP:
+                return String.valueOf(player.getAdp());
+            case Constants.SORT_UNDERDRAFTED:
+            case Constants.SORT_OVERDRAFTED:
+                return df.format(player.getEcr() - player.getAdp());
+            case Constants.SORT_BEST_VALUE:
+                return df.format(player.getEcr() - (rankings.getDraft().getDraftedPlayers().size() + 1));
+            case Constants.SORT_AUCTION:
+                return df.format(player.getAuctionValueCustom(rankings));
+            case Constants.SORT_DYNASTY:
+                return String.valueOf(player.getDynastyRank());
+            case Constants.SORT_ROOKIE:
+                return String.valueOf(player.getRookieRank());
+            case Constants.SORT_PROJECTION:
+                return df.format(player.getProjection());
+            case Constants.SORT_PAA:
+                return df.format(player.getPaa());
+            case Constants.SORT_PAA_SCALED:
+                return df.format(player.getScaledPAA(rankings));
+            case Constants.SORT_PAAPD:
+                return df.format(getPAAPD(player));
+            case Constants.SORT_XVAL:
+                return df.format(player.getxVal());
+            case Constants.SORT_XVAL_SCALED:
+                return df.format(player.getScaledXVal(rankings));
+            case Constants.SORT_XVALPD:
+                return df.format(getXvalPD(player));
+            case Constants.SORT_VOLS:
+                return df.format(player.getvOLS());
+            case Constants.SORT_VOLS_SCALED:
+                return df.format(player.getScaledVoLS(rankings));
+            case Constants.SORT_VOLSPD:
+                return df.format(getVoLSPD(player));
+            case Constants.SORT_RISK:
+                return String.valueOf(player.getRisk());
+            case Constants.SORT_SOS:
+                return String.valueOf(getSOS(player));
+            case Constants.SORT_TIERS:
+                return String.valueOf(player.getPositionalTier());
         }
         return "";
     }
@@ -923,18 +947,25 @@ public class PlayerSorter extends AppCompatActivity {
             Player player = players.get(i);
             double value = Double.parseDouble(getMainTextPrefixForPlayer(player));
             entries.add(new Entry(i, (int) value));
-            if (Constants.QB.equals(player.getPosition())) {
-                qbs.add(new Entry(qbs.size(), (int) value));
-            } else if (Constants.RB.equals(player.getPosition())) {
-                rbs.add(new Entry(rbs.size(), (int) value));
-            } else if (Constants.WR.equals(player.getPosition())) {
-                wrs.add(new Entry(wrs.size(), (int) value));
-            } else if (Constants.TE.equals(player.getPosition())) {
-                tes.add(new Entry(tes.size(), (int) value));
-            } else if (Constants.DST.equals(player.getPosition())) {
-                dsts.add(new Entry(dsts.size(), (int) value));
-            } else if (Constants.K.equals(player.getPosition())) {
-                ks.add(new Entry(ks.size(), (int) value));
+            switch (player.getPosition()) {
+                case Constants.QB:
+                    qbs.add(new Entry(qbs.size(), (int) value));
+                    break;
+                case Constants.RB:
+                    rbs.add(new Entry(rbs.size(), (int) value));
+                    break;
+                case Constants.WR:
+                    wrs.add(new Entry(wrs.size(), (int) value));
+                    break;
+                case Constants.TE:
+                    tes.add(new Entry(tes.size(), (int) value));
+                    break;
+                case Constants.DST:
+                    dsts.add(new Entry(dsts.size(), (int) value));
+                    break;
+                case Constants.K:
+                    ks.add(new Entry(ks.size(), (int) value));
+                    break;
             }
         }
         LineDataSet allPositions = getLineDataSet(entries, "All Positions", "blue");

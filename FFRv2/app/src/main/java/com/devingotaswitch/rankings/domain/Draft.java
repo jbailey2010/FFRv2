@@ -75,18 +75,19 @@ public class Draft {
     }
 
     public List<Player> getPlayersDraftedForPos(String position) {
-        if (Constants.QB.equals(position)) {
-            return getMyQbs();
-        } else if (Constants.RB.equals(position)) {
-            return getMyRbs();
-        } else if (Constants.WR.equals(position)) {
-            return getMyWrs();
-        } else if (Constants.TE.equals(position)) {
-            return getMyTes();
-        } else if (Constants.DST.equals(position)) {
-            return getMyDsts();
-        } else if (Constants.K.equals(position)) {
-            return getMyKs();
+        switch (position) {
+            case Constants.QB:
+                return getMyQbs();
+            case Constants.RB:
+                return getMyRbs();
+            case Constants.WR:
+                return getMyWrs();
+            case Constants.TE:
+                return getMyTes();
+            case Constants.DST:
+                return getMyDsts();
+            case Constants.K:
+                return getMyKs();
         }
         return new ArrayList<>();
     }
@@ -234,18 +235,25 @@ public class Draft {
         if (myPick) {
             this.myPlayers.put(player.getUniqueId(), cost);
             this.draftValue += (player.getAuctionValue() - (double) cost);
-            if (Constants.QB.equals(player.getPosition())) {
-                myQbs.add(player);
-            } else if (Constants.RB.equals(player.getPosition())) {
-                myRbs.add(player);
-            } else if (Constants.WR.equals(player.getPosition())) {
-                myWrs.add(player);
-            } else if (Constants.TE.equals(player.getPosition())) {
-                myTes.add(player);
-            } else if (Constants.DST.equals(player.getPosition())) {
-                myDsts.add(player);
-            } else if (Constants.K.equals(player.getPosition())) {
-                myKs.add(player);
+            switch (player.getPosition()) {
+                case Constants.QB:
+                    myQbs.add(player);
+                    break;
+                case Constants.RB:
+                    myRbs.add(player);
+                    break;
+                case Constants.WR:
+                    myWrs.add(player);
+                    break;
+                case Constants.TE:
+                    myTes.add(player);
+                    break;
+                case Constants.DST:
+                    myDsts.add(player);
+                    break;
+                case Constants.K:
+                    myKs.add(player);
+                    break;
             }
         }
     }
@@ -256,18 +264,25 @@ public class Draft {
             int cost = myPlayers.get(player.getUniqueId());
             this.myPlayers.remove(player.getUniqueId());
             this.draftValue -= (player.getAuctionValue() - (double) cost);
-            if (Constants.QB.equals(player.getPosition())) {
-                myQbs.remove(player);
-            } else if (Constants.RB.equals(player.getPosition())) {
-                myRbs.remove(player);
-            } else if (Constants.WR.equals(player.getPosition())) {
-                myWrs.remove(player);
-            } else if (Constants.TE.equals(player.getPosition())) {
-                myTes.remove(player);
-            } else if (Constants.DST.equals(player.getPosition())) {
-                myDsts.remove(player);
-            } else if (Constants.K.equals(player.getPosition())) {
-                myKs.remove(player);
+            switch (player.getPosition()) {
+                case Constants.QB:
+                    myQbs.remove(player);
+                    break;
+                case Constants.RB:
+                    myRbs.remove(player);
+                    break;
+                case Constants.WR:
+                    myWrs.remove(player);
+                    break;
+                case Constants.TE:
+                    myTes.remove(player);
+                    break;
+                case Constants.DST:
+                    myDsts.remove(player);
+                    break;
+                case Constants.K:
+                    myKs.remove(player);
+                    break;
             }
         }
     }

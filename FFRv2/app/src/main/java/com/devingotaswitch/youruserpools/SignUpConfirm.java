@@ -23,8 +23,6 @@ public class SignUpConfirm extends AppCompatActivity {
     private EditText username;
     private EditText confCode;
 
-    private Button confirm;
-    private TextView reqCode;
     private String userName;
     private AlertDialog userDialog;
 
@@ -145,7 +143,7 @@ public class SignUpConfirm extends AppCompatActivity {
             }
         });
 
-        confirm = findViewById(R.id.confirm_button);
+        Button confirm = findViewById(R.id.confirm_button);
         confirm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -153,7 +151,7 @@ public class SignUpConfirm extends AppCompatActivity {
             }
         });
 
-        reqCode = findViewById(R.id.resend_confirm_req);
+        TextView reqCode = findViewById(R.id.resend_confirm_req);
         reqCode.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

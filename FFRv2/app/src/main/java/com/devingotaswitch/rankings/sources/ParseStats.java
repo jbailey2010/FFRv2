@@ -24,30 +24,35 @@ public class ParseStats {
             Player player = rankings.getPlayer(key);
             if (!player.getPosition().equals(Constants.K)
                     && !player.getPosition().equals(Constants.DST)) {
-                if (player.getPosition().equals(Constants.QB)) {
-                    if (qbs.containsKey(getUniqueIdFirstInitial(player))) {
-                        player.setStats(qbs.get(getUniqueIdFirstInitial(player)));
-                    } else if (qbs.containsKey(getUniqueIdFirstTwoLetters(player))) {
-                        player.setStats(qbs.get(getUniqueIdFirstTwoLetters(player)));
-                    }
-                } else if (player.getPosition().equals(Constants.RB)) {
-                    if (rbs.containsKey(getUniqueIdFirstInitial(player))) {
-                        player.setStats(rbs.get(getUniqueIdFirstInitial(player)));
-                    } else if (rbs.containsKey(getUniqueIdFirstTwoLetters(player))) {
-                        player.setStats(rbs.get(getUniqueIdFirstTwoLetters(player)));
-                    }
-                } else if (player.getPosition().equals(Constants.WR)) {
-                    if (wrs.containsKey(getUniqueIdFirstInitial(player))) {
-                        player.setStats(wrs.get(getUniqueIdFirstInitial(player)));
-                    } else if (wrs.containsKey(getUniqueIdFirstTwoLetters(player))) {
-                        player.setStats(wrs.get(getUniqueIdFirstTwoLetters(player)));
-                    }
-                } else if (player.getPosition().equals(Constants.TE)) {
-                    if (tes.containsKey(getUniqueIdFirstInitial(player))) {
-                        player.setStats(tes.get(getUniqueIdFirstInitial(player)));
-                    } else if (tes.containsKey(getUniqueIdFirstTwoLetters(player))) {
-                        player.setStats(tes.get(getUniqueIdFirstTwoLetters(player)));
-                    }
+                switch (player.getPosition()) {
+                    case Constants.QB:
+                        if (qbs.containsKey(getUniqueIdFirstInitial(player))) {
+                            player.setStats(qbs.get(getUniqueIdFirstInitial(player)));
+                        } else if (qbs.containsKey(getUniqueIdFirstTwoLetters(player))) {
+                            player.setStats(qbs.get(getUniqueIdFirstTwoLetters(player)));
+                        }
+                        break;
+                    case Constants.RB:
+                        if (rbs.containsKey(getUniqueIdFirstInitial(player))) {
+                            player.setStats(rbs.get(getUniqueIdFirstInitial(player)));
+                        } else if (rbs.containsKey(getUniqueIdFirstTwoLetters(player))) {
+                            player.setStats(rbs.get(getUniqueIdFirstTwoLetters(player)));
+                        }
+                        break;
+                    case Constants.WR:
+                        if (wrs.containsKey(getUniqueIdFirstInitial(player))) {
+                            player.setStats(wrs.get(getUniqueIdFirstInitial(player)));
+                        } else if (wrs.containsKey(getUniqueIdFirstTwoLetters(player))) {
+                            player.setStats(wrs.get(getUniqueIdFirstTwoLetters(player)));
+                        }
+                        break;
+                    case Constants.TE:
+                        if (tes.containsKey(getUniqueIdFirstInitial(player))) {
+                            player.setStats(tes.get(getUniqueIdFirstInitial(player)));
+                        } else if (tes.containsKey(getUniqueIdFirstTwoLetters(player))) {
+                            player.setStats(tes.get(getUniqueIdFirstTwoLetters(player)));
+                        }
+                        break;
                 }
             }
         }
