@@ -162,20 +162,20 @@ public class RankingsHome extends AppCompatActivity {
 
     private void initApp() {
         // Set toolbar for this screen
-        toolbar = (Toolbar) findViewById(R.id.main_toolbar);
+        toolbar = findViewById(R.id.main_toolbar);
         toolbar.setTitle("");
         toolbar.setElevation(0);
-        TextView main_title = (TextView) findViewById(R.id.main_toolbar_title);
+        TextView main_title = findViewById(R.id.main_toolbar_title);
         main_title.setText("Rankings");
         setSupportActionBar(toolbar);
 
         // Set navigation drawer for this screen
-        mDrawer = (DrawerLayout) findViewById(R.id.user_drawer_layout);
+        mDrawer = findViewById(R.id.user_drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(this,mDrawer, toolbar, R.string.nav_drawer_open, R.string.nav_drawer_close);
         mDrawer.addDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
 
-        nDrawer = (NavigationView) findViewById(R.id.nav_view);
+        nDrawer = findViewById(R.id.nav_view);
         setNavDrawer();
         rankingsDB = new RankingsDBWrapper();
         String currentLeagueId = LocalSettingsHelper.getCurrentLeagueName(this);
@@ -184,12 +184,12 @@ public class RankingsHome extends AppCompatActivity {
         }
         loadRanks = getIntent().getExtras() != null && getIntent().getExtras().getBoolean(Constants.RANKINGS_UPDATED);
         View navigationHeader = nDrawer.getHeaderView(0);
-        TextView navHeaderSubTitle = (TextView) navigationHeader.findViewById(R.id.textViewNavUserSub);
+        TextView navHeaderSubTitle = navigationHeader.findViewById(R.id.textViewNavUserSub);
         navHeaderSubTitle.setText(CUPHelper.getCurrUser());
     }
 
     private void toggleFilterView() {
-        final LinearLayout filterBase = (LinearLayout)findViewById(R.id.rankings_filter_base);
+        final LinearLayout filterBase = findViewById(R.id.rankings_filter_base);
         if (filterBase.getVisibility() == View.GONE) {
             filterBase.setVisibility(View.VISIBLE);
         } else {
@@ -199,7 +199,7 @@ public class RankingsHome extends AppCompatActivity {
         // prevent a weird issue where the watched star would
         // be out of date on visibility change.
         displayRankings(rankings.getOrderedIds());
-        final Spinner teams = (Spinner)filterBase.findViewById(R.id.rankings_filter_teams);
+        final Spinner teams = filterBase.findViewById(R.id.rankings_filter_teams);
         List<String> teamList = new ArrayList<>(rankings.getTeams().keySet());
         Collections.sort(teamList);
         teamList.add(0, Constants.ALL_TEAMS);
@@ -207,7 +207,7 @@ public class RankingsHome extends AppCompatActivity {
                 android.R.layout.simple_spinner_item, teamList);
         teams.setAdapter(teamAdapter);
 
-        final Spinner positions = (Spinner)filterBase.findViewById(R.id.rankings_filter_positions);
+        final Spinner positions = filterBase.findViewById(R.id.rankings_filter_positions);
         List<String> posList = new ArrayList<>();
         RosterSettings roster = rankings.getLeagueSettings().getRosterSettings();
         posList.add(Constants.ALL_POSITIONS);
@@ -248,11 +248,11 @@ public class RankingsHome extends AppCompatActivity {
                 android.R.layout.simple_spinner_item, posList);
         positions.setAdapter(positionAdapter);
 
-        final CheckBox watched = (CheckBox)filterBase.findViewById(R.id.rankings_filter_watched);
-        final EditText maxPlayersField = (EditText)filterBase.findViewById(R.id.max_players_visible);
+        final CheckBox watched = filterBase.findViewById(R.id.rankings_filter_watched);
+        final EditText maxPlayersField = filterBase.findViewById(R.id.max_players_visible);
         maxPlayersField.setText(String.valueOf(maxPlayers));
 
-        Button submit = (Button)filterBase.findViewById(R.id.rankings_filter_submit);
+        Button submit = filterBase.findViewById(R.id.rankings_filter_submit);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -283,31 +283,31 @@ public class RankingsHome extends AppCompatActivity {
 
     private void init() {
         // Rankings stuff
-        searchBase = (RelativeLayout)findViewById(R.id.rankings_search_base);
-        buttonBase = (LinearLayout) findViewById(R.id.rankings_button_bar);
+        searchBase = findViewById(R.id.rankings_search_base);
+        buttonBase = findViewById(R.id.rankings_button_bar);
         maxPlayers = LocalSettingsHelper.getNumVisiblePlayers(this);
-        ImageButton adpSimulator = (ImageButton)buttonBase.findViewById(R.id.rankings_simulator);
+        ImageButton adpSimulator = buttonBase.findViewById(R.id.rankings_simulator);
         adpSimulator.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getAdpSimulator();
             }
         });
-        ImageButton draftInfo = (ImageButton)buttonBase.findViewById(R.id.rankings_draft_info);
+        ImageButton draftInfo = buttonBase.findViewById(R.id.rankings_draft_info);
         draftInfo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 getDraftInfo();
             }
         });
-        ImageButton comparePlayers = (ImageButton)buttonBase.findViewById(R.id.rankings_comparator);
+        ImageButton comparePlayers = buttonBase.findViewById(R.id.rankings_comparator);
         comparePlayers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 comparePlayers();
             }
         });
-        ImageButton sortPlayers = (ImageButton)buttonBase.findViewById(R.id.rankings_sort);
+        ImageButton sortPlayers = buttonBase.findViewById(R.id.rankings_sort);
         sortPlayers.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -452,7 +452,7 @@ public class RankingsHome extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 String playerKey = getPlayerKeyFromListViewItem(view);
-                final ImageView playerStatus = (ImageView)view.findViewById(R.id.player_status);
+                final ImageView playerStatus = view.findViewById(R.id.player_status);
                 final Player player = rankings.getPlayer(playerKey);
                 if (player.isWatched()) {
                     player.setWatched(false);
@@ -567,12 +567,12 @@ public class RankingsHome extends AppCompatActivity {
                 this);
 
         alertDialogBuilder.setView(noteView);
-        final EditText userInput = (EditText) noteView
+        final EditText userInput = noteView
                 .findViewById(R.id.user_input_popup_input);
         userInput.setInputType(InputType.TYPE_CLASS_NUMBER);
         userInput.setHint("Auction cost");
 
-        TextView title = (TextView)noteView.findViewById(R.id.user_input_popup_title);
+        TextView title = noteView.findViewById(R.id.user_input_popup_title);
         title.setText("How much did " + player.getName() + " cost?");
         final Context localCopy = this;
         alertDialogBuilder
@@ -611,16 +611,15 @@ public class RankingsHome extends AppCompatActivity {
     }
 
     private void setSearchAutocomplete() {
-        final AutoCompleteTextView searchInput = (AutoCompleteTextView) searchBase.findViewById(R.id.ranking_search);
+        final AutoCompleteTextView searchInput = searchBase.findViewById(R.id.ranking_search);
         searchInput.setAdapter(null);
         final FilterWithSpaceAdapter mAdapter = GeneralUtils.getPlayerSearchAdapter(rankings, this);
         searchInput.setAdapter(mAdapter);
 
-        final AutoCompleteTextView localCopy = searchInput;
         searchInput.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                localCopy.setText("");
+                searchInput.setText("");
                 displayPlayerInfo(GeneralUtils.getPlayerIdFromSearchView(view));
             }
         });
@@ -628,7 +627,7 @@ public class RankingsHome extends AppCompatActivity {
         searchInput.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                localCopy.setText("");
+                searchInput.setText("");
                 return true;
             }
         });
@@ -661,8 +660,8 @@ public class RankingsHome extends AppCompatActivity {
     }
 
     private String getPlayerKeyFromListViewItem(View view) {
-        TextView playerMain = (TextView)view.findViewById(R.id.player_basic);
-        TextView playerInfo = (TextView)view.findViewById(R.id.player_info);
+        TextView playerMain = view.findViewById(R.id.player_basic);
+        TextView playerInfo = view.findViewById(R.id.player_info);
         String name = playerMain.getText().toString().split(Constants.RANKINGS_LIST_DELIMITER)[1];
         String teamPosBye = playerInfo.getText().toString().split(Constants.LINE_BREAK)[0];
         String teamPos = teamPosBye.split(" \\(")[0];
@@ -823,7 +822,7 @@ public class RankingsHome extends AppCompatActivity {
         try {
             waitDialog.dismiss();
         }
-        catch (Exception e) {
+        catch (Exception ignored) {
         }
     }
 

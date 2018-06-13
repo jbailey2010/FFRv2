@@ -1,7 +1,5 @@
 package com.devingotaswitch.rankings.domain;
 
-import com.devingotaswitch.utils.Constants;
-
 public class LeagueSettings {
 
     private String name;

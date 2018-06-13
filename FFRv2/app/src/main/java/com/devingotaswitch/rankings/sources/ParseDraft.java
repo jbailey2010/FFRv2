@@ -24,14 +24,13 @@ public class ParseDraft {
             String name = perPick.get(i+2);
             String pos = perPick.get(i+3);
             String college = perPick.get(i+4);
-            String draftData = new StringBuilder(pick)
-                    .append(": ")
-                    .append(name)
-                    .append(", ")
-                    .append(pos)
-                    .append(" - ")
-                    .append(college)
-                    .toString();
+            String draftData = pick +
+                    ": " +
+                    name +
+                    ", " +
+                    pos +
+                    " - " +
+                    college;
             if (picks.containsKey(team)) {
                 String existingData = picks.get(team);
                 String updated = existingData +

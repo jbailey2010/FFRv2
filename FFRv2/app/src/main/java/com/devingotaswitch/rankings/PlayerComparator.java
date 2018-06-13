@@ -63,9 +63,9 @@ public class PlayerComparator extends AppCompatActivity {
         rankings = Rankings.init();
 
         // Set toolbar for this screen
-        Toolbar toolbar = (Toolbar) findViewById(R.id.player_comparator_toolbar);
+        Toolbar toolbar = findViewById(R.id.player_comparator_toolbar);
         toolbar.setTitle("");
-        TextView main_title = (TextView) findViewById(R.id.main_toolbar_title);
+        TextView main_title = findViewById(R.id.main_toolbar_title);
         main_title.setText("Compare Players");
         setSupportActionBar(toolbar);
 
@@ -157,7 +157,7 @@ public class PlayerComparator extends AppCompatActivity {
         ParseFP parseFP = new ParseFP(this, playerA, playerB);
         parseFP.execute();
 
-        LinearLayout outputBase = (LinearLayout)findViewById(R.id.comparator_output_base);
+        LinearLayout outputBase = findViewById(R.id.comparator_output_base);
         outputBase.setVisibility(View.VISIBLE);
         inputA.clearFocus();
         inputB.clearFocus();
@@ -297,8 +297,8 @@ public class PlayerComparator extends AppCompatActivity {
         }
 
         // SOS
-        TextView sosA = (TextView)findViewById(R.id.comparator_sos_a);
-        TextView sosB = (TextView)findViewById(R.id.comparator_sos_b);
+        TextView sosA = findViewById(R.id.comparator_sos_a);
+        TextView sosB = findViewById(R.id.comparator_sos_b);
         int sosForA = rankings.getTeam(playerA).getSosForPosition(playerA.getPosition());
         int sosForB = rankings.getTeam(playerB).getSosForPosition(playerB.getPosition());
         sosA.setText(String.valueOf(sosForA));
@@ -312,8 +312,8 @@ public class PlayerComparator extends AppCompatActivity {
         }
 
         // Projection
-        TextView projA = (TextView)findViewById(R.id.comparator_proj_a);
-        TextView projB = (TextView)findViewById(R.id.comparator_proj_b);
+        TextView projA = findViewById(R.id.comparator_proj_a);
+        TextView projB = findViewById(R.id.comparator_proj_b);
         projA.setText(df.format(playerA.getProjection()));
         projB.setText(df.format(playerB.getProjection()));
         if (playerA.getProjection() > playerB.getProjection()) {
@@ -325,8 +325,8 @@ public class PlayerComparator extends AppCompatActivity {
         }
 
         // PAA
-        TextView paaA = (TextView)findViewById(R.id.comparator_paa_a);
-        TextView paaB = (TextView)findViewById(R.id.comparator_paa_b);
+        TextView paaA = findViewById(R.id.comparator_paa_a);
+        TextView paaB = findViewById(R.id.comparator_paa_b);
         paaA.setText(df.format(playerA.getPaa()) + " (" + df.format(playerA.getScaledPAA(rankings)) + ")");
         paaB.setText(df.format(playerB.getPaa()) + " (" + df.format(playerB.getScaledPAA(rankings)) + ")");
         if (playerA.getScaledPAA(rankings) > playerB.getScaledPAA(rankings)) {
@@ -338,8 +338,8 @@ public class PlayerComparator extends AppCompatActivity {
         }
 
         // XVal
-        TextView xvalA = (TextView)findViewById(R.id.comparator_xval_a);
-        TextView xvalB = (TextView)findViewById(R.id.comparator_xval_b);
+        TextView xvalA = findViewById(R.id.comparator_xval_a);
+        TextView xvalB = findViewById(R.id.comparator_xval_b);
         xvalA.setText(df.format(playerA.getxVal()) + " (" + df.format(playerA.getScaledXVal(rankings)) + ")");
         xvalB.setText(df.format(playerB.getxVal()) + " (" + df.format(playerB.getScaledXVal(rankings)) + ")");
         if (playerA.getScaledXVal(rankings) > playerB.getScaledXVal(rankings)) {
@@ -351,8 +351,8 @@ public class PlayerComparator extends AppCompatActivity {
         }
 
         // Risk
-        TextView riskA = (TextView)findViewById(R.id.comparator_risk_a);
-        TextView riskB = (TextView)findViewById(R.id.comparator_risk_b);
+        TextView riskA = findViewById(R.id.comparator_risk_a);
+        TextView riskB = findViewById(R.id.comparator_risk_b);
         riskA.setText(String.valueOf(playerA.getRisk()));
         riskB.setText(String.valueOf(playerB.getRisk()));
         if (playerA.getRisk() < playerB.getRisk()) {
@@ -382,11 +382,11 @@ public class PlayerComparator extends AppCompatActivity {
     }
 
     private void displayECR(Map<String, String> ecrResults, Player playerA, Player playerB) {
-        LinearLayout ecrRow = (LinearLayout)findViewById(R.id.expert_output_row);
+        LinearLayout ecrRow = findViewById(R.id.expert_output_row);
         ecrRow.setVisibility(View.VISIBLE);
 
-        TextView ecrA = (TextView)findViewById(R.id.comparator_ecr_a);
-        TextView ecrB = (TextView)findViewById(R.id.comparator_ecr_b);
+        TextView ecrA = findViewById(R.id.comparator_ecr_a);
+        TextView ecrB = findViewById(R.id.comparator_ecr_b);
         String percentStrA = ecrResults.get(playerA.getUniqueId());
         String percentStrB = ecrResults.get(playerB.getUniqueId());
         ecrA.setText(percentStrA);
@@ -405,11 +405,11 @@ public class PlayerComparator extends AppCompatActivity {
     }
 
     private void clearECR() {
-        LinearLayout ecrRow = (LinearLayout)findViewById(R.id.expert_output_row);
+        LinearLayout ecrRow = findViewById(R.id.expert_output_row);
         ecrRow.setVisibility(View.GONE);
 
-        TextView ecrA = (TextView)findViewById(R.id.comparator_ecr_a);
-        TextView ecrB = (TextView)findViewById(R.id.comparator_ecr_b);
+        TextView ecrA = findViewById(R.id.comparator_ecr_a);
+        TextView ecrB = findViewById(R.id.comparator_ecr_b);
         ecrA.setBackgroundColor(Color.parseColor(WORSE_COLOR));
         ecrB.setBackgroundColor(Color.parseColor(WORSE_COLOR));
     }

@@ -54,7 +54,7 @@ public class FilterWithSpaceAdapter<T> extends BaseAdapter implements
     private int mDropDownResource;
 
     /**
-     * If the inflated resource is not a TextView, {@link #mFieldId} is used to
+     * If the inflated resource is not a TextView, mFieldId is used to
      * find a TextView inside the inflated views hierarchy. This field must
      * contain the identifier that matches the one defined in the resource file.
      */
@@ -390,7 +390,7 @@ public class FilterWithSpaceAdapter<T> extends BaseAdapter implements
                 text = (TextView) view;
             } else {
                 // Otherwise, find the TextView field within the layout
-                text = (TextView) view.findViewById(mFieldId);
+                text = view.findViewById(mFieldId);
             }
         } catch (ClassCastException e) {
             Log.e("ArrayAdapter",

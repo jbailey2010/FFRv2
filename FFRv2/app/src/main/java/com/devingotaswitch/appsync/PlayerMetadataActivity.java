@@ -5,16 +5,12 @@ import android.content.Context;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import com.amazonaws.mobileconnectors.appsync.AWSAppSyncClient;
-import com.amazonaws.mobileconnectors.appsync.fetcher.AppSyncResponseFetchers;
 import com.apollographql.apollo.GraphQLCall;
 import com.apollographql.apollo.api.Error;
 import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.exception.ApolloException;
-import com.devingotaswitch.graphqlstuff.CreatePlayerMetadataMutation;
 import com.devingotaswitch.graphqlstuff.DecrementPlayerDraftedCountMutation;
 import com.devingotaswitch.graphqlstuff.DecrementPlayerWatchedCountMutation;
-import com.devingotaswitch.graphqlstuff.GetPlayerMetadataQuery;
 import com.devingotaswitch.graphqlstuff.IncrementPlayerDraftedCountMutation;
 import com.devingotaswitch.graphqlstuff.IncrementPlayerViewCountMutation;
 import com.devingotaswitch.graphqlstuff.IncrementPlayerWatchedCountMutation;

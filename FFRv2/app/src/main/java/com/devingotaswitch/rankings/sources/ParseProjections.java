@@ -54,7 +54,7 @@ public class ParseProjections {
         }
         for (int i = min; i < td.size(); i += 11) {
             double proj = 0;
-            String name = "";
+            StringBuilder name = new StringBuilder();
             String[] nameSet = td.get(i).split(" ");
             if (nameSet.length == 1) {
                 if (td.get(i+1).contains("Site Projections")) {
@@ -65,9 +65,9 @@ public class ParseProjections {
             int nameLimit = (nameSet.length == 2)  ? nameSet.length : nameSet.length - 1;
 
             for (int j = 0; j < nameLimit; j++) {
-                name += nameSet[j] + " ";
+                name.append(nameSet[j]).append(" ");
             }
-            name = ParsingUtils.normalizeNames(name.substring(0, name.length() - 1));
+            name = new StringBuilder(ParsingUtils.normalizeNames(name.substring(0, name.length() - 1)));
             String team = ParsingUtils.normalizeTeams(nameSet[nameSet.length - 1]);
             double yards = Double.parseDouble(td.get(i + 3).replace(",", ""));
             double passTd = Double.parseDouble(td.get(i + 4));
@@ -101,7 +101,7 @@ public class ParseProjections {
         }
         for (int i = min; i < td.size(); i += 9) {
             double proj = 0;
-            String name = "";
+            StringBuilder name = new StringBuilder();
             String[] nameSet = td.get(i).split(" ");
             if (nameSet.length == 1) {
                 if (td.get(i+1).contains("Site Projections")) {
@@ -112,9 +112,9 @@ public class ParseProjections {
             int nameLimit = (nameSet.length == 2)  ? nameSet.length : nameSet.length - 1;
 
             for (int j = 0; j < nameLimit; j++) {
-                name += nameSet[j] + " ";
+                name.append(nameSet[j]).append(" ");
             }
-            name = ParsingUtils.normalizeNames(name.substring(0, name.length() - 1));
+            name = new StringBuilder(ParsingUtils.normalizeNames(name.substring(0, name.length() - 1)));
             String team = ParsingUtils.normalizeTeams(nameSet[nameSet.length - 1]);
             double rushYards = Double.parseDouble(td.get(i + 2)
                     .replace(",", ""));
@@ -150,7 +150,7 @@ public class ParseProjections {
         }
         for (int i = min; i < td.size(); i += 9) {
             double proj = 0;
-            String name = "";
+            StringBuilder name = new StringBuilder();
             String[] nameSet = td.get(i).split(" ");
             if (nameSet.length == 1) {
                 if (td.get(i+1).contains("Site Projections")) {
@@ -161,9 +161,9 @@ public class ParseProjections {
             int nameLimit = (nameSet.length == 2)  ? nameSet.length : nameSet.length - 1;
 
             for (int j = 0; j < nameLimit; j++) {
-                name += nameSet[j] + " ";
+                name.append(nameSet[j]).append(" ");
             }
-            name = ParsingUtils.normalizeNames(name.substring(0, name.length() - 1));
+            name = new StringBuilder(ParsingUtils.normalizeNames(name.substring(0, name.length() - 1)));
             String team = ParsingUtils.normalizeTeams(nameSet[nameSet.length - 1]);
             double rushYards = Double.parseDouble(td.get(i + 2)
                     .replace(",", ""));
@@ -198,7 +198,7 @@ public class ParseProjections {
         }
         for (int i = min; i < td.size(); i += 6) {
             double proj = 0;
-            String name = "";
+            StringBuilder name = new StringBuilder();
             String[] nameSet = td.get(i).split(" ");
             if (nameSet.length == 1) {
                 if (td.get(i+1).contains("Site Projections")) {
@@ -209,9 +209,9 @@ public class ParseProjections {
             int nameLimit = (nameSet.length == 2)  ? nameSet.length : nameSet.length - 1;
 
             for (int j = 0; j < nameLimit; j++) {
-                name += nameSet[j] + " ";
+                name.append(nameSet[j]).append(" ");
             }
-            name = ParsingUtils.normalizeNames(name.substring(0, name.length() - 1));
+            name = new StringBuilder(ParsingUtils.normalizeNames(name.substring(0, name.length() - 1)));
             String team = ParsingUtils.normalizeTeams(nameSet[nameSet.length - 1]);
             double catches = Double.parseDouble(td.get(i + 1).replace(",", ""));
             double recTD = Double.parseDouble(td.get(i + 3));
@@ -238,7 +238,7 @@ public class ParseProjections {
             }
         }
         for (int i = min; i < td.size(); i += 10) {
-            String name = "";
+            StringBuilder name = new StringBuilder();
             String[] nameSet = td.get(i).split(" ");
             if (nameSet.length == 1) {
                 if (td.get(i+1).contains("Site Projections")) {
@@ -249,11 +249,11 @@ public class ParseProjections {
             int nameLimit = (nameSet.length == 2)  ? nameSet.length : nameSet.length - 1;
 
             for (int j = 0; j < nameLimit; j++) {
-                name += nameSet[j] + " ";
+                name.append(nameSet[j]).append(" ");
             }
-            name = name.substring(0, name.length() - 1);
-            String team = ParsingUtils.normalizeTeams(name);
-            name = ParsingUtils.normalizeDefenses(name);
+            name = new StringBuilder(name.substring(0, name.length() - 1));
+            String team = ParsingUtils.normalizeTeams(name.toString());
+            name = new StringBuilder(ParsingUtils.normalizeDefenses(name.toString()));
             Double proj = Double.parseDouble(td.get(i+9));
             points.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + pos, proj);
         }
@@ -271,7 +271,7 @@ public class ParseProjections {
             }
         }
         for (int i = min; i < td.size(); i += 5) {
-            String name = "";
+            StringBuilder name = new StringBuilder();
             String[] nameSet = td.get(i).split(" ");
             if (nameSet.length == 1) {
                 if (td.get(i+1).contains("Site Projections")) {
@@ -282,9 +282,9 @@ public class ParseProjections {
             int nameLimit = (nameSet.length == 2)  ? nameSet.length : nameSet.length - 1;
 
             for (int j = 0; j < nameLimit; j++) {
-                name += nameSet[j] + " ";
+                name.append(nameSet[j]).append(" ");
             }
-            name = ParsingUtils.normalizeNames(name.substring(0, name.length() - 1));
+            name = new StringBuilder(ParsingUtils.normalizeNames(name.substring(0, name.length() - 1)));
             String team = ParsingUtils.normalizeTeams(nameSet[nameSet.length - 1]);
             double proj = Double.parseDouble(td.get(i + 4));
             points.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + pos, proj);

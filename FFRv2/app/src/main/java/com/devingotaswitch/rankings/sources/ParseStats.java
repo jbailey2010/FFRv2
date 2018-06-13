@@ -109,7 +109,6 @@ public class ParseStats {
                 normal += "Adjusted Rushing Yards: " + effectiveYards + Constants.LINE_BREAK;
                 normal += "Rushing Touchdowns: " + tds;
                 qbPlayers.put(getPlayerIdKey(name, team, Constants.QB), normal);
-                continue;
             } else {
                 data.append("Pass Attempts: ").append(player[player.length - 9]).append(Constants.LINE_BREAK);
                 data.append("Yards: ").append(player[player.length - 8].replace(",", "")).append(Constants.LINE_BREAK);
@@ -162,7 +161,6 @@ public class ParseStats {
                         "Receiving Touchdowns: " + tds;
                 rbPlayers.put(getPlayerIdKey(name, team, Constants.RB),
                         normal);
-                continue;
             } else {
                 int incr = 1;
                 if (player[player.length - 2].contains("%")) {
@@ -217,7 +215,6 @@ public class ParseStats {
                 normal += "Rushing Yards: " + yards + Constants.LINE_BREAK;
                 normal += "Rushing Touchdowns: " + tds;
                 wrPlayers.put(getPlayerIdKey(name, team, Constants.WR), normal);
-                continue;
             } else {
                 data.append("Targets: ").append(player[player.length - 7]).append(Constants.LINE_BREAK);
                 data.append("Yards: ").append(player[player.length - 6]).append(Constants.LINE_BREAK);

@@ -1,6 +1,5 @@
 package com.devingotaswitch.rankings.sources;
 
-import com.amazonaws.util.StringUtils;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.utils.Constants;
@@ -154,7 +153,7 @@ public class ParseFantasyPros {
                 }
                 adp.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + posInd, adpStr);
             }
-        } catch (ArrayIndexOutOfBoundsException notUp) {
+        } catch (ArrayIndexOutOfBoundsException ignored) {
         }
     }
 

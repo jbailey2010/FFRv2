@@ -16,7 +16,6 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserAttributes;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserCodeDeliveryDetails;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserDetails;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.VerificationHandler;
@@ -40,7 +39,7 @@ public class VerifyActivity extends AppCompatActivity {
         setContentView(R.layout.activity_verify);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_verify);
+        Toolbar toolbar = findViewById(R.id.toolbar_verify);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
 
@@ -54,7 +53,7 @@ public class VerifyActivity extends AppCompatActivity {
             }
         });
 
-        TextView main_title = (TextView) findViewById(R.id.verify_toolbar_title);
+        TextView main_title = findViewById(R.id.verify_toolbar_title);
         main_title.setText("Verify phone");
 
         init();
@@ -62,9 +61,9 @@ public class VerifyActivity extends AppCompatActivity {
     }
 
     private void init() {
-        verifCode = (EditText) findViewById(R.id.editTextVerifyCode);
-        reqPhoneVerf = (Button) findViewById(R.id.buttonVerifyPhone);
-        sendVerfCode = (Button) findViewById(R.id.buttonSendVerifyCode);
+        verifCode = findViewById(R.id.editTextVerifyCode);
+        reqPhoneVerf = findViewById(R.id.buttonVerifyPhone);
+        sendVerfCode = findViewById(R.id.buttonSendVerifyCode);
 
         if(CUPHelper.isPhoneAvailable()) {
             if(CUPHelper.isPhoneVerified()) {
@@ -105,14 +104,14 @@ public class VerifyActivity extends AppCompatActivity {
         String code = verifCode.getText().toString();
 
         if(code == null) {
-            TextView label = (TextView) findViewById(R.id.textViewVerifyCodeMessage);
+            TextView label = findViewById(R.id.textViewVerifyCodeMessage);
             label.setText(verifCode.getHint()+" cannot be empty");
             verifCode.setBackground(getDrawable(R.drawable.text_border_error));
             return;
         }
 
         if(code.length() < 1) {
-            TextView label = (TextView) findViewById(R.id.textViewVerifyCodeMessage);
+            TextView label = findViewById(R.id.textViewVerifyCodeMessage);
             label.setText(verifCode.getHint()+" cannot be empty");
             verifCode.setBackground(getDrawable(R.drawable.text_border_error));
             return;
@@ -211,7 +210,7 @@ public class VerifyActivity extends AppCompatActivity {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 if (s.length() == 0) {
-                    TextView label = (TextView) findViewById(R.id.textViewVerifyCodeLabel);
+                    TextView label = findViewById(R.id.textViewVerifyCodeLabel);
                     label.setText(verifCode.getHint());
                     verifCode.setBackground(getDrawable(R.drawable.text_border_selector));
                 }
@@ -219,14 +218,14 @@ public class VerifyActivity extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                TextView label = (TextView) findViewById(R.id.textViewVerifyCodeMessage);
+                TextView label = findViewById(R.id.textViewVerifyCodeMessage);
                 label.setText("");
             }
 
             @Override
             public void afterTextChanged(Editable s) {
                 if (s.length() == 0) {
-                    TextView label = (TextView) findViewById(R.id.textViewVerifyCodeLabel);
+                    TextView label = findViewById(R.id.textViewVerifyCodeLabel);
                     label.setText("");
                 }
             }
@@ -263,7 +262,7 @@ public class VerifyActivity extends AppCompatActivity {
         try {
             waitDialog.dismiss();
         }
-        catch (Exception e) {
+        catch (Exception ignored) {
         }
     }
 

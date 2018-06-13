@@ -46,9 +46,9 @@ public class UserActivity extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         // Set toolbar for this screen
-        toolbar = (Toolbar) findViewById(R.id.toolbar_user);
+        toolbar = findViewById(R.id.toolbar_user);
         toolbar.setTitle("");
-        TextView main_title = (TextView) findViewById(R.id.main_toolbar_title);
+        TextView main_title = findViewById(R.id.main_toolbar_title);
         main_title.setText("Account");
         setSupportActionBar(toolbar);
 
@@ -78,13 +78,13 @@ public class UserActivity extends AppCompatActivity {
     private void showAttributes() {
         final UserAttributesAdapter attributesAdapter = new UserAttributesAdapter(getApplicationContext());
         final ListView attributesListView;
-        attributesListView = (ListView) findViewById(R.id.listViewUserAttributes);
+        attributesListView = findViewById(R.id.listViewUserAttributes);
         attributesListView.setAdapter(attributesAdapter);
 
         attributesListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView data = (TextView) view.findViewById(R.id.editTextUserDetailInput);
+                TextView data = view.findViewById(R.id.editTextUserDetailInput);
                 String attributeType = data.getHint().toString();
                 String attributeValue = data.getText().toString();
                 showUserDetail(attributeType, attributeValue);

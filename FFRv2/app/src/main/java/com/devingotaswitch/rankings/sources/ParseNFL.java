@@ -42,7 +42,7 @@ public class ParseNFL {
         List<String> td = JsoupUtils.parseURLWithUA(url, "td");
         for (int i = 0; i < td.size(); i += 4) {
             String nameSet[] = td.get(i).split(" ");
-            String name = "";
+            StringBuilder name = new StringBuilder();
             int filter = 0;
             for (int j = 0; j < nameSet.length; j++) {
                 if (nameSet[j].equals("DEF")) {
@@ -69,9 +69,9 @@ public class ParseNFL {
                 }
             }
             for (int j = 0; j < filter; j++) {
-                name += nameSet[j] + " ";
+                name.append(nameSet[j]).append(" ");
             }
-            name = name.substring(0, name.length() - 1);
+            name = new StringBuilder(name.substring(0, name.length() - 1));
             String pos = nameSet[filter];
             String worth = td.get(i + 3);
             double val = Double.parseDouble(worth);
@@ -85,16 +85,16 @@ public class ParseNFL {
                 team = nameSet[nameSet.length - 3];
             }
             if ("DEF".equals(pos)) {
-                team = name;
+                team = name.toString();
                 pos = Constants.DST;
             }
             Player player = new Player();
-            player.setName(name);
+            player.setName(name.toString());
             player.setTeamName(team);
             player.setPosition(pos);
             player.handleNewValue(val);
 
-            player = ParsingUtils.getPlayerFromRankings(name, team, pos, val);
+            player = ParsingUtils.getPlayerFromRankings(name.toString(), team, pos, val);
             rankings.processNewPlayer(player);
         }
     }

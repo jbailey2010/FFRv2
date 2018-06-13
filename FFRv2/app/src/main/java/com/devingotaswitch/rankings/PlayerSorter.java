@@ -129,7 +129,7 @@ public class PlayerSorter extends AppCompatActivity {
     }
 
     private void init() {
-        final Spinner positions = (Spinner)findViewById(R.id.sort_players_position);
+        final Spinner positions = findViewById(R.id.sort_players_position);
         List<String> posList = new ArrayList<>();
         RosterSettings roster = rankings.getLeagueSettings().getRosterSettings();
         posList.add(Constants.ALL_POSITIONS);
@@ -394,7 +394,7 @@ public class PlayerSorter extends AppCompatActivity {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
                 String playerKey = getPlayerKeyFromListViewItem(view);
-                final ImageView playerStatus = (ImageView)view.findViewById(R.id.player_status);
+                final ImageView playerStatus = view.findViewById(R.id.player_status);
                 final Player player = rankings.getPlayer(playerKey);
                 if (player.isWatched()) {
                     player.setWatched(false);
@@ -521,13 +521,7 @@ public class PlayerSorter extends AppCompatActivity {
             public int compare(Player a, Player b) {
                 double diffA = a.getEcr() - a.getAdp();
                 double diffB = b.getEcr() - b.getAdp();
-                if (diffA > diffB) {
-                    return 1;
-                }
-                if (diffA < diffB) {
-                    return -1;
-                }
-                return 0;
+                return Double.compare(diffA, diffB);
             }
         };
     }
@@ -538,13 +532,7 @@ public class PlayerSorter extends AppCompatActivity {
             public int compare(Player a, Player b) {
                 double diffA = a.getEcr() - a.getAdp();
                 double diffB = b.getEcr() - b.getAdp();
-                if (diffA < diffB) {
-                    return 1;
-                }
-                if (diffA > diffB) {
-                    return -1;
-                }
-                return 0;
+                return Double.compare(diffB, diffA);
             }
         };
     }
@@ -556,13 +544,7 @@ public class PlayerSorter extends AppCompatActivity {
                 int draftCount = rankings.getDraft().getDraftedPlayers().size();
                 double diffA = a.getEcr() - draftCount;
                 double diffB = b.getEcr() - draftCount;
-                if (diffA < diffB) {
-                    return 1;
-                }
-                if (diffA > diffB) {
-                    return -1;
-                }
-                return 0;
+                return Double.compare(diffB, diffA);
             }
         };
     }
@@ -633,13 +615,7 @@ public class PlayerSorter extends AppCompatActivity {
             public int compare(Player a, Player b) {
                 double paapdA = getPAAPD(a);
                 double paapdB = getPAAPD(b);
-                if (paapdA > paapdB) {
-                    return -1;
-                }
-                if (paapdA < paapdB) {
-                    return 1;
-                }
-                return 0;
+                return Double.compare(paapdB, paapdA);
             }
         };
     }
@@ -704,13 +680,7 @@ public class PlayerSorter extends AppCompatActivity {
             public int compare(Player a, Player b) {
                 double xvalpdA = getXvalPD(a);
                 double xvalpdB = getXvalPD(b);
-                if (xvalpdA > xvalpdB) {
-                    return -1;
-                }
-                if (xvalpdA < xvalpdB) {
-                    return 1;
-                }
-                return 0;
+                return Double.compare(xvalpdB, xvalpdA);
             }
         };
     }
@@ -721,13 +691,7 @@ public class PlayerSorter extends AppCompatActivity {
             public int compare(Player a, Player b) {
                 double volspdA = getVoLSPD(a);
                 double volspdB = getVoLSPD(b);
-                if (volspdA > volspdB) {
-                    return -1;
-                }
-                if (volspdA < volspdB) {
-                    return 1;
-                }
-                return 0;
+                return Double.compare(volspdB, volspdA);
             }
         };
     }
@@ -798,13 +762,7 @@ public class PlayerSorter extends AppCompatActivity {
             public int compare(Player a, Player b) {
                 int sosA = getSOS(a);
                 int sosB = getSOS(b);
-                if (sosA > sosB) {
-                    return 1;
-                }
-                if (sosA < sosB) {
-                    return -1;
-                }
-                return 0;
+                return Integer.compare(sosA, sosB);
             }
         };
     }

@@ -10,7 +10,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -80,9 +79,9 @@ public class PlayerInfo extends AppCompatActivity {
         player = rankingsDB.getPlayer(this, mostlyFleshedPlayer.getName(), mostlyFleshedPlayer.getTeamName(), mostlyFleshedPlayer.getPosition());
 
         // Set toolbar for this screen
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_player_info);
+        Toolbar toolbar = findViewById(R.id.toolbar_player_info);
         toolbar.setTitle("");
-        TextView main_title = (TextView) findViewById(R.id.main_toolbar_title);
+        TextView main_title = findViewById(R.id.main_toolbar_title);
         main_title.setText(player.getName());
         setSupportActionBar(toolbar);
 
@@ -338,7 +337,7 @@ public class PlayerInfo extends AppCompatActivity {
         infoList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView subView = (TextView)view.findViewById(R.id.player_info);
+                TextView subView = view.findViewById(R.id.player_info);
                 if (Constants.NOTE_SUB.equals(subView.getText().toString())) {
                     setNoteAndDisplayIt("");
                 }
@@ -362,14 +361,14 @@ public class PlayerInfo extends AppCompatActivity {
                 this);
 
         alertDialogBuilder.setView(noteView);
-        final EditText userInput = (EditText) noteView
+        final EditText userInput = noteView
                 .findViewById(R.id.user_input_popup_input);
         userInput.setHint("Player note");
         if (!Constants.DEFAULT_NOTE.equals(existing)) {
             userInput.setText(existing);
         }
 
-        TextView title = (TextView)noteView.findViewById(R.id.user_input_popup_title);
+        TextView title = noteView.findViewById(R.id.user_input_popup_title);
         title.setText("Input a note for " + player.getName());
         final Context localCopy = this;
         alertDialogBuilder
@@ -621,18 +620,17 @@ public class PlayerInfo extends AppCompatActivity {
         if (viewCount > 0) {
             Map<String, String> activityData = new HashMap<>();
             activityData.put(Constants.PLAYER_BASIC, "Player popularity");
-            String activityString = new StringBuilder("")
-                    .append(viewCount)
-                    .append(viewCount > 1 ? " views" : "view")
-                    .append(Constants.LINE_BREAK)
-                    .append("In ")
-                    .append(watchCount)
-                    .append(watchCount == 1 ? " watch list" : " watch lists")
-                    .append(Constants.LINE_BREAK)
-                    .append("Drafted ")
-                    .append(draftCount)
-                    .append(draftCount == 1 ? " time" : " times")
-                    .toString();
+            String activityString = "" +
+                    viewCount +
+                    (viewCount > 1 ? " views" : "view") +
+                    Constants.LINE_BREAK +
+                    "In " +
+                    watchCount +
+                    (watchCount == 1 ? " watch list" : " watch lists") +
+                    Constants.LINE_BREAK +
+                    "Drafted " +
+                    draftCount +
+                    (draftCount == 1 ? " time" : " times");
             activityData.put(Constants.PLAYER_INFO, activityString);
             data.add(activityData);
         }

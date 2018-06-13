@@ -57,9 +57,9 @@ public class DraftInfo extends AppCompatActivity {
 
         rankings = Rankings.init();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_draft_info);
+        Toolbar toolbar = findViewById(R.id.toolbar_draft_info);
         toolbar.setTitle("");
-        TextView main_title = (TextView) findViewById(R.id.main_toolbar_title);
+        TextView main_title = findViewById(R.id.main_toolbar_title);
         main_title.setText("Current Draft");
         setSupportActionBar(toolbar);
 
@@ -259,7 +259,7 @@ public class DraftInfo extends AppCompatActivity {
 
     private void displayPlayers() {
         View view = clearAndAddView(R.layout.content_draft_info_undraft);
-        ListView listview = (ListView)view.findViewById(R.id.base_list);
+        ListView listview = view.findViewById(R.id.base_list);
         listview.setAdapter(null);
         final List<Map<String, String>> data = new ArrayList<>();
         final SimpleAdapter adapter = new SimpleAdapter(this, data,
@@ -312,8 +312,8 @@ public class DraftInfo extends AppCompatActivity {
     }
 
     private String getPlayerKeyFromListViewItem(View view) {
-        TextView playerMain = (TextView)view.findViewById(R.id.player_basic);
-        TextView playerInfo = (TextView)view.findViewById(R.id.player_info);
+        TextView playerMain = view.findViewById(R.id.player_basic);
+        TextView playerInfo = view.findViewById(R.id.player_info);
         String name = playerMain.getText().toString().split(Constants.RANKINGS_LIST_DELIMITER)[1];
         String teamPosBye = playerInfo.getText().toString().split(Constants.LINE_BREAK)[0];
         String teamPos = teamPosBye.split(" \\(")[0];
@@ -351,7 +351,7 @@ public class DraftInfo extends AppCompatActivity {
     }
 
     private void graphPAALeft() {
-        BarChart barChart = (BarChart) findViewById(R.id.paa_left_graph);
+        BarChart barChart = findViewById(R.id.paa_left_graph);
         BarData barData = new BarData();
 
         conditionallyGraphPosition(barData, Constants.QB);
@@ -401,7 +401,7 @@ public class DraftInfo extends AppCompatActivity {
         if (draft.getMyPlayers().size() == 0) {
             return;
         }
-        BarChart teamPAA = (BarChart)findViewById(R.id.team_graph);
+        BarChart teamPAA = findViewById(R.id.team_graph);
         BarData barData = new BarData();
 
         conditionallyAddData(draft.getMyQbs(), barData.getDataSetCount(), draft.getQBPAA(), barData, "QBs", "green");

@@ -9,7 +9,6 @@ import com.devingotaswitch.utils.JsoupUtils;
 import com.devingotaswitch.utils.ParsingUtils;
 
 import java.io.IOException;
-import java.net.MalformedURLException;
 import java.util.List;
 
 public class ParseFFTB {

@@ -47,9 +47,9 @@ public class ExportRankings extends AppCompatActivity {
 
         rankings = Rankings.init();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.export_rankings_toolbar);
+        Toolbar toolbar = findViewById(R.id.export_rankings_toolbar);
         toolbar.setTitle("");
-        TextView main_title = (TextView) findViewById(R.id.main_toolbar_title);
+        TextView main_title = findViewById(R.id.main_toolbar_title);
         main_title.setText("Export Rankings");
         setSupportActionBar(toolbar);
 
@@ -73,7 +73,7 @@ public class ExportRankings extends AppCompatActivity {
     }
 
     private void init() {
-        submit = (Button)findViewById(R.id.export_rankings_button);
+        submit = findViewById(R.id.export_rankings_button);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

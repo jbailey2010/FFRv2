@@ -36,9 +36,9 @@ public class HelpActivity extends AppCompatActivity {
         setContentView(R.layout.activity_help);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_rankings_help);
+        Toolbar toolbar = findViewById(R.id.toolbar_rankings_help);
         toolbar.setTitle("");
-        TextView main_title = (TextView) findViewById(R.id.main_toolbar_title);
+        TextView main_title = findViewById(R.id.main_toolbar_title);
         main_title.setText("Help");
         setSupportActionBar(toolbar);
 
@@ -56,19 +56,19 @@ public class HelpActivity extends AppCompatActivity {
     }
 
     private void init() {
-        helpLeague = (TextView)findViewById(R.id.help_league_body);
-        helpRankings = (TextView)findViewById(R.id.help_rankings_body);
-        helpPlayerInfo = (TextView)findViewById(R.id.help_info_body);
-        helpDrafting = (TextView)findViewById(R.id.help_draft_body);
-        helpADPSimulator = (TextView)findViewById(R.id.help_adp_body);
-        helpCompare = (TextView)findViewById(R.id.help_compare_body);
-        helpSort = (TextView)findViewById(R.id.help_sort_body);
-        helpNews = (TextView)findViewById(R.id.help_news_body);
-        helpExport = (TextView)findViewById(R.id.help_export_body);
-        helpProfile = (TextView)findViewById(R.id.help_profile_body);
-        helpStats = (TextView)findViewById(R.id.help_stats_body);
+        helpLeague = findViewById(R.id.help_league_body);
+        helpRankings = findViewById(R.id.help_rankings_body);
+        helpPlayerInfo = findViewById(R.id.help_info_body);
+        helpDrafting = findViewById(R.id.help_draft_body);
+        helpADPSimulator = findViewById(R.id.help_adp_body);
+        helpCompare = findViewById(R.id.help_compare_body);
+        helpSort = findViewById(R.id.help_sort_body);
+        helpNews = findViewById(R.id.help_news_body);
+        helpExport = findViewById(R.id.help_export_body);
+        helpProfile = findViewById(R.id.help_profile_body);
+        helpStats = findViewById(R.id.help_stats_body);
 
-        final Spinner spinner = (Spinner)findViewById(R.id.help_topics);
+        final Spinner spinner = findViewById(R.id.help_topics);
         List<String> posList = new ArrayList<>();
         posList.add(Constants.HELP_LEAGUE);
         posList.add(Constants.HELP_RANKINGS);
@@ -86,7 +86,7 @@ public class HelpActivity extends AppCompatActivity {
                 android.R.layout.simple_spinner_item, posList);
         spinner.setAdapter(positionAdapter);
 
-        Button submit = (Button)findViewById(R.id.help_selection_submit);
+        Button submit = findViewById(R.id.help_selection_submit);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

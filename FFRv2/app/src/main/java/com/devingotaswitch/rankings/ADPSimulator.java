@@ -50,9 +50,9 @@ public class ADPSimulator extends AppCompatActivity {
 
         rankings = Rankings.init();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_adp_simulator);
+        Toolbar toolbar = findViewById(R.id.toolbar_adp_simulator);
         toolbar.setTitle("");
-        TextView main_title = (TextView) findViewById(R.id.main_toolbar_title);
+        TextView main_title = findViewById(R.id.main_toolbar_title);
         main_title.setText("ADP Simulator");
         setSupportActionBar(toolbar);
 
@@ -79,7 +79,7 @@ public class ADPSimulator extends AppCompatActivity {
     }
 
     private void init() {
-        searchInput = (AutoCompleteTextView)findViewById(R.id.adp_player_selection);
+        searchInput = findViewById(R.id.adp_player_selection);
         searchInput.setAdapter(null);
         final FilterWithSpaceAdapter mAdapter = GeneralUtils.getPlayerSearchAdapter(rankings, this);
         searchInput.setAdapter(mAdapter);
@@ -91,10 +91,10 @@ public class ADPSimulator extends AppCompatActivity {
             }
         });
 
-        result = (TextView)findViewById(R.id.adp_output_view);
-        roundInput = (EditText)findViewById(R.id.adp_pick_round);
-        pickInput = (EditText)findViewById(R.id.adp_pick_in_round);
-        Button submit = (Button)findViewById(R.id.adp_submit_button);
+        result = findViewById(R.id.adp_output_view);
+        roundInput = findViewById(R.id.adp_pick_round);
+        pickInput = findViewById(R.id.adp_pick_in_round);
+        Button submit = findViewById(R.id.adp_submit_button);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

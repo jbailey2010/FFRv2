@@ -38,7 +38,7 @@ class MFASettingsHelper {
     private void init() {
         newSettings = new CognitoUserSettings();
         settingsChanged = false;
-        smsSwitch = (Switch) activity.findViewById(R.id.switchSettingsPhone);
+        smsSwitch = activity.findViewById(R.id.switchSettingsPhone);
 
         if(smsSwitch != null) {
             smsSwitch.setClickable(true);

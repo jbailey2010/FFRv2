@@ -58,9 +58,9 @@ public class FantasyNews extends AppCompatActivity {
 
         rankings = Rankings.init();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar_player_news);
+        Toolbar toolbar = findViewById(R.id.toolbar_player_news);
         toolbar.setTitle("");
-        TextView main_title = (TextView) findViewById(R.id.main_toolbar_title);
+        TextView main_title = findViewById(R.id.main_toolbar_title);
         main_title.setText("News");
         setSupportActionBar(toolbar);
 
@@ -94,12 +94,12 @@ public class FantasyNews extends AppCompatActivity {
         sources.add(RW_HEADLINE_TITLE);
         sources.add(RW_PLAYER_TITLE);
         sources.add(MFL_AGGREGATE_TITLE);
-        final Spinner sourcesSpinner = (Spinner)findViewById(R.id.news_source_selector);
+        final Spinner sourcesSpinner = findViewById(R.id.news_source_selector);
         ArrayAdapter<String> teamAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, sources);
         sourcesSpinner.setAdapter(teamAdapter);
 
-        final Button submit = (Button)findViewById(R.id.news_selection_submit);
+        final Button submit = findViewById(R.id.news_selection_submit);
         final Context localCopy = this;
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -120,7 +120,7 @@ public class FantasyNews extends AppCompatActivity {
     }
 
     private void displayNews(List<PlayerNews> news) {
-        final ListView listview = (ListView) findViewById(R.id.news_list);
+        final ListView listview = findViewById(R.id.news_list);
         listview.setAdapter(null);
         final List<Map<String, String>> data = new ArrayList<>();
         final SimpleAdapter adapter = new SimpleAdapter(this, data,

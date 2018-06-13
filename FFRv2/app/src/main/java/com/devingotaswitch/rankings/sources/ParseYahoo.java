@@ -50,7 +50,7 @@ public class ParseYahoo {
             if (td.get(i).contains("AdChoices")) {
                 break;
             }
-            String name = "";
+            StringBuilder name = new StringBuilder();
             String splitter = "Note ";
             if (td.get(i).split(" \\(")[0].contains("Notes")) {
                 splitter = "Notes ";
@@ -59,17 +59,17 @@ public class ParseYahoo {
                     .split(" - ")[0];
             String[] nameSet = fName.split(" ");
             for (int j = 0; j < nameSet.length - 1; j++) {
-                name += nameSet[j] + " ";
+                name.append(nameSet[j]).append(" ");
             }
-            name = name.substring(0, name.length() - 1);
+            name = new StringBuilder(name.substring(0, name.length() - 1));
             String team = nameSet[nameSet.length - 1];
             if (td.get(i).contains("DEF")) {
                 if (td.get(i).contains("NYG")) {
-                    name = "New York Giants";
+                    name = new StringBuilder("New York Giants");
                 } else if (td.get(i).contains("NYJ")) {
-                    name = "New York Jets";
+                    name = new StringBuilder("New York Jets");
                 }
-                name = team;
+                name = new StringBuilder(team);
             }
             String rank = td.get(i + 1).split("\\$")[1];
             String aavStr = td.get(i + 2).split("\\$")[1];
@@ -79,8 +79,8 @@ public class ParseYahoo {
                 aav = Double.parseDouble(aavStr);
             }
 
-            rankings.processNewPlayer(ParsingUtils.getPlayerFromRankings(name, team, pos, aav));
-            rankings.processNewPlayer(ParsingUtils.getPlayerFromRankings(name, team, pos, worth));
+            rankings.processNewPlayer(ParsingUtils.getPlayerFromRankings(name.toString(), team, pos, aav));
+            rankings.processNewPlayer(ParsingUtils.getPlayerFromRankings(name.toString(), team, pos, worth));
         }
     }
 }
