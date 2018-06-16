@@ -165,11 +165,4 @@ class MFASettingsHelper {
             //
         }
     }
-
-    private void exit() {
-        Intent intent = new Intent();
-        intent.putExtra("refresh",settingsChanged);
-        activity.setResult(activity.RESULT_OK, intent);
-        activity.finish();
-    }
 }

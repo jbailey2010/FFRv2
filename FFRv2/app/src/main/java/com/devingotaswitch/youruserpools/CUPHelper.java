@@ -27,8 +27,6 @@ public class CUPHelper {
     private static List<ItemToDisplay> currDisplayedItems;
     private static int itemCount;
 
-    private static int REFRESH_THRESHOLD_MILLIS= 60000;
-
     private static List<ItemToDisplay> firstTimeLogInDetails;
     private static Map<String, String> firstTimeLogInUserAttributes;
     private static List<String> firstTimeLogInRequiredAttributes;
@@ -77,10 +75,6 @@ public class CUPHelper {
 
     public static void setCurrSession(CognitoUserSession session) {
         currSession = session;
-    }
-
-    public static  CognitoUserSession getCurrSession() {
-        return currSession;
     }
 
     public static void setUserDetails(CognitoUserDetails details) {

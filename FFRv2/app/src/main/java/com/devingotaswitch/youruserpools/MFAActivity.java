@@ -48,7 +48,7 @@ public class MFAActivity extends AppCompatActivity {
         exit(null);
     }
 
-    public void sendMFA(View view) {
+    public void sendMFA() {
         getCode();
     }
 

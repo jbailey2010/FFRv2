@@ -261,7 +261,6 @@ public class RegisterUser extends AppCompatActivity {
                               CognitoUserCodeDeliveryDetails cognitoUserCodeDeliveryDetails) {
             // Check signUpConfirmationState to see if the user is already confirmed
             closeWaitDialog();
-            Boolean regState = signUpConfirmationState;
             if (signUpConfirmationState) {
                 // User is already confirmed
                 showDialogMessage("Sign up successful!",usernameInput+" has been Confirmed", true);

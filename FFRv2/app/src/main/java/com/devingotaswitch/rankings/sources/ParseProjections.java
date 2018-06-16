@@ -18,17 +18,17 @@ public class ParseProjections {
             throws IOException {
         Map<String, Double> points = new HashMap<>();
         qbProj("http://www.fantasypros.com/nfl/projections/qb.php?year=" + Constants.YEAR_KEY + "&week=draft",
-                points, rankings, Constants.QB);
+                points, rankings);
         rbProj("http://www.fantasypros.com/nfl/projections/rb.php?year=" + Constants.YEAR_KEY + "&week=draft",
-                points, rankings, Constants.RB);
+                points, rankings);
         wrProj("http://www.fantasypros.com/nfl/projections/wr.php?year=" + Constants.YEAR_KEY + "&week=draft",
-                points, rankings, Constants.WR);
+                points, rankings);
         teProj("http://www.fantasypros.com/nfl/projections/te.php?year=" + Constants.YEAR_KEY + "&week=draft",
-                points, rankings, Constants.TE);
+                points, rankings);
         defProj("http://www.fantasypros.com/nfl/projections/dst.php?year=" + Constants.YEAR_KEY + "&week=draft",
-                points, Constants.DST);
+                points);
         kProj("http://www.fantasypros.com/nfl/projections/k.php?year=" + Constants.YEAR_KEY + "&week=draft",
-                points, Constants.K);
+                points);
 
         for (String playerId : rankings.getPlayers().keySet()) {
             Player player = rankings.getPlayer(playerId);
@@ -41,7 +41,7 @@ public class ParseProjections {
     }
 
     private static void qbProj(String url, Map<String, Double> points,
-                              Rankings rankings, String pos) throws IOException {
+                               Rankings rankings) throws IOException {
         DecimalFormat df = new DecimalFormat(Constants.NUMBER_FORMAT);
         List<String> td = JsoupUtils.parseURLWithUA(url, "table.table-bordered tbody tr td");
 
@@ -82,12 +82,12 @@ public class ParseProjections {
             proj += rushTD * rankings.getLeagueSettings().getScoringSettings().getRushingTds();
             proj += fumbles * rankings.getLeagueSettings().getScoringSettings().getFumbles();
             proj = Double.parseDouble(df.format(proj));
-            points.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + pos, proj);
+            points.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + Constants.QB, proj);
         }
     }
 
     private static void rbProj(String url, Map<String, Double> points,
-                              Rankings rankings, String pos) throws IOException {
+                               Rankings rankings) throws IOException {
         DecimalFormat df = new DecimalFormat(Constants.NUMBER_FORMAT);
         List<String> td = JsoupUtils.parseURLWithUA(url, "table.table-bordered tbody tr td");
 
@@ -131,12 +131,12 @@ public class ParseProjections {
             proj += recTD * rankings.getLeagueSettings().getScoringSettings().getReceivingTds();
             proj += fumbles * rankings.getLeagueSettings().getScoringSettings().getFumbles();
             proj = Double.parseDouble(df.format(proj));
-            points.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + pos, proj);
+            points.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + Constants.RB, proj);
         }
     }
 
     private static void wrProj(String url, Map<String, Double> points,
-                              Rankings rankings, String pos) throws IOException {
+                               Rankings rankings) throws IOException {
         DecimalFormat df = new DecimalFormat(Constants.NUMBER_FORMAT);
         List<String> td = JsoupUtils.parseURLWithUA(url, "table.table-bordered tbody tr td");
 
@@ -180,12 +180,12 @@ public class ParseProjections {
             proj += recTD * rankings.getLeagueSettings().getScoringSettings().getReceivingTds();
             proj += fumbles * rankings.getLeagueSettings().getScoringSettings().getFumbles();
             proj = Double.parseDouble(df.format(proj));
-            points.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + pos, proj);
+            points.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + Constants.WR, proj);
         }
     }
 
     private static void teProj(String url, Map<String, Double> points,
-                              Rankings rankings, String pos) throws IOException {
+                               Rankings rankings) throws IOException {
         DecimalFormat df = new DecimalFormat(Constants.NUMBER_FORMAT);
         List<String> td = JsoupUtils.parseURLWithUA(url, "table.table-bordered tbody tr td");
 
@@ -223,11 +223,11 @@ public class ParseProjections {
             proj += recTD * rankings.getLeagueSettings().getScoringSettings().getReceivingTds();
             proj += fumbles * rankings.getLeagueSettings().getScoringSettings().getFumbles();
             proj = Double.parseDouble(df.format(proj));
-            points.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + pos, proj);
+            points.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + Constants.TE, proj);
         }
     }
 
-    private static void defProj(String url, Map<String, Double> points, String pos) throws IOException {
+    private static void defProj(String url, Map<String, Double> points) throws IOException {
         List<String> td = JsoupUtils.parseURLWithUA(url, "table.table-bordered tbody tr td");
 
         int min = 0;
@@ -255,12 +255,11 @@ public class ParseProjections {
             String team = ParsingUtils.normalizeTeams(name.toString());
             name = new StringBuilder(ParsingUtils.normalizeDefenses(name.toString()));
             Double proj = Double.parseDouble(td.get(i+9));
-            points.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + pos, proj);
+            points.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + Constants.DST, proj);
         }
     }
 
-    private static void kProj(String url, Map<String, Double> points,
-                             String pos) throws IOException {
+    private static void kProj(String url, Map<String, Double> points) throws IOException {
         List<String> td = JsoupUtils.parseURLWithUA(url, "table.table-bordered tbody tr td");
 
         int min = 0;
@@ -287,7 +286,7 @@ public class ParseProjections {
             name = new StringBuilder(ParsingUtils.normalizeNames(name.substring(0, name.length() - 1)));
             String team = ParsingUtils.normalizeTeams(nameSet[nameSet.length - 1]);
             double proj = Double.parseDouble(td.get(i + 4));
-            points.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + pos, proj);
+            points.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + Constants.K, proj);
         }
     }
 }

@@ -91,9 +91,7 @@ public class NewPassword extends AppCompatActivity {
                 String newUserPassword = newPassword.getText().toString();
                 if (newUserPassword != null) {
                     CUPHelper.setPasswordForFirstTimeLogin(newUserPassword);
-                    if (checkAttributes()) {
-                        exit(true);
-                    }
+                    exit(true);
                 }
                 showDialogMessage("Error", "Enter all required attributed", false);
             }
@@ -149,11 +147,6 @@ public class NewPassword extends AppCompatActivity {
         });
         userDialog = builder.create();
         userDialog.show();
-    }
-
-    private boolean checkAttributes() {
-        // Check if all required attributes have values
-        return true;
     }
 
     private void showDialogMessage(String title, String body, final boolean exit) {

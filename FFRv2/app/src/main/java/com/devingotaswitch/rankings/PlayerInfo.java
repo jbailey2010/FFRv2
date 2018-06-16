@@ -1,7 +1,6 @@
 package com.devingotaswitch.rankings;
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -450,7 +449,7 @@ public class PlayerInfo extends AppCompatActivity {
         data.add(auc);
 
         Map<String, String> dynasty = new HashMap<>();
-        dynasty.put(Constants.PLAYER_BASIC, "Dynasty/Keeper Rankings: " + player.getDynastyRank());
+        dynasty.put(Constants.PLAYER_BASIC, "Dynasty/Keeper Ranking: " + player.getDynastyRank());
         int dynRank = getDynasty(null, player.getDynastyRank());
         int dynRankPos = getDynasty(player.getPosition(), player.getDynastyRank());
         String dynSub = getRankingSub(dynRank, dynRankPos);

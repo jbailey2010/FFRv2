@@ -58,7 +58,6 @@ public class PlayerComparator extends AppCompatActivity {
         setContentView(R.layout.activity_player_comparator);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        RankingsDBWrapper rankingsDB = new RankingsDBWrapper();
         rankings = Rankings.init();
 
         // Set toolbar for this screen

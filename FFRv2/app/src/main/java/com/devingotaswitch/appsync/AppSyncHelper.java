@@ -5,7 +5,7 @@ import android.content.Context;
 
 public class AppSyncHelper {
 
-    public static final PlayerMetadataActivity metadataActivity = new PlayerMetadataActivity();
+    private static final PlayerMetadataActivity metadataActivity = new PlayerMetadataActivity();
 
     public static void getOrCreatePlayerMetadataAndIncrementViewCount(Activity activity, String playerId) {
         metadataActivity.incrementViewCount(activity, playerId);

@@ -181,7 +181,7 @@
         android:layout_below="@+id/league_scoring_level3"
         android:orientation="horizontal">
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="Point per Reception"
             android:textAppearance="?android:attr/textAppearanceSmall"
@@ -198,7 +198,7 @@
         android:layout_below="@+id/league_scoring_space3"
         android:id="@+id/league_scoring_level4">
         <EditText
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="@dimen/activity_text_height"
             android:paddingLeft="@dimen/activity_text_padding"
             android:paddingRight="@dimen/activity_text_padding"
@@ -284,7 +284,7 @@
         android:layout_below="@+id/league_scoring_space5"
         android:id="@+id/league_scoring_level6">
         <Button
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="@dimen/activity_button_height"
             android:text="Save"
             android:textAllCaps="false"

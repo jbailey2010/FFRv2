@@ -156,7 +156,7 @@ public class Rankings {
     public void refreshRankings(RankingsHome activity) {
         ParsingUtils.init();
 
-        RankingsFetcher.RanksAggregator ranksParser = processor.new RanksAggregator(activity, this, leagueSettings);
+        RankingsFetcher.RanksAggregator ranksParser = processor.new RanksAggregator(activity, this);
         ranksParser.execute();
     }
 

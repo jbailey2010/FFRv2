@@ -22,7 +22,6 @@ import com.devingotaswitch.rankings.sources.ParseSOS;
 import com.devingotaswitch.rankings.sources.ParseStats;
 import com.devingotaswitch.rankings.sources.ParseWalterFootball;
 import com.devingotaswitch.rankings.RankingsHome;
-import com.devingotaswitch.rankings.domain.LeagueSettings;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.sources.ParseYahoo;
 import com.devingotaswitch.utils.GeneralUtils;
@@ -38,16 +37,14 @@ public class RankingsFetcher {
     public class RanksAggregator extends AsyncTask<Object, String, Rankings> {
         private final ProgressDialog pdia;
         private final RankingsHome act;
-        private final LeagueSettings leagueSettings;
         private final Rankings rankings;
         private long start;
 
-        public RanksAggregator(RankingsHome activity, Rankings rankings, LeagueSettings leagueSettings) {
+        public RanksAggregator(RankingsHome activity, Rankings rankings) {
             this.pdia = new ProgressDialog(activity);
             pdia.setCancelable(false);
             this.act = activity;
             this.rankings = rankings;
-            this.leagueSettings = leagueSettings;
         }
 
         @Override

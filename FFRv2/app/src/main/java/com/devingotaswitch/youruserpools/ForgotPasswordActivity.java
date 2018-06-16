@@ -19,8 +19,6 @@ import com.devingotaswitch.ffrv2.R;
 public class ForgotPasswordActivity extends AppCompatActivity {
     private EditText passwordInput;
     private EditText codeInput;
-    private Button setPassword;
-    private AlertDialog userDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +46,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         init();
     }
 
-    public void forgotPassword(View view) {
+    public void forgotPassword() {
         getCode();
     }
 

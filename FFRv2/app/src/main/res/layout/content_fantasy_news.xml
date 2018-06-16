@@ -8,9 +8,6 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.devingotaswitch.rankings.FantasyNews"
     tools:showIn="@layout/activity_fantasy_news">
-    <RelativeLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content">
         <LinearLayout
             android:layout_width="match_parent"
             android:id="@+id/news_header_base"
@@ -44,6 +41,5 @@
             android:divider="@drawable/list_divider"
             android:dividerHeight="1dp"
             android:layout_below="@+id/news_header_base"/>
-    </RelativeLayout>
 
 </RelativeLayout>

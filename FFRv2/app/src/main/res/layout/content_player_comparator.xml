@@ -58,7 +58,7 @@
         android:visibility="gone"
         android:id="@+id/comparator_output_base"
         android:orientation="vertical"
-        android:layout_below="@+id/comparator_header_base">
+        >
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/comparator_view_height"

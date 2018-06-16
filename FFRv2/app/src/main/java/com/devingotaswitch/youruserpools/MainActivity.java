@@ -194,17 +194,17 @@ public class MainActivity extends AppCompatActivity {
 
     // App methods
     // Register user - start process
-    public void signUp(View view) {
+    public void signUp() {
         signUpNewUser();
     }
 
     // Login if a user is already present
-    public void logIn(View view) {
+    public void logIn() {
         signInUser();
     }
 
     // Forgot password processing
-    public void forgotPassword(View view) {
+    public void forgotPassword() {
         forgotpasswordUser();
     }
 

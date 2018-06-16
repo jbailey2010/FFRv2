@@ -17,7 +17,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@+id/space9"
-        android:layout_weight="1"/>
+        />
     <Space
         android:layout_width="match_parent"
         android:layout_height="@dimen/activity_intra_group_separation"

@@ -51,7 +51,6 @@
             android:paddingLeft="@dimen/activity_text_padding"
             android:paddingRight="@dimen/activity_text_padding"
             android:id="@+id/league_settings_team_count"
-            android:layout_centerHorizontal="true"
             android:background="@drawable/text_border_selector"
             android:hint="Number of Teams"
             android:text="10"
@@ -63,7 +62,6 @@
             android:paddingLeft="@dimen/activity_text_padding"
             android:paddingRight="@dimen/activity_text_padding"
             android:id="@+id/league_settings_auction_budget"
-            android:layout_centerHorizontal="true"
             android:background="@drawable/text_border_selector"
             android:hint="Auction Budget"
             android:text="200"
@@ -167,7 +165,6 @@
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:textSize="15dp"
-        android:layout_weight="1"
         android:layout_margin="2dp"
         android:layout_below="@+id/settings_base_buttons"/>
 </RelativeLayout>

@@ -125,7 +125,7 @@
         android:layout_below="@+id/league_flex_level2"
         android:orientation="horizontal">
         <TextView
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:text="QB/RB/WR/TE"
             android:textAppearance="?android:attr/textAppearanceSmall"
@@ -142,7 +142,7 @@
         android:layout_below="@+id/league_flex_space2"
         android:id="@+id/league_flex_level3">
         <EditText
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="@dimen/activity_text_height"
             android:paddingLeft="@dimen/activity_text_padding"
             android:paddingRight="@dimen/activity_text_padding"
