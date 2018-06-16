@@ -870,14 +870,15 @@ public class PlayerSorter extends AppCompatActivity {
                     .append("Projection: ")
                     .append(player.getProjection());
         }
-        if (Constants.SORT_UNDERDRAFTED.equals(factor) || Constants.SORT_OVERDRAFTED.equals(factor)) {
+        if (Constants.SORT_UNDERDRAFTED.equals(factor) || Constants.SORT_OVERDRAFTED.equals(factor)
+                || Constants.SORT_TIERS.equals(factor)) {
             subtextBuilder.append(Constants.LINE_BREAK)
                     .append("ECR: ")
                     .append(player.getEcr())
                     .append(Constants.LINE_BREAK)
                     .append("ADP: ")
                     .append(player.getAdp());
-        } else if (Constants.SORT_BEST_VALUE.equals(factor)) {
+        }  else if (Constants.SORT_BEST_VALUE.equals(factor)) {
             subtextBuilder.append(Constants.LINE_BREAK)
                     .append("ECR: ")
                     .append(player.getEcr())
