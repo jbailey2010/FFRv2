@@ -15,6 +15,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -125,6 +126,8 @@ public class PlayerSorter extends AppCompatActivity {
     public void onResume() {
         super.onResume();
 
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
         init();
     }
 
@@ -195,7 +198,9 @@ public class PlayerSorter extends AppCompatActivity {
         factorList.add(Constants.SORT_VOLSPD);
         factorList.add(Constants.SORT_RISK);
         factorList.add(Constants.SORT_SOS);
-        factorList.add(Constants.SORT_TIERS);
+        if (rankings.getLeagueSettings().isSnake() || rankings.getLeagueSettings().isAuction()) {
+            factorList.add(Constants.SORT_TIERS);
+        }
         ArrayAdapter<String> factorAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, factorList);
         factors.setAdapter(factorAdapter);

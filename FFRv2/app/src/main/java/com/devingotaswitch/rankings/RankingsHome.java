@@ -20,6 +20,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -130,9 +131,7 @@ public class RankingsHome extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-
-        InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         try {
             init();
@@ -433,7 +432,8 @@ public class RankingsHome extends AppCompatActivity {
                 if (player.isWatched()) {
                     datum.put(Constants.PLAYER_STATUS, Integer.toString(R.drawable.star));
                 }
-                if (!Constants.K.equals(player.getPosition()) && ! Constants.DST.equals(player.getPosition())) {
+                if (!Constants.K.equals(player.getPosition()) && ! Constants.DST.equals(player.getPosition()) &&
+                        !rankings.getLeagueSettings().isDynasty() && !rankings.getLeagueSettings().isRookie()) {
                     datum.put(Constants.PLAYER_TIER, "Tier " + player.getPositionalTier());
                 }
                 data.add(datum);

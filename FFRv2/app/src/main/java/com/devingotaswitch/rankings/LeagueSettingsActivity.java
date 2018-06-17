@@ -227,6 +227,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         final RadioButton isSnake = view.findViewById(R.id.league_settings_snake);
         final RadioButton isDynasty = view.findViewById(R.id.league_settings_dynasty_startup);
         final RadioButton isRookie = view.findViewById(R.id.league_settings_dynasty_rookie);
+        isSnake.setChecked(true);
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -415,7 +415,8 @@ public class PlayerInfo extends AppCompatActivity {
         int ecrRank = getEcr(null, player.getEcr());
         int ecrRankPos = getEcr(player.getPosition(), player.getEcr());
         String ecrSub = getRankingSub(ecrRank, ecrRankPos);
-        if (!Constants.K.equals(player.getPosition()) && !Constants.DST.equals(player.getPosition())) {
+        if (!Constants.K.equals(player.getPosition()) && !Constants.DST.equals(player.getPosition()) &&
+            !rankings.getLeagueSettings().isRookie() && !rankings.getLeagueSettings().isDynasty()) {
             ecrSub += Constants.LINE_BREAK + "Positional Tier: " + player.getPositionalTier();
         }
         if (player.getRisk() != null) {
