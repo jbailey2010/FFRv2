@@ -333,6 +333,8 @@ public class RankingsHome extends AppCompatActivity {
 
     private void establishLayout() {
         if (LocalSettingsHelper.wereRankingsFetched(this)) {
+            nDrawer.getMenu().findItem(R.id.nav_refresh_ranks).setVisible(true);
+            nDrawer.getMenu().findItem(R.id.nav_export_rankings).setVisible(true);
             // If rankings are saved, load (and ultimately display) them
             if (rankings == null || rankings.getPlayers().size() == 0 || loadRanks) {
                 Rankings.loadRankings(this, rankingsDB);
@@ -356,12 +358,16 @@ public class RankingsHome extends AppCompatActivity {
             rankings = Rankings.initWithDefaults(currentLeague);
             searchBase.setVisibility(View.GONE);
             buttonBase.setVisibility(View.GONE);
+            nDrawer.getMenu().findItem(R.id.nav_refresh_ranks).setVisible(false);
+            nDrawer.getMenu().findItem(R.id.nav_export_rankings).setVisible(false);
         } else {
             // If neither of the above, there's a league but no ranks. Tell the user.
             clearAndAddView(R.layout.content_rankings_no_ranks);
             rankings = Rankings.initWithDefaults(currentLeague);
             searchBase.setVisibility(View.GONE);
             buttonBase.setVisibility(View.GONE);
+            nDrawer.getMenu().findItem(R.id.nav_refresh_ranks).setVisible(true);
+            nDrawer.getMenu().findItem(R.id.nav_export_rankings).setVisible(false);
         }
     }
 

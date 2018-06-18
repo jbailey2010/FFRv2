@@ -21,7 +21,7 @@
   <component name="ChangeListManager">
     <list default="true" id="f5fe9503-cc09-4a8d-b7d9-507f98789a95" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerComparator.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerComparator.java" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/RankingsHome.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/RankingsHome.java" />
     </list>
     <ignored path="AmazonCognitoYourUserPoolsDemo.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -62,44 +62,50 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="PlayerInfo.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="157">
-              <caret line="285" column="74" lean-forward="false" selection-start-line="285" selection-start-column="74" selection-end-line="285" selection-end-column="74" />
-              <folding>
-                <element signature="e#30176#30177#0" expanded="true" />
-                <element signature="e#30221#30222#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PlayerComparator.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerComparator.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="392">
-              <caret line="456" column="43" lean-forward="false" selection-start-line="456" selection-start-column="43" selection-end-line="456" selection-end-column="43" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RankingsHome.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="RankingsHome.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/RankingsHome.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="278">
-              <caret line="132" column="25" lean-forward="false" selection-start-line="132" selection-start-column="25" selection-end-line="133" selection-end-column="96" />
+            <state relative-caret-position="201">
+              <caret line="338" column="25" lean-forward="false" selection-start-line="338" selection-start-column="25" selection-end-line="338" selection-end-column="25" />
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ParsePlayerNews.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParsePlayerNews.java">
+      <file leaf-file-name="activity_rankings_home.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_rankings_home.xml">
+          <provider editor-type-id="android-designer2">
+            <state />
+          </provider>
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="21">
-              <caret line="22" column="71" lean-forward="false" selection-start-line="22" selection-start-column="71" selection-end-line="22" selection-end-column="71" />
+            <state relative-caret-position="-1981">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="activity_rankings_menu.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/activity_rankings_menu.xml">
+          <provider editor-type-id="android-designer2">
+            <state />
+          </provider>
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="activity_rankings_drawer.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/activity_rankings_drawer.xml">
+          <provider editor-type-id="android-designer2">
+            <state />
+          </provider>
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="0">
+              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
               <folding />
             </state>
           </provider>
@@ -143,6 +149,8 @@
       <find>export</find>
       <find>tier</find>
       <find>news</find>
+      <find>activity_rankings</find>
+      <find>nav_view</find>
     </findStrings>
   </component>
   <component name="GenerateSignedApkSettings">
@@ -2375,12 +2383,12 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/content_player_sorter.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/league_settings_base.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/LeagueSettingsActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/RankingsHome.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerSorter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/FantasyNews.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParsePlayerNews.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerComparator.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/RankingsHome.java" />
       </list>
     </option>
   </component>
@@ -2586,6 +2594,15 @@
               <item name="main" type="462c0819:PsiDirectoryNode" />
               <item name="res" type="462c0819:PsiDirectoryNode" />
               <item name="layout" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="FFRv2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="FFRv2" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="res" type="462c0819:PsiDirectoryNode" />
+              <item name="menu" type="462c0819:PsiDirectoryNode" />
             </path>
           </expand>
           <select />
@@ -3092,30 +3109,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/asynctasks/RankingsLoader.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="279">
-          <caret line="92" column="42" lean-forward="false" selection-start-line="92" selection-start-column="42" selection-end-line="92" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/youruserpools/MFAActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="126">
-          <caret line="17" column="4" lean-forward="false" selection-start-line="17" selection-start-column="4" selection-end-line="17" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/youruserpools/SignUpConfirm.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="168">
-          <caret line="25" column="4" lean-forward="false" selection-start-line="25" selection-start-column="4" selection-end-line="25" selection-end-column="4" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/Team.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="442">
@@ -3549,17 +3542,9 @@
         <state relative-caret-position="157">
           <caret line="285" column="74" lean-forward="false" selection-start-line="285" selection-start-column="74" selection-end-line="285" selection-end-column="74" />
           <folding>
-            <element signature="e#30176#30177#0" expanded="true" />
-            <element signature="e#30221#30222#0" expanded="true" />
+            <element signature="e#30176#30177#0" expanded="false" />
+            <element signature="e#30221#30222#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/RankingsHome.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="278">
-          <caret line="132" column="25" lean-forward="false" selection-start-line="132" selection-start-column="25" selection-end-line="133" selection-end-column="96" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -3567,6 +3552,47 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="392">
           <caret line="456" column="43" lean-forward="false" selection-start-line="456" selection-start-column="43" selection-end-line="456" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/activity_rankings_menu.xml">
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_rankings_home.xml">
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-1981">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/activity_rankings_drawer.xml">
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/RankingsHome.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="201">
+          <caret line="338" column="25" lean-forward="false" selection-start-line="338" selection-start-column="25" selection-end-line="338" selection-end-column="25" />
           <folding />
         </state>
       </provider>
