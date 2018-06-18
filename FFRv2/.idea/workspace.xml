@@ -20,7 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f5fe9503-cc09-4a8d-b7d9-507f98789a95" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/FantasyNews.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/FantasyNews.java" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerComparator.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerComparator.java" />
     </list>
     <ignored path="AmazonCognitoYourUserPoolsDemo.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -61,14 +62,25 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="PlayerSorter.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerSorter.java">
+      <file leaf-file-name="PlayerInfo.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="421">
-              <caret line="202" column="9" lean-forward="false" selection-start-line="202" selection-start-column="9" selection-end-line="202" selection-end-column="9" />
+            <state relative-caret-position="157">
+              <caret line="285" column="74" lean-forward="false" selection-start-line="285" selection-start-column="74" selection-end-line="285" selection-end-column="74" />
               <folding>
-                <element signature="imports" expanded="true" />
+                <element signature="e#30176#30177#0" expanded="true" />
+                <element signature="e#30221#30222#0" expanded="true" />
               </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PlayerComparator.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerComparator.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="392">
+              <caret line="456" column="43" lean-forward="false" selection-start-line="456" selection-start-column="43" selection-end-line="456" selection-end-column="43" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -76,70 +88,19 @@
       <file leaf-file-name="RankingsHome.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/RankingsHome.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="190">
-              <caret line="744" column="48" lean-forward="true" selection-start-line="744" selection-start-column="48" selection-end-line="744" selection-end-column="48" />
-              <folding>
-                <element signature="e#5883#5907#0" expanded="true" />
-                <element signature="e#5909#5934#0" expanded="true" />
-                <element signature="e#9655#11128#0" expanded="true" />
-                <element signature="e#11127#11128#0" expanded="true" />
-                <element signature="e#11507#11658#0" expanded="true" />
-                <element signature="e#11657#11658#0" expanded="true" />
-                <element signature="e#11781#11929#0" expanded="true" />
-                <element signature="e#11928#11929#0" expanded="true" />
-                <element signature="e#12062#12212#0" expanded="true" />
-                <element signature="e#12211#12212#0" expanded="true" />
-                <element signature="e#12333#12480#0" expanded="true" />
-                <element signature="e#12479#12480#0" expanded="true" />
-                <element signature="e#18997#20943#0" expanded="true" />
-                <element signature="e#19526#19902#0" expanded="true" />
-                <element signature="e#19901#19902#0" expanded="true" />
-                <element signature="e#20224#20587#0" expanded="true" />
-                <element signature="e#20586#20587#0" expanded="true" />
-                <element signature="e#20942#20943#0" expanded="true" />
-                <element signature="e#20986#21325#0" expanded="true" />
-                <element signature="e#21324#21325#0" expanded="true" />
-                <element signature="e#22705#23165#0" expanded="true" />
-                <element signature="e#23164#23165#0" expanded="true" />
-                <element signature="e#24817#24985#0" expanded="true" />
-                <element signature="e#24984#24985#0" expanded="true" />
-                <element signature="e#25991#27318#0" expanded="true" />
-                <element signature="e#27317#27318#0" expanded="true" />
-                <element signature="e#27389#27737#0" expanded="true" />
-                <element signature="e#27736#27737#0" expanded="true" />
-                <element signature="e#28411#28713#0" expanded="true" />
-                <element signature="e#28712#28713#0" expanded="true" />
-                <element signature="e#28760#28957#0" expanded="true" />
-                <element signature="e#28956#28957#0" expanded="true" />
-                <element signature="e#31234#31470#0" expanded="true" />
-                <element signature="e#31469#31470#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="278">
+              <caret line="132" column="25" lean-forward="false" selection-start-line="132" selection-start-column="25" selection-end-line="133" selection-end-column="96" />
+              <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FantasyNews.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/FantasyNews.java">
+      <file leaf-file-name="ParsePlayerNews.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParsePlayerNews.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="429">
-              <caret line="162" column="17" lean-forward="false" selection-start-line="162" selection-start-column="17" selection-end-line="162" selection-end-column="17" />
-              <folding>
-                <element signature="e#5351#6222#0" expanded="true" />
-                <element signature="e#6221#6222#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="PlayerInfo.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="148">
-              <caret line="417" column="103" lean-forward="false" selection-start-line="417" selection-start-column="103" selection-end-line="417" selection-end-column="103" />
-              <folding>
-                <element signature="e#30176#30177#0" expanded="true" />
-                <element signature="e#30221#30222#0" expanded="true" />
-              </folding>
+            <state relative-caret-position="21">
+              <caret line="22" column="71" lean-forward="false" selection-start-line="22" selection-start-column="71" selection-end-line="22" selection-end-column="71" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -178,9 +139,10 @@
       <find>auctionBudget</find>
       <find>Keeper</find>
       <find>LogIn</find>
-      <find>tier</find>
       <find>onclicklistener</find>
       <find>export</find>
+      <find>tier</find>
+      <find>news</find>
     </findStrings>
   </component>
   <component name="GenerateSignedApkSettings">
@@ -2368,7 +2330,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/fileio/LocalSettingsHelper.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/DraftInfo.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/content_draft_info_team.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParseDraft.java" />
@@ -2397,7 +2358,6 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParseProjections.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/appsync/AppSyncHelper.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/youruserpools/NewPassword.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerComparator.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/youruserpools/MFASettingsHelper.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/youruserpools/ForgotPasswordActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/youruserpools/CUPHelper.java" />
@@ -2415,10 +2375,12 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/content_player_sorter.xml" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/league_settings_base.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/LeagueSettingsActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/RankingsHome.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerSorter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/FantasyNews.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParsePlayerNews.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerComparator.java" />
       </list>
     </option>
   </component>
@@ -3323,14 +3285,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerComparator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="359">
-          <caret line="60" column="0" lean-forward="false" selection-start-line="60" selection-start-column="0" selection-end-line="60" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/ADPSimulator.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="191">
@@ -3413,14 +3367,6 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="181">
           <caret line="20" column="12" lean-forward="false" selection-start-line="20" selection-start-column="12" selection-end-line="20" selection-end-column="12" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParsePlayerNews.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="181">
-          <caret line="33" column="26" lean-forward="false" selection-start-line="33" selection-start-column="26" selection-end-line="33" selection-end-column="26" />
           <folding />
         </state>
       </provider>
@@ -3561,23 +3507,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="148">
-          <caret line="417" column="103" lean-forward="false" selection-start-line="417" selection-start-column="103" selection-end-line="417" selection-end-column="103" />
-          <folding>
-            <element signature="e#30176#30177#0" expanded="true" />
-            <element signature="e#30221#30222#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerSorter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="421">
           <caret line="202" column="9" lean-forward="false" selection-start-line="202" selection-start-column="9" selection-end-line="202" selection-end-column="9" />
           <folding>
-            <element signature="imports" expanded="true" />
+            <element signature="imports" expanded="false" />
           </folding>
         </state>
       </provider>
@@ -3586,53 +3521,7 @@
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="192">
           <caret line="720" column="16" lean-forward="false" selection-start-line="720" selection-start-column="16" selection-end-line="720" selection-end-column="16" />
-          <folding>
-            <element signature="e#20468#20469#0" expanded="true" />
-            <element signature="e#20519#20520#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/RankingsHome.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="190">
-          <caret line="744" column="48" lean-forward="true" selection-start-line="744" selection-start-column="48" selection-end-line="744" selection-end-column="48" />
-          <folding>
-            <element signature="e#5883#5907#0" expanded="true" />
-            <element signature="e#5909#5934#0" expanded="true" />
-            <element signature="e#9655#11128#0" expanded="true" />
-            <element signature="e#11127#11128#0" expanded="true" />
-            <element signature="e#11507#11658#0" expanded="true" />
-            <element signature="e#11657#11658#0" expanded="true" />
-            <element signature="e#11781#11929#0" expanded="true" />
-            <element signature="e#11928#11929#0" expanded="true" />
-            <element signature="e#12062#12212#0" expanded="true" />
-            <element signature="e#12211#12212#0" expanded="true" />
-            <element signature="e#12333#12480#0" expanded="true" />
-            <element signature="e#12479#12480#0" expanded="true" />
-            <element signature="e#18997#20943#0" expanded="true" />
-            <element signature="e#19526#19902#0" expanded="true" />
-            <element signature="e#19901#19902#0" expanded="true" />
-            <element signature="e#20224#20587#0" expanded="true" />
-            <element signature="e#20586#20587#0" expanded="true" />
-            <element signature="e#20942#20943#0" expanded="true" />
-            <element signature="e#20986#21325#0" expanded="true" />
-            <element signature="e#21324#21325#0" expanded="true" />
-            <element signature="e#22705#23165#0" expanded="true" />
-            <element signature="e#23164#23165#0" expanded="true" />
-            <element signature="e#24817#24985#0" expanded="true" />
-            <element signature="e#24984#24985#0" expanded="true" />
-            <element signature="e#25991#27318#0" expanded="true" />
-            <element signature="e#27317#27318#0" expanded="true" />
-            <element signature="e#27389#27737#0" expanded="true" />
-            <element signature="e#27736#27737#0" expanded="true" />
-            <element signature="e#28411#28713#0" expanded="true" />
-            <element signature="e#28712#28713#0" expanded="true" />
-            <element signature="e#28760#28957#0" expanded="true" />
-            <element signature="e#28956#28957#0" expanded="true" />
-            <element signature="e#31234#31470#0" expanded="true" />
-            <element signature="e#31469#31470#0" expanded="true" />
-          </folding>
+          <folding />
         </state>
       </provider>
     </entry>
@@ -3641,9 +3530,44 @@
         <state relative-caret-position="429">
           <caret line="162" column="17" lean-forward="false" selection-start-line="162" selection-start-column="17" selection-end-line="162" selection-end-column="17" />
           <folding>
-            <element signature="e#5351#6222#0" expanded="true" />
-            <element signature="e#6221#6222#0" expanded="true" />
+            <element signature="e#5351#6222#0" expanded="false" />
+            <element signature="e#6221#6222#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParsePlayerNews.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="21">
+          <caret line="22" column="71" lean-forward="false" selection-start-line="22" selection-start-column="71" selection-end-line="22" selection-end-column="71" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="157">
+          <caret line="285" column="74" lean-forward="false" selection-start-line="285" selection-start-column="74" selection-end-line="285" selection-end-column="74" />
+          <folding>
+            <element signature="e#30176#30177#0" expanded="true" />
+            <element signature="e#30221#30222#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/RankingsHome.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="278">
+          <caret line="132" column="25" lean-forward="false" selection-start-line="132" selection-start-column="25" selection-end-line="133" selection-end-column="96" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerComparator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="392">
+          <caret line="456" column="43" lean-forward="false" selection-start-line="456" selection-start-column="43" selection-end-line="456" selection-end-column="43" />
+          <folding />
         </state>
       </provider>
     </entry>

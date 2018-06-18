@@ -13,6 +13,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
@@ -85,6 +86,7 @@ public class PlayerComparator extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         init();
     }
@@ -449,8 +451,10 @@ public class PlayerComparator extends AppCompatActivity {
             String baseURL = "http://www.fantasypros.com/nfl/draft/";
             baseURL += ParsePlayerNews.playerNameUrl(playerA.getName(), playerA.getTeamName()) + "-"
                     + ParsePlayerNews.playerNameUrl(playerB.getName(), playerB.getTeamName()) + ".php";
-            if (rankings.getLeagueSettings().getScoringSettings().getReceptions() > 0) {
+            if (rankings.getLeagueSettings().getScoringSettings().getReceptions() > 1.0) {
                 baseURL += "?scoring=PPR";
+            } else if (rankings.getLeagueSettings().getScoringSettings().getReceptions() > 0) {
+                baseURL += "?scoring=HALF";
             }
             Map<String, String> results = new HashMap<>();
             try {
