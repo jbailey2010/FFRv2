@@ -391,6 +391,8 @@ public class RankingsHome extends AppCompatActivity {
         ranksDisplayed = false;
         searchBase.setVisibility(View.VISIBLE);
         buttonBase.setVisibility(View.VISIBLE);
+        nDrawer.getMenu().findItem(R.id.nav_refresh_ranks).setVisible(true);
+        nDrawer.getMenu().findItem(R.id.nav_export_rankings).setVisible(true);
         if (filterItem != null) {
             filterItem.setVisible(true);
         }
