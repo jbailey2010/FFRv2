@@ -10,7 +10,7 @@ class RankingsDBHelper extends SQLiteOpenHelper {
     private static final int DATABASE_VERSION = 1;
     private static final String DATABASE_NAME_SUFFIX = "Rankings.db";
 
-    private String userName;
+    private final String userName;
 
     RankingsDBHelper(Context context, String userName) {
         super(context, userName + DATABASE_NAME_SUFFIX, null, DATABASE_VERSION);

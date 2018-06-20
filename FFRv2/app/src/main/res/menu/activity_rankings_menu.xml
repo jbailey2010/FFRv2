@@ -6,5 +6,5 @@
     <item android:id="@+id/filter_rankings"
           android:icon="@drawable/filter"
           android:title=""
-          app:showAsAction="always"/>/>
+          app:showAsAction="always"/>
 </menu>

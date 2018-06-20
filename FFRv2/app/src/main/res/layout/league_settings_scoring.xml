@@ -289,7 +289,7 @@
             android:text="Save"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="15dp"
+            android:textSize="15sp"
             android:id="@+id/league_scoring_save"
             android:background="@drawable/button_selector"
             android:layout_weight="1"

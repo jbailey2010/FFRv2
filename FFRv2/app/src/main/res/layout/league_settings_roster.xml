@@ -202,7 +202,7 @@
             android:text="Finish With Defaults"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="15dp"
+            android:textSize="15sp"
             android:id="@+id/league_roster_create_default"
             android:background="@drawable/button_selector"
             android:layout_weight="1"
@@ -216,7 +216,7 @@
             android:text="Flex Settings"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="15dp"
+            android:textSize="15sp"
             android:layout_weight="1"
             android:layout_margin="2dp"/>
     </LinearLayout>

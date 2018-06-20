@@ -137,7 +137,7 @@
             android:text="Create With Defaults"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="15dp"
+            android:textSize="15sp"
             android:id="@+id/league_settings_create_default"
             android:background="@drawable/button_selector"
             android:layout_weight="1"
@@ -151,7 +151,7 @@
             android:text="Advanced Settings"
             android:textAllCaps="false"
             android:textColor="@color/white"
-            android:textSize="15dp"
+            android:textSize="15sp"
             android:layout_weight="1"
             android:layout_margin="2dp"/>
     </LinearLayout>
@@ -164,7 +164,7 @@
         android:text="Delete League"
         android:textAllCaps="false"
         android:textColor="@color/white"
-        android:textSize="15dp"
+        android:textSize="15sp"
         android:layout_margin="2dp"
         android:layout_below="@+id/settings_base_buttons"/>
 </RelativeLayout>
