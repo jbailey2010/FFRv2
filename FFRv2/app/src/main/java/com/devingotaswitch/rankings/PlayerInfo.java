@@ -595,7 +595,11 @@ public class PlayerInfo extends AppCompatActivity {
                 }
             }
         }
-        context.put(Constants.PLAYER_INFO, playerSub.toString());
+        String playerStatus = playerSub.toString();
+        if (playerStatus.endsWith(Constants.LINE_BREAK)) {
+            playerStatus = playerStatus.substring(0, playerStatus.length() - 1);
+        }
+        context.put(Constants.PLAYER_INFO, playerStatus);
         data.add(context);
 
         if (StringUtils.isBlank(player.getNote())) {
