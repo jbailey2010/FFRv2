@@ -152,6 +152,9 @@ public class PlayerInfo extends AppCompatActivity {
             case R.id.player_info_compare:
                 comparePlayer();
                 return true;
+            case R.id.player_info_simulate_adp:
+                simulateAdp();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
 
@@ -264,6 +267,12 @@ public class PlayerInfo extends AppCompatActivity {
 
     private void comparePlayer() {
         Intent intent = new Intent(this, PlayerComparator.class);
+        intent.putExtra(Constants.PLAYER_ID, player.getUniqueId());
+        startActivity(intent);
+    }
+
+    private void simulateAdp() {
+        Intent intent = new Intent(this, ADPSimulator.class);
         intent.putExtra(Constants.PLAYER_ID, player.getUniqueId());
         startActivity(intent);
     }

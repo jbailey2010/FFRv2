@@ -23,6 +23,7 @@ import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.domain.RosterSettings;
 import com.devingotaswitch.rankings.domain.ScoringSettings;
+import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.GeneralUtils;
 import com.devingotaswitch.utils.JsoupUtils;
 import com.devingotaswitch.utils.ParsingUtils;
@@ -69,6 +70,10 @@ public class ADPSimulator extends AppCompatActivity {
         });
 
         init();
+
+        if (getIntent().hasExtra(Constants.PLAYER_ID)) {
+            setPlayerToBeChecked(getIntent().getStringExtra(Constants.PLAYER_ID));
+        }
     }
 
     @Override

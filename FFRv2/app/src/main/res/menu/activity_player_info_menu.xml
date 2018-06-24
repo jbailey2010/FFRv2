@@ -21,4 +21,7 @@
     <item android:id="@+id/player_info_compare"
           android:title="Compare to another player"
           app:showAsAction="never"/>
+    <item android:id="@+id/player_info_simulate_adp"
+          android:title="Simulate adp"
+          app:showAsAction="never"/>
 </menu>
