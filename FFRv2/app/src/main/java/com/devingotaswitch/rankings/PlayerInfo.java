@@ -2,6 +2,7 @@ package com.devingotaswitch.rankings;
 
 import android.app.Activity;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -148,6 +149,9 @@ public class PlayerInfo extends AppCompatActivity {
             case R.id.player_info_undraft:
                 undraftPlayer();
                 return true;
+            case R.id.player_info_compare:
+                comparePlayer();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
 
@@ -256,6 +260,12 @@ public class PlayerInfo extends AppCompatActivity {
     private void undraftPlayer() {
         rankings.getDraft().undraft(rankings, player, this, infoList);
         hideMenuItemsOnDraftStatus();
+    }
+
+    private void comparePlayer() {
+        Intent intent = new Intent(this, PlayerComparator.class);
+        intent.putExtra(Constants.PLAYER_ID, player.getUniqueId());
+        startActivity(intent);
     }
 
     private void hideMenuItemsOnDraftStatus() {

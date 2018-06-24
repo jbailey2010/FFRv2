@@ -80,6 +80,13 @@ public class PlayerComparator extends AppCompatActivity {
         });
 
         init();
+
+        if (getIntent().hasExtra(Constants.PLAYER_ID)) {
+            String playerId = getIntent().getStringExtra(Constants.PLAYER_ID);
+            playerA = rankings.getPlayer(playerId);
+            inputA.setText(playerA.getName());
+        }
+
     }
 
     @Override
