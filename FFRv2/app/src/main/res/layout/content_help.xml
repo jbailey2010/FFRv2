@@ -51,7 +51,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:layout_marginTop="10dp"
-                android:text="To begin, you'll want to set up a 'league' via the side menu. This will be used to customize rankings, including both roster and scoring settings, auction options, number of teams, and more. You can save several to switch between as needed, but be sure to refresh rankings if you do need to switch!"
+                android:text="To begin, you'll want to set up a 'league' via the side menu. This will be used to customize rankings, including both roster and scoring settings, league type and related options, number of teams, and more. You can save several to switch between as needed, but be sure to refresh rankings if you do need to switch!"
                 android:id="@+id/help_league_body"/>
             <TextView
                 android:layout_width="wrap_content"

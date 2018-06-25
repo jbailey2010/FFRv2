@@ -22,6 +22,14 @@ public class LocalSettingsHelper {
         return cont.getSharedPreferences(userName + Constants.APP_KEY, Context.MODE_PRIVATE);
     }
 
+    public static String getSelectedNewsSource(Context cont) {
+        return getSharedPreferences(cont).getString(Constants.NEWS_SOURCE, Constants.RW_HEADLINE_TITLE);
+    }
+
+    public static void saveSelectedNewsSource(Context cont, String newsSource) {
+        getSharedPreferences(cont).edit().putString(Constants.NEWS_SOURCE, newsSource).apply();
+    }
+
     public static String getCurrentLeagueName(Context cont) {
         return getSharedPreferences(cont).getString(Constants.LEAGUE_NAME, Constants.NOT_SET_KEY);
     }

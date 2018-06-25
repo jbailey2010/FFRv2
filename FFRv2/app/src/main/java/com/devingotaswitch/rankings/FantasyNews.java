@@ -20,6 +20,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.devingotaswitch.ffrv2.R;
+import com.devingotaswitch.fileio.LocalSettingsHelper;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.PlayerNews;
 import com.devingotaswitch.rankings.domain.Rankings;
@@ -41,10 +42,6 @@ import java.util.Map;
 public class FantasyNews extends AppCompatActivity {
 
     private Rankings rankings;
-
-    private static final String RW_HEADLINE_TITLE = "Rotoworld Headline News";
-    private static final String RW_PLAYER_TITLE = "Rotoworld Player News";
-    private static final String MFL_AGGREGATE_TITLE = "MFL Aggregate News";
 
     private static final String TAG = "ParseNews";
 
@@ -91,13 +88,14 @@ public class FantasyNews extends AppCompatActivity {
             nameToId.put(player.getName(), key);
         }
         List<String> sources = new ArrayList<>();
-        sources.add(RW_HEADLINE_TITLE);
-        sources.add(RW_PLAYER_TITLE);
-        sources.add(MFL_AGGREGATE_TITLE);
+        sources.add(Constants.RW_HEADLINE_TITLE);
+        sources.add(Constants.RW_PLAYER_TITLE);
+        sources.add(Constants.MFL_AGGREGATE_TITLE);
         final Spinner sourcesSpinner = findViewById(R.id.news_source_selector);
-        ArrayAdapter<String> teamAdapter = new ArrayAdapter<>(this,
+        ArrayAdapter<String> newsAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, sources);
-        sourcesSpinner.setAdapter(teamAdapter);
+        sourcesSpinner.setAdapter(newsAdapter);
+        sourcesSpinner.setSelection(sources.indexOf(LocalSettingsHelper.getSelectedNewsSource(this)));
 
         final Button submit = findViewById(R.id.news_selection_submit);
         final Context localCopy = this;
@@ -107,6 +105,7 @@ public class FantasyNews extends AppCompatActivity {
                 if (GeneralUtils.confirmInternet(localCopy)) {
                     String selectedSource = ((TextView)sourcesSpinner.getSelectedView()).getText().toString();
                     getNews(selectedSource);
+                    LocalSettingsHelper.saveSelectedNewsSource(localCopy, selectedSource);
                 } else {
                     Snackbar.make(submit, "No internet connection", Snackbar.LENGTH_LONG).show();
                 }
@@ -199,13 +198,13 @@ public class FantasyNews extends AppCompatActivity {
             List<PlayerNews> news = null;
             try {
                 switch (source) {
-                    case RW_PLAYER_TITLE:
+                    case Constants.RW_PLAYER_TITLE:
                         news = parseNewsRoto("http://www.rotoworld.com/playernews/nfl/football-player-news");
                         break;
-                    case RW_HEADLINE_TITLE:
+                    case Constants.RW_HEADLINE_TITLE:
                         news = parseNewsRoto("http://www.rotoworld.com/headlines/nfl/0/football-headlines");
                         break;
-                    case MFL_AGGREGATE_TITLE:
+                    case Constants.MFL_AGGREGATE_TITLE:
                         news = parseMFL();
                         break;
                 }
@@ -236,7 +235,7 @@ public class FantasyNews extends AppCompatActivity {
 
     private List<PlayerNews> parseMFL() throws IOException {
         List<PlayerNews> newsSet = new ArrayList<>();
-        String url = "http://football.myfantasyleague.com/2017/news_articles";
+        String url = "http://www03.myfantasyleague.com/" + Constants.YEAR_KEY + "/news_articles";
         Document doc = Jsoup.connect(url).timeout(0).get();
         List<String> title = JsoupUtils.getElemsFromDoc(doc, "td.headline b a");
         Elements elems = doc.select("tr.oddtablerow");

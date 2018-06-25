@@ -95,9 +95,7 @@ public class RankingsHome extends AppCompatActivity {
         setContentView(R.layout.activity_rankings_home);
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
-        initApp();
-
-        init();
+        // Relying on onResume to display stuff.
     }
 
     @Override
@@ -134,6 +132,7 @@ public class RankingsHome extends AppCompatActivity {
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
         try {
+            initApp();
             init();
         } catch(Exception e) {
             try {
@@ -180,9 +179,11 @@ public class RankingsHome extends AppCompatActivity {
             currentLeague = rankingsDB.getLeague(this, currentLeagueId);
         }
         loadRanks = getIntent().getExtras() != null && getIntent().getExtras().getBoolean(Constants.RANKINGS_UPDATED);
-        View navigationHeader = nDrawer.getHeaderView(0);
-        TextView navHeaderSubTitle = navigationHeader.findViewById(R.id.textViewNavUserSub);
-        navHeaderSubTitle.setText(CUPHelper.getCurrUser());
+        if (!StringUtils.isBlank(CUPHelper.getCurrUser())) {
+            View navigationHeader = nDrawer.getHeaderView(0);
+            TextView navHeaderSubTitle = navigationHeader.findViewById(R.id.textViewNavUserSub);
+            navHeaderSubTitle.setText(CUPHelper.getCurrUser());
+        }
     }
 
     private void toggleFilterView() {

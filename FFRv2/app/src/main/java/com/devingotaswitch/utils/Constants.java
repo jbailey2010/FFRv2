@@ -74,11 +74,17 @@ public class Constants {
     public final static Double SORT_IGNORE_LATE_THRESHOLD = 4.0;
     public final static Double SORT_IGNORE_EARLY_THRESHOLD = 25.0;
 
+    // News sources
+    public static final String RW_HEADLINE_TITLE = "Rotoworld Headline News";
+    public static final String RW_PLAYER_TITLE = "Rotoworld Player News";
+    public static final String MFL_AGGREGATE_TITLE = "MFL Aggregate News";
+
     // SP: keys
     public static final String APP_KEY = "FFRv2";
     public static final String LEAGUE_NAME = "CURRENT_LEAGUE_NAME";
     public static final String NUM_PLAYERS = "MAX_PLAYERS_VISIBLE";
     public static final String RANKINGS_FETCHED = "RANKINGS_FETCHED";
+    public static final String NEWS_SOURCE = "NEWS_SOURCE";
 
     // SP: defaults
     public static final String NOT_SET_KEY = "NOT_SAVED";
