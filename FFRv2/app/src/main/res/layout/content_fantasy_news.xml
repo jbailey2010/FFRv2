@@ -40,6 +40,7 @@
             android:layout_height="match_parent"
             android:divider="@drawable/list_divider"
             android:dividerHeight="1dp"
+            android:overScrollMode="never"
             android:layout_below="@+id/news_header_base"/>
 
 </RelativeLayout>

@@ -110,6 +110,7 @@
         android:layout_above="@+id/player_info_buttons"
         android:layout_marginTop="-5dp"
         android:clickable="true"
+        android:overScrollMode="never"
         android:divider="@drawable/list_divider"
         android:dividerHeight="1dp"
         android:clipToPadding="false"
