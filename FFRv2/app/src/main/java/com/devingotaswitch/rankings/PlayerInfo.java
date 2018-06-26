@@ -10,6 +10,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.InputType;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -97,7 +98,6 @@ public class PlayerInfo extends AppCompatActivity {
             }
         });
 
-        init();
         AppSyncHelper.getOrCreatePlayerMetadataAndIncrementViewCount(this, player.getUniqueId());
     }
 
@@ -108,7 +108,14 @@ public class PlayerInfo extends AppCompatActivity {
         Player mostlyFleshedPlayer = rankings.getPlayer(playerId);
         player = rankingsDB.getPlayer(this, mostlyFleshedPlayer.getName(), mostlyFleshedPlayer.getTeamName(), mostlyFleshedPlayer.getPosition());
 
-        init();
+        try {
+            init();
+        } catch (Exception e) {
+            Log.d(TAG, "Failure setting up activity, falling back to Rankings", e);
+            InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+            imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+            onBackPressed();
+        }
     }
 
     @Override

@@ -7,6 +7,7 @@ import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -41,6 +42,8 @@ import java.util.Map;
 
 public class DraftInfo extends AppCompatActivity {
 
+    private static final String TAG = "DraftInfo";
+
     private Rankings rankings;
 
     private LinearLayout baseLayout;
@@ -74,15 +77,20 @@ public class DraftInfo extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
-        init();
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
-        init();
+        try {
+            init();
+        } catch (Exception e) {
+            Log.d(TAG, "Failure setting up activity, falling back to Rankings", e);
+            InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+            imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+            onBackPressed();
+        }
     }
 
     @Override

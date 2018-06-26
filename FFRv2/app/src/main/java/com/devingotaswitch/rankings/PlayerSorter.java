@@ -11,6 +11,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -56,6 +57,8 @@ import java.util.Set;
 
 public class PlayerSorter extends AppCompatActivity {
 
+    private static final String TAG = "PlayerSorter";
+
     private Rankings rankings;
     private RankingsDBWrapper rankingsDB;
 
@@ -95,8 +98,6 @@ public class PlayerSorter extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
-        init();
     }
 
     @Override
@@ -128,7 +129,14 @@ public class PlayerSorter extends AppCompatActivity {
 
         this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-        init();
+        try {
+            init();
+        } catch (Exception e) {
+            Log.d(TAG, "Failure setting up activity, falling back to Rankings", e);
+            InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+            imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+            onBackPressed();
+        }
     }
 
     private void init() {

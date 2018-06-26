@@ -70,15 +70,18 @@ public class FantasyNews extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
-        init();
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
-        init();
+        try {
+            init();
+        } catch(Exception e) {
+            Log.d(TAG, "Failure setting up activity, falling back to Rankings", e);
+            onBackPressed();
+        }
     }
 
     private void init() {

@@ -78,15 +78,6 @@ public class PlayerComparator extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
-        init();
-
-        if (getIntent().hasExtra(Constants.PLAYER_ID)) {
-            String playerId = getIntent().getStringExtra(Constants.PLAYER_ID);
-            playerA = rankings.getPlayer(playerId);
-            inputA.setText(playerA.getName());
-        }
-
     }
 
     @Override
@@ -94,7 +85,21 @@ public class PlayerComparator extends AppCompatActivity {
         super.onResume();
         getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
 
-        init();
+        try {
+            init();
+
+            if (getIntent().hasExtra(Constants.PLAYER_ID)) {
+                String playerId = getIntent().getStringExtra(Constants.PLAYER_ID);
+                playerA = rankings.getPlayer(playerId);
+                inputA.setText(playerA.getName());
+                inputB.requestFocus();
+            }
+        } catch (Exception e) {
+            Log.d(TAG, "Failure setting up activity, falling back to Rankings", e);
+            InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+            imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+            onBackPressed();
+        }
     }
 
     private void init() {

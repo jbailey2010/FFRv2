@@ -6,6 +6,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -58,6 +59,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
+        rankingsUpdated = false;
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -67,16 +69,18 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                 getApplication().startActivity(intent);
             }
         });
-        rankingsUpdated = false;
-
-        init();
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
-        init();
+        try {
+            init();
+        } catch (Exception e) {
+            Log.d(TAG, "Failure setting up activity, falling back to Rankings", e);
+            onBackPressed();
+        }
     }
 
     private void init() {

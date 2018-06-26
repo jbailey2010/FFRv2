@@ -68,19 +68,24 @@ public class ADPSimulator extends AppCompatActivity {
                 onBackPressed();
             }
         });
-
-        init();
-
-        if (getIntent().hasExtra(Constants.PLAYER_ID)) {
-            setPlayerToBeChecked(getIntent().getStringExtra(Constants.PLAYER_ID));
-        }
     }
 
     @Override
     public void onResume() {
         super.onResume();
 
-        init();
+        try {
+            init();
+
+            if (getIntent().hasExtra(Constants.PLAYER_ID)) {
+                setPlayerToBeChecked(getIntent().getStringExtra(Constants.PLAYER_ID));
+            }
+        } catch (Exception e) {
+            Log.d(TAG, "Failure setting up activity, falling back to Rankings", e);
+            InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+            imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+            onBackPressed();
+        }
     }
 
     private void init() {
