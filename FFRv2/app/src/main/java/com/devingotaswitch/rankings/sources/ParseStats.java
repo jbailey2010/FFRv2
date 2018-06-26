@@ -115,13 +115,13 @@ public class ParseStats {
                 normal += "Rushing Touchdowns: " + tds;
                 qbPlayers.put(getPlayerIdKey(name, team, Constants.QB), normal);
             } else {
-                data.append("Pass Attempts: ").append(player[player.length - 9]).append(Constants.LINE_BREAK);
-                data.append("Yards: ").append(player[player.length - 8].replace(",", "")).append(Constants.LINE_BREAK);
-                data.append("Adjusted Yards: ").append(player[player.length - 7].replace(",", "")).append(Constants.LINE_BREAK);
-                data.append("Touchdowns: ").append(player[player.length - 6]).append(Constants.LINE_BREAK);
-                data.append("Completion Percentage: ").append(player[player.length - 2]).append(Constants.LINE_BREAK);
-                data.append("Interceptions: ").append(player[player.length - 3]).append(Constants.LINE_BREAK);
-                data.append("Fumbles Lost: ").append(player[player.length - 4])
+                data.append("Pass Attempts: ").append(player[player.length - 10]).append(Constants.LINE_BREAK);
+                data.append("Yards: ").append(player[player.length - 9].replace(",", "")).append(Constants.LINE_BREAK);
+                data.append("Adjusted Yards: ").append(player[player.length - 8].replace(",", "")).append(Constants.LINE_BREAK);
+                data.append("Touchdowns: ").append(player[player.length - 7]).append(Constants.LINE_BREAK);
+                data.append("Completion Percentage: ").append(player[player.length - 3]).append(Constants.LINE_BREAK);
+                data.append("Interceptions: ").append(player[player.length - 4]).append(Constants.LINE_BREAK);
+                data.append("Fumbles Lost: ").append(player[player.length - 5])
                         .append(Constants.LINE_BREAK);
                 if (player.length > 17) {
                     data.append("DVOA: ")
