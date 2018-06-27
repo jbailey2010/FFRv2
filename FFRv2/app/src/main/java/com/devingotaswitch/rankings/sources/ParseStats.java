@@ -1,5 +1,8 @@
 package com.devingotaswitch.rankings.sources;
 
+import android.util.Log;
+
+import com.amazonaws.util.StringUtils;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.utils.Constants;
@@ -8,10 +11,14 @@ import com.devingotaswitch.utils.ParsingUtils;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class ParseStats {
+
+    private static final String TAG = "ParseStats";
 
     public static void setStats(Rankings rankings)
             throws IOException {
@@ -22,39 +29,60 @@ public class ParseStats {
         Map<String, String> tes = parseTEStats();
         for (String key : rankings.getPlayers().keySet()) {
             Player player = rankings.getPlayer(key);
-            if (!player.getPosition().equals(Constants.K)
-                    && !player.getPosition().equals(Constants.DST)) {
+            switch (player.getPosition()) {
+                case Constants.QB:
+                    applyStats(qbs, player);
+                    break;
+                case Constants.RB:
+                    applyStats(rbs, player);
+                    break;
+                case Constants.WR:
+                    applyStats(wrs, player);
+                    break;
+                case Constants.TE:
+                    applyStats(tes, player);
+                    break;
+            }
+        }
+
+        // Now, do a second pass, only looking at players who have no stats
+        for (String key : rankings.getPlayers().keySet()) {
+            Player player = rankings.getPlayer(key);
+            if (StringUtils.isBlank(player.getStats())) {
                 switch (player.getPosition()) {
                     case Constants.QB:
-                        if (qbs.containsKey(getUniqueIdFirstInitial(player))) {
-                            player.setStats(qbs.get(getUniqueIdFirstInitial(player)));
-                        } else if (qbs.containsKey(getUniqueIdFirstTwoLetters(player))) {
-                            player.setStats(qbs.get(getUniqueIdFirstTwoLetters(player)));
-                        }
+                        applyStatsChangedTeam(qbs, player);
                         break;
                     case Constants.RB:
-                        if (rbs.containsKey(getUniqueIdFirstInitial(player))) {
-                            player.setStats(rbs.get(getUniqueIdFirstInitial(player)));
-                        } else if (rbs.containsKey(getUniqueIdFirstTwoLetters(player))) {
-                            player.setStats(rbs.get(getUniqueIdFirstTwoLetters(player)));
-                        }
+                        applyStatsChangedTeam(rbs, player);
                         break;
                     case Constants.WR:
-                        if (wrs.containsKey(getUniqueIdFirstInitial(player))) {
-                            player.setStats(wrs.get(getUniqueIdFirstInitial(player)));
-                        } else if (wrs.containsKey(getUniqueIdFirstTwoLetters(player))) {
-                            player.setStats(wrs.get(getUniqueIdFirstTwoLetters(player)));
-                        }
+                        applyStatsChangedTeam(wrs, player);
                         break;
                     case Constants.TE:
-                        if (tes.containsKey(getUniqueIdFirstInitial(player))) {
-                            player.setStats(tes.get(getUniqueIdFirstInitial(player)));
-                        } else if (tes.containsKey(getUniqueIdFirstTwoLetters(player))) {
-                            player.setStats(tes.get(getUniqueIdFirstTwoLetters(player)));
-                        }
+                        applyStatsChangedTeam(tes, player);
                         break;
                 }
             }
+        }
+    }
+
+    private static void applyStatsChangedTeam(Map<String, String> statsMap, Player player) {
+        String oneInitial = getNameFirstInitial(player);
+        String twoInitials = getNameFirstTwoLetters(player);
+        for (String key : statsMap.keySet()) {
+            if ((key.startsWith(oneInitial) || key.startsWith(twoInitials))
+                    && key.endsWith(player.getPosition())) {
+                player.setStats(statsMap.get(key));
+            }
+        }
+    }
+
+    private static void applyStats(Map<String, String> statsMap, Player player) {
+        if (statsMap.containsKey(getUniqueIdFirstInitial(player))) {
+            player.setStats(statsMap.get(getUniqueIdFirstInitial(player)));
+        } else if (statsMap.containsKey(getUniqueIdFirstTwoLetters(player))) {
+            player.setStats(statsMap.get(getUniqueIdFirstTwoLetters(player)));
         }
     }
 
@@ -67,28 +95,25 @@ public class ParseStats {
     }
 
     private static String getUniqueIdFirstInitial(Player player) {
+        return getPlayerIdKey(getNameFirstInitial(player), player.getTeamName(), player.getPosition());
+    }
+
+    private static String getNameFirstInitial(Player player) {
         String[] name = player.getName().split(" ");
-        String testName;
         if (name[0].contains(".")) {
-            testName = player.getName().replaceAll(" ", "");
+            return player.getName().replaceAll(" ", "");
         } else {
-            testName = name[0].charAt(0) + "." + name[1];
+            return name[0].charAt(0) + "." + name[1];
         }
-        return testName +
-                Constants.PLAYER_ID_DELIMITER +
-                player.getTeamName() +
-                Constants.PLAYER_ID_DELIMITER +
-                player.getPosition();
     }
 
     private static String getUniqueIdFirstTwoLetters(Player player) {
+        return getPlayerIdKey(getNameFirstTwoLetters(player), player.getTeamName(), player.getPosition());
+    }
+
+    private static String getNameFirstTwoLetters(Player player) {
         String[] name = player.getName().split(" ");
-        String testName = name[0].substring(0,2) + "." + name[1];
-        return testName +
-                Constants.PLAYER_ID_DELIMITER +
-                player.getTeamName() +
-                Constants.PLAYER_ID_DELIMITER +
-                player.getPosition();
+        return name[0].substring(0,2) + "." + name[1];
     }
 
     private static Map<String, String> parseQBStats() throws IOException {

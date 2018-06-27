@@ -64,11 +64,6 @@ public class ParseYahoo {
             name = new StringBuilder(name.substring(0, name.length() - 1));
             String team = nameSet[nameSet.length - 1];
             if (td.get(i).contains("DEF")) {
-                if (td.get(i).contains("NYG")) {
-                    name = new StringBuilder("New York Giants");
-                } else if (td.get(i).contains("NYJ")) {
-                    name = new StringBuilder("New York Jets");
-                }
                 name = new StringBuilder(team);
             }
             String rank = td.get(i + 1).split("\\$")[1];
