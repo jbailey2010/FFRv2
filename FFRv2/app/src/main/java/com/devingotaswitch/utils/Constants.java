@@ -148,6 +148,8 @@ public class Constants {
     public static final Integer ONE_STARTER = 1;
     public static final Integer TWO_STARTERS = 2;
     public static final Integer BENCH_DEFAULT = 6;
+    public static final Integer AUCTION_TEAM_SCALE_COUNT = 12;
+    public static final Double AUCTION_TEAM_SCALE_THRESHOLD = 0.80;
 
     // Team settings: SQL
     public static final String TEAM_TABLE_NAME = "team_data";

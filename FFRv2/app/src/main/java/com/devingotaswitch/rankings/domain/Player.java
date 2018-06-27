@@ -1,8 +1,12 @@
 package com.devingotaswitch.rankings.domain;
 
+import android.util.Log;
+
 import com.devingotaswitch.utils.Constants;
 
 public class Player {
+
+    private static final String TAG = "Player";
 
     private String name;
     private Integer age;
@@ -99,6 +103,17 @@ public class Player {
 
     public Double getAuctionValueCustom(Rankings rankings) {
         double scalar = ((double)rankings.getLeagueSettings().getAuctionBudget()) / ((double)Constants.DEFAULT_AUCTION_BUDGET);
+        if (rankings.getLeagueSettings().getTeamCount() > Constants.AUCTION_TEAM_SCALE_COUNT) {
+            // First, get the extra % of money. If there's 14 teams, that means 14/12 = 1.16667 = 16.6667 % more money.
+            // To limit crazy numbers, it's capped at 16 teams/33.333% above.
+            double teamScaleDelta = (Math.min((double)rankings.getLeagueSettings().getTeamCount(), 16.0)) /
+                    ((double)Constants.AUCTION_TEAM_SCALE_COUNT) - 1.0;
+            // Next, scale that down a bit.
+            teamScaleDelta *= Constants.AUCTION_TEAM_SCALE_THRESHOLD;
+            // Finally, add it back to 1 so we can scale values accordingly, x * (1.16667 * scale down factor).
+            teamScaleDelta += 1.0;
+            scalar *= teamScaleDelta;
+        }
         return getAuctionValue() * scalar;
     }
     public String getNote() {
