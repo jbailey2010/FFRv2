@@ -153,9 +153,34 @@ public class DraftInfo extends AppCompatActivity {
         paaLeft.setText(getPAALeft());
 
         TextView playersDrafted = view.findViewById(R.id.base_textview_players_drafted);
-        playersDrafted.setText("Total players drafted: " + rankings.getDraft().getDraftedPlayers().size());
+
+        String playersDraftedString = "Total players drafted: " + rankings.getDraft().getDraftedPlayers().size();
+        playersDrafted.setText(playersDraftedString);
+
+        TextView graphLegend = view.findViewById(R.id.base_textview_graph_header);
+        String graphHeader = "Positional PAA remaining, graphed in the order:";
+        RosterSettings roster = rankings.getLeagueSettings().getRosterSettings();
+        graphHeader += conditionallyAddPosition(graphHeader, Constants.QB, roster);
+        graphHeader += conditionallyAddPosition(graphHeader, Constants.RB, roster);
+        graphHeader += conditionallyAddPosition(graphHeader, Constants.WR, roster);
+        graphHeader += conditionallyAddPosition(graphHeader, Constants.TE, roster);
+        graphHeader += conditionallyAddPosition(graphHeader, Constants.DST, roster);
+        graphHeader += conditionallyAddPosition(graphHeader, Constants.K, roster);
+        if (graphHeader.endsWith(", ")) {
+            // Shouldn't ever *not* be true, but just in case someone is screwing with something
+            graphHeader = graphHeader.substring(0, graphHeader.length() - 2);
+        }
+
+        graphLegend.setText(graphHeader);
 
         graphPAALeft();
+    }
+
+    private String conditionallyAddPosition(String header, String pos, RosterSettings roster) {
+        if (roster.isPositionValid(pos)) {
+            return pos + ", ";
+        }
+        return "";
     }
 
     private String getPAALeft() {
@@ -469,7 +494,6 @@ public class DraftInfo extends AppCompatActivity {
         BarDataSet dataSet = new BarDataSet(entries, label);
         dataSet.setColor(Color.parseColor(color));
         dataSet.setValueTextSize(10f);
-        //dataSet.setDrawValues(false);
         return dataSet;
     }
 }
