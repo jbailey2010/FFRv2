@@ -158,7 +158,7 @@ public class DraftInfo extends AppCompatActivity {
         playersDrafted.setText(playersDraftedString);
 
         TextView graphLegend = view.findViewById(R.id.base_textview_graph_header);
-        String graphHeader = "Positional PAA remaining, graphed in the order:";
+        String graphHeader = "Positional PAA remaining, graphed in the order: ";
         RosterSettings roster = rankings.getLeagueSettings().getRosterSettings();
         graphHeader += conditionallyAddPosition(graphHeader, Constants.QB, roster);
         graphHeader += conditionallyAddPosition(graphHeader, Constants.RB, roster);
