@@ -136,8 +136,9 @@ public class ExportRankings extends AppCompatActivity {
         String filePath = baseDir + File.separator + FILE_NAME;
         CSVWriter writer = new CSVWriter(new FileWriter(filePath));
 
-        String[] data = {"Name", "Age", "Position", "Team Name", "Positional SOS", "Bye Week", "ECR", "ADP", "Auction Value",
-                "Projection", "PAA", "XVal", "Note", "Watched"};
+        String[] data = {"Name", "Age", "Position", "Team Name", "Positional SOS", "Bye Week", "ECR", "ADP", "Dynasty/Keeper Rank",
+                "Rookie Rank", "$200 Unscaled Auction Value", "Customized Auction Value", "Projection", "PAA", "XVal",
+                "vOLS", "Note", "Watched"};
         writer.writeNext(data);
         for (String key : rankings.getOrderedIds()) {
             Player player = rankings.getPlayer(key);
@@ -158,10 +159,14 @@ public class ExportRankings extends AppCompatActivity {
                 }
                 playerData.add(String.valueOf(player.getEcr()));
                 playerData.add(String.valueOf(player.getAdp()));
+                playerData.add(String.valueOf(player.getDynastyRank()));
+                playerData.add(String.valueOf(player.getRookieRank()));
                 playerData.add(String.valueOf(player.getAuctionValue()));
+                playerData.add(String.valueOf(player.getAuctionValueCustom(rankings)));
                 playerData.add(String.valueOf(player.getProjection()));
                 playerData.add(String.valueOf(player.getPaa()));
                 playerData.add(String.valueOf(player.getxVal()));
+                playerData.add(String.valueOf(player.getvOLS()));
                 playerData.add(!StringUtils.isBlank(player.getNote()) ? player.getNote() : "");
                 playerData.add(String.valueOf(player.isWatched()));
 

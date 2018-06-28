@@ -230,11 +230,11 @@ public class Draft {
         return posPAA;
     }
 
-    public void draftPlayer(Player player, boolean myPick, int cost) {
+    public void draftPlayer(Player player, int teamCount, int auctionBudget, boolean myPick, int cost) {
         draftedPlayers.add(player.getUniqueId());
         if (myPick) {
             this.myPlayers.put(player.getUniqueId(), cost);
-            this.draftValue += (player.getAuctionValue() - (double) cost);
+            this.draftValue += (player.getAuctionValueCustom(teamCount, auctionBudget) - (double) cost);
             switch (player.getPosition()) {
                 case Constants.QB:
                     myQbs.add(player);
@@ -258,12 +258,12 @@ public class Draft {
         }
     }
 
-    private void unDraftPlayer(Player player) {
+    private void unDraftPlayer(Player player, Rankings rankings) {
         draftedPlayers.remove(player.getUniqueId());
         if (isDraftedByMe(player)) {
             int cost = myPlayers.get(player.getUniqueId());
             this.myPlayers.remove(player.getUniqueId());
-            this.draftValue -= (player.getAuctionValue() - (double) cost);
+            this.draftValue -= (player.getAuctionValueCustom(rankings) - (double) cost);
             switch (player.getPosition()) {
                 case Constants.QB:
                     myQbs.remove(player);
@@ -379,7 +379,7 @@ public class Draft {
     }
 
     public void draftBySomeone(Rankings rankings, Player player, Activity act, View view, View.OnClickListener listener) {
-        draftPlayer(player, false, 0);
+        draftPlayer(player, rankings.getLeagueSettings().getTeamCount(), rankings.getLeagueSettings().getAuctionBudget(),false, 0);
         if (listener == null) {
             Snackbar.make(view, player.getName() + " drafted", Snackbar.LENGTH_SHORT).show();
         } else {
@@ -390,7 +390,7 @@ public class Draft {
     }
 
     public void draftByMe(Rankings rankings, Player player, Activity act, int cost, View view, View.OnClickListener listener) {
-        draftPlayer(player, true, cost);
+        draftPlayer(player, rankings.getLeagueSettings().getTeamCount(), rankings.getLeagueSettings().getAuctionBudget(),true, cost);
         if (listener == null) {
             Snackbar.make(view, player.getName() + " drafted by you", Snackbar.LENGTH_SHORT).show();
         } else {
@@ -401,7 +401,7 @@ public class Draft {
     }
 
     public void undraft(Rankings rankings, Player player, Activity act, View view) {
-        unDraftPlayer(player);
+        unDraftPlayer(player, rankings);
         Snackbar.make(view, player.getName() + " undrafted", Snackbar.LENGTH_SHORT).show();
         saveDraft(rankings, act);
         AppSyncHelper.decrementPlayerDraftCount(act, player.getUniqueId());

@@ -466,7 +466,7 @@ public class PlayerInfo extends AppCompatActivity {
         data.add(adp);
 
         Map<String, String> auc = new HashMap<>();
-        auc.put(Constants.PLAYER_BASIC, "Auction Value: $" + df.format(player.getAuctionValue()));
+        auc.put(Constants.PLAYER_BASIC, "Auction Value: $" + df.format(player.getAuctionValueCustom(rankings)));
         int aucRank = getAuc(null, player.getAuctionValue());
         int aucPos = getAuc(player.getPosition(), player.getAuctionValue());
         String auctionSub = getRankingSub(aucRank, aucPos) +

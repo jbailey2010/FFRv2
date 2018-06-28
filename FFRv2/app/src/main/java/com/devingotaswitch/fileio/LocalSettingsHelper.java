@@ -6,6 +6,7 @@ import android.content.SharedPreferences;
 import com.amazonaws.util.StringUtils;
 import com.devingotaswitch.rankings.domain.Draft;
 import com.devingotaswitch.rankings.domain.Player;
+import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.youruserpools.CUPHelper;
 
@@ -61,7 +62,7 @@ public class LocalSettingsHelper {
         editor.apply();
     }
 
-    public static Draft loadDraft(Context cont, String leagueName, Map<String, Player> players) {
+    public static Draft loadDraft(Context cont, int teamCount, int auctionBudget, String leagueName, Map<String, Player> players) {
         String draftStr = getSharedPreferences(cont).getString(leagueName + Constants.CURRENT_DRAFT, null);
         String teamStr = getSharedPreferences(cont).getString(leagueName + Constants.CURRENT_TEAM, null);
         Draft draft = new Draft();
@@ -70,7 +71,7 @@ public class LocalSettingsHelper {
             for (int i = 0; i < myTeam.length; i+=2) {
                 String key = myTeam[i];
                 int cost = Integer.parseInt(myTeam[i+1]);
-                draft.draftPlayer(players.get(key), true, cost);
+                draft.draftPlayer(players.get(key), teamCount, auctionBudget,true, cost);
             }
         }
         if (!StringUtils.isBlank(draftStr)) {
@@ -78,7 +79,7 @@ public class LocalSettingsHelper {
             for (String key : drafted) {
                 Player player = players.get(key);
                 if (!draft.isDrafted(player)) {
-                    draft.draftPlayer(player, false, 0);
+                    draft.draftPlayer(player, teamCount, auctionBudget,false, 0);
                 }
             }
         }

@@ -55,7 +55,8 @@ public class RankingsLoader {
             Map<String, Player> players = rankingsDB.getPlayers(act);
             Map<String, Team> teams = rankingsDB.getTeams(act);
             List<String> orderedIds = rankingsDB.getPlayersSorted(act, currentLeague);
-            Draft draft = LocalSettingsHelper.loadDraft(act, currentLeague.getName(), players);
+            Draft draft = LocalSettingsHelper.loadDraft(act, currentLeague.getTeamCount(), currentLeague.getAuctionBudget(),
+                    currentLeague.getName(), players);
             return Rankings.init(teams, players, orderedIds, currentLeague, draft);
         }
     }
