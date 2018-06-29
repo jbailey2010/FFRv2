@@ -41,6 +41,7 @@
         android:layout_width="match_parent"
         android:layout_below="@+id/help_topics_header"
         android:layout_height="wrap_content"
+        android:overScrollMode="never"
         android:layout_alignParentBottom="true">
         <RelativeLayout
             android:layout_width="match_parent"
@@ -139,7 +140,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:layout_marginTop="10dp"
-                android:text="- ECR: The average overall ranking for that player. \n\n- Risk: the variation in rankings for that player. \n\n- ADP: The average draft position for that player. \n\n- Auction value: The average auction value provided/calculated for that player. \n\n- Leverage: The relation of the projection and auction value for that player to that of the top projected player at the same position. \n\n- Projection: The average projection for that player, based on current league settings. \n\n- PAA: A value based drafting metric, relating projection to the average of the number of players at that projection that will be played that year. \n\n- XValue: Another value based drafting metric, instead related to the projections of the number at that position drafted in the first 100 picks of a draft, on average. \n\n- VoLS: a third value based drafting metric, which compares projection against the projected last started player. \n\n- All value based drafting metrics also have scaled versions, which scale down based on number of drafted players and roster requirements. \n\n- All value based drafting metrics also have metrics relating the numbers to auction values to help normalize between the two.\n"
+                android:text="- ECR: The average overall expert ranking for that player. \n\n- Risk: the variation in rankings for that player. \n\n- ADP: The average draft position for that player. \n\n- Dynasty/Keeper ranking: The overall expert ranking for a player in keeper or dynasty start up drafts. \n\n- Rookie ranking: The overall expert ranking for a player in rookie drafts. \n\n- Auction value: The average auction value provided/calculated for that player. \n\n- Leverage: The relation of the projection and auction value for that player to that of the top projected player at the same position. \n\n- Projection: The average projection for that player, based on current league settings. \n\n- PAA: A value based drafting metric, relating projection to the average of the number of players at that projection that will be played that year. \n\n- XValue: Another value based drafting metric, instead related to the projections of the number at that position drafted in the first 100 picks of a draft, on average. \n\n- VoLS: a third value based drafting metric, which compares projection against the projected last started player. \n\n- All value based drafting metrics also have scaled versions, which scale down based on number of drafted players and roster requirements. \n\n- All value based drafting metrics also have metrics relating the numbers to auction values to help normalize between the two.\n"
                 android:visibility="gone"
                 android:id="@+id/help_stats_body"/>
         </RelativeLayout>
