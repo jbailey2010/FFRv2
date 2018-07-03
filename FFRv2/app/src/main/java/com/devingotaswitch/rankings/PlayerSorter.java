@@ -162,19 +162,21 @@ public class PlayerSorter extends AppCompatActivity {
         if (roster.getkCount() > 0) {
             posList.add(Constants.K);
         }
-        if (roster.getRbCount() > 0 && roster.getWrCount() > 0) {
+        if (roster.getRbCount() > 0 && roster.getWrCount() > 0 && roster.getNumStartingPositions() > 2) {
             posList.add(Constants.RBWR);
         }
-        if (roster.getRbCount() > 0 && roster.getTeCount() > 0) {
+        if (roster.getRbCount() > 0 && roster.getTeCount() > 0 && roster.getNumStartingPositions() > 2) {
             posList.add(Constants.RBTE);
         }
-        if (roster.getRbCount() > 0 && roster.getWrCount() > 0 && roster.getTeCount() > 0) {
+        if (roster.getRbCount() > 0 && roster.getWrCount() > 0 && roster.getTeCount() > 0
+                && roster.getNumStartingPositions() > 3) {
             posList.add(Constants.RBWRTE);
         }
-        if (roster.getWrCount() > 0 && roster.getTeCount() > 0) {
+        if (roster.getWrCount() > 0 && roster.getTeCount() > 0 && roster.getNumStartingPositions() > 2) {
             posList.add(Constants.WRTE);
         }
-        if (roster.getQbCount() > 0 && roster.getRbCount() > 0 && roster.getWrCount() > 0 && roster.getTeCount() > 0) {
+        if (roster.getQbCount() > 0 && roster.getRbCount() > 0 && roster.getWrCount() > 0 && roster.getTeCount() > 0
+                && roster.getNumStartingPositions() > 4) {
             posList.add(Constants.QBRBWRTE);
         }
         ArrayAdapter<String> positionAdapter = new ArrayAdapter<>(this,

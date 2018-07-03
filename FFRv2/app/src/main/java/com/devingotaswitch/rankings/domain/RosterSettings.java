@@ -135,6 +135,10 @@ public class RosterSettings {
         this.flex = flex;
     }
 
+    public int getNumStartingPositions() {
+        return validPositions.size();
+    }
+
     public int getRosterSize() {
         int size = qbCount + rbCount + wrCount + teCount + dstCount + kCount + benchCount;
         if (flex != null) {
