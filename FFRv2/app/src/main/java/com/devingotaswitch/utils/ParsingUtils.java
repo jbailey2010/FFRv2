@@ -1,5 +1,7 @@
 package com.devingotaswitch.utils;
 
+import android.util.Log;
+
 import com.amazonaws.util.StringUtils;
 import com.devingotaswitch.rankings.domain.Player;
 
@@ -248,12 +250,16 @@ public class ParsingUtils {
             return "New England Patriots";
         } else if (low.contains("nyj")) {
             return "New York Jets";
-        } else if (low.contains("tb")) {
+        } else if (low.contains("tb") && ((low.split(" ").length == 1)
+                || (low.split(" ").length == 2 && low.split(" ")[0].contains("tb")))) {
             return "Tampa Bay Buccaneers";
         } else if (low.contains("mia") && low.length() < 5) {
             return "Miami Dolphins";
         } else if (low.contains("nyg")) {
             return "New York Giants";
+        } else if (low.equals("fa") || low.equals("--") || low.equals("---") || low.equals("wr")) {
+            // All random team strings should go here.
+            return "Free Agent/Retired";
         }
         return team;
     }
@@ -307,7 +313,7 @@ public class ParsingUtils {
             uName = "Giants D/ST";
         } else if (name.contains("philadelphia")) {
             uName = "Eagles D/ST";
-        } else if (name.contains("dallas")) {
+        } else if (name.contains("dallas") && !(name.split(" ").length > 1 && !"dallas cowboys".equals(name))) {
             uName = "Cowboys D/ST";
         } else if (name.contains("washington") && !(name.split(" ").length > 1 && !"washington redskins".equals(name))) {
             uName = "Redskins D/ST";

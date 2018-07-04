@@ -76,6 +76,14 @@ public class MainActivity extends AppCompatActivity {
         titleView = findViewById(R.id.main_toolbar_title);
         setSupportActionBar(toolbar);
 
+        // Set navigation drawer for this screen
+        mDrawer = findViewById(R.id.main_drawer_layout);
+        mDrawerToggle = new ActionBarDrawerToggle(this,mDrawer, toolbar, R.string.nav_drawer_open, R.string.nav_drawer_close);
+        mDrawer.addDrawerListener(mDrawerToggle);
+        mDrawerToggle.syncState();
+        nDrawer = findViewById(R.id.nav_view);
+        setNavDrawer();
+
         // Initialize application
         CUPHelper.init(getApplicationContext());
         setDisplayForLoading();
@@ -534,6 +542,7 @@ public class MainActivity extends AppCompatActivity {
         RelativeLayout fields = findViewById(R.id.rankings_splash_bottom);
         fields.setVisibility(View.VISIBLE);
         titleView.setText("Sign in");
+        toolbar.setVisibility(View.VISIBLE);
     }
 
     private void setDisplayForLoading() {
@@ -542,14 +551,7 @@ public class MainActivity extends AppCompatActivity {
         RelativeLayout fields = findViewById(R.id.rankings_splash_bottom);
         fields.setVisibility(View.GONE);
         titleView.setText("");
-
-        // Set navigation drawer for this screen
-        mDrawer = findViewById(R.id.main_drawer_layout);
-        mDrawerToggle = new ActionBarDrawerToggle(this,mDrawer, toolbar, R.string.nav_drawer_open, R.string.nav_drawer_close);
-        mDrawer.addDrawerListener(mDrawerToggle);
-        mDrawerToggle.syncState();
-        nDrawer = findViewById(R.id.nav_view);
-        setNavDrawer();
+        toolbar.setVisibility(View.INVISIBLE);
     }
 
     private void clearInput() {
