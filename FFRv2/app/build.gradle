@@ -29,7 +29,7 @@ dependencies {
     implementation 'com.amazonaws:aws-android-sdk-cognitoidentityprovider:2.6.+'
     implementation 'com.amazonaws:aws-android-sdk-appsync:2.6.16'
     implementation 'com.android.support.constraint:constraint-layout:1.1.+'
-    implementation 'org.jsoup:jsoup:1.10.2'
+    implementation 'org.jsoup:jsoup:1.11.3'
     implementation 'net.sf.opencsv:opencsv:2.4'
     implementation 'com.github.PhilJay:MPAndroidChart:v3.0.3'
 }

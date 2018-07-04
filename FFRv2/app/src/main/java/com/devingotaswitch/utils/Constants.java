@@ -25,9 +25,8 @@ public class Constants {
     public final static String SORT_ALL = "Default Sort";
     public final static String SORT_ECR = "ECR";
     public final static String SORT_ADP = "ADP";
-    public final static String SORT_UNDERDRAFTED = "ADP Under Drafted";
-    public final static String SORT_OVERDRAFTED = "ADP Over Drafted";
-    public final static String SORT_BEST_VALUE = "Best Current Value";
+    public final static String SORT_UNDERDRAFTED = "ADP Good Values";
+    public final static String SORT_OVERDRAFTED = "ADP Bad Values";
     public final static String SORT_AUCTION = "Auction Value";
     public final static String SORT_DYNASTY = "Dynasty/Keeper Rank";
     public final static String SORT_ROOKIE = "Rookie Rank";
@@ -41,6 +40,7 @@ public class Constants {
     public final static String SORT_VOLS = "VoLS";
     public final static String SORT_VOLS_SCALED = "Scaled VoLS";
     public final static String SORT_VOLSPD = "VoLS Per Dollar";
+    public final static String SORT_VBD_SUGGESTED = "VBD Suggested Pick";
     public final static String SORT_RISK = "Risk";
     public final static String SORT_SOS = "Positional SOS";
     public final static String SORT_TIERS = "Positional Tier";

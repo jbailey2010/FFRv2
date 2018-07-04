@@ -190,9 +190,6 @@ public class PlayerSorter extends AppCompatActivity {
         factorList.add(Constants.SORT_ADP);
         factorList.add(Constants.SORT_UNDERDRAFTED);
         factorList.add(Constants.SORT_OVERDRAFTED);
-        if (rankings.getLeagueSettings().isSnake() && rankings.getDraft().getDraftedPlayers().size() > 0) {
-            factorList.add(Constants.SORT_BEST_VALUE);
-        }
         factorList.add(Constants.SORT_AUCTION);
         factorList.add(Constants.SORT_DYNASTY);
         factorList.add(Constants.SORT_ROOKIE);
@@ -206,6 +203,7 @@ public class PlayerSorter extends AppCompatActivity {
         factorList.add(Constants.SORT_VOLS);
         factorList.add(Constants.SORT_VOLS_SCALED);
         factorList.add(Constants.SORT_VOLSPD);
+        factorList.add(Constants.SORT_VBD_SUGGESTED);
         factorList.add(Constants.SORT_RISK);
         factorList.add(Constants.SORT_SOS);
         if (rankings.getLeagueSettings().isSnake() || rankings.getLeagueSettings().isAuction()) {
@@ -276,9 +274,6 @@ public class PlayerSorter extends AppCompatActivity {
             case Constants.SORT_OVERDRAFTED:
                 comparator = getOverdraftedComparator();
                 break;
-            case Constants.SORT_BEST_VALUE:
-                comparator = getBestValueComparator();
-                break;
             case Constants.SORT_AUCTION:
                 comparator = getAuctionComparator();
                 break;
@@ -318,6 +313,9 @@ public class PlayerSorter extends AppCompatActivity {
             case Constants.SORT_VOLSPD:
                 comparator = getVoLSPDComparator();
                 break;
+            case Constants.SORT_VBD_SUGGESTED:
+                comparator = getVBDSuggestedComparator();
+                break;
             case Constants.SORT_RISK:
                 comparator = getRiskComparator();
                 break;
@@ -339,7 +337,8 @@ public class PlayerSorter extends AppCompatActivity {
                 // Also skip if we're just looking at rookie rank and it's 'not set'.
                 continue;
             }
-            if (booleanFactors.contains(Constants.SORT_HIDE_DRAFTED) && rankings.getDraft().isDrafted(player)) {
+            if ((booleanFactors.contains(Constants.SORT_HIDE_DRAFTED) || Constants.SORT_VBD_SUGGESTED.equals(factor))
+                    && rankings.getDraft().isDrafted(player)) {
                 continue;
             }
             if (booleanFactors.contains(Constants.SORT_EASY_SOS)) {
@@ -398,6 +397,20 @@ public class PlayerSorter extends AppCompatActivity {
                 new int[] { R.id.player_basic, R.id.player_info,
                         R.id.player_status, R.id.player_tier });
         listview.setAdapter(adapter);
+
+        double maxVal = 0.0;
+        if (Constants.SORT_VBD_SUGGESTED.equals(factor)) {
+            for (String key : rankings.getPlayers().keySet()) {
+                Player player = rankings.getPlayer(key);
+                if (!rankings.getDraft().isDrafted(player)) {
+                    double currVal = getVBDSuggestedValue(rankings.getPlayer(key));
+                    if (currVal > maxVal) {
+                        maxVal = currVal;
+                    }
+                }
+            }
+        }
+
         int displayedCount = 0;
         for (Player player : players) {
             if (rankings.getLeagueSettings().getRosterSettings().isPositionValid(player.getPosition())) {
@@ -405,7 +418,7 @@ public class PlayerSorter extends AppCompatActivity {
                     break;
                 }
                 Map<String, String> datum = new HashMap<>(3);
-                datum.put(Constants.PLAYER_BASIC, getMainTextForFactor(player));
+                datum.put(Constants.PLAYER_BASIC, getMainTextForFactor(player, maxVal));
                 datum.put(Constants.PLAYER_INFO, getSubTextForFactor(player, df));
                 if (player.isWatched()) {
                     datum.put(Constants.PLAYER_STATUS, Integer.toString(R.drawable.star));
@@ -574,18 +587,6 @@ public class PlayerSorter extends AppCompatActivity {
         };
     }
 
-    private Comparator<Player> getBestValueComparator() {
-        return new Comparator<Player>() {
-            @Override
-            public int compare(Player a, Player b) {
-                int draftCount = rankings.getDraft().getDraftedPlayers().size();
-                double diffA = a.getEcr() - draftCount;
-                double diffB = b.getEcr() - draftCount;
-                return Double.compare(diffB, diffA);
-            }
-        };
-    }
-
     private Comparator<Player> getAuctionComparator() {
         return new Comparator<Player>() {
             @Override
@@ -681,6 +682,10 @@ public class PlayerSorter extends AppCompatActivity {
         return volspdA;
     }
 
+    private double getVBDSuggestedValue(Player a) {
+        return a.getScaledPAA(rankings) + a.getScaledPAA(rankings) + a.getScaledVoLS(rankings);
+    }
+
     private Comparator<Player> getXValComparator() {
         return new Comparator<Player>() {
             @Override
@@ -729,6 +734,17 @@ public class PlayerSorter extends AppCompatActivity {
                 double volspdA = getVoLSPD(a);
                 double volspdB = getVoLSPD(b);
                 return Double.compare(volspdB, volspdA);
+            }
+        };
+    }
+
+    private Comparator<Player> getVBDSuggestedComparator() {
+        return new Comparator<Player>() {
+            @Override
+            public int compare(Player a, Player b) {
+                double vbdValA = getVBDSuggestedValue(a);
+                double vbdValB = getVBDSuggestedValue(b);
+                return Double.compare(vbdValB, vbdValA);
             }
         };
     }
@@ -812,15 +828,15 @@ public class PlayerSorter extends AppCompatActivity {
         return team.getSosForPosition(player.getPosition());
     }
 
-    private String getMainTextForFactor(Player player) {
-        String prefix = getMainTextPrefixForPlayer(player);
+    private String getMainTextForFactor(Player player, double maxFactorValue) {
+        String prefix = getMainTextPrefixForPlayer(player, maxFactorValue);
 
         return prefix +
                 Constants.RANKINGS_LIST_DELIMITER +
                 player.getName();
     }
 
-    private String getMainTextPrefixForPlayer(Player player) {
+    private String getMainTextPrefixForPlayer(Player player, double maxFactorValue) {
         DecimalFormat df = new DecimalFormat(Constants.NUMBER_FORMAT);
         switch (factor) {
             case Constants.SORT_ALL:
@@ -840,8 +856,6 @@ public class PlayerSorter extends AppCompatActivity {
             case Constants.SORT_UNDERDRAFTED:
             case Constants.SORT_OVERDRAFTED:
                 return df.format(player.getEcr() - player.getAdp());
-            case Constants.SORT_BEST_VALUE:
-                return df.format(player.getEcr() - (rankings.getDraft().getDraftedPlayers().size() + 1));
             case Constants.SORT_AUCTION:
                 return df.format(player.getAuctionValueCustom(rankings));
             case Constants.SORT_DYNASTY:
@@ -868,6 +882,8 @@ public class PlayerSorter extends AppCompatActivity {
                 return df.format(player.getScaledVoLS(rankings));
             case Constants.SORT_VOLSPD:
                 return df.format(getVoLSPD(player));
+            case Constants.SORT_VBD_SUGGESTED:
+                return df.format((getVBDSuggestedValue(player)/maxFactorValue) * 100.0);
             case Constants.SORT_RISK:
                 return String.valueOf(player.getRisk());
             case Constants.SORT_SOS:
@@ -893,13 +909,16 @@ public class PlayerSorter extends AppCompatActivity {
                     .append(Constants.LINE_BREAK)
                     .append("ADP: ")
                     .append(player.getAdp());
-        }  else if (Constants.SORT_BEST_VALUE.equals(factor)) {
+        }  else if (Constants.SORT_VBD_SUGGESTED.equals(factor)) {
             subtextBuilder.append(Constants.LINE_BREAK)
-                    .append("ECR: ")
-                    .append(player.getEcr())
+                    .append("PAA: ")
+                    .append(df.format(player.getPaa()))
                     .append(Constants.LINE_BREAK)
-                    .append("Current Draft Position: ")
-                    .append(rankings.getDraft().getDraftedPlayers().size());
+                    .append("XVal: ")
+                    .append(df.format(player.getxVal()))
+                    .append(Constants.LINE_BREAK)
+                    .append("VoLS: ")
+                    .append(df.format(player.getvOLS()));
         }
         boolean isAuction = rankings.getLeagueSettings().isAuction();
         if (isAuction && !Constants.SORT_AUCTION.equals(factor) && !Constants.SORT_ALL.equals(factor)) {
@@ -961,7 +980,7 @@ public class PlayerSorter extends AppCompatActivity {
         List<Entry> ks = new ArrayList<>();
         for (int i = 0; i < Math.min(sortMax, players.size()); i++) {
             Player player = players.get(i);
-            double value = Double.parseDouble(getMainTextPrefixForPlayer(player));
+            double value = Double.parseDouble(getMainTextPrefixForPlayer(player, 0.0));
             entries.add(new Entry(i, (int) value));
             switch (player.getPosition()) {
                 case Constants.QB:
