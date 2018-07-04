@@ -106,6 +106,9 @@ public class Player {
     }
 
     public Double getAuctionValueCustom(int teamCount, int auctionBudget) {
+        if (getAuctionValue() <= 1.0) {
+            return getAuctionValue();
+        }
         double scalar = ((double)auctionBudget) / ((double)Constants.DEFAULT_AUCTION_BUDGET);
         if (teamCount > Constants.AUCTION_TEAM_SCALE_COUNT) {
             // First, get the extra % of money. If there's 14 teams, that means 14/12 = 1.16667 = 16.6667 % more money.

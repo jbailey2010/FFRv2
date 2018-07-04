@@ -68,6 +68,7 @@ public class ParsingUtils {
         playerFixes.put("Joshua Cribbs", "Josh Cribbs");
         playerFixes.put("Devier Posey", "DeVier Posey");
         playerFixes.put("Robert Griffin, III", "Robert Griffin III");
+        playerFixes.put("Robert GriffinI", "Robert Griffin III");
         playerFixes.put("Le`Veon Bell", "Le'Veon Bell");
         playerFixes.put("Michael Crabtre", "Michael Crabtree");
         playerFixes.put("Zach K. Brown", "Zach Brown");
@@ -257,7 +258,7 @@ public class ParsingUtils {
             return "Miami Dolphins";
         } else if (low.contains("nyg")) {
             return "New York Giants";
-        } else if (low.equals("fa") || low.equals("--") || low.equals("---") || low.equals("wr")) {
+        } else if (low.equals("fa") || low.equals("--") || low.equals("---") || low.equals("wr") || low.equals("")) {
             // All random team strings should go here.
             return "Free Agent/Retired";
         }

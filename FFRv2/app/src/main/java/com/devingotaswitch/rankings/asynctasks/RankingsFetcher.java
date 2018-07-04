@@ -122,6 +122,9 @@ public class RankingsFetcher {
             }
             publishProgress("Fetching rankings... 10/14");
 
+            Log.i(TAG, "Cleaning up duplicate players");
+            dedupPlayers();
+
             Log.i(TAG, "Getting projections");
             publishProgress("Getting projections...");
             try {
@@ -245,9 +248,6 @@ public class RankingsFetcher {
             } catch (Exception e) {
                 Log.e(TAG, "Failed to get FA info", e);
             }
-
-            Log.i(TAG, "Cleaning up duplicate players");
-            dedupPlayers();
 
             Log.i(TAG, "Ordering players for display");
             rankings.setOrderedIds(getOrderedIds());
