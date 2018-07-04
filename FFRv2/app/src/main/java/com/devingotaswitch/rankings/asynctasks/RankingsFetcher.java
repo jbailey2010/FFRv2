@@ -24,13 +24,16 @@ import com.devingotaswitch.rankings.sources.ParseWalterFootball;
 import com.devingotaswitch.rankings.RankingsHome;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.sources.ParseYahoo;
+import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.GeneralUtils;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 public class RankingsFetcher {
@@ -243,6 +246,9 @@ public class RankingsFetcher {
                 Log.e(TAG, "Failed to get FA info", e);
             }
 
+            Log.i(TAG, "Cleaning up duplicate players");
+            dedupPlayers();
+
             Log.i(TAG, "Ordering players for display");
             rankings.setOrderedIds(getOrderedIds());
             setWatchedPlayers();
@@ -250,6 +256,30 @@ public class RankingsFetcher {
             return rankings;
         }
 
+        private void dedupPlayers() {
+            // Get players with at least one value set (meaning, probably real) and those with none (meaning, possibly have an old team).
+            Map<String, Player> realPlayers = new HashMap<>();
+            Set<Player> possiblyFake = new HashSet<>();
+            for (String key : rankings.getPlayers().keySet()) {
+                Player player = rankings.getPlayer(key);
+                if (player.getProjection() == 0.0 && player.getEcr() == 300.0 && player.getAdp() == 300.0) {
+                    possiblyFake.add(player);
+                } else {
+                    realPlayers.put(getDedupKey(player), player);
+                }
+            }
+
+            // Find matches between the two. Delete 'fake' players, and apply auction values over.
+            for (Player player : possiblyFake) {
+                if (realPlayers.containsKey(getDedupKey(player))) {
+                    rankings.dedupPlayer(player, realPlayers.get(getDedupKey(player)));
+                }
+            }
+        }
+
+        private String getDedupKey(Player player) {
+            return player.getName() + Constants.PLAYER_ID_DELIMITER + player.getPosition();
+        }
         private void setWatchedPlayers() {
             RankingsDBWrapper rankingsDB = new RankingsDBWrapper();
             List<Player> watchList = rankingsDB.getWatchList(act);

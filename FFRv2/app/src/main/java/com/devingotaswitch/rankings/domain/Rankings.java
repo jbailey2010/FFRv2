@@ -1,5 +1,7 @@
 package com.devingotaswitch.rankings.domain;
 
+import android.util.Log;
+
 import com.devingotaswitch.fileio.RankingsDBWrapper;
 import com.devingotaswitch.rankings.RankingsHome;
 import com.devingotaswitch.rankings.asynctasks.RankingsFetcher;
@@ -171,6 +173,12 @@ public class Rankings {
         }
         RankingsLoader.RanksLoader ranksLoader = loader.new RanksLoader(activity, rankingsDB);
         ranksLoader.execute();
+    }
+
+    public void dedupPlayer(Player fake, Player real) {
+        players.remove(fake.getUniqueId());
+        orderedIds.remove(fake.getUniqueId());
+        real.handleNewValue(fake.getAuctionValue());
     }
 
     public void processNewPlayer(Player player) {
