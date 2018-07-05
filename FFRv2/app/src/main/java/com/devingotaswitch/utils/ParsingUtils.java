@@ -68,7 +68,6 @@ public class ParsingUtils {
         playerFixes.put("Joshua Cribbs", "Josh Cribbs");
         playerFixes.put("Devier Posey", "DeVier Posey");
         playerFixes.put("Robert Griffin, III", "Robert Griffin III");
-        playerFixes.put("Robert GriffinI", "Robert Griffin III");
         playerFixes.put("Le`Veon Bell", "Le'Veon Bell");
         playerFixes.put("Michael Crabtre", "Michael Crabtree");
         playerFixes.put("Zach K. Brown", "Zach Brown");

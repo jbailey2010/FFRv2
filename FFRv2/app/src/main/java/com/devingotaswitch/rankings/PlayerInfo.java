@@ -651,7 +651,7 @@ public class PlayerInfo extends AppCompatActivity {
             activityData.put(Constants.PLAYER_BASIC, "Player popularity");
             String activityString = "" +
                     viewCount +
-                    (viewCount > 1 ? " views" : "view") +
+                    (viewCount > 1 ? " views" : " view") +
                     Constants.LINE_BREAK +
                     "In " +
                     watchCount +
