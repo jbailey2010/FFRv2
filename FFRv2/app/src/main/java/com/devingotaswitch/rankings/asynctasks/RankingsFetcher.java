@@ -122,9 +122,6 @@ public class RankingsFetcher {
             }
             publishProgress("Fetching rankings... 10/14");
 
-            Log.i(TAG, "Cleaning up duplicate players");
-            dedupPlayers();
-
             Log.i(TAG, "Getting projections");
             publishProgress("Getting projections...");
             try {
@@ -137,20 +134,12 @@ public class RankingsFetcher {
             Log.i(TAG, "Getting ECR rankings");
             try {
                 ParseFantasyPros.parseECRWrapper(rankings);
-
-                // Only get ECR auction value if it parses, so we don't get dummy values
-                Log.i(TAG, "Getting auction values from ecr");
-                ParseMath.getECRAuctionValue(rankings);
             } catch(Exception e) {
                 Log.e(TAG, "Failed to parse ECR/risk", e);
             }
             Log.i(TAG, "Getting ADP rankings");
             try {
                 ParseFantasyPros.parseADPWrapper(rankings);
-
-                // Only get ADP auction values if it passes, so we don't get dummy values
-                Log.i(TAG, "Getting auction values from adp");
-                ParseMath.getADPAuctionValue(rankings);
             } catch (Exception e) {
                 Log.e(TAG, "Failed to parse ADP", e);
             }
@@ -166,6 +155,35 @@ public class RankingsFetcher {
             } catch (Exception e) {
                 Log.e(TAG, "Failed to parse rookie ranks", e);
             }
+
+            Log.i(TAG, "Cleaning up duplicate players");
+            dedupPlayers();
+
+            Log.i(TAG, "Getting auction values from adp/ecr");
+            boolean adpSet = false;
+            boolean ecrSet = false;
+            for (Player player : rankings.getPlayers().values()) {
+                if (player.getAdp() < 300.0) {
+                    adpSet = true;
+                }
+                if (player.getEcr() < 300.0) {
+                    ecrSet = true;
+                }
+                if (adpSet && ecrSet) {
+                    break;
+                }
+            }
+            if (adpSet) {
+                ParseMath.getADPAuctionValue(rankings);
+            } else {
+                Log.d(TAG, "Not setting ADP auction values, ADP not set.");
+            }
+            if (ecrSet) {
+                ParseMath.getECRAuctionValue(rankings);
+            } else {
+                Log.d(TAG, "Not setting ECR auction values, ECR not set.");
+            }
+            publishProgress("Fetching rankings... 12/14");
 
             Log.i(TAG, "Getting positional tiers");
             publishProgress("Getting player positional tiers...");
@@ -200,8 +218,19 @@ public class RankingsFetcher {
             }
 
             Log.i(TAG, "Getting PAA rankings");
-            ParseMath.getPAAAuctionValue(rankings);
-            ParseMath.getPAAAuctionValue(rankings);
+            boolean projSet = false;
+            for (Player player : rankings.getPlayers().values()) {
+                if (player.getProjection() > 0.0) {
+                    projSet = true;
+                    break;
+                }
+            }
+            if (projSet) {
+                ParseMath.getPAAAuctionValue(rankings);
+                ParseMath.getPAAAuctionValue(rankings);
+            } else {
+                Log.d(TAG, "Not setting PAA auction values, no projections are set.");
+            }
             publishProgress("Fetching rankings... 14/14");
 
             Log.i(TAG, "Getting positional sos");
