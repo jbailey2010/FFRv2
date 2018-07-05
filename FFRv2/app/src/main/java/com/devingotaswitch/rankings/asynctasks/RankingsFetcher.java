@@ -137,12 +137,20 @@ public class RankingsFetcher {
             Log.i(TAG, "Getting ECR rankings");
             try {
                 ParseFantasyPros.parseECRWrapper(rankings);
+
+                // Only get ECR auction value if it parses, so we don't get dummy values
+                Log.i(TAG, "Getting auction values from ecr");
+                ParseMath.getECRAuctionValue(rankings);
             } catch(Exception e) {
                 Log.e(TAG, "Failed to parse ECR/risk", e);
             }
             Log.i(TAG, "Getting ADP rankings");
             try {
                 ParseFantasyPros.parseADPWrapper(rankings);
+
+                // Only get ADP auction values if it passes, so we don't get dummy values
+                Log.i(TAG, "Getting auction values from adp");
+                ParseMath.getADPAuctionValue(rankings);
             } catch (Exception e) {
                 Log.e(TAG, "Failed to parse ADP", e);
             }
@@ -158,11 +166,6 @@ public class RankingsFetcher {
             } catch (Exception e) {
                 Log.e(TAG, "Failed to parse rookie ranks", e);
             }
-
-            Log.i(TAG, "Getting auction values from adp/ecr");
-            ParseMath.getADPAuctionValue(rankings);
-            ParseMath.getECRAuctionValue(rankings);
-            publishProgress("Fetching rankings... 12/14");
 
             Log.i(TAG, "Getting positional tiers");
             publishProgress("Getting player positional tiers...");

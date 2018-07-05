@@ -38,7 +38,6 @@ public class ParseFFTB {
 
     private static void parseFFTBPage(Rankings rankings, String url, String pos)
             throws IOException {
-        System.out.println(url);
         List<String> brokenUp = JsoupUtils.parseURLWithoutUAOrTls(url, "td");
         int min = 0;
         for (int i = 0; i < brokenUp.size(); i++) {
