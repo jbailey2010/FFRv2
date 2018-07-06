@@ -281,6 +281,14 @@ public class RankingsFetcher {
                 Log.e(TAG, "Failed to get FA info", e);
             }
 
+            Log.i(TAG, "Getting team schedules");
+            publishProgress("Getting team schedules...");
+            try {
+                ParseFantasyPros.parseSchedule(rankings);
+            } catch (Exception e) {
+                Log.e(TAG, "Failed to get schedules", e);
+            }
+
             Log.i(TAG, "Ordering players for display");
             rankings.setOrderedIds(getOrderedIds());
             setWatchedPlayers();

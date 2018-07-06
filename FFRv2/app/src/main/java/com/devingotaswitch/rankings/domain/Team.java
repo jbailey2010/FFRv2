@@ -15,6 +15,7 @@ public class Team {
     private int kSos;
     private String bye;
     private String faClass;
+    private String schedule;
 
     public String getName() {
         return name;
@@ -102,6 +103,14 @@ public class Team {
 
     public void setFaClass(String faClass) {
         this.faClass = faClass;
+    }
+
+    public String getSchedule() {
+        return schedule;
+    }
+
+    public void setSchedule(String schedule) {
+        this.schedule = schedule;
     }
 
     public int getSosForPosition(String position) {

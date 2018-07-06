@@ -164,6 +164,7 @@ public class Constants {
     public static final String K_SOS_COLUMN = "k_sos";
     public static final String BYE_COLUMN = "bye_week";
     public static final String FREE_AGENCY_COLUMN = "fa_class";
+    public static final String SCHEDULE_COLUMN = "schedule";
 
     // Player settings: SQL
     public static final String PLAYER_TABLE_NAME = "player_data";

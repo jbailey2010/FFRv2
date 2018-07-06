@@ -110,7 +110,8 @@ class RankingsDBHelper extends SQLiteOpenHelper {
                 Constants.DST_SOS_COLUMN         + " INTEGER," +
                 Constants.K_SOS_COLUMN           + " INTEGER," +
                 Constants.BYE_COLUMN             + " TEXT," +
-                Constants.FREE_AGENCY_COLUMN     + " TEXT);";
+                Constants.FREE_AGENCY_COLUMN     + " TEXT," +
+                Constants.SCHEDULE_COLUMN        + " TEXT);";
     }
 
     private String getDeleteTeamTableSQL() {

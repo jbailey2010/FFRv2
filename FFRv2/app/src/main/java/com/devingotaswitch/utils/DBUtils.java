@@ -183,6 +183,7 @@ public class DBUtils {
         values.put(Constants.K_SOS_COLUMN, team.getkSos());
         values.put(Constants.BYE_COLUMN, team.getBye());
         values.put(Constants.FREE_AGENCY_COLUMN, team.getFaClass());
+        values.put(Constants.SCHEDULE_COLUMN, team.getSchedule());
         return values;
     }
 
@@ -199,6 +200,7 @@ public class DBUtils {
         team.setkSos(result.getInt(result.getColumnIndex(Constants.K_SOS_COLUMN)));
         team.setBye(result.getString(result.getColumnIndex(Constants.BYE_COLUMN)));
         team.setFaClass(result.getString(result.getColumnIndex(Constants.FREE_AGENCY_COLUMN)));
+        team.setSchedule(result.getString(result.getColumnIndex(Constants.SCHEDULE_COLUMN)));
         return team;
     }
 

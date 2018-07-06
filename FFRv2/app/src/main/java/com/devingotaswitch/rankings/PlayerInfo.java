@@ -635,17 +635,6 @@ public class PlayerInfo extends AppCompatActivity {
             data.add(stats);
         }
 
-        Team team = rankings.getTeam(player);
-        if (team != null) {
-            int sos = team.getSosForPosition(player.getPosition());
-            if (sos > 0)  {
-                Map<String, String> sosData = new HashMap<>();
-                sosData.put(Constants.PLAYER_BASIC, "Positional SOS: " + sos);
-                sosData.put(Constants.PLAYER_INFO, "1 is easiest, 32 is hardest");
-                data.add(sosData);
-            }
-        }
-
         if (viewCount > 0) {
             Map<String, String> activityData = new HashMap<>();
             activityData.put(Constants.PLAYER_BASIC, "Player popularity");
@@ -700,6 +689,13 @@ public class PlayerInfo extends AppCompatActivity {
             oline.put(Constants.PLAYER_BASIC, "Offensive line grades");
             oline.put(Constants.PLAYER_INFO, team.getoLineRanks());
             data.add(oline);
+
+            Map<String, String> schedule = new HashMap<>();
+            schedule.put(Constants.PLAYER_BASIC, Constants.YEAR_KEY + " schedule");
+            schedule.put(Constants.PLAYER_INFO, team.getSchedule() + Constants.LINE_BREAK + Constants.LINE_BREAK
+                    + "Positional SOS: " + team.getSosForPosition(player.getPosition()) + Constants.LINE_BREAK
+                    + "1 is easiest, 32 hardest");
+            data.add(schedule);
         }
         adapter.notifyDataSetChanged();
     }

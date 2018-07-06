@@ -1,7 +1,10 @@
 package com.devingotaswitch.rankings.sources;
 
+import android.util.Log;
+
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
+import com.devingotaswitch.rankings.domain.Team;
 import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.GeneralUtils;
 import com.devingotaswitch.utils.JsoupUtils;
@@ -226,6 +229,35 @@ public class ParseFantasyPros {
                 team = ParsingUtils.normalizeTeams(fullName);
             }
             rookie.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + posInd, rookieVal);
+        }
+    }
+
+    public static void parseSchedule(Rankings rankings) throws IOException {
+        List<String> elems = JsoupUtils.parseURLWithUA("https://www.fantasypros.com/nfl/schedule.php",
+                "table.table-bordered tbody tr td");
+
+        for (int i = 0; i < elems.size(); i+= 18) {
+            String teamName = ParsingUtils.normalizeTeams(elems.get(i));
+            StringBuilder schedule = new StringBuilder();
+            int weekCounter = 0;
+            for (int j = i+1; j < i + 18; j++) {
+                String opponentFull = elems.get(j);
+                String suffix = "";
+                if (opponentFull.split(" ").length > 1) {
+                    String gameLocation = opponentFull.split(" ")[0];
+                    String opponent = ParsingUtils.normalizeTeams(opponentFull.split(" ")[1]);
+                    suffix = gameLocation + " " + opponent;
+                } else {
+                    suffix = "BYE";
+                }
+                schedule.append(++weekCounter)
+                        .append(": ")
+                        .append(suffix)
+                        .append(Constants.LINE_BREAK);
+            }
+            String scheduleString = schedule.substring(0, schedule.length() - 1);
+            Team team = rankings.getTeam(teamName);
+            team.setSchedule(scheduleString);
         }
     }
 }
