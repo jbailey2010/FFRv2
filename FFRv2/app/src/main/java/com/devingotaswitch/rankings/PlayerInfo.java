@@ -621,12 +621,14 @@ public class PlayerInfo extends AppCompatActivity {
             data.add(note);
         }
 
+        Map<String, String> injury = new HashMap<>();
+        injury.put(Constants.PLAYER_BASIC, "Injury status");
         if (!StringUtils.isBlank(player.getInjuryStatus())) {
-            Map<String, String> injury = new HashMap<>();
-            injury.put(Constants.PLAYER_BASIC, "Injury status");
             injury.put(Constants.PLAYER_INFO, player.getInjuryStatus());
-            data.add(injury);
+        } else {
+            injury.put(Constants.PLAYER_INFO, "Healthy");
         }
+        data.add(injury);
 
         if (!StringUtils.isBlank(player.getStats())) {
             Map<String, String> stats = new HashMap<>();
