@@ -27,7 +27,6 @@ public class Player {
     private Double paa;
     private Double xVal;
     private Double vOLS;
-    private Integer positionalTier;
 
     public String getName() {
         return name;
@@ -178,10 +177,6 @@ public class Player {
     public void setvOLS(Double vOLS) {
         this.vOLS = vOLS;
     }
-
-    public Integer getPositionalTier() { return positionalTier; }
-
-    public void setPositionalTier(int tier) { this.positionalTier = tier; }
 
     public void handleNewValue(Double newValue) {
         double auctionTotal = auctionValue * numRankings;

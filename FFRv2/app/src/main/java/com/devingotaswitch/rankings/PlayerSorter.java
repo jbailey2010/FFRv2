@@ -206,9 +206,6 @@ public class PlayerSorter extends AppCompatActivity {
         factorList.add(Constants.SORT_VBD_SUGGESTED);
         factorList.add(Constants.SORT_RISK);
         factorList.add(Constants.SORT_SOS);
-        if (rankings.getLeagueSettings().isSnake() || rankings.getLeagueSettings().isAuction()) {
-            factorList.add(Constants.SORT_TIERS);
-        }
         ArrayAdapter<String> factorAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, factorList);
         factors.setAdapter(factorAdapter);
@@ -322,10 +319,6 @@ public class PlayerSorter extends AppCompatActivity {
             case Constants.SORT_SOS:
                 comparator = getSOSComparator();
                 break;
-            case Constants.SORT_TIERS:
-                comparator = getTiersComparator();
-                playerIds = rankings.getPlayersByPosition(playerIds, Constants.QBRBWRTE);
-                break;
         }
 
         players.clear();
@@ -337,6 +330,13 @@ public class PlayerSorter extends AppCompatActivity {
                 // Also skip if we're just looking at rookie rank and it's 'not set'.
                 continue;
             }
+            if (Constants.SORT_SOS.equals(factor) && ((rankings.getTeam(player) == null)
+                    || (rankings.getTeam(player).getSosForPosition(player.getPosition()) < 1))) {
+                // If the player's team isn't a valid team, skip over for sos
+                continue;
+            }
+
+
             if ((booleanFactors.contains(Constants.SORT_HIDE_DRAFTED) || Constants.SORT_VBD_SUGGESTED.equals(factor))
                     && rankings.getDraft().isDrafted(player)) {
                 continue;
@@ -393,9 +393,9 @@ public class PlayerSorter extends AppCompatActivity {
         final List<Map<String, String>> data = new ArrayList<>();
         final SimpleAdapter adapter = new SimpleAdapter(this, data,
                 R.layout.list_item_layout,
-                new String[] { Constants.PLAYER_BASIC, Constants.PLAYER_INFO, Constants.PLAYER_STATUS, Constants.PLAYER_TIER },
+                new String[] { Constants.PLAYER_BASIC, Constants.PLAYER_INFO, Constants.PLAYER_STATUS, Constants.PLAYER_ADDITIONAL_INFO},
                 new int[] { R.id.player_basic, R.id.player_info,
-                        R.id.player_status, R.id.player_tier });
+                        R.id.player_status, R.id.player_more_info });
         listview.setAdapter(adapter);
 
         double maxVal = 0.0;
@@ -423,17 +423,9 @@ public class PlayerSorter extends AppCompatActivity {
                 if (player.isWatched()) {
                     datum.put(Constants.PLAYER_STATUS, Integer.toString(R.drawable.star));
                 }
-                String tierBase = "";
-                if (!Constants.K.equals(player.getPosition()) && ! Constants.DST.equals(player.getPosition())) {
-                    tierBase = "Tier " + player.getPositionalTier();
-                }
                 if (rankings.getDraft().isDrafted(player)) {
-                    if (tierBase.length() > 3) {
-                        tierBase += Constants.LINE_BREAK;
-                    }
-                    tierBase += "Drafted";
+                    datum.put(Constants.PLAYER_ADDITIONAL_INFO, "Drafted");
                 }
-                datum.put(Constants.PLAYER_TIER, tierBase);
                 data.add(datum);
                 displayedCount++;
             }
@@ -794,21 +786,6 @@ public class PlayerSorter extends AppCompatActivity {
         };
     }
 
-    private Comparator<Player> getTiersComparator() {
-        return new Comparator<Player>() {
-            @Override
-            public int compare(Player a, Player b) {
-                if (a.getPositionalTier() > b.getPositionalTier()) {
-                    return 1;
-                }
-                if (a.getPositionalTier() < b.getPositionalTier()) {
-                    return -1;
-                }
-                return 0;
-            }
-        };
-    }
-
     private Comparator<Player> getSOSComparator() {
         return new Comparator<Player>() {
             @Override
@@ -888,8 +865,6 @@ public class PlayerSorter extends AppCompatActivity {
                 return String.valueOf(player.getRisk());
             case Constants.SORT_SOS:
                 return String.valueOf(getSOS(player));
-            case Constants.SORT_TIERS:
-                return String.valueOf(player.getPositionalTier());
         }
         return "";
     }
@@ -901,8 +876,7 @@ public class PlayerSorter extends AppCompatActivity {
                     .append("Projection: ")
                     .append(player.getProjection());
         }
-        if (Constants.SORT_UNDERDRAFTED.equals(factor) || Constants.SORT_OVERDRAFTED.equals(factor)
-                || Constants.SORT_TIERS.equals(factor)) {
+        if (Constants.SORT_UNDERDRAFTED.equals(factor) || Constants.SORT_OVERDRAFTED.equals(factor)) {
             subtextBuilder.append(Constants.LINE_BREAK)
                     .append("ECR: ")
                     .append(player.getEcr())

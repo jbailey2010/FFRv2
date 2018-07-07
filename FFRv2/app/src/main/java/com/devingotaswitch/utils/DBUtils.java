@@ -228,7 +228,6 @@ public class DBUtils {
         player.setPaa(result.getDouble(result.getColumnIndex(Constants.PLAYER_PAA_COLUMN)));
         player.setxVal(result.getDouble(result.getColumnIndex(Constants.PLAYER_XVAL_COLUMN)));
         player.setvOLS(result.getDouble(result.getColumnIndex(Constants.PLAYER_VORP_COLUMN)));
-        player.setPositionalTier(result.getInt(result.getColumnIndex(Constants.PLAYER_TIER_COLUMN)));
         return player;
     }
 
@@ -268,7 +267,6 @@ public class DBUtils {
         values.put(Constants.PLAYER_PAA_COLUMN, player.getPaa());
         values.put(Constants.PLAYER_XVAL_COLUMN, player.getxVal());
         values.put(Constants.PLAYER_VORP_COLUMN, player.getvOLS());
-        values.put(Constants.PLAYER_TIER_COLUMN, player.getPositionalTier());
         return values;
     }
 

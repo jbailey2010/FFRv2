@@ -185,14 +185,6 @@ public class RankingsFetcher {
             }
             publishProgress("Fetching rankings... 12/14");
 
-            Log.i(TAG, "Getting positional tiers");
-            publishProgress("Getting player positional tiers...");
-            try {
-                ParseMath.getTiers(rankings);
-            } catch (Exception e) {
-                Log.e(TAG, "Failed to get tiers", e);
-            }
-
             Log.i(TAG, "Getting paa calculations");
             publishProgress("Calculating PAA...");
             try {

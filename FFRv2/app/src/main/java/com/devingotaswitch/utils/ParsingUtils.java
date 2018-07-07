@@ -259,7 +259,7 @@ public class ParsingUtils {
             return "New York Giants";
         } else if (low.equals("fa") || low.equals("--") || low.equals("---") || low.equals("wr") || low.equals("")) {
             // All random team strings should go here.
-            return "Free Agent/Retired";
+            return Constants.NO_TEAM;
         }
         return team;
     }

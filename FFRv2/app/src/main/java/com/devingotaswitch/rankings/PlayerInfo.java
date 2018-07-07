@@ -441,10 +441,6 @@ public class PlayerInfo extends AppCompatActivity {
         int ecrRank = getEcr(null, player.getEcr());
         int ecrRankPos = getEcr(player.getPosition(), player.getEcr());
         String ecrSub = getRankingSub(ecrRank, ecrRankPos);
-        if (!Constants.K.equals(player.getPosition()) && !Constants.DST.equals(player.getPosition()) &&
-            !rankings.getLeagueSettings().isRookie() && !rankings.getLeagueSettings().isDynasty()) {
-            ecrSub += Constants.LINE_BREAK + "Positional Tier: " + player.getPositionalTier();
-        }
         if (player.getRisk() != null) {
             ecrSub += Constants.LINE_BREAK + "Risk: " + player.getRisk();
         }
@@ -670,7 +666,7 @@ public class PlayerInfo extends AppCompatActivity {
         news.setVisibility(View.INVISIBLE);
 
         Team team = rankings.getTeam(player);
-        if (team == null) {
+        if (team == null || Constants.NO_TEAM.equals(player.getTeamName())) {
             Map<String, String> datum = new HashMap<>();
             datum.put(Constants.PLAYER_BASIC, "No info available for this team.");
             datum.put(Constants.PLAYER_INFO, "Please try another player, or refresh your rankings.");

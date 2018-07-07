@@ -136,7 +136,6 @@ class RankingsDBHelper extends SQLiteOpenHelper {
                 Constants.PLAYER_PAA_COLUMN        + " REAL," +
                 Constants.PLAYER_XVAL_COLUMN       + " REAL," +
                 Constants.PLAYER_VORP_COLUMN       + " REAL," +
-                Constants.PLAYER_TIER_COLUMN       + " INTEGER," +
                 "PRIMARY KEY(" + Constants.PLAYER_NAME_COLUMN + ", " + Constants.TEAM_NAME_COLUMN + ", " + Constants.PLAYER_POSITION_COLUMN + ")" +
                 ");";
     }

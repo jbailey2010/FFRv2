@@ -43,7 +43,6 @@ public class Constants {
     public final static String SORT_VBD_SUGGESTED = "VBD Suggested Pick";
     public final static String SORT_RISK = "Risk";
     public final static String SORT_SOS = "Positional SOS";
-    public final static String SORT_TIERS = "Positional Tier";
 
     // Help topics
     public final static String HELP_LEAGUE = "League Settings";
@@ -183,7 +182,6 @@ public class Constants {
     public static final String PLAYER_PAA_COLUMN = "paa";
     public static final String PLAYER_XVAL_COLUMN = "xval";
     public static final String PLAYER_VORP_COLUMN = "vorp";
-    public static final String PLAYER_TIER_COLUMN = "positional_tier";
     // Team name is already in team settings
     public static final String PLAYER_NOTE_COLUMN = "player_note";
     public static final String PLAYER_WATCHED_COLUMN = "player_watched";
@@ -206,8 +204,9 @@ public class Constants {
     public final static String PLAYER_BASIC = "main";
     public final static String PLAYER_INFO = "info";
     public final static String PLAYER_STATUS = "status";
-    public final static String PLAYER_TIER = "tier";
+    public final static String PLAYER_ADDITIONAL_INFO = "additional_info";
     public final static String POS_TEAM_DELIMITER = " - ";
     public final static String NOTE_SUB = "Click to update note, click and hold to clear";
     public final static String DEFAULT_NOTE = "No note found";
+    public final static String NO_TEAM = "Free Agent/Retired";
 }
