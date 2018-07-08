@@ -9,57 +9,110 @@
     tools:context="com.devingotaswitch.rankings.PlayerInfo"
     tools:showIn="@layout/activity_player_info">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:id="@+id/player_info_buttons"
         android:layout_height="wrap_content"
+        android:id="@+id/player_info_buttons"
         android:layout_alignParentBottom="true"
-        android:orientation="horizontal">
-        <ImageButton
-            android:layout_width="0dp"
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_weight="1"
-            android:id="@+id/player_info_ranks"
+            android:visibility="visible"
+            android:orientation="horizontal"
             android:background="@color/player_info_buttons"
-            android:src="@drawable/ranks_white"
-            android:adjustViewBounds="true"
-            android:scaleType="centerInside"
-            android:padding="10dp"
-            style="?android:buttonBarStyle"/>
-        <ImageButton
-            android:layout_width="0dp"
+            android:layout_alignParentTop="true"
+            android:id="@+id/comment_input_base">
+
+            <EditText
+                android:id="@+id/ranking_search"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_alignRight="@+id/player_info_comment_submit"
+                android:layout_margin="7dp"
+                android:layout_weight="11"
+                android:background="@drawable/rounded_well"
+                android:hint="Comment"
+                android:paddingLeft="15dp"
+                android:textColor="#dedede"
+                android:textColorHint="#dedede"
+                android:textSize="13sp"/>
+
+            <ImageButton
+                android:id="@+id/player_info_comment_submit"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_alignParentRight="true"
+                android:layout_marginTop="8dp"
+                android:layout_marginBottom="8dp"
+                android:layout_margin="7dp"
+                android:layout_weight="1"
+                android:background="@drawable/submit_white"
+                android:scaleType="centerInside"/>
+
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="50dp"
-            android:layout_weight="1"
-            android:id="@+id/player_info_about"
-            android:background="@color/player_info_buttons"
-            style="?android:buttonBarStyle"
-            android:src="@drawable/person_white"
-            android:adjustViewBounds="true"
-            android:padding="10dp"
-            android:scaleType="centerInside"/>
-        <ImageButton
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="1"
-            android:id="@+id/player_info_team"
-            android:background="@color/player_info_buttons"
-            style="?android:buttonBarStyle"
-            android:src="@drawable/people_white"
-            android:adjustViewBounds="true"
-            android:padding="10dp"
-            android:scaleType="centerInside"/>
-        <ImageButton
-            android:layout_width="0dp"
-            android:layout_height="50dp"
-            android:layout_weight="1"
-            android:padding="10dp"
-            android:id="@+id/player_info_news"
-            android:background="@color/player_info_buttons"
-            style="?android:buttonBarStyle"
-            android:src="@drawable/news_white"
-            android:adjustViewBounds="true"
-            android:scaleType="centerInside"/>
-    </LinearLayout>
+            android:layout_below="@+id/comment_input_base"
+            android:orientation="horizontal">
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:id="@+id/player_info_ranks"
+                android:background="@color/player_info_buttons"
+                android:src="@drawable/ranks_white"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"
+                android:padding="10dp"
+                style="?android:buttonBarStyle"/>
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:id="@+id/player_info_about"
+                android:background="@color/player_info_buttons"
+                style="?android:buttonBarStyle"
+                android:src="@drawable/person_white"
+                android:adjustViewBounds="true"
+                android:padding="10dp"
+                android:scaleType="centerInside"/>
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:id="@+id/player_info_team"
+                android:background="@color/player_info_buttons"
+                style="?android:buttonBarStyle"
+                android:src="@drawable/people_white"
+                android:adjustViewBounds="true"
+                android:padding="10dp"
+                android:scaleType="centerInside"/>
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:padding="10dp"
+                android:id="@+id/player_info_news"
+                android:background="@color/player_info_buttons"
+                style="?android:buttonBarStyle"
+                android:src="@drawable/news_white"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"/>
+            <ImageButton
+                android:layout_width="0dp"
+                android:layout_height="50dp"
+                android:layout_weight="1"
+                android:padding="10dp"
+                android:id="@+id/player_info_comments"
+                android:background="@color/player_info_buttons"
+                style="?android:buttonBarStyle"
+                android:src="@drawable/comment_white"
+                android:adjustViewBounds="true"
+                android:scaleType="centerInside"/>
+        </LinearLayout>
+    </RelativeLayout>
 
     <View
         android:layout_width="match_parent"
@@ -124,35 +177,42 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:id="@+id/player_info_buttons_bottom"
-        android:layout_height="wrap_content"
+        android:layout_height="3dp"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
         <View
             android:layout_width="0dp"
             android:layout_weight="1"
             android:id="@+id/ranks_button_selected"
-            android:layout_height="3dp"
+            android:layout_height="wrap_content"
             android:background="@color/white"/>
         <View
             android:layout_width="0dp"
             android:layout_weight="1"
             android:visibility="invisible"
             android:id="@+id/player_info_button_selected"
-            android:layout_height="3dp"
+            android:layout_height="wrap_content"
             android:background="@color/white"/>
         <View
             android:layout_width="0dp"
             android:layout_weight="1"
             android:visibility="invisible"
             android:id="@+id/team_info_button_selected"
-            android:layout_height="3dp"
+            android:layout_height="wrap_content"
             android:background="@color/white"/>
         <View
             android:layout_width="0dp"
             android:layout_weight="1"
             android:visibility="invisible"
             android:id="@+id/news_button_selected"
-            android:layout_height="3dp"
+            android:layout_height="wrap_content"
+            android:background="@color/white"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:visibility="invisible"
+            android:id="@+id/comment_button_selected"
+            android:layout_height="wrap_content"
             android:background="@color/white"/>
     </LinearLayout>
 </RelativeLayout>
