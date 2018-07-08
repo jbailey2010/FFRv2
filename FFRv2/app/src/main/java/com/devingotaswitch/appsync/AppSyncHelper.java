@@ -6,6 +6,7 @@ import android.content.Context;
 public class AppSyncHelper {
 
     private static final PlayerMetadataActivity metadataActivity = new PlayerMetadataActivity();
+    private static final CommentActivity commentActivity = new CommentActivity();
 
     public static void getOrCreatePlayerMetadataAndIncrementViewCount(Activity activity, String playerId) {
         metadataActivity.incrementViewCount(activity, playerId);
@@ -25,5 +26,9 @@ public class AppSyncHelper {
 
     public static void decrementPlayerDraftCount(Context context, String playerId) {
         metadataActivity.decrementDraftCount(context, playerId);
+    }
+
+    public static void createComment(Activity activity, String comment, String playerId) {
+        commentActivity.createComment(activity, comment, playerId);
     }
 }

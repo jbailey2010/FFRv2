@@ -20,7 +20,7 @@ import com.devingotaswitch.utils.Constants;
 
 import javax.annotation.Nonnull;
 
-class PlayerMetadataActivity extends AppCompatActivity {
+class PlayerMetadataActivity extends AppSyncActivity {
 
     private static final String TAG = "PlayerMetadataActivity";
 
@@ -157,7 +157,4 @@ class PlayerMetadataActivity extends AppCompatActivity {
                 .enqueue(incrementViewCallback);
     }
 
-    private String getPlayerId(String playerId) {
-        return playerId + Constants.YEAR_KEY;
-    }
 }

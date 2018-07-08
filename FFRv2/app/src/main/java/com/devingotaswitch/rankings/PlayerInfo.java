@@ -29,6 +29,7 @@ import com.amazonaws.util.StringUtils;
 import com.devingotaswitch.appsync.AppSyncHelper;
 import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.fileio.RankingsDBWrapper;
+import com.devingotaswitch.rankings.domain.Comment;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.PlayerNews;
 import com.devingotaswitch.rankings.domain.Rankings;
@@ -38,8 +39,11 @@ import com.devingotaswitch.rankings.sources.ParsePlayerNews;
 import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.GeneralUtils;
 
+import org.jsoup.helper.StringUtil;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -67,6 +71,8 @@ public class PlayerInfo extends AppCompatActivity {
 
     private static String playerId;
     private static final DecimalFormat df = new DecimalFormat("#.##");
+
+    private List<Comment> comments = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -753,20 +759,54 @@ public class PlayerInfo extends AppCompatActivity {
         View playerSelected = findViewById(R.id.player_info_button_selected);
         View team = findViewById(R.id.team_info_button_selected);
         View newsInfo = findViewById(R.id.news_button_selected);
-        View comments = findViewById(R.id.comment_button_selected);
+        View commentsView = findViewById(R.id.comment_button_selected);
         findViewById(R.id.comment_input_base).setVisibility(View.VISIBLE);
         ranks.setVisibility(View.INVISIBLE);
         playerSelected.setVisibility(View.INVISIBLE);
         team.setVisibility(View.INVISIBLE);
         newsInfo.setVisibility(View.INVISIBLE);
-        comments.setVisibility(View.VISIBLE);
+        commentsView.setVisibility(View.VISIBLE);
 
+        for (Comment comment : comments) {
+            Map<String, String> commentMap = new HashMap<>();
+            commentMap.put(Constants.PLAYER_BASIC, comment.getContent());
+            commentMap.put(Constants.PLAYER_INFO, comment.getAuthor() + Constants.LINE_BREAK + comment.getTime());
+            data.add(commentMap);
+        }
+
+        final EditText input = findViewById(R.id.player_info_comment_input);
+        final ImageButton submit = findViewById(R.id.player_info_comment_submit);
+        final Activity activity = this;
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String commentContent = input.getText().toString();
+                if (!StringUtils.isBlank(commentContent)) {
+                    input.setText("");
+                    AppSyncHelper.createComment(activity, commentContent, player.getUniqueId());
+                    InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                    imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                }
+            }
+        });
 
         adapter.notifyDataSetChanged();
     }
 
     public void populateNews(List<PlayerNews> fetchedNews) {
         this.playerNews = fetchedNews;
+        View newsView = findViewById(R.id.news_button_selected);
+        if (View.VISIBLE == newsView.getVisibility()) {
+            displayNews();
+        }
+    }
+
+    public void addComments(Collection<Comment> comments) {
+        this.comments.addAll(comments);
+        View commentsView = findViewById(R.id.comment_button_selected);
+        if (View.VISIBLE == commentsView.getVisibility()) {
+            displayComments();
+        }
     }
 
     private String getLeverage() {

@@ -25,7 +25,7 @@
             android:id="@+id/comment_input_base">
 
             <EditText
-                android:id="@+id/ranking_search"
+                android:id="@+id/player_info_comment_input"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:layout_alignRight="@+id/player_info_comment_submit"
