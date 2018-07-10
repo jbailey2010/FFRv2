@@ -68,7 +68,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:layout_marginTop="10dp"
-                android:text="Once you click on a player or search for one, you'll get all the information the app has. By default, it shows specific ranks for that player, the first tab. The second tab is player info, things specific to that player but outside of ranks, including a slot to save a custom per player note. Third is team info, which is relevant info about the player's team. The fourth is news, where the app will try to get the latest news about that player. \n\nFrom the menu, you can draft/undraft a player (more info below) or add them to/remove them from your watch list."
+                android:text="Once you click on a player or search for one, you'll get all the information the app has. \n-By default, it shows specific ranks for that player, the first tab. \n-The second tab is player info, things specific to that player but outside of ranks, including a slot to save a custom per player note and aggregate popularity metrics. \n-Third is team info, which is relevant info about the player's team. \n-The fourth is news, where the app will try to get the latest news about that player. \n-The fifth and final tab is a per-player comment section, where you can discuss a player with others. You can delete your comments by clicking and holding on them.\n\nFrom the menu, you can draft/undraft a player (more info below) or add them to/remove them from your watch list."
                 android:visibility="gone"
                 android:id="@+id/help_info_body"/>
 
