@@ -207,6 +207,7 @@ public class Constants {
     public final static String COMMENT_AUTHOR = "author";
     public final static String COMMENT_CONTENT = "content";
     public final static String COMMENT_TIMESTAMP = "timestamp";
+    public final static String COMMENT_ID = "id";
     public final static String PLAYER_ADDITIONAL_INFO = "additional_info";
     public final static String POS_TEAM_DELIMITER = " - ";
     public final static String NOTE_SUB = "Click to update note, click and hold to clear";

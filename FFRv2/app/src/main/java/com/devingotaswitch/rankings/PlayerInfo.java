@@ -38,6 +38,7 @@ import com.devingotaswitch.rankings.sources.ParseMath;
 import com.devingotaswitch.rankings.sources.ParsePlayerNews;
 import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.GeneralUtils;
+import com.devingotaswitch.youruserpools.CUPHelper;
 
 import org.jsoup.helper.StringUtil;
 
@@ -335,8 +336,8 @@ public class PlayerInfo extends AppCompatActivity {
                         R.id.player_status });
         commentAdapter = new SimpleAdapter(this, commentData,
                 R.layout.list_item_comment_layout,
-                new String[] {Constants.COMMENT_AUTHOR, Constants.COMMENT_CONTENT, Constants.COMMENT_TIMESTAMP },
-                new int[] { R.id.comment_author, R.id.comment_content, R.id.comment_timestamp});
+                new String[] {Constants.COMMENT_AUTHOR, Constants.COMMENT_CONTENT, Constants.COMMENT_TIMESTAMP, Constants.COMMENT_ID },
+                new int[] { R.id.comment_author, R.id.comment_content, R.id.comment_timestamp, R.id.comment_id});
         infoList.setAdapter(adapter);
         commentList.setAdapter(commentAdapter);
 
@@ -396,6 +397,17 @@ public class PlayerInfo extends AppCompatActivity {
                 return true;
             }
         });
+        commentList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
+                String author = ((TextView)view.findViewById(R.id.comment_author)).getText().toString();
+                if (CUPHelper.getCurrUser().equals(author)) {
+                    String id = ((TextView)view.findViewById(R.id.comment_id)).getText().toString();
+                    confirmCommentDeletion(id);
+                }
+                return true;
+            }
+        });
 
         displayRanks();
     }
@@ -404,6 +416,48 @@ public class PlayerInfo extends AppCompatActivity {
         this.watchCount = watchCount;
         this.viewCount = viewCount;
         this.draftCount = draftCount;
+    }
+
+    private void confirmCommentDeletion(final String commentId) {
+        LayoutInflater li = LayoutInflater.from(this);
+        View noteView = li.inflate(R.layout.user_input_popup, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                this);
+
+        alertDialogBuilder.setView(noteView);
+        final EditText userInput = noteView
+                .findViewById(R.id.user_input_popup_input);
+        userInput.setVisibility(View.GONE);
+
+        TextView title = noteView.findViewById(R.id.user_input_popup_title);
+        title.setText("Are you sure you want to delete this comment?");
+        final Activity activity = this;
+        alertDialogBuilder
+                .setPositiveButton("Yes",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                AppSyncHelper.deleteComment(activity, commentId);
+                                hideComment(commentId);
+                            }
+                        })
+                .setNegativeButton("No",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                dialog.cancel();
+                            }
+                        });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
+    }
+
+    private void hideComment(String commentId) {
+        for (Map<String, String> datum : commentData) {
+            if (datum.get(Constants.COMMENT_ID).equals(commentId)) {
+                commentData.remove(datum);
+                commentAdapter.notifyDataSetChanged();
+                break;
+            }
+        }
     }
 
     private void getNote(String existing) {
@@ -800,6 +854,7 @@ public class PlayerInfo extends AppCompatActivity {
             commentMap.put(Constants.COMMENT_AUTHOR, comment.getAuthor());
             commentMap.put(Constants.COMMENT_CONTENT, comment.getContent());
             commentMap.put(Constants.COMMENT_TIMESTAMP, comment.getTime());
+            commentMap.put(Constants.COMMENT_ID, comment.getId());
             commentData.add(commentMap);
         }
 

@@ -11,6 +11,7 @@ import com.apollographql.apollo.api.Error;
 import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.exception.ApolloException;
 import com.devingotaswitch.graphqlstuff.CreateCommentMutation;
+import com.devingotaswitch.graphqlstuff.DeleteCommentMutation;
 import com.devingotaswitch.graphqlstuff.GetCommentsOnPlayerQuery;
 import com.devingotaswitch.rankings.PlayerInfo;
 import com.devingotaswitch.rankings.domain.Comment;
@@ -26,6 +27,7 @@ import javax.annotation.Nonnull;
 public class CommentActivity extends AppSyncActivity {
 
     private static final String TAG = "CommentActivity";
+
     void getCommentsForPlayer(final Activity activity, final String playerId, final String nextToken) {
         GraphQLCall.Callback<GetCommentsOnPlayerQuery.Data> callback = new GraphQLCall
                 .Callback<GetCommentsOnPlayerQuery.Data>() {
@@ -73,6 +75,33 @@ public class CommentActivity extends AppSyncActivity {
                 .build())
                 .responseFetcher(AppSyncResponseFetchers.NETWORK_FIRST)
                 .enqueue(callback);
+    }
+
+    void deleteComment(final Activity activity, final String commentId) {
+        GraphQLCall.Callback<DeleteCommentMutation.Data> callback = new GraphQLCall
+                .Callback<DeleteCommentMutation.Data>() {
+
+            @Override
+            public void onResponse(@Nonnull Response<DeleteCommentMutation.Data> response) {
+                if (!response.errors().isEmpty()) {
+                    for (Error error : response.errors()) {
+                        Log.e(TAG, "Delete comment failed: " + error.message());
+                    }
+                }
+                Log.d(TAG, "Successfully deleted comment " + commentId);
+            }
+
+            @Override
+            public void onFailure(@Nonnull ApolloException e) {
+                Log.e(TAG, "Failed to delete comment " + commentId, e);
+            }
+        };
+
+        AWSClientFactory.getAppSyncInstance(activity).mutate(
+                DeleteCommentMutation.builder()
+                        .id(commentId)
+                .build()
+        ).enqueue(callback);
     }
 
     void createComment(final Activity activity, final String comment, final String playerId) {
