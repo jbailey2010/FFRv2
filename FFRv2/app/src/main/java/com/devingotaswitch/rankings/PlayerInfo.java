@@ -458,6 +458,15 @@ public class PlayerInfo extends AppCompatActivity {
                 break;
             }
         }
+        for (Comment comment : comments) {
+            if (comment.getId().equals(commentId)) {
+                comments.remove(comment);
+            }
+        }
+
+        if (commentData.size() == 0) {
+            displayComments();
+        }
     }
 
     private void getNote(String existing) {
@@ -856,6 +865,11 @@ public class PlayerInfo extends AppCompatActivity {
             commentMap.put(Constants.COMMENT_TIMESTAMP, comment.getTime());
             commentMap.put(Constants.COMMENT_ID, comment.getId());
             commentData.add(commentMap);
+        }
+        if (comments.size() == 0) {
+            Map<String, String> emptyMap = new HashMap<>();
+            emptyMap.put(Constants.COMMENT_CONTENT, "No comments exist for this player. Be the first to post!");
+            commentData.add(emptyMap);
         }
 
         final EditText input = findViewById(R.id.player_info_comment_input);
