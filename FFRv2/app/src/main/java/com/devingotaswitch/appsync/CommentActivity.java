@@ -41,7 +41,7 @@ public class CommentActivity extends AppSyncActivity {
                     final List<Comment> comments = new ArrayList<>();
                     for (GetCommentsOnPlayerQuery.Item item : response.data().getCommentsOnPlayer().items()) {
                         Comment comment = new Comment();
-                        comment.setTime(item.date());
+                        comment.setTime(formatCurrentTime(new Double(item.date()).longValue()));
                         comment.setPlayerId(playerId);
                         comment.setUpvotes(item.upvotes());
                         comment.setDownvotes(item.downvotes());
@@ -77,7 +77,7 @@ public class CommentActivity extends AppSyncActivity {
 
     void createComment(final Activity activity, final String comment, final String playerId) {
         final String id = UUID.randomUUID().toString();
-        final String time = getCurrentTime();
+        final long time = getCurrentTime();
         GraphQLCall.Callback<CreateCommentMutation.Data> callback = new GraphQLCall
                 .Callback<CreateCommentMutation.Data>() {
 
@@ -94,7 +94,7 @@ public class CommentActivity extends AppSyncActivity {
                     newComment.setDownvotes(0);
                     newComment.setUpvotes(1);
                     newComment.setPlayerId(playerId);
-                    newComment.setTime(time);
+                    newComment.setTime(formatCurrentTime(time));
                     newComment.setId(id);
                     final List<Comment> dummyList = new ArrayList<>();
                     dummyList.add(newComment);

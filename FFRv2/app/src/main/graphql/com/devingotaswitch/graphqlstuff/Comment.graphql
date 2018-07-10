@@ -16,7 +16,7 @@ query GetCommentsOnPlayer($playerId: String!, $nextToken: String) {
 mutation CreateComment(
   $id: ID!,
   $playerId: String!,
-  $date: String!,
+  $date: Float!,
   $author: String!,
   $content: String!
 ) {

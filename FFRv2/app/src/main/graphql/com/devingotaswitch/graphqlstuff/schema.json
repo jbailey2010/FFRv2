@@ -142,7 +142,7 @@
                                 "name": null,
                                 "ofType": {
                                     "kind": "SCALAR",
-                                    "name": "String",
+                                    "name": "Float",
                                     "ofType": null
                                 }
                             },
@@ -233,6 +233,16 @@
                 },
                 {
                     "kind": "SCALAR",
+                    "name": "Float",
+                    "description": "Built-in Float",
+                    "fields": null,
+                    "inputFields": null,
+                    "interfaces": null,
+                    "enumValues": null,
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "SCALAR",
                     "name": "Int",
                     "description": "Built-in Int",
                     "fields": null,
@@ -286,7 +296,7 @@
                                         "name": null,
                                         "ofType": {
                                             "kind": "SCALAR",
-                                            "name": "String",
+                                            "name": "Float",
                                             "ofType": null
                                         }
                                     },
@@ -1365,61 +1375,67 @@
                         },
                         {
                             "name": "SCHEMA",
-                            "description": "Indicates the directive is valid on a schema IDL definition.",
+                            "description": "Indicates the directive is valid on a schema SDL definition.",
                             "isDeprecated": false,
                             "deprecationReason": null
                         },
                         {
                             "name": "SCALAR",
-                            "description": "Indicates the directive is valid on a scalar IDL definition.",
+                            "description": "Indicates the directive is valid on a scalar SDL definition.",
                             "isDeprecated": false,
                             "deprecationReason": null
                         },
                         {
                             "name": "OBJECT",
-                            "description": "Indicates the directive is valid on an object IDL definition.",
+                            "description": "Indicates the directive is valid on an object SDL definition.",
                             "isDeprecated": false,
                             "deprecationReason": null
                         },
                         {
                             "name": "FIELD_DEFINITION",
-                            "description": "Indicates the directive is valid on a field IDL definition.",
+                            "description": "Indicates the directive is valid on a field SDL definition.",
                             "isDeprecated": false,
                             "deprecationReason": null
                         },
                         {
                             "name": "ARGUMENT_DEFINITION",
-                            "description": "Indicates the directive is valid on a field argument IDL definition.",
+                            "description": "Indicates the directive is valid on a field argument SDL definition.",
                             "isDeprecated": false,
                             "deprecationReason": null
                         },
                         {
                             "name": "INTERFACE",
-                            "description": "Indicates the directive is valid on an interface IDL definition.",
+                            "description": "Indicates the directive is valid on an interface SDL definition.",
                             "isDeprecated": false,
                             "deprecationReason": null
                         },
                         {
                             "name": "UNION",
-                            "description": "Indicates the directive is valid on an union IDL definition.",
+                            "description": "Indicates the directive is valid on an union SDL definition.",
                             "isDeprecated": false,
                             "deprecationReason": null
                         },
                         {
                             "name": "ENUM",
-                            "description": "Indicates the directive is valid on an enum IDL definition.",
+                            "description": "Indicates the directive is valid on an enum SDL definition.",
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "ENUM_VALUE",
+                            "description": "Indicates the directive is valid on an enum value SDL definition.",
                             "isDeprecated": false,
                             "deprecationReason": null
                         },
                         {
                             "name": "INPUT_OBJECT",
-                            "description": "Indicates the directive is valid on an input object IDL definition.",
+                            "description": "Indicates the directive is valid on an input object SDL definition.",
                             "isDeprecated": false,
                             "deprecationReason": null
                         },
                         {
                             "name": "INPUT_FIELD_DEFINITION",
-                            "description": "Indicates the directive is valid on an input object field IDL definition.",
+                            "description": "Indicates the directive is valid on an input object field SDL definition.",
                             "isDeprecated": false,
                             "deprecationReason": null
                         }
@@ -1475,12 +1491,20 @@
                     "onField": true
                 },
                 {
-                    "name": "aws_auth",
-                    "description": "Directs the schema to enforce authorization on a field",
+                    "name": "defer",
+                    "description": "This directive allows results to be deferred during execution",
+                    "args": [],
+                    "onOperation": false,
+                    "onFragment": false,
+                    "onField": true
+                },
+                {
+                    "name": "aws_publish",
+                    "description": "Tells the service which subscriptions will be published to when this mutation is called.",
                     "args": [
                         {
-                            "name": "cognito_groups",
-                            "description": "List of cognito user pool groups which have access on this field",
+                            "name": "subscriptions",
+                            "description": "List of subscriptions which will be published to when this mutation is called.",
                             "type": {
                                 "kind": "LIST",
                                 "name": null,
@@ -1498,12 +1522,31 @@
                     "onField": false
                 },
                 {
-                    "name": "aws_publish",
-                    "description": "Tells the service which subscriptions will be published to when this mutation is called.",
+                    "name": "deprecated",
+                    "description": null,
                     "args": [
                         {
-                            "name": "subscriptions",
-                            "description": "List of subscriptions which will be published to when this mutation is called.",
+                            "name": "reason",
+                            "description": null,
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            },
+                            "defaultValue": "\"No longer supported\""
+                        }
+                    ],
+                    "onOperation": false,
+                    "onFragment": false,
+                    "onField": false
+                },
+                {
+                    "name": "aws_auth",
+                    "description": "Directs the schema to enforce authorization on a field",
+                    "args": [
+                        {
+                            "name": "cognito_groups",
+                            "description": "List of cognito user pool groups which have access on this field",
                             "type": {
                                 "kind": "LIST",
                                 "name": null,
