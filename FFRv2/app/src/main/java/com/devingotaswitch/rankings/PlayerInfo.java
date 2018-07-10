@@ -62,7 +62,10 @@ public class PlayerInfo extends AppCompatActivity {
 
     private List<Map<String, String>> data;
     private SimpleAdapter adapter;
+    private List<Map<String, String>> commentData;
+    private SimpleAdapter commentAdapter;
     private ListView infoList;
+    private ListView commentList;
     private MenuItem addWatch;
     private MenuItem removeWatch;
     private MenuItem draftMe;
@@ -322,13 +325,20 @@ public class PlayerInfo extends AppCompatActivity {
         AppSyncHelper.getOrCreatePlayerMetadataAndIncrementViewCount(this, player.getUniqueId());
 
         infoList = findViewById(R.id.player_info_list);
+        commentList = findViewById(R.id.player_info_comment_list);
         data = new ArrayList<>();
+        commentData = new ArrayList<>();
         adapter = new SimpleAdapter(this, data,
                 R.layout.list_item_layout,
                 new String[] { Constants.PLAYER_BASIC, Constants.PLAYER_INFO, Constants.PLAYER_STATUS },
                 new int[] { R.id.player_basic, R.id.player_info,
                         R.id.player_status });
+        commentAdapter = new SimpleAdapter(this, commentData,
+                R.layout.list_item_comment_layout,
+                new String[] {Constants.COMMENT_AUTHOR, Constants.COMMENT_CONTENT, Constants.COMMENT_TIMESTAMP },
+                new int[] { R.id.comment_author, R.id.comment_content, R.id.comment_timestamp});
         infoList.setAdapter(adapter);
+        commentList.setAdapter(commentAdapter);
 
         ImageButton ranks = findViewById(R.id.player_info_ranks);
         ImageButton info =  findViewById(R.id.player_info_about);
@@ -443,6 +453,9 @@ public class PlayerInfo extends AppCompatActivity {
 
     private void displayRanks() {
         data.clear();
+        commentData.clear();
+        commentList.setVisibility(View.GONE);
+        infoList.setVisibility(View.VISIBLE);
 
         View ranks = findViewById(R.id.ranks_button_selected);
         View playerSelected = findViewById(R.id.player_info_button_selected);
@@ -560,6 +573,9 @@ public class PlayerInfo extends AppCompatActivity {
 
     private void displayInfo() {
         data.clear();
+        commentData.clear();
+        commentList.setVisibility(View.GONE);
+        infoList.setVisibility(View.VISIBLE);
 
         View ranks = findViewById(R.id.ranks_button_selected);
         View playerSelected = findViewById(R.id.player_info_button_selected);
@@ -678,6 +694,9 @@ public class PlayerInfo extends AppCompatActivity {
 
     private void displayTeam() {
         data.clear();
+        commentData.clear();
+        commentList.setVisibility(View.GONE);
+        infoList.setVisibility(View.VISIBLE);
 
         View ranks = findViewById(R.id.ranks_button_selected);
         View playerSelected = findViewById(R.id.player_info_button_selected);
@@ -726,6 +745,9 @@ public class PlayerInfo extends AppCompatActivity {
 
     private void displayNews() {
         data.clear();
+        commentData.clear();
+        commentList.setVisibility(View.GONE);
+        infoList.setVisibility(View.VISIBLE);
 
         View ranks = findViewById(R.id.ranks_button_selected);
         View playerSelected = findViewById(R.id.player_info_button_selected);
@@ -757,6 +779,9 @@ public class PlayerInfo extends AppCompatActivity {
 
     private void displayComments() {
         data.clear();
+        commentData.clear();
+        commentList.setVisibility(View.VISIBLE);
+        infoList.setVisibility(View.GONE);
 
         View ranks = findViewById(R.id.ranks_button_selected);
         View playerSelected = findViewById(R.id.player_info_button_selected);
@@ -772,9 +797,10 @@ public class PlayerInfo extends AppCompatActivity {
 
         for (Comment comment : comments) {
             Map<String, String> commentMap = new HashMap<>();
-            commentMap.put(Constants.PLAYER_BASIC, comment.getContent());
-            commentMap.put(Constants.PLAYER_INFO, comment.getAuthor() + Constants.LINE_BREAK + comment.getTime());
-            data.add(commentMap);
+            commentMap.put(Constants.COMMENT_AUTHOR, comment.getAuthor());
+            commentMap.put(Constants.COMMENT_CONTENT, comment.getContent());
+            commentMap.put(Constants.COMMENT_TIMESTAMP, comment.getTime());
+            commentData.add(commentMap);
         }
 
         final EditText input = findViewById(R.id.player_info_comment_input);
@@ -793,7 +819,7 @@ public class PlayerInfo extends AppCompatActivity {
             }
         });
 
-        adapter.notifyDataSetChanged();
+        commentAdapter.notifyDataSetChanged();
     }
 
     public void populateNews(List<PlayerNews> fetchedNews) {

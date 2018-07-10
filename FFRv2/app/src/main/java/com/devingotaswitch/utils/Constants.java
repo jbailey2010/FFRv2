@@ -204,6 +204,9 @@ public class Constants {
     public final static String PLAYER_BASIC = "main";
     public final static String PLAYER_INFO = "info";
     public final static String PLAYER_STATUS = "status";
+    public final static String COMMENT_AUTHOR = "author";
+    public final static String COMMENT_CONTENT = "content";
+    public final static String COMMENT_TIMESTAMP = "timestamp";
     public final static String PLAYER_ADDITIONAL_INFO = "additional_info";
     public final static String POS_TEAM_DELIMITER = " - ";
     public final static String NOTE_SUB = "Click to update note, click and hold to clear";
