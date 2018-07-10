@@ -105,7 +105,7 @@ public class PlayerInfo extends AppCompatActivity {
             }
         });
 
-        AppSyncHelper.getOrCreatePlayerMetadataAndIncrementViewCount(this, player.getUniqueId());
+        AppSyncHelper.getCommentsForPlayer(this, player.getUniqueId(), null);
     }
 
     @Override
@@ -317,6 +317,9 @@ public class PlayerInfo extends AppCompatActivity {
 
         // Kick off the thread to get news
         ParsePlayerNews.startNews(player.getName(), player.getTeamName(), this);
+
+        // Kick off the thread to get comments
+        AppSyncHelper.getOrCreatePlayerMetadataAndIncrementViewCount(this, player.getUniqueId());
 
         infoList = findViewById(R.id.player_info_list);
         data = new ArrayList<>();

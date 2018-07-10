@@ -31,4 +31,8 @@ public class AppSyncHelper {
     public static void createComment(Activity activity, String comment, String playerId) {
         commentActivity.createComment(activity, comment, playerId);
     }
+
+    public static void getCommentsForPlayer(Activity activity, String playerId, String nextToken) {
+        commentActivity.getCommentsForPlayer(activity, playerId, nextToken);
+    }
 }

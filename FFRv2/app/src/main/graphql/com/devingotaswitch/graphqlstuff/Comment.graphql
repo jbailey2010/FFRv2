@@ -1,4 +1,4 @@
-query GetCommentsOnPlayer($playerId: String!, $nextToken: String!) {
+query GetCommentsOnPlayer($playerId: String!, $nextToken: String) {
   getCommentsOnPlayer(playerId: $playerId, nextToken: $nextToken) {
     items {
       id
