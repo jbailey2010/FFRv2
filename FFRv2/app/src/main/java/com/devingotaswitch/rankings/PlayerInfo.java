@@ -885,11 +885,15 @@ public class PlayerInfo extends AppCompatActivity {
         }
     }
 
-    public void addComments(Collection<Comment> comments) {
+    public void addComments(Collection<Comment> comments, String nextToken) {
         this.comments.addAll(comments);
         View commentsView = findViewById(R.id.comment_button_selected);
         if (View.VISIBLE == commentsView.getVisibility()) {
             displayComments();
+        }
+
+        if (!StringUtils.isBlank(nextToken)) {
+            AppSyncHelper.getCommentsForPlayer(this, player.getUniqueId(), nextToken);
         }
     }
 

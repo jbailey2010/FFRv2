@@ -39,7 +39,7 @@ public class CommentActivity extends AppSyncActivity {
                         Log.e(TAG, "Get comments for player failed: " + error.message());
                     }
                 } else if (response.data().getCommentsOnPlayer().items() != null){
-                    String nextToken = response.data().getCommentsOnPlayer().nextToken();
+                    final String nextToken = response.data().getCommentsOnPlayer().nextToken();
                     final List<Comment> comments = new ArrayList<>();
                     for (GetCommentsOnPlayerQuery.Item item : response.data().getCommentsOnPlayer().items()) {
                         Comment comment = new Comment();
@@ -55,7 +55,7 @@ public class CommentActivity extends AppSyncActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            ((PlayerInfo)activity).addComments(comments);
+                            ((PlayerInfo)activity).addComments(comments, nextToken);
                         }
                     });
                 }
@@ -130,7 +130,11 @@ public class CommentActivity extends AppSyncActivity {
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            ((PlayerInfo) activity).addComments(dummyList);
+                            try {
+                                ((PlayerInfo) activity).addComments(dummyList, null);
+                            } catch (Exception e) {
+                                Log.d(TAG, "Failed to add comments for player " + playerId, e);
+                            }
                         }
                     });
                 }
