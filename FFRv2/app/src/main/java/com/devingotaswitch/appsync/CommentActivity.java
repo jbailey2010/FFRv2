@@ -12,7 +12,9 @@ import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.exception.ApolloException;
 import com.devingotaswitch.graphqlstuff.CreateCommentMutation;
 import com.devingotaswitch.graphqlstuff.DeleteCommentMutation;
+import com.devingotaswitch.graphqlstuff.DownvoteCommentMutation;
 import com.devingotaswitch.graphqlstuff.GetCommentsOnPlayerQuery;
+import com.devingotaswitch.graphqlstuff.UpvoteCommentMutation;
 import com.devingotaswitch.rankings.PlayerInfo;
 import com.devingotaswitch.rankings.domain.Comment;
 import com.devingotaswitch.utils.AWSClientFactory;
@@ -27,6 +29,58 @@ import javax.annotation.Nonnull;
 public class CommentActivity extends AppSyncActivity {
 
     private static final String TAG = "CommentActivity";
+
+    void upvoteComment(final Activity activity, final String commentId) {
+        GraphQLCall.Callback<UpvoteCommentMutation.Data> callback = new GraphQLCall
+                .Callback<UpvoteCommentMutation.Data>() {
+
+            @Override
+            public void onResponse(@Nonnull Response<UpvoteCommentMutation.Data> response) {
+                for (Error error : response.errors()) {
+                    Log.e(TAG, "Upvote comment failed: " + error.message());
+                }
+                Log.d(TAG, "Successfully upvoted comment " + commentId);
+
+            }
+
+            @Override
+            public void onFailure(@Nonnull ApolloException e) {
+                Log.e(TAG, "Failed to upvote comment " + commentId, e);
+            }
+        };
+
+        AWSClientFactory.getAppSyncInstance(activity).mutate(
+                UpvoteCommentMutation.builder()
+                        .id(commentId)
+                        .build())
+                .enqueue(callback);
+    }
+
+    void downvoteComment(final Activity activity, final String commentId) {
+        GraphQLCall.Callback<DownvoteCommentMutation.Data> callback = new GraphQLCall
+                .Callback<DownvoteCommentMutation.Data>() {
+
+            @Override
+            public void onResponse(@Nonnull Response<DownvoteCommentMutation.Data> response) {
+                for (Error error : response.errors()) {
+                    Log.e(TAG, "Downvote comment failed: " + error.message());
+                }
+                Log.d(TAG, "Successfully downvoted comment " + commentId);
+
+            }
+
+            @Override
+            public void onFailure(@Nonnull ApolloException e) {
+                Log.e(TAG, "Failed to downvote comment " + commentId, e);
+            }
+        };
+
+        AWSClientFactory.getAppSyncInstance(activity).mutate(
+                DownvoteCommentMutation.builder()
+                       .id(commentId)
+                .build())
+                .enqueue(callback);
+    }
 
     void getCommentsForPlayer(final Activity activity, final String playerId, final String nextToken) {
         GraphQLCall.Callback<GetCommentsOnPlayerQuery.Data> callback = new GraphQLCall

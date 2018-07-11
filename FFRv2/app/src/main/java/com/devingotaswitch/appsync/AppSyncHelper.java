@@ -39,4 +39,12 @@ public class AppSyncHelper {
     public static void deleteComment(Activity activity, String commentId) {
         commentActivity.deleteComment(activity, commentId);
     }
+
+    public static void upvoteComment(Activity activity, String commentId) {
+        commentActivity.upvoteComment(activity, commentId);
+    }
+
+    public static void downvoteComment(Activity activity, String commentId) {
+        commentActivity.downvoteComment(activity, commentId);
+    }
 }
