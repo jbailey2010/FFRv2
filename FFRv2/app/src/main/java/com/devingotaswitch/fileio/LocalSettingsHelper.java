@@ -92,4 +92,30 @@ public class LocalSettingsHelper {
         editor.remove(leagueName + Constants.CURRENT_TEAM);
         editor.apply();
     }
+
+    public static boolean isPostUpvoted(Context cont, String commentId) {
+        return getSharedPreferences(cont).getBoolean(commentId + Constants.COMMENT_UPVOTE, false);
+    }
+
+    public static boolean isPostDownvoted(Context cont, String commentId) {
+        return getSharedPreferences(cont).getBoolean(commentId + Constants.COMMENT_DOWNVOTE, false);
+    }
+
+    public static void downvotePost(Context cont, String commentId) {
+        if (!isPostDownvoted(cont, commentId)) {
+            SharedPreferences.Editor editor = getSharedPreferences(cont).edit();
+            editor.remove(commentId + Constants.COMMENT_UPVOTE);
+            editor.putBoolean(commentId + Constants.COMMENT_DOWNVOTE, true);
+            editor.apply();
+        }
+    }
+
+    public static void upvotePost(Context cont, String commentId) {
+        if (!isPostUpvoted(cont, commentId)) {
+            SharedPreferences.Editor editor = getSharedPreferences(cont).edit();
+            editor.remove(commentId + Constants.COMMENT_DOWNVOTE);
+            editor.putBoolean(commentId + Constants.COMMENT_UPVOTE, true);
+            editor.apply();
+        }
+    }
 }
