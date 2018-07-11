@@ -46,6 +46,7 @@ import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -458,9 +459,10 @@ public class PlayerInfo extends AppCompatActivity {
                 break;
             }
         }
-        for (Comment comment : comments) {
-            if (comment.getId().equals(commentId)) {
-                comments.remove(comment);
+        Iterator<Comment> iterator = comments.iterator();
+        while (iterator.hasNext()) {
+            if (iterator.next().getId().equals(commentId)) {
+                iterator.remove();
             }
         }
 
