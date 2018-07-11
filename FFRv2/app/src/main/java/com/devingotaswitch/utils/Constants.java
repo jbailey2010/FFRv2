@@ -215,6 +215,10 @@ public class Constants {
     public final static String COMMENT_CONTENT = "content";
     public final static String COMMENT_TIMESTAMP = "timestamp";
     public final static String COMMENT_ID = "id";
+    public final static String COMMENT_UPVOTE_IMAGE = "upvote_img";
+    public final static String COMMENT_DOWNVOTE_IMAGE = "downvote_img";
+    public final static String COMMENT_UPVOTE_COUNT = "upvote_count";
+    public final static String COMMENT_DOWNVOTE_COUNT = "downvote_count";
     public final static String COMMENT_UPVOTE = "comment_upvote";
     public final static String COMMENT_DOWNVOTE = "comment_downvote";
 }

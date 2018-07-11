@@ -28,12 +28,14 @@ import android.widget.TextView;
 import com.amazonaws.util.StringUtils;
 import com.devingotaswitch.appsync.AppSyncHelper;
 import com.devingotaswitch.ffrv2.R;
+import com.devingotaswitch.fileio.LocalSettingsHelper;
 import com.devingotaswitch.fileio.RankingsDBWrapper;
 import com.devingotaswitch.rankings.domain.Comment;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.PlayerNews;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.domain.Team;
+import com.devingotaswitch.rankings.extras.CommentAdapter;
 import com.devingotaswitch.rankings.sources.ParseMath;
 import com.devingotaswitch.rankings.sources.ParsePlayerNews;
 import com.devingotaswitch.utils.Constants;
@@ -65,7 +67,7 @@ public class PlayerInfo extends AppCompatActivity {
     private List<Map<String, String>> data;
     private SimpleAdapter adapter;
     private List<Map<String, String>> commentData;
-    private SimpleAdapter commentAdapter;
+    private CommentAdapter commentAdapter;
     private ListView infoList;
     private ListView commentList;
     private MenuItem addWatch;
@@ -335,10 +337,12 @@ public class PlayerInfo extends AppCompatActivity {
                 new String[] { Constants.PLAYER_BASIC, Constants.PLAYER_INFO, Constants.PLAYER_STATUS },
                 new int[] { R.id.player_basic, R.id.player_info,
                         R.id.player_status });
-        commentAdapter = new SimpleAdapter(this, commentData,
+        commentAdapter = new CommentAdapter(this, commentData,
                 R.layout.list_item_comment_layout,
-                new String[] {Constants.COMMENT_AUTHOR, Constants.COMMENT_CONTENT, Constants.COMMENT_TIMESTAMP, Constants.COMMENT_ID },
-                new int[] { R.id.comment_author, R.id.comment_content, R.id.comment_timestamp, R.id.comment_id});
+                new String[] {Constants.COMMENT_AUTHOR, Constants.COMMENT_CONTENT, Constants.COMMENT_TIMESTAMP, Constants.COMMENT_ID,
+                Constants.COMMENT_UPVOTE_IMAGE, Constants.COMMENT_UPVOTE_COUNT, Constants.COMMENT_DOWNVOTE_IMAGE, Constants.COMMENT_DOWNVOTE_COUNT},
+                new int[] { R.id.comment_author, R.id.comment_content, R.id.comment_timestamp, R.id.comment_id, R.id.comment_upvoted_icon,
+                R.id.comment_upvote_count, R.id.comment_downvoted_icon, R.id.comment_downvote_count});
         infoList.setAdapter(adapter);
         commentList.setAdapter(commentAdapter);
 
@@ -866,6 +870,24 @@ public class PlayerInfo extends AppCompatActivity {
             commentMap.put(Constants.COMMENT_CONTENT, comment.getContent());
             commentMap.put(Constants.COMMENT_TIMESTAMP, comment.getTime());
             commentMap.put(Constants.COMMENT_ID, comment.getId());
+            commentMap.put(Constants.COMMENT_UPVOTE_COUNT, String.valueOf(comment.getUpvotes()));
+            commentMap.put(Constants.COMMENT_DOWNVOTE_COUNT, String.valueOf(comment.getDownvotes()));
+            if (LocalSettingsHelper.isPostUpvoted(this, comment.getId())) {
+                commentMap.put(Constants.COMMENT_UPVOTE_IMAGE, Integer.toString(R.drawable.upvoted));
+                commentMap.put(Constants.COMMENT_DOWNVOTE_IMAGE, Integer.toString(R.drawable.not_downvoted));
+            } else if (!LocalSettingsHelper.isPostDownvoted(this, comment.getId())
+                    && comment.getAuthor().equals(CUPHelper.getCurrUser())) {
+                LocalSettingsHelper.upvotePost(this, comment.getId());
+                commentMap.put(Constants.COMMENT_UPVOTE_IMAGE, Integer.toString(R.drawable.upvoted));
+                commentMap.put(Constants.COMMENT_DOWNVOTE_IMAGE, Integer.toString(R.drawable.not_downvoted));
+            } else if (LocalSettingsHelper.isPostDownvoted(this, comment.getId())) {
+                commentMap.put(Constants.COMMENT_UPVOTE_IMAGE, Integer.toString(R.drawable.not_upvoted));
+                commentMap.put(Constants.COMMENT_DOWNVOTE_IMAGE, Integer.toString(R.drawable.downvoted));
+            } else {
+                commentMap.put(Constants.COMMENT_UPVOTE_IMAGE, Integer.toString(R.drawable.not_upvoted));
+                commentMap.put(Constants.COMMENT_DOWNVOTE_IMAGE, Integer.toString(R.drawable.not_downvoted));
+            }
+
             commentData.add(commentMap);
         }
         if (comments.size() == 0) {
@@ -891,6 +913,49 @@ public class PlayerInfo extends AppCompatActivity {
         });
 
         commentAdapter.notifyDataSetChanged();
+    }
+
+    public void conditionallyUpvoteComment(String commentId) {
+        if (!LocalSettingsHelper.isPostUpvoted(this, commentId)) {
+            for (Map<String, String> datum : commentData) {
+                if (datum.get(Constants.COMMENT_ID).equals(commentId)) {
+                    datum.put(Constants.COMMENT_UPVOTE_IMAGE, Integer.toString(R.drawable.upvoted));
+                    datum.put(Constants.COMMENT_DOWNVOTE_IMAGE, Integer.toString(R.drawable.not_downvoted));
+                    if (LocalSettingsHelper.isPostDownvoted(this, commentId)) {
+                        int downvotes = Integer.parseInt(datum.get(Constants.COMMENT_DOWNVOTE_COUNT));
+                        datum.put(Constants.COMMENT_DOWNVOTE_COUNT, String.valueOf(--downvotes));
+                    }
+                    int upvotes = Integer.parseInt(datum.get(Constants.COMMENT_UPVOTE_COUNT));
+                    datum.put(Constants.COMMENT_UPVOTE_COUNT, String.valueOf(++upvotes));
+                    commentAdapter.notifyDataSetChanged();
+                    break;
+                }
+            }
+            LocalSettingsHelper.upvotePost(this, commentId);
+            AppSyncHelper.upvoteComment(this, commentId);
+        }
+    }
+
+    public void conditionallyDownvoteComment(String commentId) {
+        if (!LocalSettingsHelper.isPostDownvoted(this, commentId)) {
+            for (Map<String, String> datum : commentData) {
+                if (datum.get(Constants.COMMENT_ID).equals(commentId)) {
+                    datum.put(Constants.COMMENT_UPVOTE_IMAGE, Integer.toString(R.drawable.not_upvoted));
+                    datum.put(Constants.COMMENT_DOWNVOTE_IMAGE, Integer.toString(R.drawable.downvoted));
+                    if (LocalSettingsHelper.isPostUpvoted(this, commentId)) {
+                        int upvotes = Integer.parseInt(datum.get(Constants.COMMENT_UPVOTE_COUNT));
+                        datum.put(Constants.COMMENT_UPVOTE_COUNT, String.valueOf(--upvotes));
+                    }
+                    int downvotes = Integer.parseInt(datum.get(Constants.COMMENT_DOWNVOTE_COUNT));
+                    datum.put(Constants.COMMENT_DOWNVOTE_COUNT, String.valueOf(++downvotes));
+                    commentAdapter.notifyDataSetChanged();
+                    break;
+                }
+            }
+            LocalSettingsHelper.downvotePost(this, commentId);
+            AppSyncHelper.downvoteComment(this, commentId);
+        }
+
     }
 
     public void populateNews(List<PlayerNews> fetchedNews) {
