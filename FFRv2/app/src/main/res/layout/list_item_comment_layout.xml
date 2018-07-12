@@ -45,8 +45,8 @@
         android:focusable="false" />
 
     <ImageView
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
         android:id="@+id/comment_upvoted_icon"
         android:layout_below="@+id/comment_content"
         android:layout_marginTop="10dp"
@@ -55,7 +55,7 @@
     <TextView
         android:id="@+id/comment_upvote_count"
         android:layout_width="wrap_content"
-        android:layout_height="20dp"
+        android:layout_height="18dp"
         android:layout_alignBottom="@+id/comment_upvoted_icon"
         android:layout_toEndOf="@+id/comment_upvoted_icon"
         android:text="1"
@@ -64,8 +64,8 @@
 
     <ImageView
         android:id="@+id/comment_downvoted_icon"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="18dp"
+        android:layout_height="18dp"
         android:layout_alignTop="@+id/comment_upvoted_icon"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="50dp"/>
@@ -73,7 +73,7 @@
     <TextView
         android:id="@+id/comment_downvote_count"
         android:layout_width="wrap_content"
-        android:layout_height="20dp"
+        android:layout_height="18dp"
         android:layout_alignBottom="@+id/comment_downvoted_icon"
         android:layout_toEndOf="@+id/comment_downvoted_icon"
         android:text="0"

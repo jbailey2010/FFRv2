@@ -931,8 +931,8 @@ public class PlayerInfo extends AppCompatActivity {
                     break;
                 }
             }
+            AppSyncHelper.upvoteComment(this, commentId, LocalSettingsHelper.isPostDownvoted(this, commentId));
             LocalSettingsHelper.upvotePost(this, commentId);
-            AppSyncHelper.upvoteComment(this, commentId);
         }
     }
 
@@ -952,10 +952,21 @@ public class PlayerInfo extends AppCompatActivity {
                     break;
                 }
             }
+            AppSyncHelper.downvoteComment(this, commentId, LocalSettingsHelper.isPostUpvoted(this, commentId));
             LocalSettingsHelper.downvotePost(this, commentId);
-            AppSyncHelper.downvoteComment(this, commentId);
         }
 
+    }
+
+    public void updateVoteCount(String commentId, int upvotes, int downvotes) {
+        for (Map<String, String> comment : commentData) {
+            if (comment.get(Constants.COMMENT_ID).equals(commentId)) {
+                comment.put(Constants.COMMENT_UPVOTE_COUNT, String.valueOf(upvotes));
+                comment.put(Constants.COMMENT_DOWNVOTE_COUNT, String.valueOf(downvotes));
+                commentAdapter.notifyDataSetChanged();
+                break;
+            }
+        }
     }
 
     public void populateNews(List<PlayerNews> fetchedNews) {

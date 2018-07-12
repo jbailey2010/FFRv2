@@ -37,16 +37,16 @@ mutation DeleteComment($id: ID!) {
   }
 }
 
-mutation UpvoteComment($id: ID!) {
-  upvoteComment(id: $id) {
+mutation UpvoteComment($id: ID!, $decrementDownvote: Boolean!) {
+  upvoteComment(id: $id, decrementDownvote: $decrementDownvote) {
 	id
 	upvotes
 	downvotes
   }
 }
 
-mutation DownvoteComment($id: ID!) {
-  downvoteComment(id: $id) {
+mutation DownvoteComment($id: ID!, $decrementUpvote: Boolean!) {
+  downvoteComment(id: $id, decrementUpvote: $decrementUpvote) {
 	id
 	upvotes
 	downvotes

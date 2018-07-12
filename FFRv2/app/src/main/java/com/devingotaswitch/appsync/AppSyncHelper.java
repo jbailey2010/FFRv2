@@ -40,11 +40,11 @@ public class AppSyncHelper {
         commentActivity.deleteComment(activity, commentId);
     }
 
-    public static void upvoteComment(Activity activity, String commentId) {
-        commentActivity.upvoteComment(activity, commentId);
+    public static void upvoteComment(Activity activity, String commentId, boolean decrementDownvote) {
+        commentActivity.upvoteComment(activity, commentId, decrementDownvote);
     }
 
-    public static void downvoteComment(Activity activity, String commentId) {
-        commentActivity.downvoteComment(activity, commentId);
+    public static void downvoteComment(Activity activity, String commentId, boolean decrementUpvote) {
+        commentActivity.downvoteComment(activity, commentId, decrementUpvote);
     }
 }

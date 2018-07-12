@@ -31,7 +31,7 @@ public class CommentActivity extends AppSyncActivity {
 
     private static final String TAG = "CommentActivity";
 
-    void upvoteComment(final Activity activity, final String commentId) {
+    void upvoteComment(final Activity activity, final String commentId, final boolean decrementDownvote) {
         GraphQLCall.Callback<UpvoteCommentMutation.Data> callback = new GraphQLCall
                 .Callback<UpvoteCommentMutation.Data>() {
 
@@ -41,6 +41,14 @@ public class CommentActivity extends AppSyncActivity {
                     Log.e(TAG, "Upvote comment failed: " + error.message());
                 }
                 Log.d(TAG, "Successfully upvoted comment " + commentId);
+                final UpvoteCommentMutation.UpvoteComment comment = response.data().upvoteComment();
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ((PlayerInfo) activity).updateVoteCount(comment.id(), comment.upvotes(), comment.downvotes());
+                    }
+                });
 
             }
 
@@ -53,11 +61,13 @@ public class CommentActivity extends AppSyncActivity {
         AWSClientFactory.getAppSyncInstance(activity).mutate(
                 UpvoteCommentMutation.builder()
                         .id(commentId)
-                        .build())
+                        .decrementDownvote(decrementDownvote)
+                        .build()
+                )
                 .enqueue(callback);
     }
 
-    void downvoteComment(final Activity activity, final String commentId) {
+    void downvoteComment(final Activity activity, final String commentId, final boolean decrementUpvote) {
         GraphQLCall.Callback<DownvoteCommentMutation.Data> callback = new GraphQLCall
                 .Callback<DownvoteCommentMutation.Data>() {
 
@@ -67,7 +77,14 @@ public class CommentActivity extends AppSyncActivity {
                     Log.e(TAG, "Downvote comment failed: " + error.message());
                 }
                 Log.d(TAG, "Successfully downvoted comment " + commentId);
+                final DownvoteCommentMutation.DownvoteComment comment = response.data().downvoteComment();
 
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        ((PlayerInfo) activity).updateVoteCount(comment.id(), comment.upvotes(), comment.downvotes());
+                    }
+                });
             }
 
             @Override
@@ -78,8 +95,10 @@ public class CommentActivity extends AppSyncActivity {
 
         AWSClientFactory.getAppSyncInstance(activity).mutate(
                 DownvoteCommentMutation.builder()
-                       .id(commentId)
-                .build())
+                        .id(commentId)
+                        .decrementUpvote(decrementUpvote)
+                        .build()
+                )
                 .enqueue(callback);
     }
 
