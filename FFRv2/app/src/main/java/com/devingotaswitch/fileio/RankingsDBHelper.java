@@ -86,8 +86,8 @@ class RankingsDBHelper extends SQLiteOpenHelper {
                 Constants.PASSING_TDS_COLUMN     + " INTEGER," +
                 Constants.RUSHING_TDS_COLUMN     + " INTEGER," +
                 Constants.RECEIVING_TDS_COLUMN   + " INTEGER," +
-                Constants.FUMBLES_COLUMN         + " INTEGER," +
-                Constants.INTERCEPTIONS_COLUMN   + " INTEGER," +
+                Constants.FUMBLES_COLUMN         + " REAL," +
+                Constants.INTERCEPTIONS_COLUMN   + " REAL," +
                 Constants.PASSING_YARDS_COLUMN   + " INTEGER," +
                 Constants.RUSHING_YARDS_COLUMN   + " INTEGER," +
                 Constants.RECEIVING_YARDS_COLUMN + " INTEGER," +

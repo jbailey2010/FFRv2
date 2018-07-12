@@ -849,9 +849,9 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         int passYdsTotal = Integer.parseInt(passYds.getText().toString());
         int rushYdsTotal = Integer.parseInt(rushYds.getText().toString());
         int recYdsTotal = Integer.parseInt(recYds.getText().toString());
-        int intsTotal = Integer.parseInt(ints.getText().toString());
-        int fumblesTotal = Integer.parseInt(fumbles.getText().toString());
-        int receptionsTotal = Integer.parseInt(receptions.getText().toString());
+        double intsTotal = Double.parseDouble(ints.getText().toString());
+        double fumblesTotal = Double.parseDouble(fumbles.getText().toString());
+        double receptionsTotal = Double.parseDouble(receptions.getText().toString());
         return new ScoringSettings(passTdsTotal, rushTdsTotal, recTdsTotal, fumblesTotal, intsTotal, passYdsTotal,
                 rushYdsTotal, recYdsTotal, receptionsTotal);
     }
@@ -892,16 +892,16 @@ public class LeagueSettingsActivity extends AppCompatActivity {
             Snackbar.make(findViewById(R.id.activity_league_settings_base), "Receiving yards/point must be an integer", Snackbar.LENGTH_SHORT).show();
             return false;
         }
-        if (StringUtils.isBlank(intStr) || !GeneralUtils.isInteger(intStr)) {
-            Snackbar.make(findViewById(R.id.activity_league_settings_base), "Points/int must be an integer", Snackbar.LENGTH_SHORT).show();
+        if (StringUtils.isBlank(intStr) || !GeneralUtils.isDouble(intStr)) {
+            Snackbar.make(findViewById(R.id.activity_league_settings_base), "Points/int must be a number (decimals allowed)", Snackbar.LENGTH_SHORT).show();
             return false;
         }
-        if (StringUtils.isBlank(fumblesStr) || !GeneralUtils.isInteger(fumblesStr)) {
-            Snackbar.make(findViewById(R.id.activity_league_settings_base), "Points/fumble must be an integer", Snackbar.LENGTH_SHORT).show();
+        if (StringUtils.isBlank(fumblesStr) || !GeneralUtils.isDouble(fumblesStr)) {
+            Snackbar.make(findViewById(R.id.activity_league_settings_base), "Points/fumble must be a number (decimals allowed)", Snackbar.LENGTH_SHORT).show();
             return false;
         }
         if (StringUtils.isBlank(recStr) || !GeneralUtils.isDouble(recStr)) {
-            Snackbar.make(findViewById(R.id.activity_league_settings_base), "Points/reception must be an number (decimals allowed)", Snackbar.LENGTH_SHORT).show();
+            Snackbar.make(findViewById(R.id.activity_league_settings_base), "Points/reception must be a number (decimals allowed)", Snackbar.LENGTH_SHORT).show();
             return false;
         }
         return true;
@@ -916,8 +916,8 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         int passYdsTotal = Integer.parseInt(passYds.getText().toString());
         int rushYdsTotal = Integer.parseInt(rushYds.getText().toString());
         int recYdsTotal = Integer.parseInt(recYds.getText().toString());
-        int intsTotal = Integer.parseInt(ints.getText().toString());
-        int fumblesTotal = Integer.parseInt(fumbles.getText().toString());
+        double intsTotal = Double.parseDouble(ints.getText().toString());
+        double fumblesTotal = Double.parseDouble(fumbles.getText().toString());
         double receptionsTotal = Double.parseDouble(receptions.getText().toString());
         Map<String, String> scoringUpdates = new HashMap<>();
         ScoringSettings scoring = league.getScoringSettings();

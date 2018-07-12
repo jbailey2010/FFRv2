@@ -12,8 +12,8 @@ public class ScoringSettings {
     private int rushingTds;
     private int receivingTds;
 
-    private int fumbles;
-    private int interceptions;
+    private double fumbles;
+    private double interceptions;
 
     private int passingYards;
     private int rushingYards;
@@ -27,14 +27,14 @@ public class ScoringSettings {
                 Constants.DEFAULT_RECEIVING_YDS, Constants.DEFAULT_RECEPTIONS);
     }
 
-    public ScoringSettings(int passingTds, int rushingTds, int receivingTds, int fumbles,
-                           int interceptions, int passingYds, int rushingYds, int receivingYds, double receptions) {
+    public ScoringSettings(int passingTds, int rushingTds, int receivingTds, double fumbles,
+                           double interceptions, int passingYds, int rushingYds, int receivingYds, double receptions) {
         this(UUID.randomUUID().toString(), passingTds, rushingTds, receivingTds, fumbles, interceptions, passingYds,
                 rushingYds, receivingYds, receptions);
     }
 
-    public ScoringSettings(String id, int passingTds, int rushingTds, int receivingTds, int fumbles,
-                           int interceptions, int passingYds, int rushingYds, int receivingYds, double receptions) {
+    public ScoringSettings(String id, int passingTds, int rushingTds, int receivingTds, double fumbles,
+                           double interceptions, int passingYds, int rushingYds, int receivingYds, double receptions) {
         this.setId(id);
         this.setPassingTds(passingTds);
         this.setRushingTds(rushingTds);
@@ -79,19 +79,19 @@ public class ScoringSettings {
         this.receivingTds = receivingTds;
     }
 
-    public int getFumbles() {
+    public double getFumbles() {
         return fumbles;
     }
 
-    public void setFumbles(int fumbles) {
+    public void setFumbles(double fumbles) {
         this.fumbles = fumbles;
     }
 
-    public int getInterceptions() {
+    public double getInterceptions() {
         return interceptions;
     }
 
-    public void setInterceptions(int interceptions) {
+    public void setInterceptions(double interceptions) {
         this.interceptions = interceptions;
     }
 
