@@ -41,6 +41,16 @@
                                         "ofType": null
                                     },
                                     "defaultValue": null
+                                },
+                                {
+                                    "name": "topComments",
+                                    "description": null,
+                                    "type": {
+                                        "kind": "SCALAR",
+                                        "name": "Boolean",
+                                        "ofType": null
+                                    },
+                                    "defaultValue": null
                                 }
                             ],
                             "type": {
@@ -245,6 +255,16 @@
                     "kind": "SCALAR",
                     "name": "Int",
                     "description": "Built-in Int",
+                    "fields": null,
+                    "inputFields": null,
+                    "interfaces": null,
+                    "enumValues": null,
+                    "possibleTypes": null
+                },
+                {
+                    "kind": "SCALAR",
+                    "name": "Boolean",
+                    "description": "Built-in Boolean",
                     "fields": null,
                     "inputFields": null,
                     "interfaces": null,
@@ -586,16 +606,6 @@
                     ],
                     "inputFields": null,
                     "interfaces": [],
-                    "enumValues": null,
-                    "possibleTypes": null
-                },
-                {
-                    "kind": "SCALAR",
-                    "name": "Boolean",
-                    "description": "Built-in Boolean",
-                    "fields": null,
-                    "inputFields": null,
-                    "interfaces": null,
                     "enumValues": null,
                     "possibleTypes": null
                 },
@@ -1527,25 +1537,6 @@
                     "onField": true
                 },
                 {
-                    "name": "deprecated",
-                    "description": null,
-                    "args": [
-                        {
-                            "name": "reason",
-                            "description": null,
-                            "type": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
-                            },
-                            "defaultValue": "\"No longer supported\""
-                        }
-                    ],
-                    "onOperation": false,
-                    "onFragment": false,
-                    "onField": false
-                },
-                {
                     "name": "aws_auth",
                     "description": "Directs the schema to enforce authorization on a field",
                     "args": [
@@ -1608,6 +1599,25 @@
                                 }
                             },
                             "defaultValue": null
+                        }
+                    ],
+                    "onOperation": false,
+                    "onFragment": false,
+                    "onField": false
+                },
+                {
+                    "name": "deprecated",
+                    "description": null,
+                    "args": [
+                        {
+                            "name": "reason",
+                            "description": null,
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            },
+                            "defaultValue": "\"No longer supported\""
                         }
                     ],
                     "onOperation": false,

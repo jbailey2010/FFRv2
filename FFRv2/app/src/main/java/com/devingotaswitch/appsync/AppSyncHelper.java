@@ -32,8 +32,8 @@ public class AppSyncHelper {
         commentActivity.createComment(activity, comment, playerId);
     }
 
-    public static void getCommentsForPlayer(Activity activity, String playerId, String nextToken) {
-        commentActivity.getCommentsForPlayer(activity, playerId, nextToken);
+    public static void getCommentsForPlayer(Activity activity, String playerId, String nextToken, boolean topComments) {
+        commentActivity.getCommentsForPlayer(activity, playerId, nextToken, topComments);
     }
 
     public static void deleteComment(Activity activity, String commentId) {

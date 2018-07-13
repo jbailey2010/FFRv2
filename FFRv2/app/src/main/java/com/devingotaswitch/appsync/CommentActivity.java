@@ -102,7 +102,7 @@ public class CommentActivity extends AppSyncActivity {
                 .enqueue(callback);
     }
 
-    void getCommentsForPlayer(final Activity activity, final String playerId, final String nextToken) {
+    void getCommentsForPlayer(final Activity activity, final String playerId, final String nextToken, final boolean topComments) {
         GraphQLCall.Callback<GetCommentsOnPlayerQuery.Data> callback = new GraphQLCall
                 .Callback<GetCommentsOnPlayerQuery.Data>() {
 
@@ -146,6 +146,7 @@ public class CommentActivity extends AppSyncActivity {
                 GetCommentsOnPlayerQuery.builder()
                         .playerId(getPlayerId(playerId))
                         .nextToken(nextToken)
+                        .topComments(topComments)
                 .build())
                 .responseFetcher(AppSyncResponseFetchers.NETWORK_FIRST)
                 .enqueue(callback);

@@ -221,4 +221,7 @@ public class Constants {
     public final static String COMMENT_DOWNVOTE_COUNT = "downvote_count";
     public final static String COMMENT_UPVOTE = "comment_upvote";
     public final static String COMMENT_DOWNVOTE = "comment_downvote";
+    public final static String COMMENT_SORT_KEY = "comment_sort_type";
+    public final static String COMMENT_SORT_TOP = "Sort By Upvotes";
+    public final static String COMMENT_SORT_DATE = "Sort By Date";
 }

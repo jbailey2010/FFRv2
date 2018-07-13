@@ -118,4 +118,12 @@ public class LocalSettingsHelper {
             editor.apply();
         }
     }
+
+    public static void saveCommentSortType(Context cont, String commentSortType) {
+        getSharedPreferences(cont).edit().putString(Constants.COMMENT_SORT_KEY, commentSortType).apply();;
+    }
+
+    public static String getCommentSortType(Context cont) {
+        return getSharedPreferences(cont).getString(Constants.COMMENT_SORT_KEY, Constants.COMMENT_SORT_DATE);
+    }
 }

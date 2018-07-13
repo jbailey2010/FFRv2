@@ -1,5 +1,5 @@
-query GetCommentsOnPlayer($playerId: String!, $nextToken: String) {
-  getCommentsOnPlayer(playerId: $playerId, nextToken: $nextToken) {
+query GetCommentsOnPlayer($playerId: String!, $nextToken: String, $topComments: Boolean) {
+  getCommentsOnPlayer(playerId: $playerId, nextToken: $nextToken, topComments: $topComments) {
     items {
       id
       playerId

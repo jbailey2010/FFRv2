@@ -63,6 +63,7 @@ public class PlayerInfo extends AppCompatActivity {
     private int viewCount = -1;
     private int watchCount= -1;
     private int draftCount = -1;
+    private boolean sortByUpvotes = false;
 
     private List<Map<String, String>> data;
     private SimpleAdapter adapter;
@@ -75,6 +76,8 @@ public class PlayerInfo extends AppCompatActivity {
     private MenuItem draftMe;
     private MenuItem draftOther;
     private MenuItem undraft;
+    private MenuItem commentSortDate;
+    private MenuItem commentSortTop;
 
     private static String playerId;
     private static final DecimalFormat df = new DecimalFormat("#.##");
@@ -112,7 +115,8 @@ public class PlayerInfo extends AppCompatActivity {
             }
         });
 
-        AppSyncHelper.getCommentsForPlayer(this, player.getUniqueId(), null);
+        sortByUpvotes = Constants.COMMENT_SORT_TOP.equals(LocalSettingsHelper.getCommentSortType(this));
+        AppSyncHelper.getCommentsForPlayer(this, player.getUniqueId(), null, sortByUpvotes);
     }
 
     @Override
@@ -141,8 +145,11 @@ public class PlayerInfo extends AppCompatActivity {
         draftMe = menu.findItem(R.id.player_info_draft_me);
         draftOther = menu.findItem(R.id.player_info_draft_someone);
         undraft = menu.findItem(R.id.player_info_undraft);
+        commentSortDate = menu.findItem(R.id.player_info_sort_comments_date);
+        commentSortTop = menu.findItem(R.id.player_info_sort_comments_top);
         hideMenuItemOnWatchStatus();
         hideMenuItemsOnDraftStatus();
+        hideMenuItemsOnCommentSort();
         return true;
     }
 
@@ -175,6 +182,12 @@ public class PlayerInfo extends AppCompatActivity {
                 return true;
             case R.id.player_info_simulate_adp:
                 simulateAdp();
+                return true;
+            case R.id.player_info_sort_comments_date:
+                sortCommentsByDate();
+                return true;
+            case R.id.player_info_sort_comments_top:
+                sortCommentsByUpvotes();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
@@ -217,6 +230,34 @@ public class PlayerInfo extends AppCompatActivity {
         } else {
             addWatch.setVisible(true);
             removeWatch.setVisible(false);
+        }
+    }
+
+    private void sortCommentsByDate() {
+        comments.clear();
+        commentData.clear();
+        sortByUpvotes = false;
+        AppSyncHelper.getCommentsForPlayer(this, player.getUniqueId(), null, sortByUpvotes);
+        LocalSettingsHelper.saveCommentSortType(this, Constants.COMMENT_SORT_DATE);
+        hideMenuItemsOnCommentSort();
+    }
+
+    private void sortCommentsByUpvotes() {
+        comments.clear();
+        commentData.clear();
+        sortByUpvotes = true;
+        AppSyncHelper.getCommentsForPlayer(this, player.getUniqueId(), null, true);
+        LocalSettingsHelper.saveCommentSortType(this, Constants.COMMENT_SORT_TOP);
+        hideMenuItemsOnCommentSort();
+    }
+
+    private void hideMenuItemsOnCommentSort() {
+        if (sortByUpvotes) {
+            commentSortDate.setVisible(true);
+            commentSortTop.setVisible(false);
+        } else {
+            commentSortDate.setVisible(false);
+            commentSortTop.setVisible(true);
         }
     }
 
@@ -985,7 +1026,7 @@ public class PlayerInfo extends AppCompatActivity {
         }
 
         if (!StringUtils.isBlank(nextToken)) {
-            AppSyncHelper.getCommentsForPlayer(this, player.getUniqueId(), nextToken);
+            AppSyncHelper.getCommentsForPlayer(this, player.getUniqueId(), nextToken, sortByUpvotes);
         }
     }
 
