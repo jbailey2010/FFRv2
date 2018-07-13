@@ -47,6 +47,8 @@ import org.jsoup.helper.StringUtil;
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -1020,6 +1022,14 @@ public class PlayerInfo extends AppCompatActivity {
 
     public void addComments(Collection<Comment> comments, String nextToken) {
         this.comments.addAll(comments);
+        if (sortByUpvotes) {
+            Collections.sort(this.comments,new Comparator<Comment>() {
+                @Override
+                public int compare(Comment a, Comment b) {
+                    return b.getUpvotes().compareTo(a.getUpvotes());
+                }
+            });
+        }
         View commentsView = findViewById(R.id.comment_button_selected);
         if (View.VISIBLE == commentsView.getVisibility()) {
             displayComments();

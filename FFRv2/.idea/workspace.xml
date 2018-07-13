@@ -20,15 +20,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f5fe9503-cc09-4a8d-b7d9-507f98789a95" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/graphql/com/devingotaswitch/graphqlstuff/Comment.graphql" afterPath="$PROJECT_DIR$/app/src/main/graphql/com/devingotaswitch/graphqlstuff/Comment.graphql" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/graphql/com/devingotaswitch/graphqlstuff/schema.json" afterPath="$PROJECT_DIR$/app/src/main/graphql/com/devingotaswitch/graphqlstuff/schema.json" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/appsync/AppSyncHelper.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/appsync/AppSyncHelper.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/appsync/CommentActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/appsync/CommentActivity.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/fileio/LocalSettingsHelper.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/fileio/LocalSettingsHelper.java" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/Constants.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/Constants.java" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/menu/activity_player_info_menu.xml" afterPath="$PROJECT_DIR$/app/src/main/res/menu/activity_player_info_menu.xml" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/Comment.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/Comment.java" />
     </list>
     <ignored path="AmazonCognitoYourUserPoolsDemo.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -99,24 +92,36 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="PlayerInfo.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="PlayerInfo.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="300">
-              <caret line="247" column="28" lean-forward="false" selection-start-line="247" selection-start-column="28" selection-end-line="247" selection-end-column="28" />
+            <state relative-caret-position="242">
+              <caret line="1030" column="15" lean-forward="true" selection-start-line="1030" selection-start-column="15" selection-end-line="1030" selection-end-column="15" />
               <folding>
-                <element signature="e#11410#11635#0" expanded="true" />
-                <element signature="e#11634#11635#0" expanded="true" />
-                <element signature="e#19816#20041#0" expanded="true" />
-                <element signature="e#20040#20041#0" expanded="true" />
-                <element signature="e#22263#22488#0" expanded="true" />
-                <element signature="e#22487#22488#0" expanded="true" />
+                <element signature="e#11469#11694#0" expanded="true" />
+                <element signature="e#11693#11694#0" expanded="true" />
+                <element signature="e#19875#20100#0" expanded="true" />
+                <element signature="e#20099#20100#0" expanded="true" />
+                <element signature="e#22322#22547#0" expanded="true" />
+                <element signature="e#22546#22547#0" expanded="true" />
+                <element signature="e#45922#46135#0" expanded="true" />
+                <element signature="e#46134#46135#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="activity_player_info_menu.xml" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Comment.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/Comment.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="479">
+              <caret line="63" column="36" lean-forward="false" selection-start-line="63" selection-start-column="36" selection-end-line="63" selection-end-column="36" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="activity_player_info_menu.xml" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/activity_player_info_menu.xml">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="203">
@@ -2410,7 +2415,6 @@
         <option value="$PROJECT_DIR$/app/src/main/res/layout/list_item_layout.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerSorter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/appsync/PlayerMetadataActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/Comment.java" />
         <option value="$PROJECT_DIR$/app/build.gradle" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/appsync/AppSyncActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/content_help.xml" />
@@ -2428,8 +2432,9 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/fileio/LocalSettingsHelper.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/appsync/CommentActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/Constants.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/menu/activity_player_info_menu.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/Comment.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java" />
       </list>
     </option>
   </component>
@@ -3081,7 +3086,7 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31348315" sideWeight="0.4967475" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.328341" sideWeight="0.49785176" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3280899" sideWeight="0.49231225" order="14" side_tool="false" content_ui="tabs" />
-      <window_info id="Logcat" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.4606866" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Logcat" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.21594684" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -3335,17 +3340,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/Comment.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="4">
-          <caret line="8" column="24" lean-forward="false" selection-start-line="8" selection-start-column="24" selection-end-line="8" selection-end-column="24" />
-          <folding>
-            <element signature="e#491#492#0" expanded="false" />
-            <element signature="e#523#524#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="jar://$USER_HOME$/AppData/Local/Android/sdk/platforms/android-27/android.jar!/android/text/format/DateUtils.class">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="443">
@@ -3591,21 +3585,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="300">
-          <caret line="247" column="28" lean-forward="false" selection-start-line="247" selection-start-column="28" selection-end-line="247" selection-end-column="28" />
-          <folding>
-            <element signature="e#11410#11635#0" expanded="true" />
-            <element signature="e#11634#11635#0" expanded="true" />
-            <element signature="e#19816#20041#0" expanded="true" />
-            <element signature="e#20040#20041#0" expanded="true" />
-            <element signature="e#22263#22488#0" expanded="true" />
-            <element signature="e#22487#22488#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/menu/activity_player_info_menu.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="203">
@@ -3615,6 +3594,31 @@
       </provider>
       <provider editor-type-id="android-designer2">
         <state />
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/Comment.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="479">
+          <caret line="63" column="36" lean-forward="false" selection-start-line="63" selection-start-column="36" selection-end-line="63" selection-end-column="36" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="242">
+          <caret line="1030" column="15" lean-forward="true" selection-start-line="1030" selection-start-column="15" selection-end-line="1030" selection-end-column="15" />
+          <folding>
+            <element signature="e#11469#11694#0" expanded="true" />
+            <element signature="e#11693#11694#0" expanded="true" />
+            <element signature="e#19875#20100#0" expanded="true" />
+            <element signature="e#20099#20100#0" expanded="true" />
+            <element signature="e#22322#22547#0" expanded="true" />
+            <element signature="e#22546#22547#0" expanded="true" />
+            <element signature="e#45922#46135#0" expanded="true" />
+            <element signature="e#46134#46135#0" expanded="true" />
+          </folding>
+        </state>
       </provider>
     </entry>
   </component>

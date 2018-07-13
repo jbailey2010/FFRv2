@@ -6,8 +6,8 @@ public class Comment {
     private String content;
     private String id;
     private String playerId;
-    private int upvotes;
-    private int downvotes;
+    private Integer upvotes;
+    private Integer downvotes;
 
     public String getAuthor() {
         return author;
@@ -49,19 +49,19 @@ public class Comment {
         this.playerId = playerId;
     }
 
-    public int getUpvotes() {
+    public Integer getUpvotes() {
         return upvotes;
     }
 
-    public void setUpvotes(int upvotes) {
+    public void setUpvotes(Integer upvotes) {
         this.upvotes = upvotes;
     }
 
-    public int getDownvotes() {
+    public Integer getDownvotes() {
         return downvotes;
     }
 
-    public void setDownvotes(int downvotes) {
+    public void setDownvotes(Integer downvotes) {
         this.downvotes = downvotes;
     }
 }
