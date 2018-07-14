@@ -43,6 +43,10 @@ public class Constants {
     public final static String SORT_VBD_SUGGESTED = "VBD Suggested Pick";
     public final static String SORT_RISK = "Risk";
     public final static String SORT_SOS = "Positional SOS";
+    public final static String SORT_VIEW_COUNT = "Most Viewed";
+    public final static String SORT_WATCH_LIST_COUNT = "Most Watched";
+    public final static String SORT_VIEW_APPSYNC = "view";
+    public final static String SORT_WATCH_APPSYNC = "watch";
 
     // Help topics
     public final static String HELP_LEAGUE = "League Settings";

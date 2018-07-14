@@ -30,3 +30,15 @@ mutation DecrementPlayerDraftedCount($playerId: String!) {
 	playerId
   }
 }
+
+query GetSortedPlayerMetadata($sortFactor: String!, $nextToken: String) {
+  getSortedPlayerMetadata(sortFactor: $sortFactor, nextToken: $nextToken) {
+    items {
+	  playerId
+	  viewCount
+	  watchCount
+	  draftCount
+    }
+    nextToken
+  }
+}
