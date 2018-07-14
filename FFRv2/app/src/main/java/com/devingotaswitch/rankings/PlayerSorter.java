@@ -217,7 +217,7 @@ public class PlayerSorter extends AppCompatActivity {
         list.add(Constants.SORT_EASY_SOS);
         list.add(Constants.SORT_ONLY_WATCHED);
         list.add(Constants.SORT_UNDER_30);
-        if (!rankings.getLeagueSettings().isRookie()) {
+        if (!rankings.getLeagueSettings().isRookie() && !rankings.getLeagueSettings().isDynasty()) {
             list.add(Constants.SORT_IGNORE_EARLY);
             list.add(Constants.SORT_IGNORE_LATE);
         }
@@ -232,15 +232,16 @@ public class PlayerSorter extends AppCompatActivity {
         final EditText numberShown =  findViewById(R.id.sort_players_number_shown);
 
         Button submit = findViewById(R.id.sort_players_submit);
+        final PlayerSorter activity = this;
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String currentPosition = ((TextView)positions.getSelectedView()).getText().toString();
+                String currentPosition = ((TextView) positions.getSelectedView()).getText().toString();
                 List<String> filteredIds = new ArrayList<>(rankings.getOrderedIds());
                 if (!Constants.ALL_POSITIONS.equals(currentPosition)) {
                     filteredIds = rankings.getPlayersByPosition(filteredIds, currentPosition);
                 }
-                factor = ((TextView)factors.getSelectedView()).getText().toString();
+                factor = ((TextView) factors.getSelectedView()).getText().toString();
                 posIndex = positions.getSelectedItemPosition();
                 sortIndex = factors.getSelectedItemPosition();
                 factorStrings = spinner.getSelectedStrings();
@@ -250,13 +251,13 @@ public class PlayerSorter extends AppCompatActivity {
                 if (!StringUtils.isBlank(numberShownStr) && GeneralUtils.isInteger(numberShownStr)) {
                     sortMax = Integer.parseInt(numberShownStr);
                 }
-                sortPlayers(filteredIds, spinner.getSelectedStrings(), reverse.isChecked());
+                getComparatorForFactor(filteredIds, spinner.getSelectedStrings(), reverse.isChecked());
                 graphItem.setVisible(true);
             }
         });
     }
 
-    private void sortPlayers(List<String> playerIds, Set<String> booleanFactors, boolean reversePlayers) {
+    private void getComparatorForFactor(List<String> playerIds, Set<String> booleanFactors, boolean reversePlayers) {
         Comparator<Player> comparator = null;
         switch (factor) {
             case Constants.SORT_ECR:
@@ -320,7 +321,11 @@ public class PlayerSorter extends AppCompatActivity {
                 comparator = getSOSComparator();
                 break;
         }
+        filterAndConditionallySortPlayers(playerIds, booleanFactors, reversePlayers, comparator);
+    }
 
+    private void filterAndConditionallySortPlayers(List<String> playerIds, Set<String> booleanFactors, boolean reversePlayers,
+                                                   Comparator<Player> comparator) {
         players.clear();
         for (String id : playerIds) {
             Player player = rankings.getPlayer(id);

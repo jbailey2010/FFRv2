@@ -16,7 +16,11 @@ import java.util.Date;
 class AppSyncActivity extends AppCompatActivity {
 
     String getPlayerId(String playerId) {
-        return playerId + Constants.YEAR_KEY;
+        return playerId + Constants.PLAYER_ID_DELIMITER + Constants.YEAR_KEY;
+    }
+
+    String getClientPlayerId(String withYear) {
+        return withYear.substring(0, withYear.lastIndexOf(Constants.PLAYER_ID_DELIMITER));
     }
 
     long getCurrentTime() {

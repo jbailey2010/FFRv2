@@ -2,7 +2,6 @@ package com.devingotaswitch.appsync;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.apollographql.apollo.GraphQLCall;
@@ -16,7 +15,6 @@ import com.devingotaswitch.graphqlstuff.IncrementPlayerViewCountMutation;
 import com.devingotaswitch.graphqlstuff.IncrementPlayerWatchedCountMutation;
 import com.devingotaswitch.rankings.PlayerInfo;
 import com.devingotaswitch.utils.AWSClientFactory;
-import com.devingotaswitch.utils.Constants;
 
 import javax.annotation.Nonnull;
 

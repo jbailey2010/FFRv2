@@ -3,6 +3,11 @@ package com.devingotaswitch.appsync;
 import android.app.Activity;
 import android.content.Context;
 
+import com.devingotaswitch.rankings.PlayerSorter;
+
+import java.util.List;
+import java.util.Set;
+
 public class AppSyncHelper {
 
     private static final PlayerMetadataActivity metadataActivity = new PlayerMetadataActivity();
