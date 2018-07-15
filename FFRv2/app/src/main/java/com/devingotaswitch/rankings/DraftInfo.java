@@ -50,7 +50,7 @@ public class DraftInfo extends AppCompatActivity {
     private MenuItem viewTeam;
     private MenuItem undraftPlayers;
 
-    private final DecimalFormat df = new DecimalFormat("#.##");
+    private final DecimalFormat df = new DecimalFormat(Constants.NUMBER_FORMAT);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -36,6 +36,7 @@ import com.devingotaswitch.rankings.domain.PlayerNews;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.domain.Team;
 import com.devingotaswitch.rankings.extras.CommentAdapter;
+import com.devingotaswitch.rankings.extras.PlayerInfoSwipeDetector;
 import com.devingotaswitch.rankings.sources.ParseMath;
 import com.devingotaswitch.rankings.sources.ParsePlayerNews;
 import com.devingotaswitch.utils.Constants;
@@ -225,6 +226,34 @@ public class PlayerInfo extends AppCompatActivity {
         hideMenuItemOnWatchStatus();
     }
 
+    public void swipeLeftToRight() {
+        if (View.VISIBLE == findViewById(R.id.ranks_button_selected).getVisibility()) {
+            displayComments();
+        } else if (View.VISIBLE == findViewById(R.id.player_info_button_selected).getVisibility()) {
+            displayRanks();
+        } else if (View.VISIBLE == findViewById(R.id.team_info_button_selected).getVisibility()) {
+            displayInfo();
+        } else if (View.VISIBLE == findViewById(R.id.news_button_selected).getVisibility()) {
+            displayTeam();
+        } else if (View.VISIBLE == findViewById(R.id.comment_button_selected).getVisibility()) {
+            displayNews();
+        }
+    }
+
+    public void swipeRightToLeft() {
+        if (View.VISIBLE == findViewById(R.id.ranks_button_selected).getVisibility()) {
+            displayInfo();
+        } else if (View.VISIBLE == findViewById(R.id.player_info_button_selected).getVisibility()) {
+            displayTeam();
+        } else if (View.VISIBLE == findViewById(R.id.team_info_button_selected).getVisibility()) {
+            displayNews();
+        } else if (View.VISIBLE == findViewById(R.id.news_button_selected).getVisibility()) {
+            displayComments();
+        } else if (View.VISIBLE == findViewById(R.id.comment_button_selected).getVisibility()) {
+            displayRanks();
+        }
+    }
+
     private void hideMenuItemOnWatchStatus() {
         if (player.isWatched()) {
             addWatch.setVisible(false);
@@ -388,6 +417,9 @@ public class PlayerInfo extends AppCompatActivity {
                 R.id.comment_upvote_count, R.id.comment_downvoted_icon, R.id.comment_downvote_count});
         infoList.setAdapter(adapter);
         commentList.setAdapter(commentAdapter);
+        PlayerInfoSwipeDetector detector = new PlayerInfoSwipeDetector(this);
+        infoList.setOnTouchListener(detector);
+        commentList.setOnTouchListener(detector);
 
         ImageButton ranks = findViewById(R.id.player_info_ranks);
         ImageButton info =  findViewById(R.id.player_info_about);
