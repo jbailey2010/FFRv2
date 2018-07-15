@@ -452,10 +452,6 @@ public class DraftInfo extends AppCompatActivity {
         }
 
         teamPAA.setData(barData);
-        Description description = new Description();
-        description.setText("\nPAA");
-        description.setTextSize(12f);
-        teamPAA.setDescription(description);
         teamPAA.invalidate();
         teamPAA.setTouchEnabled(true);
         teamPAA.setPinchZoom(true);
