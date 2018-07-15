@@ -36,7 +36,7 @@
                 android:layout_height="36dp"
                 android:layout_margin="7dp"
                 android:paddingLeft="15dp"
-                android:hint="Search"
+                android:hint="  Search"
                 android:textColor="#dedede"
                 android:textColorHint="#dedede"
                 android:textSize="13sp"

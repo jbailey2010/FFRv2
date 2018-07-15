@@ -61,9 +61,10 @@ public class ParsePlayerNews {
                         // First, get the 'notes'
                         String title = element.child(0).text();
                         String date = element.parent().parent().child(1).child(1).text();
+                        String author = element.parent().parent().child(1).child(0).text();
                         PlayerNews news = new PlayerNews();
                         news.setNews(title);
-                        news.setImpact(Constants.LINE_BREAK + date);
+                        news.setImpact(author + Constants.LINE_BREAK + date);
 
                         newsList.add(news);
                     }
@@ -77,9 +78,10 @@ public class ParsePlayerNews {
                     String title = element.child(1).text();
                     String body = element.child(3).text();
                     String date = element.parent().parent().child(1).child(1).text();
+                    String author = element.parent().parent().child(1).child(0).text();
                     PlayerNews news = new PlayerNews();
                     news.setNews(title);
-                    news.setImpact(body + Constants.LINE_BREAK + Constants.LINE_BREAK + date);
+                    news.setImpact(body + Constants.LINE_BREAK + Constants.LINE_BREAK + author + Constants.LINE_BREAK + date);
 
                     newsList.add(news);
                 }
