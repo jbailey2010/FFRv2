@@ -904,10 +904,23 @@ public class PlayerSorter extends AppCompatActivity {
             subtextBuilder.append(Constants.LINE_BREAK)
                     .append("Auction Value: ")
                     .append(df.format(player.getAuctionValueCustom(rankings)));
-        } else if (!isAuction && !Constants.SORT_ECR.equals(factor) && !Constants.SORT_ALL.equals(factor)) {
+        } else if (rankings.getLeagueSettings().isSnake() && !Constants.SORT_ECR.equals(factor) && !Constants.SORT_ALL.equals(factor)) {
             subtextBuilder.append(Constants.LINE_BREAK)
                     .append("ECR: ")
                     .append(String.valueOf(player.getEcr()));
+        } else if (rankings.getLeagueSettings().isDynasty() && !Constants.SORT_DYNASTY.equals(factor) && !Constants.SORT_ALL.equals(factor)) {
+            subtextBuilder.append(Constants.LINE_BREAK)
+                    .append("Dynasty/Keeper Rank: ")
+                    .append(String.valueOf(player.getDynastyRank()));
+            if (player.getAge() != null) {
+                subtextBuilder.append(Constants.LINE_BREAK)
+                        .append("Age: ")
+                        .append(String.valueOf(player.getAge()));
+            }
+        } else if (rankings.getLeagueSettings().isRookie() && !Constants.SORT_ROOKIE.equals(factor) && !Constants.SORT_ALL.equals(factor)) {
+            subtextBuilder.append(Constants.LINE_BREAK)
+                    .append("Rookie Rank: ")
+                    .append(String.valueOf(player.getRookieRank()));
         }
         return subtextBuilder.toString();
     }

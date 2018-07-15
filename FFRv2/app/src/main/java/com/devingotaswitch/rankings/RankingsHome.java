@@ -443,6 +443,9 @@ public class RankingsHome extends AppCompatActivity {
                 if (player.isWatched()) {
                     datum.put(Constants.PLAYER_STATUS, Integer.toString(R.drawable.star));
                 }
+                if (player.getAge() != null ) {
+                    datum.put(Constants.PLAYER_ADDITIONAL_INFO, "Age: " + player.getAge());
+                }
                 data.add(datum);
                 displayedPlayers++;
                 if (displayedPlayers == maxPlayers) {
