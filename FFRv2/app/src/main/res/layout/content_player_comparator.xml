@@ -27,7 +27,8 @@
             android:layout_marginLeft="3dp"
             android:layout_marginTop="5dp"
             android:layout_marginBottom="5dp"
-            android:hint="  Player 1"
+            android:paddingLeft="12dp"
+            android:hint="Player 1"
             android:dropDownWidth="match_parent"
             android:textSize="13sp"
             android:background="@drawable/text_border_selector" />
@@ -37,11 +38,12 @@
             android:layout_weight="1"
             android:layout_marginRight="3dp"
             android:layout_marginLeft="3dp"
+            android:paddingLeft="12dp"
             android:layout_marginTop="5dp"
             android:dropDownWidth="match_parent"
             android:layout_marginBottom="5dp"
             android:layout_height="40dp"
-            android:hint="  Player 2"
+            android:hint="Player 2"
             android:textSize="13sp"
             android:background="@drawable/text_border_selector" />
 
