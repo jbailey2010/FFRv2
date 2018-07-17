@@ -171,6 +171,7 @@ public class Constants {
     public static final String PLAYER_NAME_COLUMN = "player_name";
     public static final String PLAYER_POSITION_COLUMN = "position";
     public static final String PLAYER_AGE_COLUMN = "age";
+    public static final String PLAYER_EXPERIENCE_COLUMN = "experience";
     public static final String PLAYER_ECR_COLUMN = "ecr";
     public static final String PLAYER_ADP_COLUMN = "adp";
     public static final String PLAYER_DYNASTY_COLUMN = "dynasty";
@@ -205,6 +206,7 @@ public class Constants {
     public final static String PLAYER_INFO = "info";
     public final static String PLAYER_STATUS = "status";
     public final static String PLAYER_ADDITIONAL_INFO = "additional_info";
+    public final static String PLAYER_ADDITIONAL_INFO_2 = "additional_info_2";
     public final static String POS_TEAM_DELIMITER = " - ";
     public final static String NOTE_SUB = "Click to update note, click and hold to clear";
     public final static String DEFAULT_NOTE = "No note found";

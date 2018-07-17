@@ -1,5 +1,7 @@
 package com.devingotaswitch.rankings.sources;
 
+import android.util.Log;
+
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.domain.Team;
@@ -59,6 +61,7 @@ public class ParseFFTB {
                 name = brokenUp.get(i);
             }
             String age = brokenUp.get(i + 4);
+            String exp = brokenUp.get(i + 5);
             String val = brokenUp.get(i + 6);
             String bye = brokenUp.get(i + 3);
 
@@ -67,6 +70,11 @@ public class ParseFFTB {
                 Player player = ParsingUtils.getPlayerFromRankings(name, team, pos, Double.parseDouble(val));
                 if (GeneralUtils.isInteger(age)) {
                     player.setAge(Integer.parseInt(age));
+                }
+                if (GeneralUtils.isInteger(exp)) {
+                    player.setExperience(Integer.parseInt(exp));
+                } else if ("R".equals(exp)) {
+                    player.setExperience(0);
                 }
                 rankings.processNewPlayer(player);
             }

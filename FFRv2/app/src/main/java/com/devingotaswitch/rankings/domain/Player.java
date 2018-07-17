@@ -10,6 +10,7 @@ public class Player {
 
     private String name;
     private Integer age;
+    private Integer experience = -1;
     private String position;
     private Double ecr = 300.0;
     private Double adp = 300.0;
@@ -42,6 +43,14 @@ public class Player {
 
     public void setAge(Integer age) {
         this.age = age;
+    }
+
+    public Integer getExperience() {
+        return experience;
+    }
+
+    public void setExperience(Integer experience) {
+        this.experience = experience;
     }
 
     public String getPosition() {

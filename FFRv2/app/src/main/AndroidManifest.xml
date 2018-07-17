@@ -60,6 +60,7 @@
         <activity
             android:name="com.devingotaswitch.rankings.RankingsHome"
             android:label="Rankings"
+            android:windowSoftInputMode="adjustPan"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
         <activity

@@ -406,9 +406,10 @@ public class RankingsHome extends AppCompatActivity {
         final List<Map<String, String>> data = new ArrayList<>();
         final SimpleAdapter adapter = new SimpleAdapter(this, data,
                 R.layout.list_item_layout,
-                new String[] { Constants.PLAYER_BASIC, Constants.PLAYER_INFO, Constants.PLAYER_STATUS, Constants.PLAYER_ADDITIONAL_INFO},
+                new String[] { Constants.PLAYER_BASIC, Constants.PLAYER_INFO, Constants.PLAYER_STATUS, Constants.PLAYER_ADDITIONAL_INFO,
+                Constants.PLAYER_ADDITIONAL_INFO_2},
                 new int[] { R.id.player_basic, R.id.player_info,
-                R.id.player_status, R.id.player_more_info });
+                R.id.player_status, R.id.player_more_info, R.id.player_additional_info_2 });
         listview.setAdapter(adapter);
         int displayedPlayers = 0;
         for (String playerKey : orderedIds) {
@@ -443,8 +444,11 @@ public class RankingsHome extends AppCompatActivity {
                 if (player.isWatched()) {
                     datum.put(Constants.PLAYER_STATUS, Integer.toString(R.drawable.star));
                 }
-                if (player.getAge() != null ) {
+                if (player.getAge() != null  && !Constants.DST.equals(player.getPosition())) {
                     datum.put(Constants.PLAYER_ADDITIONAL_INFO, "Age: " + player.getAge());
+                }
+                if (player.getExperience() != null && player.getExperience() >= 0 && !Constants.DST.equals(player.getPosition())) {
+                    datum.put(Constants.PLAYER_ADDITIONAL_INFO_2, "Exp: " + player.getExperience());
                 }
                 data.add(datum);
                 displayedPlayers++;

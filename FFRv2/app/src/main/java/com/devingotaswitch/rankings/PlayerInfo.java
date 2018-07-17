@@ -119,7 +119,15 @@ public class PlayerInfo extends AppCompatActivity {
         });
 
         sortByUpvotes = Constants.COMMENT_SORT_TOP.equals(LocalSettingsHelper.getCommentSortType(this));
+
+        // Kick off the thread to get news
+        ParsePlayerNews.startNews(player.getName(), player.getTeamName(), this);
+
+        // Kick off the thread to get comments
         AppSyncHelper.getCommentsForPlayer(this, player.getUniqueId(), null, sortByUpvotes);
+
+        // Kick off the thread to get player metadata
+        AppSyncHelper.getOrCreatePlayerMetadataAndIncrementViewCount(this, player.getUniqueId());
     }
 
     @Override
@@ -386,19 +394,23 @@ public class PlayerInfo extends AppCompatActivity {
         Button headerLeft = findViewById(R.id.dummy_btn_left);
         Button headerRight = findViewById(R.id.dummy_btn_right);
         Button headerMiddle = findViewById(R.id.dummy_btn_center);
-        if (player.getAge() != null) {
-            headerLeft.setText("Age:" + Constants.LINE_BREAK +  player.getAge());
+        if (player.getAge() != null && player.getAge() > 0 && !Constants.DST.equals(player.getPosition()))  {
+            StringBuilder expBuilder = new StringBuilder()
+                    .append("Age: ")
+                    .append(player.getAge());
+            if (player.getExperience() >= 0) {
+                expBuilder.append(Constants.LINE_BREAK)
+                        .append("Exp: ")
+                        .append(player.getExperience());
+            }
+            headerLeft.setText(expBuilder.toString());
+        } else if (Constants.DST.equals(player.getPosition())) {
+            headerLeft.setText("Age: N/A");
         }
         if (rankings.getTeam(player) != null) {
             headerRight.setText("Bye:" + Constants.LINE_BREAK + rankings.getTeam(player).getBye());
         }
         headerMiddle.setText(player.getTeamName() + Constants.LINE_BREAK + player.getPosition());
-
-        // Kick off the thread to get news
-        ParsePlayerNews.startNews(player.getName(), player.getTeamName(), this);
-
-        // Kick off the thread to get comments
-        AppSyncHelper.getOrCreatePlayerMetadataAndIncrementViewCount(this, player.getUniqueId());
 
         infoList = findViewById(R.id.player_info_list);
         commentList = findViewById(R.id.player_info_comment_list);

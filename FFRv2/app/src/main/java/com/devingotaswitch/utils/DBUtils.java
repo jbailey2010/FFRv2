@@ -2,6 +2,7 @@ package com.devingotaswitch.utils;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.util.Log;
 
 import com.devingotaswitch.rankings.domain.LeagueSettings;
 import com.devingotaswitch.rankings.domain.Player;
@@ -221,6 +222,7 @@ public class DBUtils {
         player.setRookieRank(result.getDouble(result.getColumnIndex(Constants.PLAYER_ROOKIE_COLUMN)));
         player.setRisk(result.getDouble(result.getColumnIndex(Constants.PLAYER_RISK_COLUMN)));
         player.setAge(result.getInt(result.getColumnIndex(Constants.PLAYER_AGE_COLUMN)));
+        player.setExperience(result.getInt(result.getColumnIndex(Constants.PLAYER_EXPERIENCE_COLUMN)));
         player.setStats(desanitizeStats(result.getString(result.getColumnIndex(Constants.PLAYER_STATS_COLUMN))));
         player.setInjuryStatus(result.getString(result.getColumnIndex(Constants.PLAYER_INJURED_COLUMN)));
         player.setAuctionValue(result.getDouble(result.getColumnIndex(Constants.AUCTION_VALUE_COLUMN)));
@@ -255,6 +257,7 @@ public class DBUtils {
         values.put(Constants.PLAYER_POSITION_COLUMN, player.getPosition());
         values.put(Constants.TEAM_NAME_COLUMN, player.getTeamName());
         values.put(Constants.PLAYER_AGE_COLUMN, player.getAge());
+        values.put(Constants.PLAYER_EXPERIENCE_COLUMN, player.getExperience());
         values.put(Constants.PLAYER_ECR_COLUMN, player.getEcr());
         values.put(Constants.PLAYER_ADP_COLUMN, player.getAdp());
         values.put(Constants.PLAYER_DYNASTY_COLUMN, player.getDynastyRank());

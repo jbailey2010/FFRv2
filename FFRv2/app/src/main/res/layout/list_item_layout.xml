@@ -39,5 +39,15 @@
             android:layout_alignTop="@+id/player_info"
             android:text=""/>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:textSize="12sp"
+            android:id="@+id/player_additional_info_2"
+            android:layout_below="@+id/player_more_info"
+            android:text=""
+            />
+
 
 </RelativeLayout>
