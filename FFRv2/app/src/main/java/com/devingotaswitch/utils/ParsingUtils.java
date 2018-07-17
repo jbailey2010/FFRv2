@@ -386,7 +386,7 @@ public class ParsingUtils {
                 (newPlayer.getAge() != null && newPlayer.getAge() > 18)) {
             oldPlayer.setAge(newPlayer.getAge());
         }
-        if (oldPlayer.getExperience() == null  && newPlayer.getExperience() != null) {
+        if ((oldPlayer.getExperience() == null || oldPlayer.getExperience() < 0)  && newPlayer.getExperience() != null) {
             oldPlayer.setExperience(newPlayer.getExperience());
         }
         return oldPlayer;
