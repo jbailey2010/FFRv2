@@ -240,7 +240,8 @@ public class ParsingUtils {
             return "Green Bay Packers";
         } else if (low.contains("tampa")) {
             return "Tampa Bay Buccaneers";
-        } else if (low.contains("orleans")) {
+        } else if (low.contains("orleans") && (low.split(" ").length == 1 ||
+                (low.split(" ").length > 1 && !low.split(" ")[0].contains("orleans")))) {
             return "New Orleans Saints";
         } else if (low.contains("la rams")) {
             return "St. Louis Rams";
