@@ -363,8 +363,12 @@ public class ParsingUtils {
                 break;
             case "WR,RB":
             case "WR/RB":
+            case "RB,WR":
             case "RB/WR":
                 position = Constants.RB;
+                break;
+            case "CB,DB,WR":
+                position = Constants.WR;
                 break;
             case "TE,RB":
                 position = Constants.TE;
