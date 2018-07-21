@@ -395,6 +395,7 @@ public class DraftInfo extends AppCompatActivity {
         conditionallyGraphPosition(barData, Constants.K);
 
         barChart.setData(barData);
+
         YAxis left = barChart.getAxisLeft();
         left.setDrawZeroLine(true);
         barChart.getAxisRight().setEnabled(false);
@@ -452,6 +453,9 @@ public class DraftInfo extends AppCompatActivity {
         }
 
         teamPAA.setData(barData);
+        Description description = new Description();
+        description.setText("");
+        teamPAA.setDescription(description);
         teamPAA.invalidate();
         teamPAA.setTouchEnabled(true);
         teamPAA.setPinchZoom(true);
