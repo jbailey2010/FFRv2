@@ -294,7 +294,7 @@ public class RankingsFetcher {
             Set<Player> possiblyFake = new HashSet<>();
             for (String key : rankings.getPlayers().keySet()) {
                 Player player = rankings.getPlayer(key);
-                if (player.getProjection() == 0.0 && player.getEcr() == 300.0 && player.getAdp() == 300.0) {
+                if (player.getProjection() == 0.0 && player.getAge() == null && player.getExperience() == -1) {
                     possiblyFake.add(player);
                 } else {
                     realPlayers.put(getDedupKey(player), player);
