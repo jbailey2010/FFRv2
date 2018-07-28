@@ -168,7 +168,7 @@
             android:id="@+id/league_scoring_yds_per_receiving_point"
             android:background="@drawable/text_border_selector"
             android:hint="Receiving Yards/Point"
-            android:text="6"
+            android:text="10"
             android:layout_weight="1"
             android:layout_margin="2dp"
             android:inputType="number"/>
