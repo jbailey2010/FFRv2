@@ -109,7 +109,7 @@
         android:layout_below="@+id/textViewRegGivenNameLabel"
         android:layout_centerHorizontal="true"
         android:background="@drawable/text_border_selector"
-        android:hint="Given name"
+        android:hint="Name"
         android:inputType="textPersonName"/>
 
     <TextView
@@ -129,42 +129,9 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textSize="@dimen/activity_text_size_small"
         android:text=" "
-        android:id="@+id/textViewRegEmailLabel"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@id/textViewRegGivenNameMessage" />
-
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/activity_text_height"
-        android:paddingLeft="@dimen/activity_text_padding"
-        android:paddingRight="@dimen/activity_text_padding"
-        android:id="@+id/editTextRegEmail"
-        android:layout_below="@id/textViewRegEmailLabel"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/text_border_selector"
-        android:hint="Email"
-        android:inputType="textEmailAddress"/>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textSize="@dimen/activity_text_padding"
-        android:text=" "
-        android:textColor="@color/alert"
-        android:id="@+id/textViewRegEmailMessage"
-        android:layout_below="@id/editTextRegEmail"
-        android:layout_centerHorizontal="true" />
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textSize="@dimen/activity_text_size_small"
-        android:text=" "
         android:id="@+id/textViewRegPhoneLabel"
         android:layout_centerHorizontal="true"
-        android:layout_below="@id/textViewRegEmailMessage" />
+        android:layout_below="@id/textViewRegGivenNameMessage" />
 
     <EditText
         android:layout_width="match_parent"

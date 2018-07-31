@@ -26,7 +26,6 @@ public class RegisterUser extends AppCompatActivity {
     private EditText username;
     private EditText password;
     private EditText givenName;
-    private EditText email;
     private EditText phone;
 
     private AlertDialog userDialog;
@@ -149,40 +148,13 @@ public class RegisterUser extends AppCompatActivity {
             }
         });
         //
-        email = findViewById(R.id.editTextRegEmail);
-        email.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-                if (s.length() == 0) {
-                    TextView label = findViewById(R.id.textViewRegEmailLabel);
-                    label.setText(email.getHint());
-                    email.setBackground(getDrawable(R.drawable.text_border_selector));
-                }
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-                TextView label = findViewById(R.id.textViewRegEmailMessage);
-                label.setText("");
-
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if (s.length() == 0) {
-                    TextView label = findViewById(R.id.textViewRegEmailLabel);
-                    label.setText("");
-                }
-            }
-        });
-        //
         phone = findViewById(R.id.editTextRegPhone);
         phone.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
                 if (s.length() == 0) {
                     TextView label = findViewById(R.id.textViewRegPhoneLabel);
-                    label.setText(phone.getHint() + " with country code and no seperators");
+                    label.setText(phone.getHint());
                     phone.setBackground(getDrawable(R.drawable.text_border_selector));
                 }
             }
@@ -227,24 +199,13 @@ public class RegisterUser extends AppCompatActivity {
                 }
 
                 String userInput = givenName.getText().toString();
-                if (userInput != null) {
-                    if (userInput.length() > 0) {
-                        userAttributes.addAttribute(CUPHelper.getSignUpFieldsC2O().get(givenName.getHint()), userInput);
-                    }
-                }
-
-                userInput = email.getText().toString();
-                if (userInput != null) {
-                    if (userInput.length() > 0) {
-                        userAttributes.addAttribute(CUPHelper.getSignUpFieldsC2O().get(email.getHint()), userInput);
-                    }
+                if (userInput != null && userInput.length() > 0) {
+                    userAttributes.addAttribute(CUPHelper.getSignUpFieldsC2O().get("Given name"), userInput);
                 }
 
                 userInput = phone.getText().toString();
-                if (userInput != null) {
-                    if (userInput.length() > 0) {
-                        userAttributes.addAttribute(CUPHelper.getSignUpFieldsC2O().get(phone.getHint()), userInput);
-                    }
+                if (userInput != null && userInput.length() > 0) {
+                    userAttributes.addAttribute(CUPHelper.getSignUpFieldsC2O().get("Phone number"), userInput);
                 }
 
                 showWaitDialog("Signing up...");
@@ -263,7 +224,7 @@ public class RegisterUser extends AppCompatActivity {
             closeWaitDialog();
             if (signUpConfirmationState) {
                 // User is already confirmed
-                showDialogMessage("Sign up successful!",usernameInput+" has been Confirmed", true);
+                showDialogMessage("Sign up successful!",usernameInput+" has been confirmed", true);
             }
             else {
                 // User is not confirmed

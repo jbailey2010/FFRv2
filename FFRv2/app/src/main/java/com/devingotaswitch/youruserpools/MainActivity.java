@@ -52,7 +52,6 @@ public class MainActivity extends AppCompatActivity {
     private Toolbar toolbar;
 
     //Continuations
-    private MultiFactorAuthenticationContinuation multiFactorAuthenticationContinuation;
     private ForgotPasswordContinuation forgotPasswordContinuation;
     private NewPasswordContinuation newPasswordContinuation;
 
@@ -144,23 +143,6 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 break;
-            case 5:
-                //MFA
-                closeWaitDialog();
-                if(resultCode == RESULT_OK) {
-                    String code = data.getStringExtra("mfacode");
-                    if(code != null) {
-                        if (code.length() > 0) {
-                            showWaitDialog("Signing in...");
-                            multiFactorAuthenticationContinuation.setMfaCode(code);
-                            multiFactorAuthenticationContinuation.continueTask();
-                        } else {
-                            inPassword.setText("");
-                            inPassword.requestFocus();
-                        }
-                    }
-                }
-                break;
             case 6:
                 //New password
                 closeWaitDialog();
@@ -248,13 +230,6 @@ public class MainActivity extends AppCompatActivity {
         intent.putExtra("destination",forgotPasswordContinuation.getParameters().getDestination());
         intent.putExtra("deliveryMed", forgotPasswordContinuation.getParameters().getDeliveryMedium());
         startActivityForResult(intent, 3);
-    }
-
-    private void mfaAuth(MultiFactorAuthenticationContinuation continuation) {
-        multiFactorAuthenticationContinuation = continuation;
-        Intent mfaActivity = new Intent(this, MFAActivity.class);
-        mfaActivity.putExtra("mode", multiFactorAuthenticationContinuation.getParameters().getDeliveryMedium());
-        startActivityForResult(mfaActivity, 5);
     }
 
     private void continueWithFirstTimeSignIn() {
@@ -440,8 +415,8 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         public void getMFACode(MultiFactorAuthenticationContinuation multiFactorAuthenticationContinuation) {
+            // Doesn't happen
             closeWaitDialog();
-            mfaAuth(multiFactorAuthenticationContinuation);
         }
 
         @Override

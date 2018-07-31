@@ -57,7 +57,6 @@ import com.devingotaswitch.utils.GeneralUtils;
 import com.devingotaswitch.youruserpools.CUPHelper;
 import com.devingotaswitch.youruserpools.ChangePasswordActivity;
 import com.devingotaswitch.youruserpools.MainActivity;
-import com.devingotaswitch.youruserpools.UserActivity;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -740,10 +739,6 @@ public class RankingsHome extends AppCompatActivity {
                 // Help info
                 getHelp();
                 break;
-            case R.id.nav_user_profile:
-                // See profile
-                viewProfile();
-                break;
             case R.id.nav_user_change_password:
                 // Change password
                 changePassword();
@@ -790,11 +785,6 @@ public class RankingsHome extends AppCompatActivity {
         } else {
             Snackbar.make(buttonBase, "No internet connection", Snackbar.LENGTH_LONG).show();
         }
-    }
-
-    private void viewProfile() {
-        Intent userActivity = new Intent(this, UserActivity.class);
-        startActivity(userActivity);
     }
 
     private void changePassword() {
