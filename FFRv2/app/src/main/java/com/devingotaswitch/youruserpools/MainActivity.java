@@ -42,9 +42,6 @@ import java.util.Map;
 public class MainActivity extends AppCompatActivity {
     private final String TAG="MainActivity";
 
-    private NavigationView nDrawer;
-    private DrawerLayout mDrawer;
-    private ActionBarDrawerToggle mDrawerToggle;
     private AlertDialog userDialog;
     private ProgressDialog waitDialog;
 
@@ -76,27 +73,11 @@ public class MainActivity extends AppCompatActivity {
         titleView = findViewById(R.id.main_toolbar_title);
         setSupportActionBar(toolbar);
 
-        // Set navigation drawer for this screen
-        mDrawer = findViewById(R.id.main_drawer_layout);
-        mDrawerToggle = new ActionBarDrawerToggle(this,mDrawer, toolbar, R.string.nav_drawer_open, R.string.nav_drawer_close);
-        mDrawer.addDrawerListener(mDrawerToggle);
-        mDrawerToggle.syncState();
-        nDrawer = findViewById(R.id.nav_view);
-        setNavDrawer();
-
         // Initialize application
         CUPHelper.init(getApplicationContext());
         setDisplayForLoading();
         initApp();
         findCurrent();
-    }
-
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Open/Close the navigation drawer when menu icon is selected
-        return mDrawerToggle.onOptionsItemSelected(item) || super.onOptionsItemSelected(item);
-
     }
 
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -209,40 +190,8 @@ public class MainActivity extends AppCompatActivity {
         forgotpasswordUser();
     }
 
-
-    // Private methods
-    // Handle when the a navigation item is selected
-    private void setNavDrawer() {
-        nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem item) {
-                performAction(item);
-                return true;
-            }
-        });
-    }
-
-    // Perform the action for the selected navigation item
-    private void performAction(MenuItem item) {
-        // Close the navigation drawer
-        mDrawer.closeDrawers();
-
-        // Find which item was selected
-        switch(item.getItemId()) {
-            case R.id.nav_sign_up:
-                // Start sign-up
-                signUpNewUser();
-                break;
-            case R.id.nav_sign_up_confirm:
-                // Confirm new user
-                confirmUser(false);
-                break;
-            case R.id.nav_sign_in_forgot_password:
-                // User has forgotten the password, start the process to set a new password
-                forgotpasswordUser();
-                break;
-
-        }
+    public void confirmSignUp(View view) {
+        confirmUser(false);
     }
 
     private void signUpNewUser() {
@@ -541,7 +490,7 @@ public class MainActivity extends AppCompatActivity {
         buffer.setVisibility(View.GONE);
         RelativeLayout fields = findViewById(R.id.rankings_splash_bottom);
         fields.setVisibility(View.VISIBLE);
-        titleView.setText("Sign in");
+        titleView.setText("Welcome");
         toolbar.setVisibility(View.VISIBLE);
     }
 
