@@ -119,11 +119,11 @@ public class ParseProjections {
             double rushYards = Double.parseDouble(td.get(i + 2)
                     .replace(",", ""));
             double rushTD = Double.parseDouble(td.get(i + 3));
-            double catches = Double.parseDouble(td.get(i + 4));
+            double catches = Double.parseDouble(td.get(i + 5));
             double recYards = Double
-                    .parseDouble(td.get(i + 5).replace(",", ""));
-            double recTD = Double.parseDouble(td.get(i + 6));
-            double fumbles = Double.parseDouble(td.get(i + 7));
+                    .parseDouble(td.get(i + 6).replace(",", ""));
+            double recTD = Double.parseDouble(td.get(i + 7));
+            double fumbles = Double.parseDouble(td.get(i + 4));
             proj += (rushYards / (rankings.getLeagueSettings().getScoringSettings().getRushingYards()));
             proj += rushTD * rankings.getLeagueSettings().getScoringSettings().getRushingTds();
             proj += catches * rankings.getLeagueSettings().getScoringSettings().getReceptions();

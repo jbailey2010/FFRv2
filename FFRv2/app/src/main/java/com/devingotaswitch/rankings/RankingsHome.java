@@ -38,8 +38,14 @@ import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoDevice;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserDetails;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.AuthenticationContinuation;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.ChallengeContinuation;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.MultiFactorAuthenticationContinuation;
+import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GetDetailsHandler;
 import com.amazonaws.util.StringUtils;
 import com.devingotaswitch.rankings.extras.FilterWithSpaceAdapter;
@@ -63,6 +69,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 
 public class RankingsHome extends AppCompatActivity {
@@ -321,7 +328,7 @@ public class RankingsHome extends AppCompatActivity {
         // Cogneato stuff
         username = CUPHelper.getCurrUser();
         user = CUPHelper.getPool().getUser(username);
-        getDetails();
+        refreshTokens();
     }
 
     private void initRankingsContext() {
@@ -798,26 +805,45 @@ public class RankingsHome extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void getDetails() {
-        CUPHelper.getPool().getUser(username).getDetailsInBackground(detailsHandler);
+    private void refreshTokens() {
+        Log.d(TAG, "Beginning token refresh check");
+        CUPHelper.getPool().getUser(username).getSessionInBackground(new RefreshSessionHandler());
     }
 
-    private final GetDetailsHandler detailsHandler = new GetDetailsHandler() {
-        @Override
-        public void onSuccess(CognitoUserDetails cognitoUserDetails) {
-            closeWaitDialog();
-            // Store details in the AppHandler
-            CUPHelper.setUserDetails(cognitoUserDetails);
+    private class RefreshSessionHandler implements AuthenticationHandler {
+        RefreshSessionHandler() {
         }
 
         @Override
-        public void onFailure(Exception exception) {
-            closeWaitDialog();
-            Log.d(TAG, "Failed to get user: " + CUPHelper.formatException(exception));
-            Snackbar.make(buttonBase, "Can't validate account, please sign in again", Snackbar.LENGTH_SHORT).show();
+        public void onSuccess(CognitoUserSession cognitoUserSession, CognitoDevice device) {
+            Log.i(TAG, "Refresh success");
+            CUPHelper.setCurrSession(cognitoUserSession);
+        }
+
+        @Override
+        public void getAuthenticationDetails(AuthenticationContinuation authenticationContinuation, String username) {
+            Log.d(TAG, "Get auth details challenge thrown from rankings page, should never happen.");
             signOut();
         }
-    };
+
+        @Override
+        public void getMFACode(MultiFactorAuthenticationContinuation multiFactorAuthenticationContinuation) {
+            Log.d(TAG, "MFA challenge thrown from rankings page, should never happen.");
+            signOut();
+        }
+
+        @Override
+        public void authenticationChallenge(ChallengeContinuation continuation) {
+            Log.d(TAG, "Authentication challenge thrown from rankings page, should never happen.");
+            signOut();
+        }
+
+        @Override
+        public void onFailure(Exception e) {
+            Log.d(TAG, "Failed to refresh token from rankings page, should never happen.", e);
+            signOut();
+        }
+    }
 
     private void closeWaitDialog() {
         try {
