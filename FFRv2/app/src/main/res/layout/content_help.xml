@@ -131,7 +131,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:layout_marginTop="10dp"
-                android:text="Want to lock down your profile with an MFA, change your password, update some info you have, or even just sign out? All of that is accessible via the side menu."
+                android:text="Want to change your password, or even just sign out? Both are accessible via the side menu."
                 android:visibility="gone"
                 android:id="@+id/help_profile_body"/>
 
