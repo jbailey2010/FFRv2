@@ -8,10 +8,12 @@ import android.view.View;
 import android.widget.TextView;
 
 import com.amazonaws.util.StringUtils;
+import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.rankings.extras.FilterWithSpaceAdapter;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
 
+import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -33,7 +35,9 @@ public class GeneralUtils {
             List<String> data) {
         Collections.sort(data, new Comparator<String>() {
             public int compare(String a, String b) {
-                int judgment = a.compareTo(b);
+                String aName = a.split(Constants.RANKINGS_LIST_DELIMITER)[1].split(Constants.LINE_BREAK)[0];
+                String bName = b.split(Constants.RANKINGS_LIST_DELIMITER)[1].split(Constants.LINE_BREAK)[0];
+                int judgment = aName.compareTo(bName);
                 return Integer.compare(judgment, 0);
             }
         });
@@ -64,30 +68,43 @@ public class GeneralUtils {
 
     public static FilterWithSpaceAdapter<String> getPlayerSearchAdapter(Rankings rankings, Activity activity) {
         final List<String> dropdownList = new ArrayList<>();
+        DecimalFormat df = new DecimalFormat(Constants.NUMBER_FORMAT);
         for (String key : rankings.getPlayers().keySet()) {
             Player player = rankings.getPlayer(key);
+            String prefix = "";
+            if (rankings.getLeagueSettings().isAuction()) {
+                prefix = df.format(player.getAuctionValueCustom(rankings));
+            } else if (rankings.getLeagueSettings().isSnake()) {
+                prefix = String.valueOf(player.getEcr());
+            } else if (rankings.getLeagueSettings().isDynasty()) {
+                prefix = String.valueOf(player.getDynastyRank());
+            } else if (rankings.getLeagueSettings().isRookie()) {
+                prefix = String.valueOf(player.getRookieRank());
+            }
             if (rankings.getLeagueSettings().getRosterSettings().isPositionValid(player.getPosition()) &&
                     !StringUtils.isBlank(player.getTeamName()) && player.getTeamName().length() > 3) {
-                String dropdownStr = player.getName() +
-                        " (" +
+                String dropdownStr = prefix +
+                        Constants.RANKINGS_LIST_DELIMITER +
+                        player.getName() +
+                        Constants.LINE_BREAK +
                         player.getPosition() +
                         Constants.POS_TEAM_DELIMITER +
-                        player.getTeamName() +
-                        ")";
+                        player.getTeamName();
                 dropdownList.add(dropdownStr);
             }
         }
         List<String> dataSorted = GeneralUtils.sortData(dropdownList);
         return new FilterWithSpaceAdapter<>(activity,
-                android.R.layout.simple_dropdown_item_1line, dataSorted);
+                R.layout.dropdown_item, R.id.dropdown_text, dataSorted);
     }
 
     public static String getPlayerIdFromSearchView(View view) {
-        String fullStr = ((TextView)view.findViewById(android.R.id.text1)).getText().toString();
-        String posAndTeam = fullStr.split(" \\(")[1].split("\\)")[0];
-        String name = fullStr.split(" \\(")[0];
-        String pos = posAndTeam.split(Constants.POS_TEAM_DELIMITER)[0];
-        String team = posAndTeam.split(Constants.POS_TEAM_DELIMITER)[1];
+        String fullStr = ((TextView)view.findViewById(R.id.dropdown_text)).getText().toString().split(Constants.RANKINGS_LIST_DELIMITER)[1];
+        String[] playerArr = fullStr.split(Constants.LINE_BREAK);
+        String[] posAndTeam = playerArr[1].split(Constants.POS_TEAM_DELIMITER);
+        String name = playerArr[0];
+        String pos = posAndTeam[0];
+        String team = posAndTeam[1];
         return name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + pos;
     }
 }

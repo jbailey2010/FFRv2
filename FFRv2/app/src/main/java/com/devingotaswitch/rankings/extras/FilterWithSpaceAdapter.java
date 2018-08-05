@@ -87,9 +87,9 @@ public class FilterWithSpaceAdapter<T> extends BaseAdapter implements
      * @param objects
      *            The objects to represent in the ListView.
      */
-    public FilterWithSpaceAdapter(Context context, int textViewResourceId,
+    public FilterWithSpaceAdapter(Context context, int dropdownId, int textViewResourceId,
                                   List<T> objects) {
-        init(context, textViewResourceId, 0, objects);
+        init(context, dropdownId, textViewResourceId, objects);
     }
 
     /**
