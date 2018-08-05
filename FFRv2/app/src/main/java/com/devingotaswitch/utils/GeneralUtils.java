@@ -79,7 +79,7 @@ public class GeneralUtils {
         }
         List<String> dataSorted = GeneralUtils.sortData(dropdownList);
         return new FilterWithSpaceAdapter<>(activity,
-                android.R.layout.simple_dropdown_item_1line, dataSorted.toArray(new String[0]));
+                android.R.layout.simple_dropdown_item_1line, dataSorted);
     }
 
     public static String getPlayerIdFromSearchView(View view) {

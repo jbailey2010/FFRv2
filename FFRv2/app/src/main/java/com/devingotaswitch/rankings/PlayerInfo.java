@@ -874,20 +874,26 @@ public class PlayerInfo extends AppCompatActivity {
             data.add(datum);
         } else {
 
-            Map<String, String> draft = new HashMap<>();
-            draft.put(Constants.PLAYER_BASIC, "Draft recap");
-            draft.put(Constants.PLAYER_INFO, team.getDraftClass());
-            data.add(draft);
+            if (StringUtils.isBlank(team.getDraftClass()) || team.getDraftClass().length() < 4) {
+                Map<String, String> draft = new HashMap<>();
+                draft.put(Constants.PLAYER_BASIC, "Draft recap");
+                draft.put(Constants.PLAYER_INFO, team.getDraftClass());
+                data.add(draft);
+            }
 
-            Map<String, String> fa = new HashMap<>();
-            fa.put(Constants.PLAYER_BASIC, "Free agency recap");
-            fa.put(Constants.PLAYER_INFO, team.getFaClass());
-            data.add(fa);
+            if (StringUtils.isBlank(team.getFaClass()) || team.getFaClass().length() < 4) {
+                Map<String, String> fa = new HashMap<>();
+                fa.put(Constants.PLAYER_BASIC, "Free agency recap");
+                fa.put(Constants.PLAYER_INFO, team.getFaClass());
+                data.add(fa);
+            }
 
-            Map<String, String> oline = new HashMap<>();
-            oline.put(Constants.PLAYER_BASIC, "Offensive line grades");
-            oline.put(Constants.PLAYER_INFO, team.getoLineRanks());
-            data.add(oline);
+            if (StringUtils.isBlank(team.getoLineRanks()) || team.getoLineRanks().length() < 4) {
+                Map<String, String> oline = new HashMap<>();
+                oline.put(Constants.PLAYER_BASIC, "Offensive line grades");
+                oline.put(Constants.PLAYER_INFO, team.getoLineRanks());
+                data.add(oline);
+            }
 
             Map<String, String> schedule = new HashMap<>();
             schedule.put(Constants.PLAYER_BASIC, Constants.YEAR_KEY + " schedule");

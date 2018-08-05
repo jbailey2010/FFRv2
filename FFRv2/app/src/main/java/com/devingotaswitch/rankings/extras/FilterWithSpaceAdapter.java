@@ -88,8 +88,8 @@ public class FilterWithSpaceAdapter<T> extends BaseAdapter implements
      *            The objects to represent in the ListView.
      */
     public FilterWithSpaceAdapter(Context context, int textViewResourceId,
-                                  T[] objects) {
-        init(context, textViewResourceId, 0, Arrays.asList(objects));
+                                  List<T> objects) {
+        init(context, textViewResourceId, 0, objects);
     }
 
     /**
@@ -106,8 +106,9 @@ public class FilterWithSpaceAdapter<T> extends BaseAdapter implements
                 mObjects.add(object);
             }
         }
-        if (mNotifyOnChange)
+        if (mNotifyOnChange) {
             notifyDataSetChanged();
+        }
     }
 
     /**
@@ -126,8 +127,9 @@ public class FilterWithSpaceAdapter<T> extends BaseAdapter implements
                 mObjects.add(index, object);
             }
         }
-        if (mNotifyOnChange)
+        if (mNotifyOnChange) {
             notifyDataSetChanged();
+        }
     }
 
     /**
@@ -144,8 +146,9 @@ public class FilterWithSpaceAdapter<T> extends BaseAdapter implements
                 mObjects.remove(object);
             }
         }
-        if (mNotifyOnChange)
+        if (mNotifyOnChange) {
             notifyDataSetChanged();
+        }
     }
 
     /**
@@ -159,8 +162,9 @@ public class FilterWithSpaceAdapter<T> extends BaseAdapter implements
                 mObjects.clear();
             }
         }
-        if (mNotifyOnChange)
+        if (mNotifyOnChange) {
             notifyDataSetChanged();
+        }
     }
 
     /**
@@ -178,8 +182,9 @@ public class FilterWithSpaceAdapter<T> extends BaseAdapter implements
                 Collections.sort(mObjects, comparator);
             }
         }
-        if (mNotifyOnChange)
+        if (mNotifyOnChange) {
             notifyDataSetChanged();
+        }
     }
 
     /**
