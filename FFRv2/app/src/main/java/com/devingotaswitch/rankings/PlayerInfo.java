@@ -874,25 +874,31 @@ public class PlayerInfo extends AppCompatActivity {
             data.add(datum);
         } else {
 
-            if (StringUtils.isBlank(team.getDraftClass()) || team.getDraftClass().length() < 4) {
+            if (!StringUtils.isBlank(team.getDraftClass()) && team.getDraftClass().length() > 4) {
                 Map<String, String> draft = new HashMap<>();
                 draft.put(Constants.PLAYER_BASIC, "Draft recap");
                 draft.put(Constants.PLAYER_INFO, team.getDraftClass());
                 data.add(draft);
+            } else {
+                Log.d(TAG, "No draft class to display");
             }
 
-            if (StringUtils.isBlank(team.getFaClass()) || team.getFaClass().length() < 4) {
+            if (!StringUtils.isBlank(team.getFaClass()) && team.getFaClass().length() > 4) {
                 Map<String, String> fa = new HashMap<>();
                 fa.put(Constants.PLAYER_BASIC, "Free agency recap");
                 fa.put(Constants.PLAYER_INFO, team.getFaClass());
                 data.add(fa);
+            } else {
+                Log.d(TAG, "No FA class to display");
             }
 
-            if (StringUtils.isBlank(team.getoLineRanks()) || team.getoLineRanks().length() < 4) {
+            if (!StringUtils.isBlank(team.getoLineRanks()) && team.getoLineRanks().length() > 4) {
                 Map<String, String> oline = new HashMap<>();
                 oline.put(Constants.PLAYER_BASIC, "Offensive line grades");
                 oline.put(Constants.PLAYER_INFO, team.getoLineRanks());
                 data.add(oline);
+            } else {
+                Log.d(TAG, "No oline ranks to display");
             }
 
             Map<String, String> schedule = new HashMap<>();

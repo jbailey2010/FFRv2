@@ -1,5 +1,7 @@
 package com.devingotaswitch.rankings.sources;
 
+import android.util.Log;
+
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.domain.Team;
 import com.devingotaswitch.utils.Constants;
