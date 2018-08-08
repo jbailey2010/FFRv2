@@ -1,4 +1,4 @@
-package com.devingotaswitch.rankings.domain;
+package com.devingotaswitch.rankings.domain.appsync.comments;
 
 public class Comment {
     private String author;

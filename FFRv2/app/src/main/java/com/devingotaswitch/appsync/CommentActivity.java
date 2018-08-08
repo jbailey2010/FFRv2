@@ -1,8 +1,6 @@
 package com.devingotaswitch.appsync;
 
 import android.app.Activity;
-import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
 import com.amazonaws.mobileconnectors.appsync.fetcher.AppSyncResponseFetchers;
@@ -17,7 +15,7 @@ import com.devingotaswitch.graphqlstuff.DownvoteCommentMutation;
 import com.devingotaswitch.graphqlstuff.GetCommentsOnPlayerQuery;
 import com.devingotaswitch.graphqlstuff.UpvoteCommentMutation;
 import com.devingotaswitch.rankings.PlayerInfo;
-import com.devingotaswitch.rankings.domain.Comment;
+import com.devingotaswitch.rankings.domain.appsync.comments.Comment;
 import com.devingotaswitch.utils.AWSClientFactory;
 import com.devingotaswitch.youruserpools.CUPHelper;
 
