@@ -14,7 +14,11 @@ import com.devingotaswitch.graphqlstuff.IncrementPlayerDraftedCountMutation;
 import com.devingotaswitch.graphqlstuff.IncrementPlayerViewCountMutation;
 import com.devingotaswitch.graphqlstuff.IncrementPlayerWatchedCountMutation;
 import com.devingotaswitch.rankings.PlayerInfo;
+import com.devingotaswitch.rankings.domain.appsync.tags.Tag;
 import com.devingotaswitch.utils.AWSClientFactory;
+
+import java.util.Iterator;
+import java.util.List;
 
 import javax.annotation.Nonnull;
 
@@ -155,4 +159,16 @@ class PlayerMetadataActivity extends AppSyncActivity {
                 .enqueue(incrementViewCallback);
     }
 
+    private String[] filterTagsByPositionToArray(List<Tag> tags, String playerId) {
+        String pos = getPosFromPlayerId(playerId);
+        Iterator<Tag> iterator = tags.iterator();
+        while (iterator.hasNext()) {
+            Tag tag = iterator.next();
+            if (!tag.isValidForPosition(pos)) {
+                iterator.remove();
+            }
+        }
+        String[] tagArr = new String[tags.size()];
+        return tags.toArray(tagArr);
+    }
 }
