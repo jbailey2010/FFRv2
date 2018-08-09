@@ -230,4 +230,19 @@ public class Constants {
     // Tags
     public final static String SP_TAG_SUFFIX = "tag";
     public final static String TAG_TEXT_DELIMITER = ": ";
+    public final static String BOOM_OR_BUST_TAG = "Boom or Bust";
+    public final static String BOUNCE_BACK_TAG = "Bounce Back";
+    public final static String BREAKOUT_TAG = "Breakout";
+    public final static String BUST_TAG = "Bust";
+    public final static String CONSISTENT_TAG = "Consistent";
+    public final static String HANDCUFF_TAG = "Handcuff";
+    public final static String INJURY_PRONE_TAG = "Injury Prone";
+    public final static String LOTTERY_TICKET_TAG = "Lottery Ticket";
+    public final static String NEW_STAFF_TAG = "New Coaching Staff";
+    public final static String NEW_TEAM_TAG = "New Team";
+    public final static String OVERVALUED_TAG = "Overvalued";
+    public final static String POST_HYPE_SLEEPER_TAG = "Post-Hype Sleeper";
+    public final static String PPR_SPECIALIST_TAG = "PPR Specialist";
+    public final static String SLEEPER_TAG = "Sleeper";
+    public final static String UNDERVALUED_TAG = "Undervalued";
 }

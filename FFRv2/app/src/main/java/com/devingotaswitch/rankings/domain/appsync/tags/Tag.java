@@ -1,5 +1,7 @@
 package com.devingotaswitch.rankings.domain.appsync.tags;
 
+import com.devingotaswitch.utils.Constants;
+
 import java.util.Set;
 
 public abstract class Tag {
@@ -23,5 +25,9 @@ public abstract class Tag {
 
     public boolean isValidForPosition(String pos) {
         return validPositions.contains(pos);
+    }
+
+    public String getTagText() {
+        return title + Constants.TAG_TEXT_DELIMITER + String.valueOf(getCount());
     }
 }

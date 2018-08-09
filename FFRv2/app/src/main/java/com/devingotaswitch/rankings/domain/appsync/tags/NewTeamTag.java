@@ -7,6 +7,6 @@ import java.util.HashSet;
 
 public class NewTeamTag extends Tag {
     public NewTeamTag(int count) {
-        super(count, "New Team", new HashSet<>(Arrays.asList(Constants.QB, Constants.RB, Constants.WR, Constants.TE)));
+        super(count, Constants.NEW_TEAM_TAG, new HashSet<>(Arrays.asList(Constants.QB, Constants.RB, Constants.WR, Constants.TE)));
     }
 }

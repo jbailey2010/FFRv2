@@ -7,6 +7,6 @@ import java.util.HashSet;
 
 public class BreakoutTag extends Tag {
     public BreakoutTag(int count) {
-        super(count, "Breakout", new HashSet<>(Arrays.asList(Constants.QB, Constants.RB, Constants.WR, Constants.TE)));
+        super(count, Constants.BREAKOUT_TAG, new HashSet<>(Arrays.asList(Constants.QB, Constants.RB, Constants.WR, Constants.TE)));
     }
 }

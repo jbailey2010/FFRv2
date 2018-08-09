@@ -7,6 +7,6 @@ import java.util.HashSet;
 
 public class LotteryTicketTag extends Tag {
     public LotteryTicketTag(int count) {
-        super(count, "Lottery Ticket", new HashSet<>(Arrays.asList(Constants.QB, Constants.RB, Constants.WR, Constants.TE)));
+        super(count, Constants.LOTTERY_TICKET_TAG, new HashSet<>(Arrays.asList(Constants.QB, Constants.RB, Constants.WR, Constants.TE)));
     }
 }

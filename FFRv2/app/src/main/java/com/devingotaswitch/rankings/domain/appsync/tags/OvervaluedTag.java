@@ -7,6 +7,6 @@ import java.util.HashSet;
 
 public class OvervaluedTag extends Tag {
     public OvervaluedTag(int count) {
-        super(count, "Overvalued", new HashSet<>(Arrays.asList(Constants.QB, Constants.RB, Constants.WR, Constants.TE)));
+        super(count, Constants.OVERVALUED_TAG, new HashSet<>(Arrays.asList(Constants.QB, Constants.RB, Constants.WR, Constants.TE)));
     }
 }

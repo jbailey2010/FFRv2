@@ -7,6 +7,6 @@ import java.util.HashSet;
 
 public class InjuryProneTag extends Tag {
     public InjuryProneTag(int count) {
-        super(count, "Injury Prone", new HashSet<>(Arrays.asList(Constants.QB, Constants.RB, Constants.WR, Constants.TE)));
+        super(count, Constants.INJURY_PRONE_TAG, new HashSet<>(Arrays.asList(Constants.QB, Constants.RB, Constants.WR, Constants.TE)));
     }
 }

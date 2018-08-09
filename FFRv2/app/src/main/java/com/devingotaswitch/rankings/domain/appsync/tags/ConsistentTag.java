@@ -7,6 +7,6 @@ import java.util.HashSet;
 
 public class ConsistentTag extends Tag {
     public ConsistentTag(int count) {
-        super(count, "Consistent", new HashSet<>(Arrays.asList(Constants.QB, Constants.RB, Constants.WR, Constants.TE)));
+        super(count, Constants.CONSISTENT_TAG, new HashSet<>(Arrays.asList(Constants.QB, Constants.RB, Constants.WR, Constants.TE)));
     }
 }
