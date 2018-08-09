@@ -34,6 +34,7 @@ import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.PlayerNews;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.domain.Team;
+import com.devingotaswitch.rankings.domain.appsync.tags.Tag;
 import com.devingotaswitch.rankings.extras.CommentAdapter;
 import com.devingotaswitch.rankings.extras.PlayerInfoSwipeDetector;
 import com.devingotaswitch.rankings.sources.ParseMath;
@@ -501,10 +502,14 @@ public class PlayerInfo extends AppCompatActivity {
         displayRanks();
     }
 
-    public void setAggregatePlayerMetadata(int viewCount, int watchCount, int draftCount) {
+    public void setAggregatePlayerMetadata(int viewCount, int watchCount, int draftCount, Tag[] tags) {
         this.watchCount = watchCount;
         this.viewCount = viewCount;
         this.draftCount = draftCount;
+
+        for (Tag tag : tags) {
+            Log.d(TAG, tag.getTagText());
+        }
     }
 
     private void confirmCommentDeletion(final String commentId) {

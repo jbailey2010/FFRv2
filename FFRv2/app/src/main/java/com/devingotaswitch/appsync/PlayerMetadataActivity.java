@@ -14,9 +14,25 @@ import com.devingotaswitch.graphqlstuff.IncrementPlayerDraftedCountMutation;
 import com.devingotaswitch.graphqlstuff.IncrementPlayerViewCountMutation;
 import com.devingotaswitch.graphqlstuff.IncrementPlayerWatchedCountMutation;
 import com.devingotaswitch.rankings.PlayerInfo;
+import com.devingotaswitch.rankings.domain.appsync.tags.BoomOrBustTag;
+import com.devingotaswitch.rankings.domain.appsync.tags.BounceBackTag;
+import com.devingotaswitch.rankings.domain.appsync.tags.BreakoutTag;
+import com.devingotaswitch.rankings.domain.appsync.tags.BustTag;
+import com.devingotaswitch.rankings.domain.appsync.tags.ConsistentTag;
+import com.devingotaswitch.rankings.domain.appsync.tags.HandcuffTag;
+import com.devingotaswitch.rankings.domain.appsync.tags.InjuryProneTag;
+import com.devingotaswitch.rankings.domain.appsync.tags.LotteryTicketTag;
+import com.devingotaswitch.rankings.domain.appsync.tags.NewStaffTag;
+import com.devingotaswitch.rankings.domain.appsync.tags.NewTeamTag;
+import com.devingotaswitch.rankings.domain.appsync.tags.OvervaluedTag;
+import com.devingotaswitch.rankings.domain.appsync.tags.PPRSpecialistTag;
+import com.devingotaswitch.rankings.domain.appsync.tags.PostHypeSleeperTag;
+import com.devingotaswitch.rankings.domain.appsync.tags.SleeperTag;
 import com.devingotaswitch.rankings.domain.appsync.tags.Tag;
+import com.devingotaswitch.rankings.domain.appsync.tags.UndervaluedTag;
 import com.devingotaswitch.utils.AWSClientFactory;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
@@ -138,12 +154,17 @@ class PlayerMetadataActivity extends AppSyncActivity {
                 } else if (response.data().incrementPlayerViewCount() != null &&
                         response.data().incrementPlayerViewCount().viewCount() != null) {
                     final IncrementPlayerViewCountMutation.IncrementPlayerViewCount metadata = response.data().incrementPlayerViewCount();
+                    final Tag[] tags = getTags(playerId, metadata.boomOrBust(), metadata.bounceBack(), metadata.breakout(), metadata.bust(),
+                            metadata.consistent(), metadata.handcuff(), metadata.injuryProne(), metadata.lotteryTicket(), metadata.newStaff(),
+                            metadata.newTeam(), metadata.overvalued(), metadata.postHypeSleeper(), metadata.pprSpecialist(), metadata.sleeper(),
+                            metadata.undervalued());
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             ((PlayerInfo)activity).setAggregatePlayerMetadata(metadata.viewCount(),
                                     metadata.watchCount() == null ? 0 : metadata.watchCount(),
-                                    metadata.draftCount() == null ? 0 : metadata.draftCount());
+                                    metadata.draftCount() == null ? 0 : metadata.draftCount(),
+                                    tags);
                         }
                     });
                 }
@@ -158,8 +179,32 @@ class PlayerMetadataActivity extends AppSyncActivity {
         AWSClientFactory.getAppSyncInstance(activity).mutate(IncrementPlayerViewCountMutation.builder().playerId(getPlayerId(playerId)).build())
                 .enqueue(incrementViewCallback);
     }
+    
+    private Tag[] getTags(String playerId, Integer boomOrBust, Integer bounceBack, Integer breakout, Integer bust,
+                          Integer consistent, Integer handcuff, Integer injuryProne, Integer lotteryTicket, Integer newStaff,
+                          Integer newTeam, Integer overvalued, Integer postHypeSleeper, Integer pprSpecialist,
+                          Integer sleeper, Integer undervalued) {
+        List<Tag> tags = new ArrayList<>();
+        tags.add(new BoomOrBustTag(boomOrBust == null ? 0 : boomOrBust));
+        tags.add(new BounceBackTag(bounceBack == null ? 0 : bounceBack));
+        tags.add(new BreakoutTag(breakout == null ? 0 : breakout));
+        tags.add(new BustTag(bust == null ? 0 : bust));
+        tags.add(new ConsistentTag(consistent == null ? 0 : consistent));
+        tags.add(new HandcuffTag(handcuff == null ? 0 : handcuff));
+        tags.add(new InjuryProneTag(injuryProne == null ? 0 : injuryProne));
+        tags.add(new LotteryTicketTag(lotteryTicket == null ? 0 : lotteryTicket));
+        tags.add(new NewStaffTag(newStaff == null ? 0 : newStaff));
+        tags.add(new NewTeamTag(newTeam == null ? 0 : newTeam));
+        tags.add(new OvervaluedTag(overvalued == null ? 0 : overvalued));
+        tags.add(new PostHypeSleeperTag(postHypeSleeper == null ? 0 : postHypeSleeper));
+        tags.add(new PPRSpecialistTag(pprSpecialist == null ? 0 : pprSpecialist));
+        tags.add(new SleeperTag(sleeper == null ? 0 : sleeper));
+        tags.add(new UndervaluedTag(undervalued == null ? 0 : undervalued));
+        
+        return filterTagsByPositionToArray(tags, playerId);        
+    }
 
-    private String[] filterTagsByPositionToArray(List<Tag> tags, String playerId) {
+    private Tag[] filterTagsByPositionToArray(List<Tag> tags, String playerId) {
         String pos = getPosFromPlayerId(playerId);
         Iterator<Tag> iterator = tags.iterator();
         while (iterator.hasNext()) {
@@ -168,7 +213,7 @@ class PlayerMetadataActivity extends AppSyncActivity {
                 iterator.remove();
             }
         }
-        String[] tagArr = new String[tags.size()];
+        Tag[] tagArr = new Tag[tags.size()];
         return tags.toArray(tagArr);
     }
 }

@@ -18,21 +18,9 @@ class AppSyncActivity extends AppCompatActivity {
     String getPlayerId(String playerId) {
         return playerId + Constants.PLAYER_ID_DELIMITER + Constants.YEAR_KEY;
     }
-
-    String getClientPlayerId(String withYear) {
-        return withYear.substring(0, withYear.lastIndexOf(Constants.PLAYER_ID_DELIMITER));
-    }
-
-    String getNameFromPlayerId(String playerId) {
-        return playerId.split(Constants.PLAYER_ID_DELIMITER)[0];
-    }
-
-    String getTeamFromPlayerId(String playerId) {
-        return playerId.split(Constants.PLAYER_ID_DELIMITER)[1];
-    }
-
+    
     String getPosFromPlayerId(String playerId) {
-        return playerId.split(Constants.PLAYER_ID_DELIMITER)[2];
+        return playerId.split("\\" + Constants.PLAYER_ID_DELIMITER)[2];
     }
 
     long getCurrentTime() {

@@ -4,6 +4,21 @@ mutation IncrementPlayerViewCount($playerId: String!) {
 	viewCount
 	watchCount
 	draftCount
+	boomOrBust
+    bounceBack
+    breakout
+    bust
+    consistent
+    handcuff
+    injuryProne
+    lotteryTicket
+    newStaff
+    newTeam
+    overvalued
+    postHypeSleeper
+    pprSpecialist
+    sleeper
+    undervalued
   }
 }
 
@@ -28,17 +43,5 @@ mutation IncrementPlayerDraftedCount($playerId: String!) {
 mutation DecrementPlayerDraftedCount($playerId: String!) {
   decrementPlayerDraftedCount(playerId: $playerId) {
 	playerId
-  }
-}
-
-query GetSortedPlayerMetadata($sortFactor: String!, $nextToken: String) {
-  getSortedPlayerMetadata(sortFactor: $sortFactor, nextToken: $nextToken) {
-    items {
-	  playerId
-	  viewCount
-	  watchCount
-	  draftCount
-    }
-    nextToken
   }
 }
