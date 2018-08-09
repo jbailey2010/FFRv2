@@ -18,7 +18,7 @@ class AppSyncActivity extends AppCompatActivity {
     String getPlayerId(String playerId) {
         return playerId + Constants.PLAYER_ID_DELIMITER + Constants.YEAR_KEY;
     }
-    
+
     String getPosFromPlayerId(String playerId) {
         return playerId.split("\\" + Constants.PLAYER_ID_DELIMITER)[2];
     }

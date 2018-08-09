@@ -507,6 +507,10 @@ public class PlayerInfo extends AppCompatActivity {
         this.viewCount = viewCount;
         this.draftCount = draftCount;
 
+        setTags(tags);
+    }
+
+    public void setTags(Tag[] tags) {
         for (Tag tag : tags) {
             Log.d(TAG, tag.getTagText());
         }
