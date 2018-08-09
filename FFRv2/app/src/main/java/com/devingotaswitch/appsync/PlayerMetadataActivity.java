@@ -154,7 +154,7 @@ class PlayerMetadataActivity extends AppSyncActivity {
                 } else if (response.data().incrementPlayerViewCount() != null &&
                         response.data().incrementPlayerViewCount().viewCount() != null) {
                     final IncrementPlayerViewCountMutation.IncrementPlayerViewCount metadata = response.data().incrementPlayerViewCount();
-                    final Tag[] tags = getTags(playerId, metadata.boomOrBust(), metadata.bounceBack(), metadata.breakout(), metadata.bust(),
+                    final List<Tag> tags = getTags(playerId, metadata.boomOrBust(), metadata.bounceBack(), metadata.breakout(), metadata.bust(),
                             metadata.consistent(), metadata.handcuff(), metadata.injuryProne(), metadata.lotteryTicket(), metadata.newStaff(),
                             metadata.newTeam(), metadata.overvalued(), metadata.postHypeSleeper(), metadata.pprSpecialist(), metadata.sleeper(),
                             metadata.undervalued());
@@ -180,7 +180,7 @@ class PlayerMetadataActivity extends AppSyncActivity {
                 .enqueue(incrementViewCallback);
     }
     
-    private Tag[] getTags(String playerId, Integer boomOrBust, Integer bounceBack, Integer breakout, Integer bust,
+    private List<Tag> getTags(String playerId, Integer boomOrBust, Integer bounceBack, Integer breakout, Integer bust,
                           Integer consistent, Integer handcuff, Integer injuryProne, Integer lotteryTicket, Integer newStaff,
                           Integer newTeam, Integer overvalued, Integer postHypeSleeper, Integer pprSpecialist,
                           Integer sleeper, Integer undervalued) {
@@ -204,7 +204,7 @@ class PlayerMetadataActivity extends AppSyncActivity {
         return filterTagsByPositionToArray(tags, playerId);        
     }
 
-    private Tag[] filterTagsByPositionToArray(List<Tag> tags, String playerId) {
+    private List<Tag> filterTagsByPositionToArray(List<Tag> tags, String playerId) {
         String pos = getPosFromPlayerId(playerId);
         Iterator<Tag> iterator = tags.iterator();
         while (iterator.hasNext()) {
@@ -213,7 +213,6 @@ class PlayerMetadataActivity extends AppSyncActivity {
                 iterator.remove();
             }
         }
-        Tag[] tagArr = new Tag[tags.size()];
-        return tags.toArray(tagArr);
+        return tags;
     }
 }

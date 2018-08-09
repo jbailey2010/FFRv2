@@ -502,7 +502,7 @@ public class PlayerInfo extends AppCompatActivity {
         displayRanks();
     }
 
-    public void setAggregatePlayerMetadata(int viewCount, int watchCount, int draftCount, Tag[] tags) {
+    public void setAggregatePlayerMetadata(int viewCount, int watchCount, int draftCount, List<Tag> tags) {
         this.watchCount = watchCount;
         this.viewCount = viewCount;
         this.draftCount = draftCount;
@@ -510,7 +510,7 @@ public class PlayerInfo extends AppCompatActivity {
         setTags(tags);
     }
 
-    public void setTags(Tag[] tags) {
+    public void setTags(List<Tag> tags) {
         for (Tag tag : tags) {
             Log.d(TAG, tag.getTagText());
         }
