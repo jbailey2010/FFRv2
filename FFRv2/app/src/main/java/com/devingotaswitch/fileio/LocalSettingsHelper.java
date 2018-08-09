@@ -119,6 +119,22 @@ public class LocalSettingsHelper {
         }
     }
 
+    public static boolean isPlayerTagged(Context cont, String playerId, String tagType) {
+        return getSharedPreferences(cont).getBoolean(playerId + tagType + Constants.SP_TAG_SUFFIX, false);
+    }
+
+    public static void tagPlayer(Context cont, String playerId, String tagType) {
+        if (!isPlayerTagged(cont, playerId, tagType)) {
+            getSharedPreferences(cont).edit().putBoolean(playerId + tagType + Constants.SP_TAG_SUFFIX, true).apply();
+        }
+    }
+
+    public static void untagPlayer(Context cont, String playerId, String tagType) {
+        if (isPlayerTagged(cont, playerId, tagType)) {
+            getSharedPreferences(cont).edit().putBoolean(playerId + tagType + Constants.SP_TAG_SUFFIX, false).apply();
+        }
+    }
+
     public static void saveCommentSortType(Context cont, String commentSortType) {
         getSharedPreferences(cont).edit().putString(Constants.COMMENT_SORT_KEY, commentSortType).apply();;
     }

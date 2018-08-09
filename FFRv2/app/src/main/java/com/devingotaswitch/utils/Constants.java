@@ -226,4 +226,7 @@ public class Constants {
     public final static String COMMENT_SORT_KEY = "comment_sort_type";
     public final static String COMMENT_SORT_TOP = "Sort By Upvotes";
     public final static String COMMENT_SORT_DATE = "Sort By Date";
+
+    // Tags
+    public final static String SP_TAG_SUFFIX = "tag";
 }
