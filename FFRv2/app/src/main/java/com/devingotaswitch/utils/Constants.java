@@ -229,4 +229,5 @@ public class Constants {
 
     // Tags
     public final static String SP_TAG_SUFFIX = "tag";
+    public final static String TAG_TEXT_DELIMITER = ": ";
 }

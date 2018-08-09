@@ -21,7 +21,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f5fe9503-cc09-4a8d-b7d9-507f98789a95" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/fileio/LocalSettingsHelper.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/fileio/LocalSettingsHelper.java" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/Constants.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/Constants.java" />
     </list>
     <ignored path="AmazonCognitoYourUserPoolsDemo.iws" />
@@ -63,7 +62,7 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="LocalSettingsHelper.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="LocalSettingsHelper.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/fileio/LocalSettingsHelper.java">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="674">
@@ -73,11 +72,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Constants.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Constants.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/Constants.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="737">
-              <caret line="230" column="53" lean-forward="false" selection-start-line="230" selection-start-column="53" selection-end-line="230" selection-end-column="53" />
+            <state relative-caret-position="758">
+              <caret line="231" column="57" lean-forward="false" selection-start-line="231" selection-start-column="57" selection-end-line="231" selection-end-column="57" />
               <folding />
             </state>
           </provider>
@@ -2363,8 +2362,8 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/appsync/tags/InjuryProneTag.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/appsync/AppSyncActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/appsync/PlayerMetadataActivity.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/Constants.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/fileio/LocalSettingsHelper.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/Constants.java" />
       </list>
     </option>
   </component>
@@ -3571,18 +3570,18 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/Constants.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="737">
-          <caret line="230" column="53" lean-forward="false" selection-start-line="230" selection-start-column="53" selection-end-line="230" selection-end-column="53" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/fileio/LocalSettingsHelper.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="674">
           <caret line="128" column="9" lean-forward="true" selection-start-line="128" selection-start-column="9" selection-end-line="128" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/Constants.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="758">
+          <caret line="231" column="57" lean-forward="false" selection-start-line="231" selection-start-column="57" selection-end-line="231" selection-end-column="57" />
           <folding />
         </state>
       </provider>
