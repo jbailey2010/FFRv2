@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -20,10 +21,15 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.adroitandroid.chipcloud.ChipCloud;
+import com.adroitandroid.chipcloud.ChipListener;
+import com.adroitandroid.chipcloud.FlowLayout;
 import com.amazonaws.util.StringUtils;
 import com.devingotaswitch.appsync.AppSyncHelper;
 import com.devingotaswitch.ffrv2.R;
@@ -79,6 +85,7 @@ public class PlayerInfo extends AppCompatActivity {
     private MenuItem undraft;
     private MenuItem commentSortDate;
     private MenuItem commentSortTop;
+    private ChipCloud chipCloud;
 
     private static String playerId;
     private static final DecimalFormat df = new DecimalFormat("#.##");
@@ -429,6 +436,9 @@ public class PlayerInfo extends AppCompatActivity {
         PlayerInfoSwipeDetector detector = new PlayerInfoSwipeDetector(this);
         infoList.setOnTouchListener(detector);
         commentList.setOnTouchListener(detector);
+        RelativeLayout footerView = (RelativeLayout)LayoutInflater.from(this).inflate(R.layout.tag_footer_view, null);
+        chipCloud = footerView.findViewById(R.id.chip_cloud);
+        infoList.addFooterView(footerView);
 
         ImageButton ranks = findViewById(R.id.player_info_ranks);
         ImageButton info =  findViewById(R.id.player_info_about);
@@ -510,9 +520,37 @@ public class PlayerInfo extends AppCompatActivity {
     }
 
     public void setTags(List<Tag> tags) {
-        for (Tag tag : tags) {
-            Log.d(TAG, tag.getTagText());
+        String[] tagArr = new String[tags.size()];
+        for (int i = 0; i < tags.size(); i++) {
+            tagArr[i] = tags.get(i).getTagText();
         }
+
+        new ChipCloud.Configure()
+                .chipCloud(chipCloud)
+                .selectedColor(Color.parseColor("#329AD6"))
+                .selectedFontColor(Color.parseColor("#ffffff"))
+                .deselectedColor(Color.parseColor("#e1e1e1"))
+                .deselectedFontColor(Color.parseColor("#333333"))
+                .selectTransitionMS(500)
+                .deselectTransitionMS(250)
+                .labels(tagArr)
+                .mode(ChipCloud.Mode.MULTI)
+                .allCaps(false)
+                .gravity(ChipCloud.Gravity.CENTER)
+                .textSize(getResources().getDimensionPixelSize(R.dimen.default_textsize))
+                .verticalSpacing(getResources().getDimensionPixelSize(R.dimen.vertical_spacing))
+                .minHorizontalSpacing(getResources().getDimensionPixelSize(R.dimen.min_horizontal_spacing))
+                .chipListener(new ChipListener() {
+                    @Override
+                    public void chipSelected(int index) {
+                        //...
+                    }
+                    @Override
+                    public void chipDeselected(int index) {
+                        //...
+                    }
+                })
+                .build();
     }
 
     private void confirmCommentDeletion(final String commentId) {
@@ -617,6 +655,7 @@ public class PlayerInfo extends AppCompatActivity {
         commentData.clear();
         commentList.setVisibility(View.GONE);
         infoList.setVisibility(View.VISIBLE);
+        chipCloud.setVisibility(View.GONE);
 
         View ranks = findViewById(R.id.ranks_button_selected);
         View playerSelected = findViewById(R.id.player_info_button_selected);
@@ -729,6 +768,31 @@ public class PlayerInfo extends AppCompatActivity {
             data.add(voLS);
         }
 
+        if (!StringUtils.isBlank(player.getStats())) {
+            Map<String, String> stats = new HashMap<>();
+            stats.put(Constants.PLAYER_BASIC, Constants.LAST_YEAR_KEY + " stats");
+            stats.put(Constants.PLAYER_INFO, player.getStats());
+            data.add(stats);
+        }
+
+        if (viewCount > 0) {
+            Map<String, String> activityData = new HashMap<>();
+            activityData.put(Constants.PLAYER_BASIC, "Player popularity");
+            String activityString = "" +
+                    viewCount +
+                    (viewCount > 1 ? " views" : " view") +
+                    Constants.LINE_BREAK +
+                    "In " +
+                    watchCount +
+                    (watchCount == 1 ? " watch list" : " watch lists") +
+                    Constants.LINE_BREAK +
+                    "Drafted " +
+                    draftCount +
+                    (draftCount == 1 ? " time" : " times");
+            activityData.put(Constants.PLAYER_INFO, activityString);
+            data.add(activityData);
+        }
+
         adapter.notifyDataSetChanged();
     }
 
@@ -737,6 +801,7 @@ public class PlayerInfo extends AppCompatActivity {
         commentData.clear();
         commentList.setVisibility(View.GONE);
         infoList.setVisibility(View.VISIBLE);
+        chipCloud.setVisibility(View.VISIBLE);
 
         View ranks = findViewById(R.id.ranks_button_selected);
         View playerSelected = findViewById(R.id.player_info_button_selected);
@@ -826,30 +891,6 @@ public class PlayerInfo extends AppCompatActivity {
         }
         data.add(injury);
 
-        if (!StringUtils.isBlank(player.getStats())) {
-            Map<String, String> stats = new HashMap<>();
-            stats.put(Constants.PLAYER_BASIC, Constants.LAST_YEAR_KEY + " stats");
-            stats.put(Constants.PLAYER_INFO, player.getStats());
-            data.add(stats);
-        }
-
-        if (viewCount > 0) {
-            Map<String, String> activityData = new HashMap<>();
-            activityData.put(Constants.PLAYER_BASIC, "Player popularity");
-            String activityString = "" +
-                    viewCount +
-                    (viewCount > 1 ? " views" : " view") +
-                    Constants.LINE_BREAK +
-                    "In " +
-                    watchCount +
-                    (watchCount == 1 ? " watch list" : " watch lists") +
-                    Constants.LINE_BREAK +
-                    "Drafted " +
-                    draftCount +
-                    (draftCount == 1 ? " time" : " times");
-            activityData.put(Constants.PLAYER_INFO, activityString);
-            data.add(activityData);
-        }
         adapter.notifyDataSetChanged();
     }
 
@@ -858,6 +899,7 @@ public class PlayerInfo extends AppCompatActivity {
         commentData.clear();
         commentList.setVisibility(View.GONE);
         infoList.setVisibility(View.VISIBLE);
+        chipCloud.setVisibility(View.GONE);
 
         View ranks = findViewById(R.id.ranks_button_selected);
         View playerSelected = findViewById(R.id.player_info_button_selected);
@@ -921,6 +963,7 @@ public class PlayerInfo extends AppCompatActivity {
         commentData.clear();
         commentList.setVisibility(View.GONE);
         infoList.setVisibility(View.VISIBLE);
+        chipCloud.setVisibility(View.GONE);
 
         View ranks = findViewById(R.id.ranks_button_selected);
         View playerSelected = findViewById(R.id.player_info_button_selected);
@@ -955,6 +998,7 @@ public class PlayerInfo extends AppCompatActivity {
         commentData.clear();
         commentList.setVisibility(View.VISIBLE);
         infoList.setVisibility(View.GONE);
+        chipCloud.setVisibility(View.GONE);
 
         View ranks = findViewById(R.id.ranks_button_selected);
         View playerSelected = findViewById(R.id.player_info_button_selected);

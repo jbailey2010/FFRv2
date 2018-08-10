@@ -5,7 +5,6 @@
     <com.adroitandroid.chipcloud.ChipCloud
         xmlns:chipcloud="http://schemas.android.com/apk/res-auto"
         android:id="@+id/chip_cloud"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"/>
 </RelativeLayout>
