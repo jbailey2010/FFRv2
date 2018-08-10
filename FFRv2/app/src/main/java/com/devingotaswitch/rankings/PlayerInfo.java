@@ -519,10 +519,15 @@ public class PlayerInfo extends AppCompatActivity {
         setTags(tags);
     }
 
-    public void setTags(List<Tag> tags) {
+    public void setTags(final List<Tag> tags) {
         String[] tagArr = new String[tags.size()];
+        List<Integer> taggedIndices = new ArrayList<>();
         for (int i = 0; i < tags.size(); i++) {
-            tagArr[i] = tags.get(i).getTagText();
+            Tag tag = tags.get(i);
+            tagArr[i] = tag.getTagText();
+            if (LocalSettingsHelper.isPlayerTagged(this, playerId, tag.getTitle())) {
+                taggedIndices.add(i);
+            }
         }
 
         new ChipCloud.Configure()
@@ -536,21 +541,33 @@ public class PlayerInfo extends AppCompatActivity {
                 .labels(tagArr)
                 .mode(ChipCloud.Mode.MULTI)
                 .allCaps(false)
-                .gravity(ChipCloud.Gravity.CENTER)
+                .gravity(ChipCloud.Gravity.STAGGERED)
                 .textSize(getResources().getDimensionPixelSize(R.dimen.default_textsize))
                 .verticalSpacing(getResources().getDimensionPixelSize(R.dimen.vertical_spacing))
                 .minHorizontalSpacing(getResources().getDimensionPixelSize(R.dimen.min_horizontal_spacing))
                 .chipListener(new ChipListener() {
                     @Override
                     public void chipSelected(int index) {
+                        String text = tags.get(index).getTitle();
+                        if (!LocalSettingsHelper.isPlayerTagged(getApplication(), playerId, text)) {
+                            LocalSettingsHelper.tagPlayer(getApplication(), playerId, text);
+                        }
                         //...
                     }
                     @Override
                     public void chipDeselected(int index) {
+                        String text = tags.get(index).getTitle();
+                        if (LocalSettingsHelper.isPlayerTagged(getApplication(), playerId, text)) {
+                            LocalSettingsHelper.untagPlayer(getApplication(), playerId, text);
+                        }
                         //...
                     }
                 })
                 .build();
+
+        for (Integer index : taggedIndices) {
+            chipCloud.setSelectedChip(index);
+        }
     }
 
     private void confirmCommentDeletion(final String commentId) {
@@ -775,24 +792,6 @@ public class PlayerInfo extends AppCompatActivity {
             data.add(stats);
         }
 
-        if (viewCount > 0) {
-            Map<String, String> activityData = new HashMap<>();
-            activityData.put(Constants.PLAYER_BASIC, "Player popularity");
-            String activityString = "" +
-                    viewCount +
-                    (viewCount > 1 ? " views" : " view") +
-                    Constants.LINE_BREAK +
-                    "In " +
-                    watchCount +
-                    (watchCount == 1 ? " watch list" : " watch lists") +
-                    Constants.LINE_BREAK +
-                    "Drafted " +
-                    draftCount +
-                    (draftCount == 1 ? " time" : " times");
-            activityData.put(Constants.PLAYER_INFO, activityString);
-            data.add(activityData);
-        }
-
         adapter.notifyDataSetChanged();
     }
 
@@ -890,6 +889,24 @@ public class PlayerInfo extends AppCompatActivity {
             injury.put(Constants.PLAYER_INFO, "Healthy");
         }
         data.add(injury);
+
+        if (viewCount > 0) {
+            Map<String, String> activityData = new HashMap<>();
+            activityData.put(Constants.PLAYER_BASIC, "Player popularity");
+            String activityString = "" +
+                    viewCount +
+                    (viewCount > 1 ? " views" : " view") +
+                    Constants.LINE_BREAK +
+                    "In " +
+                    watchCount +
+                    (watchCount == 1 ? " watch list" : " watch lists") +
+                    Constants.LINE_BREAK +
+                    "Drafted " +
+                    draftCount +
+                    (draftCount == 1 ? " time" : " times");
+            activityData.put(Constants.PLAYER_INFO, activityString);
+            data.add(activityData);
+        }
 
         adapter.notifyDataSetChanged();
     }
