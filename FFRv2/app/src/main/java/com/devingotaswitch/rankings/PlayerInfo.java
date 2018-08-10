@@ -415,10 +415,9 @@ public class PlayerInfo extends AppCompatActivity {
         data = new ArrayList<>();
         commentData = new ArrayList<>();
         adapter = new SimpleAdapter(this, data,
-                R.layout.list_item_layout,
-                new String[] { Constants.PLAYER_BASIC, Constants.PLAYER_INFO, Constants.PLAYER_STATUS },
-                new int[] { R.id.player_basic, R.id.player_info,
-                        R.id.player_status });
+                R.layout.list_item_player_info_layout,
+                new String[] { Constants.PLAYER_BASIC, Constants.PLAYER_INFO},
+                new int[] { R.id.player_basic, R.id.player_info});
         commentAdapter = new CommentAdapter(this, commentData,
                 R.layout.list_item_comment_layout,
                 new String[] {Constants.COMMENT_AUTHOR, Constants.COMMENT_CONTENT, Constants.COMMENT_TIMESTAMP, Constants.COMMENT_ID,
