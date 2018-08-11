@@ -5,7 +5,7 @@ import com.devingotaswitch.utils.Constants;
 import java.util.Set;
 
 public abstract class Tag {
-    private final int count;
+    private int count;
     private final String title;
     private final String remoteTitle;
     private final Set<String> validPositions;

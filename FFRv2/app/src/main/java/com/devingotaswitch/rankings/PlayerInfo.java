@@ -480,8 +480,8 @@ public class PlayerInfo extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 TextView subView = view.findViewById(R.id.player_info);
-                String existing = ((TextView)view.findViewById(R.id.player_basic)).getText().toString();
                 if (Constants.NOTE_SUB.equals(subView.getText().toString())) {
+                    String existing = ((TextView)view.findViewById(R.id.player_basic)).getText().toString();
                     getNote(existing);
                 }
             }
@@ -529,6 +529,7 @@ public class PlayerInfo extends AppCompatActivity {
                 taggedIndices.add(i);
             }
         }
+        final Activity activity = this;
 
         new ChipCloud.Configure()
                 .chipCloud(chipCloud)
@@ -536,7 +537,7 @@ public class PlayerInfo extends AppCompatActivity {
                 .selectedFontColor(Color.parseColor("#ffffff"))
                 .deselectedColor(Color.parseColor("#e1e1e1"))
                 .deselectedFontColor(Color.parseColor("#333333"))
-                .selectTransitionMS(500)
+                .selectTransitionMS(0)
                 .deselectTransitionMS(250)
                 .labels(tagArr)
                 .mode(ChipCloud.Mode.MULTI)
@@ -548,19 +549,21 @@ public class PlayerInfo extends AppCompatActivity {
                 .chipListener(new ChipListener() {
                     @Override
                     public void chipSelected(int index) {
-                        String text = tags.get(index).getTitle();
-                        if (!LocalSettingsHelper.isPlayerTagged(getApplication(), playerId, text)) {
-                            LocalSettingsHelper.tagPlayer(getApplication(), playerId, text);
+                        Tag tag = tags.get(index);
+                        String text = tag.getTitle();
+                        if (!LocalSettingsHelper.isPlayerTagged(activity, playerId, text)) {
+                            LocalSettingsHelper.tagPlayer(activity, playerId, text);
+                            AppSyncHelper.incrementTagCount(activity, playerId, tag);
                         }
-                        //...
                     }
                     @Override
                     public void chipDeselected(int index) {
-                        String text = tags.get(index).getTitle();
-                        if (LocalSettingsHelper.isPlayerTagged(getApplication(), playerId, text)) {
-                            LocalSettingsHelper.untagPlayer(getApplication(), playerId, text);
+                        Tag tag = tags.get(index);
+                        String text = tag.getTitle();
+                        if (LocalSettingsHelper.isPlayerTagged(activity, playerId, text)) {
+                            LocalSettingsHelper.untagPlayer(activity, playerId, text);
+                            AppSyncHelper.decrementTagCount(activity, playerId, tag);
                         }
-                        //...
                     }
                 })
                 .build();

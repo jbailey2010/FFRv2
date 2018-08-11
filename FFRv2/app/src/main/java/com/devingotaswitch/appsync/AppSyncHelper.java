@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 
 import com.devingotaswitch.rankings.PlayerSorter;
+import com.devingotaswitch.rankings.domain.appsync.tags.Tag;
 
 import java.util.List;
 import java.util.Set;
@@ -31,6 +32,14 @@ public class AppSyncHelper {
 
     public static void decrementPlayerDraftCount(Context context, String playerId) {
         metadataActivity.decrementDraftCount(context, playerId);
+    }
+
+    public static void incrementTagCount(Activity activity, String playerId, Tag tag) {
+        metadataActivity.incrementTagCount(activity, playerId, tag.getRemoteTitle());
+    }
+
+    public static void decrementTagCount(Activity activity, String playerId, Tag tag) {
+        metadataActivity.decrementTagCount(activity, playerId, tag.getRemoteTitle());
     }
 
     public static void createComment(Activity activity, String comment, String playerId) {

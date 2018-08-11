@@ -170,7 +170,6 @@
         android:listSelector="@android:color/transparent"
         android:scrollbarStyle="outsideInset"
         android:overScrollFooter="@android:color/transparent"
-        android:footerDividersEnabled="false"
         android:layout_below="@+id/player_info_header"/>
 
     <ListView
