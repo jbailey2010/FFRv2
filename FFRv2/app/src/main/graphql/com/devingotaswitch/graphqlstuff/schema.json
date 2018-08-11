@@ -749,8 +749,20 @@
                             "deprecationReason": null
                         },
                         {
-                            "name": "boomOrBust",
+                            "name": "aging",
                             "description": "  tag counts",
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "Int",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "boomOrBust",
+                            "description": null,
                             "args": [],
                             "type": {
                                 "kind": "SCALAR",
@@ -894,6 +906,18 @@
                         },
                         {
                             "name": "pprSpecialist",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "Int",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "risky",
                             "description": null,
                             "args": [],
                             "type": {

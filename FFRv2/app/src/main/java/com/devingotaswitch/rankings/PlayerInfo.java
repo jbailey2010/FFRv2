@@ -535,7 +535,7 @@ public class PlayerInfo extends AppCompatActivity {
                 .chipCloud(chipCloud)
                 .selectedColor(Color.parseColor("#329AD6"))
                 .selectedFontColor(Color.parseColor("#ffffff"))
-                .deselectedColor(Color.parseColor("#e1e1e1"))
+                .deselectedColor(Color.parseColor("#f1f1f1"))
                 .deselectedFontColor(Color.parseColor("#333333"))
                 .selectTransitionMS(0)
                 .deselectTransitionMS(250)

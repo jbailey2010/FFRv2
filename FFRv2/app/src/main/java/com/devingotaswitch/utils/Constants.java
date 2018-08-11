@@ -230,6 +230,7 @@ public class Constants {
     // Tags
     public final static String SP_TAG_SUFFIX = "tag";
     public final static String TAG_TEXT_DELIMITER = ": ";
+    public final static String AGING_TAG = "Aging";
     public final static String BOOM_OR_BUST_TAG = "Boom or Bust";
     public final static String BOUNCE_BACK_TAG = "Bounce Back";
     public final static String BREAKOUT_TAG = "Breakout";
@@ -243,9 +244,11 @@ public class Constants {
     public final static String OVERVALUED_TAG = "Overvalued";
     public final static String POST_HYPE_SLEEPER_TAG = "Post-Hype Sleeper";
     public final static String PPR_SPECIALIST_TAG = "PPR Specialist";
+    public final static String RISKY_TAG = "Risky";
     public final static String SLEEPER_TAG = "Sleeper";
     public final static String STUD_TAG = "Stud";
     public final static String UNDERVALUED_TAG = "Undervalued";
+    public final static String AGING_TAG_REMOTE = "aging";
     public final static String BOOM_OR_BUST_TAG_REMOTE = "boomOrBust";
     public final static String BOUNCE_BACK_TAG_REMOTE = "bounceBack";
     public final static String BREAKOUT_TAG_REMOTE = "breakout";
@@ -259,6 +262,7 @@ public class Constants {
     public final static String OVERVALUED_TAG_REMOTE = "overvalued";
     public final static String POST_HYPE_SLEEPER_TAG_REMOTE = "postHypeSleeper";
     public final static String PPR_SPECIALIST_TAG_REMOTE = "pprSpecialist";
+    public final static String RISKY_TAG_REMOTE = "risky";
     public final static String SLEEPER_TAG_REMOTE = "sleeper";
     public final static String STUD_TAG_REMOTE = "stud";
     public final static String UNDERVALUED_TAG_REMOTE = "undervalued";

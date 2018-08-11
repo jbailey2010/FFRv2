@@ -4,6 +4,7 @@ mutation IncrementPlayerViewCount($playerId: String!) {
 	viewCount
 	watchCount
 	draftCount
+	aging
 	boomOrBust
     bounceBack
     breakout
@@ -17,6 +18,7 @@ mutation IncrementPlayerViewCount($playerId: String!) {
     overvalued
     postHypeSleeper
     pprSpecialist
+    risky
     sleeper
     stud
     undervalued
@@ -50,6 +52,7 @@ mutation DecrementPlayerDraftedCount($playerId: String!) {
 mutation IncrementTagCount($playerId: String!, $tagName: String!) {
   incrementTagCount(playerId: $playerId, tagName: $tagName) {
     playerId
+    aging
 	boomOrBust
 	bounceBack
 	breakout
@@ -63,6 +66,7 @@ mutation IncrementTagCount($playerId: String!, $tagName: String!) {
 	overvalued
 	postHypeSleeper
 	pprSpecialist
+	risky
 	sleeper
 	stud
 	undervalued
@@ -72,6 +76,7 @@ mutation IncrementTagCount($playerId: String!, $tagName: String!) {
 mutation DecrementTagCount($playerId: String!, $tagName: String!) {
   decrementTagCount(playerId: $playerId, tagName: $tagName) {
     playerId
+    aging
 	boomOrBust
 	bounceBack
 	breakout
@@ -85,6 +90,7 @@ mutation DecrementTagCount($playerId: String!, $tagName: String!) {
 	overvalued
 	postHypeSleeper
 	pprSpecialist
+	risky
 	sleeper
 	stud
 	undervalued
