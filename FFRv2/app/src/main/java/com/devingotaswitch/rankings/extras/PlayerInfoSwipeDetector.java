@@ -7,7 +7,7 @@ import com.devingotaswitch.rankings.PlayerInfo;
 
 public class PlayerInfoSwipeDetector implements View.OnTouchListener {
 
-    private static final int MIN_DISTANCE = 350;
+    private static final int MIN_DISTANCE = 450;
     private float downX, upX;
     private PlayerInfo hold;
 

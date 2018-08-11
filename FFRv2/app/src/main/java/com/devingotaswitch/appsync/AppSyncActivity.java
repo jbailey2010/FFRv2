@@ -20,7 +20,8 @@ class AppSyncActivity extends AppCompatActivity {
     }
 
     String getPosFromPlayerId(String playerId) {
-        return playerId.split("\\" + Constants.PLAYER_ID_DELIMITER)[2];
+        int totalDots = playerId.split("\\" + Constants.PLAYER_ID_DELIMITER).length - 1;
+        return playerId.split("\\" + Constants.PLAYER_ID_DELIMITER)[totalDots];
     }
 
     long getCurrentTime() {
