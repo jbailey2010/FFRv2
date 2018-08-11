@@ -7,11 +7,13 @@ import java.util.Set;
 public abstract class Tag {
     private final int count;
     private final String title;
+    private final String remoteTitle;
     private final Set<String> validPositions;
 
-    public Tag(int count, String title, Set<String> validPositions) {
+    public Tag(int count, String title, String remoteTitle, Set<String> validPositions) {
         this.count = count;
         this.title = title;
+        this.remoteTitle = remoteTitle;
         this.validPositions = validPositions;
     }
 
@@ -29,5 +31,9 @@ public abstract class Tag {
 
     public String getTagText() {
         return title + Constants.TAG_TEXT_DELIMITER + String.valueOf(getCount());
+    }
+
+    public String getRemoteTitle() {
+        return remoteTitle;
     }
 }

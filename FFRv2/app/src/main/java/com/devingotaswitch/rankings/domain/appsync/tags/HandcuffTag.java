@@ -7,6 +7,6 @@ import java.util.HashSet;
 
 public class HandcuffTag extends Tag {
     public HandcuffTag(int count) {
-        super(count, Constants.HANDCUFF_TAG, new HashSet<>(Arrays.asList(Constants.RB, Constants.WR)));
+        super(count, Constants.HANDCUFF_TAG, Constants.HANDCUFF_TAG_REMOTE, new HashSet<>(Arrays.asList(Constants.RB, Constants.WR)));
     }
 }

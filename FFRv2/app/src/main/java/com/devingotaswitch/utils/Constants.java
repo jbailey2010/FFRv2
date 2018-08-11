@@ -245,4 +245,19 @@ public class Constants {
     public final static String PPR_SPECIALIST_TAG = "PPR Specialist";
     public final static String SLEEPER_TAG = "Sleeper";
     public final static String UNDERVALUED_TAG = "Undervalued";
+    public final static String BOOM_OR_BUST_TAG_REMOTE = "boomOrBust";
+    public final static String BOUNCE_BACK_TAG_REMOTE = "bounceBack";
+    public final static String BREAKOUT_TAG_REMOTE = "breakout";
+    public final static String BUST_TAG_REMOTE = "bust";
+    public final static String CONSISTENT_TAG_REMOTE = "consistent";
+    public final static String HANDCUFF_TAG_REMOTE = "handcuff";
+    public final static String INJURY_PRONE_TAG_REMOTE = "injuryProne";
+    public final static String LOTTERY_TICKET_TAG_REMOTE = "lotteryTicket";
+    public final static String NEW_STAFF_TAG_REMOTE = "newStaff";
+    public final static String NEW_TEAM_TAG_REMOTE = "newTeam";
+    public final static String OVERVALUED_TAG_REMOTE = "overvalued";
+    public final static String POST_HYPE_SLEEPER_TAG_REMOTE = "postHypeSleeper";
+    public final static String PPR_SPECIALIST_TAG_REMOTE = "pprSpecialist";
+    public final static String SLEEPER_TAG_REMOTE = "sleeper";
+    public final static String UNDERVALUED_TAG_REMOTE = "undervalued";
 }
