@@ -22,7 +22,9 @@ import com.devingotaswitch.rankings.domain.appsync.tags.BounceBackTag;
 import com.devingotaswitch.rankings.domain.appsync.tags.BreakoutTag;
 import com.devingotaswitch.rankings.domain.appsync.tags.BustTag;
 import com.devingotaswitch.rankings.domain.appsync.tags.ConsistentTag;
+import com.devingotaswitch.rankings.domain.appsync.tags.EfficientTag;
 import com.devingotaswitch.rankings.domain.appsync.tags.HandcuffTag;
+import com.devingotaswitch.rankings.domain.appsync.tags.InefficientTag;
 import com.devingotaswitch.rankings.domain.appsync.tags.InjuryProneTag;
 import com.devingotaswitch.rankings.domain.appsync.tags.LotteryTicketTag;
 import com.devingotaswitch.rankings.domain.appsync.tags.NewStaffTag;
@@ -30,6 +32,7 @@ import com.devingotaswitch.rankings.domain.appsync.tags.NewTeamTag;
 import com.devingotaswitch.rankings.domain.appsync.tags.OvervaluedTag;
 import com.devingotaswitch.rankings.domain.appsync.tags.PPRSpecialistTag;
 import com.devingotaswitch.rankings.domain.appsync.tags.PostHypeSleeperTag;
+import com.devingotaswitch.rankings.domain.appsync.tags.ReturnerTag;
 import com.devingotaswitch.rankings.domain.appsync.tags.RiskyTag;
 import com.devingotaswitch.rankings.domain.appsync.tags.SleeperTag;
 import com.devingotaswitch.rankings.domain.appsync.tags.StudTag;
@@ -160,8 +163,8 @@ class PlayerMetadataActivity extends AppSyncActivity {
                         response.data().incrementPlayerViewCount().viewCount() != null) {
                     final IncrementPlayerViewCountMutation.IncrementPlayerViewCount metadata = response.data().incrementPlayerViewCount();
                     final List<Tag> tags = getTags(playerId, metadata.aging(), metadata.boomOrBust(), metadata.bounceBack(), metadata.breakout(), metadata.bust(),
-                            metadata.consistentScorer(), metadata.handcuff(), metadata.injuryProne(), metadata.lotteryTicket(), metadata.newStaff(),
-                            metadata.newTeam(), metadata.overvalued(), metadata.postHypeSleeper(), metadata.pprSpecialist(), metadata.risky(), metadata.sleeper(),
+                            metadata.consistentScorer(), metadata.efficient(), metadata.handcuff(), metadata.inefficient(), metadata.injuryProne(), metadata.lotteryTicket(), metadata.newStaff(),
+                            metadata.newTeam(), metadata.overvalued(), metadata.postHypeSleeper(), metadata.pprSpecialist(), metadata.returner(), metadata.risky(), metadata.sleeper(),
                             metadata.stud(), metadata.undervalued());
                     runOnUiThread(new Runnable() {
                         @Override
@@ -197,8 +200,8 @@ class PlayerMetadataActivity extends AppSyncActivity {
                 } else if (response.data().incrementTagCount() != null) {
                     final IncrementTagCountMutation.IncrementTagCount metadata = response.data().incrementTagCount();
                     final List<Tag> tags = getTags(playerId, metadata.aging(), metadata.boomOrBust(), metadata.bounceBack(), metadata.breakout(), metadata.bust(),
-                            metadata.consistentScorer(), metadata.handcuff(), metadata.injuryProne(), metadata.lotteryTicket(), metadata.newStaff(),
-                            metadata.newTeam(), metadata.overvalued(), metadata.postHypeSleeper(), metadata.pprSpecialist(), metadata.risky(), metadata.sleeper(),
+                            metadata.consistentScorer(), metadata.efficient(), metadata.handcuff(), metadata.inefficient(), metadata.injuryProne(), metadata.lotteryTicket(), metadata.newStaff(),
+                            metadata.newTeam(), metadata.overvalued(), metadata.postHypeSleeper(), metadata.pprSpecialist(), metadata.returner(), metadata.risky(), metadata.sleeper(),
                             metadata.stud(), metadata.undervalued());
                     runOnUiThread(new Runnable() {
                         @Override
@@ -231,8 +234,8 @@ class PlayerMetadataActivity extends AppSyncActivity {
                 } else if (response.data().decrementTagCount() != null) {
                     final DecrementTagCountMutation.DecrementTagCount metadata = response.data().decrementTagCount();
                     final List<Tag> tags = getTags(playerId, metadata.aging(), metadata.boomOrBust(), metadata.bounceBack(), metadata.breakout(), metadata.bust(),
-                            metadata.consistentScorer(), metadata.handcuff(), metadata.injuryProne(), metadata.lotteryTicket(), metadata.newStaff(),
-                            metadata.newTeam(), metadata.overvalued(), metadata.postHypeSleeper(), metadata.pprSpecialist(), metadata.risky(), metadata.sleeper(),
+                            metadata.consistentScorer(), metadata.efficient(), metadata.handcuff(), metadata.inefficient(), metadata.injuryProne(), metadata.lotteryTicket(), metadata.newStaff(),
+                            metadata.newTeam(), metadata.overvalued(), metadata.postHypeSleeper(), metadata.pprSpecialist(), metadata.returner(), metadata.risky(), metadata.sleeper(),
                             metadata.stud(), metadata.undervalued());
                     runOnUiThread(new Runnable() {
                         @Override
@@ -254,8 +257,8 @@ class PlayerMetadataActivity extends AppSyncActivity {
     }
     
     private List<Tag> getTags(String playerId, Integer aging, Integer boomOrBust, Integer bounceBack, Integer breakout, Integer bust,
-                          Integer consistent, Integer handcuff, Integer injuryProne, Integer lotteryTicket, Integer newStaff,
-                          Integer newTeam, Integer overvalued, Integer postHypeSleeper, Integer pprSpecialist, Integer risky,
+                          Integer consistent, Integer efficient, Integer handcuff, Integer inefficient, Integer injuryProne, Integer lotteryTicket, Integer newStaff,
+                          Integer newTeam, Integer overvalued, Integer postHypeSleeper, Integer pprSpecialist, Integer returner, Integer risky,
                           Integer sleeper, Integer stud, Integer undervalued) {
         List<Tag> tags = new ArrayList<>();
         tags.add(new AgingTag(aging == null ? 0 : aging));
@@ -264,7 +267,9 @@ class PlayerMetadataActivity extends AppSyncActivity {
         tags.add(new BreakoutTag(breakout == null ? 0 : breakout));
         tags.add(new BustTag(bust == null ? 0 : bust));
         tags.add(new ConsistentTag(consistent == null ? 0 : consistent));
+        tags.add(new EfficientTag(efficient == null ? 0 : efficient));
         tags.add(new HandcuffTag(handcuff == null ? 0 : handcuff));
+        tags.add(new InefficientTag(inefficient == null ? 0 : inefficient));
         tags.add(new InjuryProneTag(injuryProne == null ? 0 : injuryProne));
         tags.add(new LotteryTicketTag(lotteryTicket == null ? 0 : lotteryTicket));
         tags.add(new NewStaffTag(newStaff == null ? 0 : newStaff));
@@ -272,6 +277,7 @@ class PlayerMetadataActivity extends AppSyncActivity {
         tags.add(new OvervaluedTag(overvalued == null ? 0 : overvalued));
         tags.add(new PostHypeSleeperTag(postHypeSleeper == null ? 0 : postHypeSleeper));
         tags.add(new PPRSpecialistTag(pprSpecialist == null ? 0 : pprSpecialist));
+        tags.add(new ReturnerTag(returner == null ? 0 : returner));
         tags.add(new RiskyTag(risky == null ? 0 : risky));
         tags.add(new SleeperTag(sleeper == null ? 0 : sleeper));
         tags.add(new StudTag(stud == null ? 0 : stud));
