@@ -44,7 +44,7 @@
             android:id="@+id/league_scoring_passing_tds"
             android:background="@drawable/text_border_selector"
             android:hint="Points/Passing TD"
-            android:text="6"
+            android:text="4"
             android:layout_weight="1"
             android:layout_margin="2dp"
             android:inputType="number"/>
@@ -205,7 +205,7 @@
             android:id="@+id/league_scoring_ppr"
             android:background="@drawable/text_border_selector"
             android:hint="Points/Catch"
-            android:text="1.0"
+            android:text="0.5"
             android:layout_weight="1"
             android:layout_margin="2dp"
             android:inputType="numberDecimal"/>
@@ -249,7 +249,7 @@
             android:id="@+id/league_scoring_ints"
             android:background="@drawable/text_border_selector"
             android:hint="Points/Int"
-            android:text="-2.0"
+            android:text="-1.0"
             android:layout_weight="1"
             android:layout_margin="2dp"
             android:inputType="numberDecimal|numberSigned"/>
