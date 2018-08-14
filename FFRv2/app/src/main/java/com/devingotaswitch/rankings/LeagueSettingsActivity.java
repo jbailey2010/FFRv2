@@ -3,9 +3,12 @@ package com.devingotaswitch.rankings;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.support.design.widget.Snackbar;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
@@ -219,8 +222,8 @@ public class LeagueSettingsActivity extends AppCompatActivity {
 
     private void displayNoLeague() {
         View view = initializeLeagueSettingsBase();
-        Button advanced = view.findViewById(R.id.league_settings_advanced_settings);
-        Button save =  view.findViewById(R.id.league_settings_create_default);
+        final Button advanced = view.findViewById(R.id.league_settings_advanced_settings);
+        final Button save =  view.findViewById(R.id.league_settings_create_default);
         Button delete =  view.findViewById(R.id.league_settings_delete_league);
         delete.setVisibility(View.GONE);
         final EditText leagueName = view.findViewById(R.id.league_settings_name);
@@ -232,6 +235,56 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         final RadioButton isDynasty = view.findViewById(R.id.league_settings_dynasty_startup);
         final RadioButton isRookie = view.findViewById(R.id.league_settings_dynasty_rookie);
         isSnake.setChecked(true);
+
+        leagueName.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // don't care
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int i, int i1, int i2) {
+                if (s.toString().trim().length()==0) {
+                    deactivateButton(advanced);
+                    deactivateButton(save);
+                } else if (GeneralUtils.isInteger(teamCount.getText().toString())){
+                    activateButton(advanced);
+                    activateButton(save);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                // Don't care
+            }
+        });
+
+        teamCount.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                // Don't care
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                if (!GeneralUtils.isInteger(charSequence.toString())) {
+                    deactivateButton(save);
+                    deactivateButton(advanced);
+                } else if (!StringUtils.isBlank(leagueName.getText().toString())){
+                    activateButton(save);
+                    activateButton(advanced);
+                }
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                // Don't care
+            }
+        });
+        deactivateButton(save);
+        deactivateButton(advanced);
+
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -255,6 +308,18 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                 displayRosterNoLeague(defaults);
             }
         });
+    }
+
+    private void deactivateButton(Button button) {
+        button.setClickable(false);
+        button.setEnabled(false);
+        button.setBackgroundColor(0xFFE1E1E1);
+    }
+
+    private void activateButton(Button button) {
+        button.setClickable(true);
+        button.setEnabled(true);
+        button.setBackgroundColor(ContextCompat.getColor(this, R.color.button_default));
     }
 
     private boolean validateLeagueInputs(EditText name, EditText teamCount, EditText auctionBudget, RadioButton isAuction) {
