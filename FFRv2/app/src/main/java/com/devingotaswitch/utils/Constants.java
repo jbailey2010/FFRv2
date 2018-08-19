@@ -1,5 +1,7 @@
 package com.devingotaswitch.utils;
 
+import java.text.DecimalFormat;
+
 public class Constants {
     public final static String YEAR_KEY = "2018";
     public final static String LAST_YEAR_KEY = String.valueOf(Integer.parseInt(YEAR_KEY) - 1);
@@ -272,4 +274,7 @@ public class Constants {
     public final static String SLEEPER_TAG_REMOTE = "sleeper";
     public final static String STUD_TAG_REMOTE = "stud";
     public final static String UNDERVALUED_TAG_REMOTE = "undervalued";
+
+    // Non-primitives
+    public static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat(Constants.NUMBER_FORMAT);
 }

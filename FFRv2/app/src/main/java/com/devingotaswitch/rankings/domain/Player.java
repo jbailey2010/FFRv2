@@ -4,6 +4,8 @@ import android.util.Log;
 
 import com.devingotaswitch.utils.Constants;
 
+import java.text.DecimalFormat;
+
 public class Player {
 
     private static final String TAG = "Player";
@@ -236,5 +238,21 @@ public class Player {
         } else {
             return value * scaleFactor;
         }
+    }
+
+    public String getDisplayValue(Rankings rankings) {
+        LeagueSettings league = rankings.getLeagueSettings();
+        if (league.isRookie()) {
+            return String.valueOf(getRookieRank());
+        } else if (league.isDynasty()) {
+            return String.valueOf(getDynastyRank());
+        } else if (league.isSnake()) {
+            return String.valueOf(getEcr());
+        } else if (league.isAuction()) {
+            return Constants.DECIMAL_FORMAT.format(getAuctionValueCustom(rankings));
+        } else {
+            return "";
+        }
+
     }
 }

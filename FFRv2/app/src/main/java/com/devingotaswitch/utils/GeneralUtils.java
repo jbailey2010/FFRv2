@@ -71,16 +71,7 @@ public class GeneralUtils {
         DecimalFormat df = new DecimalFormat(Constants.NUMBER_FORMAT);
         for (String key : rankings.getPlayers().keySet()) {
             Player player = rankings.getPlayer(key);
-            String prefix = "";
-            if (rankings.getLeagueSettings().isAuction()) {
-                prefix = df.format(player.getAuctionValueCustom(rankings));
-            } else if (rankings.getLeagueSettings().isSnake()) {
-                prefix = String.valueOf(player.getEcr());
-            } else if (rankings.getLeagueSettings().isDynasty()) {
-                prefix = String.valueOf(player.getDynastyRank());
-            } else if (rankings.getLeagueSettings().isRookie()) {
-                prefix = String.valueOf(player.getRookieRank());
-            }
+            String prefix = player.getDisplayValue(rankings);
             if (rankings.getLeagueSettings().getRosterSettings().isPositionValid(player.getPosition()) &&
                     !StringUtils.isBlank(player.getTeamName()) && player.getTeamName().length() > 3) {
                 String dropdownStr = prefix +

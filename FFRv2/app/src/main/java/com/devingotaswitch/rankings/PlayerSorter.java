@@ -819,53 +819,44 @@ public class PlayerSorter extends AppCompatActivity {
     }
 
     private String getMainTextPrefixForPlayer(Player player, double maxFactorValue) {
-        DecimalFormat df = new DecimalFormat(Constants.NUMBER_FORMAT);
         switch (factor) {
             case Constants.SORT_ALL:
-                if (rankings.getLeagueSettings().isAuction()) {
-                    return df.format(player.getAuctionValueCustom(rankings));
-                } else if (rankings.getLeagueSettings().isDynasty()) {
-                    return String.valueOf(player.getDynastyRank());
-                } else if (rankings.getLeagueSettings().isRookie()) {
-                    return String.valueOf(player.getRookieRank());
-                } else {
-                    return String.valueOf(player.getEcr());
-                }
+                return player.getDisplayValue(rankings);
             case Constants.SORT_ECR:
                 return String.valueOf(player.getEcr());
             case Constants.SORT_ADP:
                 return String.valueOf(player.getAdp());
             case Constants.SORT_UNDERDRAFTED:
             case Constants.SORT_OVERDRAFTED:
-                return df.format(player.getEcr() - player.getAdp());
+                return Constants.DECIMAL_FORMAT.format(player.getEcr() - player.getAdp());
             case Constants.SORT_AUCTION:
-                return df.format(player.getAuctionValueCustom(rankings));
+                return Constants.DECIMAL_FORMAT.format(player.getAuctionValueCustom(rankings));
             case Constants.SORT_DYNASTY:
                 return String.valueOf(player.getDynastyRank());
             case Constants.SORT_ROOKIE:
                 return String.valueOf(player.getRookieRank());
             case Constants.SORT_PROJECTION:
-                return df.format(player.getProjection());
+                return Constants.DECIMAL_FORMAT.format(player.getProjection());
             case Constants.SORT_PAA:
-                return df.format(player.getPaa());
+                return Constants.DECIMAL_FORMAT.format(player.getPaa());
             case Constants.SORT_PAA_SCALED:
-                return df.format(player.getScaledPAA(rankings));
+                return Constants.DECIMAL_FORMAT.format(player.getScaledPAA(rankings));
             case Constants.SORT_PAAPD:
-                return df.format(getPAAPD(player));
+                return Constants.DECIMAL_FORMAT.format(getPAAPD(player));
             case Constants.SORT_XVAL:
-                return df.format(player.getxVal());
+                return Constants.DECIMAL_FORMAT.format(player.getxVal());
             case Constants.SORT_XVAL_SCALED:
-                return df.format(player.getScaledXVal(rankings));
+                return Constants.DECIMAL_FORMAT.format(player.getScaledXVal(rankings));
             case Constants.SORT_XVALPD:
-                return df.format(getXvalPD(player));
+                return Constants.DECIMAL_FORMAT.format(getXvalPD(player));
             case Constants.SORT_VOLS:
-                return df.format(player.getvOLS());
+                return Constants.DECIMAL_FORMAT.format(player.getvOLS());
             case Constants.SORT_VOLS_SCALED:
-                return df.format(player.getScaledVoLS(rankings));
+                return Constants.DECIMAL_FORMAT.format(player.getScaledVoLS(rankings));
             case Constants.SORT_VOLSPD:
-                return df.format(getVoLSPD(player));
+                return Constants.DECIMAL_FORMAT.format(getVoLSPD(player));
             case Constants.SORT_VBD_SUGGESTED:
-                return df.format((getVBDSuggestedValue(player)/maxFactorValue) * 100.0);
+                return Constants.DECIMAL_FORMAT.format((getVBDSuggestedValue(player)/maxFactorValue) * 100.0);
             case Constants.SORT_RISK:
                 return String.valueOf(player.getRisk());
             case Constants.SORT_SOS:
@@ -891,19 +882,19 @@ public class PlayerSorter extends AppCompatActivity {
         }  else if (Constants.SORT_VBD_SUGGESTED.equals(factor)) {
             subtextBuilder.append(Constants.LINE_BREAK)
                     .append("PAA: ")
-                    .append(df.format(player.getPaa()))
+                    .append(Constants.DECIMAL_FORMAT.format(player.getPaa()))
                     .append(Constants.LINE_BREAK)
                     .append("XVal: ")
-                    .append(df.format(player.getxVal()))
+                    .append(Constants.DECIMAL_FORMAT.format(player.getxVal()))
                     .append(Constants.LINE_BREAK)
                     .append("VoLS: ")
-                    .append(df.format(player.getvOLS()));
+                    .append(Constants.DECIMAL_FORMAT.format(player.getvOLS()));
         }
         boolean isAuction = rankings.getLeagueSettings().isAuction();
         if (isAuction && !Constants.SORT_AUCTION.equals(factor) && !Constants.SORT_ALL.equals(factor)) {
             subtextBuilder.append(Constants.LINE_BREAK)
                     .append("Auction Value: ")
-                    .append(df.format(player.getAuctionValueCustom(rankings)));
+                    .append(Constants.DECIMAL_FORMAT.format(player.getAuctionValueCustom(rankings)));
         } else if (rankings.getLeagueSettings().isSnake() && !Constants.SORT_ECR.equals(factor) && !Constants.SORT_ALL.equals(factor)) {
             subtextBuilder.append(Constants.LINE_BREAK)
                     .append("ECR: ")

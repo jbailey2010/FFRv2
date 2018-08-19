@@ -303,24 +303,9 @@ public class DraftInfo extends AppCompatActivity {
         listview.setAdapter(adapter);
         for (String playerKey : rankings.getDraft().getDraftedPlayers()) {
             Player player = rankings.getPlayer(playerKey);
-            String playerBasicContent;
-            if (rankings.getLeagueSettings().isAuction()) {
-                playerBasicContent = String.valueOf(df.format(player.getAuctionValueCustom(rankings))) +
-                        Constants.RANKINGS_LIST_DELIMITER +
-                        player.getName();
-            } else if (rankings.getLeagueSettings().isDynasty()) {
-                playerBasicContent = String.valueOf(player.getDynastyRank()) +
-                        Constants.RANKINGS_LIST_DELIMITER +
-                        player.getName();
-            } else if (rankings.getLeagueSettings().isRookie()) {
-                playerBasicContent = String.valueOf(player.getRookieRank()) +
-                        Constants.RANKINGS_LIST_DELIMITER +
-                        player.getName();
-            } else {
-                playerBasicContent = String.valueOf(player.getEcr()) +
-                        Constants.RANKINGS_LIST_DELIMITER +
-                        player.getName();
-            }
+            String playerBasicContent = player.getDisplayValue(rankings) +
+                    Constants.RANKINGS_LIST_DELIMITER +
+                    player.getName();
             Map<String, String> datum = new HashMap<>(3);
             datum.put(Constants.PLAYER_BASIC, playerBasicContent);
             datum.put(Constants.PLAYER_INFO, generateOutputSubtext(player, df));

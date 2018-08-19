@@ -103,7 +103,12 @@ public class ParseFantasyPros {
             String fullName = names.get(playerCount++);
             String filteredName = td.get(i).split(
                     " \\(")[0].split(", ")[0];
-            String team = ParsingUtils.normalizeTeams(filteredName.substring(filteredName.lastIndexOf(" ")).trim());
+            String team = "";
+            if (filteredName.split(" ").length > 1) {
+                team = ParsingUtils.normalizeTeams(filteredName.substring(filteredName.lastIndexOf(" ")).trim());
+            } else {
+                team = ParsingUtils.normalizeTeams(filteredName.trim());
+            }
             String name = ParsingUtils
                     .normalizeNames(ParsingUtils.normalizeDefenses(fullName));
             double ecrVal = Double.parseDouble(td.get(i + 5));
@@ -183,7 +188,12 @@ public class ParseFantasyPros {
             String fullName = names.get(playerCount++);
             String filteredName = td.get(i).split(
                     " \\(")[0].split(", ")[0];
-            String team = ParsingUtils.normalizeTeams(filteredName.substring(filteredName.lastIndexOf(" ")).trim());
+            String team = "";
+            if (filteredName.split(" ").length > 1) {
+                team = ParsingUtils.normalizeTeams(filteredName.substring(filteredName.lastIndexOf(" ")).trim());
+            } else {
+                team = ParsingUtils.normalizeTeams(filteredName.trim());
+            }
             String name = ParsingUtils
                     .normalizeNames(ParsingUtils.normalizeDefenses(fullName));
             double dynastyVal = Double.parseDouble(td.get(i + 5));
