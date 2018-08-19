@@ -1,5 +1,7 @@
 package com.devingotaswitch.rankings.sources;
 
+import android.util.Log;
+
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.utils.Constants;
@@ -165,13 +167,13 @@ public class ParseProjections {
             }
             name = new StringBuilder(ParsingUtils.normalizeNames(name.substring(0, name.length() - 1)));
             String team = ParsingUtils.normalizeTeams(nameSet[nameSet.length - 1]);
-            double rushYards = Double.parseDouble(td.get(i + 2)
+            double rushYards = Double.parseDouble(td.get(i + 5)
                     .replace(",", ""));
-            double rushTD = Double.parseDouble(td.get(i + 3));
-            double catches = Double.parseDouble(td.get(i + 4));
+            double rushTD = Double.parseDouble(td.get(i + 6));
+            double catches = Double.parseDouble(td.get(i + 1));
             double recYards = Double
-                    .parseDouble(td.get(i + 5).replace(",", ""));
-            double recTD = Double.parseDouble(td.get(i + 6));
+                    .parseDouble(td.get(i + 2).replace(",", ""));
+            double recTD = Double.parseDouble(td.get(i + 3));
             double fumbles = Double.parseDouble(td.get(i + 7));
             proj += (rushYards / (rankings.getLeagueSettings().getScoringSettings().getRushingYards()));
             proj += rushTD * rankings.getLeagueSettings().getScoringSettings().getRushingTds();
