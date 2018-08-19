@@ -39,10 +39,14 @@ public class ParseFantasyPros {
     public static void parseADPWrapper(Rankings rankings) throws IOException {
         Map<String, Double> adp = new HashMap<>();
         String adpUrl = "http://www.fantasypros.com/nfl/adp/overall.php";
-        if (rankings.getLeagueSettings().getScoringSettings().getReceptions() > 0) {
+        int rowSize = 10;
+        if (rankings.getLeagueSettings().getScoringSettings().getReceptions() >= 1.0) {
             adpUrl = "http://www.fantasypros.com/nfl/adp/ppr-overall.php";
+        } else if (rankings.getLeagueSettings().getScoringSettings().getReceptions() > 0) {
+            adpUrl = "https://www.fantasypros.com/nfl/adp/half-point-ppr-overall.php";
+            rowSize = 8;
         }
-        parseADPWorker(adp, adpUrl);
+        parseADPWorker(adp, adpUrl, rowSize);
 
         for (String playerId : rankings.getPlayers().keySet()) {
             if (adp.containsKey(playerId)) {
@@ -124,7 +128,7 @@ public class ParseFantasyPros {
         }
     }
 
-    private static void parseADPWorker(Map<String, Double> adp, String adpUrl)
+    private static void parseADPWorker(Map<String, Double> adp, String adpUrl, int rowSize)
             throws IOException {
         List<String> td = JsoupUtils.parseURLWithUA(adpUrl, "table.player-table tbody tr td");
         int min = 0;
@@ -136,7 +140,7 @@ public class ParseFantasyPros {
                     break;
                 }
             }
-            for (int i = min; i < td.size(); i += 10) {
+            for (int i = min; i < td.size(); i += rowSize) {
                 if (i + 10 >= td.size()) {
                     break;
                 } else if ("".equals(td.get(i))) {
@@ -150,7 +154,7 @@ public class ParseFantasyPros {
                 if (i + 6 >= td.size()) {
                     break;
                 }
-                Double adpStr = Double.parseDouble(td.get(i + 9));
+                Double adpStr = Double.parseDouble(td.get(i + (rowSize - 1)));
                 String posInd = td.get(i + 2)
                         .replaceAll("(\\d+,\\d+)|\\d+", "")
                         .replaceAll("DST", Constants.DST);
