@@ -25,19 +25,11 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.devingotaswitch.youruserpools.UserActivity"
-            android:label="@string/title_activity_user"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity
             android:name="com.devingotaswitch.youruserpools.RegisterUser"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name="com.devingotaswitch.youruserpools.SignUpConfirm"
             android:label="@string/title_activity_sign_up_confirm"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity
-            android:name="com.devingotaswitch.youruserpools.MFAActivity"
-            android:label="@string/title_activity_mfa"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity
             android:name="com.devingotaswitch.youruserpools.ForgotPasswordActivity"
@@ -46,11 +38,6 @@
         <activity
             android:name="com.devingotaswitch.youruserpools.ChangePasswordActivity"
             android:label="@string/title_activity_change_password"
-            android:windowSoftInputMode="adjustResize"
-            android:theme="@style/AppTheme.NoActionBar"/>
-        <activity
-            android:name="com.devingotaswitch.youruserpools.VerifyActivity"
-            android:label="@string/title_activity_verify"
             android:windowSoftInputMode="adjustResize"
             android:theme="@style/AppTheme.NoActionBar"/>
         <activity

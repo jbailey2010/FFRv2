@@ -24,7 +24,7 @@ public class PlayerInfoSwipeDetector implements View.OnTouchListener {
     }
 
     public boolean onTouch(View v, MotionEvent event) {
-        float deltaX = 0;
+        float deltaX;
 
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN: {

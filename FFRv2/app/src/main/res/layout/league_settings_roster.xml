@@ -195,7 +195,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_below="@+id/league_roster_space4"
-        android:id="@+id/league_roster_level5">
+        >
         <Button
             android:layout_width="match_parent"
             android:layout_height="@dimen/activity_button_height"

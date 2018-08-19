@@ -1,10 +1,6 @@
 package com.devingotaswitch.rankings.domain;
 
-import android.util.Log;
-
 import com.devingotaswitch.utils.Constants;
-
-import java.text.DecimalFormat;
 
 public class Player {
 
@@ -220,7 +216,7 @@ public class Player {
     }
 
     private double getScaledValue(Double value, int numStarted, int numDrafted) {
-        double scaleFactor = 0.0;
+        double scaleFactor;
         if (numStarted == 0) {
             scaleFactor = 0.0;
         } else if (numDrafted == 0 || numDrafted < numStarted) {

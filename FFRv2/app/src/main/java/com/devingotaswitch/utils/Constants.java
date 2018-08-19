@@ -210,6 +210,8 @@ public class Constants {
     public final static String PLAYER_ADDITIONAL_INFO = "additional_info";
     public final static String PLAYER_ADDITIONAL_INFO_2 = "additional_info_2";
     public final static String POS_TEAM_DELIMITER = " - ";
+    public final static String COMPARATOR_SCALED_PREFIX = " (";
+    public final static String COMPARATOR_SCALED_SUFFIX = ")";
     public final static String NOTE_SUB = "Click to update note, click and hold to clear";
     public final static String DEFAULT_NOTE = "No note found";
     public final static String NO_TEAM = "Free Agent/Retired";

@@ -1,7 +1,5 @@
 package com.devingotaswitch.rankings.sources;
 
-import android.util.Log;
-
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.domain.Team;
@@ -103,7 +101,7 @@ public class ParseFantasyPros {
             String fullName = names.get(playerCount++);
             String filteredName = td.get(i).split(
                     " \\(")[0].split(", ")[0];
-            String team = "";
+            String team;
             if (filteredName.split(" ").length > 1) {
                 team = ParsingUtils.normalizeTeams(filteredName.substring(filteredName.lastIndexOf(" ")).trim());
             } else {
@@ -188,7 +186,7 @@ public class ParseFantasyPros {
             String fullName = names.get(playerCount++);
             String filteredName = td.get(i).split(
                     " \\(")[0].split(", ")[0];
-            String team = "";
+            String team;
             if (filteredName.split(" ").length > 1) {
                 team = ParsingUtils.normalizeTeams(filteredName.substring(filteredName.lastIndexOf(" ")).trim());
             } else {
@@ -252,7 +250,7 @@ public class ParseFantasyPros {
             int weekCounter = 0;
             for (int j = i+1; j < i + 18; j++) {
                 String opponentFull = elems.get(j);
-                String suffix = "";
+                String suffix;
                 if (opponentFull.split(" ").length > 1) {
                     String gameLocation = opponentFull.split(" ")[0];
                     String opponent = ParsingUtils.normalizeTeams(opponentFull.split(" ")[1]);

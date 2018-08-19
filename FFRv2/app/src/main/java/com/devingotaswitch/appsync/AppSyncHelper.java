@@ -3,11 +3,7 @@ package com.devingotaswitch.appsync;
 import android.app.Activity;
 import android.content.Context;
 
-import com.devingotaswitch.rankings.PlayerSorter;
 import com.devingotaswitch.rankings.domain.appsync.tags.Tag;
-
-import java.util.List;
-import java.util.Set;
 
 public class AppSyncHelper {
 

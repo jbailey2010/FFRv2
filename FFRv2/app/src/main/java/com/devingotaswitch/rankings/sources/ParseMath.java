@@ -9,15 +9,12 @@ import com.devingotaswitch.rankings.domain.RosterSettings.Flex;
 import com.devingotaswitch.utils.Constants;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class ParseMath {
     private static double qbLimit;
@@ -294,7 +291,7 @@ public class ParseMath {
             }
         };
         Collections.sort(position, comparator);
-        Player player = null;
+        Player player;
         if (limit.intValue() <= position.size()) {
             player = position.get(limit.intValue()-1);
         } else {

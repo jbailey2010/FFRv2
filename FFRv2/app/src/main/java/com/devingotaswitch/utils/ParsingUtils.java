@@ -1,7 +1,5 @@
 package com.devingotaswitch.utils;
 
-import android.util.Log;
-
 import com.amazonaws.util.StringUtils;
 import com.devingotaswitch.rankings.domain.Player;
 
@@ -155,7 +153,6 @@ public class ParsingUtils {
         teamFixes.put("det", "Detroit Lions");
         teamFixes.put("detroit", "Detroit Lions");
         teamFixes.put("lions", "Detroit Lions");
-        teamFixes.put("gb", "Green Bay Packers");
         teamFixes.put("gb", "Green Bay Packers");
         teamFixes.put("gb ", "Green Bay Packers");
         teamFixes.put(" gb", "Green Bay Packers");

@@ -6,7 +6,6 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/draft_info_header"
         android:text="Click and hold a drafted player to undraft them"
         android:layout_marginTop="10dp"
         android:paddingBottom="12dp"

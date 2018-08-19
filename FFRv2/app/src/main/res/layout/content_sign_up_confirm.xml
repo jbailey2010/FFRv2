@@ -48,7 +48,6 @@
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:textSize="@dimen/activity_text_size_small"
         android:text="Please enter the code below to confirm your account."
-        android:id="@+id/textViewConfirmSubtext_2"
         android:layout_below="@id/space_confirm_1B"
         android:layout_centerHorizontal="true" />
 

@@ -282,7 +282,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_below="@+id/league_scoring_space5"
-        android:id="@+id/league_scoring_level6">
+        >
         <Button
             android:layout_width="0dp"
             android:layout_height="@dimen/activity_button_height"

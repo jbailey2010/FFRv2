@@ -53,6 +53,7 @@
         android:layout_width="match_parent"
         android:layout_below="@+id/comparator_header_base"
         android:layout_height="wrap_content"
+        android:overScrollMode="never"
         android:layout_alignParentBottom="true">
     <LinearLayout
         android:layout_width="match_parent"
@@ -77,7 +78,6 @@
                 android:gravity="center"/>
 
             <TextView
-                android:id="@+id/comparator_name_title"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -111,7 +111,6 @@
                 android:layout_weight="1"/>
 
             <TextView
-                android:id="@+id/comparator_age_title"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:background="#F3F3F3"
@@ -143,7 +142,6 @@
                 android:layout_weight="1"/>
 
             <TextView
-                android:id="@+id/comparator_bye_title"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:background="#F3F3F3"
@@ -177,7 +175,6 @@
                 android:gravity="center"/>
 
             <TextView
-                android:id="@+id/comparator_ecr_title"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -210,7 +207,6 @@
                 android:gravity="center"/>
 
             <TextView
-                android:id="@+id/comparator_ecr_val_title"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -243,7 +239,6 @@
                 android:gravity="center"/>
 
             <TextView
-                android:id="@+id/comparator_adp_title"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -276,7 +271,6 @@
                 android:gravity="center"/>
 
             <TextView
-                android:id="@+id/comparator_dynasty_title"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -311,7 +305,6 @@
                 android:gravity="center"/>
 
             <TextView
-                android:id="@+id/comparator_rookie_title"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -344,7 +337,6 @@
                 android:gravity="center"/>
 
             <TextView
-                android:id="@+id/comparator_auc_title"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -377,7 +369,6 @@
                 android:gravity="center"/>
 
             <TextView
-                android:id="@+id/comparator_lev_title"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -409,7 +400,6 @@
                 android:gravity="center"/>
 
             <TextView
-                android:id="@+id/comparator_risk_title"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -441,7 +431,6 @@
                 android:gravity="center"/>
 
             <TextView
-                android:id="@+id/comparator_sos_title"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:background="#F3F3F3"
@@ -473,7 +462,6 @@
                 android:gravity="center"/>
 
             <TextView
-                android:id="@+id/comparator_proj_title"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -505,7 +493,6 @@
                 android:gravity="center"/>
 
             <TextView
-                android:id="@+id/comparator_paa_title"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -537,7 +524,6 @@
                 android:gravity="center"/>
 
             <TextView
-                android:id="@+id/comparator_xval_title"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
                 android:gravity="center"
@@ -554,6 +540,36 @@
                 android:layout_height="match_parent"
                 android:id="@+id/comparator_xval_b"/>
 
+        </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/comparator_view_height"
+            android:background="#fafafa"
+            android:orientation="horizontal"
+            android:layout_weight="1">
+            <TextView
+                android:id="@+id/comparator_vols_a"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:gravity="center"
+                android:background="#F3F3F3"
+                android:textSize="14sp"
+                android:textStyle="bold"
+                android:layout_weight="1"
+                android:text="VoLS (Scaled)"/>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:layout_height="match_parent"
+                android:id="@+id/comparator_vols_b"/>
         </LinearLayout>
 
 

@@ -35,15 +35,14 @@ public class ParseWalterFootball {
         for (int i = 0; i < perPlayer.size(); i++) {
             all[i] = perPlayer.get(i).split(", ");
             String playerName = all[i][0];
-            String pos = "";
-            double val = 0.0;
+            String pos;
             if (!perPlayer.get(i).contains("DEF")) {
                 pos = all[i][1];
             } else {
                 playerName += " D/ST";
                 pos = Constants.DST;
             }
-            val = Double
+            double val = Double
                     .parseDouble(perPlayer.get(i).split("\\$")[1].split(" ")[0]);
             String team = all[i][2].split("\\. ")[0];
             rankings.processNewPlayer(ParsingUtils.getPlayerFromRankings(playerName, team, pos, val));

@@ -2,12 +2,10 @@ package com.devingotaswitch.fileio;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.util.Log;
 
 import com.amazonaws.util.StringUtils;
 import com.devingotaswitch.rankings.domain.Draft;
 import com.devingotaswitch.rankings.domain.Player;
-import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.youruserpools.CUPHelper;
 

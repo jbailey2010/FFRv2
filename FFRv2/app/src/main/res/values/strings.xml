@@ -1,23 +1,15 @@
 <resources>
     <string name="app_name">Fantasy Football GM</string>
-    <string name="app_main_screen">Sign in</string>
     <string name="app_main_screen_title">Fantasy Football GM</string>
     <string name="app_main_desc">All you need to dominate your fantasy football league.</string>
     <string name="nav_drawer_open">Open navigation drawer</string>
     <string name="nav_drawer_close">Close navigation drawer</string>
-    <string name="title_activity_user">UserActivity</string>
     <string name="Username">Username</string>
     <string name="Password">Password</string>
     <string name="Menu">Menu</string>
-    <string name="title_activity_about_app">AboutApp</string>
     <string name="title_activity_sign_up_confirm">SignUpConfirm</string>
-    <string name="title_activity_mfa">MFAActivity</string>
     <string name="title_activity_forgot_password">ForgotPasswordActivity</string>
-    <string name="title_activity_settings">SettingsActivity</string>
     <string name="title_activity_change_password">ChangePasswordActivity</string>
-    <string name="title_activity_verify">VerifyActivity</string>
-    <string name="title_activity_add_attribute">AddAttributeActivity</string>
-    <string name="title_activity_device_settings">DeviceSettings</string>
     <string name="title_activity_new_password">NewPassword</string>
     <string name="title_activity_player_info">PlayerInfo</string>
     <string name="title_activity_draft_info">DraftInfo</string>

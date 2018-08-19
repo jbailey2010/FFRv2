@@ -1,7 +1,5 @@
 package com.devingotaswitch.rankings.sources;
 
-import android.util.Log;
-
 import com.amazonaws.util.StringUtils;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
@@ -11,10 +9,8 @@ import com.devingotaswitch.utils.ParsingUtils;
 
 import java.io.IOException;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
 
 public class ParseStats {
 
@@ -167,14 +163,12 @@ public class ParseStats {
         Map<String, String> rbPlayers = new HashMap<>();
         for (int i = 0; i < rows.size(); i++) {
             String[] player = rows.get(i).split(" ");
-            String name = "";
-            String team = "";
             StringBuilder data = new StringBuilder(500);
             if (player[0].equals("Player")) {
                 continue;
             }
-            name = ParsingUtils.normalizeNames(player[0]);
-            team = ParsingUtils.normalizeTeams(player[1]);
+            String name = ParsingUtils.normalizeNames(player[0]);
+            String team = ParsingUtils.normalizeTeams(player[1]);
             if (name.split(" ").length == 3) {
                 name = name.split(" ")[0] + " " + name.split(" ")[2];
             }

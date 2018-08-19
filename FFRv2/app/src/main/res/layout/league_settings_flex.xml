@@ -170,7 +170,7 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_below="@+id/league_flex_space3"
-        android:id="@+id/league_flex_level4">
+        >
         <Button
             android:layout_width="match_parent"
             android:layout_height="@dimen/activity_button_height"

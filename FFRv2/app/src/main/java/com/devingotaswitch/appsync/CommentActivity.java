@@ -115,7 +115,7 @@ public class CommentActivity extends AppSyncActivity {
                     final List<Comment> comments = new ArrayList<>();
                     for (GetCommentsOnPlayerQuery.Item item : response.data().getCommentsOnPlayer().items()) {
                         Comment comment = new Comment();
-                        comment.setTime(formatCurrentTime(new Double(item.date()).longValue()));
+                        comment.setTime(formatCurrentTime(Double.valueOf(item.date()).longValue()));
                         comment.setPlayerId(playerId);
                         comment.setUpvotes(item.upvotes());
                         comment.setDownvotes(item.downvotes());

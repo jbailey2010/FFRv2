@@ -338,8 +338,8 @@ public class PlayerComparator extends AppCompatActivity {
         // PAA
         TextView paaA = findViewById(R.id.comparator_paa_a);
         TextView paaB = findViewById(R.id.comparator_paa_b);
-        paaA.setText(df.format(playerA.getPaa()) + " (" + df.format(playerA.getScaledPAA(rankings)) + ")");
-        paaB.setText(df.format(playerB.getPaa()) + " (" + df.format(playerB.getScaledPAA(rankings)) + ")");
+        paaA.setText(df.format(playerA.getPaa()) + Constants.COMPARATOR_SCALED_PREFIX + df.format(playerA.getScaledPAA(rankings)) + Constants.COMPARATOR_SCALED_SUFFIX);
+        paaB.setText(df.format(playerB.getPaa()) + Constants.COMPARATOR_SCALED_PREFIX + df.format(playerB.getScaledPAA(rankings)) + Constants.COMPARATOR_SCALED_SUFFIX);
         if (playerA.getScaledPAA(rankings) > playerB.getScaledPAA(rankings)) {
             setColors(paaA, paaB);
         } else if (playerA.getScaledPAA(rankings) < playerB.getScaledPAA(rankings)){
@@ -351,8 +351,8 @@ public class PlayerComparator extends AppCompatActivity {
         // XVal
         TextView xvalA = findViewById(R.id.comparator_xval_a);
         TextView xvalB = findViewById(R.id.comparator_xval_b);
-        xvalA.setText(df.format(playerA.getxVal()) + " (" + df.format(playerA.getScaledXVal(rankings)) + ")");
-        xvalB.setText(df.format(playerB.getxVal()) + " (" + df.format(playerB.getScaledXVal(rankings)) + ")");
+        xvalA.setText(df.format(playerA.getxVal()) + Constants.COMPARATOR_SCALED_PREFIX + df.format(playerA.getScaledXVal(rankings)) + Constants.COMPARATOR_SCALED_SUFFIX);
+        xvalB.setText(df.format(playerB.getxVal()) + Constants.COMPARATOR_SCALED_PREFIX + df.format(playerB.getScaledXVal(rankings)) + Constants.COMPARATOR_SCALED_SUFFIX);
         if (playerA.getScaledXVal(rankings) > playerB.getScaledXVal(rankings)) {
             setColors(xvalA, xvalB);
         } else if (playerA.getScaledXVal(rankings) < playerB.getScaledXVal(rankings)){
@@ -360,6 +360,20 @@ public class PlayerComparator extends AppCompatActivity {
         } else {
             clearColors(xvalA, xvalB);
         }
+
+        // VoLS
+        TextView volsA = findViewById(R.id.comparator_vols_a);
+        TextView volsB = findViewById(R.id.comparator_vols_b);
+        volsA.setText(df.format(playerA.getvOLS()) + Constants.COMPARATOR_SCALED_PREFIX + df.format(playerA.getScaledVoLS(rankings)) + Constants.COMPARATOR_SCALED_SUFFIX);
+        volsB.setText(df.format(playerB.getvOLS()) + Constants.COMPARATOR_SCALED_PREFIX + df.format(playerB.getScaledVoLS(rankings)) + Constants.COMPARATOR_SCALED_SUFFIX);
+        if (playerA.getScaledVoLS(rankings) > playerB.getScaledVoLS(rankings)) {
+            setColors(volsA, volsB);
+        } else if (playerA.getScaledVoLS(rankings) < playerB.getScaledVoLS(rankings)) {
+            setColors(volsB, volsA);
+        } else {
+            clearColors(volsA, volsB);
+        }
+
 
         // Risk
         TextView riskA = findViewById(R.id.comparator_risk_a);

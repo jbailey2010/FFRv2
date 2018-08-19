@@ -28,7 +28,6 @@
                 android:id="@+id/player_info_comment_input"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_alignRight="@+id/player_info_comment_submit"
                 android:layout_margin="7dp"
                 android:layout_weight="11"
                 android:background="@drawable/rounded_well"
@@ -42,7 +41,6 @@
                 android:id="@+id/player_info_comment_submit"
                 android:layout_width="0dp"
                 android:layout_height="match_parent"
-                android:layout_alignParentRight="true"
                 android:layout_marginTop="8dp"
                 android:layout_marginBottom="8dp"
                 android:layout_margin="7dp"
@@ -195,7 +193,6 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:id="@+id/player_info_buttons_bottom"
         android:layout_height="3dp"
         android:layout_alignParentBottom="true"
         android:orientation="horizontal">
