@@ -253,22 +253,22 @@ public class ParseMath {
             Player player = rankings.getPlayer(key);
             switch (player.getPosition()) {
                 case Constants.QB:
-                    player.setvOLS(player.getProjection() - qbLS);
+                    player.setVOLS(player.getProjection() - qbLS);
                     break;
                 case Constants.RB:
-                    player.setvOLS(player.getProjection() - rbLS);
+                    player.setVOLS(player.getProjection() - rbLS);
                     break;
                 case Constants.WR:
-                    player.setvOLS(player.getProjection() - wrLS);
+                    player.setVOLS(player.getProjection() - wrLS);
                     break;
                 case Constants.TE:
-                    player.setvOLS(player.getProjection() - teLS);
+                    player.setVOLS(player.getProjection() - teLS);
                     break;
                 case Constants.DST:
-                    player.setvOLS(player.getProjection() - dLS);
+                    player.setVOLS(player.getProjection() - dLS);
                     break;
                 case Constants.K:
-                    player.setvOLS(player.getProjection() - kLS);
+                    player.setVOLS(player.getProjection() - kLS);
                     break;
             }
         }

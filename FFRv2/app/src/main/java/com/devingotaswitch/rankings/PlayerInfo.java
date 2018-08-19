@@ -774,14 +774,14 @@ public class PlayerInfo extends AppCompatActivity {
             data.add(xVal);
 
             Map<String, String> voLS = new HashMap<>();
-            voLS.put(Constants.PLAYER_BASIC, "VoLS: " + df.format(player.getvOLS()));
-            int voLSRank = getVoLSRank(null, player.getvOLS());
-            int voLSPos = getVoLSRank(player.getPosition(), player.getvOLS());
+            voLS.put(Constants.PLAYER_BASIC, "VOLS: " + df.format(player.getVOLS()));
+            int voLSRank = getVoLSRank(null, player.getVOLS());
+            int voLSPos = getVoLSRank(player.getPosition(), player.getVOLS());
             String voLSSub = getRankingSub(voLSRank, voLSPos);
             if (player.getAuctionValueCustom(rankings) > 0.0) {
-                voLSSub += Constants.LINE_BREAK + "VoLS/$: " + df.format(player.getvOLS() / player.getAuctionValueCustom(rankings));
+                voLSSub += Constants.LINE_BREAK + "VOLS/$: " + df.format(player.getVOLS() / player.getAuctionValueCustom(rankings));
             }
-            voLSSub += Constants.LINE_BREAK + "Scaled VoLS: " + df.format(player.getScaledVoLS(rankings));
+            voLSSub += Constants.LINE_BREAK + "Scaled VOLS: " + df.format(player.getScaledVOLS(rankings));
             voLS.put(Constants.PLAYER_INFO, voLSSub);
             data.add(voLS);
         }
@@ -1285,7 +1285,7 @@ public class PlayerInfo extends AppCompatActivity {
         for (String key : rankings.getPlayers().keySet()) {
             Player player = rankings.getPlayer(key);
             if (pos == null || pos.equals(player.getPosition())) {
-                if (player.getvOLS() > source) {
+                if (player.getVOLS() > source) {
                     rank++;
                 }
             }

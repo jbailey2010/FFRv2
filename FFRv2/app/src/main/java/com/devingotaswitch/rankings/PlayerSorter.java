@@ -672,7 +672,7 @@ public class PlayerSorter extends AppCompatActivity {
     }
 
     private double getVoLSPD(Player a) {
-        double volspdA = a.getvOLS() / a.getAuctionValueCustom(rankings);
+        double volspdA = a.getVOLS() / a.getAuctionValueCustom(rankings);
         if (a.getAuctionValue() == 0) {
             volspdA = 0.0;
         }
@@ -680,7 +680,7 @@ public class PlayerSorter extends AppCompatActivity {
     }
 
     private double getVBDSuggestedValue(Player a) {
-        return a.getScaledPAA(rankings) + a.getScaledPAA(rankings) + a.getScaledVoLS(rankings);
+        return a.getScaledPAA(rankings) + a.getScaledPAA(rankings) + a.getScaledVOLS(rankings);
     }
 
     private Comparator<Player> getXValComparator() {
@@ -702,10 +702,10 @@ public class PlayerSorter extends AppCompatActivity {
         return new Comparator<Player>() {
             @Override
             public int compare(Player a, Player b) {
-                if (a.getvOLS() > b.getvOLS()) {
+                if (a.getVOLS() > b.getVOLS()) {
                     return -1;
                 }
-                if (a.getvOLS() < b.getvOLS()) {
+                if (a.getVOLS() < b.getVOLS()) {
                     return 1;
                 }
                 return 0;
@@ -765,10 +765,10 @@ public class PlayerSorter extends AppCompatActivity {
         return new Comparator<Player>() {
             @Override
             public int compare(Player a, Player b) {
-                if (a.getScaledVoLS(rankings) > b.getScaledVoLS(rankings)) {
+                if (a.getScaledVOLS(rankings) > b.getScaledVOLS(rankings)) {
                     return -1;
                 }
-                if (a.getScaledVoLS(rankings) < b.getScaledVoLS(rankings)) {
+                if (a.getScaledVOLS(rankings) < b.getScaledVOLS(rankings)) {
                     return 1;
                 }
                 return 0;
@@ -850,9 +850,9 @@ public class PlayerSorter extends AppCompatActivity {
             case Constants.SORT_XVALPD:
                 return Constants.DECIMAL_FORMAT.format(getXvalPD(player));
             case Constants.SORT_VOLS:
-                return Constants.DECIMAL_FORMAT.format(player.getvOLS());
+                return Constants.DECIMAL_FORMAT.format(player.getVOLS());
             case Constants.SORT_VOLS_SCALED:
-                return Constants.DECIMAL_FORMAT.format(player.getScaledVoLS(rankings));
+                return Constants.DECIMAL_FORMAT.format(player.getScaledVOLS(rankings));
             case Constants.SORT_VOLSPD:
                 return Constants.DECIMAL_FORMAT.format(getVoLSPD(player));
             case Constants.SORT_VBD_SUGGESTED:
@@ -888,7 +888,7 @@ public class PlayerSorter extends AppCompatActivity {
                     .append(Constants.DECIMAL_FORMAT.format(player.getxVal()))
                     .append(Constants.LINE_BREAK)
                     .append("VoLS: ")
-                    .append(Constants.DECIMAL_FORMAT.format(player.getvOLS()));
+                    .append(Constants.DECIMAL_FORMAT.format(player.getVOLS()));
         }
         boolean isAuction = rankings.getLeagueSettings().isAuction();
         if (isAuction && !Constants.SORT_AUCTION.equals(factor) && !Constants.SORT_ALL.equals(factor)) {

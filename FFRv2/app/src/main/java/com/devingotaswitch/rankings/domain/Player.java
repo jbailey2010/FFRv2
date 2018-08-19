@@ -177,11 +177,11 @@ public class Player {
         this.xVal = xVal;
     }
 
-    public Double getvOLS() {
+    public Double getVOLS() {
         return vOLS;
     }
 
-    public void setvOLS(Double vOLS) {
+    public void setVOLS(Double vOLS) {
         this.vOLS = vOLS;
     }
 
@@ -210,8 +210,8 @@ public class Player {
                 rankings.getDraft().getPlayersDraftedForPos(getPosition()).size());
     }
 
-    public Double getScaledVoLS(Rankings rankings) {
-        return getScaledValue(getvOLS(), rankings.getLeagueSettings().getRosterSettings().getNumberStartedOfPos(getPosition()),
+    public Double getScaledVOLS(Rankings rankings) {
+        return getScaledValue(getVOLS(), rankings.getLeagueSettings().getRosterSettings().getNumberStartedOfPos(getPosition()),
                 rankings.getDraft().getPlayersDraftedForPos(getPosition()).size());
     }
 

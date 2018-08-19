@@ -193,7 +193,7 @@ public class Draft {
     private double getVoLSForPos(List<Player> players) {
         double posVoLS = 0.0;
         for (Player player : players) {
-            posVoLS += player.getvOLS();
+            posVoLS += player.getVOLS();
         }
         return posVoLS;
     }

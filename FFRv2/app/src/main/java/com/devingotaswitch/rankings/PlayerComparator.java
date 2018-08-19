@@ -364,11 +364,11 @@ public class PlayerComparator extends AppCompatActivity {
         // VoLS
         TextView volsA = findViewById(R.id.comparator_vols_a);
         TextView volsB = findViewById(R.id.comparator_vols_b);
-        volsA.setText(df.format(playerA.getvOLS()) + Constants.COMPARATOR_SCALED_PREFIX + df.format(playerA.getScaledVoLS(rankings)) + Constants.COMPARATOR_SCALED_SUFFIX);
-        volsB.setText(df.format(playerB.getvOLS()) + Constants.COMPARATOR_SCALED_PREFIX + df.format(playerB.getScaledVoLS(rankings)) + Constants.COMPARATOR_SCALED_SUFFIX);
-        if (playerA.getScaledVoLS(rankings) > playerB.getScaledVoLS(rankings)) {
+        volsA.setText(df.format(playerA.getVOLS()) + Constants.COMPARATOR_SCALED_PREFIX + df.format(playerA.getScaledVOLS(rankings)) + Constants.COMPARATOR_SCALED_SUFFIX);
+        volsB.setText(df.format(playerB.getVOLS()) + Constants.COMPARATOR_SCALED_PREFIX + df.format(playerB.getScaledVOLS(rankings)) + Constants.COMPARATOR_SCALED_SUFFIX);
+        if (playerA.getScaledVOLS(rankings) > playerB.getScaledVOLS(rankings)) {
             setColors(volsA, volsB);
-        } else if (playerA.getScaledVoLS(rankings) < playerB.getScaledVoLS(rankings)) {
+        } else if (playerA.getScaledVOLS(rankings) < playerB.getScaledVOLS(rankings)) {
             setColors(volsB, volsA);
         } else {
             clearColors(volsA, volsB);
