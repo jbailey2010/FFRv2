@@ -46,6 +46,7 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.Chal
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.MultiFactorAuthenticationContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
 import com.amazonaws.util.StringUtils;
+import com.devingotaswitch.rankings.domain.Draft;
 import com.devingotaswitch.rankings.extras.FilterWithSpaceAdapter;
 import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.fileio.LocalSettingsHelper;
@@ -57,6 +58,7 @@ import com.devingotaswitch.rankings.domain.RosterSettings;
 import com.devingotaswitch.rankings.domain.Team;
 import com.devingotaswitch.rankings.extras.SwipeDismissTouchListener;
 import com.devingotaswitch.utils.Constants;
+import com.devingotaswitch.utils.DraftUtils;
 import com.devingotaswitch.utils.GeneralUtils;
 import com.devingotaswitch.youruserpools.CUPHelper;
 import com.devingotaswitch.youruserpools.ChangePasswordActivity;
@@ -510,14 +512,8 @@ public class RankingsHome extends AppCompatActivity {
                             String pos = posAndTeam.split(Constants.POS_TEAM_DELIMITER)[0];
                             String team = posAndTeam.split(Constants.POS_TEAM_DELIMITER)[1];
                             final Player player  = rankings.getPlayer(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + pos);
-                            View.OnClickListener listener = new View.OnClickListener() {
-                                @Override
-                                public void onClick(View v) {
-                                    rankings.getDraft().undraft(rankings, player, localCopy, findViewById(R.id.user_drawer_layout));
-                                    data.add(position, datum);
-                                    adapter.notifyDataSetChanged();
-                                }
-                            };
+                            View.OnClickListener listener = DraftUtils.getUndraftListener(localCopy, rankings, player, findViewById(R.id.user_drawer_layout),
+                                    adapter, data, datum, position);
                             if (!rightDismiss) {
                                 rankings.getDraft().draftBySomeone(rankings, player, localCopy, findViewById(R.id.user_drawer_layout), listener);
                             } else {
@@ -569,47 +565,29 @@ public class RankingsHome extends AppCompatActivity {
 
     private void getAuctionCost(final Player player, final int position, final List<Map<String, String>> data,
                                 final Map<String, String> datum, final SimpleAdapter adapter, final View.OnClickListener listener) {
-        LayoutInflater li = LayoutInflater.from(this);
-        View noteView = li.inflate(R.layout.user_input_popup, null);
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                this);
+        DraftUtils.AuctionCostInterface callback = new DraftUtils.AuctionCostInterface() {
+            @Override
+            public void onValidInput(Integer cost) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                draftByMe(player, cost, listener);
+            }
 
-        alertDialogBuilder.setView(noteView);
-        final EditText userInput = noteView
-                .findViewById(R.id.user_input_popup_input);
-        userInput.setInputType(InputType.TYPE_CLASS_NUMBER);
-        userInput.setHint("Auction cost");
+            @Override
+            public void onInvalidInput() {
+                Snackbar.make(findViewById(R.id.user_drawer_layout), "Must provide a number for cost", Snackbar.LENGTH_SHORT).show();
+                data.add(position, datum);
+                adapter.notifyDataSetChanged();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);            }
 
-        TextView title = noteView.findViewById(R.id.user_input_popup_title);
-        title.setText("How much did " + player.getName() + " cost?");
-        alertDialogBuilder
-                .setPositiveButton("Save",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
-                                String costStr = userInput.getText().toString();
-                                if (StringUtils.isBlank(costStr) || !GeneralUtils.isInteger(costStr)) {
-                                    Snackbar.make(findViewById(R.id.user_drawer_layout), "Must provide a number for cost", Snackbar.LENGTH_SHORT).show();
-                                    data.add(position, datum);
-                                    adapter.notifyDataSetChanged();
-                                    InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-                                    imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-                                } else {
-                                    InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-                                    imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
-                                    draftByMe(player, Integer.parseInt(costStr), listener);
-                                    dialog.dismiss();
-                                }
-                            }
-                        })
-                .setNegativeButton("Cancel",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
-                                data.add(position, datum);
-                                adapter.notifyDataSetChanged();
-                                dialog.cancel();
-                            }
-                        });
-        AlertDialog alertDialog = alertDialogBuilder.create();
+            @Override
+            public void onCancel() {
+                data.add(position, datum);
+                adapter.notifyDataSetChanged();
+            }
+        };
+        AlertDialog alertDialog = DraftUtils.getAuctionCostDialog(this, player, callback);
         alertDialog.show();
     }
 

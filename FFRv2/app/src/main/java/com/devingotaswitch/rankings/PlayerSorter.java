@@ -18,6 +18,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -37,7 +38,9 @@ import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.domain.RosterSettings;
 import com.devingotaswitch.rankings.domain.Team;
 import com.devingotaswitch.rankings.extras.MultiSelectionSpinner;
+import com.devingotaswitch.rankings.extras.SwipeDismissTouchListener;
 import com.devingotaswitch.utils.Constants;
+import com.devingotaswitch.utils.DraftUtils;
 import com.devingotaswitch.utils.GeneralUtils;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
@@ -483,6 +486,52 @@ public class PlayerSorter extends AppCompatActivity {
                 displayPlayerInfo(playerKey);
             }
         });
+        final Activity localCopy = this;
+        final SwipeDismissTouchListener swipeListener = new SwipeDismissTouchListener(listview,
+                new SwipeDismissTouchListener.DismissCallbacks() {
+                    @Override
+                    public boolean canDismiss(int position) {
+                        return true;
+                    }
+
+                    @Override
+                    public void onDismiss(ListView listView, int[] reverseSortedPositions, boolean rightDismiss) {
+                        for (final int position : reverseSortedPositions) {
+                            final Map<String, String> datum = data.get(position);
+                            String playerKey = getPlayerKeyFromPieces(datum.get(Constants.PLAYER_BASIC), datum.get(Constants.PLAYER_INFO));
+                            final Player player = rankings.getPlayer(playerKey);
+                            View.OnClickListener listener = DraftUtils.getUndraftListener(localCopy, rankings, player, listView,
+                                    adapter, data, datum, position);
+                            if (!rightDismiss) {
+                                rankings.getDraft().draftBySomeone(rankings, player, localCopy, listView, listener);
+                            } else {
+                                if (rankings.getLeagueSettings().isAuction()) {
+                                    getAuctionCost(listView, player, position, data, datum, adapter, listener);
+                                } else {
+                                    draftByMe(listView, player, 0, listener);
+                                }
+                            }
+                            data.remove(position);
+                        }
+                        adapter.notifyDataSetChanged();
+                    }
+                });
+        listview.setOnTouchListener(swipeListener);
+        listview.setOnScrollListener(new AbsListView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(AbsListView view, int scrollState) {
+                swipeListener.setEnabled(scrollState != AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL);
+            }
+
+            @Override
+            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+                if (data.size() > 0) {
+                    // A flag is used to green light this set, otherwise onScroll is set to 0 on initial display
+                    // TODO: this?
+                }
+            }
+        });
+
         TextView titleView = findViewById(R.id.main_toolbar_title);
         titleView.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -503,6 +552,38 @@ public class PlayerSorter extends AppCompatActivity {
             InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
             imm.hideSoftInputFromWindow(view.getWindowToken(), 0);
         }
+    }
+
+    private void getAuctionCost(final ListView listView, final Player player, final int position, final List<Map<String, String>> data,
+                                final Map<String, String> datum, final SimpleAdapter adapter, final View.OnClickListener listener) {
+        DraftUtils.AuctionCostInterface callback = new DraftUtils.AuctionCostInterface() {
+            @Override
+            public void onValidInput(Integer cost) {
+                InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                draftByMe(listView, player, cost, listener);
+            }
+
+            @Override
+            public void onInvalidInput() {
+                Snackbar.make(listView, "Must provide a number for cost", Snackbar.LENGTH_SHORT).show();
+                data.add(position, datum);
+                adapter.notifyDataSetChanged();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
+                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);            }
+
+            @Override
+            public void onCancel() {
+                data.add(position, datum);
+                adapter.notifyDataSetChanged();
+            }
+        };
+        AlertDialog alertDialog = DraftUtils.getAuctionCostDialog(this, player, callback);
+        alertDialog.show();
+    }
+
+    private void draftByMe(final View view, Player player, int cost, View.OnClickListener listener) {
+        rankings.getDraft().draftByMe(rankings, player, this, cost, view, listener);
     }
 
     private void displayPlayerInfo(String playerKey) {
@@ -942,12 +1023,14 @@ public class PlayerSorter extends AppCompatActivity {
     private String getPlayerKeyFromListViewItem(View view) {
         TextView playerMain = view.findViewById(R.id.player_basic);
         TextView playerInfo = view.findViewById(R.id.player_info);
-        String name = playerMain.getText().toString().split(Constants.RANKINGS_LIST_DELIMITER)[1];
-        String teamPosBye = playerInfo.getText().toString().split(Constants.LINE_BREAK)[0];
-        String teamPos = teamPosBye.split(" \\(")[0];
-        String team = teamPos.split(Constants.POS_TEAM_DELIMITER)[1];
-        String pos = teamPos.split(Constants.POS_TEAM_DELIMITER)[0];
+        return getPlayerKeyFromPieces(playerMain.getText().toString(), playerInfo.getText().toString().split(Constants.LINE_BREAK)[0]);
+    }
 
+    private String getPlayerKeyFromPieces(String playerMain, String teamPosBye) {
+        String name = playerMain.split(Constants.RANKINGS_LIST_DELIMITER)[1];
+        String[] teamPos = teamPosBye.split(" \\(")[0].split(Constants.POS_TEAM_DELIMITER);
+        String team = teamPos[1];
+        String pos = teamPos[0];
         return name +
                 Constants.PLAYER_ID_DELIMITER +
                 team +

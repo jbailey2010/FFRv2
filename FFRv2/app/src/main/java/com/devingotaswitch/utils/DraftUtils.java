@@ -1,0 +1,80 @@
+package com.devingotaswitch.utils;
+
+import android.app.Activity;
+import android.content.DialogInterface;
+import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
+import android.text.InputType;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.widget.EditText;
+import android.widget.SimpleAdapter;
+import android.widget.TextView;
+
+import com.amazonaws.util.StringUtils;
+import com.devingotaswitch.ffrv2.R;
+import com.devingotaswitch.rankings.domain.Player;
+import com.devingotaswitch.rankings.domain.Rankings;
+
+import java.util.List;
+import java.util.Map;
+
+public class DraftUtils {
+
+    public static View.OnClickListener getUndraftListener(final Activity activity, final Rankings rankings, final Player player,
+                                                          final View view, final SimpleAdapter adapter, final List<Map<String, String>> data,
+                                                          final Map<String, String> datum, final int position) {
+        return new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                rankings.getDraft().undraft(rankings, player, activity, view);
+                data.add(position, datum);
+                adapter.notifyDataSetChanged();
+            }
+        };
+    }
+
+    public static AlertDialog getAuctionCostDialog(Activity activity, Player player, final AuctionCostInterface callback) {
+        LayoutInflater li = LayoutInflater.from(activity);
+        View noteView = li.inflate(R.layout.user_input_popup, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                activity);
+
+        alertDialogBuilder.setView(noteView);
+        final EditText userInput =  noteView
+                .findViewById(R.id.user_input_popup_input);
+        userInput.setInputType(InputType.TYPE_CLASS_NUMBER);
+        userInput.setHint("Auction cost");
+
+        TextView title = noteView.findViewById(R.id.user_input_popup_title);
+        title.setText("How much did " + player.getName() + " cost?");
+        alertDialogBuilder
+                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        String input = userInput.getText().toString();
+                        if (input.isEmpty() || !GeneralUtils.isInteger(input)) {
+                            callback.onInvalidInput();
+                        } else {
+                            callback.onValidInput(Integer.parseInt(input));
+                        }
+                    }
+                })
+                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        callback.onCancel();
+                    }
+                });
+        alertDialogBuilder.setCancelable(false);
+        return alertDialogBuilder.create();
+    }
+
+    public interface AuctionCostInterface {
+        void onValidInput(Integer cost);
+
+        void onInvalidInput();
+
+        void onCancel();
+    }
+}

@@ -44,6 +44,7 @@ import com.devingotaswitch.rankings.extras.PlayerInfoSwipeDetector;
 import com.devingotaswitch.rankings.sources.ParseMath;
 import com.devingotaswitch.rankings.sources.ParsePlayerNews;
 import com.devingotaswitch.utils.Constants;
+import com.devingotaswitch.utils.DraftUtils;
 import com.devingotaswitch.utils.GeneralUtils;
 import com.devingotaswitch.youruserpools.CUPHelper;
 
@@ -304,39 +305,23 @@ public class PlayerInfo extends AppCompatActivity {
     }
 
     private void getAuctionCost() {
-        LayoutInflater li = LayoutInflater.from(this);
-        View noteView = li.inflate(R.layout.user_input_popup, null);
-        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
-                this);
+        DraftUtils.AuctionCostInterface callback = new DraftUtils.AuctionCostInterface() {
+            @Override
+            public void onValidInput(Integer cost) {
+                draftByMe(cost);
+            }
 
-        alertDialogBuilder.setView(noteView);
-        final EditText userInput =  noteView
-                .findViewById(R.id.user_input_popup_input);
-        userInput.setInputType(InputType.TYPE_CLASS_NUMBER);
-        userInput.setHint("Auction cost");
+            @Override
+            public void onInvalidInput() {
+                Snackbar.make(infoList, "Must provide a number for cost", Snackbar.LENGTH_SHORT).show();
+            }
 
-        TextView title = noteView.findViewById(R.id.user_input_popup_title);
-        title.setText("How much did " + player.getName() + " cost?");
-        alertDialogBuilder
-                .setPositiveButton("Save",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
-                                String costStr = userInput.getText().toString();
-                                if (StringUtils.isBlank(costStr) || !GeneralUtils.isInteger(costStr)) {
-                                    Snackbar.make(infoList, "Must provide a number for cost", Snackbar.LENGTH_SHORT).show();
-                                } else {
-                                    draftByMe(Integer.parseInt(costStr));
-                                    dialog.dismiss();
-                                }
-                            }
-                        })
-                .setNegativeButton("Cancel",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
-                                dialog.cancel();
-                            }
-                        });
-        AlertDialog alertDialog = alertDialogBuilder.create();
+            @Override
+            public void onCancel() {
+
+            }
+        };
+        AlertDialog alertDialog = DraftUtils.getAuctionCostDialog(this, player, callback);
         alertDialog.show();
     }
 
