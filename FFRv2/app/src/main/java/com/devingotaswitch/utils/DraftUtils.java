@@ -23,13 +23,15 @@ public class DraftUtils {
 
     public static View.OnClickListener getUndraftListener(final Activity activity, final Rankings rankings, final Player player,
                                                           final View view, final SimpleAdapter adapter, final List<Map<String, String>> data,
-                                                          final Map<String, String> datum, final int position) {
+                                                          final Map<String, String> datum, final int position, final boolean updateList) {
         return new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 rankings.getDraft().undraft(rankings, player, activity, view);
-                data.add(position, datum);
-                adapter.notifyDataSetChanged();
+                if (updateList) {
+                    data.add(position, datum);
+                    adapter.notifyDataSetChanged();
+                }
             }
         };
     }

@@ -497,7 +497,7 @@ public class RankingsHome extends AppCompatActivity {
         final SwipeDismissTouchListener swipeListener = new SwipeDismissTouchListener(listview,
                 new SwipeDismissTouchListener.DismissCallbacks() {
                     @Override
-                    public boolean canDismiss(int position) {
+                    public boolean canDismiss(View view) {
                         return true;
                     }
 
@@ -513,7 +513,7 @@ public class RankingsHome extends AppCompatActivity {
                             String team = posAndTeam.split(Constants.POS_TEAM_DELIMITER)[1];
                             final Player player  = rankings.getPlayer(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + pos);
                             View.OnClickListener listener = DraftUtils.getUndraftListener(localCopy, rankings, player, findViewById(R.id.user_drawer_layout),
-                                    adapter, data, datum, position);
+                                    adapter, data, datum, position, true);
                             if (!rightDismiss) {
                                 rankings.getDraft().draftBySomeone(rankings, player, localCopy, findViewById(R.id.user_drawer_layout), listener);
                             } else {

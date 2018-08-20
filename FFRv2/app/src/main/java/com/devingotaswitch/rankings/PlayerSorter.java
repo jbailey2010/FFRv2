@@ -72,6 +72,7 @@ public class PlayerSorter extends AppCompatActivity {
 
     private int posIndex = 0;
     private int sortIndex = 0;
+    private int selectedIndex = 0;
     private double maxVal = 0.0;
     private Set<String> factorStrings = new HashSet<>(Collections.singletonList(Constants.SORT_DEFAULT_STRING));
 
@@ -441,6 +442,7 @@ public class PlayerSorter extends AppCompatActivity {
         }
         adapter.notifyDataSetChanged();
         final Context context = this;
+        final boolean hideDrafted = factorStrings.contains(Constants.SORT_HIDE_DRAFTED);
         listview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
@@ -482,15 +484,18 @@ public class PlayerSorter extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 String playerKey = getPlayerKeyFromListViewItem(view);
-                listview.setSelection(position);
+                selectedIndex = position;
                 displayPlayerInfo(playerKey);
             }
         });
         final Activity localCopy = this;
-        final SwipeDismissTouchListener swipeListener = new SwipeDismissTouchListener(listview,
+        final SwipeDismissTouchListener swipeListener = new SwipeDismissTouchListener(listview, hideDrafted,
                 new SwipeDismissTouchListener.DismissCallbacks() {
                     @Override
-                    public boolean canDismiss(int position) {
+                    public boolean canDismiss(View view) {
+                        if (((TextView)view.findViewById(R.id.player_more_info)).getText().toString().contains(Constants.DISPLAY_DRAFTED)) {
+                            return false;
+                        }
                         return true;
                     }
 
@@ -501,7 +506,7 @@ public class PlayerSorter extends AppCompatActivity {
                             String playerKey = getPlayerKeyFromPieces(datum.get(Constants.PLAYER_BASIC), datum.get(Constants.PLAYER_INFO));
                             final Player player = rankings.getPlayer(playerKey);
                             View.OnClickListener listener = DraftUtils.getUndraftListener(localCopy, rankings, player, listView,
-                                    adapter, data, datum, position);
+                                    adapter, data, datum, position, hideDrafted);
                             if (!rightDismiss) {
                                 rankings.getDraft().draftBySomeone(rankings, player, localCopy, listView, listener);
                             } else {
@@ -511,7 +516,11 @@ public class PlayerSorter extends AppCompatActivity {
                                     draftByMe(listView, player, 0, listener);
                                 }
                             }
-                            data.remove(position);
+                            if (!hideDrafted) {
+                                datum.put(Constants.PLAYER_ADDITIONAL_INFO, Constants.DISPLAY_DRAFTED);
+                            } else {
+                                data.remove(position);
+                            }
                         }
                         adapter.notifyDataSetChanged();
                     }
@@ -527,10 +536,11 @@ public class PlayerSorter extends AppCompatActivity {
             public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
                 if (data.size() > 0) {
                     // A flag is used to green light this set, otherwise onScroll is set to 0 on initial display
-                    // TODO: this?
+                    selectedIndex = firstVisibleItem;
                 }
             }
         });
+        listview.setSelection(selectedIndex);
 
         TextView titleView = findViewById(R.id.main_toolbar_title);
         titleView.setOnClickListener(new View.OnClickListener() {

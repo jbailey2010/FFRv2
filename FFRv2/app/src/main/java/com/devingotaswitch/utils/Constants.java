@@ -202,6 +202,7 @@ public class Constants {
     // Draft
     public final static String CURRENT_DRAFT = "current_draft";
     public final static String CURRENT_TEAM = "current_team";
+    public final static String DISPLAY_DRAFTED = "Drafted";
 
     // Display rankings utilities
     public final static String PLAYER_BASIC = "main";
