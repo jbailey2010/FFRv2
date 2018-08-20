@@ -31,6 +31,9 @@ public class DraftUtils {
                 if (updateList) {
                     data.add(position, datum);
                     adapter.notifyDataSetChanged();
+                } else {
+                    datum.put(Constants.PLAYER_ADDITIONAL_INFO, "");
+                    adapter.notifyDataSetChanged();
                 }
             }
         };
