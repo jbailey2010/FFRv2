@@ -24,18 +24,14 @@ public class PlayerInfoSwipeDetector implements View.OnTouchListener {
     }
 
     public boolean onTouch(View v, MotionEvent event) {
-        float deltaX;
-
         switch (event.getAction()) {
             case MotionEvent.ACTION_DOWN: {
                 downX = event.getX();
             }
             case MotionEvent.ACTION_UP: {
                 upX = event.getX();
-                deltaX = downX - upX;
-                // swipe horizontal?
+                float deltaX = downX - upX;
                 if (Math.abs(deltaX) > MIN_DISTANCE) {
-                    // left or right
                     if (deltaX < 0) {
                         this.onLeftToRightSwipe();
                         return true;
