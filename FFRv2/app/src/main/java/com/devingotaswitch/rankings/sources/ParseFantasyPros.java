@@ -1,5 +1,7 @@
 package com.devingotaswitch.rankings.sources;
 
+import android.util.Log;
+
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.domain.Team;
@@ -102,7 +104,8 @@ public class ParseFantasyPros {
             while (td.get(i).split(" ").length < 3 && i < td.size()) {
                 i++;
             }
-            String fullName = names.get(playerCount++);
+
+            String fullName = names.get(playerCount++).split(" \\(")[0];
             String filteredName = td.get(i).split(
                     " \\(")[0].split(", ")[0];
             String team;
@@ -141,7 +144,7 @@ public class ParseFantasyPros {
                 }
             }
             for (int i = min; i < td.size(); i += rowSize) {
-                if (i + 10 >= td.size()) {
+                if (i + rowSize >= td.size()) {
                     break;
                 } else if ("".equals(td.get(i))) {
                     i++;
@@ -187,7 +190,7 @@ public class ParseFantasyPros {
             while (td.get(i).split(" ").length < 3 && i < td.size()) {
                 i++;
             }
-            String fullName = names.get(playerCount++);
+            String fullName = names.get(playerCount++).split(" \\(")[0];
             String filteredName = td.get(i).split(
                     " \\(")[0].split(", ")[0];
             String team;
@@ -228,7 +231,7 @@ public class ParseFantasyPros {
             while (td.get(i).split(" ").length < 3 && i < td.size()) {
                 i++;
             }
-            String fullName = names.get(playerCount++);
+            String fullName = names.get(playerCount++).split(" \\(")[0];
             String filteredName = td.get(i).split(
                     " \\(")[0].split(", ")[0];
             String team = ParsingUtils.normalizeTeams(filteredName.substring(filteredName.lastIndexOf(" ")).trim());
