@@ -549,10 +549,18 @@ public class RankingsHome extends AppCompatActivity {
         });
         listview.setSelection(selectedIndex);
         ranksDisplayed = true;
-        findViewById(R.id.main_toolbar_title).setOnClickListener(new View.OnClickListener() {
+        TextView titleView = findViewById(R.id.main_toolbar_title);
+        titleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 listview.smoothScrollToPosition(0);
+            }
+        });
+        titleView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                listview.setSelectionAfterHeaderView();
+                return true;
             }
         });
 

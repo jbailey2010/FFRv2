@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:layout_marginTop="10dp"
-                android:text="Once you have a league set up, you can get some rankings. This can be done via the side menu, and will aggregate several sources and types of rankings, injury status, sos, and much more for hundreds of players. They are customized to your league, so if you switch or update leagues, do refresh! You can then filter as needed via the filter icon in the top menu. \n\nClicking into a player or searching via the top bar will allow you to see more, and clicking and holding will add that player to your watch list (indicated by a star image). If you click the title of the top bar, it'll scroll to the top."
+                android:text="Once you have a league set up, you can get some rankings. This can be done via the side menu, and will aggregate several sources and types of rankings, injury status, sos, and much more for hundreds of players. They are customized to your league, so if you switch or update leagues, do refresh! You can then filter as needed via the filter icon in the top menu. \n\nClicking into a player or searching via the top bar will allow you to see more, and clicking and holding will add that player to your watch list (indicated by a star image). If you click the title of the top bar, it'll scroll to the top, and clicking and holding will just jump there."
                 android:visibility="gone"
                 android:id="@+id/help_rankings_body"/>
 
@@ -104,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:layout_marginTop="10dp"
-                android:text="Curious to sort by something other than ecr or auction value? The sort players button lets you pick any combination of factors, positions, and additional requirements! Much like the rankings, clicking on a player will expand the rest of their information, and clicking and holding will add them to your watch list. Clicking the title on the top bar will scroll to the top. This is accessible through the fourth option in the bottom menu."
+                android:text="Curious to sort by something other than ecr or auction value? The sort players button lets you pick any combination of factors, positions, and additional requirements! Much like the rankings, clicking on a player will expand the rest of their information, and clicking and holding will add them to your watch list. Clicking the title on the top bar will scroll to the top, and clicking and holding will jump there. This is accessible through the fourth option in the bottom menu."
                 android:visibility="gone"
                 android:id="@+id/help_sort_body"/>
 
