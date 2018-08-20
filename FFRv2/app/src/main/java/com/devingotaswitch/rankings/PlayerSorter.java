@@ -69,6 +69,7 @@ public class PlayerSorter extends AppCompatActivity {
 
     private int posIndex = 0;
     private int sortIndex = 0;
+    private double maxVal = 0.0;
     private Set<String> factorStrings = new HashSet<>(Collections.singletonList(Constants.SORT_DEFAULT_STRING));
 
     @Override
@@ -403,7 +404,7 @@ public class PlayerSorter extends AppCompatActivity {
                         R.id.player_status, R.id.player_more_info });
         listview.setAdapter(adapter);
 
-        double maxVal = 0.0;
+        maxVal = 0.0;
         if (Constants.SORT_VBD_SUGGESTED.equals(factor)) {
             for (String key : rankings.getPlayers().keySet()) {
                 Player player = rankings.getPlayer(key);
@@ -423,7 +424,7 @@ public class PlayerSorter extends AppCompatActivity {
                     break;
                 }
                 Map<String, String> datum = new HashMap<>(3);
-                datum.put(Constants.PLAYER_BASIC, getMainTextForFactor(player, maxVal));
+                datum.put(Constants.PLAYER_BASIC, getMainTextForFactor(player));
                 datum.put(Constants.PLAYER_INFO, getSubTextForFactor(player, df));
                 if (player.isWatched()) {
                     datum.put(Constants.PLAYER_STATUS, Integer.toString(R.drawable.star));
@@ -810,15 +811,15 @@ public class PlayerSorter extends AppCompatActivity {
         return team.getSosForPosition(player.getPosition());
     }
 
-    private String getMainTextForFactor(Player player, double maxFactorValue) {
-        String prefix = getMainTextPrefixForPlayer(player, maxFactorValue);
+    private String getMainTextForFactor(Player player) {
+        String prefix = getMainTextPrefixForPlayer(player);
 
         return prefix +
                 Constants.RANKINGS_LIST_DELIMITER +
                 player.getName();
     }
 
-    private String getMainTextPrefixForPlayer(Player player, double maxFactorValue) {
+    private String getMainTextPrefixForPlayer(Player player) {
         switch (factor) {
             case Constants.SORT_ALL:
                 return player.getDisplayValue(rankings);
@@ -856,7 +857,7 @@ public class PlayerSorter extends AppCompatActivity {
             case Constants.SORT_VOLSPD:
                 return Constants.DECIMAL_FORMAT.format(getVoLSPD(player));
             case Constants.SORT_VBD_SUGGESTED:
-                return Constants.DECIMAL_FORMAT.format((getVBDSuggestedValue(player)/maxFactorValue) * 100.0);
+                return Constants.DECIMAL_FORMAT.format((getVBDSuggestedValue(player)/maxVal) * 100.0);
             case Constants.SORT_RISK:
                 return String.valueOf(player.getRisk());
             case Constants.SORT_SOS:
@@ -963,7 +964,7 @@ public class PlayerSorter extends AppCompatActivity {
         List<Entry> ks = new ArrayList<>();
         for (int i = 0; i < Math.min(sortMax, players.size()); i++) {
             Player player = players.get(i);
-            double value = Double.parseDouble(getMainTextPrefixForPlayer(player, 0.0));
+            double value = Double.parseDouble(getMainTextPrefixForPlayer(player));
             entries.add(new Entry(i, (int) value));
             switch (player.getPosition()) {
                 case Constants.QB:
