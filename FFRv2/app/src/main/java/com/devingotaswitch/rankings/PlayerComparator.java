@@ -9,6 +9,7 @@ import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -28,6 +29,7 @@ import com.devingotaswitch.rankings.domain.Team;
 import com.devingotaswitch.rankings.sources.ParseMath;
 import com.devingotaswitch.rankings.sources.ParsePlayerNews;
 import com.devingotaswitch.utils.Constants;
+import com.devingotaswitch.utils.DraftUtils;
 import com.devingotaswitch.utils.GeneralUtils;
 
 import org.jsoup.Jsoup;
@@ -175,10 +177,18 @@ public class PlayerComparator extends AppCompatActivity {
         DecimalFormat df = new DecimalFormat("#.##");
 
         // Name
-        TextView nameA = findViewById(R.id.comparator_name_a);
-        TextView nameB = findViewById(R.id.comparator_name_b);
-        nameA.setText(playerA.getName());
-        nameB.setText(playerB.getName());
+        final TextView nameA = findViewById(R.id.comparator_name_a);
+        final TextView nameB = findViewById(R.id.comparator_name_b);
+        String titleA = playerA.getName();
+        String titleB = playerB.getName();
+        if (rankings.getDraft().isDrafted(playerA)) {
+            titleA += Constants.COMPARATOR_DRAFTED_SUFFIX;
+        }
+        if (rankings.getDraft().isDrafted(playerB)) {
+            titleB += Constants.COMPARATOR_DRAFTED_SUFFIX;
+        }
+        nameA.setText(titleA);
+        nameB.setText(titleB);
         nameA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -189,6 +199,34 @@ public class PlayerComparator extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 goToPlayerInfo(playerB);
+            }
+        });
+        nameA.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                if (!rankings.getDraft().isDrafted(playerA)) {
+                    if (rankings.getLeagueSettings().isAuction()) {
+                        getAuctionCost(playerA, nameA);
+                    } else {
+                        draftPlayer(playerA, nameA, 0);
+                    }
+                    return true;
+                }
+                return false;
+            }
+        });
+        nameB.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                if (!rankings.getDraft().isDrafted(playerB)) {
+                    if (rankings.getLeagueSettings().isAuction()) {
+                        getAuctionCost(playerB, nameB);
+                    } else {
+                        draftPlayer(playerB, nameB, 0);
+                    }
+                    return true;
+                }
+                return false;
             }
         });
 
@@ -404,6 +442,43 @@ public class PlayerComparator extends AppCompatActivity {
         Intent intent = new Intent(this, PlayerInfo.class);
         intent.putExtra(Constants.PLAYER_ID, player.getUniqueId());
         startActivity(intent);
+    }
+
+    private void getAuctionCost(final Player player, final TextView title) {
+        DraftUtils.AuctionCostInterface callback = new DraftUtils.AuctionCostInterface() {
+            @Override
+            public void onValidInput(Integer cost) {
+                draftPlayer(player, title, cost);
+            }
+
+            @Override
+            public void onInvalidInput() {
+                Snackbar.make(title, "Must provide a number for cost", Snackbar.LENGTH_SHORT).show();
+            }
+
+            @Override
+            public void onCancel() {
+
+            }
+        };
+        AlertDialog alertDialog = DraftUtils.getAuctionCostDialog(this, player, callback);
+        alertDialog.show();
+    }
+
+    private void draftPlayer(final Player player, final TextView title, int cost) {
+        View.OnClickListener listener = new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                undraftPlayer(player, title);
+            }
+        };
+        rankings.getDraft().draftByMe(rankings, player, this, cost, title, listener);
+        title.setText(player.getName() + Constants.COMPARATOR_DRAFTED_SUFFIX);
+    }
+
+    private void undraftPlayer(Player player, TextView title) {
+        rankings.getDraft().undraft(rankings, player, this, title);
+        title.setText(player.getName());
     }
 
     private void displayECR(Map<String, String> ecrResults, Player playerA, Player playerB) {

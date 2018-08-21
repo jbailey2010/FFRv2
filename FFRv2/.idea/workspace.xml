@@ -15,12 +15,17 @@
   </component>
   <component name="AndroidLogFilters">
     <option name="TOOL_WINDOW_LOG_LEVEL" value="debug" />
-    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
+    <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="No Filters" />
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f5fe9503-cc09-4a8d-b7d9-507f98789a95" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/DraftUtils.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/DraftUtils.java" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/HelpActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/HelpActivity.java" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerComparator.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerComparator.java" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/extras/SwipeDismissTouchListener.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/extras/SwipeDismissTouchListener.java" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParseFantasyPros.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParseFantasyPros.java" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/Constants.java" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/Constants.java" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/content_help.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/content_help.xml" />
     </list>
     <ignored path="AmazonCognitoYourUserPoolsDemo.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -64,100 +69,9 @@
       <file leaf-file-name="PlayerSorter.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerSorter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-73">
-              <caret line="495" column="136" lean-forward="false" selection-start-line="495" selection-start-column="136" selection-end-line="495" selection-end-column="136" />
-              <folding>
-                <element signature="e#19874#20237#0" expanded="true" />
-                <element signature="e#20236#20237#0" expanded="true" />
-                <element signature="e#24192#24360#0" expanded="true" />
-                <element signature="e#24359#24360#0" expanded="true" />
-                <element signature="e#24404#24619#0" expanded="true" />
-                <element signature="e#24618#24619#0" expanded="true" />
-                <element signature="e#45921#46146#0" expanded="true" />
-                <element signature="e#46145#46146#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Constants.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/Constants.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="310">
-              <caret line="204" column="59" lean-forward="false" selection-start-line="204" selection-start-column="59" selection-end-line="204" selection-end-column="59" />
+            <state relative-caret-position="405">
+              <caret line="540" column="13" lean-forward="false" selection-start-line="540" selection-start-column="13" selection-end-line="540" selection-end-column="13" />
               <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="SwipeDismissTouchListener.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/extras/SwipeDismissTouchListener.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-1146">
-              <caret line="128" column="46" lean-forward="false" selection-start-line="128" selection-start-column="35" selection-end-line="128" selection-end-column="46" />
-              <folding>
-                <element signature="e#11334#13206#0" expanded="true" />
-                <element signature="e#13205#13206#0" expanded="true" />
-                <element signature="e#13245#13529#0" expanded="true" />
-                <element signature="e#13528#13529#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="DraftUtils.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/DraftUtils.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="299">
-              <caret line="29" column="39" lean-forward="false" selection-start-line="29" selection-start-column="39" selection-end-line="29" selection-end-column="39" />
-              <folding>
-                <element signature="imports" expanded="true" />
-                <element signature="e#1068#1560#0" expanded="true" />
-                <element signature="e#1559#1560#0" expanded="true" />
-                <element signature="e#2396#2929#0" expanded="true" />
-                <element signature="e#2928#2929#0" expanded="true" />
-                <element signature="e#2976#3212#0" expanded="true" />
-                <element signature="e#3211#3212#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="RankingsHome.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/RankingsHome.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="274">
-              <caret line="515" column="60" lean-forward="true" selection-start-line="515" selection-start-column="60" selection-end-line="515" selection-end-column="60" />
-              <folding>
-                <element signature="e#4935#4936#0" expanded="true" />
-                <element signature="e#4957#4958#0" expanded="true" />
-                <element signature="e#6358#6382#0" expanded="true" />
-                <element signature="e#6384#6409#0" expanded="true" />
-                <element signature="e#10445#11918#0" expanded="true" />
-                <element signature="e#11917#11918#0" expanded="true" />
-                <element signature="e#12297#12448#0" expanded="true" />
-                <element signature="e#12447#12448#0" expanded="true" />
-                <element signature="e#12571#12719#0" expanded="true" />
-                <element signature="e#12718#12719#0" expanded="true" />
-                <element signature="e#12852#13002#0" expanded="true" />
-                <element signature="e#13001#13002#0" expanded="true" />
-                <element signature="e#13123#13270#0" expanded="true" />
-                <element signature="e#13269#13270#0" expanded="true" />
-                <element signature="e#19760#21706#0" expanded="true" />
-                <element signature="e#20289#20665#0" expanded="true" />
-                <element signature="e#20664#20665#0" expanded="true" />
-                <element signature="e#20987#21350#0" expanded="true" />
-                <element signature="e#21349#21350#0" expanded="true" />
-                <element signature="e#21705#21706#0" expanded="true" />
-                <element signature="e#21749#22088#0" expanded="true" />
-                <element signature="e#22087#22088#0" expanded="true" />
-                <element signature="e#22382#22383#0" expanded="true" />
-                <element signature="e#22441#22442#0" expanded="true" />
-                <element signature="e#25328#25496#0" expanded="true" />
-                <element signature="e#25495#25496#0" expanded="true" />
-                <element signature="e#25540#25755#0" expanded="true" />
-                <element signature="e#25754#25755#0" expanded="true" />
-              </folding>
             </state>
           </provider>
         </entry>
@@ -165,8 +79,8 @@
       <file leaf-file-name="PlayerInfo.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="202">
-              <caret line="346" column="75" lean-forward="false" selection-start-line="346" selection-start-column="67" selection-end-line="346" selection-end-column="75" />
+            <state relative-caret-position="468">
+              <caret line="324" column="27" lean-forward="false" selection-start-line="307" selection-start-column="8" selection-end-line="324" selection-end-column="27" />
               <folding>
                 <element signature="e#12141#12142#0" expanded="true" />
                 <element signature="e#12188#12189#0" expanded="true" />
@@ -175,12 +89,79 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Draft.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="content_help.xml" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/content_help.xml">
+          <provider editor-type-id="android-designer2">
+            <state />
+          </provider>
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="277">
+              <caret line="97" column="275" lean-forward="false" selection-start-line="97" selection-start-column="275" selection-end-line="97" selection-end-column="275" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="HelpActivity.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/HelpActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="204">
+              <caret line="64" column="27" lean-forward="false" selection-start-line="64" selection-start-column="27" selection-end-line="64" selection-end-column="27" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="PlayerComparator.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerComparator.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="252">
+              <caret line="209" column="21" lean-forward="false" selection-start-line="209" selection-start-column="21" selection-end-line="209" selection-end-column="21" />
+              <folding>
+                <element signature="e#7742#8247#0" expanded="true" />
+                <element signature="e#8246#8247#0" expanded="true" />
+                <element signature="e#8287#8792#0" expanded="true" />
+                <element signature="e#8791#8792#0" expanded="true" />
+                <element signature="e#18729#18730#0" expanded="true" />
+                <element signature="e#18793#18794#0" expanded="true" />
+                <element signature="e#19313#19478#0" expanded="true" />
+                <element signature="e#19477#19478#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Draft.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/Draft.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="298">
-              <caret line="408" column="0" lean-forward="true" selection-start-line="408" selection-start-column="0" selection-end-line="408" selection-end-column="0" />
+            <state relative-caret-position="182">
+              <caret line="391" column="16" lean-forward="false" selection-start-line="391" selection-start-column="16" selection-end-line="391" selection-end-column="16" />
               <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="Constants.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/Constants.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="331">
+              <caret line="205" column="64" lean-forward="false" selection-start-line="205" selection-start-column="64" selection-end-line="205" selection-end-column="64" />
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="RankingsHome.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/RankingsHome.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="8106">
+              <caret line="465" column="51" lean-forward="false" selection-start-line="465" selection-start-column="51" selection-end-line="465" selection-end-column="51" />
+              <folding>
+                <element signature="e#4935#4936#0" expanded="true" />
+                <element signature="e#4957#4958#0" expanded="true" />
+                <element signature="e#22382#22383#0" expanded="true" />
+                <element signature="e#22441#22442#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -199,8 +180,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>mfa</find>
-      <find>given name</find>
       <find>name</find>
       <find>userAttributes.add</find>
       <find>isRefresh</find>
@@ -222,13 +201,15 @@
       <find>smooth</find>
       <find>TODO</find>
       <find>dismissPosition</find>
-      <find>canDismiss(</find>
       <find>draftBySomeone</find>
       <find>selectedInd</find>
       <find>selectedIndex</find>
       <find>Drafted</find>
-      <find>factorStrings.contains(</find>
       <find>Undrafted</find>
+      <find>canDismiss(</find>
+      <find>longclicklistener</find>
+      <find>factorStrings.contains(</find>
+      <find>draftB</find>
     </findStrings>
     <replaceStrings>
       <replace>_REMOTE =</replace>
@@ -2421,7 +2402,6 @@
   <component name="IdeDocumentHistory">
     <option name="CHANGED_PATHS">
       <list>
-        <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/appsync/tags/InjuryProneTag.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/appsync/tags/HandcuffTag.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/appsync/tags/ConsistentTag.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/appsync/tags/BustTag.java" />
@@ -2458,20 +2438,21 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/appsync/CommentActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/content_player_info.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/DraftInfo.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerComparator.java" />
         <option value="$PROJECT_DIR$/app/src/main/res/layout/content_player_comparator.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/Player.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParseProjections.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/extras/PlayerInfoSwipeDetector.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParseFantasyPros.java" />
-        <option value="$PROJECT_DIR$/app/src/main/res/layout/content_help.xml" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/GeneralUtils.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/extras/SwipeDismissTouchListener.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/RankingsHome.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/Constants.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerSorter.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/DraftUtils.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/extras/SwipeDismissTouchListener.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParseFantasyPros.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/Constants.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerComparator.java" />
+        <option value="$PROJECT_DIR$/app/src/main/res/layout/content_help.xml" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/HelpActivity.java" />
       </list>
     </option>
   </component>
@@ -2499,9 +2480,7 @@
       <foldersAlwaysOnTop value="true" />
     </navigator>
     <panes>
-      <pane id="Scratches" />
       <pane id="Scope" />
-      <pane id="AndroidView" />
       <pane id="ProjectPane">
         <subPane>
           <expand>
@@ -2734,6 +2713,8 @@
           <select />
         </subPane>
       </pane>
+      <pane id="AndroidView" />
+      <pane id="Scratches" />
       <pane id="PackagesPane" />
     </panes>
   </component>
@@ -3167,7 +3148,7 @@
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31348315" sideWeight="0.4967475" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.328341" sideWeight="0.49785176" order="13" side_tool="false" content_ui="tabs" />
       <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3280899" sideWeight="0.49231225" order="14" side_tool="false" content_ui="tabs" />
-      <window_info id="Logcat" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.3580931" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
+      <window_info id="Logcat" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.35769656" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
       <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -3175,46 +3156,24 @@
       <window_info id="Build" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32336655" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32938644" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24973147" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Device File Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32975295" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
       <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
+      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Android Profiler" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32921347" sideWeight="0.5" order="11" side_tool="false" content_ui="tabs" />
       <window_info id="Nl-Palette" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Message" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Build Variants" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24650913" sideWeight="0.5046083" order="8" side_tool="true" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.44124424" sideWeight="0.5209452" order="8" side_tool="true" content_ui="tabs" />
       <window_info id="Android Monitor" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.2911111" sideWeight="0.47905478" order="12" side_tool="false" content_ui="tabs" />
       <window_info id="Properties" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Logcat" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.35769656" sideWeight="0.5" order="9" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Tool" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Hierarchy" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="3" side_tool="false" content_ui="combo" />
-      <window_info id="Designer" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Build" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.32336655" sideWeight="0.5" order="10" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection Results" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32815966" sideWeight="0.5" order="0" side_tool="false" content_ui="tabs" />
-      <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.24973147" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Android Model" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32975295" sideWeight="0.5" order="8" side_tool="false" content_ui="tabs" />
-      <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
-      <window_info id="Device File Explorer" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32975295" sideWeight="0.5" order="10" side_tool="true" content_ui="tabs" />
-      <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32890365" sideWeight="0.49785176" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Messages" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.31777778" sideWeight="0.4828142" order="16" side_tool="false" content_ui="tabs" />
-      <window_info id="Palette&#9;" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
-      <window_info id="Image Layers" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Capture Analysis" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.31348315" sideWeight="0.4967475" order="3" side_tool="false" content_ui="tabs" />
-      <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.328341" sideWeight="0.49785176" order="13" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3280899" sideWeight="0.49231225" order="14" side_tool="false" content_ui="tabs" />
-      <window_info id="Captures" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Gradle Console" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.32258064" sideWeight="0.5021482" order="15" side_tool="true" content_ui="tabs" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.26154673" sideWeight="0.4953917" order="0" side_tool="false" content_ui="combo" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.36474502" sideWeight="0.48925886" order="2" side_tool="false" content_ui="tabs" />
-      <window_info id="Gradle" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32938644" sideWeight="0.5" order="9" side_tool="true" content_ui="tabs" />
-      <window_info id="Theme Preview" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="5" side_tool="false" content_ui="tabs" />
-      <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="7" side_tool="true" content_ui="tabs" />
     </layout>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -3235,34 +3194,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/appsync/tags/AgingTag.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="210">
-          <caret line="10" column="154" lean-forward="false" selection-start-line="10" selection-start-column="154" selection-end-line="10" selection-end-column="154" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/appsync/tags/RiskyTag.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="273">
-          <caret line="13" column="0" lean-forward="false" selection-start-line="13" selection-start-column="0" selection-end-line="13" selection-end-column="0" />
-          <folding>
-            <element signature="imports" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/fileio/RankingsDBHelper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="84">
-          <caret line="8" column="6" lean-forward="false" selection-start-line="8" selection-start-column="6" selection-end-line="8" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/Rankings.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="203">
@@ -3604,124 +3535,11 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParseFantasyPros.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="401">
-          <caret line="263" column="7" lean-forward="false" selection-start-line="263" selection-start-column="7" selection-end-line="263" selection-end-column="7" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerComparator.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2990">
-          <caret line="343" column="6" lean-forward="false" selection-start-line="343" selection-start-column="6" selection-end-line="343" selection-end-column="6" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/content_help.xml">
-      <provider editor-type-id="android-designer2">
-        <state />
-      </provider>
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="148">
-          <caret line="106" column="443" lean-forward="false" selection-start-line="106" selection-start-column="443" selection-end-line="106" selection-end-column="443" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/GeneralUtils.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="-580">
           <caret line="7" column="21" lean-forward="false" selection-start-line="7" selection-start-column="21" selection-end-line="7" selection-end-column="21" />
           <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/extras/SwipeDismissTouchListener.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-1146">
-          <caret line="128" column="46" lean-forward="false" selection-start-line="128" selection-start-column="35" selection-end-line="128" selection-end-column="46" />
-          <folding>
-            <element signature="e#11334#13206#0" expanded="true" />
-            <element signature="e#13205#13206#0" expanded="true" />
-            <element signature="e#13245#13529#0" expanded="true" />
-            <element signature="e#13528#13529#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="202">
-          <caret line="346" column="75" lean-forward="false" selection-start-line="346" selection-start-column="67" selection-end-line="346" selection-end-column="75" />
-          <folding>
-            <element signature="e#12141#12142#0" expanded="true" />
-            <element signature="e#12188#12189#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/Constants.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="310">
-          <caret line="204" column="59" lean-forward="false" selection-start-line="204" selection-start-column="59" selection-end-line="204" selection-end-column="59" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerSorter.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-73">
-          <caret line="495" column="136" lean-forward="false" selection-start-line="495" selection-start-column="136" selection-end-line="495" selection-end-column="136" />
-          <folding>
-            <element signature="e#19874#20237#0" expanded="true" />
-            <element signature="e#20236#20237#0" expanded="true" />
-            <element signature="e#24192#24360#0" expanded="true" />
-            <element signature="e#24359#24360#0" expanded="true" />
-            <element signature="e#24404#24619#0" expanded="true" />
-            <element signature="e#24618#24619#0" expanded="true" />
-            <element signature="e#45921#46146#0" expanded="true" />
-            <element signature="e#46145#46146#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/RankingsHome.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="274">
-          <caret line="515" column="60" lean-forward="true" selection-start-line="515" selection-start-column="60" selection-end-line="515" selection-end-column="60" />
-          <folding>
-            <element signature="e#4935#4936#0" expanded="true" />
-            <element signature="e#4957#4958#0" expanded="true" />
-            <element signature="e#6358#6382#0" expanded="true" />
-            <element signature="e#6384#6409#0" expanded="true" />
-            <element signature="e#10445#11918#0" expanded="true" />
-            <element signature="e#11917#11918#0" expanded="true" />
-            <element signature="e#12297#12448#0" expanded="true" />
-            <element signature="e#12447#12448#0" expanded="true" />
-            <element signature="e#12571#12719#0" expanded="true" />
-            <element signature="e#12718#12719#0" expanded="true" />
-            <element signature="e#12852#13002#0" expanded="true" />
-            <element signature="e#13001#13002#0" expanded="true" />
-            <element signature="e#13123#13270#0" expanded="true" />
-            <element signature="e#13269#13270#0" expanded="true" />
-            <element signature="e#19760#21706#0" expanded="true" />
-            <element signature="e#20289#20665#0" expanded="true" />
-            <element signature="e#20664#20665#0" expanded="true" />
-            <element signature="e#20987#21350#0" expanded="true" />
-            <element signature="e#21349#21350#0" expanded="true" />
-            <element signature="e#21705#21706#0" expanded="true" />
-            <element signature="e#21749#22088#0" expanded="true" />
-            <element signature="e#22087#22088#0" expanded="true" />
-            <element signature="e#22382#22383#0" expanded="true" />
-            <element signature="e#22441#22442#0" expanded="true" />
-            <element signature="e#25328#25496#0" expanded="true" />
-            <element signature="e#25495#25496#0" expanded="true" />
-            <element signature="e#25540#25755#0" expanded="true" />
-            <element signature="e#25754#25755#0" expanded="true" />
-          </folding>
         </state>
       </provider>
     </entry>
@@ -3741,10 +3559,121 @@
         </state>
       </provider>
     </entry>
+    <entry file="jar://$USER_HOME$/AppData/Local/Android/sdk/platforms/android-27/android.jar!/android/view/ViewPropertyAnimator.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="182">
+          <caret line="144" column="32" lean-forward="false" selection-start-line="144" selection-start-column="32" selection-end-line="144" selection-end-column="32" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$USER_HOME$/AppData/Local/Android/sdk/platforms/android-27/android.jar!/android/view/VelocityTracker.class">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="84">
+          <caret line="7" column="19" lean-forward="false" selection-start-line="7" selection-start-column="19" selection-end-line="7" selection-end-column="19" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/extras/SwipeDismissTouchListener.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="699">
+          <caret line="243" column="21" lean-forward="false" selection-start-line="243" selection-start-column="21" selection-end-line="243" selection-end-column="21" />
+          <folding>
+            <element signature="e#11402#13274#0" expanded="true" />
+            <element signature="e#13273#13274#0" expanded="true" />
+            <element signature="e#13313#13597#0" expanded="true" />
+            <element signature="e#13596#13597#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/RankingsHome.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="8106">
+          <caret line="465" column="51" lean-forward="false" selection-start-line="465" selection-start-column="51" selection-end-line="465" selection-end-column="51" />
+          <folding>
+            <element signature="e#4935#4936#0" expanded="true" />
+            <element signature="e#4957#4958#0" expanded="true" />
+            <element signature="e#22382#22383#0" expanded="true" />
+            <element signature="e#22441#22442#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParseFantasyPros.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="269" column="29" lean-forward="true" selection-start-line="269" selection-start-column="29" selection-end-line="269" selection-end-column="29" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/Constants.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="331">
+          <caret line="205" column="64" lean-forward="false" selection-start-line="205" selection-start-column="64" selection-end-line="205" selection-end-column="64" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerSorter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="405">
+          <caret line="540" column="13" lean-forward="false" selection-start-line="540" selection-start-column="13" selection-end-line="540" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/Draft.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="298">
-          <caret line="408" column="0" lean-forward="true" selection-start-line="408" selection-start-column="0" selection-end-line="408" selection-end-column="0" />
+        <state relative-caret-position="182">
+          <caret line="391" column="16" lean-forward="false" selection-start-line="391" selection-start-column="16" selection-end-line="391" selection-end-column="16" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="468">
+          <caret line="324" column="27" lean-forward="false" selection-start-line="307" selection-start-column="8" selection-end-line="324" selection-end-column="27" />
+          <folding>
+            <element signature="e#12141#12142#0" expanded="true" />
+            <element signature="e#12188#12189#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerComparator.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="252">
+          <caret line="209" column="21" lean-forward="false" selection-start-line="209" selection-start-column="21" selection-end-line="209" selection-end-column="21" />
+          <folding>
+            <element signature="e#7742#8247#0" expanded="true" />
+            <element signature="e#8246#8247#0" expanded="true" />
+            <element signature="e#8287#8792#0" expanded="true" />
+            <element signature="e#8791#8792#0" expanded="true" />
+            <element signature="e#18729#18730#0" expanded="true" />
+            <element signature="e#18793#18794#0" expanded="true" />
+            <element signature="e#19313#19478#0" expanded="true" />
+            <element signature="e#19477#19478#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/content_help.xml">
+      <provider editor-type-id="android-designer2">
+        <state />
+      </provider>
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="277">
+          <caret line="97" column="275" lean-forward="false" selection-start-line="97" selection-start-column="275" selection-end-line="97" selection-end-column="275" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/HelpActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="204">
+          <caret line="64" column="27" lean-forward="false" selection-start-line="64" selection-start-column="27" selection-end-line="64" selection-end-column="27" />
           <folding />
         </state>
       </provider>

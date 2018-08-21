@@ -40,7 +40,7 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
     private int mDownPosition;
     private View mDownView;
     private boolean mPaused;
-    private boolean mDoAnimate;
+    private boolean mDoDismiss;
 
     public interface DismissCallbacks {
         /**
@@ -68,7 +68,7 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
                 android.R.integer.config_shortAnimTime);
         mListView = listView;
         mCallbacks = callbacks;
-        mDoAnimate = doAnimate;
+        mDoDismiss = doAnimate;
     }
 
     /**
@@ -183,7 +183,7 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
                     final View downView = mDownView; // mDownView gets null'd before animation ends
                     final int downPosition = mDownPosition;
                     ++mDismissAnimationRefCount;
-                    if (mDoAnimate) {
+                    if (mDoDismiss) {
                         mDownView.animate()
                                 .translationX(dismissRight ? mViewWidth : -mViewWidth)
                                 .alpha(0)
@@ -238,8 +238,10 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
 
                 if (mSwiping) {
                     mDownView.setTranslationX(deltaX - mSwipingSlop);
-                    mDownView.setAlpha(Math.max(0f, Math.min(1f,
-                            1f - 2f * Math.abs(deltaX) / mViewWidth)));
+                    if (mDoDismiss) {
+                        mDownView.setAlpha(Math.max(0f, Math.min(1f,
+                                1f - 2f * Math.abs(deltaX) / mViewWidth)));
+                    }
                     return true;
                 }
                 break;

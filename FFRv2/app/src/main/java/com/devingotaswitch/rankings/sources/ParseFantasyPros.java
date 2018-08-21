@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Map;
 
 public class ParseFantasyPros {
+    private static final String TAG = "ParseFantasyPros";
+
     public static void parseECRWrapper(Rankings rankings) throws IOException {
         Map<String, Double> ecr = new HashMap<>();
         Map<String, Double> risk = new HashMap<>();
@@ -98,35 +100,39 @@ public class ParseFantasyPros {
         }
         int playerCount = 0;
         for (int i = min; i < td.size(); i += 9) {
-            if (i + 9 >= td.size()) {
-                break;
-            }
-            while (td.get(i).split(" ").length < 3 && i < td.size()) {
-                i++;
-            }
+            try {
+                if (i + 9 >= td.size()) {
+                    break;
+                }
+                while (td.get(i).split(" ").length < 3 && i < td.size()) {
+                    i++;
+                }
 
-            String fullName = names.get(playerCount++).split(" \\(")[0];
-            String filteredName = td.get(i).split(
-                    " \\(")[0].split(", ")[0];
-            String team;
-            if (filteredName.split(" ").length > 1) {
-                team = ParsingUtils.normalizeTeams(filteredName.substring(filteredName.lastIndexOf(" ")).trim());
-            } else {
-                team = ParsingUtils.normalizeTeams(filteredName.trim());
-            }
-            String name = ParsingUtils
-                    .normalizeNames(ParsingUtils.normalizeDefenses(fullName));
-            double ecrVal = Double.parseDouble(td.get(i + 5));
-            double riskVal = Double.parseDouble(td.get(i + 6));
-            String posInd = td.get(i + 1).replaceAll("(\\d+,\\d+)|\\d+", "")
-                    .replaceAll("DST", Constants.DST);
-            if (Constants.DST.equals(posInd)) {
-                team = ParsingUtils.normalizeTeams(fullName);
-            }
-            ecr.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + posInd, ecrVal);
-            risk.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + posInd, riskVal);
-            if (td.get(i + 7).contains("Tier")) {
-                i += 2;
+                String fullName = names.get(playerCount++).split(" \\(")[0];
+                String filteredName = td.get(i).split(
+                        " \\(")[0].split(", ")[0];
+                String team;
+                if (filteredName.split(" ").length > 1) {
+                    team = ParsingUtils.normalizeTeams(filteredName.substring(filteredName.lastIndexOf(" ")).trim());
+                } else {
+                    team = ParsingUtils.normalizeTeams(filteredName.trim());
+                }
+                String name = ParsingUtils
+                        .normalizeNames(ParsingUtils.normalizeDefenses(fullName));
+                double ecrVal = Double.parseDouble(td.get(i + 5));
+                double riskVal = Double.parseDouble(td.get(i + 6));
+                String posInd = td.get(i + 1).replaceAll("(\\d+,\\d+)|\\d+", "")
+                        .replaceAll("DST", Constants.DST);
+                if (Constants.DST.equals(posInd)) {
+                    team = ParsingUtils.normalizeTeams(fullName);
+                }
+                ecr.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + posInd, ecrVal);
+                risk.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + posInd, riskVal);
+                if (td.get(i + 7).contains("Tier")) {
+                    i += 2;
+                }
+            } catch (StringIndexOutOfBoundsException siooe) {
+                Log.d(TAG, "Failed to parse a player's ECR", siooe);
             }
         }
     }
@@ -135,15 +141,15 @@ public class ParseFantasyPros {
             throws IOException {
         List<String> td = JsoupUtils.parseURLWithUA(adpUrl, "table.player-table tbody tr td");
         int min = 0;
-        try {
-            for (int i = 0; i < td.size(); i++) {
+        for (int i = 0; i < td.size(); i++) {
 
-                if (GeneralUtils.isInteger(td.get(i))) {
-                    min = i;
-                    break;
-                }
+            if (GeneralUtils.isInteger(td.get(i))) {
+                min = i;
+                break;
             }
-            for (int i = min; i < td.size(); i += rowSize) {
+        }
+        for (int i = min; i < td.size(); i += rowSize) {
+            try {
                 if (i + rowSize >= td.size()) {
                     break;
                 } else if ("".equals(td.get(i))) {
@@ -151,7 +157,12 @@ public class ParseFantasyPros {
                 }
                 String filteredName = td.get(i + 1).split(
                         " \\(")[0].split(", ")[0];
-                String team = ParsingUtils.normalizeTeams(filteredName.substring(filteredName.lastIndexOf(" ")).trim());
+                String team;
+                if (filteredName.split(" ").length > 1) {
+                    team = ParsingUtils.normalizeTeams(filteredName.substring(filteredName.lastIndexOf(" ")).trim());
+                } else {
+                    team = ParsingUtils.normalizeTeams(filteredName.trim());
+                }
                 String withoutTeam = filteredName.substring(0, filteredName.lastIndexOf(" "));
                 String name = ParsingUtils.normalizeNames(ParsingUtils.normalizeDefenses(withoutTeam));
                 if (i + 6 >= td.size()) {
@@ -165,8 +176,9 @@ public class ParseFantasyPros {
                     team = ParsingUtils.normalizeTeams(withoutTeam);
                 }
                 adp.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + posInd, adpStr);
+            } catch(StringIndexOutOfBoundsException siooe) {
+                Log.d(TAG, "Failed to parse a player's ADP", siooe);
             }
-        } catch (ArrayIndexOutOfBoundsException ignored) {
         }
     }
 
@@ -184,30 +196,34 @@ public class ParseFantasyPros {
         }
         int playerCount = 0;
         for (int i = min; i < td.size(); i += 9) {
-            if (i + 9 >= td.size()) {
-                break;
+            try {
+                if (i + 9 >= td.size()) {
+                    break;
+                }
+                while (td.get(i).split(" ").length < 3 && i < td.size()) {
+                    i++;
+                }
+                String fullName = names.get(playerCount++).split(" \\(")[0];
+                String filteredName = td.get(i).split(
+                        " \\(")[0].split(", ")[0];
+                String team;
+                if (filteredName.split(" ").length > 1) {
+                    team = ParsingUtils.normalizeTeams(filteredName.substring(filteredName.lastIndexOf(" ")).trim());
+                } else {
+                    team = ParsingUtils.normalizeTeams(filteredName.trim());
+                }
+                String name = ParsingUtils
+                        .normalizeNames(ParsingUtils.normalizeDefenses(fullName));
+                double dynastyVal = Double.parseDouble(td.get(i + 5));
+                String posInd = td.get(i + 1).replaceAll("(\\d+,\\d+)|\\d+", "")
+                        .replaceAll("DST", Constants.DST);
+                if (Constants.DST.equals(posInd)) {
+                    team = ParsingUtils.normalizeTeams(fullName);
+                }
+                dynasty.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + posInd, dynastyVal);
+            }catch (StringIndexOutOfBoundsException siooe) {
+                Log.d(TAG, "Failed to parse a player's dynasty rank", siooe);
             }
-            while (td.get(i).split(" ").length < 3 && i < td.size()) {
-                i++;
-            }
-            String fullName = names.get(playerCount++).split(" \\(")[0];
-            String filteredName = td.get(i).split(
-                    " \\(")[0].split(", ")[0];
-            String team;
-            if (filteredName.split(" ").length > 1) {
-                team = ParsingUtils.normalizeTeams(filteredName.substring(filteredName.lastIndexOf(" ")).trim());
-            } else {
-                team = ParsingUtils.normalizeTeams(filteredName.trim());
-            }
-            String name = ParsingUtils
-                    .normalizeNames(ParsingUtils.normalizeDefenses(fullName));
-            double dynastyVal = Double.parseDouble(td.get(i + 5));
-            String posInd = td.get(i + 1).replaceAll("(\\d+,\\d+)|\\d+", "")
-                    .replaceAll("DST", Constants.DST);
-            if (Constants.DST.equals(posInd)) {
-                team = ParsingUtils.normalizeTeams(fullName);
-            }
-            dynasty.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + posInd, dynastyVal);
         }
     }
 
@@ -225,25 +241,29 @@ public class ParseFantasyPros {
         }
         int playerCount = 0;
         for (int i = min; i < td.size(); i += 9) {
-            if (i + 9 >= td.size()) {
-                break;
+            try {
+                if (i + 9 >= td.size()) {
+                    break;
+                }
+                while (td.get(i).split(" ").length < 3 && i < td.size()) {
+                    i++;
+                }
+                String fullName = names.get(playerCount++).split(" \\(")[0];
+                String filteredName = td.get(i).split(
+                        " \\(")[0].split(", ")[0];
+                String team = ParsingUtils.normalizeTeams(filteredName.substring(filteredName.lastIndexOf(" ")).trim());
+                String name = ParsingUtils
+                        .normalizeNames(ParsingUtils.normalizeDefenses(fullName));
+                double rookieVal = Double.parseDouble(td.get(i + 5));
+                String posInd = td.get(i + 1).replaceAll("(\\d+,\\d+)|\\d+", "")
+                        .replaceAll("DST", Constants.DST);
+                if (Constants.DST.equals(posInd)) {
+                    team = ParsingUtils.normalizeTeams(fullName);
+                }
+                rookie.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + posInd, rookieVal);
+            } catch (StringIndexOutOfBoundsException siooe) {
+                Log.d(TAG, "Failed to parse a player's rookie rank", siooe);
             }
-            while (td.get(i).split(" ").length < 3 && i < td.size()) {
-                i++;
-            }
-            String fullName = names.get(playerCount++).split(" \\(")[0];
-            String filteredName = td.get(i).split(
-                    " \\(")[0].split(", ")[0];
-            String team = ParsingUtils.normalizeTeams(filteredName.substring(filteredName.lastIndexOf(" ")).trim());
-            String name = ParsingUtils
-                    .normalizeNames(ParsingUtils.normalizeDefenses(fullName));
-            double rookieVal = Double.parseDouble(td.get(i + 5));
-            String posInd = td.get(i + 1).replaceAll("(\\d+,\\d+)|\\d+", "")
-                    .replaceAll("DST", Constants.DST);
-            if (Constants.DST.equals(posInd)) {
-                team = ParsingUtils.normalizeTeams(fullName);
-            }
-            rookie.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + posInd, rookieVal);
         }
     }
 

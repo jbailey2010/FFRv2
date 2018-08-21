@@ -74,9 +74,9 @@ public class HelpActivity extends AppCompatActivity {
         posList.add(Constants.HELP_RANKINGS);
         posList.add(Constants.HELP_PLAYER_INFO);
         posList.add(Constants.HELP_DRAFTING);
-        posList.add(Constants.HELP_ADP_SIMULARTOR);
-        posList.add(Constants.HELP_COMPARE_PLAYERS);
         posList.add(Constants.HELP_SORT_PLAYERS);
+        posList.add(Constants.HELP_COMPARE_PLAYERS);
+        posList.add(Constants.HELP_ADP_SIMULARTOR);
         posList.add(Constants.HELP_NEWS);
         posList.add(Constants.HELP_EXPORT);
         posList.add(Constants.HELP_PROFILE);

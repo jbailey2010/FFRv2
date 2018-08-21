@@ -59,7 +59,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:layout_marginTop="10dp"
-                android:text="Once you have a league set up, you can get some rankings. This can be done via the side menu, and will aggregate several sources and types of rankings, injury status, sos, and much more for hundreds of players. They are customized to your league, so if you switch or update leagues, do refresh! You can then filter as needed via the filter icon in the top menu. \n\nClicking into a player or searching via the top bar will allow you to see more, and clicking and holding will add that player to your watch list (indicated by a star image). If you click the title of the top bar, it'll scroll to the top, and clicking and holding will just jump there."
+                android:text="Once you have a league set up, you can get some rankings. This can be done via the side menu, and will aggregate several sources and types of rankings, injury status, sos, and much more for hundreds of players. They are customized to your league, so if you switch or update leagues, do refresh! You can then filter as needed via the filter icon in the top menu. \n\nClicking into a player or searching via the top bar will allow you to see more, clicking and holding will add that player to your watch list (indicated by a star image), swiping left will draft the player, and swiping right will draft them to your team. If you click the title of the top bar, it'll scroll to the top, and clicking and holding will just jump there."
                 android:visibility="gone"
                 android:id="@+id/help_rankings_body"/>
 
@@ -77,7 +77,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:layout_marginTop="10dp"
-                android:text="The app can be used to be a live reference as you draft, hiding drafted players and adjusting numbers as you go. You can draft players from two places - the player info page menu and the rankings list, by swiping (left to someone else's team, right to your own). \n\nAs you draft, the app will track the current state. You can see your team (as well as some metrics) via the first button on the bottom menu. This will also show you the PAA remaining a few spots back at each position. If you accidentally drafted someone, you can also undraft someone from here."
+                android:text="The app can be used to be a live reference as you draft, hiding drafted players and adjusting numbers as you go. You can draft players from a few places places:\n- On the page for a player, from the menu.\n- From the rankings list, swipe left to draft and swipe right to draft to your team.\n- From the output of a player sort, swipe left to draft and swipe right to draft to your team.\n- After comparing two players, by clicking and holding the name of a player. \n\nAs you draft, the app will track the current state. You can see your team (as well as some metrics) via the first button on the bottom menu. This will also show you the PAA remaining a few spots back at each position. If you accidentally drafted someone, you can also undraft someone from here."
                 android:visibility="gone"
                 android:id="@+id/help_draft_body"/>
 
@@ -95,7 +95,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:layout_marginTop="10dp"
-                android:text="Stuck between two players? You can enter any two players, and the app will compare every piece of info for each. In addition, it will check what percentage of experts prefer one to the other. Clicking on the name of either player will expand all of their info. This is accessible through the second option in the bottom menu."
+                android:text="Stuck between two players? You can enter any two players, and the app will compare every piece of info for each. A drafted player will be marked with an asterisk. In addition, it will check what percentage of experts prefer one to the other.\n\nClicking on the name of either player will expand all of their info, and clicking and holding will draft them. This is accessible through the second option in the bottom menu."
                 android:visibility="gone"
                 android:id="@+id/help_compare_body"/>
 
@@ -104,7 +104,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:layout_marginTop="10dp"
-                android:text="Curious to sort by something other than ecr or auction value? The sort players button lets you pick any combination of factors, positions, and additional requirements! Much like the rankings, clicking on a player will expand the rest of their information, and clicking and holding will add them to your watch list. Clicking the title on the top bar will scroll to the top, and clicking and holding will jump there. This is accessible through the fourth option in the bottom menu."
+                android:text="Curious to sort by something other than the default sort for your league type? The sort players button lets you pick any combination of factors, positions, and additional requirements!\n\nMuch like the rankings, clicking on a player will expand the rest of their information, clicking and holding will add them to your watch list (indicated by a star), swiping left will draft them, and swiping right will draft them to you. Clicking the title on the top bar will scroll to the top, and clicking and holding will jump there.\n\nYou can see a graph of the sorted values via the icon on the top menu once a sort output is displayed. This is accessible through the fourth option in the bottom menu."
                 android:visibility="gone"
                 android:id="@+id/help_sort_body"/>
 

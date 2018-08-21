@@ -203,6 +203,7 @@ public class Constants {
     public final static String CURRENT_DRAFT = "current_draft";
     public final static String CURRENT_TEAM = "current_team";
     public final static String DISPLAY_DRAFTED = "Drafted";
+    public final static String COMPARATOR_DRAFTED_SUFFIX = " *";
 
     // Display rankings utilities
     public final static String PLAYER_BASIC = "main";
