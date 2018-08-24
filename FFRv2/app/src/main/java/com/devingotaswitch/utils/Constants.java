@@ -245,6 +245,7 @@ public class Constants {
     public final static String EFFICIENT_TAG = "Efficient";
     public final static String HANDCUFF_TAG = "Handcuff";
     public final static String INEFFICIENT_TAG = "Inefficient";
+    public final static String INJURY_BOUNCE_BACK_TAG = "Injury Bounce Back";
     public final static String INJURY_PRONE_TAG = "Injury Prone";
     public final static String LOTTERY_TICKET_TAG = "Lottery Ticket";
     public final static String NEW_STAFF_TAG = "New Coaching Staff";
@@ -254,6 +255,7 @@ public class Constants {
     public final static String PPR_SPECIALIST_TAG = "PPR Specialist";
     public final static String RETURNER_TAG = "Returner";
     public final static String RISKY_TAG = "Risky";
+    public final static String SAFE_TAG = "Safe";
     public final static String SLEEPER_TAG = "Sleeper";
     public final static String STUD_TAG = "Stud";
     public final static String UNDERVALUED_TAG = "Undervalued";
@@ -266,6 +268,7 @@ public class Constants {
     public final static String EFFICIENT_TAG_REMOTE = "efficient";
     public final static String HANDCUFF_TAG_REMOTE = "handcuff";
     public final static String INEFFICIENT_TAG_REMOTE = "inefficient";
+    public final static String INJURY_BOUNCE_BACK_TAG_REMOTE = "injuryBounceBack";
     public final static String INJURY_PRONE_TAG_REMOTE = "injuryProne";
     public final static String LOTTERY_TICKET_TAG_REMOTE = "lotteryTicket";
     public final static String NEW_STAFF_TAG_REMOTE = "newStaff";
@@ -275,6 +278,7 @@ public class Constants {
     public final static String PPR_SPECIALIST_TAG_REMOTE = "pprSpecialist";
     public final static String RETURNER_TAG_REMOTE = "returner";
     public final static String RISKY_TAG_REMOTE = "risky";
+    public final static String SAFE_TAG_REMOTE = "safe";
     public final static String SLEEPER_TAG_REMOTE = "sleeper";
     public final static String STUD_TAG_REMOTE = "stud";
     public final static String UNDERVALUED_TAG_REMOTE = "undervalued";

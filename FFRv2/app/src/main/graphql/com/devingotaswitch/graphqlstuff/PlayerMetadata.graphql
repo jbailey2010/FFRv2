@@ -13,6 +13,7 @@ mutation IncrementPlayerViewCount($playerId: String!) {
     efficient
     handcuff
     inefficient
+    injuryBounceBack
     injuryProne
     lotteryTicket
     newStaff
@@ -22,6 +23,7 @@ mutation IncrementPlayerViewCount($playerId: String!) {
     pprSpecialist
     returner
     risky
+    safe
     sleeper
     stud
     undervalued
@@ -64,6 +66,7 @@ mutation IncrementTagCount($playerId: String!, $tagName: String!) {
 	efficient
 	handcuff
 	inefficient
+	injuryBounceBack
 	injuryProne
 	lotteryTicket
 	newStaff
@@ -73,6 +76,7 @@ mutation IncrementTagCount($playerId: String!, $tagName: String!) {
 	pprSpecialist
 	returner
 	risky
+	safe
 	sleeper
 	stud
 	undervalued
@@ -91,6 +95,7 @@ mutation DecrementTagCount($playerId: String!, $tagName: String!) {
 	efficient
 	handcuff
 	inefficient
+	injuryBounceBack
 	injuryProne
 	lotteryTicket
 	newStaff
@@ -100,6 +105,7 @@ mutation DecrementTagCount($playerId: String!, $tagName: String!) {
 	pprSpecialist
 	returner
 	risky
+	safe
 	sleeper
 	stud
 	undervalued

@@ -857,6 +857,18 @@
                             "deprecationReason": null
                         },
                         {
+                            "name": "injuryBounceBack",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "Int",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
                             "name": "injuryProne",
                             "description": null,
                             "args": [],
@@ -954,6 +966,18 @@
                         },
                         {
                             "name": "risky",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "Int",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "safe",
                             "description": null,
                             "args": [],
                             "type": {
@@ -1910,25 +1934,6 @@
                     "onField": true
                 },
                 {
-                    "name": "deprecated",
-                    "description": null,
-                    "args": [
-                        {
-                            "name": "reason",
-                            "description": null,
-                            "type": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
-                            },
-                            "defaultValue": "\"No longer supported\""
-                        }
-                    ],
-                    "onOperation": false,
-                    "onFragment": false,
-                    "onField": false
-                },
-                {
                     "name": "aws_auth",
                     "description": "Directs the schema to enforce authorization on a field",
                     "args": [
@@ -1991,6 +1996,25 @@
                                 }
                             },
                             "defaultValue": null
+                        }
+                    ],
+                    "onOperation": false,
+                    "onFragment": false,
+                    "onField": false
+                },
+                {
+                    "name": "deprecated",
+                    "description": null,
+                    "args": [
+                        {
+                            "name": "reason",
+                            "description": null,
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
+                            },
+                            "defaultValue": "\"No longer supported\""
                         }
                     ],
                     "onOperation": false,
