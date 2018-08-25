@@ -404,7 +404,6 @@ public class RankingsHome extends AppCompatActivity {
         if (filterItem != null) {
             filterItem.setVisible(true);
         }
-        DecimalFormat df = new DecimalFormat(Constants.NUMBER_FORMAT);
 
         final ListView listview =  findViewById(R.id.rankings_list);
         listview.setAdapter(null);
@@ -430,7 +429,7 @@ public class RankingsHome extends AppCompatActivity {
                         player.getName();
                 Map<String, String> datum = new HashMap<>(3);
                 datum.put(Constants.PLAYER_BASIC, playerBasicContent);
-                datum.put(Constants.PLAYER_INFO, generateOutputSubtext(player, df));
+                datum.put(Constants.PLAYER_INFO, generateOutputSubtext(player));
                 if (player.isWatched()) {
                     datum.put(Constants.PLAYER_STATUS, Integer.toString(R.drawable.star));
                 }
@@ -660,7 +659,7 @@ public class RankingsHome extends AppCompatActivity {
                 pos;
     }
 
-    private String generateOutputSubtext(Player player, DecimalFormat df) {
+    private String generateOutputSubtext(Player player) {
         StringBuilder sub = new StringBuilder(player.getPosition())
                 .append(Constants.POS_TEAM_DELIMITER)
                 .append(player.getTeamName());
@@ -672,7 +671,7 @@ public class RankingsHome extends AppCompatActivity {
         }
         return sub.append(Constants.LINE_BREAK)
                 .append("Projection: ")
-                .append(df.format(player.getProjection()))
+                .append(Constants.DECIMAL_FORMAT.format(player.getProjection()))
                 .toString();
     }
 

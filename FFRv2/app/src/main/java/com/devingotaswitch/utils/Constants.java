@@ -197,7 +197,6 @@ public class Constants {
     public static final String AUCTION_VALUE_COLUMN = "auction_value";
 
     // Other internal stuff
-    public final static String NUMBER_FORMAT = "#.##";
     public final static String PLAYER_ID_DELIMITER = ".";
     public final static String HASH_DELIMITER = "###";
     public final static String LINE_BREAK = "\n";
@@ -290,5 +289,5 @@ public class Constants {
     public final static String UNDERVALUED_TAG_REMOTE = "undervalued";
 
     // Non-primitives
-    public static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat(Constants.NUMBER_FORMAT);
+    public static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.##");
 }

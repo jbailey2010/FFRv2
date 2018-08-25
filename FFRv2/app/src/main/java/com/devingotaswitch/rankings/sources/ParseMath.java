@@ -439,7 +439,6 @@ public class ParseMath {
     }
 
     public static double getLeverage(Player player, Rankings rankings) {
-        DecimalFormat df = new DecimalFormat(Constants.NUMBER_FORMAT);
         Player topPlayer = null;
         double maxVal = 0.0;
         for (String key : rankings.getOrderedIds()) {
@@ -449,7 +448,7 @@ public class ParseMath {
                 topPlayer = possibleTop;
             }
         }
-        return Double.parseDouble(df.format((player.getProjection() / topPlayer.getProjection()) /
+        return Double.parseDouble(Constants.DECIMAL_FORMAT.format((player.getProjection() / topPlayer.getProjection()) /
                 (player.getAuctionValueCustom(rankings) / topPlayer.getAuctionValueCustom(rankings))));
     }
 }

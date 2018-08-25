@@ -68,7 +68,6 @@ public class GeneralUtils {
 
     public static FilterWithSpaceAdapter<String> getPlayerSearchAdapter(Rankings rankings, Activity activity) {
         final List<String> dropdownList = new ArrayList<>();
-        DecimalFormat df = new DecimalFormat(Constants.NUMBER_FORMAT);
         for (String key : rankings.getPlayers().keySet()) {
             Player player = rankings.getPlayer(key);
             String prefix = player.getDisplayValue(rankings);

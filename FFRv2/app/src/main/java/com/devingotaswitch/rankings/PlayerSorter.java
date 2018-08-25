@@ -420,8 +420,6 @@ public class PlayerSorter extends AppCompatActivity {
     }
 
     private void displayResults(List<Player> players) {
-        DecimalFormat df = new DecimalFormat(Constants.NUMBER_FORMAT);
-
         final ListView listview =  findViewById(R.id.sort_players_output);
         listview.setAdapter(null);
         final List<Map<String, String>> data = new ArrayList<>();
@@ -453,7 +451,7 @@ public class PlayerSorter extends AppCompatActivity {
                 }
                 Map<String, String> datum = new HashMap<>(3);
                 datum.put(Constants.PLAYER_BASIC, getMainTextForFactor(player));
-                datum.put(Constants.PLAYER_INFO, getSubTextForFactor(player, df));
+                datum.put(Constants.PLAYER_INFO, getSubTextForFactor(player));
                 if (player.isWatched()) {
                     datum.put(Constants.PLAYER_STATUS, Integer.toString(R.drawable.star));
                 }
@@ -989,7 +987,7 @@ public class PlayerSorter extends AppCompatActivity {
         return "";
     }
 
-    private String getSubTextForFactor(Player player, DecimalFormat df) {
+    private String getSubTextForFactor(Player player) {
         StringBuilder subtextBuilder = new StringBuilder(generateOutputSubtext(player));
         if (!Constants.SORT_PROJECTION.equals(factor)) {
             subtextBuilder.append(Constants.LINE_BREAK)

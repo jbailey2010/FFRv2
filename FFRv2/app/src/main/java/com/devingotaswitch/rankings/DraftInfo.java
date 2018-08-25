@@ -50,8 +50,6 @@ public class DraftInfo extends AppCompatActivity {
     private MenuItem viewTeam;
     private MenuItem undraftPlayers;
 
-    private final DecimalFormat df = new DecimalFormat(Constants.NUMBER_FORMAT);
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -216,7 +214,7 @@ public class DraftInfo extends AppCompatActivity {
 
     private String getAuctionValue() {
         return "Value: " +
-                df.format(rankings.getDraft().getDraftValue());
+                Constants.DECIMAL_FORMAT.format(rankings.getDraft().getDraftValue());
     }
 
     private String getTeamStr() {
@@ -260,13 +258,13 @@ public class DraftInfo extends AppCompatActivity {
         }
         return teamOutput.append(Constants.LINE_BREAK)
                 .append("Total PAA: ")
-                .append(df.format(draft.getTotalPAA()))
+                .append(Constants.DECIMAL_FORMAT.format(draft.getTotalPAA()))
                 .append(Constants.LINE_BREAK)
                 .append("Total XVal: ")
-                .append(df.format(draft.getTotalXVal()))
+                .append(Constants.DECIMAL_FORMAT.format(draft.getTotalXVal()))
                 .append(Constants.LINE_BREAK)
                 .append("Total VoLS: ")
-                .append(df.format(draft.getTotalVoLS()))
+                .append(Constants.DECIMAL_FORMAT.format(draft.getTotalVoLS()))
                 .append(Constants.LINE_BREAK)
                 .toString();
     }
@@ -283,11 +281,11 @@ public class DraftInfo extends AppCompatActivity {
         String playerStr = posStr.toString();
         return playerStr.substring(0, playerStr.length() - 2) +
                 " (" +
-                df.format(posPAA) +
+                Constants.DECIMAL_FORMAT.format(posPAA) +
                 ", " +
-                df.format(posXVal) +
+                Constants.DECIMAL_FORMAT.format(posXVal) +
                 ", " +
-                df.format(posVoLS) +
+                Constants.DECIMAL_FORMAT.format(posVoLS) +
                 ")";
     }
 
@@ -309,7 +307,7 @@ public class DraftInfo extends AppCompatActivity {
                     player.getName();
             Map<String, String> datum = new HashMap<>(3);
             datum.put(Constants.PLAYER_BASIC, playerBasicContent);
-            datum.put(Constants.PLAYER_INFO, generateOutputSubtext(player, df));
+            datum.put(Constants.PLAYER_INFO, generateOutputSubtext(player));
             data.add(datum);
         }
         adapter.notifyDataSetChanged();
@@ -346,7 +344,7 @@ public class DraftInfo extends AppCompatActivity {
                 pos;
     }
 
-    private String generateOutputSubtext(Player player, DecimalFormat df) {
+    private String generateOutputSubtext(Player player) {
         StringBuilder sub = new StringBuilder(player.getPosition())
                 .append(Constants.POS_TEAM_DELIMITER)
                 .append(player.getTeamName());
@@ -358,7 +356,7 @@ public class DraftInfo extends AppCompatActivity {
         }
         return sub.append(Constants.LINE_BREAK)
                 .append("Projection: ")
-                .append(df.format(player.getProjection()))
+                .append(Constants.DECIMAL_FORMAT.format(player.getProjection()))
                 .toString();
     }
 
