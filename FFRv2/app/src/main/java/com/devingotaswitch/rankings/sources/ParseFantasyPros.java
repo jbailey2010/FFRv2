@@ -240,9 +240,9 @@ public class ParseFantasyPros {
             }
         }
         int playerCount = 0;
-        for (int i = min; i < td.size(); i += 9) {
+        for (int i = min; i < td.size(); i += 10) {
             try {
-                if (i + 9 >= td.size()) {
+                if (i + 10 >= td.size()) {
                     break;
                 }
                 while (td.get(i).split(" ").length < 3 && i < td.size()) {
@@ -254,7 +254,7 @@ public class ParseFantasyPros {
                 String team = ParsingUtils.normalizeTeams(filteredName.substring(filteredName.lastIndexOf(" ")).trim());
                 String name = ParsingUtils
                         .normalizeNames(ParsingUtils.normalizeDefenses(fullName));
-                double rookieVal = Double.parseDouble(td.get(i + 5));
+                double rookieVal = Double.parseDouble(td.get(i + 6));
                 String posInd = td.get(i + 1).replaceAll("(\\d+,\\d+)|\\d+", "")
                         .replaceAll("DST", Constants.DST);
                 if (Constants.DST.equals(posInd)) {

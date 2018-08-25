@@ -64,7 +64,8 @@ public class Constants {
     public final static String SORT_HIDE_DRAFTED = "Hide Drafted";
     public final static String SORT_EASY_SOS = "Easy SOS";
     public final static String SORT_ONLY_HEALTHY = "Healthy";
-    public final static String SORT_ONLY_WATCHED = "Watched";
+    public final static String SORT_ONLY_WATCHED = "On Watch List";
+    public final static String SORT_ONLY_ROOKIES = "Rookies Only";
     public final static String SORT_UNDER_30 = "Under 30";
     public final static String SORT_IGNORE_LATE = "Ignore late rounds";
     public final static String SORT_IGNORE_EARLY = "Ignore early rounds";
@@ -72,8 +73,8 @@ public class Constants {
     // Sort boolean thresholds
     public final static Integer SORT_EASY_SOS_THRESHOLD = 10;
     public final static Integer SORT_YOUNG_THRESHOLD = 30;
-    public final static Double SORT_IGNORE_LATE_THRESHOLD = 4.0;
-    public final static Double SORT_IGNORE_EARLY_THRESHOLD = 25.0;
+    public final static Double SORT_IGNORE_LATE_THRESHOLD_ROUNDS = 11.0;
+    public final static Double SORT_IGNORE_EARLY_THRESHOLD_ROUNDS = 3.0;
 
     // News sources
     public static final String RW_HEADLINE_TITLE = "Rotoworld Headline News";

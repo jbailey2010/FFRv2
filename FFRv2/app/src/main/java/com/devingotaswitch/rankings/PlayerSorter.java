@@ -221,6 +221,7 @@ public class PlayerSorter extends AppCompatActivity {
         list.add(Constants.SORT_ONLY_HEALTHY);
         list.add(Constants.SORT_EASY_SOS);
         list.add(Constants.SORT_ONLY_WATCHED);
+        list.add(Constants.SORT_ONLY_ROOKIES);
         list.add(Constants.SORT_UNDER_30);
         if (!rankings.getLeagueSettings().isRookie() && !rankings.getLeagueSettings().isDynasty()) {
             list.add(Constants.SORT_IGNORE_EARLY);
@@ -367,19 +368,37 @@ public class PlayerSorter extends AppCompatActivity {
                     continue;
                 }
             }
+            if (booleanFactors.contains(Constants.SORT_ONLY_ROOKIES)) {
+                if (player.getRookieRank() == 300.0) {
+                    continue;
+                }
+            }
             if (booleanFactors.contains(Constants.SORT_UNDER_30)) {
                 if (player.getAge() == 0 || player.getAge() >= Constants.SORT_YOUNG_THRESHOLD) {
                     continue;
                 }
             }
+            int teamCount = rankings.getLeagueSettings().getTeamCount();
             if (booleanFactors.contains(Constants.SORT_IGNORE_LATE)) {
-                if (player.getAuctionValue() < Constants.SORT_IGNORE_LATE_THRESHOLD) {
-                    continue;
+                if (rankings.getLeagueSettings().isAuction() || rankings.getLeagueSettings().isSnake()) {
+                    if (player.getEcr() > teamCount * Constants.SORT_IGNORE_LATE_THRESHOLD_ROUNDS) {
+                        continue;
+                    }
+                } else if (rankings.getLeagueSettings().isDynasty()) {
+                    if (player.getDynastyRank() > teamCount * Constants.SORT_IGNORE_LATE_THRESHOLD_ROUNDS) {
+                        continue;
+                    }
                 }
             }
             if (booleanFactors.contains(Constants.SORT_IGNORE_EARLY)) {
-                if (player.getAuctionValue() > Constants.SORT_IGNORE_EARLY_THRESHOLD) {
-                    continue;
+                if (rankings.getLeagueSettings().isAuction() || rankings.getLeagueSettings().isSnake()) {
+                    if (player.getEcr() < teamCount * Constants.SORT_IGNORE_EARLY_THRESHOLD_ROUNDS) {
+                        continue;
+                    }
+                } else if (rankings.getLeagueSettings().isDynasty()) {
+                    if (player.getDynastyRank() < teamCount * Constants.SORT_IGNORE_EARLY_THRESHOLD_ROUNDS) {
+                        continue;
+                    }
                 }
             }
 
