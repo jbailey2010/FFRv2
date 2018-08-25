@@ -19,6 +19,8 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.devingotaswitch.rankings.extras.FilterWithSpaceAdapter;
@@ -49,6 +51,8 @@ public class PlayerComparator extends AppCompatActivity {
 
     private AutoCompleteTextView inputA;
     private AutoCompleteTextView inputB;
+    private ScrollView comparatorScroller;
+    private ListView inputList;
 
     private static final String TAG = "PlayerComparator";
     private static final String BETTER_COLOR = "#F3F3F3";
@@ -109,6 +113,8 @@ public class PlayerComparator extends AppCompatActivity {
 
         inputA =  findViewById(R.id.comparator_input_a);
         inputB =  findViewById(R.id.comparator_input_b);
+        comparatorScroller = findViewById(R.id.comparator_output_scroller);
+        inputList = findViewById(R.id.comparator_input_list);
         inputA.setAdapter(mAdapter);
         inputB.setAdapter(mAdapter);
 
@@ -166,6 +172,8 @@ public class PlayerComparator extends AppCompatActivity {
     private void displayResults(final Player playerA, final Player playerB) {
         InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+        comparatorScroller.setVisibility(View.VISIBLE);
+        inputList.setVisibility(View.GONE);
         clearInputs();
         ParseFP parseFP = new ParseFP(this, playerA, playerB);
         parseFP.execute();

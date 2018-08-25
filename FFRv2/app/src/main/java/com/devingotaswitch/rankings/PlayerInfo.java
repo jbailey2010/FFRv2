@@ -673,25 +673,33 @@ public class PlayerInfo extends AppCompatActivity {
         comments.setVisibility(View.INVISIBLE);
 
         Map<String, String> ecr = new HashMap<>();
-        ecr.put(Constants.PLAYER_BASIC, "ECR: " + player.getEcr());
-        int ecrRank = getEcr(null, player.getEcr());
-        int ecrRankPos = getEcr(player.getPosition(), player.getEcr());
-        String ecrSub = getRankingSub(ecrRank, ecrRankPos);
-        if (player.getRisk() != null) {
-            ecrSub += Constants.LINE_BREAK + "Risk: " + player.getRisk();
+        ecr.put(Constants.PLAYER_BASIC, "ECR: " + (player.getEcr().equals(Constants.DEFAULT_RANK) ? Constants.DEFAULT_DISPLAY_RANK_NOT_SET : player.getEcr()));
+        if (!player.getEcr().equals(Constants.DEFAULT_RANK)) {
+            int ecrRank = getEcr(null, player.getEcr());
+            int ecrRankPos = getEcr(player.getPosition(), player.getEcr());
+            String ecrSub = getRankingSub(ecrRank, ecrRankPos);
+            if (player.getRisk() != null) {
+                ecrSub += Constants.LINE_BREAK + "Risk: " + player.getRisk();
+            }
+            ecr.put(Constants.PLAYER_INFO, ecrSub);
         }
-        ecr.put(Constants.PLAYER_INFO, ecrSub);
         data.add(ecr);
 
         Map<String, String> adp = new HashMap<>();
-        adp.put(Constants.PLAYER_BASIC, "ADP: " + player.getAdp());
-        int adpRank = getAdp(null, player.getAdp());
-        int adpPos = getAdp(player.getPosition(), player.getAdp());
-        StringBuilder adpSub = new StringBuilder(getRankingSub(adpRank, adpPos));
+        adp.put(Constants.PLAYER_BASIC, "ADP: " + (player.getAdp().equals(Constants.DEFAULT_RANK) ? Constants.DEFAULT_DISPLAY_RANK_NOT_SET : player.getAdp()));
+        StringBuilder adpSub = new StringBuilder();
+        if (!player.getAdp().equals(Constants.DEFAULT_RANK)) {
+            int adpRank = getAdp(null, player.getAdp());
+            int adpPos = getAdp(player.getPosition(), player.getAdp());
+            adpSub = new StringBuilder(getRankingSub(adpRank, adpPos));
+
+        }
         int draftedPlayers = rankings.getDraft().getDraftedPlayers().size();
         if (draftedPlayers > 0) {
-            adpSub.append(Constants.LINE_BREAK)
-                    .append("Current draft position: ")
+            if (adpSub.length() > 0) {
+                adpSub.append(Constants.LINE_BREAK);
+            }
+            adpSub.append("Current draft position: ")
                     .append(draftedPlayers + 1);
         }
         adp.put(Constants.PLAYER_INFO, adpSub.toString());
@@ -708,14 +716,16 @@ public class PlayerInfo extends AppCompatActivity {
         data.add(auc);
 
         Map<String, String> dynasty = new HashMap<>();
-        dynasty.put(Constants.PLAYER_BASIC, "Dynasty/Keeper Ranking: " + player.getDynastyRank());
-        int dynRank = getDynasty(null, player.getDynastyRank());
-        int dynRankPos = getDynasty(player.getPosition(), player.getDynastyRank());
-        String dynSub = getRankingSub(dynRank, dynRankPos);
-        dynasty.put(Constants.PLAYER_INFO, dynSub);
+        dynasty.put(Constants.PLAYER_BASIC, "Dynasty/Keeper Ranking: " + (player.getDynastyRank().equals(Constants.DEFAULT_RANK) ? Constants.DEFAULT_DISPLAY_RANK_NOT_SET : player.getDynastyRank()));
+        if (!player.getDynastyRank().equals(Constants.DEFAULT_RANK)) {
+            int dynRank = getDynasty(null, player.getDynastyRank());
+            int dynRankPos = getDynasty(player.getPosition(), player.getDynastyRank());
+            String dynSub = getRankingSub(dynRank, dynRankPos);
+            dynasty.put(Constants.PLAYER_INFO, dynSub);
+        }
         data.add(dynasty);
 
-        if (player.getRookieRank() < 300.0) {
+        if (!player.getRookieRank().equals(Constants.DEFAULT_RANK)) {
             // 300.0 is the default, so this is basically 'is it set?'
             Map<String, String> rookie = new HashMap<>();
             rookie.put(Constants.PLAYER_BASIC, "Rookie Rankings: " + player.getRookieRank());

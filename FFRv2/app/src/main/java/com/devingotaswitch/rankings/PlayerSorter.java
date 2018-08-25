@@ -335,15 +335,20 @@ public class PlayerSorter extends AppCompatActivity {
         players.clear();
         for (String id : playerIds) {
             Player player = rankings.getPlayer(id);
-            if (((Constants.SORT_ALL.equals(factor) && rankings.getLeagueSettings().isRookie()) || Constants.SORT_ROOKIE.equals(factor)) &&
-                player.getRookieRank() == 300.0) {
-                // Default sort for rookies means only rookies. 300 is default, meaning 'not set', so skip.
-                // Also skip if we're just looking at rookie rank and it's 'not set'.
+            if (((Constants.SORT_ALL.equals(factor) && rankings.getLeagueSettings().isRookie()) || Constants.SORT_ROOKIE.equals(factor))
+                    && player.getRookieRank().equals(Constants.DEFAULT_RANK)) {
+                // Default sort for rookies means only rookies. If it's 'not set',  skip.
+                // Also skip if we're looking at rookie rank for someone without one (meaning, not a rookie).
                 continue;
             }
             if (Constants.SORT_SOS.equals(factor) && ((rankings.getTeam(player) == null)
                     || (rankings.getTeam(player).getSosForPosition(player.getPosition()) < 1))) {
                 // If the player's team isn't a valid team, skip over for sos
+                continue;
+            }
+            if ((Constants.SORT_UNDERDRAFTED.equals(factor) || Constants.SORT_OVERDRAFTED.equals(factor)) &&
+                    (player.getEcr().equals(Constants.DEFAULT_RANK) || player.getAdp().equals(Constants.DEFAULT_RANK))) {
+                // Don't compare adp to ecr if either is not saved
                 continue;
             }
 
@@ -369,7 +374,7 @@ public class PlayerSorter extends AppCompatActivity {
                 }
             }
             if (booleanFactors.contains(Constants.SORT_ONLY_ROOKIES)) {
-                if (player.getRookieRank() == 300.0) {
+                if (player.getRookieRank().equals(Constants.DEFAULT_RANK)) {
                     continue;
                 }
             }
@@ -942,18 +947,18 @@ public class PlayerSorter extends AppCompatActivity {
             case Constants.SORT_ALL:
                 return player.getDisplayValue(rankings);
             case Constants.SORT_ECR:
-                return String.valueOf(player.getEcr());
+                return String.valueOf(player.getEcr().equals(Constants.DEFAULT_RANK) ? Constants.DEFAULT_DISPLAY_RANK_NOT_SET : player.getEcr());
             case Constants.SORT_ADP:
-                return String.valueOf(player.getAdp());
+                return String.valueOf(player.getAdp().equals(Constants.DEFAULT_RANK) ? Constants.DEFAULT_DISPLAY_RANK_NOT_SET : player.getAdp());
             case Constants.SORT_UNDERDRAFTED:
             case Constants.SORT_OVERDRAFTED:
                 return Constants.DECIMAL_FORMAT.format(player.getEcr() - player.getAdp());
             case Constants.SORT_AUCTION:
                 return Constants.DECIMAL_FORMAT.format(player.getAuctionValueCustom(rankings));
             case Constants.SORT_DYNASTY:
-                return String.valueOf(player.getDynastyRank());
+                return String.valueOf(player.getDynastyRank().equals(Constants.DEFAULT_RANK) ? Constants.DEFAULT_DISPLAY_RANK_NOT_SET : player.getDynastyRank());
             case Constants.SORT_ROOKIE:
-                return String.valueOf(player.getRookieRank());
+                return String.valueOf(player.getRookieRank().equals(Constants.DEFAULT_RANK) ? Constants.DEFAULT_DISPLAY_RANK_NOT_SET : player.getRookieRank());
             case Constants.SORT_PROJECTION:
                 return Constants.DECIMAL_FORMAT.format(player.getProjection());
             case Constants.SORT_PAA:
@@ -1082,10 +1087,15 @@ public class PlayerSorter extends AppCompatActivity {
         List<Entry> tes = new ArrayList<>();
         List<Entry> dsts = new ArrayList<>();
         List<Entry> ks = new ArrayList<>();
+        int actualIndex = 0;
         for (int i = 0; i < Math.min(sortMax, players.size()); i++) {
             Player player = players.get(i);
+            String prefix = getMainTextPrefixForPlayer(player);
+            if (Constants.DEFAULT_DISPLAY_RANK_NOT_SET.equals(prefix)) {
+                continue;
+            }
             double value = Double.parseDouble(getMainTextPrefixForPlayer(player));
-            entries.add(new Entry(i, (int) value));
+            entries.add(new Entry(actualIndex++, (int) value));
             switch (player.getPosition()) {
                 case Constants.QB:
                     qbs.add(new Entry(qbs.size(), (int) value));

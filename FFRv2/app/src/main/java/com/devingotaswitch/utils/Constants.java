@@ -153,6 +153,11 @@ public class Constants {
     public static final Integer AUCTION_TEAM_SCALE_COUNT = 12;
     public static final Double AUCTION_TEAM_SCALE_THRESHOLD = 0.70;
 
+    // Player values: defaults
+    public static final Double DEFAULT_RISK = 50.0;
+    public static final Double DEFAULT_RANK = 500.0;
+    public static final String DEFAULT_DISPLAY_RANK_NOT_SET = "N/A";
+
     // Team settings: SQL
     public static final String TEAM_TABLE_NAME = "team_data";
     public static final String TEAM_NAME_COLUMN = "team_name";

@@ -10,10 +10,10 @@ public class Player {
     private Integer age;
     private Integer experience = -1;
     private String position;
-    private Double ecr = 300.0;
-    private Double adp = 300.0;
-    private Double dynastyRank = 300.0;
-    private Double rookieRank = 300.0;
+    private Double ecr = Constants.DEFAULT_RANK;
+    private Double adp = Constants.DEFAULT_RANK;
+    private Double dynastyRank = Constants.DEFAULT_RANK;
+    private Double rookieRank = Constants.DEFAULT_RANK;
     private String teamName;
     private String note;
     private String stats;
@@ -21,7 +21,7 @@ public class Player {
     private boolean isWatched;
     private Double auctionValue = 0.0;
     private Double numRankings = 0.0;
-    private Double risk = 50.0;
+    private Double risk = Constants.DEFAULT_RISK;
     private Double projection = 0.0;
     private Double paa;
     private Double xVal;
@@ -239,11 +239,11 @@ public class Player {
     public String getDisplayValue(Rankings rankings) {
         LeagueSettings league = rankings.getLeagueSettings();
         if (league.isRookie()) {
-            return String.valueOf(getRookieRank());
+            return String.valueOf(getRookieRank().equals(Constants.DEFAULT_RANK) ? Constants.DEFAULT_DISPLAY_RANK_NOT_SET : getRookieRank());
         } else if (league.isDynasty()) {
-            return String.valueOf(getDynastyRank());
+            return String.valueOf(getDynastyRank().equals(Constants.DEFAULT_RANK)  ? Constants.DEFAULT_DISPLAY_RANK_NOT_SET : getDynastyRank());
         } else if (league.isSnake()) {
-            return String.valueOf(getEcr());
+            return String.valueOf(getEcr().equals(Constants.DEFAULT_RANK)  ? Constants.DEFAULT_DISPLAY_RANK_NOT_SET : getEcr());
         } else if (league.isAuction()) {
             return Constants.DECIMAL_FORMAT.format(getAuctionValueCustom(rankings));
         } else {

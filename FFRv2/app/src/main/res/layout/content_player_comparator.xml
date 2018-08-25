@@ -49,16 +49,25 @@
 
     </LinearLayout>
 
+    <ListView
+        android:layout_width="match_parent"
+        android:layout_below="@+id/comparator_header_base"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never"
+        android:id="@+id/comparator_input_list"
+        android:layout_alignParentBottom="true"/>
+
     <ScrollView
         android:layout_width="match_parent"
         android:layout_below="@+id/comparator_header_base"
         android:layout_height="wrap_content"
         android:overScrollMode="never"
+        android:visibility="gone"
+        android:id="@+id/comparator_output_scroller"
         android:layout_alignParentBottom="true">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:visibility="gone"
         android:id="@+id/comparator_output_base"
         android:orientation="vertical"
         >
