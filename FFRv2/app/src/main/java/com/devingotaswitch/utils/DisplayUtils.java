@@ -51,14 +51,14 @@ public class DisplayUtils {
                 pos;
     }
 
-    public static Map<String, String> getDatumForPlayer(Rankings rankings, Player player) {
+    public static Map<String, String> getDatumForPlayer(Rankings rankings, Player player, boolean markWatched) {
         String playerBasicContent = player.getDisplayValue(rankings) +
                 Constants.RANKINGS_LIST_DELIMITER +
                 player.getName();
         Map<String, String> datum = new HashMap<>(5);
         datum.put(Constants.PLAYER_BASIC, playerBasicContent);
         datum.put(Constants.PLAYER_INFO, generateOutputSubtext(player, rankings));
-        if (player.isWatched()) {
+        if (markWatched && player.isWatched()) {
             datum.put(Constants.PLAYER_STATUS, Integer.toString(R.drawable.star));
         }
         if (player.getAge() != null  && !Constants.DST.equals(player.getPosition())) {

@@ -135,7 +135,7 @@ public class RankingsHome extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        GeneralUtils.hideKeyboard(this);
 
         try {
             initApp();
@@ -259,6 +259,7 @@ public class RankingsHome extends AppCompatActivity {
         maxPlayersField.setText(String.valueOf(maxPlayers));
 
         Button submit = filterBase.findViewById(R.id.rankings_filter_submit);
+        final Activity act = this;
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -280,8 +281,7 @@ public class RankingsHome extends AppCompatActivity {
                     maxPlayers = Integer.parseInt(maxPlayersInput);
                     LocalSettingsHelper.saveNumVisiblePlayers(getApplication(), maxPlayers);
                 }
-                InputMethodManager imm = (InputMethodManager)getSystemService(Context.INPUT_METHOD_SERVICE);
-                imm.hideSoftInputFromWindow(filterBase.getWindowToken(), 0);
+                GeneralUtils.hideKeyboard(act);
                 displayRankings(filteredIds);
             }
         });
@@ -322,8 +322,7 @@ public class RankingsHome extends AppCompatActivity {
         });
         initRankingsContext();
 
-        InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+        GeneralUtils.hideKeyboard(this);
 
         // Cogneato stuff
         username = CUPHelper.getCurrUser();
@@ -420,7 +419,7 @@ public class RankingsHome extends AppCompatActivity {
                     // the constant is 'not set', so skip these. No sense showing a 10 year vet in rookie ranks.
                     continue;
                 }
-                Map<String, String> datum = DisplayUtils.getDatumForPlayer(rankings, player);
+                Map<String, String> datum = DisplayUtils.getDatumForPlayer(rankings, player, true);
                 data.add(datum);
                 displayedPlayers++;
                 if (displayedPlayers == maxPlayers) {

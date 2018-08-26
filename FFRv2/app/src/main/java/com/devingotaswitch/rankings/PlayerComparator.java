@@ -182,7 +182,7 @@ public class PlayerComparator extends AppCompatActivity {
                     // the constant is 'not set', so skip these. No sense showing a 10 year vet in rookie ranks.
                     continue;
                 }
-                Map<String, String> datum = DisplayUtils.getDatumForPlayer(rankings, player);
+                Map<String, String> datum = DisplayUtils.getDatumForPlayer(rankings, player, false);
                 data.add(datum);
             }
         }
@@ -191,18 +191,21 @@ public class PlayerComparator extends AppCompatActivity {
         inputList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                RelativeLayout rl = ((RelativeLayout)inputList.getChildAt(i));
-                Player clickedPlayer = rankings.getPlayer(DisplayUtils.getPlayerKeyFromListViewItem(rl));
+                Player clickedPlayer = rankings.getPlayer(DisplayUtils.getPlayerKeyFromListViewItem(((RelativeLayout)view)));
                 if (playerA != null && playerA.getUniqueId().equals(clickedPlayer.getUniqueId())) {
                     playerA = null;
                     inputA.setText(null);
-                    rl.setBackgroundColor(Constants.SORT_LIST_UNSELECTED);
+                    Map<String, String> datum = data.get(i);
+                    datum.put(Constants.PLAYER_STATUS, null);
+                    adapter.notifyDataSetChanged();
                 } else {
                     if (playerA == null) {
                         playerA = clickedPlayer;
                         inputA.setText(playerA.getName());
                         inputA.clearFocus();
-                        rl.setBackgroundColor(Constants.SORT_LIST_SELECTED);
+                        Map<String, String> datum = data.get(i);
+                        datum.put(Constants.PLAYER_STATUS, Integer.toString(R.drawable.star));
+                        adapter.notifyDataSetChanged();
                     } else {
                         playerB = clickedPlayer;
                         inputB.setText(playerB.getName());
@@ -492,6 +495,7 @@ public class PlayerComparator extends AppCompatActivity {
             clearColors(riskA, riskB);
         }
 
+        GeneralUtils.hideKeyboard(this);
     }
 
     private void clearColors(TextView playerA, TextView playerB) {
