@@ -58,6 +58,7 @@ import com.devingotaswitch.rankings.domain.RosterSettings;
 import com.devingotaswitch.rankings.domain.Team;
 import com.devingotaswitch.rankings.extras.SwipeDismissTouchListener;
 import com.devingotaswitch.utils.Constants;
+import com.devingotaswitch.utils.DisplayUtils;
 import com.devingotaswitch.utils.DraftUtils;
 import com.devingotaswitch.utils.GeneralUtils;
 import com.devingotaswitch.youruserpools.CUPHelper;
@@ -408,37 +409,18 @@ public class RankingsHome extends AppCompatActivity {
         final ListView listview =  findViewById(R.id.rankings_list);
         listview.setAdapter(null);
         final List<Map<String, String>> data = new ArrayList<>();
-        final SimpleAdapter adapter = new SimpleAdapter(this, data,
-                R.layout.list_item_layout,
-                new String[] { Constants.PLAYER_BASIC, Constants.PLAYER_INFO, Constants.PLAYER_STATUS, Constants.PLAYER_ADDITIONAL_INFO,
-                Constants.PLAYER_ADDITIONAL_INFO_2},
-                new int[] { R.id.player_basic, R.id.player_info,
-                R.id.player_status, R.id.player_more_info, R.id.player_additional_info_2 });
+        final SimpleAdapter adapter = DisplayUtils.getDisplayAdapter(this, data);
         listview.setAdapter(adapter);
         int displayedPlayers = 0;
         for (String playerKey : orderedIds) {
             Player player = rankings.getPlayer(playerKey);
             if (rankings.getLeagueSettings().getRosterSettings().isPositionValid(player.getPosition()) &&
                     !rankings.getDraft().isDrafted(player)) {
-                if (rankings.getLeagueSettings().isRookie() && player.getRookieRank() == 300.0) {
-                    // 300 is 'not set', so skip these. No sense showing a 10 year vet in rookie ranks.
+                if (rankings.getLeagueSettings().isRookie() && player.getRookieRank() == Constants.DEFAULT_RANK) {
+                    // the constant is 'not set', so skip these. No sense showing a 10 year vet in rookie ranks.
                     continue;
                 }
-                String playerBasicContent = player.getDisplayValue(rankings) +
-                        Constants.RANKINGS_LIST_DELIMITER +
-                        player.getName();
-                Map<String, String> datum = new HashMap<>(3);
-                datum.put(Constants.PLAYER_BASIC, playerBasicContent);
-                datum.put(Constants.PLAYER_INFO, generateOutputSubtext(player));
-                if (player.isWatched()) {
-                    datum.put(Constants.PLAYER_STATUS, Integer.toString(R.drawable.star));
-                }
-                if (player.getAge() != null  && !Constants.DST.equals(player.getPosition())) {
-                    datum.put(Constants.PLAYER_ADDITIONAL_INFO, "Age: " + player.getAge());
-                }
-                if (player.getExperience() != null && player.getExperience() >= 0 && !Constants.DST.equals(player.getPosition())) {
-                    datum.put(Constants.PLAYER_ADDITIONAL_INFO_2, "Exp: " + player.getExperience());
-                }
+                Map<String, String> datum = DisplayUtils.getDatumForPlayer(rankings, player);
                 data.add(datum);
                 displayedPlayers++;
                 if (displayedPlayers == maxPlayers) {
@@ -452,7 +434,7 @@ public class RankingsHome extends AppCompatActivity {
         listview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                String playerKey = getPlayerKeyFromListViewItem(view);
+                String playerKey = DisplayUtils.getPlayerKeyFromListViewItem(view);
                 final ImageView playerStatus = view.findViewById(R.id.player_status);
                 final Player player = rankings.getPlayer(playerKey);
                 if (player.isWatched()) {
@@ -487,7 +469,7 @@ public class RankingsHome extends AppCompatActivity {
         listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String playerKey = getPlayerKeyFromListViewItem(view);
+                String playerKey = DisplayUtils.getPlayerKeyFromListViewItem(view);
                 selectedIndex = position;
                 displayPlayerInfo(playerKey);
             }
@@ -641,38 +623,6 @@ public class RankingsHome extends AppCompatActivity {
     private void sortPlayers() {
         Intent intent = new Intent(this, PlayerSorter.class);
         startActivity(intent);
-    }
-
-    private String getPlayerKeyFromListViewItem(View view) {
-        TextView playerMain = view.findViewById(R.id.player_basic);
-        TextView playerInfo = view.findViewById(R.id.player_info);
-        String name = playerMain.getText().toString().split(Constants.RANKINGS_LIST_DELIMITER)[1];
-        String teamPosBye = playerInfo.getText().toString().split(Constants.LINE_BREAK)[0];
-        String teamPos = teamPosBye.split(" \\(")[0];
-        String team = teamPos.split(Constants.POS_TEAM_DELIMITER)[1];
-        String pos = teamPos.split(Constants.POS_TEAM_DELIMITER)[0];
-
-        return name +
-                Constants.PLAYER_ID_DELIMITER +
-                team +
-                Constants.PLAYER_ID_DELIMITER +
-                pos;
-    }
-
-    private String generateOutputSubtext(Player player) {
-        StringBuilder sub = new StringBuilder(player.getPosition())
-                .append(Constants.POS_TEAM_DELIMITER)
-                .append(player.getTeamName());
-        Team team = rankings.getTeam(player);
-        if (team != null) {
-            sub = sub.append(" (Bye: ")
-                    .append(team.getBye())
-                    .append(")");
-        }
-        return sub.append(Constants.LINE_BREAK)
-                .append("Projection: ")
-                .append(Constants.DECIMAL_FORMAT.format(player.getProjection()))
-                .toString();
     }
 
     // Handle when the a navigation item is selected

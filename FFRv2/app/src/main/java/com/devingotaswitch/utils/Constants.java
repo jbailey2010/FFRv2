@@ -1,5 +1,7 @@
 package com.devingotaswitch.utils;
 
+import android.graphics.Color;
+
 import java.text.DecimalFormat;
 
 public class Constants {
@@ -69,6 +71,10 @@ public class Constants {
     public final static String SORT_UNDER_30 = "Under 30";
     public final static String SORT_IGNORE_LATE = "Ignore late rounds";
     public final static String SORT_IGNORE_EARLY = "Ignore early rounds";
+
+    // Sort colors
+    public static final int SORT_LIST_SELECTED = Color.parseColor("#f1f1f1");
+    public static final int SORT_LIST_UNSELECTED = Color.parseColor("#fafafa");
 
     // Sort boolean thresholds
     public final static Integer SORT_EASY_SOS_THRESHOLD = 10;

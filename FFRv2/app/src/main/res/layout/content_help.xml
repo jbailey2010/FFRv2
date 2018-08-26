@@ -95,7 +95,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:layout_marginTop="10dp"
-                android:text="Stuck between two players? You can enter any two players, and the app will compare every piece of info for each. A drafted player will be marked with an asterisk. In addition, it will check what percentage of experts prefer one to the other.\n\nClicking on the name of either player will expand all of their info, and clicking and holding will draft them. This is accessible through the second option in the bottom menu."
+                android:text="Stuck between two players? You can enter any two players, and the app will compare every piece of info for each. A drafted player will be marked with an asterisk by their name. In addition, it will check what percentage of experts prefer one to the other.\n\nClicking on the name of either player will expand all of their info, and clicking and holding will draft them. You can edit a comparison at any time, or click and hold on the input fields to start over. This is accessible through the second option in the bottom menu."
                 android:visibility="gone"
                 android:id="@+id/help_compare_body"/>
 

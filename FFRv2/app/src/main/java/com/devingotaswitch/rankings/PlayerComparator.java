@@ -6,12 +6,15 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -20,9 +23,12 @@ import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.ScrollView;
+import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.amazonaws.util.StringUtils;
 import com.devingotaswitch.rankings.extras.FilterWithSpaceAdapter;
 import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.rankings.domain.Player;
@@ -31,6 +37,7 @@ import com.devingotaswitch.rankings.domain.Team;
 import com.devingotaswitch.rankings.sources.ParseMath;
 import com.devingotaswitch.rankings.sources.ParsePlayerNews;
 import com.devingotaswitch.utils.Constants;
+import com.devingotaswitch.utils.DisplayUtils;
 import com.devingotaswitch.utils.DraftUtils;
 import com.devingotaswitch.utils.GeneralUtils;
 
@@ -40,7 +47,9 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.text.DecimalFormat;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class PlayerComparator extends AppCompatActivity {
@@ -156,6 +165,53 @@ public class PlayerComparator extends AppCompatActivity {
                 }
             }
         });
+        displayOptions();
+    }
+
+    private void displayOptions() {
+        inputList.setVisibility(View.VISIBLE);
+        comparatorScroller.setVisibility(View.GONE);
+        inputList.setAdapter(null);
+        final List<Map<String, String>> data = new ArrayList<>();
+        final SimpleAdapter adapter = DisplayUtils.getDisplayAdapter(this, data);
+        inputList.setAdapter(adapter);
+        for (String playerKey : rankings.getOrderedIds()) {
+            Player player = rankings.getPlayer(playerKey);
+            if (rankings.getLeagueSettings().getRosterSettings().isPositionValid(player.getPosition())) {
+                if (rankings.getLeagueSettings().isRookie() && player.getRookieRank() == Constants.DEFAULT_RANK) {
+                    // the constant is 'not set', so skip these. No sense showing a 10 year vet in rookie ranks.
+                    continue;
+                }
+                Map<String, String> datum = DisplayUtils.getDatumForPlayer(rankings, player);
+                data.add(datum);
+            }
+        }
+        adapter.notifyDataSetChanged();
+
+        inputList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                RelativeLayout rl = ((RelativeLayout)inputList.getChildAt(i));
+                Player clickedPlayer = rankings.getPlayer(DisplayUtils.getPlayerKeyFromListViewItem(rl));
+                if (playerA != null && playerA.getUniqueId().equals(clickedPlayer.getUniqueId())) {
+                    playerA = null;
+                    inputA.setText(null);
+                    rl.setBackgroundColor(Constants.SORT_LIST_UNSELECTED);
+                } else {
+                    if (playerA == null) {
+                        playerA = clickedPlayer;
+                        inputA.setText(playerA.getName());
+                        inputA.clearFocus();
+                        rl.setBackgroundColor(Constants.SORT_LIST_SELECTED);
+                    } else {
+                        playerB = clickedPlayer;
+                        inputB.setText(playerB.getName());
+                        inputB.clearFocus();
+                        displayResults(playerA, playerB);
+                    }
+                }
+            }
+        });
     }
 
     private Player getPlayerFromView(View view) {
@@ -167,6 +223,9 @@ public class PlayerComparator extends AppCompatActivity {
         playerB = null;
         inputA.setText("");
         inputB.setText("");
+        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+        displayOptions();
     }
 
     private void displayResults(final Player playerA, final Player playerB) {
@@ -174,7 +233,6 @@ public class PlayerComparator extends AppCompatActivity {
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
         comparatorScroller.setVisibility(View.VISIBLE);
         inputList.setVisibility(View.GONE);
-        clearInputs();
         ParseFP parseFP = new ParseFP(this, playerA, playerB);
         parseFP.execute();
 
