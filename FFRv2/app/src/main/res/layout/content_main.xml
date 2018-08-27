@@ -10,14 +10,16 @@
     tools:context="com.devingotaswitch.youruserpools.MainActivity">
 
     <RelativeLayout
+        android:id="@+id/rankings_splash_buffer"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:id="@+id/rankings_splash_buffer"
-        android:layout_weight="1"/>
+        android:layout_weight="1"
+        android:visibility="visible"/>
 
     <RelativeLayout
         android:layout_width="match_parent"
         android:layout_weight="3"
+        android:layout_marginTop="20dp"
         android:layout_height="0dp">
     <ImageView
         android:layout_width="110dp"
@@ -62,153 +64,147 @@
     </RelativeLayout>
 
     <RelativeLayout
+        android:id="@+id/rankings_splash_bottom"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="3"
-        android:visibility="gone"
-        android:id="@+id/rankings_splash_bottom">
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/activity_inter_group_separation"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/space2" />
+        android:visibility="gone">
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textSize="@dimen/activity_text_size_small"
-        android:text=" "
-        android:id="@+id/textViewUserIdLabel"
-        android:layout_below="@+id/space2"
-        android:layout_centerHorizontal="true" />
+        <TextView
+            android:id="@+id/textViewUserIdLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:text=" "
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textSize="@dimen/activity_text_size_small"/>
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/activity_text_height"
-        android:paddingLeft="@dimen/activity_text_padding"
-        android:paddingRight="@dimen/activity_text_padding"
-        android:id="@+id/editTextUserId"
-        android:layout_below="@+id/textViewUserIdLabel"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/text_border_selector"
-        android:hint="Username"
-        android:inputType="textPersonName"/>
+        <EditText
+            android:id="@+id/editTextUserId"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/activity_text_height"
+            android:layout_below="@+id/textViewUserIdLabel"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/text_border_selector"
+            android:hint="Username"
+            android:inputType="textPersonName"
+            android:paddingLeft="@dimen/activity_text_padding"
+            android:paddingRight="@dimen/activity_text_padding"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textSize="@dimen/activity_text_padding"
-        android:text=" "
-        android:textColor="@color/alert"
-        android:id="@+id/textViewUserIdMessage"
-        android:layout_below="@+id/editTextUserId"
-        android:layout_centerHorizontal="true" />
+        <TextView
+            android:id="@+id/textViewUserIdMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/editTextUserId"
+            android:layout_centerHorizontal="true"
+            android:text=" "
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/alert"
+            android:textSize="@dimen/activity_text_padding"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text=" "
-        android:textSize="@dimen/activity_text_size_small"
-        android:id="@+id/textViewUserPasswordLabel"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/textViewUserIdMessage" />
+        <TextView
+            android:id="@+id/textViewUserPasswordLabel"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewUserIdMessage"
+            android:layout_centerHorizontal="true"
+            android:text=" "
+            android:textSize="@dimen/activity_text_size_small"/>
 
-    <EditText
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/activity_text_height"
-        android:paddingLeft="@dimen/activity_text_padding"
-        android:paddingRight="@dimen/activity_text_padding"
-        android:id="@+id/editTextUserPassword"
-        android:layout_below="@+id/textViewUserPasswordLabel"
-        android:layout_centerHorizontal="true"
-        android:background="@drawable/text_border_selector"
-        android:hint="Password"
-        android:inputType="textPassword" />
+        <EditText
+            android:id="@+id/editTextUserPassword"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/activity_text_height"
+            android:layout_below="@+id/textViewUserPasswordLabel"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/text_border_selector"
+            android:hint="Password"
+            android:inputType="textPassword"
+            android:paddingLeft="@dimen/activity_text_padding"
+            android:paddingRight="@dimen/activity_text_padding"/>
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:textSize="@dimen/activity_text_padding"
-        android:text=" "
-        android:textColor="@color/alert"
-        android:id="@+id/textViewUserPasswordMessage"
-        android:layout_below="@+id/editTextUserPassword"
-        android:layout_centerHorizontal="true" />
+        <TextView
+            android:id="@+id/textViewUserPasswordMessage"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/editTextUserPassword"
+            android:layout_centerHorizontal="true"
+            android:text=" "
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/alert"
+            android:textSize="@dimen/activity_text_padding"/>
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/activity_intra_group_separation"
-        android:layout_below="@+id/textViewUserPasswordMessage"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/space4" />
+        <Space
+            android:id="@+id/space4"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/activity_intra_group_separation"
+            android:layout_below="@+id/textViewUserPasswordMessage"
+            android:layout_centerHorizontal="true"/>
 
-    <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Sign in"
-        android:textAllCaps="false"
-        android:textColor="@color/white"
-        android:textSize="@dimen/activity_button_text_size"
-        android:id="@+id/buttonLogIn"
-        android:layout_centerHorizontal="true"
-        android:layout_below="@+id/space4"
-        android:background="@drawable/button_selector"
-        android:onClick="logIn"/>
+        <Button
+            android:id="@+id/buttonLogIn"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/space4"
+            android:layout_centerHorizontal="true"
+            android:background="@drawable/button_selector"
+            android:onClick="logIn"
+            android:text="Sign in"
+            android:textAllCaps="false"
+            android:textColor="@color/white"
+            android:textSize="@dimen/activity_button_text_size"/>
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/activity_intra_group_separation"
-        android:layout_below="@+id/buttonLogIn"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/space5" />
+        <Space
+            android:id="@+id/space5"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/activity_intra_group_separation"
+            android:layout_below="@+id/buttonLogIn"
+            android:layout_centerHorizontal="true"/>
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/activity_intra_group_separation"
-        android:layout_below="@+id/space5"
-        android:layout_centerHorizontal="true"
-        android:id="@+id/space6" />
+        <Space
+            android:id="@+id/space6"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/activity_intra_group_separation"
+            android:layout_below="@+id/space5"
+            android:layout_centerHorizontal="true"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Forgot password"
-        android:textColor="@color/button_default"
-        android:textSize="15sp"
-        android:clickable="true"
-        android:layout_below="@+id/space6"
-        android:layout_alignParentEnd="true"
-        android:onClick="forgotPassword"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@+id/space6"
+            android:clickable="true"
+            android:onClick="forgotPassword"
+            android:text="Forgot password"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/button_default"
+            android:textSize="14sp"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Sign up"
-        android:textColor="@color/button_default"
-        android:textSize="15sp"
-        android:id="@+id/textViewUserSignUp"
-        android:clickable="true"
-        android:layout_below="@+id/space6"
-        android:layout_alignParentStart="true"
-        android:onClick="signUp"/>
+        <TextView
+            android:id="@+id/textViewUserSignUp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/space6"
+            android:clickable="true"
+            android:onClick="signUp"
+            android:text="Sign up"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/button_default"
+            android:textSize="14sp"/>
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceSmall"
-        android:text="Confirm Your Account"
-        android:textColor="@color/button_default"
-        android:textSize="15sp"
-        android:clickable="true"
-        android:layout_marginTop="10dp"
-        android:layout_below="@+id/textViewUserSignUp"
-        android:layout_centerHorizontal="true"
-        android:onClick="confirmSignUp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/textViewUserSignUp"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="8dp"
+            android:clickable="true"
+            android:onClick="confirmSignUp"
+            android:text="Confirm Your Account"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:textColor="@color/button_default"
+            android:textSize="14sp"/>
     </RelativeLayout>
 
 </LinearLayout>
