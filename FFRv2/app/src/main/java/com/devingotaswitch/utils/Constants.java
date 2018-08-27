@@ -72,10 +72,6 @@ public class Constants {
     public final static String SORT_IGNORE_LATE = "Ignore late rounds";
     public final static String SORT_IGNORE_EARLY = "Ignore early rounds";
 
-    // Sort colors
-    public static final int SORT_LIST_SELECTED = Color.parseColor("#f1f1f1");
-    public static final int SORT_LIST_UNSELECTED = Color.parseColor("#fafafa");
-
     // Sort boolean thresholds
     public final static Integer SORT_EASY_SOS_THRESHOLD = 10;
     public final static Integer SORT_YOUNG_THRESHOLD = 30;
@@ -215,6 +211,9 @@ public class Constants {
     public final static String CURRENT_TEAM = "current_team";
     public final static String DISPLAY_DRAFTED = "Drafted";
     public final static String COMPARATOR_DRAFTED_SUFFIX = " *";
+
+    // Comparator list display constants
+    public static final int COMPARATOR_LIST_MAX = 250;
 
     // Display rankings utilities
     public final static String PLAYER_BASIC = "main";

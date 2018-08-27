@@ -113,11 +113,11 @@ public class PlayerInfo extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        final Activity activity = this;
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                GeneralUtils.hideKeyboard(activity);
                 onBackPressed();
             }
         });
@@ -145,8 +145,7 @@ public class PlayerInfo extends AppCompatActivity {
             init();
         } catch (Exception e) {
             Log.d(TAG, "Failure setting up activity, falling back to Rankings", e);
-            InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-            imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+            GeneralUtils.hideKeyboard(this);
             onBackPressed();
         }
     }
@@ -1067,8 +1066,7 @@ public class PlayerInfo extends AppCompatActivity {
                 if (!StringUtils.isBlank(commentContent)) {
                     input.setText("");
                     AppSyncHelper.createComment(activity, commentContent, player.getUniqueId());
-                    InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-                    imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                    GeneralUtils.hideKeyboard(activity);
                 }
             }
         });

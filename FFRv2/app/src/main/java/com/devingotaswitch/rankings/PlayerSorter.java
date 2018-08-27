@@ -95,11 +95,11 @@ public class PlayerSorter extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        final Activity act = this;
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                GeneralUtils.hideKeyboard(act);
                 onBackPressed();
             }
         });
@@ -138,8 +138,7 @@ public class PlayerSorter extends AppCompatActivity {
             init();
         } catch (Exception e) {
             Log.d(TAG, "Failure setting up activity, falling back to Rankings", e);
-            InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-            imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+            GeneralUtils.hideKeyboard(this);
             onBackPressed();
         }
     }
@@ -257,6 +256,7 @@ public class PlayerSorter extends AppCompatActivity {
                 if (!StringUtils.isBlank(numberShownStr) && GeneralUtils.isInteger(numberShownStr)) {
                     sortMax = Integer.parseInt(numberShownStr);
                 }
+                GeneralUtils.hideKeyboard(activity);
                 getComparatorForFactor(filteredIds, spinner.getSelectedStrings(), reverse.isChecked());
                 graphItem.setVisible(true);
             }
@@ -588,11 +588,11 @@ public class PlayerSorter extends AppCompatActivity {
 
     private void getAuctionCost(final ListView listView, final Player player, final int position, final List<Map<String, String>> data,
                                 final Map<String, String> datum, final SimpleAdapter adapter, final View.OnClickListener listener) {
+        final Activity act = this;
         DraftUtils.AuctionCostInterface callback = new DraftUtils.AuctionCostInterface() {
             @Override
             public void onValidInput(Integer cost) {
-                InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                GeneralUtils.hideKeyboard(act);
                 draftByMe(listView, player, cost, listener);
             }
 
@@ -601,8 +601,8 @@ public class PlayerSorter extends AppCompatActivity {
                 Snackbar.make(listView, "Must provide a number for cost", Snackbar.LENGTH_SHORT).show();
                 data.add(position, datum);
                 adapter.notifyDataSetChanged();
-                InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);            }
+                GeneralUtils.hideKeyboard(act);
+            }
 
             @Override
             public void onCancel() {

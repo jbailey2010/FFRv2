@@ -410,9 +410,8 @@ public class RankingsHome extends AppCompatActivity {
         final List<Map<String, String>> data = new ArrayList<>();
         final SimpleAdapter adapter = DisplayUtils.getDisplayAdapter(this, data);
         listview.setAdapter(adapter);
-        int displayedPlayers = 0;
-        for (String playerKey : orderedIds) {
-            Player player = rankings.getPlayer(playerKey);
+        for (int i = 0; i < maxPlayers; i++) {
+            Player player = rankings.getPlayer(orderedIds.get(i));
             if (rankings.getLeagueSettings().getRosterSettings().isPositionValid(player.getPosition()) &&
                     !rankings.getDraft().isDrafted(player)) {
                 if (rankings.getLeagueSettings().isRookie() && player.getRookieRank() == Constants.DEFAULT_RANK) {
@@ -421,10 +420,6 @@ public class RankingsHome extends AppCompatActivity {
                 }
                 Map<String, String> datum = DisplayUtils.getDatumForPlayer(rankings, player, true);
                 data.add(datum);
-                displayedPlayers++;
-                if (displayedPlayers == maxPlayers) {
-                    break;
-                }
             }
         }
         adapter.notifyDataSetChanged();
@@ -545,11 +540,11 @@ public class RankingsHome extends AppCompatActivity {
 
     private void getAuctionCost(final Player player, final int position, final List<Map<String, String>> data,
                                 final Map<String, String> datum, final SimpleAdapter adapter, final View.OnClickListener listener) {
+        final Activity act = this;
         DraftUtils.AuctionCostInterface callback = new DraftUtils.AuctionCostInterface() {
             @Override
             public void onValidInput(Integer cost) {
-                InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                GeneralUtils.hideKeyboard(act);
                 draftByMe(player, cost, listener);
             }
 
@@ -558,8 +553,8 @@ public class RankingsHome extends AppCompatActivity {
                 Snackbar.make(findViewById(R.id.user_drawer_layout), "Must provide a number for cost", Snackbar.LENGTH_SHORT).show();
                 data.add(position, datum);
                 adapter.notifyDataSetChanged();
-                InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);            }
+                GeneralUtils.hideKeyboard(act);
+            }
 
             @Override
             public void onCancel() {

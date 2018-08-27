@@ -25,6 +25,7 @@ import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.domain.RosterSettings;
 import com.devingotaswitch.rankings.domain.Team;
 import com.devingotaswitch.utils.Constants;
+import com.devingotaswitch.utils.GeneralUtils;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.components.Legend;
@@ -67,11 +68,11 @@ public class DraftInfo extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        final Activity act = this;
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                GeneralUtils.hideKeyboard(act);
                 onBackPressed();
             }
         });
@@ -85,8 +86,7 @@ public class DraftInfo extends AppCompatActivity {
             init();
         } catch (Exception e) {
             Log.d(TAG, "Failure setting up activity, falling back to Rankings", e);
-            InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-            imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+            GeneralUtils.hideKeyboard(this);
             onBackPressed();
         }
     }

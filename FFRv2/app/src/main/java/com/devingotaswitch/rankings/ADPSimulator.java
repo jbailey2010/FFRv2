@@ -60,11 +60,11 @@ public class ADPSimulator extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        final Activity act = this;
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                GeneralUtils.hideKeyboard(act);
                 onBackPressed();
             }
         });
@@ -82,8 +82,7 @@ public class ADPSimulator extends AppCompatActivity {
             }
         } catch (Exception e) {
             Log.d(TAG, "Failure setting up activity, falling back to Rankings", e);
-            InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-            imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+            GeneralUtils.hideKeyboard(this);
             onBackPressed();
         }
     }
@@ -105,6 +104,7 @@ public class ADPSimulator extends AppCompatActivity {
         roundInput = findViewById(R.id.adp_pick_round);
         pickInput = findViewById(R.id.adp_pick_in_round);
         Button submit = findViewById(R.id.adp_submit_button);
+        final Activity act = this;
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -126,6 +126,7 @@ public class ADPSimulator extends AppCompatActivity {
                 }
                 int overallPick = ((round - 1) * rankings.getLeagueSettings().getTeamCount()) + pick;
 
+                GeneralUtils.hideKeyboard(act);
                 getADPOddsForInput(overallPick);
             }
         });

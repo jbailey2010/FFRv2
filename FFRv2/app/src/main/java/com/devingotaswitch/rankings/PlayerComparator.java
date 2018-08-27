@@ -85,11 +85,11 @@ public class PlayerComparator extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        final Activity act = this;
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-                imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+                GeneralUtils.hideKeyboard(act);
                 onBackPressed();
             }
         });
@@ -98,7 +98,7 @@ public class PlayerComparator extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+        GeneralUtils.hideKeyboard(this);
 
         try {
             init();
@@ -111,8 +111,7 @@ public class PlayerComparator extends AppCompatActivity {
             }
         } catch (Exception e) {
             Log.d(TAG, "Failure setting up activity, falling back to Rankings", e);
-            InputMethodManager imm = (InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE);
-            imm.toggleSoftInput(InputMethodManager.HIDE_IMPLICIT_ONLY, 0);
+            GeneralUtils.hideKeyboard(this);
             onBackPressed();
         }
     }
@@ -175,8 +174,8 @@ public class PlayerComparator extends AppCompatActivity {
         final List<Map<String, String>> data = new ArrayList<>();
         final SimpleAdapter adapter = DisplayUtils.getDisplayAdapter(this, data);
         inputList.setAdapter(adapter);
-        for (String playerKey : rankings.getOrderedIds()) {
-            Player player = rankings.getPlayer(playerKey);
+        for (int i = 0; i < Math.min(Constants.COMPARATOR_LIST_MAX, rankings.getOrderedIds().size()); i++) {
+            Player player = rankings.getPlayer(rankings.getOrderedIds().get(i));
             if (rankings.getLeagueSettings().getRosterSettings().isPositionValid(player.getPosition())) {
                 if (rankings.getLeagueSettings().isRookie() && player.getRookieRank() == Constants.DEFAULT_RANK) {
                     // the constant is 'not set', so skip these. No sense showing a 10 year vet in rookie ranks.
@@ -226,14 +225,12 @@ public class PlayerComparator extends AppCompatActivity {
         playerB = null;
         inputA.setText("");
         inputB.setText("");
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+        GeneralUtils.hideKeyboard(this);
         displayOptions();
     }
 
     private void displayResults(final Player playerA, final Player playerB) {
-        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
+        GeneralUtils.hideKeyboard(this);
         comparatorScroller.setVisibility(View.VISIBLE);
         inputList.setVisibility(View.GONE);
         ParseFP parseFP = new ParseFP(this, playerA, playerB);
