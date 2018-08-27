@@ -410,7 +410,7 @@ public class RankingsHome extends AppCompatActivity {
         final List<Map<String, String>> data = new ArrayList<>();
         final SimpleAdapter adapter = DisplayUtils.getDisplayAdapter(this, data);
         listview.setAdapter(adapter);
-        for (int i = 0; i < maxPlayers; i++) {
+        for (int i = 0; i < Math.min(orderedIds.size(), maxPlayers); i++) {
             Player player = rankings.getPlayer(orderedIds.get(i));
             if (rankings.getLeagueSettings().getRosterSettings().isPositionValid(player.getPosition()) &&
                     !rankings.getDraft().isDrafted(player)) {

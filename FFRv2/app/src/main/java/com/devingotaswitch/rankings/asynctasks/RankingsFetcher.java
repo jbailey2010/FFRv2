@@ -155,6 +155,12 @@ public class RankingsFetcher {
             } catch (Exception e) {
                 Log.e(TAG, "Failed to parse rookie ranks", e);
             }
+            Log.i(TAG, "Getting best ball rankings");
+            try {
+                ParseFantasyPros.parseBestBallWrapper(rankings);
+            } catch (Exception e) {
+                Log.e(TAG, "Failed to parse best ball ranks", e);
+            }
 
             Log.i(TAG, "Cleaning up duplicate players");
             dedupPlayers();
@@ -357,6 +363,19 @@ public class RankingsFetcher {
                             return 1;
                         }
                         if (a.getRookieRank() < b.getRookieRank()) {
+                            return -1;
+                        }
+                        return 0;
+                    }
+                };
+            } else if (rankings.getLeagueSettings().isBestBall()) {
+                comparator = new Comparator<Player>() {
+                    @Override
+                    public int compare(Player a, Player b) {
+                        if (a.getBestBallRank() > b.getBestBallRank()) {
+                            return 1;
+                        }
+                        if (a.getBestBallRank() < b.getBestBallRank()) {
                             return -1;
                         }
                         return 0;

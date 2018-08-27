@@ -735,6 +735,16 @@ public class PlayerInfo extends AppCompatActivity {
             data.add(rookie);
         }
 
+        Map<String, String> bestBall = new HashMap<>();
+        bestBall.put(Constants.PLAYER_BASIC, "Best Ball Ranking: " + (player.getBestBallRank().equals(Constants.DEFAULT_RANK) ? Constants.DEFAULT_DISPLAY_RANK_NOT_SET : player.getBestBallRank()));
+        if (!player.getBestBallRank().equals(Constants.DEFAULT_RANK)) {
+            int bbRank = getBestBall(null, player.getBestBallRank());
+            int bbRankPos = getBestBall(player.getPosition(), player.getBestBallRank());
+            String bbSub = getRankingSub(bbRank, bbRankPos);
+            bestBall.put(Constants.PLAYER_INFO, bbSub);
+        }
+        data.add(bestBall);
+
         if (player.getProjection() != null) {
             Map<String, String> proj = new HashMap<>();
             proj.put(Constants.PLAYER_BASIC, "Projection: " + player.getProjection());
@@ -1201,6 +1211,19 @@ public class PlayerInfo extends AppCompatActivity {
             Player player = rankings.getPlayer(key);
             if (pos == null || pos.equals(player.getPosition())) {
                 if (player.getDynastyRank() < source) {
+                    rank++;
+                }
+            }
+        }
+        return rank;
+    }
+
+    private int getBestBall(String pos, double source) {
+        int rank = 1;
+        for (String key : rankings.getPlayers().keySet()) {
+            Player player = rankings.getPlayer(key);
+            if (pos == null || pos.equals(player.getPosition())) {
+                if (player.getBestBallRank() < source) {
                     rank++;
                 }
             }

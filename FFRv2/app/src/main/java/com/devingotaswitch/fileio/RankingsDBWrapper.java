@@ -93,6 +93,8 @@ public class RankingsDBWrapper {
             columnName = Constants.PLAYER_DYNASTY_COLUMN;
         } else if (leagueSettings.isRookie()) {
             columnName = Constants.PLAYER_ROOKIE_COLUMN;
+        } else if (leagueSettings.isBestBall()) {
+            columnName = Constants.PLAYER_BEST_BALL_COLUMN;
         }
 
         String[] projection = {

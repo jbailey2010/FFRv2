@@ -14,6 +14,7 @@ public class Player {
     private Double adp = Constants.DEFAULT_RANK;
     private Double dynastyRank = Constants.DEFAULT_RANK;
     private Double rookieRank = Constants.DEFAULT_RANK;
+    private Double bestBallRank = Constants.DEFAULT_RANK;
     private String teamName;
     private String note;
     private String stats;
@@ -89,6 +90,14 @@ public class Player {
 
     public void setRookieRank(Double rookie) {
         this.rookieRank = rookie;
+    }
+
+    public Double getBestBallRank() {
+        return bestBallRank;
+    }
+
+    public void setBestBallRank(Double bestBall) {
+        this.bestBallRank = bestBall;
     }
 
     public String getTeamName() {
@@ -246,6 +255,8 @@ public class Player {
             return String.valueOf(getEcr().equals(Constants.DEFAULT_RANK)  ? Constants.DEFAULT_DISPLAY_RANK_NOT_SET : getEcr());
         } else if (league.isAuction()) {
             return Constants.DECIMAL_FORMAT.format(getAuctionValueCustom(rankings));
+        } else if (league.isBestBall()) {
+            return String.valueOf(getBestBallRank().equals(Constants.DEFAULT_RANK) ? Constants.DEFAULT_DISPLAY_RANK_NOT_SET : getBestBallRank());
         } else {
             return "";
         }

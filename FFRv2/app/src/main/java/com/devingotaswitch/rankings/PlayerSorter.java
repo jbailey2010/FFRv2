@@ -197,6 +197,7 @@ public class PlayerSorter extends AppCompatActivity {
         factorList.add(Constants.SORT_AUCTION);
         factorList.add(Constants.SORT_DYNASTY);
         factorList.add(Constants.SORT_ROOKIE);
+        factorList.add(Constants.SORT_BEST_BALL);
         factorList.add(Constants.SORT_PROJECTION);
         factorList.add(Constants.SORT_PAA);
         factorList.add(Constants.SORT_PAA_SCALED);
@@ -222,7 +223,7 @@ public class PlayerSorter extends AppCompatActivity {
         list.add(Constants.SORT_ONLY_WATCHED);
         list.add(Constants.SORT_ONLY_ROOKIES);
         list.add(Constants.SORT_UNDER_30);
-        if (!rankings.getLeagueSettings().isRookie() && !rankings.getLeagueSettings().isDynasty()) {
+        if (!rankings.getLeagueSettings().isRookie() && !rankings.getLeagueSettings().isDynasty() && !rankings.getLeagueSettings().isBestBall()) {
             list.add(Constants.SORT_IGNORE_EARLY);
             list.add(Constants.SORT_IGNORE_LATE);
         }
@@ -286,6 +287,9 @@ public class PlayerSorter extends AppCompatActivity {
                 break;
             case Constants.SORT_ROOKIE:
                 comparator = getRookieComparator();
+                break;
+            case Constants.SORT_BEST_BALL:
+                comparator = getBestBallComparator();
                 break;
             case Constants.SORT_PROJECTION:
                 comparator = getProjectionComparator();
@@ -385,25 +389,13 @@ public class PlayerSorter extends AppCompatActivity {
             }
             int teamCount = rankings.getLeagueSettings().getTeamCount();
             if (booleanFactors.contains(Constants.SORT_IGNORE_LATE)) {
-                if (rankings.getLeagueSettings().isAuction() || rankings.getLeagueSettings().isSnake()) {
-                    if (player.getEcr() > teamCount * Constants.SORT_IGNORE_LATE_THRESHOLD_ROUNDS) {
-                        continue;
-                    }
-                } else if (rankings.getLeagueSettings().isDynasty()) {
-                    if (player.getDynastyRank() > teamCount * Constants.SORT_IGNORE_LATE_THRESHOLD_ROUNDS) {
-                        continue;
-                    }
+                if (player.getEcr() > teamCount * Constants.SORT_IGNORE_LATE_THRESHOLD_ROUNDS) {
+                    continue;
                 }
             }
             if (booleanFactors.contains(Constants.SORT_IGNORE_EARLY)) {
-                if (rankings.getLeagueSettings().isAuction() || rankings.getLeagueSettings().isSnake()) {
-                    if (player.getEcr() < teamCount * Constants.SORT_IGNORE_EARLY_THRESHOLD_ROUNDS) {
-                        continue;
-                    }
-                } else if (rankings.getLeagueSettings().isDynasty()) {
-                    if (player.getDynastyRank() < teamCount * Constants.SORT_IGNORE_EARLY_THRESHOLD_ROUNDS) {
-                        continue;
-                    }
+                if (player.getEcr() < teamCount * Constants.SORT_IGNORE_EARLY_THRESHOLD_ROUNDS) {
+                    continue;
                 }
             }
 
@@ -662,6 +654,21 @@ public class PlayerSorter extends AppCompatActivity {
                     return 1;
                 }
                 if (a.getRookieRank() < b.getRookieRank()) {
+                    return -1;
+                }
+                return 0;
+            }
+        };
+    }
+
+    private Comparator<Player> getBestBallComparator() {
+        return new Comparator<Player>() {
+            @Override
+            public int compare(Player a, Player b) {
+                if (a.getBestBallRank() > b.getBestBallRank()) {
+                    return 1;
+                }
+                if (a.getBestBallRank() < b.getBestBallRank()) {
                     return -1;
                 }
                 return 0;
@@ -957,6 +964,8 @@ public class PlayerSorter extends AppCompatActivity {
                 return String.valueOf(player.getDynastyRank().equals(Constants.DEFAULT_RANK) ? Constants.DEFAULT_DISPLAY_RANK_NOT_SET : player.getDynastyRank());
             case Constants.SORT_ROOKIE:
                 return String.valueOf(player.getRookieRank().equals(Constants.DEFAULT_RANK) ? Constants.DEFAULT_DISPLAY_RANK_NOT_SET : player.getRookieRank());
+            case Constants.SORT_BEST_BALL:
+                return String.valueOf(player.getBestBallRank().equals(Constants.DEFAULT_RANK) ? Constants.DEFAULT_DISPLAY_RANK_NOT_SET : player.getBestBallRank());
             case Constants.SORT_PROJECTION:
                 return Constants.DECIMAL_FORMAT.format(player.getProjection());
             case Constants.SORT_PAA:
@@ -1017,23 +1026,28 @@ public class PlayerSorter extends AppCompatActivity {
             subtextBuilder.append(Constants.LINE_BREAK)
                     .append("Auction Value: ")
                     .append(Constants.DECIMAL_FORMAT.format(player.getAuctionValueCustom(rankings)));
-        } else if (rankings.getLeagueSettings().isSnake() && !Constants.SORT_ECR.equals(factor) && !Constants.SORT_ALL.equals(factor)) {
+        } else if (rankings.getLeagueSettings().isSnake() && !Constants.SORT_ECR.equals(factor) && !Constants.SORT_ALL.equals(factor) &&
+                !Constants.SORT_UNDERDRAFTED.equals(factor) && !Constants.SORT_OVERDRAFTED.equals(factor)) {
             subtextBuilder.append(Constants.LINE_BREAK)
                     .append("ECR: ")
-                    .append(String.valueOf(player.getEcr()));
+                    .append(player.getEcr());
         } else if (rankings.getLeagueSettings().isDynasty() && !Constants.SORT_DYNASTY.equals(factor) && !Constants.SORT_ALL.equals(factor)) {
             subtextBuilder.append(Constants.LINE_BREAK)
                     .append("Dynasty/Keeper Rank: ")
-                    .append(String.valueOf(player.getDynastyRank()));
+                    .append(player.getDynastyRank());
             if (player.getAge() != null) {
                 subtextBuilder.append(Constants.LINE_BREAK)
                         .append("Age: ")
-                        .append(String.valueOf(player.getAge()));
+                        .append(player.getAge());
             }
         } else if (rankings.getLeagueSettings().isRookie() && !Constants.SORT_ROOKIE.equals(factor) && !Constants.SORT_ALL.equals(factor)) {
             subtextBuilder.append(Constants.LINE_BREAK)
                     .append("Rookie Rank: ")
-                    .append(String.valueOf(player.getRookieRank()));
+                    .append(player.getRookieRank());
+        } else if (rankings.getLeagueSettings().isBestBall() && !Constants.SORT_BEST_BALL.equals(factor) && !Constants.SORT_ALL.equals(factor)) {
+            subtextBuilder.append(Constants.LINE_BREAK)
+                    .append("Best Ball Rank: ")
+                    .append(player.getBestBallRank());
         }
         return subtextBuilder.toString();
     }

@@ -51,6 +51,7 @@ class RankingsDBHelper extends SQLiteOpenHelper {
                 Constants.IS_AUCTION_COLUMN          + " BOOLEAN," +
                 Constants.IS_DYNASTY_STARTUP_COLUMN  + " BOOLEAN," +
                 Constants.IS_DYNASTY_ROOKIE_COLUMN   + " BOOLEAN," +
+                Constants.IS_BEST_BALL_COLUMN        + " BOOLEAN," +
                 Constants.AUCTION_BUDGET_COLUMN      + " INTEGER," +
                 Constants.SCORING_ID_COLUMN          + " TEXT," +
                 Constants.ROSTER_ID_COLUMN           + " TEXT);";
@@ -132,6 +133,7 @@ class RankingsDBHelper extends SQLiteOpenHelper {
                 Constants.PLAYER_ADP_COLUMN        + " REAL," +
                 Constants.PLAYER_DYNASTY_COLUMN    + " REAL," +
                 Constants.PLAYER_ROOKIE_COLUMN     + " REAL," +
+                Constants.PLAYER_BEST_BALL_COLUMN  + " REAL," +
                 Constants.AUCTION_VALUE_COLUMN     + " REAL," +
                 Constants.PLAYER_PROJECTION_COLUMN + " REAL," +
                 Constants.PLAYER_PAA_COLUMN        + " REAL," +

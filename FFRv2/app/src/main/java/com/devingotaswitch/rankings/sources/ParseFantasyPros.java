@@ -54,8 +54,7 @@ public class ParseFantasyPros {
 
         for (String playerId : rankings.getPlayers().keySet()) {
             if (adp.containsKey(playerId)) {
-                Player player = rankings.getPlayer(playerId);
-                player.setAdp(adp.get(playerId));
+                rankings.getPlayer(playerId).setAdp(adp.get(playerId));
             }
         }
     }
@@ -67,8 +66,7 @@ public class ParseFantasyPros {
 
         for (String playerId : rankings.getPlayers().keySet()) {
             if (dynasty.containsKey(playerId)) {
-                Player player = rankings.getPlayer(playerId);
-                player.setDynastyRank(dynasty.get(playerId));
+                rankings.getPlayer(playerId).setDynastyRank(dynasty.get(playerId));
             }
         }
     }
@@ -80,8 +78,19 @@ public class ParseFantasyPros {
 
         for (String playerId : rankings.getPlayers().keySet()) {
             if (rookie.containsKey(playerId)) {
-                Player player = rankings.getPlayer(playerId);
-                player.setRookieRank(rookie.get(playerId));
+                rankings.getPlayer(playerId).setRookieRank(rookie.get(playerId));
+            }
+        }
+    }
+
+    public static void parseBestBallWrapper(Rankings rankings) throws IOException {
+        Map<String, Double> bestBall = new HashMap<>();
+        String url = "https://www.fantasypros.com/nfl/rankings/best-ball-overall.php";
+        parseBestBallWorker(url, bestBall);
+
+        for (String playerId : rankings.getPlayers().keySet()) {
+            if (bestBall.containsKey(playerId)) {
+                rankings.getPlayer(playerId).setBestBallRank(bestBall.get(playerId));
             }
         }
     }
@@ -214,7 +223,7 @@ public class ParseFantasyPros {
                 }
                 String name = ParsingUtils
                         .normalizeNames(ParsingUtils.normalizeDefenses(fullName));
-                double dynastyVal = Double.parseDouble(td.get(i + 5));
+                double dynastyVal = Double.parseDouble(td.get(i + 6));
                 String posInd = td.get(i + 1).replaceAll("(\\d+,\\d+)|\\d+", "")
                         .replaceAll("DST", Constants.DST);
                 if (Constants.DST.equals(posInd)) {
@@ -263,6 +272,52 @@ public class ParseFantasyPros {
                 rookie.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + posInd, rookieVal);
             } catch (StringIndexOutOfBoundsException siooe) {
                 Log.d(TAG, "Failed to parse a player's rookie rank", siooe);
+            }
+        }
+    }
+
+    private static void parseBestBallWorker(String url,
+                                          Map<String, Double> bestBall) throws IOException {
+        Document doc = JsoupUtils.getDocument(url);
+        List<String> names = JsoupUtils.getElemsFromDoc(doc, "table.player-table tbody tr td span.full-name");
+        List<String> td = JsoupUtils.getElemsFromDoc(doc, "table.player-table tbody tr td");
+        int min = 0;
+        for (int i = 0; i < td.size(); i++) {
+            if (GeneralUtils.isInteger(td.get(i))) {
+                min = i + 1;
+                break;
+            }
+        }
+        int playerCount = 0;
+        for (int i = min; i < td.size(); i += 10) {
+            try {
+                if (i + 10 >= td.size()) {
+                    break;
+                }
+                while (td.get(i).split(" ").length < 3 && i < td.size()) {
+                    i++;
+                }
+
+                String fullName = names.get(playerCount++).split(" \\(")[0];
+                String filteredName = td.get(i).split(
+                        " \\(")[0].split(", ")[0];
+                String team;
+                if (filteredName.split(" ").length > 1) {
+                    team = ParsingUtils.normalizeTeams(filteredName.substring(filteredName.lastIndexOf(" ")).trim());
+                } else {
+                    team = ParsingUtils.normalizeTeams(filteredName.trim());
+                }
+                String name = ParsingUtils
+                        .normalizeNames(ParsingUtils.normalizeDefenses(fullName));
+                double rookieVal = Double.parseDouble(td.get(i + 5));
+                String posInd = td.get(i + 1).replaceAll("(\\d+,\\d+)|\\d+", "")
+                        .replaceAll("DST", Constants.DST);
+                if (Constants.DST.equals(posInd)) {
+                    team = ParsingUtils.normalizeTeams(fullName);
+                }
+                bestBall.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + posInd, rookieVal);
+            } catch (StringIndexOutOfBoundsException siooe) {
+                Log.d(TAG, "Failed to parse a player's best ball rank", siooe);
             }
         }
     }

@@ -9,25 +9,27 @@ public class LeagueSettings {
     private boolean isDynasty;
     private boolean isRookie;
     private boolean isSnake;
+    private boolean isBestBall;
     private int auctionBudget;
 
     private ScoringSettings scoringSettings;
     private RosterSettings rosterSettings;
 
     public LeagueSettings(String name, int teamCount, boolean isSnake, boolean isAuction, boolean isDynasty,
-                          boolean isRookie, int auctionBudget) {
-        this(name, teamCount, isSnake, isAuction, isDynasty, isRookie, auctionBudget, new ScoringSettings(),
+                          boolean isRookie, boolean isBestBall, int auctionBudget) {
+        this(name, teamCount, isSnake, isAuction, isDynasty, isRookie, isBestBall, auctionBudget, new ScoringSettings(),
                 new RosterSettings());
     }
 
     public LeagueSettings(String name, int teamCount, boolean isSnake, boolean isAuction, boolean isDynasty,
-                          boolean isRookie, int auctionBudget, ScoringSettings scoring, RosterSettings roster) {
+                          boolean isRookie, boolean isBestBall, int auctionBudget, ScoringSettings scoring, RosterSettings roster) {
         this.setName(name);
         this.setTeamCount(teamCount);
         this.setSnake(isSnake);
         this.setAuction(isAuction);
         this.setDynasty(isDynasty);
         this.setRookie(isRookie);
+        this.setBestBall(isBestBall);
         this.setAuctionBudget(auctionBudget);
         this.setScoringSettings(scoring);
         this.setRosterSettings(roster);
@@ -65,6 +67,10 @@ public class LeagueSettings {
         return isSnake;
     }
 
+    public boolean isBestBall() {
+        return isBestBall;
+    }
+
     public void setAuction(boolean auction) {
         isAuction = auction;
     }
@@ -79,6 +85,10 @@ public class LeagueSettings {
 
     public void setSnake(boolean snake) {
         isSnake = snake;
+    }
+
+    public void setBestBall(boolean bestBall) {
+        isBestBall = bestBall;
     }
 
     public int getAuctionBudget() {

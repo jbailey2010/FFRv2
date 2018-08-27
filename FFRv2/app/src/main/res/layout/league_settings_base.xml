@@ -110,6 +110,11 @@
             android:layout_height="wrap_content"
             android:id="@+id/league_settings_dynasty_rookie"
             android:text="Dynasty Rookie"/>
+        <RadioButton
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/league_settings_best_ball"
+            android:text="Best Ball"/>
 
     </RadioGroup>
 

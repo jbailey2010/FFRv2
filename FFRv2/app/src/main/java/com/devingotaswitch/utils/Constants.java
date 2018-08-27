@@ -34,6 +34,7 @@ public class Constants {
     public final static String SORT_AUCTION = "Auction Value";
     public final static String SORT_DYNASTY = "Dynasty/Keeper Rank";
     public final static String SORT_ROOKIE = "Rookie Rank";
+    public final static String SORT_BEST_BALL = "Best Ball Rank";
     public final static String SORT_PROJECTION = "Projection";
     public final static String SORT_PAA = "PAA";
     public final static String SORT_PAA_SCALED = "Scaled PAA";
@@ -102,7 +103,8 @@ public class Constants {
     public static final String IS_AUCTION_COLUMN = "is_auction";
     public static final String IS_DYNASTY_STARTUP_COLUMN = "is_dynasty_startup";
     public static final String IS_DYNASTY_ROOKIE_COLUMN = "is_dynasty_rookie";
-    public static final String IS_SNAKE_COLUMN = "Is_snake";
+    public static final String IS_SNAKE_COLUMN = "is_snake";
+    public static final String IS_BEST_BALL_COLUMN = "is_best_ball";
     public static final String AUCTION_BUDGET_COLUMN = "auction_budget";
     public static final String SCORING_ID_COLUMN = "scoring_id";
     public static final String ROSTER_ID_COLUMN = "roster_id";
@@ -186,6 +188,7 @@ public class Constants {
     public static final String PLAYER_ADP_COLUMN = "adp";
     public static final String PLAYER_DYNASTY_COLUMN = "dynasty";
     public static final String PLAYER_ROOKIE_COLUMN = "rookie";
+    public static final String PLAYER_BEST_BALL_COLUMN = "best_ball";
     public static final String PLAYER_RISK_COLUMN = "risk";
     public static final String PLAYER_STATS_COLUMN = "stats";
     public static final String PLAYER_INJURED_COLUMN = "injury_status";

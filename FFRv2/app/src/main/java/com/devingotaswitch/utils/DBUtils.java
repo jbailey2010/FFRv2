@@ -81,6 +81,7 @@ public class DBUtils {
         values.put(Constants.IS_AUCTION_COLUMN, league.isAuction());
         values.put(Constants.IS_DYNASTY_STARTUP_COLUMN, league.isDynasty());
         values.put(Constants.IS_DYNASTY_ROOKIE_COLUMN, league.isRookie());
+        values.put(Constants.IS_BEST_BALL_COLUMN, league.isBestBall());
         values.put(Constants.AUCTION_BUDGET_COLUMN, league.getAuctionBudget());
         values.put(Constants.SCORING_ID_COLUMN, league.getScoringSettings().getId());
         values.put(Constants.ROSTER_ID_COLUMN, league.getRosterSettings().getId());
@@ -95,6 +96,7 @@ public class DBUtils {
                 result.getInt(result.getColumnIndex(Constants.IS_AUCTION_COLUMN)) != 0,
                 result.getInt(result.getColumnIndex(Constants.IS_DYNASTY_STARTUP_COLUMN)) != 0,
                 result.getInt(result.getColumnIndex(Constants.IS_DYNASTY_ROOKIE_COLUMN)) != 0,
+                result.getInt(result.getColumnIndex(Constants.IS_BEST_BALL_COLUMN)) != 0,
                 result.getInt(result.getColumnIndex(Constants.AUCTION_BUDGET_COLUMN)),
                 scoring,
                 roster
@@ -219,6 +221,7 @@ public class DBUtils {
         player.setEcr(result.getDouble(result.getColumnIndex(Constants.PLAYER_ECR_COLUMN)));
         player.setDynastyRank(result.getDouble(result.getColumnIndex(Constants.PLAYER_DYNASTY_COLUMN)));
         player.setRookieRank(result.getDouble(result.getColumnIndex(Constants.PLAYER_ROOKIE_COLUMN)));
+        player.setBestBallRank(result.getDouble(result.getColumnIndex(Constants.PLAYER_BEST_BALL_COLUMN)));
         player.setRisk(result.getDouble(result.getColumnIndex(Constants.PLAYER_RISK_COLUMN)));
         player.setAge(result.getInt(result.getColumnIndex(Constants.PLAYER_AGE_COLUMN)));
         player.setExperience(result.getInt(result.getColumnIndex(Constants.PLAYER_EXPERIENCE_COLUMN)));
@@ -261,6 +264,7 @@ public class DBUtils {
         values.put(Constants.PLAYER_ADP_COLUMN, player.getAdp());
         values.put(Constants.PLAYER_DYNASTY_COLUMN, player.getDynastyRank());
         values.put(Constants.PLAYER_ROOKIE_COLUMN, player.getRookieRank());
+        values.put(Constants.PLAYER_BEST_BALL_COLUMN, player.getBestBallRank());
         values.put(Constants.PLAYER_RISK_COLUMN, player.getRisk());
         values.put(Constants.PLAYER_STATS_COLUMN, sanitizeStats(player.getStats()));
         values.put(Constants.PLAYER_INJURED_COLUMN, player.getInjuryStatus());

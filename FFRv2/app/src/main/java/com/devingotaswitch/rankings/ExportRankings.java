@@ -141,7 +141,7 @@ public class ExportRankings extends AppCompatActivity {
         CSVWriter writer = new CSVWriter(new FileWriter(filePath));
 
         String[] data = {"Name", "Age", "Position", "Team Name", "Positional SOS", "Bye Week", "ECR", "ADP", "Dynasty/Keeper Rank",
-                "Rookie Rank", "$200 Unscaled Auction Value", "Customized Auction Value", "Projection", "PAA", "XVal",
+                "Rookie Rank", "Best Ball Rank", "$200 Unscaled Auction Value", "Customized Auction Value", "Projection", "PAA", "XVal",
                 "vOLS", "Note", "Watched"};
         writer.writeNext(data);
         for (String key : rankings.getOrderedIds()) {
@@ -165,6 +165,7 @@ public class ExportRankings extends AppCompatActivity {
                 playerData.add(String.valueOf(player.getAdp()));
                 playerData.add(String.valueOf(player.getDynastyRank()));
                 playerData.add(String.valueOf(player.getRookieRank()));
+                playerData.add(String.valueOf(player.getBestBallRank()));
                 playerData.add(String.valueOf(player.getAuctionValue()));
                 playerData.add(String.valueOf(player.getAuctionValueCustom(rankings)));
                 playerData.add(String.valueOf(player.getProjection()));

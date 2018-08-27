@@ -159,6 +159,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         final RadioButton isSnake = view.findViewById(R.id.league_settings_snake);
         final RadioButton isDynasty = view.findViewById(R.id.league_settings_dynasty_startup);
         final RadioButton isRookie = view.findViewById(R.id.league_settings_dynasty_rookie);
+        final RadioButton isBestBall = view.findViewById(R.id.league_settings_best_ball);
 
         if (currentLeague.isAuction()) {
             isAuction.setSelected(true);
@@ -173,6 +174,9 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         } else if (currentLeague.isRookie()) {
             isRookie.setSelected(true);
             isRookie.setChecked(true);
+        } else if (currentLeague.isBestBall()) {
+            isBestBall.setSelected(true);
+            isBestBall.setChecked(true);
         }
         Button delete = findViewById(R.id.league_settings_delete_league);
         delete.setVisibility(View.VISIBLE);
@@ -186,7 +190,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                     return;
                 }
                 Map<String, String> updates = getLeagueUpdates(currentLeague, leagueName, teamCount, isAuction, isSnake,
-                        isDynasty, isRookie, auctionBudget);
+                        isDynasty, isRookie, isBestBall, auctionBudget);
                 if (updates == null) {
                     Snackbar.make(findViewById(R.id.activity_league_settings_base), "No updates given", Snackbar.LENGTH_SHORT).show();
                     return;
@@ -202,7 +206,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                     return;
                 }
                 Map<String, String> updates = getLeagueUpdates(currentLeague, leagueName, teamCount, isAuction, isSnake,
-                        isDynasty, isRookie, auctionBudget);
+                        isDynasty, isRookie, isBestBall, auctionBudget);
                 displayRoster(currentLeague, updates);
             }
         });
@@ -234,6 +238,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         final RadioButton isSnake = view.findViewById(R.id.league_settings_snake);
         final RadioButton isDynasty = view.findViewById(R.id.league_settings_dynasty_startup);
         final RadioButton isRookie = view.findViewById(R.id.league_settings_dynasty_rookie);
+        final RadioButton isBestBall = view.findViewById(R.id.league_settings_best_ball);
         isSnake.setChecked(true);
 
         leagueName.addTextChangedListener(new TextWatcher() {
@@ -292,7 +297,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                     return;
                 }
                 LeagueSettings defaults = getLeagueSettingsFromFirstPage(leagueName, teamCount, isAuction, isSnake,
-                        isDynasty, isRookie, auctionBudget);
+                        isDynasty, isRookie, isBestBall, auctionBudget);
                 saveNewLeague(defaults);
                 Snackbar.make(findViewById(R.id.activity_league_settings_base), defaults.getName() + " saved", Snackbar.LENGTH_SHORT).show();
             }
@@ -304,7 +309,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                     return;
                 }
                 LeagueSettings defaults = getLeagueSettingsFromFirstPage(leagueName, teamCount, isAuction, isSnake,
-                        isDynasty, isRookie, auctionBudget);
+                        isDynasty, isRookie, isBestBall, auctionBudget);
                 displayRosterNoLeague(defaults);
             }
         });
@@ -356,7 +361,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
 
     private Map<String, String> getLeagueUpdates(LeagueSettings league, EditText name, EditText teamCount,
                                                  RadioButton isAuction, RadioButton isSnake, RadioButton isDynasty,
-                                                 RadioButton isRookie, EditText auctionBudget) {
+                                                 RadioButton isRookie, RadioButton isBestBall, EditText auctionBudget) {
         Map<String, String> updates = new HashMap<>();
         if (!league.getName().equals(name.getText().toString())) {
             updates.put(Constants.NAME_COLUMN, name.getText().toString());
@@ -382,6 +387,9 @@ public class LeagueSettingsActivity extends AppCompatActivity {
             updates.put(Constants.IS_DYNASTY_ROOKIE_COLUMN, isRookie.isChecked() ? "1" : "0");
             league.setRookie(isRookie.isChecked());
         }
+        if (isBestBall.isChecked() != league.isBestBall()) {
+            updates.put(Constants.IS_BEST_BALL_COLUMN, isBestBall.isChecked() ? "1" : "0");
+        }
         if (isAuction.isChecked() && league.getAuctionBudget() != Integer.parseInt(auctionBudget.getText().toString())) {
             updates.put(Constants.AUCTION_BUDGET_COLUMN, auctionBudget.getText().toString());
             league.setAuctionBudget(Integer.parseInt(auctionBudget.getText().toString()));
@@ -394,7 +402,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
 
     private LeagueSettings getLeagueSettingsFromFirstPage(EditText leagueName, EditText teamCount, RadioButton isAuction,
                                                           RadioButton isSnake, RadioButton isDynasty, RadioButton isRookie,
-                                                          EditText auctionBudget) {
+                                                          RadioButton isBestBall, EditText auctionBudget) {
 
         int realBudget = 200;
         if (GeneralUtils.isInteger(auctionBudget.getText().toString())) {
@@ -402,7 +410,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         }
         return new LeagueSettings(leagueName.getText().toString(),
                 Integer.parseInt(teamCount.getText().toString()), isSnake.isChecked(), isAuction.isChecked(),
-                isDynasty.isChecked(), isRookie.isChecked(), realBudget);
+                isDynasty.isChecked(), isRookie.isChecked(), isBestBall.isChecked(), realBudget);
     }
 
     private View initializeLeagueSettingsBase() {

@@ -383,6 +383,19 @@ public class PlayerComparator extends AppCompatActivity {
             rookieRow.setVisibility(View.GONE);
         }
 
+        // Best ball rank
+        TextView bbA = findViewById(R.id.comparator_best_ball_a);
+        TextView bbB = findViewById(R.id.comparator_best_ball_b);
+        bbA.setText(String.valueOf(playerA.getBestBallRank()));
+        bbB.setText(String.valueOf(playerB.getBestBallRank()));
+        if (playerA.getBestBallRank() < playerB.getBestBallRank()) {
+            setColors(bbA, bbB);
+        } else if (playerB.getBestBallRank() < playerA.getBestBallRank()) {
+            setColors(bbB, bbA);
+        } else {
+            clearColors(bbA, bbB);
+        }
+
         // Auction value
         TextView aucA = findViewById(R.id.comparator_auc_a);
         TextView aucB = findViewById(R.id.comparator_auc_b);
