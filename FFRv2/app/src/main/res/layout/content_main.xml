@@ -47,19 +47,13 @@
         android:layout_below="@+id/space_1"
         android:layout_centerHorizontal="true" />
 
-    <Space
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/activity_inter_group_separation"
-        android:id="@+id/space"
-        android:layout_below="@+id/textViewAppMainTitle"
-        android:layout_alignParentStart="true" />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceSmall"
         android:text="@string/app_main_desc"
-        android:layout_below="@+id/space"
+        android:layout_marginTop="8dp"
+        android:layout_below="@+id/textViewAppMainTitle"
         android:layout_centerHorizontal="true" />
     </RelativeLayout>
 
@@ -67,7 +61,7 @@
         android:id="@+id/rankings_splash_bottom"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="3"
+        android:layout_weight="4"
         android:visibility="gone">
 
         <TextView
