@@ -2,11 +2,9 @@ package com.devingotaswitch.rankings;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -17,8 +15,6 @@ import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.LinearLayout;
@@ -28,7 +24,6 @@ import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
-import com.amazonaws.util.StringUtils;
 import com.devingotaswitch.rankings.extras.FilterWithSpaceAdapter;
 import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.rankings.domain.Player;
@@ -62,6 +57,8 @@ public class PlayerComparator extends AppCompatActivity {
     private AutoCompleteTextView inputB;
     private ScrollView comparatorScroller;
     private ListView inputList;
+    private List<Map<String, String>> data = new ArrayList<>();
+    private SimpleAdapter adapter;
 
     private static final String TAG = "PlayerComparator";
     private static final String BETTER_COLOR = "#F3F3F3";
@@ -140,6 +137,13 @@ public class PlayerComparator extends AppCompatActivity {
                 return true;
             }
         });
+
+        if (playerA != null && playerB != null) {
+            displayResults(playerA, playerB);
+        } else {
+            displayOptions();
+        }
+
         inputA.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -149,6 +153,8 @@ public class PlayerComparator extends AppCompatActivity {
                     Snackbar.make(inputA, "Select two different players", Snackbar.LENGTH_SHORT).show();
                 } else if (playerB != null) {
                     displayResults(playerA, playerB);
+                } else {
+                    toggleListItemStar(playerA, true);
                 }
             }
         });
@@ -161,18 +167,75 @@ public class PlayerComparator extends AppCompatActivity {
                     Snackbar.make(inputB, "Select two different players", Snackbar.LENGTH_SHORT).show();
                 } else if (playerA != null) {
                     displayResults(playerA, playerB);
+                } else {
+                    toggleListItemStar(playerB, true);
                 }
             }
         });
-        displayOptions();
+
+        inputA.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (playerA != null && !playerA.getName().equals(editable.toString())) {
+                    toggleListItemStar(playerA, false);
+                    playerA = null;
+                }
+            }
+        });
+
+        inputB.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                if (playerB != null && !playerB.getName().equals(editable.toString())) {
+                    toggleListItemStar(playerB, false);
+                    playerB = null;
+                }
+            }
+        });
+    }
+
+    private void toggleListItemStar(Player player, boolean doStar) {
+        for (Map<String, String> datum : data) {
+            String basic = datum.get(Constants.PLAYER_BASIC);
+            String teamPos = datum.get(Constants.PLAYER_INFO);
+            if (basic.contains(player.getName()) && teamPos.contains(player.getTeamName()) && teamPos.contains(player.getPosition())) {
+                if (doStar) {
+                    datum.put(Constants.PLAYER_STATUS, Integer.toString(R.drawable.star));
+                } else {
+                    datum.put(Constants.PLAYER_STATUS, null);
+                }
+                adapter.notifyDataSetChanged();
+                break;
+            }
+        }
     }
 
     private void displayOptions() {
         inputList.setVisibility(View.VISIBLE);
         comparatorScroller.setVisibility(View.GONE);
         inputList.setAdapter(null);
-        final List<Map<String, String>> data = new ArrayList<>();
-        final SimpleAdapter adapter = DisplayUtils.getDisplayAdapter(this, data);
+        data.clear();
+        adapter = DisplayUtils.getDisplayAdapter(this, data);
         inputList.setAdapter(adapter);
         for (int i = 0; i < Math.min(Constants.COMPARATOR_LIST_MAX, rankings.getOrderedIds().size()); i++) {
             Player player = rankings.getPlayer(rankings.getOrderedIds().get(i));
@@ -198,13 +261,18 @@ public class PlayerComparator extends AppCompatActivity {
                     datum.put(Constants.PLAYER_STATUS, null);
                     adapter.notifyDataSetChanged();
                 } else {
-                    if (playerA == null) {
+                    if (playerA == null && playerB == null) {
                         playerA = clickedPlayer;
                         inputA.setText(playerA.getName());
                         inputA.clearFocus();
                         Map<String, String> datum = data.get(i);
                         datum.put(Constants.PLAYER_STATUS, Integer.toString(R.drawable.star));
                         adapter.notifyDataSetChanged();
+                    } else if (playerA == null && playerB != null) {
+                        playerA = clickedPlayer;
+                        inputA.setText(playerA.getName());
+                        inputA.clearFocus();
+                        displayResults(playerA, playerB);
                     } else {
                         playerB = clickedPlayer;
                         inputB.setText(playerB.getName());
