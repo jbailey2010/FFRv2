@@ -61,6 +61,7 @@ public class Constants {
     public final static String HELP_EXPORT = "Exporting Rankings";
     public final static String HELP_PROFILE = "Your Profile";
     public final static String HELP_STATS = "Stat Explanations";
+    public final static String HELP_REFRESH = "When To Refresh Rankings";
 
     // Sort boolean factors
     public final static String SORT_DEFAULT_STRING = "Additional Factors";

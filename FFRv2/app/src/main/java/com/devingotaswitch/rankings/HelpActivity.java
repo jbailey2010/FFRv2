@@ -29,6 +29,7 @@ public class HelpActivity extends AppCompatActivity {
     private TextView helpExport;
     private TextView helpProfile;
     private TextView helpStats;
+    private TextView helpRefresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +68,7 @@ public class HelpActivity extends AppCompatActivity {
         helpExport = findViewById(R.id.help_export_body);
         helpProfile = findViewById(R.id.help_profile_body);
         helpStats = findViewById(R.id.help_stats_body);
+        helpRefresh = findViewById(R.id.help_refresh_body);
 
         final Spinner spinner = findViewById(R.id.help_topics);
         List<String> posList = new ArrayList<>();
@@ -81,6 +83,7 @@ public class HelpActivity extends AppCompatActivity {
         posList.add(Constants.HELP_EXPORT);
         posList.add(Constants.HELP_PROFILE);
         posList.add(Constants.HELP_STATS);
+        posList.add(Constants.HELP_REFRESH);
 
         ArrayAdapter<String> positionAdapter = new ArrayAdapter<>(this,
                 android.R.layout.simple_spinner_item, posList);
@@ -131,6 +134,9 @@ public class HelpActivity extends AppCompatActivity {
                 break;
             case Constants.HELP_STATS:
                 makeVisible(helpStats);
+                break;
+            case Constants.HELP_REFRESH:
+                makeVisible(helpRefresh);
                 break;
         }
     }
