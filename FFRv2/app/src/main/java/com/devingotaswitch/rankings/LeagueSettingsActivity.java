@@ -25,7 +25,9 @@ import com.amazonaws.util.StringUtils;
 import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.fileio.LocalSettingsHelper;
 import com.devingotaswitch.fileio.RankingsDBWrapper;
+import com.devingotaswitch.rankings.asynctasks.RankingsFetcher.VBDUpdater;
 import com.devingotaswitch.rankings.domain.LeagueSettings;
+import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.domain.RosterSettings;
 import com.devingotaswitch.rankings.domain.ScoringSettings;
 import com.devingotaswitch.utils.Constants;
@@ -42,6 +44,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
 
     private RankingsDBWrapper rankingsDB;
     private LinearLayout baseLayout;
+    private Rankings rankings;
     private boolean rankingsUpdated;
 
     private Map<String, LeagueSettings> leagues;
@@ -90,6 +93,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         if (rankingsDB == null) {
             rankingsDB = new RankingsDBWrapper();
         }
+        rankings = Rankings.init();
         baseLayout =  findViewById(R.id.league_settings_base);
         initLeagues();
     }
@@ -1066,6 +1070,10 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         if (leagueUpdates != null && (leagueUpdates.containsKey(Constants.IS_AUCTION_COLUMN) ||
                         leagueUpdates.containsKey(Constants.AUCTION_BUDGET_COLUMN))) {
             rankingsUpdated = true;
+        }
+
+        if (leagueUpdates.containsKey(Constants.TEAM_COUNT_COLUMN) && !rankings.getPlayers().isEmpty()) {
+            rankings.updateVBD(this, league, rankingsDB);
         }
     }
 }

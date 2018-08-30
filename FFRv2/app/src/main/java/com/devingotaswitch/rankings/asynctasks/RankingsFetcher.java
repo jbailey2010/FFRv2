@@ -1,11 +1,13 @@
 package com.devingotaswitch.rankings.asynctasks;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import com.devingotaswitch.fileio.LocalSettingsHelper;
 import com.devingotaswitch.fileio.RankingsDBWrapper;
+import com.devingotaswitch.rankings.domain.LeagueSettings;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.sources.ParseDraft;
 import com.devingotaswitch.rankings.sources.ParseDraftWizard;
@@ -38,6 +40,47 @@ import java.util.Set;
 
 public class RankingsFetcher {
     private static final String TAG = "RankingsFetcher";
+
+    public class VBDUpdater extends AsyncTask<Object, Void, Void> {
+        private final Rankings rankings;
+        private final Activity activity;
+        private final RankingsDBWrapper rankingsDB;
+        private final LeagueSettings league;
+
+        public VBDUpdater(Rankings rankings, Activity activity, LeagueSettings league,  RankingsDBWrapper rankingsDB) {
+            this.rankings = rankings;
+            this.activity = activity;
+            this.rankingsDB = rankingsDB;
+            this.league = league;
+        }
+
+        @Override
+        protected Void doInBackground(Object... data) {
+            Log.i(TAG, "Getting paa calculations");
+            try {
+                ParseMath.setPlayerPAA(rankings, league);
+            } catch(Exception e) {
+                Log.e(TAG, "Failed to calculate PAA", e);
+            }
+
+            Log.i(TAG, "Getting VoRP calculations");
+            try {
+                ParseMath.setPlayerVoLS(rankings, league);
+            } catch (Exception e) {
+                Log.e(TAG, "Failed to calculate VoRP", e);
+            }
+
+            Log.i(TAG, "Setting player xvals");
+            try {
+                ParseMath.setPlayerXval(rankings, league);
+            } catch(Exception e) {
+                Log.e(TAG, "Failed to calculate Xval", e);
+            }
+
+            rankingsDB.savePlayers(activity, rankings.getPlayers().values());
+            return null;
+        }
+    }
 
     public class RanksAggregator extends AsyncTask<Object, String, Rankings> {
         private final ProgressDialog pdia;
@@ -194,7 +237,7 @@ public class RankingsFetcher {
             Log.i(TAG, "Getting paa calculations");
             publishProgress("Calculating PAA...");
             try {
-                ParseMath.setPlayerPAA(rankings);
+                ParseMath.setPlayerPAA(rankings, rankings.getLeagueSettings());
             } catch(Exception e) {
                 Log.e(TAG, "Failed to calculate PAA", e);
             }
@@ -202,7 +245,7 @@ public class RankingsFetcher {
             Log.i(TAG, "Getting VoRP calculations");
             publishProgress("Calculating VoRP...");
             try {
-                ParseMath.setPlayerVoLS(rankings);
+                ParseMath.setPlayerVoLS(rankings, rankings.getLeagueSettings());
             } catch (Exception e) {
                 Log.e(TAG, "Failed to calculate VoRP", e);
             }
@@ -210,7 +253,7 @@ public class RankingsFetcher {
             Log.i(TAG, "Setting player xvals");
             publishProgress("Calculating xVal...");
             try {
-                ParseMath.setPlayerXval(rankings);
+                ParseMath.setPlayerXval(rankings, rankings.getLeagueSettings());
             } catch(Exception e) {
                 Log.e(TAG, "Failed to calculate Xval", e);
             }

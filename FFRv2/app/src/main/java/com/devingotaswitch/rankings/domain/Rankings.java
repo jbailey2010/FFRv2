@@ -1,5 +1,7 @@
 package com.devingotaswitch.rankings.domain;
 
+import android.app.Activity;
+
 import com.devingotaswitch.fileio.RankingsDBWrapper;
 import com.devingotaswitch.rankings.RankingsHome;
 import com.devingotaswitch.rankings.asynctasks.RankingsFetcher;
@@ -158,6 +160,11 @@ public class Rankings {
 
         RankingsFetcher.RanksAggregator ranksParser = processor.new RanksAggregator(activity, this);
         ranksParser.execute();
+    }
+
+    public void updateVBD(Activity activity, LeagueSettings league, RankingsDBWrapper rankingsDB) {
+        RankingsFetcher.VBDUpdater vbdUpdater = processor.new VBDUpdater(this, activity, league, rankingsDB);
+        vbdUpdater.execute();
     }
 
     public void saveRankings(RankingsHome activity, RankingsDBWrapper rankingsDB) {

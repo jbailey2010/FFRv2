@@ -2,6 +2,7 @@ package com.devingotaswitch.rankings.sources;
 
 import android.util.Log;
 
+import com.devingotaswitch.rankings.domain.LeagueSettings;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.domain.RosterSettings;
@@ -24,9 +25,9 @@ public class ParseMath {
     private static double dLimit;
     private static double kLimit;
 
-    private static void setXValLimits(Rankings rankings) {
+    private static void setXValLimits(LeagueSettings league) {
         // Top 100 picks for a standard roster.
-        RosterSettings roster = rankings.getLeagueSettings().getRosterSettings();
+        RosterSettings roster = league.getRosterSettings();
         qbLimit = 15.0;
         rbLimit = 36.0;
         wrLimit = 38.0;
@@ -63,9 +64,9 @@ public class ParseMath {
         Log.d("XVal", "XVal K Limit: " + kLimit);
     }
 
-    private static void setPAALimits(Rankings rankings) {
-        int x = rankings.getLeagueSettings().getTeamCount();
-        RosterSettings roster = rankings.getLeagueSettings().getRosterSettings();
+    private static void setPAALimits(LeagueSettings league) {
+        int x = league.getTeamCount();
+        RosterSettings roster = league.getRosterSettings();
         Flex flex = roster.getFlex();
 
         // First, the layups. Assume 1 started.
@@ -110,7 +111,7 @@ public class ParseMath {
             wrLimit = (4.5 * x) - 5;
         }
         if (flex != null && (flex.getRbwrCount() > 0 || flex.getRbwrteCount() > 0)) {
-            if (rankings.getLeagueSettings().getScoringSettings().getReceptions() > 0) {
+            if (league.getScoringSettings().getReceptions() > 0) {
                 // Legit
                 if (roster.getRbCount() == 2 && roster.getWrCount() == 2) {
                     rbLimit = 3.75 * x - 10.666667;
@@ -191,7 +192,7 @@ public class ParseMath {
             }
         }
         if (flex != null && flex.getQbrbwrteCount() > 0) {
-            if (rankings.getLeagueSettings().getScoringSettings().getReceptions() > 0) {
+            if (league.getScoringSettings().getReceptions() > 0) {
                 rbLimit += x / 11.0;
                 wrLimit += x / 10.0;
             } else {
@@ -208,8 +209,8 @@ public class ParseMath {
         Log.d("PAA", "K PAA limit: " + kLimit);
     }
 
-    public static void setPlayerXval(Rankings rankings) {
-        setXValLimits(rankings);
+    public static void setPlayerXval(Rankings rankings, LeagueSettings league) {
+        setXValLimits(league);
         double qbTotal = getPositionalProjection(qbLimit, rankings.getQbs());
         double rbTotal = getPositionalProjection(rbLimit, rankings.getRbs());
         double wrTotal = getPositionalProjection(wrLimit, rankings.getWrs());
@@ -241,8 +242,8 @@ public class ParseMath {
         }
     }
 
-    public static void setPlayerVoLS(Rankings rankings) {
-        setPAALimits(rankings);
+    public static void setPlayerVoLS(Rankings rankings, LeagueSettings league) {
+        setPAALimits(league);
         double qbLS = getPositionalReplacementProjection(qbLimit, rankings.getQbs());
         double rbLS = getPositionalReplacementProjection(rbLimit, rankings.getRbs());
         double wrLS = getPositionalReplacementProjection(wrLimit, rankings.getWrs());
@@ -300,8 +301,8 @@ public class ParseMath {
         return player.getProjection();
     }
 
-    public static void setPlayerPAA(Rankings rankings) {
-        setPAALimits(rankings);
+    public static void setPlayerPAA(Rankings rankings, LeagueSettings league) {
+        setPAALimits(league);
         double qbTotal = getPositionalProjection(qbLimit, rankings.getQbs());
         double rbTotal = getPositionalProjection(rbLimit, rankings.getRbs());
         double wrTotal = getPositionalProjection(wrLimit, rankings.getWrs());
