@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.devingotaswitch.appsync.AppSyncHelper;
 import com.devingotaswitch.rankings.domain.LeagueSettings;
@@ -39,19 +40,13 @@ public class RankingsDBWrapper {
 
     public void savePlayers(Context context, Collection<Player> players) {
         SQLiteDatabase db = getInstance(context).getWritableDatabase();
-        boolean addCustom = getNumberOfRowsInTable(db, Constants.PLAYER_CUSTOM_TABLE_NAME) == 0;
         Set<ContentValues> values = new HashSet<>();
-        Set<ContentValues> customValues = new HashSet<>();
         for (Player player : players) {
             values.add(DBUtils.playerToContentValues(player));
-            if (addCustom) {
-                customValues.add(DBUtils.customPlayerToContentValues(player));
-            }
         }
         emptyTableAndBulkSave(db, Constants.PLAYER_TABLE_NAME, values);
-        if (addCustom) {
-            bulkSave(db, Constants.PLAYER_CUSTOM_TABLE_NAME, customValues);
-        }
+
+        bulkSaveCustomValuesConditionally(db, players);
     }
 
     public Map<String, Player> getPlayers(Context context) {
@@ -174,11 +169,15 @@ public class RankingsDBWrapper {
     }
 
     private Player loadPlayerCustomFields(SQLiteDatabase db, Player player) {
-        Cursor result = getThreeKeyEntry(db, Constants.PLAYER_NAME_COLUMN, Constants.TEAM_NAME_COLUMN, Constants.PLAYER_POSITION_COLUMN,
-                DBUtils.sanitizeName(player.getName()), player.getTeamName(), player.getPosition(), Constants.PLAYER_CUSTOM_TABLE_NAME);
+        Cursor result = getCustomPlayerCursor(db, player);
         player = DBUtils.cursorToCustomPlayer(result, player);
         result.close();
         return player;
+    }
+
+    private Cursor getCustomPlayerCursor(SQLiteDatabase db, Player player) {
+        return getThreeKeyEntry(db, Constants.PLAYER_NAME_COLUMN, Constants.TEAM_NAME_COLUMN, Constants.PLAYER_POSITION_COLUMN,
+                DBUtils.sanitizeName(player.getName()), player.getTeamName(), player.getPosition(), Constants.PLAYER_CUSTOM_TABLE_NAME);
     }
 
     //---------- Teams ----------
@@ -347,11 +346,32 @@ public class RankingsDBWrapper {
     private void bulkSave(SQLiteDatabase db, String tableName, Set<ContentValues> valuesToInsert) {
         db.beginTransaction();
         try {
-            for(ContentValues values : valuesToInsert) {
-                db.insert(tableName, null, values);
-            }
+            bulkSaveWorker(db, tableName, valuesToInsert);
+        } finally {
+            db.endTransaction();
+        }
+    }
 
-            db.setTransactionSuccessful();
+    private void bulkSaveWorker(SQLiteDatabase db, String tableName, Set<ContentValues> valuesToInsert) {
+        for(ContentValues values : valuesToInsert) {
+            long result = db.insert(tableName, null, values);
+        }
+
+        db.setTransactionSuccessful();
+    }
+
+    private void bulkSaveCustomValuesConditionally(SQLiteDatabase db, Collection<Player> players) {
+        Set<ContentValues> customValues = new HashSet<>();
+        db.beginTransaction();
+        try {
+            for (Player player : players) {
+                Cursor cursor = getCustomPlayerCursor(db, player);
+                if (cursor.getCount() == 0) {
+                    customValues.add(DBUtils.customPlayerToContentValues(player));
+                }
+                cursor.close();
+            }
+            bulkSaveWorker(db, Constants.PLAYER_CUSTOM_TABLE_NAME, customValues);
         } finally {
             db.endTransaction();
         }
