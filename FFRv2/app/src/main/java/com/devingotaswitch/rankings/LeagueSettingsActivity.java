@@ -1072,7 +1072,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
             rankingsUpdated = true;
         }
 
-        if (leagueUpdates.containsKey(Constants.TEAM_COUNT_COLUMN) && !rankings.getPlayers().isEmpty()) {
+        if (leagueUpdates != null && leagueUpdates.containsKey(Constants.TEAM_COUNT_COLUMN) && !rankings.getPlayers().isEmpty()) {
             rankings.updateVBD(this, league, rankingsDB);
         }
     }

@@ -42,13 +42,20 @@ public class ParseFantasyPros {
 
     public static void parseADPWrapper(Rankings rankings) throws IOException {
         Map<String, Double> adp = new HashMap<>();
-        String adpUrl = "http://www.fantasypros.com/nfl/adp/overall.php";
-        int rowSize = 10;
-        if (rankings.getLeagueSettings().getScoringSettings().getReceptions() >= 1.0) {
+        String adpUrl;
+        int rowSize;
+        if (rankings.getLeagueSettings().isBestBall()) {
+            adpUrl = "https://www.fantasypros.com/nfl/adp/best-ball-overall.php";
+            rowSize = 7;
+        } else if (rankings.getLeagueSettings().getScoringSettings().getReceptions() >= 1.0) {
             adpUrl = "http://www.fantasypros.com/nfl/adp/ppr-overall.php";
+            rowSize = 10;
         } else if (rankings.getLeagueSettings().getScoringSettings().getReceptions() > 0) {
             adpUrl = "https://www.fantasypros.com/nfl/adp/half-point-ppr-overall.php";
             rowSize = 8;
+        } else {
+            adpUrl = "http://www.fantasypros.com/nfl/adp/overall.php";
+            rowSize = 11;
         }
         parseADPWorker(adp, adpUrl, rowSize);
 
@@ -174,7 +181,7 @@ public class ParseFantasyPros {
                 }
                 String withoutTeam = filteredName.substring(0, filteredName.lastIndexOf(" "));
                 String name = ParsingUtils.normalizeNames(ParsingUtils.normalizeDefenses(withoutTeam));
-                if (i + 6 >= td.size()) {
+                if (i + rowSize >= td.size()) {
                     break;
                 }
                 Double adpStr = Double.parseDouble(td.get(i + (rowSize - 1)));
