@@ -677,7 +677,7 @@ public class PlayerInfo extends AppCompatActivity {
             int ecrRank = getEcr(null, player.getEcr());
             int ecrRankPos = getEcr(player.getPosition(), player.getEcr());
             String ecrSub = getRankingSub(ecrRank, ecrRankPos);
-            if (player.getRisk() != null) {
+            if (player.getRisk() != null && (rankings.getLeagueSettings().isAuction() || rankings.getLeagueSettings().isSnake())) {
                 ecrSub += Constants.LINE_BREAK + "Risk: " + player.getRisk();
             }
             ecr.put(Constants.PLAYER_INFO, ecrSub);
@@ -720,6 +720,10 @@ public class PlayerInfo extends AppCompatActivity {
             int dynRank = getDynasty(null, player.getDynastyRank());
             int dynRankPos = getDynasty(player.getPosition(), player.getDynastyRank());
             String dynSub = getRankingSub(dynRank, dynRankPos);
+
+            if (player.getRisk() != null && rankings.getLeagueSettings().isDynasty()) {
+                dynSub += Constants.LINE_BREAK + "Risk: " + player.getRisk();
+            }
             dynasty.put(Constants.PLAYER_INFO, dynSub);
         }
         data.add(dynasty);
@@ -731,6 +735,10 @@ public class PlayerInfo extends AppCompatActivity {
             int rookieRank = getRookie(null, player.getRookieRank());
             int rookieRankPos = getRookie(player.getPosition(), player.getRookieRank());
             String rookieSub = getRankingSub(rookieRank, rookieRankPos);
+
+            if (player.getRisk() != null && rankings.getLeagueSettings().isRookie()) {
+                rookieSub += Constants.LINE_BREAK + "Risk: " + player.getRisk();
+            }
             rookie.put(Constants.PLAYER_INFO, rookieSub);
             data.add(rookie);
         }
@@ -741,6 +749,10 @@ public class PlayerInfo extends AppCompatActivity {
             int bbRank = getBestBall(null, player.getBestBallRank());
             int bbRankPos = getBestBall(player.getPosition(), player.getBestBallRank());
             String bbSub = getRankingSub(bbRank, bbRankPos);
+
+            if (player.getRisk() != null && rankings.getLeagueSettings().isBestBall()) {
+                bbSub += Constants.LINE_BREAK + "Risk: " + player.getRisk();
+            }
             bestBall.put(Constants.PLAYER_INFO, bbSub);
         }
         data.add(bestBall);

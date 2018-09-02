@@ -35,13 +35,16 @@ public class ParseFantasyPros {
             if (ecr.containsKey(playerId)) {
                 Player player = rankings.getPlayer(playerId);
                 player.setEcr(ecr.get(playerId));
-                player.setRisk(risk.get(playerId));
+                if (rankings.getLeagueSettings().isSnake() || rankings.getLeagueSettings().isAuction()) {
+                    player.setRisk(risk.get(playerId));
+                }
             }
         }
     }
 
     public static void parseADPWrapper(Rankings rankings) throws IOException {
         Map<String, Double> adp = new HashMap<>();
+        Map<String, Double> risk = new HashMap<>();
         String adpUrl;
         int rowSize;
         if (rankings.getLeagueSettings().isBestBall()) {
@@ -68,36 +71,51 @@ public class ParseFantasyPros {
 
     public static void parseDynastyWrapper(Rankings rankings) throws IOException {
         Map<String, Double> dynasty = new HashMap<>();
+        Map<String, Double> risk = new HashMap<>();
         String url = "https://www.fantasypros.com/nfl/rankings/dynasty-overall.php";
-        parseDynastyWorker(url, dynasty);
+        parseDynastyWorker(url, dynasty, risk);
 
         for (String playerId : rankings.getPlayers().keySet()) {
             if (dynasty.containsKey(playerId)) {
-                rankings.getPlayer(playerId).setDynastyRank(dynasty.get(playerId));
+                Player player = rankings.getPlayer(playerId);
+                player.setDynastyRank(dynasty.get(playerId));
+                if (rankings.getLeagueSettings().isDynasty()) {
+                    player.setRisk(risk.get(playerId));
+                }
             }
         }
     }
 
     public static void parseRookieWrapper(Rankings rankings) throws IOException {
         Map<String, Double> rookie = new HashMap<>();
+        Map<String, Double> risk = new HashMap<>();
         String url = "https://www.fantasypros.com/nfl/rankings/rookies.php";
-        parseRookieWorker(url, rookie);
+        parseRookieWorker(url, rookie, risk);
 
         for (String playerId : rankings.getPlayers().keySet()) {
             if (rookie.containsKey(playerId)) {
-                rankings.getPlayer(playerId).setRookieRank(rookie.get(playerId));
+                Player player = rankings.getPlayer(playerId);
+                player.setRookieRank(rookie.get(playerId));
+                if (rankings.getLeagueSettings().isRookie()) {
+                    player.setRisk(risk.get(playerId));
+                }
             }
         }
     }
 
     public static void parseBestBallWrapper(Rankings rankings) throws IOException {
         Map<String, Double> bestBall = new HashMap<>();
+        Map<String, Double> risk = new HashMap<>();
         String url = "https://www.fantasypros.com/nfl/rankings/best-ball-overall.php";
-        parseBestBallWorker(url, bestBall);
+        parseBestBallWorker(url, bestBall, risk);
 
         for (String playerId : rankings.getPlayers().keySet()) {
             if (bestBall.containsKey(playerId)) {
-                rankings.getPlayer(playerId).setBestBallRank(bestBall.get(playerId));
+                Player player = rankings.getPlayer(playerId);
+                player.setBestBallRank(bestBall.get(playerId));
+                if (rankings.getLeagueSettings().isBestBall()) {
+                    player.setRisk(risk.get(playerId));
+                }
             }
         }
     }
@@ -198,8 +216,7 @@ public class ParseFantasyPros {
         }
     }
 
-    private static void parseDynastyWorker(String url,
-                                            Map<String, Double> dynasty) throws IOException {
+    private static void parseDynastyWorker(String url, Map<String, Double> dynasty, Map<String, Double> risk) throws IOException {
         Document doc = JsoupUtils.getDocument(url);
         List<String> names = JsoupUtils.getElemsFromDoc(doc, "table.player-table tbody tr td span.full-name");
         List<String> td = JsoupUtils.getElemsFromDoc(doc, "table.player-table tbody tr td");
@@ -231,20 +248,21 @@ public class ParseFantasyPros {
                 String name = ParsingUtils
                         .normalizeNames(ParsingUtils.normalizeDefenses(fullName));
                 double dynastyVal = Double.parseDouble(td.get(i + 6));
+                double riskVal = Double.parseDouble(td.get(i+7));
                 String posInd = td.get(i + 1).replaceAll("(\\d+,\\d+)|\\d+", "")
                         .replaceAll("DST", Constants.DST);
                 if (Constants.DST.equals(posInd)) {
                     team = ParsingUtils.normalizeTeams(fullName);
                 }
                 dynasty.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + posInd, dynastyVal);
+                risk.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + posInd, riskVal);
             }catch (StringIndexOutOfBoundsException siooe) {
                 Log.d(TAG, "Failed to parse a player's dynasty rank", siooe);
             }
         }
     }
 
-    private static void parseRookieWorker(String url,
-                                           Map<String, Double> rookie) throws IOException {
+    private static void parseRookieWorker(String url, Map<String, Double> rookie, Map<String, Double> risk) throws IOException {
         Document doc = JsoupUtils.getDocument(url);
         List<String> names = JsoupUtils.getElemsFromDoc(doc, "table.player-table tbody tr td span.full-name");
         List<String> td = JsoupUtils.getElemsFromDoc(doc, "table.player-table tbody tr td");
@@ -271,20 +289,21 @@ public class ParseFantasyPros {
                 String name = ParsingUtils
                         .normalizeNames(ParsingUtils.normalizeDefenses(fullName));
                 double rookieVal = Double.parseDouble(td.get(i + 6));
+                double riskVal = Double.parseDouble(td.get(i+7));
                 String posInd = td.get(i + 1).replaceAll("(\\d+,\\d+)|\\d+", "")
                         .replaceAll("DST", Constants.DST);
                 if (Constants.DST.equals(posInd)) {
                     team = ParsingUtils.normalizeTeams(fullName);
                 }
                 rookie.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + posInd, rookieVal);
+                risk.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + posInd, riskVal);
             } catch (StringIndexOutOfBoundsException siooe) {
                 Log.d(TAG, "Failed to parse a player's rookie rank", siooe);
             }
         }
     }
 
-    private static void parseBestBallWorker(String url,
-                                          Map<String, Double> bestBall) throws IOException {
+    private static void parseBestBallWorker(String url,  Map<String, Double> bestBall, Map<String, Double> risk) throws IOException {
         Document doc = JsoupUtils.getDocument(url);
         List<String> names = JsoupUtils.getElemsFromDoc(doc, "table.player-table tbody tr td span.full-name");
         List<String> td = JsoupUtils.getElemsFromDoc(doc, "table.player-table tbody tr td");
@@ -317,12 +336,14 @@ public class ParseFantasyPros {
                 String name = ParsingUtils
                         .normalizeNames(ParsingUtils.normalizeDefenses(fullName));
                 double rookieVal = Double.parseDouble(td.get(i + 5));
+                double riskVal = Double.parseDouble(td.get(i+6));
                 String posInd = td.get(i + 1).replaceAll("(\\d+,\\d+)|\\d+", "")
                         .replaceAll("DST", Constants.DST);
                 if (Constants.DST.equals(posInd)) {
                     team = ParsingUtils.normalizeTeams(fullName);
                 }
                 bestBall.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + posInd, rookieVal);
+                risk.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + posInd, riskVal);
             } catch (StringIndexOutOfBoundsException siooe) {
                 Log.d(TAG, "Failed to parse a player's best ball rank", siooe);
             }
