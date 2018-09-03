@@ -1,6 +1,7 @@
 package com.devingotaswitch.rankings;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
@@ -46,6 +47,7 @@ public class DraftInfo extends AppCompatActivity {
     private static final String TAG = "DraftInfo";
 
     private Rankings rankings;
+    private boolean displayPlayers = false;
 
     private LinearLayout baseLayout;
     private MenuItem viewTeam;
@@ -134,10 +136,15 @@ public class DraftInfo extends AppCompatActivity {
 
     private void init() {
         baseLayout = findViewById(R.id.draft_info_base);
-        displayTeam();
+        if (displayPlayers) {
+            displayPlayers();
+        } else {
+            displayTeam();
+        }
     }
 
     private void displayTeam() {
+        displayPlayers = false;
         View view = clearAndAddView(R.layout.content_draft_info_team);
         TextView teamView = view.findViewById(R.id.base_textview_team);
         StringBuilder teamOutput = new StringBuilder(getTeamStr());
@@ -290,6 +297,7 @@ public class DraftInfo extends AppCompatActivity {
     }
 
     private void displayPlayers() {
+        displayPlayers = true;
         View view = clearAndAddView(R.layout.content_draft_info_undraft);
         ListView listview = view.findViewById(R.id.base_list);
         listview.setAdapter(null);
@@ -319,6 +327,20 @@ public class DraftInfo extends AppCompatActivity {
                 return true;
             }
         });
+
+        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                viewPlayer(view);
+            }
+        });
+    }
+
+    private void viewPlayer(View view) {
+        String key = getPlayerKeyFromListViewItem(view);
+        Intent intent = new Intent(this, PlayerInfo.class);
+        intent.putExtra(Constants.PLAYER_ID, key);
+        startActivity(intent);
     }
 
     private void undraftPlayer(View view) {
