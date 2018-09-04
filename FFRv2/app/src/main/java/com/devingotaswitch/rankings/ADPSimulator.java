@@ -90,7 +90,7 @@ public class ADPSimulator extends AppCompatActivity {
     private void init() {
         searchInput = findViewById(R.id.adp_player_selection);
         searchInput.setAdapter(null);
-        final FilterWithSpaceAdapter mAdapter = GeneralUtils.getPlayerSearchAdapter(rankings, this);
+        final FilterWithSpaceAdapter mAdapter = GeneralUtils.getPlayerSearchAdapter(rankings, this, false, false);
         searchInput.setAdapter(mAdapter);
 
         searchInput.setOnItemClickListener(new AdapterView.OnItemClickListener() {

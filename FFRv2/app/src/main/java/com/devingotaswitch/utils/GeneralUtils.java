@@ -67,11 +67,16 @@ public class GeneralUtils {
         return (System.currentTimeMillis() - start) / SECONDS_CONVERSION_THRESHOLD;
     }
 
-    public static FilterWithSpaceAdapter<String> getPlayerSearchAdapter(Rankings rankings, Activity activity) {
+    public static FilterWithSpaceAdapter<String> getPlayerSearchAdapter(Rankings rankings, Activity activity, boolean hideDrafted,
+                                                                        boolean hideRankless) {
         final List<String> dropdownList = new ArrayList<>();
         for (String key : rankings.getPlayers().keySet()) {
             Player player = rankings.getPlayer(key);
             String prefix = player.getDisplayValue(rankings);
+            if ((rankings.getDraft().isDrafted(player) && hideDrafted) ||
+                    (hideRankless && Constants.DEFAULT_DISPLAY_RANK_NOT_SET.equals(player.getDisplayValue(rankings)))) {
+                continue;
+            }
             if (rankings.getLeagueSettings().getRosterSettings().isPositionValid(player.getPosition()) &&
                     !StringUtils.isBlank(player.getTeamName()) && player.getTeamName().length() > 3) {
                 String dropdownStr = prefix +

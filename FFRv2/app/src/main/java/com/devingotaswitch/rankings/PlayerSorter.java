@@ -32,6 +32,7 @@ import android.widget.TextView;
 
 import com.amazonaws.util.StringUtils;
 import com.devingotaswitch.ffrv2.R;
+import com.devingotaswitch.fileio.LocalSettingsHelper;
 import com.devingotaswitch.fileio.RankingsDBWrapper;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
@@ -40,6 +41,7 @@ import com.devingotaswitch.rankings.domain.Team;
 import com.devingotaswitch.rankings.extras.MultiSelectionSpinner;
 import com.devingotaswitch.rankings.extras.SwipeDismissTouchListener;
 import com.devingotaswitch.utils.Constants;
+import com.devingotaswitch.utils.DisplayUtils;
 import com.devingotaswitch.utils.DraftUtils;
 import com.devingotaswitch.utils.GeneralUtils;
 import com.github.mikephil.charting.charts.LineChart;
@@ -217,7 +219,9 @@ public class PlayerSorter extends AppCompatActivity {
 
         final MultiSelectionSpinner spinner=findViewById(R.id.sort_players_additional_factors);
         List<String> list = new ArrayList<>();
-        list.add(Constants.SORT_HIDE_DRAFTED);
+        if (!LocalSettingsHelper.hideDraftedSortOutput(this)) {
+            list.add(Constants.SORT_HIDE_DRAFTED);
+        }
         list.add(Constants.SORT_ONLY_HEALTHY);
         list.add(Constants.SORT_EASY_SOS);
         list.add(Constants.SORT_ONLY_WATCHED);
@@ -357,8 +361,12 @@ public class PlayerSorter extends AppCompatActivity {
             }
 
 
-            if ((booleanFactors.contains(Constants.SORT_HIDE_DRAFTED) || Constants.SORT_VBD_SUGGESTED.equals(factor))
-                    && rankings.getDraft().isDrafted(player)) {
+            if ((booleanFactors.contains(Constants.SORT_HIDE_DRAFTED) || LocalSettingsHelper.hideDraftedSortOutput(this) ||
+                    Constants.SORT_VBD_SUGGESTED.equals(factor)) && rankings.getDraft().isDrafted(player)) {
+                continue;
+            }
+            if (LocalSettingsHelper.hideRanklessSortOutput(this) &&
+                    Constants.DEFAULT_DISPLAY_RANK_NOT_SET.equals(player.getDisplayValue(rankings))) {
                 continue;
             }
             if (booleanFactors.contains(Constants.SORT_EASY_SOS)) {
@@ -1030,11 +1038,11 @@ public class PlayerSorter extends AppCompatActivity {
                 !Constants.SORT_UNDERDRAFTED.equals(factor) && !Constants.SORT_OVERDRAFTED.equals(factor)) {
             subtextBuilder.append(Constants.LINE_BREAK)
                     .append("ECR: ")
-                    .append(player.getEcr());
+                    .append(player.getEcr().equals(Constants.DEFAULT_RANK) ? Constants.DEFAULT_DISPLAY_RANK_NOT_SET : player.getEcr());
         } else if (rankings.getLeagueSettings().isDynasty() && !Constants.SORT_DYNASTY.equals(factor) && !Constants.SORT_ALL.equals(factor)) {
             subtextBuilder.append(Constants.LINE_BREAK)
                     .append("Dynasty/Keeper Rank: ")
-                    .append(player.getDynastyRank());
+                    .append(player.getDynastyRank().equals(Constants.DEFAULT_RANK) ? Constants.DEFAULT_DISPLAY_RANK_NOT_SET : player.getDynastyRank());
             if (player.getAge() != null) {
                 subtextBuilder.append(Constants.LINE_BREAK)
                         .append("Age: ")
@@ -1043,11 +1051,11 @@ public class PlayerSorter extends AppCompatActivity {
         } else if (rankings.getLeagueSettings().isRookie() && !Constants.SORT_ROOKIE.equals(factor) && !Constants.SORT_ALL.equals(factor)) {
             subtextBuilder.append(Constants.LINE_BREAK)
                     .append("Rookie Rank: ")
-                    .append(player.getRookieRank());
+                    .append(player.getRookieRank().equals(Constants.DEFAULT_RANK) ? Constants.DEFAULT_DISPLAY_RANK_NOT_SET : player.getRookieRank());
         } else if (rankings.getLeagueSettings().isBestBall() && !Constants.SORT_BEST_BALL.equals(factor) && !Constants.SORT_ALL.equals(factor)) {
             subtextBuilder.append(Constants.LINE_BREAK)
                     .append("Best Ball Rank: ")
-                    .append(player.getBestBallRank());
+                    .append(player.getBestBallRank().equals(Constants.DEFAULT_RANK) ? Constants.DEFAULT_DISPLAY_RANK_NOT_SET : player.getBestBallRank());
         }
         return subtextBuilder.toString();
     }

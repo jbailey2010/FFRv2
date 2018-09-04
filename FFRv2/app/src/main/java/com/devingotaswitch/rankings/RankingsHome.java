@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.provider.Settings;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
@@ -491,6 +492,7 @@ public class RankingsHome extends AppCompatActivity {
                                     adapter, data, datum, position, true);
                             if (!rightDismiss) {
                                 rankings.getDraft().draftBySomeone(rankings, player, localCopy, findViewById(R.id.user_drawer_layout), listener);
+                                setSearchAutocomplete();
                             } else {
                                 if (rankings.getLeagueSettings().isAuction()) {
                                     getAuctionCost(player, position, data, datum, adapter, listener);
@@ -568,12 +570,14 @@ public class RankingsHome extends AppCompatActivity {
 
     private void draftByMe(Player player, int cost, View.OnClickListener listener) {
         rankings.getDraft().draftByMe(rankings, player, this, cost, findViewById(R.id.user_drawer_layout), listener);
+        setSearchAutocomplete();
     }
 
     private void setSearchAutocomplete() {
         final AutoCompleteTextView searchInput = searchBase.findViewById(R.id.ranking_search);
         searchInput.setAdapter(null);
-        final FilterWithSpaceAdapter mAdapter = GeneralUtils.getPlayerSearchAdapter(rankings, this);
+        final FilterWithSpaceAdapter mAdapter = GeneralUtils.getPlayerSearchAdapter(rankings, this,
+                LocalSettingsHelper.hideDraftedSearch(this), LocalSettingsHelper.hideRanklessSearch(this));
         searchInput.setAdapter(mAdapter);
 
         searchInput.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -638,31 +642,27 @@ public class RankingsHome extends AppCompatActivity {
         // Find which item was selected
         switch(item.getItemId()) {
             case R.id.nav_player_news:
-                // See player news
                 playerNews();
                 break;
             case R.id.nav_league_settings:
-                // Set league settings
                 leagueSettings();
                 break;
             case R.id.nav_refresh_ranks:
-                // Refresh ranks
                 refreshRanks();
                 break;
             case R.id.nav_export_rankings:
-                // Export rankings
                 exportRanks();
                 break;
             case R.id.nav_rankings_help:
-                // Help info
                 getHelp();
                 break;
+            case R.id.nav_user_settings:
+                userSettings();
+                break;
             case R.id.nav_user_change_password:
-                // Change password
                 changePassword();
                 break;
             case R.id.nav_user_sign_out:
-                // Sign out from this account
                 signOut();
                 break;
         }
@@ -703,6 +703,11 @@ public class RankingsHome extends AppCompatActivity {
         } else {
             Snackbar.make(buttonBase, "No internet connection", Snackbar.LENGTH_LONG).show();
         }
+    }
+
+    private void userSettings() {
+        Intent settingsActivity = new Intent(this, SettingsActivity.class);
+        startActivity(settingsActivity);
     }
 
     private void changePassword() {

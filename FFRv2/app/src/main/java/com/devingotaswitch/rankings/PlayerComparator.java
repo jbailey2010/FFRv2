@@ -24,6 +24,7 @@ import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.devingotaswitch.fileio.LocalSettingsHelper;
 import com.devingotaswitch.rankings.extras.FilterWithSpaceAdapter;
 import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.rankings.domain.Player;
@@ -114,7 +115,8 @@ public class PlayerComparator extends AppCompatActivity {
     }
 
     private void init() {
-        final FilterWithSpaceAdapter mAdapter = GeneralUtils.getPlayerSearchAdapter(rankings, this);
+        final FilterWithSpaceAdapter mAdapter = GeneralUtils.getPlayerSearchAdapter(rankings, this,
+                LocalSettingsHelper.hideDraftedComparatorSuggestion(this), LocalSettingsHelper.hideRanklessComparatorSuggestion(this));
 
         inputA =  findViewById(R.id.comparator_input_a);
         inputB =  findViewById(R.id.comparator_input_b);
@@ -239,6 +241,11 @@ public class PlayerComparator extends AppCompatActivity {
         inputList.setAdapter(adapter);
         for (int i = 0; i < Math.min(Constants.COMPARATOR_LIST_MAX, rankings.getOrderedIds().size()); i++) {
             Player player = rankings.getPlayer(rankings.getOrderedIds().get(i));
+            if ((rankings.getDraft().isDrafted(player) && LocalSettingsHelper.hideDraftedComparatorList(this)) ||
+                    (LocalSettingsHelper.hideRanklessComparatorList(this) &&
+                            Constants.DEFAULT_DISPLAY_RANK_NOT_SET.equals(player.getDisplayValue(rankings)))) {
+                continue;
+            }
             if (rankings.getLeagueSettings().getRosterSettings().isPositionValid(player.getPosition())) {
                 if (rankings.getLeagueSettings().isRookie() && player.getRookieRank() == Constants.DEFAULT_RANK) {
                     // the constant is 'not set', so skip these. No sense showing a 10 year vet in rookie ranks.

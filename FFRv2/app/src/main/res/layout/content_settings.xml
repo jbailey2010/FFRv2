@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_marginLeft="@dimen/activity_horizontal_margin"
+    android:layout_marginRight="@dimen/activity_horizontal_margin"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.devingotaswitch.rankings.SettingsActivity"
+    tools:showIn="@layout/activity_settings">
+
+  <ScrollView
+        android:layout_width="match_parent"
+        android:id="@+id/settings_scroller"
+        android:layout_height="wrap_content"
+        android:overScrollMode="never"
+        android:layout_alignParentTop="true">
+
+      <LinearLayout
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:orientation="vertical">
+
+          <RelativeLayout
+              android:layout_width="match_parent"
+              android:layout_height="0dp"
+              android:padding="4dp"
+              android:layout_weight="1">
+
+              <TextView
+                  android:layout_width="match_parent"
+                  android:layout_height="wrap_content"
+                  android:id="@+id/settings_no_rank_header"
+                  android:textSize="18sp"
+                  android:text="Players without a relevant ranking"/>
+
+              <CheckBox
+                  android:id="@+id/hide_search_rankless"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_below="@+id/settings_no_rank_header"
+                  android:layout_marginTop="8dp"
+                  android:text="Hide from search"/>
+
+              <CheckBox
+                  android:id="@+id/hide_sort_output_rankless"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_below="@+id/hide_search_rankless"
+                  android:layout_marginTop="8dp"
+                  android:text="Hide from sort output"/>
+
+              <CheckBox
+                  android:id="@+id/hide_comparator_input_rankless"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_below="@+id/hide_sort_output_rankless"
+                  android:layout_marginTop="8dp"
+                  android:text="Hide from comparator suggestions"/>
+
+              <CheckBox
+                  android:id="@+id/hide_comparator_list_rankless"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_below="@+id/hide_comparator_input_rankless"
+                  android:layout_marginTop="8dp"
+                  android:text="Hide from comparator list"/>
+
+          </RelativeLayout>
+
+          <RelativeLayout
+              android:layout_width="match_parent"
+              android:layout_height="0dp"
+              android:layout_weight="1"
+              android:padding="4dp">
+
+              <TextView
+                  android:id="@+id/settings_drafted_header"
+                  android:layout_width="match_parent"
+                  android:textSize="18sp"
+                  android:layout_height="wrap_content"
+                  android:text="Drafted players"/>
+
+              <CheckBox
+                  android:id="@+id/hide_search_drafted"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_below="@+id/settings_drafted_header"
+                  android:layout_marginTop="8dp"
+                  android:text="Hide from search"/>
+
+              <CheckBox
+                  android:id="@+id/hide_sort_output_drafted"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_below="@+id/hide_search_drafted"
+                  android:layout_marginTop="8dp"
+                  android:text="Hide from sort output"/>
+
+              <CheckBox
+                  android:id="@+id/hide_comparator_input_drafted"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_below="@+id/hide_sort_output_drafted"
+                  android:layout_marginTop="8dp"
+                  android:text="Hide from comparator suggestions"/>
+
+              <CheckBox
+                  android:id="@+id/hide_comparator_list_drafted"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_below="@+id/hide_comparator_input_drafted"
+                  android:layout_marginTop="8dp"
+                  android:text="Hide from comparator list"/>
+
+          </RelativeLayout>
+
+
+      </LinearLayout>
+
+  </ScrollView>
+
+</RelativeLayout>

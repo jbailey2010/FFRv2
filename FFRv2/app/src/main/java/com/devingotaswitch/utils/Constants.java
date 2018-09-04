@@ -59,7 +59,7 @@ public class Constants {
     public final static String HELP_SORT_PLAYERS = "Sort Players";
     public final static String HELP_NEWS = "News";
     public final static String HELP_EXPORT = "Exporting Rankings";
-    public final static String HELP_PROFILE = "Your Profile";
+    public final static String HELP_PROFILE = "Your Stuff";
     public final static String HELP_STATS = "Stat Explanations";
     public final static String HELP_REFRESH = "When To Refresh Rankings";
 
@@ -91,6 +91,14 @@ public class Constants {
     public static final String NUM_PLAYERS = "MAX_PLAYERS_VISIBLE";
     public static final String RANKINGS_FETCHED = "RANKINGS_FETCHED";
     public static final String NEWS_SOURCE = "NEWS_SOURCE";
+    public static final String HIDE_DRAFTED_SEARCH = "HIDE_DRAFTED_SEARCH";
+    public static final String HIDE_DRAFTED_COMPARATOR_LIST = "HIDE_DRAFTED_COMPARATOR_LIST";
+    public static final String HIDE_DRAFTED_COMPARATOR_SUGGESTION = "HIDE_DRAFTED_COMPARATOR_SUGGESTION";
+    public static final String HIDE_DRAFTED_SORT_OUTPUT = "HIDE_DRAFTED_SORT_OUTPUT";
+    public static final String HIDE_RANKLESS_SEARCH = "HIDE_RANKLESS_SEARCH";
+    public static final String HIDE_RANKLESS_COMPARATOR_LIST = "HIDE_RANKLESS_COMPARATOR_LIST";
+    public static final String HIDE_RANKLESS_COMPARATOR_SUGGESTION = "HIDE_RANKLESS_COMPARATOR_SUGGESTION";
+    public static final String HIDE_RANKLESS_SORT_OUTPUT = "HIDE_RANKLESS_SORT_OUTPUT";
 
     // SP: defaults
     public static final String NOT_SET_KEY = "NOT_SAVED";

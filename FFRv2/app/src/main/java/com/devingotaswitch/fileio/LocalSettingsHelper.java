@@ -93,11 +93,11 @@ public class LocalSettingsHelper {
     }
 
     public static boolean isPostUpvoted(Context cont, String commentId) {
-        return getSharedPreferences(cont).getBoolean(commentId + Constants.COMMENT_UPVOTE, false);
+        return getSharedPreferences(cont).getBoolean(commentId + Constants.COMMENT_UPVOTE, Constants.NOT_SET_BOOLEAN);
     }
 
     public static boolean isPostDownvoted(Context cont, String commentId) {
-        return getSharedPreferences(cont).getBoolean(commentId + Constants.COMMENT_DOWNVOTE, false);
+        return getSharedPreferences(cont).getBoolean(commentId + Constants.COMMENT_DOWNVOTE, Constants.NOT_SET_BOOLEAN);
     }
 
     public static void downvotePost(Context cont, String commentId) {
@@ -119,7 +119,7 @@ public class LocalSettingsHelper {
     }
 
     public static boolean isPlayerTagged(Context cont, String playerId, String tagType) {
-        return getSharedPreferences(cont).getBoolean(playerId + tagType + Constants.SP_TAG_SUFFIX, false);
+        return getSharedPreferences(cont).getBoolean(playerId + tagType + Constants.SP_TAG_SUFFIX, Constants.NOT_SET_BOOLEAN);
     }
 
     public static void tagPlayer(Context cont, String playerId, String tagType) {
@@ -140,5 +140,69 @@ public class LocalSettingsHelper {
 
     public static String getCommentSortType(Context cont) {
         return getSharedPreferences(cont).getString(Constants.COMMENT_SORT_KEY, Constants.COMMENT_SORT_DATE);
+    }
+    
+    public static boolean hideDraftedSearch(Context cont) {
+        return getSharedPreferences(cont).getBoolean(Constants.HIDE_DRAFTED_SEARCH, Constants.NOT_SET_BOOLEAN);
+    }
+    
+    public static void setHideDraftedSearch(Context cont, boolean doHide) {
+        getSharedPreferences(cont).edit().putBoolean(Constants.HIDE_DRAFTED_SEARCH, doHide).apply();
+    }
+    
+    public static boolean hideDraftedSortOutput(Context cont) {
+        return getSharedPreferences(cont).getBoolean(Constants.HIDE_DRAFTED_SORT_OUTPUT, Constants.NOT_SET_BOOLEAN);
+    }
+    
+    public static void setHideDraftedSortOutput(Context cont, boolean doHide) {
+        getSharedPreferences(cont).edit().putBoolean(Constants.HIDE_DRAFTED_SORT_OUTPUT, doHide).apply();
+    }
+    
+    public static boolean hideDraftedComparatorList(Context cont) {
+        return getSharedPreferences(cont).getBoolean(Constants.HIDE_DRAFTED_COMPARATOR_LIST, Constants.NOT_SET_BOOLEAN);
+    }
+    
+    public static void setHideDraftedComparatorList(Context cont, boolean doHide) {
+        getSharedPreferences(cont).edit().putBoolean(Constants.HIDE_DRAFTED_COMPARATOR_LIST, doHide).apply();
+    }
+    
+    public static boolean hideDraftedComparatorSuggestion(Context cont) {
+        return getSharedPreferences(cont).getBoolean(Constants.HIDE_DRAFTED_COMPARATOR_SUGGESTION, Constants.NOT_SET_BOOLEAN);
+    }
+    
+    public static void setHideDraftedComparatorSuggestion(Context cont, boolean doHide) {
+        getSharedPreferences(cont).edit().putBoolean(Constants.HIDE_DRAFTED_COMPARATOR_SUGGESTION, doHide).apply();
+    }
+
+    public static boolean hideRanklessSearch(Context cont) {
+        return getSharedPreferences(cont).getBoolean(Constants.HIDE_RANKLESS_SEARCH, Constants.NOT_SET_BOOLEAN);
+    }
+
+    public static void setHideRanklessSearch(Context cont, boolean doHide) {
+        getSharedPreferences(cont).edit().putBoolean(Constants.HIDE_RANKLESS_SEARCH, doHide).apply();
+    }
+
+    public static boolean hideRanklessSortOutput(Context cont) {
+        return getSharedPreferences(cont).getBoolean(Constants.HIDE_RANKLESS_SORT_OUTPUT, Constants.NOT_SET_BOOLEAN);
+    }
+
+    public static void setHideRanklessSortOutput(Context cont, boolean doHide) {
+        getSharedPreferences(cont).edit().putBoolean(Constants.HIDE_RANKLESS_SORT_OUTPUT, doHide).apply();
+    }
+
+    public static boolean hideRanklessComparatorList(Context cont) {
+        return getSharedPreferences(cont).getBoolean(Constants.HIDE_RANKLESS_COMPARATOR_LIST, Constants.NOT_SET_BOOLEAN);
+    }
+
+    public static void setHideRanklessComparatorList(Context cont, boolean doHide) {
+        getSharedPreferences(cont).edit().putBoolean(Constants.HIDE_RANKLESS_COMPARATOR_LIST, doHide).apply();
+    }
+
+    public static boolean hideRanklessComparatorSuggestion(Context cont) {
+        return getSharedPreferences(cont).getBoolean(Constants.HIDE_RANKLESS_COMPARATOR_SUGGESTION, Constants.NOT_SET_BOOLEAN);
+    }
+
+    public static void setHideRanklessComparatorSuggestion(Context cont, boolean doHide) {
+        getSharedPreferences(cont).edit().putBoolean(Constants.HIDE_RANKLESS_COMPARATOR_SUGGESTION, doHide).apply();
     }
 }

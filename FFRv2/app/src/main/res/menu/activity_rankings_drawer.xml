@@ -9,7 +9,7 @@
                 android:title="Player News"/>
             <item
                 android:id="@+id/nav_league_settings"
-                android:icon="@drawable/settings"
+                android:icon="@drawable/people_black"
                 android:title="Leagues"/>
             <item
                 android:id="@+id/nav_refresh_ranks"
@@ -28,6 +28,10 @@
 
     <item android:title="You">
         <menu>
+            <item
+                android:id="@+id/nav_user_settings"
+                android:icon="@drawable/settings"
+                android:title = "Settings"/>
             <item
                 android:id="@+id/nav_user_change_password"
                 android:icon="@drawable/password"

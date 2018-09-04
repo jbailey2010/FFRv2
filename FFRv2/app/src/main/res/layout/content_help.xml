@@ -131,7 +131,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:layout_marginTop="10dp"
-                android:text="Want to change your password, or even just sign out? Both are accessible via the side menu."
+                android:text="You can customize various displays via the settings option in the side menu. Specifically, it allows you to customize whether you want to show or hide drafted or rankless players in various contexts.\nRankless players are those without a rank for the current league setting (e.g. a veteran in a rookie draft).\n\nAdditionally, the side menu has options to change your password, or sign out."
                 android:visibility="gone"
                 android:id="@+id/help_profile_body"/>
 
