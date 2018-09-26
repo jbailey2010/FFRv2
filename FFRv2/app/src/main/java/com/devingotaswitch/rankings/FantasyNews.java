@@ -4,6 +4,7 @@ import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -28,6 +29,7 @@ import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.GeneralUtils;
 import com.devingotaswitch.utils.JsoupUtils;
 
+import org.angmarch.views.NiceSpinner;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -35,6 +37,7 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -90,15 +93,11 @@ public class FantasyNews extends AppCompatActivity {
             Player player = rankings.getPlayer(key);
             nameToId.put(player.getName(), key);
         }
-        List<String> sources = new ArrayList<>();
-        sources.add(Constants.RW_HEADLINE_TITLE);
-        sources.add(Constants.RW_PLAYER_TITLE);
-        sources.add(Constants.MFL_AGGREGATE_TITLE);
-        final Spinner sourcesSpinner = findViewById(R.id.news_source_selector);
-        ArrayAdapter<String> newsAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, sources);
-        sourcesSpinner.setAdapter(newsAdapter);
-        sourcesSpinner.setSelection(sources.indexOf(LocalSettingsHelper.getSelectedNewsSource(this)));
+        final List<String> sources = new ArrayList<>(Arrays.asList(Constants.RW_HEADLINE_TITLE, Constants.RW_PLAYER_TITLE, Constants.MFL_AGGREGATE_TITLE));
+        final NiceSpinner sourcesSpinner = findViewById(R.id.news_source_selector);
+        sourcesSpinner.attachDataSource(sources);
+        sourcesSpinner.setBackgroundColor(Color.parseColor("#FAFAFA"));
+        sourcesSpinner.setSelectedIndex(sources.indexOf(LocalSettingsHelper.getSelectedNewsSource(this)));
 
         final Button submit = findViewById(R.id.news_selection_submit);
         final Context localCopy = this;
@@ -106,7 +105,7 @@ public class FantasyNews extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (GeneralUtils.confirmInternet(localCopy)) {
-                    String selectedSource = ((TextView)sourcesSpinner.getSelectedView()).getText().toString();
+                    String selectedSource = sources.get(sourcesSpinner.getSelectedIndex());
                     getNews(selectedSource);
                     LocalSettingsHelper.saveSelectedNewsSource(localCopy, selectedSource);
                 } else {

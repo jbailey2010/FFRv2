@@ -50,6 +50,8 @@ import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 
+import org.angmarch.views.NiceSpinner;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -146,8 +148,8 @@ public class PlayerSorter extends AppCompatActivity {
     }
 
     private void init() {
-        final Spinner positions = findViewById(R.id.sort_players_position);
-        List<String> posList = new ArrayList<>();
+        final NiceSpinner positions = findViewById(R.id.sort_players_position);
+        final List<String> posList = new ArrayList<>();
         RosterSettings roster = rankings.getLeagueSettings().getRosterSettings();
         posList.add(Constants.ALL_POSITIONS);
         if (roster.getQbCount() > 0) {
@@ -185,12 +187,11 @@ public class PlayerSorter extends AppCompatActivity {
                 && roster.getNumStartingPositions() > 4) {
             posList.add(Constants.QBRBWRTE);
         }
-        ArrayAdapter<String> positionAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, posList);
-        positions.setAdapter(positionAdapter);
+        positions.attachDataSource(posList);
+        positions.setBackgroundColor(Color.parseColor("#FAFAFA"));
 
-        final Spinner factors = findViewById(R.id.sort_players_factor);
-        List<String> factorList = new ArrayList<>();
+        final NiceSpinner factors = findViewById(R.id.sort_players_factor);
+        final List<String> factorList = new ArrayList<>();
         factorList.add(Constants.SORT_ALL);
         factorList.add(Constants.SORT_ECR);
         factorList.add(Constants.SORT_ADP);
@@ -213,9 +214,8 @@ public class PlayerSorter extends AppCompatActivity {
         factorList.add(Constants.SORT_VBD_SUGGESTED);
         factorList.add(Constants.SORT_RISK);
         factorList.add(Constants.SORT_SOS);
-        ArrayAdapter<String> factorAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, factorList);
-        factors.setAdapter(factorAdapter);
+        factors.attachDataSource(factorList);
+        factors.setBackgroundColor(Color.parseColor("#FAFAFA"));
 
         final MultiSelectionSpinner spinner=findViewById(R.id.sort_players_additional_factors);
         List<String> list = new ArrayList<>();
@@ -233,8 +233,8 @@ public class PlayerSorter extends AppCompatActivity {
         }
         spinner.setItems(list, Constants.SORT_DEFAULT_STRING);
 
-        positions.setSelection(posIndex);
-        factors.setSelection(sortIndex);
+        positions.setSelectedIndex(posIndex);
+        factors.setSelectedIndex(sortIndex);
         spinner.setSelection(new ArrayList<>(factorStrings));
 
         final CheckBox reverse = findViewById(R.id.sort_players_reverse);
@@ -246,14 +246,14 @@ public class PlayerSorter extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String currentPosition = ((TextView) positions.getSelectedView()).getText().toString();
+                String currentPosition = posList.get(positions.getSelectedIndex());
                 List<String> filteredIds = new ArrayList<>(rankings.getOrderedIds());
                 if (!Constants.ALL_POSITIONS.equals(currentPosition)) {
                     filteredIds = rankings.getPlayersByPosition(filteredIds, currentPosition);
                 }
-                factor = ((TextView) factors.getSelectedView()).getText().toString();
-                posIndex = positions.getSelectedItemPosition();
-                sortIndex = factors.getSelectedItemPosition();
+                factor = factorList.get(factors.getSelectedIndex());
+                posIndex = positions.getSelectedIndex();
+                sortIndex = factors.getSelectedIndex();
                 factorStrings = spinner.getSelectedStrings();
 
                 String numberShownStr = numberShown.getText().toString();

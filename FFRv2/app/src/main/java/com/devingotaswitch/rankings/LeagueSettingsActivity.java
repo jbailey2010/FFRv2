@@ -2,6 +2,7 @@ package com.devingotaswitch.rankings;
 
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -32,6 +33,8 @@ import com.devingotaswitch.rankings.domain.RosterSettings;
 import com.devingotaswitch.rankings.domain.ScoringSettings;
 import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.GeneralUtils;
+
+import org.angmarch.views.NiceSpinner;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -111,13 +114,13 @@ public class LeagueSettingsActivity extends AppCompatActivity {
     }
 
     private void initializeLeagueSpinner() {
-        Spinner spinner =  findViewById(R.id.league_settings_spinner);
+        NiceSpinner spinner =  findViewById(R.id.league_settings_spinner);
         if (leagues.isEmpty()) {
             spinner.setVisibility(View.INVISIBLE);
             return;
         }
         spinner.setVisibility(View.VISIBLE);
-        List<String> leagueNames = new ArrayList<>();
+        final List<String> leagueNames = new ArrayList<>();
         int currLeagueIndex = 0;
         int leagueCount = 0;
         for (String leagueName : leagues.keySet()) {
@@ -128,17 +131,16 @@ public class LeagueSettingsActivity extends AppCompatActivity {
             leagueCount++;
         }
         leagueNames.add(CREATE_NEW_LEAGUE_SPINNER_ITEM);
-        ArrayAdapter<String> dataAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, leagueNames);
-        spinner.setAdapter(dataAdapter);
-        spinner.setSelection(currLeagueIndex);
+        spinner.attachDataSource(leagueNames);
+        spinner.setSelectedIndex(currLeagueIndex);
+        spinner.setBackgroundColor(Color.parseColor("#FAFAFA"));
         spinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (CREATE_NEW_LEAGUE_SPINNER_ITEM.equals(adapterView.getItemAtPosition(i))) {
+                if (CREATE_NEW_LEAGUE_SPINNER_ITEM.equals(leagueNames.get(i))) {
                     displayNoLeague();
                 } else {
-                    displayLeague(leagues.get(adapterView.getItemAtPosition(i)));
+                    displayLeague(leagues.get(leagueNames.get(i)));
                 }
             }
 

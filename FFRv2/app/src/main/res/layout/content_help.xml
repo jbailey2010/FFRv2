@@ -18,11 +18,11 @@
         android:layout_marginTop="10dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
-        <Spinner
+        <org.angmarch.views.NiceSpinner
+            android:id="@+id/help_topics"
             android:layout_width="0dp"
-            android:layout_weight="7.00"
             android:layout_height="match_parent"
-            android:id="@+id/help_topics"/>
+            android:layout_weight="7"/>
 
         <Button
             android:id="@+id/help_selection_submit"

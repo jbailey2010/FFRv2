@@ -13,11 +13,13 @@
             android:id="@+id/news_header_base"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-            <Spinner
+
+            <org.angmarch.views.NiceSpinner
+                android:id="@+id/news_source_selector"
                 android:layout_width="0dp"
-                android:layout_height="match_parent"
-                android:layout_weight="7.00"
-                android:id="@+id/news_source_selector"/>
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_weight="7"/>
 
             <Button
                 android:id="@+id/news_selection_submit"

@@ -1,9 +1,11 @@
 package com.devingotaswitch.rankings;
 
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -12,6 +14,8 @@ import android.widget.TextView;
 
 import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.utils.Constants;
+
+import org.angmarch.views.NiceSpinner;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -70,8 +74,9 @@ public class HelpActivity extends AppCompatActivity {
         helpStats = findViewById(R.id.help_stats_body);
         helpRefresh = findViewById(R.id.help_refresh_body);
 
-        final Spinner spinner = findViewById(R.id.help_topics);
-        List<String> posList = new ArrayList<>();
+        final NiceSpinner spinner = findViewById(R.id.help_topics);
+        spinner.setBackgroundColor(Color.parseColor("#FAFAFA"));
+        final List<String> posList = new ArrayList<>();
         posList.add(Constants.HELP_LEAGUE);
         posList.add(Constants.HELP_RANKINGS);
         posList.add(Constants.HELP_PLAYER_INFO);
@@ -85,15 +90,13 @@ public class HelpActivity extends AppCompatActivity {
         posList.add(Constants.HELP_STATS);
         posList.add(Constants.HELP_REFRESH);
 
-        ArrayAdapter<String> positionAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, posList);
-        spinner.setAdapter(positionAdapter);
+        spinner.attachDataSource(posList);
 
         Button submit = findViewById(R.id.help_selection_submit);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String selected = spinner.getSelectedItem().toString();
+                String selected = posList.get(spinner.getSelectedIndex());
                 updateLayout(selected);
             }
         });

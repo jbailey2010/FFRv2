@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.provider.Settings;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
@@ -65,6 +66,8 @@ import com.devingotaswitch.utils.GeneralUtils;
 import com.devingotaswitch.youruserpools.CUPHelper;
 import com.devingotaswitch.youruserpools.ChangePasswordActivity;
 import com.devingotaswitch.youruserpools.MainActivity;
+
+import org.angmarch.views.NiceSpinner;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -204,16 +207,15 @@ public class RankingsHome extends AppCompatActivity {
         // prevent a weird issue where the watched star would
         // be out of date on visibility change.
         displayRankings(rankings.getOrderedIds());
-        final Spinner teams = filterBase.findViewById(R.id.rankings_filter_teams);
-        List<String> teamList = new ArrayList<>(rankings.getTeams().keySet());
+        final NiceSpinner teams = filterBase.findViewById(R.id.rankings_filter_teams);
+        final List<String> teamList = new ArrayList<>(rankings.getTeams().keySet());
         Collections.sort(teamList);
         teamList.add(0, Constants.ALL_TEAMS);
-        ArrayAdapter<String> teamAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, teamList);
-        teams.setAdapter(teamAdapter);
+        teams.attachDataSource(teamList);
+        teams.setBackgroundColor(Color.parseColor("#FAFAFA"));
 
-        final Spinner positions = filterBase.findViewById(R.id.rankings_filter_positions);
-        List<String> posList = new ArrayList<>();
+        final NiceSpinner positions = filterBase.findViewById(R.id.rankings_filter_positions);
+        final List<String> posList = new ArrayList<>();
         RosterSettings roster = rankings.getLeagueSettings().getRosterSettings();
         posList.add(Constants.ALL_POSITIONS);
         if (roster.getQbCount() > 0) {
@@ -251,9 +253,8 @@ public class RankingsHome extends AppCompatActivity {
                 && roster.getNumStartingPositions() > 4) {
             posList.add(Constants.QBRBWRTE);
         }
-        ArrayAdapter<String> positionAdapter = new ArrayAdapter<>(this,
-                android.R.layout.simple_spinner_item, posList);
-        positions.setAdapter(positionAdapter);
+        positions.attachDataSource(posList);
+        positions.setBackgroundColor(Color.parseColor("#FAFAFA"));
 
         final CheckBox watched = filterBase.findViewById(R.id.rankings_filter_watched);
         final EditText maxPlayersField = filterBase.findViewById(R.id.max_players_visible);
@@ -264,8 +265,8 @@ public class RankingsHome extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String currentTeam = ((TextView)teams.getSelectedView()).getText().toString();
-                String currentPosition = ((TextView)positions.getSelectedView()).getText().toString();
+                String currentTeam = teamList.get(teams.getSelectedIndex());;
+                String currentPosition = posList.get(positions.getSelectedIndex());
                 boolean isWatched = watched.isChecked();
                 List<String> filteredIds = rankings.getOrderedIds();
                 if (!Constants.ALL_POSITIONS.equals(currentPosition)) {
@@ -492,7 +493,9 @@ public class RankingsHome extends AppCompatActivity {
                                     adapter, data, datum, position, true);
                             if (!rightDismiss) {
                                 rankings.getDraft().draftBySomeone(rankings, player, localCopy, findViewById(R.id.user_drawer_layout), listener);
-                                setSearchAutocomplete();
+                                if (LocalSettingsHelper.hideDraftedSearch(localCopy)) {
+                                    setSearchAutocomplete();
+                                }
                             } else {
                                 if (rankings.getLeagueSettings().isAuction()) {
                                     getAuctionCost(player, position, data, datum, adapter, listener);
@@ -570,7 +573,9 @@ public class RankingsHome extends AppCompatActivity {
 
     private void draftByMe(Player player, int cost, View.OnClickListener listener) {
         rankings.getDraft().draftByMe(rankings, player, this, cost, findViewById(R.id.user_drawer_layout), listener);
-        setSearchAutocomplete();
+        if (LocalSettingsHelper.hideDraftedSearch(this)) {
+            setSearchAutocomplete();
+        }
     }
 
     private void setSearchAutocomplete() {

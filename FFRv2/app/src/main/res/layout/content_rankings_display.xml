@@ -12,20 +12,20 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
-            <Spinner
+            <org.angmarch.views.NiceSpinner
+                android:id="@+id/rankings_filter_teams"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginBottom="6dp"
                 android:layout_marginTop="6dp"
-                android:id="@+id/rankings_filter_teams"/>
-            <Spinner
+                android:layout_weight="1"/>
+            <org.angmarch.views.NiceSpinner
+                android:id="@+id/rankings_filter_positions"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
                 android:layout_marginBottom="6dp"
                 android:layout_marginTop="6dp"
-                android:id="@+id/rankings_filter_positions"/>
+                android:layout_weight="1"/>
         </LinearLayout>
 
         <LinearLayout
