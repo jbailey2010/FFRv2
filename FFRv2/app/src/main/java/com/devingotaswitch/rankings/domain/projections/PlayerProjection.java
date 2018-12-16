@@ -15,14 +15,18 @@ public class PlayerProjection {
     private DefensiveProjection defensiveProjection;
     private KickingProjection kickingProjection;
 
+    private double projection;
+
     public PlayerProjection(double passingYds, double passingTds, double rushingYds, double rushingTds,
                             double receivingYds, double receivingTds, double receptions, double fumbles,
-                            double ints, double def, double k) {
+                            double ints, double def, double k, ScoringSettings scoringSettings) {
         this.passingProjection = new PassingProjection(passingYds, passingTds, ints);
         this.rushingProjection = new RushingProjection(rushingYds, rushingTds, fumbles);
         this.receivingProjection = new ReceivingProjection(receivingYds, receptions, receivingTds);
         this.defensiveProjection = new DefensiveProjection(def);
         this.kickingProjection = new KickingProjection(k);
+
+        updateAndGetFormattedProjectedPoints(scoringSettings);
     }
 
     private double getProjectedPoints(ScoringSettings scoringSettings) {
@@ -33,8 +37,13 @@ public class PlayerProjection {
                 this.kickingProjection.getProjectedPoints(scoringSettings);
     }
 
-    public double getFormattedProjectedPoints(ScoringSettings scoringSettings) {
-        return Double.parseDouble(Constants.DECIMAL_FORMAT.format(getProjectedPoints(scoringSettings)));
+    public double updateAndGetFormattedProjectedPoints(ScoringSettings scoringSettings) {
+        this.projection = Double.parseDouble(Constants.DECIMAL_FORMAT.format(getProjectedPoints(scoringSettings)));
+        return this.projection;
+    }
+
+    public double getFormattedProjectedPoints() {
+        return this.projection;
     }
 
     public String toString() {

@@ -29,9 +29,9 @@ public class ParseProjections {
         teProj("http://www.fantasypros.com/nfl/projections/te.php?year=" + Constants.YEAR_KEY + "&week=draft",
                 points, rankings);
         defProj("http://www.fantasypros.com/nfl/projections/dst.php?year=" + Constants.YEAR_KEY + "&week=draft",
-                points);
+                points, rankings);
         kProj("http://www.fantasypros.com/nfl/projections/k.php?year=" + Constants.YEAR_KEY + "&week=draft",
-                points);
+                points, rankings);
 
         for (String playerId : rankings.getPlayers().keySet()) {
             Player player = rankings.getPlayer(playerId);
@@ -78,8 +78,8 @@ public class ParseProjections {
             double rushTD = Double.parseDouble(td.get(i + 8));
             double fumbles = Double.parseDouble(td.get(i + 9));
             PlayerProjection projection = new PlayerProjection(yards, passTd, rushYards, rushTD, 0.0, 0.0, 0.0,
-                    fumbles, ints, 0.0, 0.0);
-            proj = projection.getFormattedProjectedPoints(rankings.getLeagueSettings().getScoringSettings());
+                    fumbles, ints, 0.0, 0.0, rankings.getLeagueSettings().getScoringSettings());
+            proj = projection.getFormattedProjectedPoints();
             points.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + Constants.QB, proj);
         }
     }
@@ -122,8 +122,8 @@ public class ParseProjections {
             double recTD = Double.parseDouble(td.get(i + 6));
             double fumbles = Double.parseDouble(td.get(i + 7));
             PlayerProjection projection = new PlayerProjection(0.0, 0.0, rushYards, rushTD,
-                    recYards, recTD, catches, fumbles, 0.0, 0.0, 0.0);
-            proj = projection.getFormattedProjectedPoints(rankings.getLeagueSettings().getScoringSettings());
+                    recYards, recTD, catches, fumbles, 0.0, 0.0, 0.0, rankings.getLeagueSettings().getScoringSettings());
+            proj = projection.getFormattedProjectedPoints();
             points.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + Constants.RB, proj);
         }
     }
@@ -166,8 +166,8 @@ public class ParseProjections {
             double recTD = Double.parseDouble(td.get(i + 3));
             double fumbles = Double.parseDouble(td.get(i + 7));
             PlayerProjection projection = new PlayerProjection(0.0, 0.0, rushYards, rushTD,
-                    recYards, recTD, catches, fumbles, 0.0, 0.0, 0.0);
-            proj = projection.getFormattedProjectedPoints(rankings.getLeagueSettings().getScoringSettings());
+                    recYards, recTD, catches, fumbles, 0.0, 0.0, 0.0, rankings.getLeagueSettings().getScoringSettings());
+            proj = projection.getFormattedProjectedPoints();
             points.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + Constants.WR, proj);
         }
     }
@@ -206,13 +206,13 @@ public class ParseProjections {
                     .parseDouble(td.get(i + 2).replace(",", ""));
             double fumbles = Double.parseDouble(td.get(i + 4));
             PlayerProjection projection = new PlayerProjection(0.0, 0.0, 0.0, 0.0,
-                    recYards, recTD, catches, fumbles, 0.0, 0.0, 0.0);
-            proj = projection.getFormattedProjectedPoints(rankings.getLeagueSettings().getScoringSettings());
+                    recYards, recTD, catches, fumbles, 0.0, 0.0, 0.0, rankings.getLeagueSettings().getScoringSettings());
+            proj = projection.getFormattedProjectedPoints();
             points.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + Constants.TE, proj);
         }
     }
 
-    private static void defProj(String url, Map<String, Double> points) throws IOException {
+    private static void defProj(String url, Map<String, Double> points, Rankings rankings) throws IOException {
         List<String> td = JsoupUtils.parseURLWithUA(url, "table.table-bordered tbody tr td");
 
         int min = 0;
@@ -241,12 +241,13 @@ public class ParseProjections {
             name = new StringBuilder(ParsingUtils.normalizeDefenses(name.toString()));
             Double proj = Double.parseDouble(td.get(i+9));
             PlayerProjection projection = new PlayerProjection(0.0, 0.0, 0.0,
-                    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, proj, 0.0);
+                    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, proj, 0.0,
+                    rankings.getLeagueSettings().getScoringSettings());
             points.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + Constants.DST, proj);
         }
     }
 
-    private static void kProj(String url, Map<String, Double> points) throws IOException {
+    private static void kProj(String url, Map<String, Double> points, Rankings rankings) throws IOException {
         List<String> td = JsoupUtils.parseURLWithUA(url, "table.table-bordered tbody tr td");
 
         int min = 0;
@@ -274,7 +275,8 @@ public class ParseProjections {
             String team = ParsingUtils.normalizeTeams(nameSet[nameSet.length - 1]);
             double proj = Double.parseDouble(td.get(i + 4));
             PlayerProjection projection = new PlayerProjection(0.0, 0.0, 0.0, 0.0,
-                    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, proj);
+                    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, proj,
+                    rankings.getLeagueSettings().getScoringSettings());
             points.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + Constants.K, proj);
         }
     }
