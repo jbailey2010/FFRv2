@@ -4,6 +4,7 @@ import android.util.Log;
 
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
+import com.devingotaswitch.rankings.domain.projections.PlayerProjection;
 import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.GeneralUtils;
 import com.devingotaswitch.utils.JsoupUtils;
@@ -76,13 +77,9 @@ public class ParseProjections {
             double rushYards = Double.parseDouble(td.get(i + 7));
             double rushTD = Double.parseDouble(td.get(i + 8));
             double fumbles = Double.parseDouble(td.get(i + 9));
-            proj += (yards / (rankings.getLeagueSettings().getScoringSettings().getPassingYards()));
-            proj += ints * rankings.getLeagueSettings().getScoringSettings().getInterceptions();
-            proj += passTd * rankings.getLeagueSettings().getScoringSettings().getPassingTds();
-            proj += (rushYards / (rankings.getLeagueSettings().getScoringSettings().getRushingYards()));
-            proj += rushTD * rankings.getLeagueSettings().getScoringSettings().getRushingTds();
-            proj += fumbles * rankings.getLeagueSettings().getScoringSettings().getFumbles();
-            proj = Double.parseDouble(Constants.DECIMAL_FORMAT.format(proj));
+            PlayerProjection projection = new PlayerProjection(yards, passTd, rushYards, rushTD, 0.0, 0.0, 0.0,
+                    fumbles, ints, 0.0, 0.0);
+            proj = projection.getFormattedProjectedPoints(rankings.getLeagueSettings().getScoringSettings());
             points.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + Constants.QB, proj);
         }
     }
@@ -124,13 +121,9 @@ public class ParseProjections {
                     .parseDouble(td.get(i + 5).replace(",", ""));
             double recTD = Double.parseDouble(td.get(i + 6));
             double fumbles = Double.parseDouble(td.get(i + 7));
-            proj += (rushYards / (rankings.getLeagueSettings().getScoringSettings().getRushingYards()));
-            proj += rushTD * rankings.getLeagueSettings().getScoringSettings().getRushingTds();
-            proj += catches * rankings.getLeagueSettings().getScoringSettings().getReceptions();
-            proj += (recYards / (rankings.getLeagueSettings().getScoringSettings().getReceivingYards()));
-            proj += recTD * rankings.getLeagueSettings().getScoringSettings().getReceivingTds();
-            proj += fumbles * rankings.getLeagueSettings().getScoringSettings().getFumbles();
-            proj = Double.parseDouble(Constants.DECIMAL_FORMAT.format(proj));
+            PlayerProjection projection = new PlayerProjection(0.0, 0.0, rushYards, rushTD,
+                    recYards, recTD, catches, fumbles, 0.0, 0.0, 0.0);
+            proj = projection.getFormattedProjectedPoints(rankings.getLeagueSettings().getScoringSettings());
             points.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + Constants.RB, proj);
         }
     }
@@ -172,13 +165,9 @@ public class ParseProjections {
                     .parseDouble(td.get(i + 2).replace(",", ""));
             double recTD = Double.parseDouble(td.get(i + 3));
             double fumbles = Double.parseDouble(td.get(i + 7));
-            proj += (rushYards / (rankings.getLeagueSettings().getScoringSettings().getRushingYards()));
-            proj += rushTD * rankings.getLeagueSettings().getScoringSettings().getRushingTds();
-            proj += catches * rankings.getLeagueSettings().getScoringSettings().getReceptions();
-            proj += (recYards / (rankings.getLeagueSettings().getScoringSettings().getReceivingYards()));
-            proj += recTD * rankings.getLeagueSettings().getScoringSettings().getReceivingTds();
-            proj += fumbles * rankings.getLeagueSettings().getScoringSettings().getFumbles();
-            proj = Double.parseDouble(Constants.DECIMAL_FORMAT.format(proj));
+            PlayerProjection projection = new PlayerProjection(0.0, 0.0, rushYards, rushTD,
+                    recYards, recTD, catches, fumbles, 0.0, 0.0, 0.0);
+            proj = projection.getFormattedProjectedPoints(rankings.getLeagueSettings().getScoringSettings());
             points.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + Constants.WR, proj);
         }
     }
@@ -216,11 +205,9 @@ public class ParseProjections {
             double recYards = Double
                     .parseDouble(td.get(i + 2).replace(",", ""));
             double fumbles = Double.parseDouble(td.get(i + 4));
-            proj += catches * rankings.getLeagueSettings().getScoringSettings().getReceptions();
-            proj += (recYards / (rankings.getLeagueSettings().getScoringSettings().getReceivingYards()));
-            proj += recTD * rankings.getLeagueSettings().getScoringSettings().getReceivingTds();
-            proj += fumbles * rankings.getLeagueSettings().getScoringSettings().getFumbles();
-            proj = Double.parseDouble(Constants.DECIMAL_FORMAT.format(proj));
+            PlayerProjection projection = new PlayerProjection(0.0, 0.0, 0.0, 0.0,
+                    recYards, recTD, catches, fumbles, 0.0, 0.0, 0.0);
+            proj = projection.getFormattedProjectedPoints(rankings.getLeagueSettings().getScoringSettings());
             points.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + Constants.TE, proj);
         }
     }
@@ -253,6 +240,8 @@ public class ParseProjections {
             String team = ParsingUtils.normalizeTeams(name.toString());
             name = new StringBuilder(ParsingUtils.normalizeDefenses(name.toString()));
             Double proj = Double.parseDouble(td.get(i+9));
+            PlayerProjection projection = new PlayerProjection(0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, proj, 0.0);
             points.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + Constants.DST, proj);
         }
     }
@@ -284,6 +273,8 @@ public class ParseProjections {
             name = new StringBuilder(ParsingUtils.normalizeNames(name.substring(0, name.length() - 1)));
             String team = ParsingUtils.normalizeTeams(nameSet[nameSet.length - 1]);
             double proj = Double.parseDouble(td.get(i + 4));
+            PlayerProjection projection = new PlayerProjection(0.0, 0.0, 0.0, 0.0,
+                    0.0, 0.0, 0.0, 0.0, 0.0, 0.0, proj);
             points.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + Constants.K, proj);
         }
     }

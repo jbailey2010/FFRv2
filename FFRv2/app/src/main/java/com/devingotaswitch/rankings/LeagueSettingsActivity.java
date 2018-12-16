@@ -99,6 +99,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         rankings = Rankings.init();
         baseLayout =  findViewById(R.id.league_settings_base);
         initLeagues();
+        GeneralUtils.hideKeyboard(this);
     }
 
     private void initLeagues() {
