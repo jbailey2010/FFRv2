@@ -53,6 +53,37 @@ public class PlayerProjection {
         return this.projection;
     }
 
+    public String getDisplayString(String position) {
+        switch (position) {
+            case Constants.QB:
+                return new StringBuilder()
+                        .append(this.passingProjection.getDisplayString())
+                        .append(Constants.LINE_BREAK)
+                        .append(this.rushingProjection.getDisplayString())
+                        .toString();
+            case Constants.RB:
+                return new StringBuilder()
+                        .append(this.rushingProjection.getDisplayString())
+                        .append(Constants.LINE_BREAK)
+                        .append(this.receivingProjection.getDisplayString())
+                        .toString();
+            case Constants.WR:
+                return new StringBuilder()
+                        .append(this.receivingProjection.getDisplayString())
+                        .append(Constants.LINE_BREAK)
+                        .append(this.rushingProjection.getDisplayString())
+                        .toString();
+            case Constants.TE:
+                return this.receivingProjection.getDisplayString();
+            case Constants.DST:
+                return this.defensiveProjection.getDisplayString();
+            case Constants.K:
+                return this.kickingProjection.getDisplayString();
+            default:
+                return "";
+        }
+    }
+
     @Override
     public String toString() {
         return GSON.toJson(this, PlayerProjection.class);

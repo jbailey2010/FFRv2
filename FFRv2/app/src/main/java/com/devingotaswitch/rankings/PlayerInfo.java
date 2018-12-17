@@ -762,7 +762,14 @@ public class PlayerInfo extends AppCompatActivity {
             proj.put(Constants.PLAYER_BASIC, "Projection: " + player.getProjection());
             int projRank = getProj(null, player.getProjection());
             int projPos = getProj(player.getPosition(), player.getProjection());
-            proj.put(Constants.PLAYER_INFO, getRankingSub(projRank, projPos));
+            String projectionBreakdown = player.getPlayerProjection().getDisplayString(player.getPosition());
+            String rankingSub = new StringBuilder()
+                    .append(getRankingSub(projRank, projPos))
+                    .append(projectionBreakdown.length() > 0 ? Constants.LINE_BREAK : "")
+                    .append(projectionBreakdown.length() > 0 ? Constants.LINE_BREAK : "")
+                    .append(projectionBreakdown)
+                    .toString();
+            proj.put(Constants.PLAYER_INFO, rankingSub);
             data.add(proj);
 
             Map<String, String> paa = new HashMap<>();

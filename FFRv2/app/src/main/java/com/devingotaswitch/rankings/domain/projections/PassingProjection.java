@@ -3,6 +3,7 @@ package com.devingotaswitch.rankings.domain.projections;
 import android.util.Log;
 
 import com.devingotaswitch.rankings.domain.ScoringSettings;
+import com.devingotaswitch.utils.Constants;
 
 class PassingProjection extends ProjectionBase {
 
@@ -22,5 +23,19 @@ class PassingProjection extends ProjectionBase {
         double tdPoints = tds * scoringSettings.getPassingTds();
         double intPoints = ints * scoringSettings.getInterceptions();
         return yardPoints + tdPoints + intPoints;
+    }
+
+    @Override
+    String getDisplayString() {
+        return new StringBuilder()
+                .append("Passing Yards: ")
+                .append(yards)
+                .append(Constants.LINE_BREAK)
+                .append("Passing TDs: ")
+                .append(tds)
+                .append(Constants.LINE_BREAK)
+                .append("Interceptions: ")
+                .append(ints)
+                .toString();
     }
 }

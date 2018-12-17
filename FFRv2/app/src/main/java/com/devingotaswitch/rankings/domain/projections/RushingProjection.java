@@ -3,6 +3,7 @@ package com.devingotaswitch.rankings.domain.projections;
 import android.util.Log;
 
 import com.devingotaswitch.rankings.domain.ScoringSettings;
+import com.devingotaswitch.utils.Constants;
 
 class RushingProjection extends ProjectionBase {
     private double yards = 0.0;
@@ -21,5 +22,19 @@ class RushingProjection extends ProjectionBase {
         double fumblePoints = fumbles * scoringSettings.getFumbles();
         double tdPoints = tds * scoringSettings.getRushingTds();
         return yardPoints + fumblePoints + tdPoints;
+    }
+
+    @Override
+    String getDisplayString() {
+        return new StringBuilder()
+                .append("Rushing Yards: ")
+                .append(yards)
+                .append(Constants.LINE_BREAK)
+                .append("Rushing TDs: ")
+                .append(tds)
+                .append(Constants.LINE_BREAK)
+                .append("Fumbles: ")
+                .append(fumbles)
+                .toString();
     }
 }

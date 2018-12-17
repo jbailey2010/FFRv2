@@ -3,6 +3,7 @@ package com.devingotaswitch.rankings.domain.projections;
 import android.util.Log;
 
 import com.devingotaswitch.rankings.domain.ScoringSettings;
+import com.devingotaswitch.utils.Constants;
 
 class ReceivingProjection extends ProjectionBase {
     private double yards = 0.0;
@@ -21,5 +22,19 @@ class ReceivingProjection extends ProjectionBase {
         double receptionPoints = receptions * scoringSettings.getReceptions();
         double tdPoints = tds * scoringSettings.getReceivingTds();
         return yardPoints + receptionPoints + tdPoints;
+    }
+
+    @Override
+    String getDisplayString() {
+        return new StringBuilder()
+                .append("Catches: ")
+                .append(receptions)
+                .append(Constants.LINE_BREAK)
+                .append("Receiving Yards: ")
+                .append(yards)
+                .append(Constants.LINE_BREAK)
+                .append("Receiving TDs: ")
+                .append(tds)
+                .toString();
     }
 }

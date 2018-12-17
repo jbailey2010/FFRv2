@@ -13,4 +13,9 @@ class DefensiveProjection extends ProjectionBase {
     double getProjectedPoints(ScoringSettings scoringSettings) {
         return projection;
     }
+
+    @Override
+    String getDisplayString() {
+        return "";
+    }
 }
