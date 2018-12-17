@@ -46,16 +46,31 @@ public class RankingsFetcher {
         private final Activity activity;
         private final RankingsDBWrapper rankingsDB;
         private final LeagueSettings league;
+        private final boolean updateProjections;
 
-        public VBDUpdater(Rankings rankings, Activity activity, LeagueSettings league,  RankingsDBWrapper rankingsDB) {
+        public VBDUpdater(Rankings rankings, Activity activity, LeagueSettings league, boolean updateProjections,
+                          RankingsDBWrapper rankingsDB) {
             this.rankings = rankings;
             this.activity = activity;
             this.rankingsDB = rankingsDB;
             this.league = league;
+            this.updateProjections = updateProjections;
         }
 
         @Override
         protected Void doInBackground(Object... data) {
+
+            if (updateProjections) {
+                Log.i(TAG, "Updating projections");
+                try {
+                    for (Player player : rankings.getPlayers().values()) {
+                        player.updateProjection(league.getScoringSettings());
+                    }
+                } catch(Exception e) {
+                    Log.e(TAG, "Failed to update player projections", e);
+                }
+            }
+
             Log.i(TAG, "Getting paa calculations");
             try {
                 ParseMath.setPlayerPAA(rankings, league);

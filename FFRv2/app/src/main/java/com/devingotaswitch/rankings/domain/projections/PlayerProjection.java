@@ -1,5 +1,7 @@
 package com.devingotaswitch.rankings.domain.projections;
 
+import android.util.Log;
+
 import com.devingotaswitch.rankings.domain.ScoringSettings;
 import com.devingotaswitch.utils.Constants;
 import com.google.gson.Gson;
@@ -16,6 +18,11 @@ public class PlayerProjection {
     private KickingProjection kickingProjection;
 
     private double projection;
+
+    public PlayerProjection(ScoringSettings scoringSettings) {
+        this(0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
+                0.0, 0.0, 0.0, 0.0, 0.0, scoringSettings);
+    }
 
     public PlayerProjection(double passingYds, double passingTds, double rushingYds, double rushingTds,
                             double receivingYds, double receivingTds, double receptions, double fumbles,
@@ -46,6 +53,7 @@ public class PlayerProjection {
         return this.projection;
     }
 
+    @Override
     public String toString() {
         return GSON.toJson(this, PlayerProjection.class);
     }

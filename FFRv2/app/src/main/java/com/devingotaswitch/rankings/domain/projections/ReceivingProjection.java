@@ -1,5 +1,7 @@
 package com.devingotaswitch.rankings.domain.projections;
 
+import android.util.Log;
+
 import com.devingotaswitch.rankings.domain.ScoringSettings;
 
 class ReceivingProjection extends ProjectionBase {
@@ -18,6 +20,6 @@ class ReceivingProjection extends ProjectionBase {
         double yardPoints = (yards / (scoringSettings.getRushingYards()));
         double receptionPoints = receptions * scoringSettings.getReceptions();
         double tdPoints = tds * scoringSettings.getReceivingTds();
-        return yardPoints + receptionPoints * tdPoints;
+        return yardPoints + receptionPoints + tdPoints;
     }
 }

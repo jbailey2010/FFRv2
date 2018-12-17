@@ -9,6 +9,7 @@ import com.devingotaswitch.rankings.domain.RosterSettings;
 import com.devingotaswitch.rankings.domain.RosterSettings.Flex;
 import com.devingotaswitch.rankings.domain.ScoringSettings;
 import com.devingotaswitch.rankings.domain.Team;
+import com.devingotaswitch.rankings.domain.projections.PlayerProjection;
 
 import java.util.Map;
 
@@ -228,7 +229,7 @@ public class DBUtils {
         player.setStats(desanitizeStats(result.getString(result.getColumnIndex(Constants.PLAYER_STATS_COLUMN))));
         player.setInjuryStatus(result.getString(result.getColumnIndex(Constants.PLAYER_INJURED_COLUMN)));
         player.setAuctionValue(result.getDouble(result.getColumnIndex(Constants.AUCTION_VALUE_COLUMN)));
-        player.setProjection(result.getDouble(result.getColumnIndex(Constants.PLAYER_PROJECTION_COLUMN)));
+        player.setPlayerProjection(PlayerProjection.fromJson(result.getString(result.getColumnIndex(Constants.PLAYER_PROJECTION_COLUMN))));
         player.setPaa(result.getDouble(result.getColumnIndex(Constants.PLAYER_PAA_COLUMN)));
         player.setxVal(result.getDouble(result.getColumnIndex(Constants.PLAYER_XVAL_COLUMN)));
         player.setVOLS(result.getDouble(result.getColumnIndex(Constants.PLAYER_VORP_COLUMN)));
@@ -269,7 +270,7 @@ public class DBUtils {
         values.put(Constants.PLAYER_STATS_COLUMN, sanitizeStats(player.getStats()));
         values.put(Constants.PLAYER_INJURED_COLUMN, player.getInjuryStatus());
         values.put(Constants.AUCTION_VALUE_COLUMN, player.getAuctionValue());
-        values.put(Constants.PLAYER_PROJECTION_COLUMN, player.getProjection());
+        values.put(Constants.PLAYER_PROJECTION_COLUMN, player.getPlayerProjection().toString());
         values.put(Constants.PLAYER_PAA_COLUMN, player.getPaa());
         values.put(Constants.PLAYER_XVAL_COLUMN, player.getxVal());
         values.put(Constants.PLAYER_VORP_COLUMN, player.getVOLS());

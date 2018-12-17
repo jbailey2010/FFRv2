@@ -162,8 +162,9 @@ public class Rankings {
         ranksParser.execute();
     }
 
-    public void updateVBD(Activity activity, LeagueSettings league, RankingsDBWrapper rankingsDB) {
-        RankingsFetcher.VBDUpdater vbdUpdater = processor.new VBDUpdater(this, activity, league, rankingsDB);
+    public void updateProjectionsAndVBD(Activity activity, LeagueSettings league, boolean updateProjections,
+                                        RankingsDBWrapper rankingsDB) {
+        RankingsFetcher.VBDUpdater vbdUpdater = processor.new VBDUpdater(this, activity, league, updateProjections, rankingsDB);
         vbdUpdater.execute();
     }
 

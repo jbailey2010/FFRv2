@@ -1,5 +1,7 @@
 package com.devingotaswitch.rankings.domain.projections;
 
+import android.util.Log;
+
 import com.devingotaswitch.rankings.domain.ScoringSettings;
 
 class PassingProjection extends ProjectionBase {

@@ -13,20 +13,17 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.amazonaws.util.StringUtils;
 import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.fileio.LocalSettingsHelper;
 import com.devingotaswitch.fileio.RankingsDBWrapper;
-import com.devingotaswitch.rankings.asynctasks.RankingsFetcher.VBDUpdater;
 import com.devingotaswitch.rankings.domain.LeagueSettings;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.domain.RosterSettings;
@@ -117,7 +114,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
     private void initializeLeagueSpinner() {
         NiceSpinner spinner =  findViewById(R.id.league_settings_spinner);
         if (leagues.isEmpty()) {
-            spinner.setVisibility(View.INVISIBLE);
+            spinner.setVisibility(View.GONE);
             return;
         }
         spinner.setVisibility(View.VISIBLE);
@@ -1075,8 +1072,16 @@ public class LeagueSettingsActivity extends AppCompatActivity {
             rankingsUpdated = true;
         }
 
-        if (leagueUpdates != null && leagueUpdates.containsKey(Constants.TEAM_COUNT_COLUMN) && !rankings.getPlayers().isEmpty()) {
-            rankings.updateVBD(this, league, rankingsDB);
+        if (((leagueUpdates != null && leagueUpdates.containsKey(Constants.TEAM_COUNT_COLUMN)) ||
+                scoringUpdates != null || rosterUpdates != null) && !rankings.getPlayers().isEmpty()) {
+            Log.d(TAG, "Updating some set");
+            boolean updateProjections = false;
+            if (scoringUpdates != null) {
+                Log.d(TAG, "Projections to be updated, too.");
+                updateProjections = true;
+                rankingsUpdated = true;
+            }
+            rankings.updateProjectionsAndVBD(this, league, updateProjections, rankingsDB);
         }
     }
 }

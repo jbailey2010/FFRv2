@@ -1,5 +1,6 @@
 package com.devingotaswitch.rankings.domain;
 
+import com.devingotaswitch.rankings.domain.projections.PlayerProjection;
 import com.devingotaswitch.utils.Constants;
 
 public class Player {
@@ -23,7 +24,7 @@ public class Player {
     private Double auctionValue = 0.0;
     private Double numRankings = 0.0;
     private Double risk = Constants.DEFAULT_RISK;
-    private Double projection = 0.0;
+    private PlayerProjection projection;
     private Double paa;
     private Double xVal;
     private Double vOLS;
@@ -163,10 +164,18 @@ public class Player {
     public void setRisk(Double risk) { this.risk = risk; }
 
     public Double getProjection() {
+        return projection.getFormattedProjectedPoints();
+    }
+
+    public PlayerProjection getPlayerProjection() {
         return projection;
     }
 
-    public void setProjection(Double projection) {
+    public void updateProjection(ScoringSettings scoringSettings) {
+        this.projection.updateAndGetFormattedProjectedPoints(scoringSettings);
+    }
+
+    public void setPlayerProjection(PlayerProjection projection) {
         this.projection = projection;
     }
 

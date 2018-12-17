@@ -347,6 +347,7 @@ public class RankingsHome extends AppCompatActivity {
             nDrawer.getMenu().findItem(R.id.nav_export_rankings).setVisible(true);
             // If rankings are saved, load (and ultimately display) them
             if (rankings == null || rankings.getPlayers().size() == 0 || loadRanks) {
+                Log.d(TAG, "Loading rankings");
                 Rankings.loadRankings(this, rankingsDB);
             } else {
                 boolean nullPlayer = false;
