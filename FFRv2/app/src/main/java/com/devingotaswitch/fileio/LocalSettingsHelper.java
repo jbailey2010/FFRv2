@@ -205,4 +205,12 @@ public class LocalSettingsHelper {
     public static void setHideRanklessComparatorSuggestion(Context cont, boolean doHide) {
         getSharedPreferences(cont).edit().putBoolean(Constants.HIDE_RANKLESS_COMPARATOR_SUGGESTION, doHide).apply();
     }
+
+    public static int getNumberOfCommentsOnPlayer(Context cont, String playerKey) {
+        return getSharedPreferences(cont).getInt(Constants.PLAYER_COMMENT_COUNT_PREFIX + playerKey + Constants.YEAR_KEY, 0);
+    }
+
+    public static void setNumberOfCommentsOnPlayer(Context cont, String playerKey, int newCount) {
+        getSharedPreferences(cont).edit().putInt(Constants.PLAYER_COMMENT_COUNT_PREFIX + playerKey + Constants.YEAR_KEY, newCount).apply();
+    }
 }

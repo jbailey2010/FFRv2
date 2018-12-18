@@ -99,6 +99,7 @@ public class Constants {
     public static final String HIDE_RANKLESS_COMPARATOR_LIST = "HIDE_RANKLESS_COMPARATOR_LIST";
     public static final String HIDE_RANKLESS_COMPARATOR_SUGGESTION = "HIDE_RANKLESS_COMPARATOR_SUGGESTION";
     public static final String HIDE_RANKLESS_SORT_OUTPUT = "HIDE_RANKLESS_SORT_OUTPUT";
+    public static final String PLAYER_COMMENT_COUNT_PREFIX = "PLAYER_COMMENT_COUNT";
 
     // SP: defaults
     public static final String NOT_SET_KEY = "NOT_SAVED";

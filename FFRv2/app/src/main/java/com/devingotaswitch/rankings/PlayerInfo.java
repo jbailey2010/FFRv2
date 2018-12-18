@@ -1040,6 +1040,7 @@ public class PlayerInfo extends AppCompatActivity {
         commentList.setVisibility(View.VISIBLE);
         infoList.setVisibility(View.GONE);
         chipCloud.setVisibility(View.GONE);
+        ((ImageButton)findViewById(R.id.player_info_comments)).setImageResource(R.drawable.comment_white);
 
         View ranks = findViewById(R.id.ranks_button_selected);
         View playerSelected = findViewById(R.id.player_info_button_selected);
@@ -1178,6 +1179,11 @@ public class PlayerInfo extends AppCompatActivity {
         View commentsView = findViewById(R.id.comment_button_selected);
         if (View.VISIBLE == commentsView.getVisibility()) {
             displayComments();
+        }
+
+        if (comments.size() > LocalSettingsHelper.getNumberOfCommentsOnPlayer(this, player.getUniqueId())) {
+            ((ImageButton)findViewById(R.id.player_info_comments)).setImageResource(R.drawable.new_comment_white);
+            LocalSettingsHelper.setNumberOfCommentsOnPlayer(this, player.getUniqueId(), comments.size());
         }
 
         if (!StringUtils.isBlank(nextToken)) {
