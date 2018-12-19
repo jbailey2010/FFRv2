@@ -21,10 +21,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f5fe9503-cc09-4a8d-b7d9-507f98789a95" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/fileio/LocalSettingsHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/fileio/LocalSettingsHelper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/Constants.java" afterDir="false" />
     </list>
     <ignored path="AmazonCognitoYourUserPoolsDemo.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -65,41 +62,42 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="375">
-      <file leaf-file-name="PlayerInfo.java" pinned="false" current-in-tab="true">
+      <file leaf-file-name="PlayerInfo.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="34">
-              <caret line="1042" column="104" selection-start-line="1042" selection-start-column="104" selection-end-line="1042" selection-end-column="104" />
+            <state relative-caret-position="176">
+              <caret line="1045" column="34" selection-start-line="1045" selection-start-column="34" selection-end-line="1045" selection-end-column="34" />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="content_player_info.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/content_player_info.xml">
-          <provider editor-type-id="text-editor">
-            <state relative-caret-position="-654">
-              <caret line="89" column="24" selection-start-line="89" selection-start-column="24" selection-end-line="89" selection-end-column="24" />
+      <file leaf-file-name="PlayerSorter.java" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerSorter.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="255">
+              <caret line="367" column="36" selection-start-line="367" selection-start-column="36" selection-end-line="367" selection-end-column="36" />
             </state>
           </provider>
-          <provider selected="true" editor-type-id="android-designer2">
-            <state />
+        </entry>
+      </file>
+      <file leaf-file-name="SettingsActivity.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/SettingsActivity.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="406">
+              <caret line="98" column="44" lean-forward="true" selection-start-line="98" selection-start-column="44" selection-end-line="98" selection-end-column="44" />
+              <folding>
+                <element signature="e#4528#4786#0" expanded="true" />
+                <element signature="e#4785#4786#0" expanded="true" />
+              </folding>
+            </state>
           </provider>
         </entry>
       </file>
       <file leaf-file-name="LocalSettingsHelper.java" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/fileio/LocalSettingsHelper.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="355">
-              <caret line="209" column="119" selection-start-line="209" selection-start-column="119" selection-end-line="209" selection-end-column="119" />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Constants.java" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/Constants.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="294">
-              <caret line="101" column="51" selection-start-line="101" selection-start-column="51" selection-end-line="101" selection-end-column="51" />
+            <state relative-caret-position="261">
+              <caret line="184" column="29" lean-forward="true" selection-start-line="184" selection-start-column="26" selection-end-line="184" selection-end-column="48" />
             </state>
           </provider>
         </entry>
@@ -118,7 +116,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>space2</find>
       <find>splash</find>
       <find>saveRankings(</find>
       <find>ParseMath.</find>
@@ -148,6 +145,7 @@
       <find>comments</find>
       <find>imagebutton</find>
       <find>displayComments</find>
+      <find>comment_white</find>
     </findStrings>
     <replaceStrings>
       <replace>_REMOTE =</replace>
@@ -2687,7 +2685,7 @@
       </list>
     </option>
   </component>
-  <component name="ProjectFrameBounds" extendedState="6">
+  <component name="ProjectFrameBounds" extendedState="7">
     <option name="x" value="15" />
     <option name="width" value="1935" />
     <option name="height" value="1090" />
@@ -3164,32 +3162,33 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="-7" y="-7" width="1550" height="878" extended-state="6" />
+    <frame x="-7" y="-7" width="1550" height="878" extended-state="7" />
     <editor active="true" />
     <layout>
       <window_info anchor="bottom" id="Android Profiler" order="11" weight="0.32921347" />
+      <window_info id="Build Variants" order="8" sideWeight="0.5046083" side_tool="true" weight="0.24650913" />
+      <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.5080537" side_tool="true" weight="0.32275862" />
+      <window_info anchor="bottom" id="Logcat" order="9" sideWeight="0.4852547" weight="0.29931036" />
+      <window_info id="Capture Tool" order="3" />
+      <window_info id="Designer" order="6" />
+      <window_info anchor="right" id="Assistant" order="8" weight="0.3295302" />
+      <window_info anchor="bottom" id="Build" order="10" sideWeight="0.49932885" weight="0.32275862" />
+      <window_info id="Structure" order="1" side_tool="true" weight="0.24973147" />
+      <window_info anchor="right" id="Device File Explorer" order="10" side_tool="true" weight="0.32975295" />
+      <window_info anchor="bottom" id="Debug" order="4" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="7" sideWeight="0.49785176" weight="0.32890365" />
       <window_info anchor="right" id="Palette&#9;" order="7" />
       <window_info id="Image Layers" order="5" />
-      <window_info id="Build Variants" order="8" sideWeight="0.5046083" side_tool="true" weight="0.24650913" />
       <window_info anchor="right" id="Capture Analysis" order="4" />
-      <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.5080537" side_tool="true" weight="0.32275862" />
       <window_info anchor="right" id="Preview" order="0" />
       <window_info anchor="bottom" id="Run" order="3" sideWeight="0.4967475" weight="0.31348315" />
       <window_info anchor="bottom" id="Version Control" order="13" sideWeight="0.49785176" weight="0.32827586" />
       <window_info anchor="bottom" id="Terminal" order="14" sideWeight="0.4919463" weight="0.32689655" />
-      <window_info anchor="bottom" id="Logcat" order="9" sideWeight="0.4852547" visible="true" weight="0.29931036" />
       <window_info id="Captures" order="2" weight="0.25" />
-      <window_info id="Capture Tool" order="3" />
-      <window_info id="Designer" order="6" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4953917" visible="true" weight="0.25771812" />
-      <window_info anchor="right" id="Assistant" order="8" weight="0.3295302" />
-      <window_info anchor="bottom" id="Build" order="10" sideWeight="0.49932885" weight="0.32275862" />
+      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4953917" visible="true" weight="0.25771812" />
+      <window_info active="true" anchor="bottom" id="Find" order="2" sideWeight="0.48925886" visible="true" weight="0.36689654" />
       <window_info anchor="right" id="Gradle" order="11" side_tool="true" weight="0.32885906" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.24973147" />
-      <window_info anchor="right" id="Device File Explorer" order="10" side_tool="true" weight="0.32975295" />
       <window_info anchor="right" id="Theme Preview" order="5" />
-      <window_info anchor="bottom" id="Debug" order="4" weight="0.4" />
       <window_info id="Favorites" order="7" side_tool="true" />
       <window_info anchor="bottom" id="Inspection Results" order="0" weight="0.32815966" />
       <window_info anchor="bottom" id="Message" order="1" />
@@ -3199,7 +3198,6 @@
       <window_info anchor="right" id="Properties" order="6" />
       <window_info anchor="right" content_ui="combo" id="Hierarchy" order="3" weight="0.25" />
       <window_info id="Nl-Palette" order="4" />
-      <window_info anchor="bottom" id="Find" order="2" sideWeight="0.48925886" visible="true" weight="0.36689654" />
       <window_info anchor="right" id="Android Model" order="9" weight="0.32975295" />
       <window_info anchor="bottom" id="Android Monitor" order="12" sideWeight="0.47905478" weight="0.2911111" />
       <window_info anchor="right" id="Commander" order="1" weight="0.4" />
@@ -3263,13 +3261,6 @@
     </breakpoint-manager>
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/DraftInfo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="224">
-          <caret line="299" column="30" selection-start-line="299" selection-start-column="30" selection-end-line="299" selection-end-column="30" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/current_user_details.xml">
       <provider editor-type-id="text-editor">
         <state />
@@ -3308,13 +3299,6 @@
       <provider editor-type-id="text-editor">
         <state relative-caret-position="952">
           <caret line="56" column="53" selection-start-line="56" selection-start-column="53" selection-end-line="56" selection-end-column="53" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/SettingsActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="572">
-          <caret line="101" column="15" selection-start-line="101" selection-start-column="15" selection-end-line="101" selection-end-column="15" />
         </state>
       </provider>
     </entry>
@@ -3616,24 +3600,10 @@
         <state />
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerSorter.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParsePlayerNews.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1064">
-          <caret line="256" column="42" lean-forward="true" selection-start-line="256" selection-start-column="42" selection-end-line="256" selection-end-column="42" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/Constants.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="294">
-          <caret line="101" column="51" selection-start-line="101" selection-start-column="51" selection-end-line="101" selection-end-column="51" />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/fileio/LocalSettingsHelper.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="355">
-          <caret line="209" column="119" selection-start-line="209" selection-start-column="119" selection-end-line="209" selection-end-column="119" />
+        <state relative-caret-position="-438">
+          <caret line="23" column="62" selection-start-line="23" selection-start-column="26" selection-end-line="23" selection-end-column="62" />
         </state>
       </provider>
     </entry>
@@ -3647,10 +3617,42 @@
         <state />
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/Constants.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="294">
+          <caret line="101" column="51" selection-start-line="101" selection-start-column="51" selection-end-line="101" selection-end-column="51" />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="34">
-          <caret line="1042" column="104" selection-start-line="1042" selection-start-column="104" selection-end-line="1042" selection-end-column="104" />
+        <state relative-caret-position="176">
+          <caret line="1045" column="34" selection-start-line="1045" selection-start-column="34" selection-end-line="1045" selection-end-column="34" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/SettingsActivity.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="406">
+          <caret line="98" column="44" lean-forward="true" selection-start-line="98" selection-start-column="44" selection-end-line="98" selection-end-column="44" />
+          <folding>
+            <element signature="e#4528#4786#0" expanded="true" />
+            <element signature="e#4785#4786#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/fileio/LocalSettingsHelper.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="261">
+          <caret line="184" column="29" lean-forward="true" selection-start-line="184" selection-start-column="26" selection-end-line="184" selection-end-column="48" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerSorter.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="255">
+          <caret line="367" column="36" selection-start-line="367" selection-start-column="36" selection-end-line="367" selection-end-column="36" />
         </state>
       </provider>
     </entry>

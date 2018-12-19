@@ -70,6 +70,7 @@ public class PlayerInfo extends AppCompatActivity {
     private int watchCount= -1;
     private int draftCount = -1;
     private boolean sortByUpvotes = false;
+    private boolean doUpdateImage = false;
 
     private List<Map<String, String>> data;
     private SimpleAdapter adapter;
@@ -1040,7 +1041,10 @@ public class PlayerInfo extends AppCompatActivity {
         commentList.setVisibility(View.VISIBLE);
         infoList.setVisibility(View.GONE);
         chipCloud.setVisibility(View.GONE);
-        ((ImageButton)findViewById(R.id.player_info_comments)).setImageResource(R.drawable.comment_white);
+        if (doUpdateImage) {
+            ((ImageButton) findViewById(R.id.player_info_comments)).setImageResource(R.drawable.comment_white);
+            doUpdateImage = false;
+        }
 
         View ranks = findViewById(R.id.ranks_button_selected);
         View playerSelected = findViewById(R.id.player_info_button_selected);
@@ -1183,6 +1187,7 @@ public class PlayerInfo extends AppCompatActivity {
 
         if (comments.size() > LocalSettingsHelper.getNumberOfCommentsOnPlayer(this, player.getUniqueId())) {
             ((ImageButton)findViewById(R.id.player_info_comments)).setImageResource(R.drawable.new_comment_white);
+            doUpdateImage = true;
             LocalSettingsHelper.setNumberOfCommentsOnPlayer(this, player.getUniqueId(), comments.size());
         }
 
