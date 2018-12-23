@@ -5,14 +5,12 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
@@ -38,7 +36,6 @@ import com.github.mikephil.charting.data.BarData;
 import com.github.mikephil.charting.data.BarDataSet;
 import com.github.mikephil.charting.data.BarEntry;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -132,19 +129,9 @@ public class DraftInfo extends AppCompatActivity {
         rankings.getDraft().resetDraft(this, rankings.getLeagueSettings().getName());
         displayTeam();
         (findViewById(R.id.team_graph)).setVisibility(View.GONE);
-        new Flashbar.Builder(this)
-                .enableSwipeToDismiss()
-                .gravity(Flashbar.Gravity.BOTTOM)
-                .duration(Constants.FLASHBAR_DURATION)
-                .title("Draft cleared")
-                .message("All players are available again")
-                .backgroundColorRes(R.color.player_info_buttons)
-                .enterAnimation(FlashAnim.with(this)
-                        .animateBar()
-                        .duration(Constants.FLASHBAR_ANIMATION_DURATION)
-                        .alpha()
-                        .overshoot())
-                .build()
+
+        GeneralUtils.generateTextOnlyFlashbar(this, "Draft cleared", "All players are available again",
+                Flashbar.Gravity.BOTTOM)
                 .show();
         displayTeam();
     }

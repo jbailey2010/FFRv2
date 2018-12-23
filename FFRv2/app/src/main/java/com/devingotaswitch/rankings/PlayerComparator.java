@@ -2,13 +2,11 @@ package com.devingotaswitch.rankings;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -156,19 +154,8 @@ public class PlayerComparator extends AppCompatActivity {
                 playerA = getPlayerFromView(view);
                 inputA.setText(playerA.getName());
                 if (playerB != null && playerA.getUniqueId().equals(playerB.getUniqueId())) {
-                    new Flashbar.Builder(localCopy)
-                            .enableSwipeToDismiss()
-                            .gravity(Flashbar.Gravity.TOP)
-                            .duration(Constants.FLASHBAR_DURATION)
-                            .title("No can do")
-                            .message("Select two different players")
-                            .backgroundColorRes(R.color.player_info_buttons)
-                            .enterAnimation(FlashAnim.with(localCopy)
-                                    .animateBar()
-                                    .duration(Constants.FLASHBAR_ANIMATION_DURATION)
-                                    .alpha()
-                                    .overshoot())
-                            .build()
+                    GeneralUtils.generateTextOnlyFlashbar(localCopy, "No can do", "Select two different players",
+                            Flashbar.Gravity.TOP)
                             .show();
                 } else if (playerB != null) {
                     displayResults(playerA, playerB);
@@ -183,19 +170,8 @@ public class PlayerComparator extends AppCompatActivity {
                 playerB = getPlayerFromView(view);
                 inputB.setText(playerB.getName());
                 if (playerA != null && playerA.getUniqueId().equals(playerB.getUniqueId())) {
-                    new Flashbar.Builder(localCopy)
-                            .enableSwipeToDismiss()
-                            .gravity(Flashbar.Gravity.TOP)
-                            .duration(Constants.FLASHBAR_DURATION)
-                            .title("No can do")
-                            .message("Select two different players")
-                            .backgroundColorRes(R.color.player_info_buttons)
-                            .enterAnimation(FlashAnim.with(localCopy)
-                                    .animateBar()
-                                    .duration(Constants.FLASHBAR_ANIMATION_DURATION)
-                                    .alpha()
-                                    .overshoot())
-                            .build()
+                    GeneralUtils.generateTextOnlyFlashbar(localCopy, "No can do", "Select two different players",
+                            Flashbar.Gravity.TOP)
                             .show();
                 } else if (playerA != null) {
                     displayResults(playerA, playerB);
@@ -639,19 +615,9 @@ public class PlayerComparator extends AppCompatActivity {
 
             @Override
             public void onInvalidInput() {
-                new Flashbar.Builder(localCopy)
-                        .enableSwipeToDismiss()
-                        .gravity(Flashbar.Gravity.TOP)
-                        .duration(Constants.FLASHBAR_DURATION)
-                        .title("No can do")
-                        .message("Must provide a number for cost")
-                        .backgroundColorRes(R.color.player_info_buttons)
-                        .enterAnimation(FlashAnim.with(localCopy)
-                                .animateBar()
-                                .duration(Constants.FLASHBAR_ANIMATION_DURATION)
-                                .alpha()
-                                .overshoot())
-                        .build()
+
+                GeneralUtils.generateTextOnlyFlashbar(localCopy, "No can do", "Must provide a number for cost",
+                        Flashbar.Gravity.TOP)
                         .show();
             }
 

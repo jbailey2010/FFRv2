@@ -1,5 +1,6 @@
 package com.devingotaswitch.rankings;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -20,6 +21,8 @@ import android.widget.SimpleAdapter;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import com.andrognito.flashbar.Flashbar;
+import com.andrognito.flashbar.anim.FlashAnim;
 import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.fileio.LocalSettingsHelper;
 import com.devingotaswitch.rankings.domain.Player;
@@ -100,7 +103,7 @@ public class FantasyNews extends AppCompatActivity {
         sourcesSpinner.setSelectedIndex(sources.indexOf(LocalSettingsHelper.getSelectedNewsSource(this)));
 
         final Button submit = findViewById(R.id.news_selection_submit);
-        final Context localCopy = this;
+        final Activity localCopy = this;
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -109,7 +112,9 @@ public class FantasyNews extends AppCompatActivity {
                     getNews(selectedSource);
                     LocalSettingsHelper.saveSelectedNewsSource(localCopy, selectedSource);
                 } else {
-                    Snackbar.make(submit, "No internet connection", Snackbar.LENGTH_LONG).show();
+                    GeneralUtils.generateTextOnlyFlashbar(localCopy, "No can do", "No internet connection available",
+                            Flashbar.Gravity.BOTTOM)
+                            .show();
                 }
             }
         });
