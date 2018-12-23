@@ -20,6 +20,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.andrognito.flashbar.Flashbar;
+import com.andrognito.flashbar.anim.FlashAnim;
 import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.rankings.domain.Draft;
 import com.devingotaswitch.rankings.domain.Player;
@@ -138,6 +139,11 @@ public class DraftInfo extends AppCompatActivity {
                 .title("Draft cleared")
                 .message("All players are available again")
                 .backgroundColorRes(R.color.player_info_buttons)
+                .enterAnimation(FlashAnim.with(this)
+                        .animateBar()
+                        .duration(Constants.FLASHBAR_ANIMATION_DURATION)
+                        .alpha()
+                        .overshoot())
                 .build()
                 .show();
         displayTeam();

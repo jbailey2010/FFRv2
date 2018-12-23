@@ -87,6 +87,7 @@ public class Constants {
 
     // Flashbar constants
     public static final Long FLASHBAR_DURATION = 2500L;
+    public static final Long FLASHBAR_ANIMATION_DURATION = 750L;
 
     // SP: keys
     public static final String APP_KEY = "FFRv2";

@@ -26,6 +26,7 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.andrognito.flashbar.Flashbar;
+import com.andrognito.flashbar.anim.FlashAnim;
 import com.devingotaswitch.fileio.LocalSettingsHelper;
 import com.devingotaswitch.rankings.extras.FilterWithSpaceAdapter;
 import com.devingotaswitch.ffrv2.R;
@@ -162,6 +163,11 @@ public class PlayerComparator extends AppCompatActivity {
                             .title("No can do")
                             .message("Select two different players")
                             .backgroundColorRes(R.color.player_info_buttons)
+                            .enterAnimation(FlashAnim.with(localCopy)
+                                    .animateBar()
+                                    .duration(Constants.FLASHBAR_ANIMATION_DURATION)
+                                    .alpha()
+                                    .overshoot())
                             .build()
                             .show();
                 } else if (playerB != null) {
@@ -184,6 +190,11 @@ public class PlayerComparator extends AppCompatActivity {
                             .title("No can do")
                             .message("Select two different players")
                             .backgroundColorRes(R.color.player_info_buttons)
+                            .enterAnimation(FlashAnim.with(localCopy)
+                                    .animateBar()
+                                    .duration(Constants.FLASHBAR_ANIMATION_DURATION)
+                                    .alpha()
+                                    .overshoot())
                             .build()
                             .show();
                 } else if (playerA != null) {
@@ -635,6 +646,11 @@ public class PlayerComparator extends AppCompatActivity {
                         .title("No can do")
                         .message("Must provide a number for cost")
                         .backgroundColorRes(R.color.player_info_buttons)
+                        .enterAnimation(FlashAnim.with(localCopy)
+                                .animateBar()
+                                .duration(Constants.FLASHBAR_ANIMATION_DURATION)
+                                .alpha()
+                                .overshoot())
                         .build()
                         .show();
             }
