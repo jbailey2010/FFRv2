@@ -19,6 +19,7 @@ import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.andrognito.flashbar.Flashbar;
 import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.rankings.domain.Draft;
 import com.devingotaswitch.rankings.domain.Player;
@@ -130,7 +131,15 @@ public class DraftInfo extends AppCompatActivity {
         rankings.getDraft().resetDraft(this, rankings.getLeagueSettings().getName());
         displayTeam();
         (findViewById(R.id.team_graph)).setVisibility(View.GONE);
-        Snackbar.make(baseLayout, "Draft cleared", Snackbar.LENGTH_SHORT).show();
+        new Flashbar.Builder(this)
+                .enableSwipeToDismiss()
+                .gravity(Flashbar.Gravity.BOTTOM)
+                .duration(Constants.FLASHBAR_DURATION)
+                .title("Draft cleared")
+                .message("All players are available again")
+                .backgroundColorRes(R.color.player_info_buttons)
+                .build()
+                .show();
         displayTeam();
     }
 

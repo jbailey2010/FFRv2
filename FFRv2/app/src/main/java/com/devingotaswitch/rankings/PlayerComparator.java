@@ -2,6 +2,7 @@ package com.devingotaswitch.rankings;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
@@ -24,6 +25,7 @@ import android.widget.ScrollView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.andrognito.flashbar.Flashbar;
 import com.devingotaswitch.fileio.LocalSettingsHelper;
 import com.devingotaswitch.rankings.extras.FilterWithSpaceAdapter;
 import com.devingotaswitch.ffrv2.R;
@@ -145,6 +147,7 @@ public class PlayerComparator extends AppCompatActivity {
         } else {
             displayOptions();
         }
+        final Activity localCopy = this;
 
         inputA.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -152,7 +155,15 @@ public class PlayerComparator extends AppCompatActivity {
                 playerA = getPlayerFromView(view);
                 inputA.setText(playerA.getName());
                 if (playerB != null && playerA.getUniqueId().equals(playerB.getUniqueId())) {
-                    Snackbar.make(inputA, "Select two different players", Snackbar.LENGTH_SHORT).show();
+                    new Flashbar.Builder(localCopy)
+                            .enableSwipeToDismiss()
+                            .gravity(Flashbar.Gravity.TOP)
+                            .duration(Constants.FLASHBAR_DURATION)
+                            .title("No can do")
+                            .message("Select two different players")
+                            .backgroundColorRes(R.color.player_info_buttons)
+                            .build()
+                            .show();
                 } else if (playerB != null) {
                     displayResults(playerA, playerB);
                 } else {
@@ -166,7 +177,15 @@ public class PlayerComparator extends AppCompatActivity {
                 playerB = getPlayerFromView(view);
                 inputB.setText(playerB.getName());
                 if (playerA != null && playerA.getUniqueId().equals(playerB.getUniqueId())) {
-                    Snackbar.make(inputB, "Select two different players", Snackbar.LENGTH_SHORT).show();
+                    new Flashbar.Builder(localCopy)
+                            .enableSwipeToDismiss()
+                            .gravity(Flashbar.Gravity.TOP)
+                            .duration(Constants.FLASHBAR_DURATION)
+                            .title("No can do")
+                            .message("Select two different players")
+                            .backgroundColorRes(R.color.player_info_buttons)
+                            .build()
+                            .show();
                 } else if (playerA != null) {
                     displayResults(playerA, playerB);
                 } else {
@@ -600,6 +619,7 @@ public class PlayerComparator extends AppCompatActivity {
     }
 
     private void getAuctionCost(final Player player, final TextView title) {
+        final Activity localCopy = this;
         DraftUtils.AuctionCostInterface callback = new DraftUtils.AuctionCostInterface() {
             @Override
             public void onValidInput(Integer cost) {
@@ -608,7 +628,15 @@ public class PlayerComparator extends AppCompatActivity {
 
             @Override
             public void onInvalidInput() {
-                Snackbar.make(title, "Must provide a number for cost", Snackbar.LENGTH_SHORT).show();
+                new Flashbar.Builder(localCopy)
+                        .enableSwipeToDismiss()
+                        .gravity(Flashbar.Gravity.TOP)
+                        .duration(Constants.FLASHBAR_DURATION)
+                        .title("No can do")
+                        .message("Must provide a number for cost")
+                        .backgroundColorRes(R.color.player_info_buttons)
+                        .build()
+                        .show();
             }
 
             @Override

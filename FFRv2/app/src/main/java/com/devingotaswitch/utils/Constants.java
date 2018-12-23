@@ -85,6 +85,9 @@ public class Constants {
     public static final String RW_PLAYER_TITLE = "Rotoworld Player News";
     public static final String MFL_AGGREGATE_TITLE = "MFL Aggregate News";
 
+    // Flashbar constants
+    public static final Long FLASHBAR_DURATION = 2500L;
+
     // SP: keys
     public static final String APP_KEY = "FFRv2";
     public static final String LEAGUE_NAME = "CURRENT_LEAGUE_NAME";
