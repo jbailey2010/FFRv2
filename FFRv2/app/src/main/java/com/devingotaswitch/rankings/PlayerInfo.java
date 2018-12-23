@@ -29,6 +29,7 @@ import android.widget.TextView;
 import com.adroitandroid.chipcloud.ChipCloud;
 import com.adroitandroid.chipcloud.ChipListener;
 import com.amazonaws.util.StringUtils;
+import com.andrognito.flashbar.Flashbar;
 import com.devingotaswitch.appsync.AppSyncHelper;
 import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.fileio.LocalSettingsHelper;
@@ -305,6 +306,7 @@ public class PlayerInfo extends AppCompatActivity {
     }
 
     private void getAuctionCost() {
+        final Activity localCopy = this;
         DraftUtils.AuctionCostInterface callback = new DraftUtils.AuctionCostInterface() {
             @Override
             public void onValidInput(Integer cost) {
@@ -313,7 +315,9 @@ public class PlayerInfo extends AppCompatActivity {
 
             @Override
             public void onInvalidInput() {
-                Snackbar.make(infoList, "Must provide a number for cost", Snackbar.LENGTH_SHORT).show();
+                GeneralUtils.generateTextOnlyFlashbar(localCopy, "No can do", "Must provide a number for cost",
+                    Flashbar.Gravity.TOP)
+                    .show();
             }
 
             @Override
@@ -624,13 +628,16 @@ public class PlayerInfo extends AppCompatActivity {
 
         TextView title = noteView.findViewById(R.id.user_input_popup_title);
         title.setText("Input a note for " + player.getName());
+        final Activity localCopy = this;
         alertDialogBuilder
                 .setPositiveButton("Save",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog,int id) {
                                 String newNote = userInput.getText().toString();
                                 if (StringUtils.isBlank(newNote)) {
-                                    Snackbar.make(infoList, "No note given", Snackbar.LENGTH_SHORT).show();
+                                    GeneralUtils.generateTextOnlyFlashbar(localCopy, "No can do", "No note given",
+                                        Flashbar.Gravity.TOP)
+                                        .show();
                                 } else {
                                     setNoteAndDisplayIt(newNote);
                                     dialog.dismiss();

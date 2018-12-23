@@ -31,6 +31,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.amazonaws.util.StringUtils;
+import com.andrognito.flashbar.Flashbar;
 import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.fileio.LocalSettingsHelper;
 import com.devingotaswitch.fileio.RankingsDBWrapper;
@@ -598,7 +599,8 @@ public class PlayerSorter extends AppCompatActivity {
 
             @Override
             public void onInvalidInput() {
-                Snackbar.make(listView, "Must provide a number for cost", Snackbar.LENGTH_SHORT).show();
+                GeneralUtils.generateTextOnlyFlashbar(act, "No can do", "Must provide a number for cost", Flashbar.Gravity.TOP)
+                        .show();
                 data.add(position, datum);
                 adapter.notifyDataSetChanged();
                 GeneralUtils.hideKeyboard(act);
