@@ -485,6 +485,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
             benchHeader.setVisibility(View.VISIBLE);
         }
 
+        final Activity act = this;
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -493,11 +494,14 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                 }
                 Map<String, String> rosterUpdates = getRosterUpdates(qbs, rbs, wrs, tes, dsts, ks, bench, currentLeague);
                 if (rosterUpdates == null && leagueUpdates == null) {
-                    Snackbar.make(findViewById(R.id.activity_league_settings_base), "No updates given", Snackbar.LENGTH_SHORT).show();
+                    GeneralUtils.hideKeyboard(act);
+                    GeneralUtils.generateTextOnlyFlashbar(act, "No can do", "No updates given", Flashbar.Gravity.BOTTOM)
+                            .show();
                     return;
                 }
                 updateLeague(null, rosterUpdates, leagueUpdates, currentLeague);
-                Snackbar.make(findViewById(R.id.activity_league_settings_base), currentLeague.getName() + " updated", Snackbar.LENGTH_SHORT).show();
+                GeneralUtils.generateTextOnlyFlashbar(act, "Success!", currentLeague.getName() + " updated", Flashbar.Gravity.BOTTOM)
+                        .show();
             }
         });
         advanced.setOnClickListener(new View.OnClickListener() {
