@@ -18,10 +18,12 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.amazonaws.util.StringUtils;
+import com.andrognito.flashbar.Flashbar;
 import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.domain.Team;
+import com.devingotaswitch.utils.GeneralUtils;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -111,7 +113,8 @@ public class ExportRankings extends AppCompatActivity {
                 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
            exportRankings();
        } else {
-           Snackbar.make(submit, "Can't export without permission", Snackbar.LENGTH_LONG).show();
+           GeneralUtils.generateTextOnlyFlashbar(this, "No can do", "Can't export rankings without permission", Flashbar.Gravity.BOTTOM)
+                   .show();
        }
     }
 
@@ -131,7 +134,8 @@ public class ExportRankings extends AppCompatActivity {
 
         } catch (Exception e) {
             Log.e(TAG, "Failed to export rankings", e);
-            Snackbar.make(submit, "Failed to export", Snackbar.LENGTH_SHORT).show();
+            GeneralUtils.generateTextOnlyFlashbar(this, "No can do", "Failed to export", Flashbar.Gravity.BOTTOM)
+                    .show();
         }
     }
 

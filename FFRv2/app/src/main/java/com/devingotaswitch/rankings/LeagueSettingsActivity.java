@@ -1,5 +1,6 @@
 package com.devingotaswitch.rankings;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
@@ -21,6 +22,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 
 import com.amazonaws.util.StringUtils;
+import com.andrognito.flashbar.Flashbar;
 import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.fileio.LocalSettingsHelper;
 import com.devingotaswitch.fileio.RankingsDBWrapper;
@@ -294,6 +296,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         deactivateButton(save);
         deactivateButton(advanced);
 
+        final Activity act = this;
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -303,7 +306,8 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                 LeagueSettings defaults = getLeagueSettingsFromFirstPage(leagueName, teamCount, isAuction, isSnake,
                         isDynasty, isRookie, isBestBall, auctionBudget);
                 saveNewLeague(defaults);
-                Snackbar.make(findViewById(R.id.activity_league_settings_base), defaults.getName() + " saved", Snackbar.LENGTH_SHORT).show();
+                GeneralUtils.generateTextOnlyFlashbar(act, "Success!", defaults.getName() + " saved", Flashbar.Gravity.BOTTOM)
+                        .show();
             }
         });
         advanced.setOnClickListener(new View.OnClickListener() {
@@ -540,6 +544,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         Button save =  view.findViewById(R.id.league_roster_create_default);
         Button advanced =  view.findViewById(R.id.league_roster_advanced_settings);
 
+        final Activity act = this;
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -549,7 +554,8 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                 RosterSettings defaults = getRosterSettingsFromFirstPage(qbs, rbs, wrs, tes, dsts, ks, bench);
                 newLeague.setRosterSettings(defaults);
                 saveNewLeague(newLeague);
-                Snackbar.make(findViewById(R.id.activity_league_settings_base), newLeague.getName() + " saved", Snackbar.LENGTH_SHORT).show();
+                GeneralUtils.generateTextOnlyFlashbar(act, "Success!", newLeague.getName() + " saved", Flashbar.Gravity.BOTTOM)
+                        .show();
             }
         });
         advanced.setOnClickListener(new View.OnClickListener() {
@@ -725,6 +731,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         Button advanced = findViewById(R.id.league_flex_advanced_settings);
         Button save = findViewById(R.id.league_flex_create_default);
 
+        final Activity act = this;
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -734,7 +741,8 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                 RosterSettings.Flex defaults = getFlexSettingsFromFirstPage(rbwr, rbte, rbwrte, wrte, op);
                 newLeague.getRosterSettings().setFlex(defaults);
                 saveNewLeague(newLeague);
-                Snackbar.make(findViewById(R.id.activity_league_settings_base), newLeague.getName() + " saved", Snackbar.LENGTH_SHORT).show();
+                GeneralUtils.generateTextOnlyFlashbar(act, "Success!", newLeague.getName() + " saved", Flashbar.Gravity.BOTTOM)
+                        .show();
             }
         });
         advanced.setOnClickListener(new View.OnClickListener() {
@@ -851,6 +859,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         final EditText ppr =  view.findViewById(R.id.league_scoring_ppr);
         final Button save = view.findViewById(R.id.league_scoring_save);
 
+        final Activity act = this;
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -862,7 +871,8 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                         ints, fumbles, ppr);
                 newLeague.setScoringSettings(scoring);
                 saveNewLeague(newLeague);
-                Snackbar.make(findViewById(R.id.activity_league_settings_base), newLeague.getName() + " saved", Snackbar.LENGTH_SHORT).show();
+                GeneralUtils.generateTextOnlyFlashbar(act, "Success!", newLeague.getName() + " saved", Flashbar.Gravity.BOTTOM)
+                        .show();
             }
         });
     }
@@ -1058,7 +1068,9 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         leagues.remove(league.getName());
         currLeague = leagues.get(leagues.keySet().iterator().next());
         initializeLeagueSpinner();
-        Snackbar.make(baseLayout, league.getName() + " deleted", Snackbar.LENGTH_SHORT).show();
+        displayLeague(currLeague);
+        GeneralUtils.generateTextOnlyFlashbar(this, "Success!", league.getName() + " deleted", Flashbar.Gravity.BOTTOM)
+                .show();
         rankingsUpdated = true;
     }
 

@@ -48,6 +48,7 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.Chal
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.MultiFactorAuthenticationContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
 import com.amazonaws.util.StringUtils;
+import com.andrognito.flashbar.Flashbar;
 import com.devingotaswitch.rankings.domain.Draft;
 import com.devingotaswitch.rankings.extras.FilterWithSpaceAdapter;
 import com.devingotaswitch.ffrv2.R;
@@ -556,10 +557,11 @@ public class RankingsHome extends AppCompatActivity {
 
             @Override
             public void onInvalidInput() {
-                Snackbar.make(findViewById(R.id.user_drawer_layout), "Must provide a number for cost", Snackbar.LENGTH_SHORT).show();
+                GeneralUtils.hideKeyboard(act);
+                GeneralUtils.generateTextOnlyFlashbar(act, "No can do", "Must provide a number for cost", Flashbar.Gravity.BOTTOM)
+                        .show();
                 data.add(position, datum);
                 adapter.notifyDataSetChanged();
-                GeneralUtils.hideKeyboard(act);
             }
 
             @Override
@@ -689,7 +691,8 @@ public class RankingsHome extends AppCompatActivity {
             Intent exportRanksActivity = new Intent(this, ExportRankings.class);
             startActivity(exportRanksActivity);
         } else {
-            Snackbar.make(buttonBase, "No rankings saved to export", Snackbar.LENGTH_SHORT).show();
+            GeneralUtils.generateTextOnlyFlashbar(this, "No can do", "No rankings saved to export", Flashbar.Gravity.BOTTOM)
+                    .show();
         }
     }
 
@@ -704,10 +707,12 @@ public class RankingsHome extends AppCompatActivity {
             if (LocalSettingsHelper.wasPresent(LocalSettingsHelper.getCurrentLeagueName(this))) {
                 rankings.refreshRankings(this);
             } else {
-                Snackbar.make(buttonBase, "Set up a league before getting rankings", Snackbar.LENGTH_LONG).show();
+                GeneralUtils.generateTextOnlyFlashbar(this, "No can do", "Set up a league before getting rankings", Flashbar.Gravity.BOTTOM)
+                        .show();
             }
         } else {
-            Snackbar.make(buttonBase, "No internet connection", Snackbar.LENGTH_LONG).show();
+            GeneralUtils.generateTextOnlyFlashbar(this, "No can do", "No internet connection", Flashbar.Gravity.BOTTOM)
+                    .show();
         }
     }
 

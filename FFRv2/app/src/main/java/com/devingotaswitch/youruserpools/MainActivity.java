@@ -28,6 +28,7 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.Mult
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.NewPasswordContinuation;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.ForgotPasswordHandler;
+import com.andrognito.flashbar.Flashbar;
 import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.rankings.RankingsHome;
 import com.devingotaswitch.utils.GeneralUtils;
@@ -451,7 +452,9 @@ public class MainActivity extends AppCompatActivity {
         if (isRefresh) {
             Snackbar.make(inUsername, "No internet connection", Snackbar.LENGTH_INDEFINITE).setAction("Re-connect", snackBarListener).show();
         } else {
-            Snackbar.make(inUsername, "No internet connection", Snackbar.LENGTH_LONG).show();
+
+            GeneralUtils.generateTextOnlyFlashbar(this, "No can do", "No internet connection", Flashbar.Gravity.TOP)
+                    .show();
         }
     }
 

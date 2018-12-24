@@ -17,6 +17,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.andrognito.flashbar.Flashbar;
 import com.devingotaswitch.rankings.extras.FilterWithSpaceAdapter;
 import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.rankings.domain.Player;
@@ -109,19 +110,22 @@ public class ADPSimulator extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (playerToSearch == null) {
-                    Snackbar.make(findViewById(R.id.content_adp_simulator_base), "Invalid player, use the dropdown to pick", Snackbar.LENGTH_LONG).show();
+                    GeneralUtils.generateTextOnlyFlashbar(act, "No can do", "Invalid player, use the dropdown to pick", Flashbar.Gravity.TOP)
+                            .show();
                     return;
                 }
                 String roundStr = roundInput.getText().toString();
                 String pickStr = pickInput.getText().toString();
                 if (!GeneralUtils.isInteger(roundStr) || !GeneralUtils.isInteger(pickStr)) {
-                    Snackbar.make(findViewById(R.id.content_adp_simulator_base), "Pick/round must be provided as numbers", Snackbar.LENGTH_SHORT).show();
+                    GeneralUtils.generateTextOnlyFlashbar(act, "No can do", "Pick/round must be provided as numbers", Flashbar.Gravity.TOP)
+                            .show();
                     return;
                 }
                 int round = Integer.parseInt(roundStr);
                 int pick = Integer.parseInt(pickStr);
                 if (pick > rankings.getLeagueSettings().getTeamCount()) {
-                    Snackbar.make(findViewById(R.id.content_adp_simulator_base), "Pick can't be higher than team count", Snackbar.LENGTH_SHORT).show();
+                    GeneralUtils.generateTextOnlyFlashbar(act, "No can do", "Pick can't be higher than current league team count", Flashbar.Gravity.TOP)
+                            .show();
                     return;
                 }
                 int overallPick = ((round - 1) * rankings.getLeagueSettings().getTeamCount()) + pick;

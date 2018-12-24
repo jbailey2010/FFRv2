@@ -5,9 +5,11 @@ import android.content.Context;
 import android.support.design.widget.Snackbar;
 import android.view.View;
 
+import com.andrognito.flashbar.Flashbar;
 import com.devingotaswitch.appsync.AppSyncHelper;
 import com.devingotaswitch.fileio.LocalSettingsHelper;
 import com.devingotaswitch.utils.Constants;
+import com.devingotaswitch.utils.GeneralUtils;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -381,7 +383,8 @@ public class Draft {
     public void draftBySomeone(Rankings rankings, Player player, Activity act, View view, View.OnClickListener listener) {
         draftPlayer(player, rankings.getLeagueSettings().getTeamCount(), rankings.getLeagueSettings().getAuctionBudget(),false, 0);
         if (listener == null) {
-            Snackbar.make(view, player.getName() + " drafted", Snackbar.LENGTH_SHORT).show();
+            GeneralUtils.generateTextOnlyFlashbar(act, "Success!", player.getName() + " drafted by you", Flashbar.Gravity.BOTTOM)
+                    .show();
         } else {
             Snackbar.make(view, player.getName() + " drafted", Snackbar.LENGTH_LONG).setAction("Undo", listener).show();
         }
@@ -392,7 +395,8 @@ public class Draft {
     public void draftByMe(Rankings rankings, Player player, Activity act, int cost, View view, View.OnClickListener listener) {
         draftPlayer(player, rankings.getLeagueSettings().getTeamCount(), rankings.getLeagueSettings().getAuctionBudget(),true, cost);
         if (listener == null) {
-            Snackbar.make(view, player.getName() + " drafted by you", Snackbar.LENGTH_SHORT).show();
+            GeneralUtils.generateTextOnlyFlashbar(act, "Success!", player.getName() + " drafted by you", Flashbar.Gravity.BOTTOM)
+                    .show();
         } else {
             Snackbar.make(view, player.getName() + " drafted by you", Snackbar.LENGTH_LONG).setAction("Undo", listener).show();
         }
@@ -402,7 +406,8 @@ public class Draft {
 
     public void undraft(Rankings rankings, Player player, Activity act, View view) {
         unDraftPlayer(player, rankings);
-        Snackbar.make(view, player.getName() + " undrafted", Snackbar.LENGTH_SHORT).show();
+        GeneralUtils.generateTextOnlyFlashbar(act, "Success!", player.getName() + " undrafted", Flashbar.Gravity.BOTTOM)
+                .show();
         saveDraft(rankings, act);
         AppSyncHelper.decrementPlayerDraftCount(act, player.getUniqueId());
     }
