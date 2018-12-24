@@ -156,6 +156,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         final EditText leagueName = view.findViewById(R.id.league_settings_name);
         leagueName.setText(currentLeague.getName());
         leagueName.setVisibility(View.GONE);
+        GeneralUtils.hideKeyboard(this);
 
         final EditText teamCount = view.findViewById(R.id.league_settings_team_count);
         teamCount.setText(String.valueOf(currentLeague.getTeamCount()));
@@ -694,6 +695,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         update.setText("Update");
         Button advanced = findViewById(R.id.league_flex_advanced_settings);
 
+        final Activity act = this;
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -702,11 +704,14 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                 }
                 Map<String, String> rosterUpdates = getFlexUpdates(rbwr, rbte, rbwrte, wrte, op, baseRosterUpdates, currentLeague);
                 if (rosterUpdates == null && leagueUpdates == null) {
-                    Snackbar.make(findViewById(R.id.activity_league_settings_base), "No updates given", Snackbar.LENGTH_SHORT).show();
+                    GeneralUtils.hideKeyboard(act);
+                    GeneralUtils.generateTextOnlyFlashbar(act, "No can do", "No updates given", Flashbar.Gravity.BOTTOM)
+                        .show();
                     return;
                 }
                 updateLeague(null, rosterUpdates, leagueUpdates, currentLeague);
-                Snackbar.make(findViewById(R.id.activity_league_settings_base), currentLeague.getName() + " updated", Snackbar.LENGTH_SHORT).show();
+                GeneralUtils.generateTextOnlyFlashbar(act, "Success!", currentLeague.getName() + " updated", Flashbar.Gravity.BOTTOM)
+                        .show();
             }
         });
         advanced.setOnClickListener(new View.OnClickListener() {
@@ -901,6 +906,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         fumbles.setText(String.valueOf(currentLeague.getScoringSettings().getFumbles()));
         ppr.setText(String.valueOf(currentLeague.getScoringSettings().getReceptions()));
 
+        final Activity act = this;
         update.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -911,11 +917,14 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                 Map<String, String> scoringUpdates = getScoringUpdates(passTds, rushTds, recTds, passYds, rushYds, recYds,
                         ints, fumbles, ppr, currentLeague);
                 if (rosterUpdates == null && leagueUpdates == null && scoringUpdates == null) {
-                    Snackbar.make(findViewById(R.id.activity_league_settings_base), "No updates given", Snackbar.LENGTH_SHORT).show();
+                    GeneralUtils.hideKeyboard(act);
+                    GeneralUtils.generateTextOnlyFlashbar(act, "No can do", "No updates given", Flashbar.Gravity.BOTTOM)
+                            .show();
                     return;
                 }
                 updateLeague(scoringUpdates, rosterUpdates, leagueUpdates, currentLeague);
-                Snackbar.make(findViewById(R.id.activity_league_settings_base), currentLeague.getName() + " updated", Snackbar.LENGTH_SHORT).show();
+                GeneralUtils.generateTextOnlyFlashbar(act, "Success!", currentLeague.getName() + " updated", Flashbar.Gravity.BOTTOM)
+                        .show();
             }
         });
     }
