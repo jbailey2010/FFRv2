@@ -20,14 +20,12 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.amazonaws.util.StringUtils;
@@ -42,8 +40,8 @@ import com.devingotaswitch.rankings.domain.Team;
 import com.devingotaswitch.rankings.extras.MultiSelectionSpinner;
 import com.devingotaswitch.rankings.extras.SwipeDismissTouchListener;
 import com.devingotaswitch.utils.Constants;
-import com.devingotaswitch.utils.DisplayUtils;
 import com.devingotaswitch.utils.DraftUtils;
+import com.devingotaswitch.utils.FlashbarFactory;
 import com.devingotaswitch.utils.GeneralUtils;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
@@ -53,7 +51,6 @@ import com.github.mikephil.charting.data.LineDataSet;
 
 import org.angmarch.views.NiceSpinner;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -599,7 +596,7 @@ public class PlayerSorter extends AppCompatActivity {
 
             @Override
             public void onInvalidInput() {
-                GeneralUtils.generateTextOnlyFlashbar(act, "No can do", "Must provide a number for cost", Flashbar.Gravity.TOP)
+                FlashbarFactory.generateTextOnlyFlashbar(act, "No can do", "Must provide a number for cost", Flashbar.Gravity.TOP)
                         .show();
                 data.add(position, datum);
                 adapter.notifyDataSetChanged();

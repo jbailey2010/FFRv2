@@ -31,6 +31,7 @@ import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.domain.RosterSettings;
 import com.devingotaswitch.rankings.domain.ScoringSettings;
 import com.devingotaswitch.utils.Constants;
+import com.devingotaswitch.utils.FlashbarFactory;
 import com.devingotaswitch.utils.GeneralUtils;
 
 import org.angmarch.views.NiceSpinner;
@@ -190,6 +191,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         Button save =  view.findViewById(R.id.league_settings_create_default);
         save.setText("Update");
         Button advanced =  view.findViewById(R.id.league_settings_advanced_settings);
+        final Activity act = this;
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -199,11 +201,14 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                 Map<String, String> updates = getLeagueUpdates(currentLeague, leagueName, teamCount, isAuction, isSnake,
                         isDynasty, isRookie, isBestBall, auctionBudget);
                 if (updates == null) {
-                    Snackbar.make(findViewById(R.id.activity_league_settings_base), "No updates given", Snackbar.LENGTH_SHORT).show();
+                    GeneralUtils.hideKeyboard(act);
+                    FlashbarFactory.generateTextOnlyFlashbar(act, "No can do", "No updates given", Flashbar.Gravity.BOTTOM)
+                            .show();
                     return;
                 }
                 updateLeague(null, null, updates, currentLeague);
-                Snackbar.make(findViewById(R.id.activity_league_settings_base), currentLeague.getName() + " updated", Snackbar.LENGTH_SHORT).show();
+                FlashbarFactory.generateTextOnlyFlashbar(act, "Success!", currentLeague.getName() + " updated", Flashbar.Gravity.BOTTOM)
+                        .show();
             }
         });
         advanced.setOnClickListener(new View.OnClickListener() {
@@ -223,7 +228,9 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                 if (leagues.size() > 1) {
                     deleteLeague(currentLeague);
                 } else {
-                    Snackbar.make(findViewById(R.id.activity_league_settings_base), "Can't delete league, none would remain", Snackbar.LENGTH_SHORT).show();
+                    GeneralUtils.hideKeyboard(act);
+                    FlashbarFactory.generateTextOnlyFlashbar(act, "No can do", "Can't delete league, none would remain", Flashbar.Gravity.BOTTOM)
+                            .show();
                 }
             }
         });
@@ -307,7 +314,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                 LeagueSettings defaults = getLeagueSettingsFromFirstPage(leagueName, teamCount, isAuction, isSnake,
                         isDynasty, isRookie, isBestBall, auctionBudget);
                 saveNewLeague(defaults);
-                GeneralUtils.generateTextOnlyFlashbar(act, "Success!", defaults.getName() + " saved", Flashbar.Gravity.BOTTOM)
+                FlashbarFactory.generateTextOnlyFlashbar(act, "Success!", defaults.getName() + " saved", Flashbar.Gravity.BOTTOM)
                         .show();
             }
         });
@@ -341,27 +348,32 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         String givenTeamCount = teamCount.getText().toString();
         String givenAuctionBudget = auctionBudget.getText().toString();
         if (StringUtils.isBlank(givenName)) {
-            Snackbar.make(findViewById(R.id.activity_league_settings_base), "League name can't be empty", Snackbar.LENGTH_SHORT).show();
+            FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "League name can't be empty", Flashbar.Gravity.TOP)
+                    .show();
             return false;
         } if (StringUtils.isBlank(givenTeamCount) ||
                 !GeneralUtils.isInteger(givenTeamCount)) {
-            Snackbar.make(findViewById(R.id.activity_league_settings_base), "Team count must be set", Snackbar.LENGTH_SHORT).show();
+            FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "Team count not provided", Flashbar.Gravity.TOP)
+                    .show();
             return false;
         }
         int teamCountInt = Integer.parseInt(givenTeamCount);
         if (teamCountInt < 1 || teamCountInt > 32) {
-            Snackbar.make(findViewById(R.id.activity_league_settings_base), "Team count must be between 1 and 32", Snackbar.LENGTH_SHORT).show();
+            FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "Invalid team count given", Flashbar.Gravity.TOP)
+                    .show();
             return false;
         }
 
         if (isAuction.isChecked()) {
             if (StringUtils.isBlank(givenAuctionBudget) || !GeneralUtils.isInteger(givenAuctionBudget)) {
-                Snackbar.make(findViewById(R.id.activity_league_settings_base), "Auction budget must be set", Snackbar.LENGTH_SHORT).show();
+                FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "Auction budget not provided", Flashbar.Gravity.TOP)
+                        .show();
                 return false;
             }
             int auctionBudgetInt = Integer.parseInt(givenAuctionBudget);
             if (auctionBudgetInt < 1) {
-                Snackbar.make(findViewById(R.id.activity_league_settings_base), "Auction budget must be a positive number", Snackbar.LENGTH_SHORT).show();
+                FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "Auction budget must be a positive number", Flashbar.Gravity.TOP)
+                        .show();
                 return false;
             }
         }
@@ -495,12 +507,12 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                 Map<String, String> rosterUpdates = getRosterUpdates(qbs, rbs, wrs, tes, dsts, ks, bench, currentLeague);
                 if (rosterUpdates == null && leagueUpdates == null) {
                     GeneralUtils.hideKeyboard(act);
-                    GeneralUtils.generateTextOnlyFlashbar(act, "No can do", "No updates given", Flashbar.Gravity.BOTTOM)
+                    FlashbarFactory.generateTextOnlyFlashbar(act, "No can do", "No updates given", Flashbar.Gravity.BOTTOM)
                             .show();
                     return;
                 }
                 updateLeague(null, rosterUpdates, leagueUpdates, currentLeague);
-                GeneralUtils.generateTextOnlyFlashbar(act, "Success!", currentLeague.getName() + " updated", Flashbar.Gravity.BOTTOM)
+                FlashbarFactory.generateTextOnlyFlashbar(act, "Success!", currentLeague.getName() + " updated", Flashbar.Gravity.BOTTOM)
                         .show();
             }
         });
@@ -559,7 +571,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                 RosterSettings defaults = getRosterSettingsFromFirstPage(qbs, rbs, wrs, tes, dsts, ks, bench);
                 newLeague.setRosterSettings(defaults);
                 saveNewLeague(newLeague);
-                GeneralUtils.generateTextOnlyFlashbar(act, "Success!", newLeague.getName() + " saved", Flashbar.Gravity.BOTTOM)
+                FlashbarFactory.generateTextOnlyFlashbar(act, "Success!", newLeague.getName() + " saved", Flashbar.Gravity.BOTTOM)
                         .show();
             }
         });
@@ -605,31 +617,38 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         String kStr = ks.getText().toString();
         String benchStr = bench.getText().toString();
         if (StringUtils.isBlank(qbStr) || !GeneralUtils.isInteger(qbStr)) {
-            Snackbar.make(findViewById(R.id.activity_league_settings_base), "QB count must be a number", Snackbar.LENGTH_SHORT).show();
+            FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "QB count not provided", Flashbar.Gravity.TOP)
+                    .show();
             return false;
         }
         if (StringUtils.isBlank(rbStr) || !GeneralUtils.isInteger(rbStr)) {
-            Snackbar.make(findViewById(R.id.activity_league_settings_base), "RB count must be a number", Snackbar.LENGTH_SHORT).show();
+            FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "RB count not provided", Flashbar.Gravity.TOP)
+                    .show();
             return false;
         }
         if (StringUtils.isBlank(wrStr) || !GeneralUtils.isInteger(wrStr)) {
-            Snackbar.make(findViewById(R.id.activity_league_settings_base), "WR count must be a number", Snackbar.LENGTH_SHORT).show();
+            FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "WR count not provided", Flashbar.Gravity.TOP)
+                    .show();
             return false;
         }
         if (StringUtils.isBlank(teStr) || !GeneralUtils.isInteger(teStr)) {
-            Snackbar.make(findViewById(R.id.activity_league_settings_base), "TE count must be a number", Snackbar.LENGTH_SHORT).show();
+            FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "TE count not provided", Flashbar.Gravity.TOP)
+                    .show();
             return false;
         }
         if (StringUtils.isBlank(dstStr) || !GeneralUtils.isInteger(dstStr)) {
-            Snackbar.make(findViewById(R.id.activity_league_settings_base), "DST count must be a number", Snackbar.LENGTH_SHORT).show();
+            FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "DST count not provided", Flashbar.Gravity.TOP)
+                    .show();
             return false;
         }
         if (StringUtils.isBlank(kStr) || !GeneralUtils.isInteger(kStr)) {
-            Snackbar.make(findViewById(R.id.activity_league_settings_base), "K count must be a number", Snackbar.LENGTH_SHORT).show();
+            FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "K count not provided", Flashbar.Gravity.TOP)
+                    .show();
             return false;
         }
         if (StringUtils.isBlank(benchStr) || !GeneralUtils.isInteger(benchStr)) {
-            Snackbar.make(findViewById(R.id.activity_league_settings_base), "Bench count must be a number", Snackbar.LENGTH_SHORT).show();
+            FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "Bench count not provided", Flashbar.Gravity.TOP)
+                    .show();
             return false;
         }
         return true;
@@ -709,12 +728,12 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                 Map<String, String> rosterUpdates = getFlexUpdates(rbwr, rbte, rbwrte, wrte, op, baseRosterUpdates, currentLeague);
                 if (rosterUpdates == null && leagueUpdates == null) {
                     GeneralUtils.hideKeyboard(act);
-                    GeneralUtils.generateTextOnlyFlashbar(act, "No can do", "No updates given", Flashbar.Gravity.BOTTOM)
+                    FlashbarFactory.generateTextOnlyFlashbar(act, "No can do", "No updates given", Flashbar.Gravity.BOTTOM)
                         .show();
                     return;
                 }
                 updateLeague(null, rosterUpdates, leagueUpdates, currentLeague);
-                GeneralUtils.generateTextOnlyFlashbar(act, "Success!", currentLeague.getName() + " updated", Flashbar.Gravity.BOTTOM)
+                FlashbarFactory.generateTextOnlyFlashbar(act, "Success!", currentLeague.getName() + " updated", Flashbar.Gravity.BOTTOM)
                         .show();
             }
         });
@@ -750,7 +769,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                 RosterSettings.Flex defaults = getFlexSettingsFromFirstPage(rbwr, rbte, rbwrte, wrte, op);
                 newLeague.getRosterSettings().setFlex(defaults);
                 saveNewLeague(newLeague);
-                GeneralUtils.generateTextOnlyFlashbar(act, "Success!", newLeague.getName() + " saved", Flashbar.Gravity.BOTTOM)
+                FlashbarFactory.generateTextOnlyFlashbar(act, "Success!", newLeague.getName() + " saved", Flashbar.Gravity.BOTTOM)
                         .show();
             }
         });
@@ -792,23 +811,28 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         String wrteStr = wrte.getText().toString();
         String opStr = op.getText().toString();
         if (StringUtils.isBlank(rbwrStr) || !GeneralUtils.isInteger(rbwrStr)) {
-            Snackbar.make(findViewById(R.id.activity_league_settings_base), "RB/WR count must be a number", Snackbar.LENGTH_SHORT).show();
+            FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "RB/WR count not provided", Flashbar.Gravity.TOP)
+                    .show();
             return false;
         }
         if (StringUtils.isBlank(rbteStr) || !GeneralUtils.isInteger(rbteStr)) {
-            Snackbar.make(findViewById(R.id.activity_league_settings_base), "RB/TE count must be a number", Snackbar.LENGTH_SHORT).show();
+            FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "RB/TE count not provided", Flashbar.Gravity.TOP)
+                    .show();
             return false;
         }
         if (StringUtils.isBlank(rbwrteStr) || !GeneralUtils.isInteger(rbwrteStr)) {
-            Snackbar.make(findViewById(R.id.activity_league_settings_base), "RB/WR/TE count must be a number", Snackbar.LENGTH_SHORT).show();
+            FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "RB/WR/TE count not provided", Flashbar.Gravity.TOP)
+                    .show();
             return false;
         }
         if (StringUtils.isBlank(wrteStr) || !GeneralUtils.isInteger(wrteStr)) {
-            Snackbar.make(findViewById(R.id.activity_league_settings_base), "WR/TE count must be a number", Snackbar.LENGTH_SHORT).show();
+            FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "WR/TE count not provided", Flashbar.Gravity.TOP)
+                    .show();
             return false;
         }
         if (StringUtils.isBlank(opStr) || !GeneralUtils.isInteger(opStr)) {
-            Snackbar.make(findViewById(R.id.activity_league_settings_base), "QB/RB/WR/TE count must be a number", Snackbar.LENGTH_SHORT).show();
+            FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "QB/RB/WR/TE count not provided", Flashbar.Gravity.TOP)
+                    .show();
             return false;
         }
         return true;
@@ -880,7 +904,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                         ints, fumbles, ppr);
                 newLeague.setScoringSettings(scoring);
                 saveNewLeague(newLeague);
-                GeneralUtils.generateTextOnlyFlashbar(act, "Success!", newLeague.getName() + " saved", Flashbar.Gravity.BOTTOM)
+                FlashbarFactory.generateTextOnlyFlashbar(act, "Success!", newLeague.getName() + " saved", Flashbar.Gravity.BOTTOM)
                         .show();
             }
         });
@@ -922,12 +946,12 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                         ints, fumbles, ppr, currentLeague);
                 if (rosterUpdates == null && leagueUpdates == null && scoringUpdates == null) {
                     GeneralUtils.hideKeyboard(act);
-                    GeneralUtils.generateTextOnlyFlashbar(act, "No can do", "No updates given", Flashbar.Gravity.BOTTOM)
+                    FlashbarFactory.generateTextOnlyFlashbar(act, "No can do", "No updates given", Flashbar.Gravity.BOTTOM)
                             .show();
                     return;
                 }
                 updateLeague(scoringUpdates, rosterUpdates, leagueUpdates, currentLeague);
-                GeneralUtils.generateTextOnlyFlashbar(act, "Success!", currentLeague.getName() + " updated", Flashbar.Gravity.BOTTOM)
+                FlashbarFactory.generateTextOnlyFlashbar(act, "Success!", currentLeague.getName() + " updated", Flashbar.Gravity.BOTTOM)
                         .show();
             }
         });
@@ -969,39 +993,48 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         String fumblesStr = fumbles.getText().toString();
         String recStr = receptions.getText().toString();
         if (StringUtils.isBlank(pTdsStr) || !GeneralUtils.isInteger(pTdsStr)) {
-            Snackbar.make(findViewById(R.id.activity_league_settings_base), "Pts/passing td must be an integer", Snackbar.LENGTH_SHORT).show();
+            FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "Pts/passing td must be an integer", Flashbar.Gravity.TOP)
+                    .show();
             return false;
         }
         if (StringUtils.isBlank(ruTdsStr) || !GeneralUtils.isInteger(ruTdsStr)) {
-            Snackbar.make(findViewById(R.id.activity_league_settings_base), "Pts/rushing td must be an integer", Snackbar.LENGTH_SHORT).show();
+            FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "Pts/rushing td must be an integer", Flashbar.Gravity.TOP)
+                    .show();
             return false;
         }
         if (StringUtils.isBlank(reTdsStr) || !GeneralUtils.isInteger(reTdsStr)) {
-            Snackbar.make(findViewById(R.id.activity_league_settings_base), "Pts/receiving td must be an integer", Snackbar.LENGTH_SHORT).show();
+            FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "Pts/receiving td must be an integer", Flashbar.Gravity.TOP)
+                    .show();
             return false;
         }
         if (StringUtils.isBlank(pYdsStr) || !GeneralUtils.isInteger(pYdsStr)) {
-            Snackbar.make(findViewById(R.id.activity_league_settings_base), "Passing yards/point must be an integer", Snackbar.LENGTH_SHORT).show();
+            FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "Passing yards/point must be an integer", Flashbar.Gravity.TOP)
+                    .show();
             return false;
         }
         if (StringUtils.isBlank(ruYdsStr) || !GeneralUtils.isInteger(ruYdsStr)) {
-            Snackbar.make(findViewById(R.id.activity_league_settings_base), "Rushing yards/point must be an integer", Snackbar.LENGTH_SHORT).show();
+            FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "Rushing yards/point must be an integer", Flashbar.Gravity.TOP)
+                    .show();
             return false;
         }
         if (StringUtils.isBlank(reYdsStr) || !GeneralUtils.isInteger(reYdsStr)) {
-            Snackbar.make(findViewById(R.id.activity_league_settings_base), "Receiving yards/point must be an integer", Snackbar.LENGTH_SHORT).show();
+            FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "Receiving yards/point must be an integer", Flashbar.Gravity.TOP)
+                    .show();
             return false;
         }
         if (StringUtils.isBlank(intStr) || !GeneralUtils.isDouble(intStr)) {
-            Snackbar.make(findViewById(R.id.activity_league_settings_base), "Points/int must be a number (decimals allowed)", Snackbar.LENGTH_SHORT).show();
+            FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "Points/int must be a number (decimals allowed)", Flashbar.Gravity.TOP)
+                    .show();
             return false;
         }
         if (StringUtils.isBlank(fumblesStr) || !GeneralUtils.isDouble(fumblesStr)) {
-            Snackbar.make(findViewById(R.id.activity_league_settings_base), "Points/fumble must be a number (decimals allowed)", Snackbar.LENGTH_SHORT).show();
+            FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "Points/fumble must be a number (decimals allowed)", Flashbar.Gravity.TOP)
+                    .show();
             return false;
         }
         if (StringUtils.isBlank(recStr) || !GeneralUtils.isDouble(recStr)) {
-            Snackbar.make(findViewById(R.id.activity_league_settings_base), "Points/reception must be a number (decimals allowed)", Snackbar.LENGTH_SHORT).show();
+            FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "Points/reception must be a number (decimals allowed)", Flashbar.Gravity.TOP)
+                    .show();
             return false;
         }
         return true;
@@ -1082,7 +1115,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         currLeague = leagues.get(leagues.keySet().iterator().next());
         initializeLeagueSpinner();
         displayLeague(currLeague);
-        GeneralUtils.generateTextOnlyFlashbar(this, "Success!", league.getName() + " deleted", Flashbar.Gravity.BOTTOM)
+        FlashbarFactory.generateTextOnlyFlashbar(this, "Success!", league.getName() + " deleted", Flashbar.Gravity.BOTTOM)
                 .show();
         rankingsUpdated = true;
     }

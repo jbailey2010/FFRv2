@@ -3,11 +3,9 @@ package com.devingotaswitch.rankings;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
-import android.provider.Settings;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
@@ -16,17 +14,12 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.InputType;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.CheckBox;
@@ -37,7 +30,6 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.SimpleAdapter;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoDevice;
@@ -49,7 +41,6 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.Mult
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
 import com.amazonaws.util.StringUtils;
 import com.andrognito.flashbar.Flashbar;
-import com.devingotaswitch.rankings.domain.Draft;
 import com.devingotaswitch.rankings.extras.FilterWithSpaceAdapter;
 import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.fileio.LocalSettingsHelper;
@@ -58,11 +49,11 @@ import com.devingotaswitch.rankings.domain.LeagueSettings;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.domain.RosterSettings;
-import com.devingotaswitch.rankings.domain.Team;
 import com.devingotaswitch.rankings.extras.SwipeDismissTouchListener;
 import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.DisplayUtils;
 import com.devingotaswitch.utils.DraftUtils;
+import com.devingotaswitch.utils.FlashbarFactory;
 import com.devingotaswitch.utils.GeneralUtils;
 import com.devingotaswitch.youruserpools.CUPHelper;
 import com.devingotaswitch.youruserpools.ChangePasswordActivity;
@@ -70,10 +61,8 @@ import com.devingotaswitch.youruserpools.MainActivity;
 
 import org.angmarch.views.NiceSpinner;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -558,7 +547,7 @@ public class RankingsHome extends AppCompatActivity {
             @Override
             public void onInvalidInput() {
                 GeneralUtils.hideKeyboard(act);
-                GeneralUtils.generateTextOnlyFlashbar(act, "No can do", "Must provide a number for cost", Flashbar.Gravity.BOTTOM)
+                FlashbarFactory.generateTextOnlyFlashbar(act, "No can do", "Must provide a number for cost", Flashbar.Gravity.BOTTOM)
                         .show();
                 data.add(position, datum);
                 adapter.notifyDataSetChanged();
@@ -691,7 +680,7 @@ public class RankingsHome extends AppCompatActivity {
             Intent exportRanksActivity = new Intent(this, ExportRankings.class);
             startActivity(exportRanksActivity);
         } else {
-            GeneralUtils.generateTextOnlyFlashbar(this, "No can do", "No rankings saved to export", Flashbar.Gravity.BOTTOM)
+            FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "No rankings saved to export", Flashbar.Gravity.BOTTOM)
                     .show();
         }
     }
@@ -707,11 +696,11 @@ public class RankingsHome extends AppCompatActivity {
             if (LocalSettingsHelper.wasPresent(LocalSettingsHelper.getCurrentLeagueName(this))) {
                 rankings.refreshRankings(this);
             } else {
-                GeneralUtils.generateTextOnlyFlashbar(this, "No can do", "Set up a league before getting rankings", Flashbar.Gravity.BOTTOM)
+                FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "Set up a league before getting rankings", Flashbar.Gravity.BOTTOM)
                         .show();
             }
         } else {
-            GeneralUtils.generateTextOnlyFlashbar(this, "No can do", "No internet connection", Flashbar.Gravity.BOTTOM)
+            FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "No internet connection", Flashbar.Gravity.BOTTOM)
                     .show();
         }
     }

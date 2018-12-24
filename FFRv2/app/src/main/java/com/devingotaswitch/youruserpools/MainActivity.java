@@ -31,6 +31,7 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.ForgotPas
 import com.andrognito.flashbar.Flashbar;
 import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.rankings.RankingsHome;
+import com.devingotaswitch.utils.FlashbarFactory;
 import com.devingotaswitch.utils.GeneralUtils;
 
 import java.util.Locale;
@@ -453,7 +454,7 @@ public class MainActivity extends AppCompatActivity {
             Snackbar.make(inUsername, "No internet connection", Snackbar.LENGTH_INDEFINITE).setAction("Re-connect", snackBarListener).show();
         } else {
 
-            GeneralUtils.generateTextOnlyFlashbar(this, "No can do", "No internet connection", Flashbar.Gravity.TOP)
+            FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "No internet connection", Flashbar.Gravity.TOP)
                     .show();
         }
     }

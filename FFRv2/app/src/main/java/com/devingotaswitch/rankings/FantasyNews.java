@@ -2,33 +2,29 @@ package com.devingotaswitch.rankings;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
-import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.andrognito.flashbar.Flashbar;
-import com.andrognito.flashbar.anim.FlashAnim;
 import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.fileio.LocalSettingsHelper;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.PlayerNews;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.utils.Constants;
+import com.devingotaswitch.utils.FlashbarFactory;
 import com.devingotaswitch.utils.GeneralUtils;
 import com.devingotaswitch.utils.JsoupUtils;
 
@@ -112,7 +108,7 @@ public class FantasyNews extends AppCompatActivity {
                     getNews(selectedSource);
                     LocalSettingsHelper.saveSelectedNewsSource(localCopy, selectedSource);
                 } else {
-                    GeneralUtils.generateTextOnlyFlashbar(localCopy, "No can do", "No internet connection available",
+                    FlashbarFactory.generateTextOnlyFlashbar(localCopy, "No can do", "No internet connection available",
                             Flashbar.Gravity.BOTTOM)
                             .show();
                 }

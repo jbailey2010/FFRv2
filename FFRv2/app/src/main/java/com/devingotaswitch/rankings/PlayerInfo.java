@@ -10,13 +10,11 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.InputType;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -46,6 +44,7 @@ import com.devingotaswitch.rankings.sources.ParseMath;
 import com.devingotaswitch.rankings.sources.ParsePlayerNews;
 import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.DraftUtils;
+import com.devingotaswitch.utils.FlashbarFactory;
 import com.devingotaswitch.utils.GeneralUtils;
 import com.devingotaswitch.youruserpools.CUPHelper;
 
@@ -315,7 +314,7 @@ public class PlayerInfo extends AppCompatActivity {
 
             @Override
             public void onInvalidInput() {
-                GeneralUtils.generateTextOnlyFlashbar(localCopy, "No can do", "Must provide a number for cost",
+                FlashbarFactory.generateTextOnlyFlashbar(localCopy, "No can do", "Must provide a number for cost",
                     Flashbar.Gravity.TOP)
                     .show();
             }
@@ -635,7 +634,7 @@ public class PlayerInfo extends AppCompatActivity {
                             public void onClick(DialogInterface dialog,int id) {
                                 String newNote = userInput.getText().toString();
                                 if (StringUtils.isBlank(newNote)) {
-                                    GeneralUtils.generateTextOnlyFlashbar(localCopy, "No can do", "No note given",
+                                    FlashbarFactory.generateTextOnlyFlashbar(localCopy, "No can do", "No note given",
                                         Flashbar.Gravity.TOP)
                                         .show();
                                 } else {

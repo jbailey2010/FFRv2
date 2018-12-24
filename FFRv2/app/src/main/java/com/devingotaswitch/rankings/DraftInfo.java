@@ -18,7 +18,6 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.andrognito.flashbar.Flashbar;
-import com.andrognito.flashbar.anim.FlashAnim;
 import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.rankings.domain.Draft;
 import com.devingotaswitch.rankings.domain.Player;
@@ -26,6 +25,7 @@ import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.domain.RosterSettings;
 import com.devingotaswitch.rankings.domain.Team;
 import com.devingotaswitch.utils.Constants;
+import com.devingotaswitch.utils.FlashbarFactory;
 import com.devingotaswitch.utils.GeneralUtils;
 import com.github.mikephil.charting.charts.BarChart;
 import com.github.mikephil.charting.components.Description;
@@ -130,7 +130,7 @@ public class DraftInfo extends AppCompatActivity {
         displayTeam();
         (findViewById(R.id.team_graph)).setVisibility(View.GONE);
 
-        GeneralUtils.generateTextOnlyFlashbar(this, "Draft cleared", "All players are available again",
+        FlashbarFactory.generateTextOnlyFlashbar(this, "Draft cleared", "All players are available again",
                 Flashbar.Gravity.BOTTOM)
                 .show();
         displayTeam();

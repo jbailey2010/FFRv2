@@ -24,7 +24,6 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.andrognito.flashbar.Flashbar;
-import com.andrognito.flashbar.anim.FlashAnim;
 import com.devingotaswitch.fileio.LocalSettingsHelper;
 import com.devingotaswitch.rankings.extras.FilterWithSpaceAdapter;
 import com.devingotaswitch.ffrv2.R;
@@ -36,6 +35,7 @@ import com.devingotaswitch.rankings.sources.ParsePlayerNews;
 import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.DisplayUtils;
 import com.devingotaswitch.utils.DraftUtils;
+import com.devingotaswitch.utils.FlashbarFactory;
 import com.devingotaswitch.utils.GeneralUtils;
 
 import org.jsoup.Jsoup;
@@ -154,7 +154,7 @@ public class PlayerComparator extends AppCompatActivity {
                 playerA = getPlayerFromView(view);
                 inputA.setText(playerA.getName());
                 if (playerB != null && playerA.getUniqueId().equals(playerB.getUniqueId())) {
-                    GeneralUtils.generateTextOnlyFlashbar(localCopy, "No can do", "Select two different players",
+                    FlashbarFactory.generateTextOnlyFlashbar(localCopy, "No can do", "Select two different players",
                             Flashbar.Gravity.TOP)
                             .show();
                 } else if (playerB != null) {
@@ -170,7 +170,7 @@ public class PlayerComparator extends AppCompatActivity {
                 playerB = getPlayerFromView(view);
                 inputB.setText(playerB.getName());
                 if (playerA != null && playerA.getUniqueId().equals(playerB.getUniqueId())) {
-                    GeneralUtils.generateTextOnlyFlashbar(localCopy, "No can do", "Select two different players",
+                    FlashbarFactory.generateTextOnlyFlashbar(localCopy, "No can do", "Select two different players",
                             Flashbar.Gravity.TOP)
                             .show();
                 } else if (playerA != null) {
@@ -616,7 +616,7 @@ public class PlayerComparator extends AppCompatActivity {
             @Override
             public void onInvalidInput() {
 
-                GeneralUtils.generateTextOnlyFlashbar(localCopy, "No can do", "Must provide a number for cost",
+                FlashbarFactory.generateTextOnlyFlashbar(localCopy, "No can do", "Must provide a number for cost",
                         Flashbar.Gravity.TOP)
                         .show();
             }

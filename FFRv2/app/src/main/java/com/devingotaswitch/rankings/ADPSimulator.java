@@ -4,13 +4,11 @@ import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
@@ -25,6 +23,7 @@ import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.domain.RosterSettings;
 import com.devingotaswitch.rankings.domain.ScoringSettings;
 import com.devingotaswitch.utils.Constants;
+import com.devingotaswitch.utils.FlashbarFactory;
 import com.devingotaswitch.utils.GeneralUtils;
 import com.devingotaswitch.utils.JsoupUtils;
 import com.devingotaswitch.utils.ParsingUtils;
@@ -110,21 +109,21 @@ public class ADPSimulator extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if (playerToSearch == null) {
-                    GeneralUtils.generateTextOnlyFlashbar(act, "No can do", "Invalid player, use the dropdown to pick", Flashbar.Gravity.TOP)
+                    FlashbarFactory.generateTextOnlyFlashbar(act, "No can do", "Invalid player, use the dropdown to pick", Flashbar.Gravity.TOP)
                             .show();
                     return;
                 }
                 String roundStr = roundInput.getText().toString();
                 String pickStr = pickInput.getText().toString();
                 if (!GeneralUtils.isInteger(roundStr) || !GeneralUtils.isInteger(pickStr)) {
-                    GeneralUtils.generateTextOnlyFlashbar(act, "No can do", "Pick/round must be provided as numbers", Flashbar.Gravity.TOP)
+                    FlashbarFactory.generateTextOnlyFlashbar(act, "No can do", "Pick/round must be provided as numbers", Flashbar.Gravity.TOP)
                             .show();
                     return;
                 }
                 int round = Integer.parseInt(roundStr);
                 int pick = Integer.parseInt(pickStr);
                 if (pick > rankings.getLeagueSettings().getTeamCount()) {
-                    GeneralUtils.generateTextOnlyFlashbar(act, "No can do", "Pick can't be higher than current league team count", Flashbar.Gravity.TOP)
+                    FlashbarFactory.generateTextOnlyFlashbar(act, "No can do", "Pick can't be higher than current league team count", Flashbar.Gravity.TOP)
                             .show();
                     return;
                 }

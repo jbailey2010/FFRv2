@@ -7,7 +7,6 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.StrictMode;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -23,7 +22,7 @@ import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.domain.Team;
-import com.devingotaswitch.utils.GeneralUtils;
+import com.devingotaswitch.utils.FlashbarFactory;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -113,7 +112,7 @@ public class ExportRankings extends AppCompatActivity {
                 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
            exportRankings();
        } else {
-           GeneralUtils.generateTextOnlyFlashbar(this, "No can do", "Can't export rankings without permission", Flashbar.Gravity.BOTTOM)
+           FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "Can't export rankings without permission", Flashbar.Gravity.BOTTOM)
                    .show();
        }
     }
@@ -134,7 +133,7 @@ public class ExportRankings extends AppCompatActivity {
 
         } catch (Exception e) {
             Log.e(TAG, "Failed to export rankings", e);
-            GeneralUtils.generateTextOnlyFlashbar(this, "No can do", "Failed to export", Flashbar.Gravity.BOTTOM)
+            FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "Failed to export", Flashbar.Gravity.BOTTOM)
                     .show();
         }
     }

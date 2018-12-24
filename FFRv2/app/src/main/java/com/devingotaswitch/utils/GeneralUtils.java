@@ -69,26 +69,6 @@ public class GeneralUtils {
         return (System.currentTimeMillis() - start) / SECONDS_CONVERSION_THRESHOLD;
     }
 
-    public static Flashbar generateTextOnlyFlashbar(Activity activity, String title, String message, Flashbar.Gravity gravity) {
-        return new Flashbar.Builder(activity)
-                .enableSwipeToDismiss()
-                .gravity(gravity)
-                .duration(Constants.FLASHBAR_DURATION)
-                .title(title)
-                .message(message)
-                .backgroundColorRes(R.color.player_info_buttons)
-                .exitAnimation(FlashAnim.with(activity)
-                        .animateBar()
-                        .duration(Constants.FLASHBAR_ANIMATION_EXIT_DURATION)
-                        .accelerateDecelerate())
-                .enterAnimation(FlashAnim.with(activity)
-                        .animateBar()
-                        .duration(Constants.FLASHBAR_ANIMATION_ENTER_DURATION)
-                        .alpha()
-                        .overshoot())
-                .build();
-    }
-
     public static FilterWithSpaceAdapter<String> getPlayerSearchAdapter(Rankings rankings, Activity activity, boolean hideDrafted,
                                                                         boolean hideRankless) {
         final List<String> dropdownList = new ArrayList<>();
