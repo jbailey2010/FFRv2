@@ -12,21 +12,24 @@ import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.amazonaws.util.StringUtils;
+import com.andrognito.flashbar.Flashbar;
 import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
+
+import org.jetbrains.annotations.NotNull;
 
 import java.util.List;
 import java.util.Map;
 
 public class DraftUtils {
 
-    public static View.OnClickListener getUndraftListener(final Activity activity, final Rankings rankings, final Player player,
-                                                          final View view, final SimpleAdapter adapter, final List<Map<String, String>> data,
-                                                          final Map<String, String> datum, final int position, final boolean updateList) {
-        return new View.OnClickListener() {
+    public static Flashbar.OnActionTapListener getUndraftListener(final Activity activity, final Rankings rankings, final Player player,
+                                                                  final View view, final SimpleAdapter adapter, final List<Map<String, String>> data,
+                                                                  final Map<String, String> datum, final int position, final boolean updateList) {
+        return new Flashbar.OnActionTapListener() {
             @Override
-            public void onClick(View v) {
+            public void onActionTapped(@NotNull Flashbar flashbar) {
                 rankings.getDraft().undraft(rankings, player, activity, view);
                 if (updateList) {
                     data.add(position, datum);

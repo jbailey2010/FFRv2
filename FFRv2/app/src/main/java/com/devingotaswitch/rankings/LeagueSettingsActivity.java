@@ -157,11 +157,11 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         final EditText leagueName = view.findViewById(R.id.league_settings_name);
         leagueName.setText(currentLeague.getName());
         leagueName.setVisibility(View.GONE);
-        GeneralUtils.hideKeyboard(this);
 
         final EditText teamCount = view.findViewById(R.id.league_settings_team_count);
         teamCount.setText(String.valueOf(currentLeague.getTeamCount()));
         final EditText auctionBudget = view.findViewById(R.id.league_settings_auction_budget);
+        GeneralUtils.hideKeyboard(this);
 
         final RadioButton isAuction = view.findViewById(R.id.league_settings_auction);
         final RadioButton isSnake = view.findViewById(R.id.league_settings_snake);

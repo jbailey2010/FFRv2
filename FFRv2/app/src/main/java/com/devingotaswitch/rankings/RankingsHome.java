@@ -60,6 +60,7 @@ import com.devingotaswitch.youruserpools.ChangePasswordActivity;
 import com.devingotaswitch.youruserpools.MainActivity;
 
 import org.angmarch.views.NiceSpinner;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -416,7 +417,7 @@ public class RankingsHome extends AppCompatActivity {
             }
         }
         adapter.notifyDataSetChanged();
-        final Context context = this;
+        final Activity act = this;
 
         listview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -426,30 +427,36 @@ public class RankingsHome extends AppCompatActivity {
                 final Player player = rankings.getPlayer(playerKey);
                 if (player.isWatched()) {
                     player.setWatched(false);
-                    View.OnClickListener add = new View.OnClickListener() {
+                    Flashbar.OnActionTapListener add = new Flashbar.OnActionTapListener() {
                         @Override
-                        public void onClick(View v) {
+                        public void onActionTapped(@NotNull Flashbar flashbar) {
+                            flashbar.dismiss();
                             player.setWatched(true);
                             playerStatus.setImageResource(R.drawable.star);
-                            rankingsDB.updatePlayerWatchedStatus(context, player);
+                            rankingsDB.updatePlayerWatchedStatus(act, player);
                         }
                     };
-                    Snackbar.make(buttonBase, player.getName() + " removed from watch list", Snackbar.LENGTH_LONG).setAction("Undo", add).show();
+                    FlashbarFactory.generateFlashbarWithUndo(act, "Success!", player.getName() + " removed from watch list",
+                            Flashbar.Gravity.BOTTOM, add)
+                            .show();
                     playerStatus.setImageResource(0);
                 } else {
                     player.setWatched(true);
-                    View.OnClickListener remove = new View.OnClickListener() {
+                    Flashbar.OnActionTapListener remove = new Flashbar.OnActionTapListener() {
                         @Override
-                        public void onClick(View v) {
+                        public void onActionTapped(@NotNull Flashbar flashbar) {
+                            flashbar.dismiss();
                             player.setWatched(false);
                             playerStatus.setImageResource(0);
-                            rankingsDB.updatePlayerWatchedStatus(context, player);
+                            rankingsDB.updatePlayerWatchedStatus(act, player);
                         }
                     };
-                    Snackbar.make(buttonBase, player.getName() + " added to watch list", Snackbar.LENGTH_LONG).setAction("Undo", remove).show();
+                    FlashbarFactory.generateFlashbarWithUndo(act, "Success!", player.getName() + " added to watch list",
+                            Flashbar.Gravity.BOTTOM, remove)
+                            .show();
                     playerStatus.setImageResource(R.drawable.star);
                 }
-                rankingsDB.updatePlayerWatchedStatus(context, player);
+                rankingsDB.updatePlayerWatchedStatus(act, player);
                 return true;
             }
         });
@@ -480,7 +487,7 @@ public class RankingsHome extends AppCompatActivity {
                             String pos = posAndTeam.split(Constants.POS_TEAM_DELIMITER)[0];
                             String team = posAndTeam.split(Constants.POS_TEAM_DELIMITER)[1];
                             final Player player  = rankings.getPlayer(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + pos);
-                            View.OnClickListener listener = DraftUtils.getUndraftListener(localCopy, rankings, player, findViewById(R.id.user_drawer_layout),
+                            Flashbar.OnActionTapListener listener = DraftUtils.getUndraftListener(localCopy, rankings, player, findViewById(R.id.user_drawer_layout),
                                     adapter, data, datum, position, true);
                             if (!rightDismiss) {
                                 rankings.getDraft().draftBySomeone(rankings, player, localCopy, findViewById(R.id.user_drawer_layout), listener);
@@ -535,7 +542,7 @@ public class RankingsHome extends AppCompatActivity {
     }
 
     private void getAuctionCost(final Player player, final int position, final List<Map<String, String>> data,
-                                final Map<String, String> datum, final SimpleAdapter adapter, final View.OnClickListener listener) {
+                                final Map<String, String> datum, final SimpleAdapter adapter, final Flashbar.OnActionTapListener listener) {
         final Activity act = this;
         DraftUtils.AuctionCostInterface callback = new DraftUtils.AuctionCostInterface() {
             @Override
@@ -563,7 +570,7 @@ public class RankingsHome extends AppCompatActivity {
         alertDialog.show();
     }
 
-    private void draftByMe(Player player, int cost, View.OnClickListener listener) {
+    private void draftByMe(Player player, int cost, Flashbar.OnActionTapListener listener) {
         rankings.getDraft().draftByMe(rankings, player, this, cost, findViewById(R.id.user_drawer_layout), listener);
         if (LocalSettingsHelper.hideDraftedSearch(this)) {
             setSearchAutocomplete();

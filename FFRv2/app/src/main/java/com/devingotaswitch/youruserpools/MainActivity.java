@@ -34,6 +34,8 @@ import com.devingotaswitch.rankings.RankingsHome;
 import com.devingotaswitch.utils.FlashbarFactory;
 import com.devingotaswitch.utils.GeneralUtils;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.util.Locale;
 import java.util.Map;
 
@@ -444,14 +446,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void notifyUserOnInternet(boolean isRefresh) {
-        View.OnClickListener snackBarListener = new View.OnClickListener() {
+        Flashbar.OnActionTapListener snackBarListener = new Flashbar.OnActionTapListener() {
             @Override
-            public void onClick(View v) {
+            public void onActionTapped(@NotNull Flashbar flashbar) {
                 findCurrent();
             }
         };
         if (isRefresh) {
-            Snackbar.make(inUsername, "No internet connection", Snackbar.LENGTH_INDEFINITE).setAction("Re-connect", snackBarListener).show();
+            FlashbarFactory.generateInfiniteFlashbarWithAction(this, "No can do", "No internet connection", Flashbar.Gravity.BOTTOM,
+                    snackBarListener, "Re-connect")
+                    .show();
         } else {
 
             FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "No internet connection", Flashbar.Gravity.TOP)

@@ -48,6 +48,8 @@ import com.devingotaswitch.utils.FlashbarFactory;
 import com.devingotaswitch.utils.GeneralUtils;
 import com.devingotaswitch.youruserpools.CUPHelper;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -213,13 +215,16 @@ public class PlayerInfo extends AppCompatActivity {
     private void addWatched() {
         player.setWatched(true);
         rankings.getPlayer(player.getUniqueId()).setWatched(true);
-        final View.OnClickListener removeWatch = new View.OnClickListener() {
+        final Flashbar.OnActionTapListener removeWatch = new Flashbar.OnActionTapListener() {
             @Override
-            public void onClick(View v) {
+            public void onActionTapped(@NotNull Flashbar flashbar) {
+                flashbar.dismiss();
                 removeWatched();
             }
         };
-        Snackbar.make(infoList, player.getName() + " added to watch list", Snackbar.LENGTH_LONG).setAction("Undo", removeWatch).show();
+        FlashbarFactory.generateFlashbarWithUndo(this, "Success!", player.getName() + " added to watch list",
+                Flashbar.Gravity.BOTTOM, removeWatch)
+                .show();
         rankingsDB.updatePlayerWatchedStatus(this, player);
         hideMenuItemOnWatchStatus();
     }
@@ -227,13 +232,16 @@ public class PlayerInfo extends AppCompatActivity {
     private void removeWatched() {
         player.setWatched(false);
         rankings.getPlayer(player.getUniqueId()).setWatched(false);
-        final View.OnClickListener addWatch = new View.OnClickListener() {
+        final Flashbar.OnActionTapListener addWatch = new Flashbar.OnActionTapListener() {
             @Override
-            public void onClick(View v) {
+            public void onActionTapped(@NotNull Flashbar flashbar) {
+                flashbar.dismiss();
                 addWatched();
             }
         };
-        Snackbar.make(infoList, player.getName() + " removed from watch list", Snackbar.LENGTH_LONG).setAction("Undo", addWatch).show();
+        FlashbarFactory.generateFlashbarWithUndo(this, "Success!", player.getName() + " removed from watch list",
+                Flashbar.Gravity.BOTTOM, addWatch)
+                .show();
         rankingsDB.updatePlayerWatchedStatus(this, player);
         hideMenuItemOnWatchStatus();
     }
@@ -329,9 +337,9 @@ public class PlayerInfo extends AppCompatActivity {
     }
 
     private void draftByMe(int cost) {
-        View.OnClickListener listener = new View.OnClickListener() {
+        Flashbar.OnActionTapListener listener = new Flashbar.OnActionTapListener() {
             @Override
-            public void onClick(View v) {
+            public void onActionTapped(@NotNull Flashbar flashbar) {
                 undraftPlayer();
             }
         };
@@ -341,9 +349,9 @@ public class PlayerInfo extends AppCompatActivity {
     }
 
     private void draftBySomeone() {
-        View.OnClickListener listener = new View.OnClickListener() {
+        Flashbar.OnActionTapListener listener = new Flashbar.OnActionTapListener() {
             @Override
-            public void onClick(View v) {
+            public void onActionTapped(@NotNull Flashbar flashbar) {
                 undraftPlayer();
             }
         };

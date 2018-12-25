@@ -50,6 +50,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 
 import org.angmarch.views.NiceSpinner;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -461,7 +462,7 @@ public class PlayerSorter extends AppCompatActivity {
             }
         }
         adapter.notifyDataSetChanged();
-        final Context context = this;
+        final Activity act = this;
         final boolean hideDrafted = factorStrings.contains(Constants.SORT_HIDE_DRAFTED);
         listview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
             @Override
@@ -471,32 +472,36 @@ public class PlayerSorter extends AppCompatActivity {
                 final Player player = rankings.getPlayer(playerKey);
                 if (player.isWatched()) {
                     player.setWatched(false);
-                    View.OnClickListener listener = new View.OnClickListener() {
+                    Flashbar.OnActionTapListener listener = new Flashbar.OnActionTapListener() {
                         @Override
-                        public void onClick(View v) {
+                        public void onActionTapped(@NotNull Flashbar flashbar) {
+                            flashbar.dismiss();
                             player.setWatched(true);
                             playerStatus.setImageResource(R.drawable.star);
-                            rankingsDB.updatePlayerWatchedStatus(context, player);
+                            rankingsDB.updatePlayerWatchedStatus(act, player);
                         }
                     };
-                    Snackbar.make(listview, player.getName() + " removed from watch list", Snackbar.LENGTH_LONG)
-                            .setAction("Undo", listener).show();
+                    FlashbarFactory.generateFlashbarWithUndo(act, "Success!", player.getName() + " removed from watch list",
+                            Flashbar.Gravity.BOTTOM, listener)
+                            .show();
                     playerStatus.setImageResource(0);
                 } else {
                     player.setWatched(true);
-                    View.OnClickListener listener = new View.OnClickListener() {
+                    Flashbar.OnActionTapListener listener = new Flashbar.OnActionTapListener() {
                         @Override
-                        public void onClick(View v) {
+                        public void onActionTapped(@NotNull Flashbar flashbar) {
+                            flashbar.dismiss();
                             player.setWatched(false);
                             playerStatus.setImageResource(0);
-                            rankingsDB.updatePlayerWatchedStatus(context, player);
+                            rankingsDB.updatePlayerWatchedStatus(act, player);
                         }
                     };
-                    Snackbar.make(listview, player.getName() + " added to watch list", Snackbar.LENGTH_LONG)
-                            .setAction("Undo", listener).show();
+                    FlashbarFactory.generateFlashbarWithUndo(act, "Success!", player.getName() + " added to watch list",
+                            Flashbar.Gravity.BOTTOM, listener)
+                            .show();
                     playerStatus.setImageResource(R.drawable.star);
                 }
-                rankingsDB.updatePlayerWatchedStatus(context, player);
+                rankingsDB.updatePlayerWatchedStatus(act, player);
                 return true;
             }
         });
@@ -525,7 +530,7 @@ public class PlayerSorter extends AppCompatActivity {
                             final Map<String, String> datum = data.get(position);
                             String playerKey = getPlayerKeyFromPieces(datum.get(Constants.PLAYER_BASIC), datum.get(Constants.PLAYER_INFO));
                             final Player player = rankings.getPlayer(playerKey);
-                            View.OnClickListener listener = DraftUtils.getUndraftListener(localCopy, rankings, player, listView,
+                            Flashbar.OnActionTapListener listener = DraftUtils.getUndraftListener(localCopy, rankings, player, listView,
                                     adapter, data, datum, position, hideDrafted);
                             if (!rightDismiss) {
                                 rankings.getDraft().draftBySomeone(rankings, player, localCopy, listView, listener);
@@ -585,7 +590,7 @@ public class PlayerSorter extends AppCompatActivity {
     }
 
     private void getAuctionCost(final ListView listView, final Player player, final int position, final List<Map<String, String>> data,
-                                final Map<String, String> datum, final SimpleAdapter adapter, final View.OnClickListener listener) {
+                                final Map<String, String> datum, final SimpleAdapter adapter, final Flashbar.OnActionTapListener listener) {
         final Activity act = this;
         DraftUtils.AuctionCostInterface callback = new DraftUtils.AuctionCostInterface() {
             @Override
@@ -613,7 +618,7 @@ public class PlayerSorter extends AppCompatActivity {
         alertDialog.show();
     }
 
-    private void draftByMe(final View view, Player player, int cost, View.OnClickListener listener) {
+    private void draftByMe(final View view, Player player, int cost, Flashbar.OnActionTapListener listener) {
         rankings.getDraft().draftByMe(rankings, player, this, cost, view, listener);
     }
 

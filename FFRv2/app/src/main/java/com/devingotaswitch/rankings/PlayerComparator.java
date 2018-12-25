@@ -38,6 +38,7 @@ import com.devingotaswitch.utils.DraftUtils;
 import com.devingotaswitch.utils.FlashbarFactory;
 import com.devingotaswitch.utils.GeneralUtils;
 
+import org.jetbrains.annotations.NotNull;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -631,9 +632,9 @@ public class PlayerComparator extends AppCompatActivity {
     }
 
     private void draftPlayer(final Player player, final TextView title, int cost) {
-        View.OnClickListener listener = new View.OnClickListener() {
+        Flashbar.OnActionTapListener listener = new Flashbar.OnActionTapListener() {
             @Override
-            public void onClick(View view) {
+            public void onActionTapped(@NotNull Flashbar flashbar) {
                 undraftPlayer(player, title);
             }
         };

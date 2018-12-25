@@ -87,6 +87,7 @@ public class Constants {
 
     // Flashbar constants
     public static final Long FLASHBAR_DURATION = 2500L;
+    public static final Long FLASHBAR_WITH_RESPONSE_DURATION = 3000L;
     public static final Long FLASHBAR_ANIMATION_ENTER_DURATION = 750L;
     public static final Long FLASHBAR_ANIMATION_EXIT_DURATION = 400L;
 

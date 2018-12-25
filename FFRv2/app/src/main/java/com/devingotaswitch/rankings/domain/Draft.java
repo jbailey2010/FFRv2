@@ -380,25 +380,29 @@ public class Draft {
         LocalSettingsHelper.clearDraft(context, leagueName);
     }
 
-    public void draftBySomeone(Rankings rankings, Player player, Activity act, View view, View.OnClickListener listener) {
+    public void draftBySomeone(Rankings rankings, Player player, Activity act, View view, Flashbar.OnActionTapListener listener) {
         draftPlayer(player, rankings.getLeagueSettings().getTeamCount(), rankings.getLeagueSettings().getAuctionBudget(),false, 0);
         if (listener == null) {
-            FlashbarFactory.generateTextOnlyFlashbar(act, "Success!", player.getName() + " drafted by you", Flashbar.Gravity.BOTTOM)
+            FlashbarFactory.generateTextOnlyFlashbar(act, "Success!", player.getName() + " drafted", Flashbar.Gravity.BOTTOM)
                     .show();
         } else {
-            Snackbar.make(view, player.getName() + " drafted", Snackbar.LENGTH_LONG).setAction("Undo", listener).show();
+            FlashbarFactory.generateFlashbarWithUndo(act, "Success!", player.getName() + " drafted",
+                    Flashbar.Gravity.BOTTOM, listener)
+                    .show();
         }
         saveDraft(rankings, act);
         AppSyncHelper.incrementPlayerDraftCount(act, player.getUniqueId());
     }
 
-    public void draftByMe(Rankings rankings, Player player, Activity act, int cost, View view, View.OnClickListener listener) {
+    public void draftByMe(Rankings rankings, Player player, Activity act, int cost, View view, Flashbar.OnActionTapListener listener) {
         draftPlayer(player, rankings.getLeagueSettings().getTeamCount(), rankings.getLeagueSettings().getAuctionBudget(),true, cost);
         if (listener == null) {
             FlashbarFactory.generateTextOnlyFlashbar(act, "Success!", player.getName() + " drafted by you", Flashbar.Gravity.BOTTOM)
                     .show();
         } else {
-            Snackbar.make(view, player.getName() + " drafted by you", Snackbar.LENGTH_LONG).setAction("Undo", listener).show();
+            FlashbarFactory.generateFlashbarWithUndo(act, "Success!", player.getName() + " drafted by you",
+                    Flashbar.Gravity.BOTTOM, listener)
+                    .show();
         }
         saveDraft(rankings, act);
         AppSyncHelper.incrementPlayerDraftCount(act, player.getUniqueId());

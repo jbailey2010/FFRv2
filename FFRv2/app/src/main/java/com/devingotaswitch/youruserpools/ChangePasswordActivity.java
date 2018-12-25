@@ -1,5 +1,6 @@
 package com.devingotaswitch.youruserpools;
 
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.pm.ActivityInfo;
@@ -16,7 +17,10 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.GenericHandler;
+import com.andrognito.flashbar.Flashbar;
 import com.devingotaswitch.ffrv2.R;
+import com.devingotaswitch.utils.FlashbarFactory;
+import com.devingotaswitch.utils.GeneralUtils;
 
 public class ChangePasswordActivity extends AppCompatActivity {
 
@@ -142,7 +146,10 @@ public class ChangePasswordActivity extends AppCompatActivity {
         @Override
         public void onSuccess() {
             closeWaitDialog();
-            Snackbar.make(changeButton, "Password changed", Snackbar.LENGTH_LONG).show();
+            Activity act = ChangePasswordActivity.this;
+            GeneralUtils.hideKeyboard(act);
+            FlashbarFactory.generateTextOnlyFlashbar(act, "Success!", "Password changed",
+                    Flashbar.Gravity.BOTTOM).show();
             clearInput();
         }
 
