@@ -105,6 +105,7 @@ public class Constants {
     public static final String HIDE_RANKLESS_COMPARATOR_LIST = "HIDE_RANKLESS_COMPARATOR_LIST";
     public static final String HIDE_RANKLESS_COMPARATOR_SUGGESTION = "HIDE_RANKLESS_COMPARATOR_SUGGESTION";
     public static final String HIDE_RANKLESS_SORT_OUTPUT = "HIDE_RANKLESS_SORT_OUTPUT";
+    public static final String REFRESH_RANKS_ON_OVERSCROLL = "REFRESH_RANKS_ON_OVERSCROLL";
     public static final String PLAYER_COMMENT_COUNT_PREFIX = "PLAYER_COMMENT_COUNT";
 
     // SP: defaults
@@ -224,6 +225,7 @@ public class Constants {
     public final static String RANKINGS_LIST_DELIMITER = ": ";
     public final static String PLAYER_ID = "player_id";
     public final static String RANKINGS_UPDATED = "rankings_updated";
+    public final static Long OVERSCROLL_REFRESH_THRESHOLD = 30L;
 
     // Draft
     public final static String CURRENT_DRAFT = "current_draft";

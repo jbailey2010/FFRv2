@@ -71,7 +71,7 @@
 
 
     </LinearLayout>
-    <ListView
+    <com.devingotaswitch.rankings.extras.RankingsListView
         android:id="@+id/rankings_list"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -79,7 +79,5 @@
         android:divider="@drawable/list_divider"
         android:dividerHeight="1dp"
         android:overScrollMode="never"
-        android:layout_below="@+id/rankings_filter_base">
-
-    </ListView>
+        android:layout_below="@+id/rankings_filter_base"/>
 </RelativeLayout>

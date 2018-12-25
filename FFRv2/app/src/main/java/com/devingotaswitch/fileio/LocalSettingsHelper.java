@@ -206,6 +206,14 @@ public class LocalSettingsHelper {
         getSharedPreferences(cont).edit().putBoolean(Constants.HIDE_RANKLESS_COMPARATOR_SUGGESTION, doHide).apply();
     }
 
+    public static boolean refreshRanksOnOverscroll(Context cont) {
+        return getSharedPreferences(cont).getBoolean(Constants.REFRESH_RANKS_ON_OVERSCROLL, Constants.NOT_SET_BOOLEAN);
+    }
+
+    public static void setRefreshRanksOnOverscroll(Context cont, boolean doRefresh) {
+        getSharedPreferences(cont).edit().putBoolean(Constants.REFRESH_RANKS_ON_OVERSCROLL, doRefresh).apply();
+    }
+
     public static int getNumberOfCommentsOnPlayer(Context cont, String playerKey) {
         return getSharedPreferences(cont).getInt(Constants.PLAYER_COMMENT_COUNT_PREFIX + playerKey + Constants.YEAR_KEY, 0);
     }

@@ -14,9 +14,11 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -697,7 +699,7 @@ public class RankingsHome extends AppCompatActivity {
         startActivity(intent);
     }
 
-    private void refreshRanks() {
+    public void refreshRanks() {
         // Don't let the user refresh if there's no saved league
         if (GeneralUtils.confirmInternet(this)) {
             if (LocalSettingsHelper.wasPresent(LocalSettingsHelper.getCurrentLeagueName(this))) {
@@ -780,3 +782,4 @@ public class RankingsHome extends AppCompatActivity {
         finishAffinity();
     }
 }
+

@@ -117,6 +117,28 @@
 
           </RelativeLayout>
 
+          <RelativeLayout
+              android:layout_width="match_parent"
+              android:layout_height="0dp"
+              android:layout_weight="1"
+              android:padding="4dp">
+
+              <TextView
+                  android:id="@+id/settings_general_header"
+                  android:layout_width="match_parent"
+                  android:textSize="18sp"
+                  android:layout_height="wrap_content"
+                  android:text="General Settings"/>
+
+              <CheckBox
+                  android:id="@+id/general_refresh_on_overscroll"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_below="@+id/settings_general_header"
+                  android:layout_marginTop="8dp"
+                  android:text="Refresh rankings on overscroll"/>
+          </RelativeLayout>
+
 
       </LinearLayout>
 

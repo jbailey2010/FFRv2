@@ -51,6 +51,8 @@ public class SettingsActivity extends AppCompatActivity {
         CheckBox dcList = findViewById(R.id.hide_comparator_list_drafted);
         CheckBox rcList = findViewById(R.id.hide_comparator_list_rankless);
 
+        CheckBox overscrollRefresh = findViewById(R.id.general_refresh_on_overscroll);
+
         dSearch.setChecked(LocalSettingsHelper.hideDraftedSearch(this));
         dsOutput.setChecked(LocalSettingsHelper.hideDraftedSortOutput(this));
         dcSuggestion.setChecked(LocalSettingsHelper.hideDraftedComparatorSuggestion(this));
@@ -109,6 +111,13 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 LocalSettingsHelper.setHideRanklessComparatorList(act, b);
+            }
+        });
+
+        overscrollRefresh.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                LocalSettingsHelper.setRefreshRanksOnOverscroll(act, b);
             }
         });
     }
