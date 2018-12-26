@@ -171,7 +171,18 @@ public class RankingsHome extends AppCompatActivity {
 
         // Set navigation drawer for this screen
         mDrawer = findViewById(R.id.user_drawer_layout);
-        ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, mDrawer, toolbar, R.string.nav_drawer_open, R.string.nav_drawer_close);
+        final Activity act = this;
+        ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, mDrawer, toolbar,
+                R.string.nav_drawer_open, R.string.nav_drawer_close) {
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+                GeneralUtils.hideKeyboard(act);
+            }
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                GeneralUtils.hideKeyboard(act);
+            }
+        };
         mDrawer.addDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
 
