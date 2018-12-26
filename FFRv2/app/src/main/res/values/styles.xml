@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/toolbar_background</item>
         <item name="colorPrimaryDark">@color/toolbar_background</item>
         <item name="colorAccent">@color/toolbar_items</item>
+        <item name="android:dropDownListViewStyle">@style/myDropDownListViewStyle</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar"/>
@@ -15,6 +16,10 @@
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="myDropDownListViewStyle" parent="Widget.AppCompat.ListView.DropDown">
+        <item name="android:background">#FFF</item>
     </style>
 
 </resources>

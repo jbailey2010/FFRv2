@@ -166,6 +166,7 @@ public class RankingsHome extends AppCompatActivity {
         toolbar.setElevation(0);
         TextView main_title = findViewById(R.id.main_toolbar_title);
         main_title.setText("Rankings");
+        main_title.setVisibility(View.VISIBLE);
         setSupportActionBar(toolbar);
 
         // Set navigation drawer for this screen
@@ -338,6 +339,7 @@ public class RankingsHome extends AppCompatActivity {
         if (LocalSettingsHelper.wereRankingsFetched(this)) {
             nDrawer.getMenu().findItem(R.id.nav_refresh_ranks).setVisible(true);
             nDrawer.getMenu().findItem(R.id.nav_export_rankings).setVisible(true);
+            findViewById(R.id.main_toolbar_title).setVisibility(View.GONE);
             // If rankings are saved, load (and ultimately display) them
             if (rankings == null || rankings.getPlayers().size() == 0 || loadRanks) {
                 Log.d(TAG, "Loading rankings");
@@ -358,6 +360,7 @@ public class RankingsHome extends AppCompatActivity {
             }
         } else if (!LocalSettingsHelper.wasPresent(LocalSettingsHelper.getCurrentLeagueName(this))) {
             // Otherwise, if no league is set up, display that message
+            findViewById(R.id.main_toolbar_title).setVisibility(View.VISIBLE);
             clearAndAddView(R.layout.content_rankings_no_league);
             rankings = Rankings.initWithDefaults(currentLeague);
             searchBase.setVisibility(View.GONE);
@@ -367,6 +370,7 @@ public class RankingsHome extends AppCompatActivity {
         } else {
             // If neither of the above, there's a league but no ranks. Tell the user.
             clearAndAddView(R.layout.content_rankings_no_ranks);
+            findViewById(R.id.main_toolbar_title).setVisibility(View.VISIBLE);
             rankings = Rankings.initWithDefaults(currentLeague);
             searchBase.setVisibility(View.GONE);
             buttonBase.setVisibility(View.GONE);

@@ -16,36 +16,14 @@
 
         <!-- Add the ActionBar -->
         <include
-            layout="@layout/main_tool_bar"
+            layout="@layout/main_tool_bar_with_search"
             android:id="@+id/rankings_tool_bar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
-
-        <RelativeLayout
-            android:id="@+id/rankings_search_base"
-            android:layout_width="match_parent"
-            android:orientation="horizontal"
-            android:layout_below="@+id/rankings_tool_bar"
-            android:background="@color/toolbar_background"
-            android:layout_height="wrap_content">
-
-            <AutoCompleteTextView
-                android:id="@+id/ranking_search"
-                android:layout_width="match_parent"
-                android:layout_height="36dp"
-                android:layout_margin="7dp"
-                android:paddingLeft="15dp"
-                android:hint="  Search"
-                android:textColor="#dedede"
-                android:textColorHint="#dedede"
-                android:textSize="13sp"
-                android:background="@drawable/rounded_well" />
-        </RelativeLayout>
-
         <!-- Set the Main content -->
         <include layout="@layout/content_rankings"
-            android:layout_below="@+id/rankings_search_base"
+            android:layout_below="@+id/rankings_tool_bar"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_above="@+id/rankings_button_bar"/>
