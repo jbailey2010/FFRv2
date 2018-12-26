@@ -7,9 +7,9 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.ListPopupWindow;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -20,11 +20,13 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
@@ -71,12 +73,14 @@ public class PlayerSorter extends AppCompatActivity {
     private MenuItem graphItem;
     private final List<Player> players = new ArrayList<>();
     private String factor = null;
+    private String expandedFactor = null;
     private int sortMax;
 
     private int posIndex = 0;
     private int sortIndex = 0;
     private int selectedIndex = 0;
     private double maxVal = 0.0;
+    private int lastFactorIndex = 0;
     private Set<String> factorStrings = new HashSet<>(Collections.singletonList(Constants.SORT_DEFAULT_STRING));
 
     @Override
@@ -201,20 +205,53 @@ public class PlayerSorter extends AppCompatActivity {
         factorList.add(Constants.SORT_ROOKIE);
         factorList.add(Constants.SORT_BEST_BALL);
         factorList.add(Constants.SORT_PROJECTION);
-        factorList.add(Constants.SORT_PAA);
-        factorList.add(Constants.SORT_PAA_SCALED);
-        factorList.add(Constants.SORT_PAAPD);
-        factorList.add(Constants.SORT_XVAL);
-        factorList.add(Constants.SORT_XVAL_SCALED);
-        factorList.add(Constants.SORT_XVALPD);
-        factorList.add(Constants.SORT_VOLS);
-        factorList.add(Constants.SORT_VOLS_SCALED);
-        factorList.add(Constants.SORT_VOLSPD);
-        factorList.add(Constants.SORT_VBD_SUGGESTED);
+        factorList.add(Constants.SORT_VBD_EXPANDED);
         factorList.add(Constants.SORT_RISK);
         factorList.add(Constants.SORT_SOS);
         factors.attachDataSource(factorList);
         factors.setBackgroundColor(Color.parseColor("#FAFAFA"));
+
+        final Activity act = this;
+        factors.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                if (Constants.SORT_VBD_EXPANDED.equals(((TextView)view).getText().toString())) {
+                    final ListPopupWindow popup = new ListPopupWindow(act);
+                    popup.setAnchorView(factors);
+                    SimpleAdapter adapter = new SimpleAdapter(act, getVBDOptions(),
+                            R.layout.nested_spinner_item,
+                            new String[] { Constants.NESTED_SPINNER_DISPLAY},
+                            new int[] { R.id.text_view_spinner });
+                    popup.setAdapter(adapter);
+                    popup.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+                            if (Constants.SORT_BACK.equals(((TextView)view).getText().toString())) {
+                                popup.dismiss();
+                                factors.showDropDown();
+                            } else {
+                                expandedFactor = ((TextView) view).getText().toString();
+                                factors.setText(factors.getText() + " " + expandedFactor);
+                                popup.dismiss();
+                            }
+                        }
+                    });
+                    popup.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                        @Override
+                        public void onDismiss() {
+                            if (StringUtils.isBlank(expandedFactor)) {
+                                factors.setSelectedIndex(lastFactorIndex);
+                            }
+                        }
+                    });
+                    popup.show();
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> adapterView) {
+            }
+        });
 
         final MultiSelectionSpinner spinner=findViewById(R.id.sort_players_additional_factors);
         List<String> list = new ArrayList<>();
@@ -250,7 +287,14 @@ public class PlayerSorter extends AppCompatActivity {
                 if (!Constants.ALL_POSITIONS.equals(currentPosition)) {
                     filteredIds = rankings.getPlayersByPosition(filteredIds, currentPosition);
                 }
-                factor = factorList.get(factors.getSelectedIndex());
+                String selection = factorList.get(factors.getSelectedIndex());
+                if (!selection.startsWith(Constants.SORT_VBD_EXPANDED)) {
+                    factor = factorList.get(factors.getSelectedIndex());
+                    lastFactorIndex = factors.getSelectedIndex();
+                    expandedFactor = null;
+                } else {
+                    factor = expandedFactor;
+                }
                 posIndex = positions.getSelectedIndex();
                 sortIndex = factors.getSelectedIndex();
                 factorStrings = spinner.getSelectedStrings();
@@ -265,6 +309,29 @@ public class PlayerSorter extends AppCompatActivity {
                 graphItem.setVisible(true);
             }
         });
+    }
+
+    private List<Map<String,String>> getVBDOptions() {
+        List<Map<String, String>> factorList = new ArrayList<>();
+
+        factorList.add(generateSpinnerMap(Constants.SORT_BACK));
+        factorList.add(generateSpinnerMap(Constants.SORT_PAA));
+        factorList.add(generateSpinnerMap(Constants.SORT_PAA_SCALED));
+        factorList.add(generateSpinnerMap(Constants.SORT_PAAPD));
+        factorList.add(generateSpinnerMap(Constants.SORT_XVAL));
+        factorList.add(generateSpinnerMap(Constants.SORT_XVAL_SCALED));
+        factorList.add(generateSpinnerMap(Constants.SORT_XVALPD));
+        factorList.add(generateSpinnerMap(Constants.SORT_VOLS));
+        factorList.add(generateSpinnerMap(Constants.SORT_VOLS_SCALED));
+        factorList.add(generateSpinnerMap(Constants.SORT_VOLSPD));
+        factorList.add(generateSpinnerMap(Constants.SORT_VBD_SUGGESTED));
+        return factorList;
+    }
+
+    private Map<String, String> generateSpinnerMap(String value) {
+        Map<String, String> datum = new HashMap<>();
+        datum.put(Constants.NESTED_SPINNER_DISPLAY, value);
+        return datum;
     }
 
     private void getComparatorForFactor(List<String> playerIds, Set<String> booleanFactors, boolean reversePlayers) {

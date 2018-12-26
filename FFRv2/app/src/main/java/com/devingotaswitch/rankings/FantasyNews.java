@@ -94,6 +94,7 @@ public class FantasyNews extends AppCompatActivity {
         }
         final List<String> sources = new ArrayList<>(Arrays.asList(Constants.RW_HEADLINE_TITLE, Constants.RW_PLAYER_TITLE, Constants.MFL_AGGREGATE_TITLE));
         final NiceSpinner sourcesSpinner = findViewById(R.id.news_source_selector);
+
         sourcesSpinner.attachDataSource(sources);
         sourcesSpinner.setBackgroundColor(Color.parseColor("#FAFAFA"));
         sourcesSpinner.setSelectedIndex(sources.indexOf(LocalSettingsHelper.getSelectedNewsSource(this)));

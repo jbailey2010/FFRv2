@@ -26,6 +26,7 @@ public class Constants {
     public final static String ALL_TEAMS = "All Teams";
 
     // Sort factors
+    public final static String SORT_BACK = "Back";
     public final static String SORT_ALL = "Default Sort";
     public final static String SORT_ECR = "ECR";
     public final static String SORT_ADP = "ADP";
@@ -35,7 +36,9 @@ public class Constants {
     public final static String SORT_DYNASTY = "Dynasty/Keeper Rank";
     public final static String SORT_ROOKIE = "Rookie Rank";
     public final static String SORT_BEST_BALL = "Best Ball Rank";
+    public final static String SORT_PROJECTION_EXPANDED = "Projections +";
     public final static String SORT_PROJECTION = "Projection";
+    public final static String SORT_VBD_EXPANDED = "VBD +";
     public final static String SORT_PAA = "PAA";
     public final static String SORT_PAA_SCALED = "Scaled PAA";
     public final static String SORT_PAAPD = "PAA Per Dollar";
@@ -248,6 +251,7 @@ public class Constants {
     public final static String NOTE_SUB = "Click to update note, click and hold to clear";
     public final static String DEFAULT_NOTE = "No note found";
     public final static String NO_TEAM = "Free Agent/Retired";
+    public final static String NESTED_SPINNER_DISPLAY = "nested_display";
 
     // Comments
     public final static String COMMENT_AUTHOR = "author";
