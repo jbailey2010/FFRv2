@@ -540,20 +540,6 @@ public class RankingsHome extends AppCompatActivity {
         });
         listview.setSelection(selectedIndex);
         ranksDisplayed = true;
-        TextView titleView = findViewById(R.id.main_toolbar_title);
-        titleView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listview.smoothScrollToPosition(0);
-            }
-        });
-        titleView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                listview.setSelectionAfterHeaderView();
-                return true;
-            }
-        });
 
         setSearchAutocomplete();
     }
@@ -609,10 +595,15 @@ public class RankingsHome extends AppCompatActivity {
             }
         });
 
+        final ListView listview =  findViewById(R.id.rankings_list);
         searchInput.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {
-                searchInput.setText("");
+                if (searchInput.getText().length() > 0) {
+                    searchInput.setText("");
+                } else {
+                    listview.smoothScrollToPosition(0);
+                }
                 return true;
             }
         });
