@@ -19,16 +19,6 @@
             android:background="?attr/colorPrimary"
             android:textAlignment="center"
             app:popupTheme="@style/AppTheme.PopupOverlay" >
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_centerHorizontal="true"
-                android:textAlignment="center"
-                android:id="@+id/main_toolbar_title"
-                android:text="@string/Menu"
-                android:textColor="@color/toolbar_items"
-                android:textSize="@dimen/action_bar_text" />
             <RelativeLayout
                 android:id="@+id/rankings_search_base"
                 android:layout_width="match_parent"
