@@ -74,6 +74,7 @@ public class PlayerSorter extends AppCompatActivity {
     private final List<Player> players = new ArrayList<>();
     private String factor = null;
     private String expandedFactor = null;
+    private String expandedFactorType = null;
     private int sortMax;
 
     private int posIndex = 0;
@@ -248,6 +249,9 @@ public class PlayerSorter extends AppCompatActivity {
                         public void onDismiss() {
                             if (StringUtils.isBlank(expandedFactor)) {
                                 factors.setSelectedIndex(lastFactorIndex);
+                            } else if (!StringUtils.isBlank(expandedFactorType) &&
+                                    !factors.getText().toString().startsWith(expandedFactorType)) {
+                                factors.setText(expandedFactorType);
                             }
                         }
                     });
@@ -302,6 +306,7 @@ public class PlayerSorter extends AppCompatActivity {
                     expandedFactor = null;
                 } else {
                     factor = expandedFactor;
+                    expandedFactorType = factors.getText().toString();
                 }
                 posIndex = positions.getSelectedIndex();
                 sortIndex = factors.getSelectedIndex();

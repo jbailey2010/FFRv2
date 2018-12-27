@@ -36,7 +36,7 @@ public class Constants {
     public final static String SORT_DYNASTY = "Dynasty/Keeper Rank";
     public final static String SORT_ROOKIE = "Rookie Rank";
     public final static String SORT_BEST_BALL = "Best Ball Rank";
-    public final static String SORT_PROJECTION_EXPANDED = "Projections +";
+    public final static String SORT_PROJECTION_EXPANDED = "Projections >";
     public final static String SORT_PROJECTION = "Total Points";
     public final static String SORT_PASSING_TDS = "Passing TDs";
     public final static String SORT_PASSING_YDS = "Passing Yards";
@@ -45,7 +45,7 @@ public class Constants {
     public final static String SORT_RECEIVING_TDS = "Receiving TDs";
     public final static String SORT_RECEIVING_YDS = "Receiving Yards";
     public final static String SORT_RECEPTIONS = "Receptions";
-    public final static String SORT_VBD_EXPANDED = "VBD +";
+    public final static String SORT_VBD_EXPANDED = "VBD >";
     public final static String SORT_PAA = "PAA";
     public final static String SORT_PAA_SCALED = "Scaled PAA";
     public final static String SORT_PAAPD = "PAA Per Dollar";
