@@ -5,7 +5,7 @@ import android.util.Log;
 import com.devingotaswitch.rankings.domain.ScoringSettings;
 import com.devingotaswitch.utils.Constants;
 
-class PassingProjection extends ProjectionBase {
+public class PassingProjection extends ProjectionBase {
 
     private double yards = 0.0;
     private double tds = 0.0;
@@ -37,5 +37,13 @@ class PassingProjection extends ProjectionBase {
                 .append("Interceptions: ")
                 .append(ints)
                 .toString();
+    }
+
+    public double getTds() {
+        return tds;
+    }
+
+    public double getYards() {
+        return yards;
     }
 }

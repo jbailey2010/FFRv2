@@ -5,7 +5,7 @@ import android.util.Log;
 import com.devingotaswitch.rankings.domain.ScoringSettings;
 import com.devingotaswitch.utils.Constants;
 
-class RushingProjection extends ProjectionBase {
+public class RushingProjection extends ProjectionBase {
     private double yards = 0.0;
     private double tds = 0.0;
     private double fumbles = 0.0;
@@ -36,5 +36,13 @@ class RushingProjection extends ProjectionBase {
                 .append("Fumbles: ")
                 .append(fumbles)
                 .toString();
+    }
+
+    public double getTds() {
+        return tds;
+    }
+
+    public double getYards() {
+        return yards;
     }
 }

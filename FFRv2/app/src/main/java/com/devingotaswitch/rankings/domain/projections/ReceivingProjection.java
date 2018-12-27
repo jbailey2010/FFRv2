@@ -5,7 +5,7 @@ import android.util.Log;
 import com.devingotaswitch.rankings.domain.ScoringSettings;
 import com.devingotaswitch.utils.Constants;
 
-class ReceivingProjection extends ProjectionBase {
+public class ReceivingProjection extends ProjectionBase {
     private double yards = 0.0;
     private double receptions = 0.0;
     private double tds = 0.0;
@@ -36,5 +36,17 @@ class ReceivingProjection extends ProjectionBase {
                 .append("Receiving TDs: ")
                 .append(tds)
                 .toString();
+    }
+
+    public double getTds() {
+        return tds;
+    }
+
+    public double getYards() {
+        return yards;
+    }
+
+    public double getReceptions() {
+        return receptions;
     }
 }

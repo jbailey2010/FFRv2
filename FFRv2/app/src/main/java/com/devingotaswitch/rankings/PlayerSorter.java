@@ -200,12 +200,12 @@ public class PlayerSorter extends AppCompatActivity {
         factorList.add(Constants.SORT_ADP);
         factorList.add(Constants.SORT_UNDERDRAFTED);
         factorList.add(Constants.SORT_OVERDRAFTED);
+        factorList.add(Constants.SORT_PROJECTION_EXPANDED);
+        factorList.add(Constants.SORT_VBD_EXPANDED);
         factorList.add(Constants.SORT_AUCTION);
         factorList.add(Constants.SORT_DYNASTY);
         factorList.add(Constants.SORT_ROOKIE);
         factorList.add(Constants.SORT_BEST_BALL);
-        factorList.add(Constants.SORT_PROJECTION);
-        factorList.add(Constants.SORT_VBD_EXPANDED);
         factorList.add(Constants.SORT_RISK);
         factorList.add(Constants.SORT_SOS);
         factors.attachDataSource(factorList);
@@ -215,12 +215,19 @@ public class PlayerSorter extends AppCompatActivity {
         factors.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
-                if (Constants.SORT_VBD_EXPANDED.equals(((TextView)view).getText().toString())) {
+                String selection = ((TextView)view).getText().toString();
+                if (Constants.SORT_VBD_EXPANDED.equals(selection) ||
+                        Constants.SORT_PROJECTION_EXPANDED.equals(selection)) {
                     final ListPopupWindow popup = new ListPopupWindow(act);
                     popup.setAnchorView(factors);
-                    SimpleAdapter adapter = new SimpleAdapter(act, getVBDOptions(),
-                            R.layout.nested_spinner_item,
-                            new String[] { Constants.NESTED_SPINNER_DISPLAY},
+                    List<Map<String, String>> data = null;
+                    if (Constants.SORT_VBD_EXPANDED.equals(selection)) {
+                        data = getVBDOptions();
+                    } else if (Constants.SORT_PROJECTION_EXPANDED.equals(selection)) {
+                        data = getProjectionOptions();
+                    }
+                    SimpleAdapter adapter = new SimpleAdapter(act, data,
+                            R.layout.nested_spinner_item, new String[] { Constants.NESTED_SPINNER_DISPLAY},
                             new int[] { R.id.text_view_spinner });
                     popup.setAdapter(adapter);
                     popup.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -288,7 +295,8 @@ public class PlayerSorter extends AppCompatActivity {
                     filteredIds = rankings.getPlayersByPosition(filteredIds, currentPosition);
                 }
                 String selection = factorList.get(factors.getSelectedIndex());
-                if (!selection.startsWith(Constants.SORT_VBD_EXPANDED)) {
+                if (!selection.startsWith(Constants.SORT_VBD_EXPANDED) &&
+                        !selection.startsWith(Constants.SORT_PROJECTION_EXPANDED)) {
                     factor = factorList.get(factors.getSelectedIndex());
                     lastFactorIndex = factors.getSelectedIndex();
                     expandedFactor = null;
@@ -328,6 +336,21 @@ public class PlayerSorter extends AppCompatActivity {
         return factorList;
     }
 
+    private List<Map<String,String>> getProjectionOptions() {
+        List<Map<String, String>> factorList = new ArrayList<>();
+
+        factorList.add(generateSpinnerMap(Constants.SORT_BACK));
+        factorList.add(generateSpinnerMap(Constants.SORT_PROJECTION));
+        factorList.add(generateSpinnerMap(Constants.SORT_PASSING_TDS));
+        factorList.add(generateSpinnerMap(Constants.SORT_PASSING_YDS));
+        factorList.add(generateSpinnerMap(Constants.SORT_RUSHING_TDS));
+        factorList.add(generateSpinnerMap(Constants.SORT_RUSHING_YDS));
+        factorList.add(generateSpinnerMap(Constants.SORT_RECEIVING_TDS));
+        factorList.add(generateSpinnerMap(Constants.SORT_RECEIVING_YDS));
+        factorList.add(generateSpinnerMap(Constants.SORT_RECEPTIONS));
+        return factorList;
+    }
+
     private Map<String, String> generateSpinnerMap(String value) {
         Map<String, String> datum = new HashMap<>();
         datum.put(Constants.NESTED_SPINNER_DISPLAY, value);
@@ -363,6 +386,27 @@ public class PlayerSorter extends AppCompatActivity {
                 break;
             case Constants.SORT_PROJECTION:
                 comparator = getProjectionComparator();
+                break;
+            case Constants.SORT_PASSING_TDS:
+                comparator = getPassingTDsComparator();
+                break;
+            case Constants.SORT_PASSING_YDS:
+                comparator = getPassingYardsComparator();
+                break;
+            case Constants.SORT_RUSHING_TDS:
+                comparator = getRushingTdsComparator();
+                break;
+            case Constants.SORT_RUSHING_YDS:
+                comparator = getRushingYardsComparator();
+                break;
+            case Constants.SORT_RECEIVING_TDS:
+                comparator = getReceivingTdsComparator();
+                break;
+            case Constants.SORT_RECEIVING_YDS:
+                comparator = getReceivingYardsComparator();
+                break;
+            case Constants.SORT_RECEPTIONS:
+                comparator = getReceptionsComparator();
                 break;
             case Constants.SORT_PAA:
                 comparator = getPAAComparator();
@@ -709,6 +753,110 @@ public class PlayerSorter extends AppCompatActivity {
             }
         };
     }
+    private Comparator<Player> getPassingTDsComparator() {
+        return new Comparator<Player>() {
+            @Override
+            public int compare(Player a, Player b) {
+                if (a.getPlayerProjection().getPassingProjection().getTds() > b.getPlayerProjection().getPassingProjection().getTds()) {
+                    return -1;
+                }
+                if (a.getPlayerProjection().getPassingProjection().getTds() < b.getPlayerProjection().getPassingProjection().getTds()) {
+                    return 1;
+                }
+                return 0;
+            }
+        };
+    }
+
+    private Comparator<Player> getPassingYardsComparator() {
+        return new Comparator<Player>() {
+            @Override
+            public int compare(Player a, Player b) {
+                if (a.getPlayerProjection().getPassingProjection().getYards() > b.getPlayerProjection().getPassingProjection().getYards()) {
+                    return -1;
+                }
+                if (a.getPlayerProjection().getPassingProjection().getYards() < b.getPlayerProjection().getPassingProjection().getYards()) {
+                    return 1;
+                }
+                return 0;
+            }
+        };
+    }
+
+    private Comparator<Player> getRushingYardsComparator() {
+        return new Comparator<Player>() {
+            @Override
+            public int compare(Player a, Player b) {
+                if (a.getPlayerProjection().getRushingProjection().getYards() > b.getPlayerProjection().getRushingProjection().getYards()) {
+                    return -1;
+                }
+                if (a.getPlayerProjection().getRushingProjection().getYards() < b.getPlayerProjection().getRushingProjection().getYards()) {
+                    return 1;
+                }
+                return 0;
+            }
+        };
+    }
+
+    private Comparator<Player> getRushingTdsComparator() {
+        return new Comparator<Player>() {
+            @Override
+            public int compare(Player a, Player b) {
+                if (a.getPlayerProjection().getRushingProjection().getTds() > b.getPlayerProjection().getRushingProjection().getTds()) {
+                    return -1;
+                }
+                if (a.getPlayerProjection().getRushingProjection().getTds() < b.getPlayerProjection().getRushingProjection().getTds()) {
+                    return 1;
+                }
+                return 0;
+            }
+        };
+    }
+
+    private Comparator<Player> getReceivingYardsComparator() {
+        return new Comparator<Player>() {
+            @Override
+            public int compare(Player a, Player b) {
+                if (a.getPlayerProjection().getReceivingProjection().getYards() > b.getPlayerProjection().getReceivingProjection().getYards()) {
+                    return -1;
+                }
+                if (a.getPlayerProjection().getReceivingProjection().getYards() < b.getPlayerProjection().getReceivingProjection().getYards()) {
+                    return 1;
+                }
+                return 0;
+            }
+        };
+    }
+
+    private Comparator<Player> getReceivingTdsComparator() {
+        return new Comparator<Player>() {
+            @Override
+            public int compare(Player a, Player b) {
+                if (a.getPlayerProjection().getReceivingProjection().getTds() > b.getPlayerProjection().getReceivingProjection().getTds()) {
+                    return -1;
+                }
+                if (a.getPlayerProjection().getReceivingProjection().getTds() < b.getPlayerProjection().getReceivingProjection().getTds()) {
+                    return 1;
+                }
+                return 0;
+            }
+        };
+    }
+
+    private Comparator<Player> getReceptionsComparator() {
+        return new Comparator<Player>() {
+            @Override
+            public int compare(Player a, Player b) {
+                if (a.getPlayerProjection().getReceivingProjection().getReceptions() > b.getPlayerProjection().getReceivingProjection().getReceptions()) {
+                    return -1;
+                }
+                if (a.getPlayerProjection().getReceivingProjection().getReceptions() < b.getPlayerProjection().getReceivingProjection().getReceptions()) {
+                    return 1;
+                }
+                return 0;
+            }
+        };
+    }
 
     private Comparator<Player> getDynastyComparator() {
         return new Comparator<Player>() {
@@ -1047,6 +1195,20 @@ public class PlayerSorter extends AppCompatActivity {
                 return String.valueOf(player.getBestBallRank().equals(Constants.DEFAULT_RANK) ? Constants.DEFAULT_DISPLAY_RANK_NOT_SET : player.getBestBallRank());
             case Constants.SORT_PROJECTION:
                 return Constants.DECIMAL_FORMAT.format(player.getProjection());
+            case Constants.SORT_PASSING_TDS:
+                return String.valueOf(player.getPlayerProjection().getPassingProjection().getTds());
+            case Constants.SORT_PASSING_YDS:
+                return String.valueOf(player.getPlayerProjection().getPassingProjection().getYards());
+            case Constants.SORT_RUSHING_TDS:
+                return String.valueOf(player.getPlayerProjection().getRushingProjection().getTds());
+            case Constants.SORT_RUSHING_YDS:
+                return String.valueOf(player.getPlayerProjection().getRushingProjection().getYards());
+            case Constants.SORT_RECEIVING_TDS:
+                return String.valueOf(player.getPlayerProjection().getReceivingProjection().getTds());
+            case Constants.SORT_RECEIVING_YDS:
+                return String.valueOf(player.getPlayerProjection().getReceivingProjection().getYards());
+            case Constants.SORT_RECEPTIONS:
+                return String.valueOf(player.getPlayerProjection().getReceivingProjection().getReceptions());
             case Constants.SORT_PAA:
                 return Constants.DECIMAL_FORMAT.format(player.getPaa());
             case Constants.SORT_PAA_SCALED:

@@ -53,6 +53,16 @@ public class PlayerProjection {
         return this.projection;
     }
 
+    public PassingProjection getPassingProjection() {
+        return passingProjection;
+    }
+    public RushingProjection getRushingProjection() {
+        return rushingProjection;
+    }
+    public ReceivingProjection getReceivingProjection() {
+        return receivingProjection;
+    }
+
     public String getDisplayString(String position) {
         switch (position) {
             case Constants.QB:
