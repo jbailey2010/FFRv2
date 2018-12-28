@@ -1,6 +1,8 @@
 package com.devingotaswitch.utils;
 
 import android.app.Activity;
+import android.content.Context;
+import android.support.v7.widget.DividerItemDecoration;
 import android.view.View;
 import android.widget.ListView;
 import android.widget.SimpleAdapter;
@@ -77,5 +79,9 @@ public class DisplayUtils {
                         Constants.PLAYER_ADDITIONAL_INFO_2},
                 new int[] { R.id.player_basic, R.id.player_info,
                         R.id.player_status, R.id.player_more_info, R.id.player_additional_info_2 });
+    }
+
+    public static DividerItemDecoration getVerticalDividerDecoration(Context context) {
+        return new DividerItemDecoration(context, DividerItemDecoration.VERTICAL);
     }
 }

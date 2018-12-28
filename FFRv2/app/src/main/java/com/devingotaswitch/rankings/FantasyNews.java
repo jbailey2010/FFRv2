@@ -7,7 +7,11 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -23,7 +27,9 @@ import com.devingotaswitch.fileio.LocalSettingsHelper;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.PlayerNews;
 import com.devingotaswitch.rankings.domain.Rankings;
+import com.devingotaswitch.rankings.extras.RecyclerViewAdapter;
 import com.devingotaswitch.utils.Constants;
+import com.devingotaswitch.utils.DisplayUtils;
 import com.devingotaswitch.utils.FlashbarFactory;
 import com.devingotaswitch.utils.GeneralUtils;
 import com.devingotaswitch.utils.JsoupUtils;
@@ -123,15 +129,8 @@ public class FantasyNews extends AppCompatActivity {
     }
 
     private void displayNews(List<PlayerNews> news) {
-        final ListView listview = findViewById(R.id.news_list);
-        listview.setAdapter(null);
+        final RecyclerView listview = findViewById(R.id.news_list);
         final List<Map<String, String>> data = new ArrayList<>();
-        final SimpleAdapter adapter = new SimpleAdapter(this, data,
-                R.layout.list_item_layout,
-                new String[] { Constants.PLAYER_BASIC, Constants.PLAYER_INFO, Constants.PLAYER_STATUS },
-                new int[] { R.id.player_basic, R.id.player_info,
-                        R.id.player_status });
-        listview.setAdapter(adapter);
         for (PlayerNews newsItem : news) {
             Map<String, String> datum = new HashMap<>(3);
             datum.put(Constants.PLAYER_BASIC, newsItem.getNews());
@@ -141,17 +140,13 @@ public class FantasyNews extends AppCompatActivity {
                     newsItem.getDate());
             data.add(datum);
         }
-        adapter.notifyDataSetChanged();
-        findViewById(R.id.main_toolbar_title).setOnClickListener(new View.OnClickListener() {
+        final RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, data,
+                R.layout.list_item_layout,
+                new String[] { Constants.PLAYER_BASIC, Constants.PLAYER_INFO},
+                new int[] { R.id.player_basic, R.id.player_info});
+        adapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
             @Override
-            public void onClick(View v) {
-                listview.smoothScrollToPosition(0);
-            }
-        });
-
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(View view, int position) {
                 if (nameToId.size() > 0) {
                     String[] newsMainArr = ((TextView) view.findViewById(R.id.player_basic)).getText().toString()
                             .replaceAll(":", "").replaceAll(",", "").replaceAll("\\?", "").split(" ");
@@ -166,6 +161,18 @@ public class FantasyNews extends AppCompatActivity {
                 }
             }
         });
+        listview.setLayoutManager(new LinearLayoutManager(this));
+        listview.addItemDecoration(DisplayUtils.getVerticalDividerDecoration(this));
+
+        listview.setAdapter(adapter);
+        findViewById(R.id.main_toolbar_title).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                listview.smoothScrollToPosition(0);
+            }
+        });
+
+
     }
 
     private void displayPlayerInfo(String playerKey) {

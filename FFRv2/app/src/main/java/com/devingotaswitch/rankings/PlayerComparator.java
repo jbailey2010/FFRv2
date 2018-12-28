@@ -9,6 +9,8 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -30,6 +32,7 @@ import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.domain.Team;
+import com.devingotaswitch.rankings.extras.RecyclerViewAdapter;
 import com.devingotaswitch.rankings.sources.ParseMath;
 import com.devingotaswitch.rankings.sources.ParsePlayerNews;
 import com.devingotaswitch.utils.Constants;
@@ -59,9 +62,9 @@ public class PlayerComparator extends AppCompatActivity {
     private AutoCompleteTextView inputA;
     private AutoCompleteTextView inputB;
     private ScrollView comparatorScroller;
-    private ListView inputList;
+    private RecyclerView inputList;
     private List<Map<String, String>> data = new ArrayList<>();
-    private SimpleAdapter adapter;
+    private RecyclerViewAdapter adapter;
 
     private static final String TAG = "PlayerComparator";
     private static final String BETTER_COLOR = "#F3F3F3";
@@ -244,8 +247,12 @@ public class PlayerComparator extends AppCompatActivity {
         comparatorScroller.setVisibility(View.GONE);
         inputList.setAdapter(null);
         data.clear();
-        adapter = DisplayUtils.getDisplayAdapter(this, data);
-        inputList.setAdapter(adapter);
+        adapter = new RecyclerViewAdapter(this, data,
+                R.layout.list_item_layout,
+                new String[] { Constants.PLAYER_BASIC, Constants.PLAYER_INFO, Constants.PLAYER_STATUS, Constants.PLAYER_ADDITIONAL_INFO,
+                        Constants.PLAYER_ADDITIONAL_INFO_2},
+                new int[] { R.id.player_basic, R.id.player_info,
+                        R.id.player_status, R.id.player_more_info, R.id.player_additional_info_2 });
         for (int i = 0; i < Math.min(Constants.COMPARATOR_LIST_MAX, rankings.getOrderedIds().size()); i++) {
             Player player = rankings.getPlayer(rankings.getOrderedIds().get(i));
             if ((rankings.getDraft().isDrafted(player) && LocalSettingsHelper.hideDraftedComparatorList(this)) ||
@@ -262,16 +269,15 @@ public class PlayerComparator extends AppCompatActivity {
                 data.add(datum);
             }
         }
-        adapter.notifyDataSetChanged();
 
-        inputList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        adapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemClick(View view, int position) {
                 Player clickedPlayer = rankings.getPlayer(DisplayUtils.getPlayerKeyFromListViewItem(((RelativeLayout)view)));
                 if (playerA != null && playerA.getUniqueId().equals(clickedPlayer.getUniqueId())) {
                     playerA = null;
                     inputA.setText(null);
-                    Map<String, String> datum = data.get(i);
+                    Map<String, String> datum = data.get(position);
                     datum.put(Constants.PLAYER_STATUS, null);
                     adapter.notifyDataSetChanged();
                 } else {
@@ -279,7 +285,7 @@ public class PlayerComparator extends AppCompatActivity {
                         playerA = clickedPlayer;
                         inputA.setText(playerA.getName());
                         inputA.clearFocus();
-                        Map<String, String> datum = data.get(i);
+                        Map<String, String> datum = data.get(position);
                         datum.put(Constants.PLAYER_STATUS, Integer.toString(R.drawable.star));
                         adapter.notifyDataSetChanged();
                     } else if (playerA == null && playerB != null) {
@@ -296,6 +302,9 @@ public class PlayerComparator extends AppCompatActivity {
                 }
             }
         });
+        inputList.setLayoutManager(new LinearLayoutManager(this));
+        inputList.addItemDecoration(DisplayUtils.getVerticalDividerDecoration(this));
+        inputList.setAdapter(adapter);
     }
 
     private Player getPlayerFromView(View view) {

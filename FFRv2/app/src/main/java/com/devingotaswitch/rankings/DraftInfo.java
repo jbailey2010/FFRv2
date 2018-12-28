@@ -5,7 +5,11 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DividerItemDecoration;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Menu;
@@ -24,7 +28,9 @@ import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.domain.RosterSettings;
 import com.devingotaswitch.rankings.domain.Team;
+import com.devingotaswitch.rankings.extras.RecyclerViewAdapter;
 import com.devingotaswitch.utils.Constants;
+import com.devingotaswitch.utils.DisplayUtils;
 import com.devingotaswitch.utils.FlashbarFactory;
 import com.devingotaswitch.utils.GeneralUtils;
 import com.github.mikephil.charting.charts.BarChart;
@@ -301,15 +307,8 @@ public class DraftInfo extends AppCompatActivity {
     private void displayPlayers() {
         displayPlayers = true;
         View view = clearAndAddView(R.layout.content_draft_info_undraft);
-        ListView listview = view.findViewById(R.id.base_list);
-        listview.setAdapter(null);
+        RecyclerView listview = view.findViewById(R.id.base_list);
         final List<Map<String, String>> data = new ArrayList<>();
-        final SimpleAdapter adapter = new SimpleAdapter(this, data,
-                R.layout.list_item_layout,
-                new String[] { Constants.PLAYER_BASIC, Constants.PLAYER_INFO, Constants.PLAYER_STATUS },
-                new int[] { R.id.player_basic, R.id.player_info,
-                        R.id.player_status });
-        listview.setAdapter(adapter);
         for (String playerKey : rankings.getDraft().getDraftedPlayers()) {
             Player player = rankings.getPlayer(playerKey);
             String playerBasicContent = player.getDisplayValue(rankings) +
@@ -320,22 +319,26 @@ public class DraftInfo extends AppCompatActivity {
             datum.put(Constants.PLAYER_INFO, generateOutputSubtext(player));
             data.add(datum);
         }
-        adapter.notifyDataSetChanged();
-
-        listview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        RecyclerViewAdapter recyclerAdapter = new RecyclerViewAdapter(this, data, R.layout.list_item_layout,
+                new String[] { Constants.PLAYER_BASIC, Constants.PLAYER_INFO},
+                new int[] { R.id.player_basic, R.id.player_info});
+        recyclerAdapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(View view, int position) {
+                viewPlayer(view);
+            }
+        });
+
+        recyclerAdapter.setOnItemLongClickListener(new RecyclerViewAdapter.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(View view, int position) {
                 undraftPlayer(view);
                 return true;
             }
         });
-
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                viewPlayer(view);
-            }
-        });
+        listview.setLayoutManager(new LinearLayoutManager(this));
+        listview.addItemDecoration(DisplayUtils.getVerticalDividerDecoration(this));
+        listview.setAdapter(recyclerAdapter);
     }
 
     private void viewPlayer(View view) {
