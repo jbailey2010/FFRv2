@@ -28,7 +28,7 @@
                 android:background="@color/toolbar_background"
                 android:layout_height="wrap_content">
 
-                <AutoCompleteTextView
+                <com.devingotaswitch.rankings.extras.InstantAutoCompleteTextView
                     android:id="@+id/ranking_search"
                     android:layout_width="match_parent"
                     android:layout_height="36dp"

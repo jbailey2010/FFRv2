@@ -14,6 +14,8 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Menu;
@@ -51,6 +53,7 @@ import com.devingotaswitch.rankings.domain.LeagueSettings;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.domain.RosterSettings;
+import com.devingotaswitch.rankings.extras.InstantAutoCompleteTextView;
 import com.devingotaswitch.rankings.extras.SwipeDismissTouchListener;
 import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.DisplayUtils;
@@ -575,11 +578,20 @@ public class RankingsHome extends AppCompatActivity {
     }
 
     private void setSearchAutocomplete() {
-        final AutoCompleteTextView searchInput = searchBase.findViewById(R.id.ranking_search);
+        final InstantAutoCompleteTextView searchInput = searchBase.findViewById(R.id.ranking_search);
         searchInput.setAdapter(null);
         final FilterWithSpaceAdapter mAdapter = GeneralUtils.getPlayerSearchAdapter(rankings, this,
                 LocalSettingsHelper.hideDraftedSearch(this), LocalSettingsHelper.hideRanklessSearch(this));
         searchInput.setAdapter(mAdapter);
+        searchInput.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                if (MotionEvent.ACTION_DOWN == event.getAction()) {
+                    searchInput.showDropDown();
+                }
+                return false;
+            }
+        });
 
         searchInput.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
