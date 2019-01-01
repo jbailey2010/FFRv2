@@ -73,6 +73,8 @@ public class PlayerInfo extends AppCompatActivity {
     private int draftCount = -1;
     private boolean sortByUpvotes = false;
     private boolean doUpdateImage = false;
+    private String replyId = null;
+    private int replyDepth = 0;
 
     private List<Map<String, String>> data;
     private SimpleAdapter adapter;
@@ -1055,6 +1057,7 @@ public class PlayerInfo extends AppCompatActivity {
         commentList.setVisibility(View.VISIBLE);
         infoList.setVisibility(View.GONE);
         chipCloud.setVisibility(View.GONE);
+        resetReplyContext();
         if (doUpdateImage) {
             ((ImageButton) findViewById(R.id.player_info_comments)).setImageResource(R.drawable.comment_white);
             doUpdateImage = false;
@@ -1113,13 +1116,32 @@ public class PlayerInfo extends AppCompatActivity {
                 String commentContent = input.getText().toString();
                 if (!StringUtils.isBlank(commentContent)) {
                     input.setText("");
-                    AppSyncHelper.createComment(activity, commentContent, player.getUniqueId(), null, 0);
+                    AppSyncHelper.createComment(activity, commentContent, player.getUniqueId(), replyId, replyDepth);
                     GeneralUtils.hideKeyboard(activity);
                 }
             }
         });
+        input.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                input.setText("");
+                resetReplyContext();
+                return true;
+            }
+        });
 
         commentAdapter.notifyDataSetChanged();
+    }
+
+    public void updateReplyContext(int replyDepth, String replyId, String newHint) {
+        this.replyId = replyId;
+        this.replyDepth = replyDepth;
+        final EditText input = findViewById(R.id.player_info_comment_input);
+        input.setHint(newHint);
+    }
+
+    private void resetReplyContext() {
+        updateReplyContext(0, null, "Comment");
     }
 
     public void conditionallyUpvoteComment(String commentId) {
