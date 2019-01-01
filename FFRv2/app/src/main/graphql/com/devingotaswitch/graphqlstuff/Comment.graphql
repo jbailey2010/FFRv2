@@ -3,6 +3,8 @@ query GetCommentsOnPlayer($playerId: String!, $nextToken: String, $topComments: 
     items {
       id
       playerId
+      replyToId
+      replyDepth
       date
       author
       content
@@ -18,14 +20,16 @@ mutation CreateComment(
   $playerId: String!,
   $date: Float!,
   $author: String!,
-  $content: String!
+  $content: String!,
+  $replyToId: String
 ) {
   createComment(
     id: $id,
     playerId: $playerId,
     date: $date,
     author: $author,
-    content: $content
+    content: $content,
+    replyToId: $replyToId
   ) {
     id
   }

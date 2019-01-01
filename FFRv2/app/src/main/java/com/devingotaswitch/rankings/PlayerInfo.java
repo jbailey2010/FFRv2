@@ -1113,7 +1113,7 @@ public class PlayerInfo extends AppCompatActivity {
                 String commentContent = input.getText().toString();
                 if (!StringUtils.isBlank(commentContent)) {
                     input.setText("");
-                    AppSyncHelper.createComment(activity, commentContent, player.getUniqueId());
+                    AppSyncHelper.createComment(activity, commentContent, player.getUniqueId(), null, 0);
                     GeneralUtils.hideKeyboard(activity);
                 }
             }

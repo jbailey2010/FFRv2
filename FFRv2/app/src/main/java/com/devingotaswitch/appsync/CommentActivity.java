@@ -122,6 +122,8 @@ public class CommentActivity extends AppSyncActivity {
                         comment.setAuthor(item.author());
                         comment.setContent(item.content());
                         comment.setId(item.id());
+                        comment.setReplyDepth(item.replyDepth());
+                        comment.setReplyToId(item.replyToId() == null ? "" : item.replyToId());
                         comments.add(comment);
                     }
                     runOnUiThread(new Runnable() {
@@ -177,7 +179,7 @@ public class CommentActivity extends AppSyncActivity {
         ).enqueue(callback);
     }
 
-    void createComment(final Activity activity, final String comment, final String playerId) {
+    void createComment(final Activity activity, final String comment, final String playerId, final String replyToId, final Integer replyDepth) {
         final String id = UUID.randomUUID().toString();
         final long time = getCurrentTime();
         GraphQLCall.Callback<CreateCommentMutation.Data> callback = new GraphQLCall
@@ -198,6 +200,7 @@ public class CommentActivity extends AppSyncActivity {
                     newComment.setPlayerId(playerId);
                     newComment.setTime(formatCurrentTime(time));
                     newComment.setId(id);
+                    newComment.setReplyToId(replyToId);
                     final List<Comment> dummyList = new ArrayList<>();
                     dummyList.add(newComment);
                     LocalSettingsHelper.upvotePost(activity, id);

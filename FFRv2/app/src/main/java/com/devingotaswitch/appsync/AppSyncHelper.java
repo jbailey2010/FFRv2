@@ -38,8 +38,8 @@ public class AppSyncHelper {
         metadataActivity.decrementTagCount(activity, playerId, tag.getRemoteTitle());
     }
 
-    public static void createComment(Activity activity, String comment, String playerId) {
-        commentActivity.createComment(activity, comment, playerId);
+    public static void createComment(Activity activity, String comment, String playerId, String replyToId, Integer replyDepth) {
+        commentActivity.createComment(activity, comment, playerId, replyToId, replyDepth);
     }
 
     public static void getCommentsForPlayer(Activity activity, String playerId, String nextToken, boolean topComments) {

@@ -26,7 +26,6 @@ public class CommentAdapter extends SimpleAdapter {
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
         LayoutInflater inflater = playerInfo.getLayoutInflater();
-        //View row = inflater.inflate(R.layout.list_item_comment_layout, parent, false);
         View row = super.getView(position, convertView, parent);
         ImageView upvote = row.findViewById(R.id.comment_upvoted_icon);
         ImageView downvote = row.findViewById(R.id.comment_downvoted_icon);

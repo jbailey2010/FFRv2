@@ -8,6 +8,8 @@ public class Comment {
     private String playerId;
     private Integer upvotes;
     private Integer downvotes;
+    private String replyToId;
+    private Integer replyDepth;
 
     public String getAuthor() {
         return author;
@@ -63,5 +65,21 @@ public class Comment {
 
     public void setDownvotes(Integer downvotes) {
         this.downvotes = downvotes;
+    }
+
+    public String getReplyToId() {
+        return replyToId;
+    }
+
+    public void setReplyToId(String replyToId) {
+        this.replyToId = replyToId;
+    }
+
+    public Integer getReplyDepth() {
+        return replyDepth;
+    }
+
+    public void setReplyDepth(Integer replyDepth) {
+        this.replyDepth = replyDepth;
     }
 }
