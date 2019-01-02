@@ -47,8 +47,12 @@ public class CommentAdapter extends SimpleAdapter {
                     @Override
                     public void onClick(View v) {
                         playerInfo.updateReplyContext(replyDepth +1, id, "Reply to " + author);
+                        playerInfo.giveCommentInputFocus();
                     }
                 });
+            } else {
+                ImageView reply = row.findViewById(R.id.comment_reply);
+                reply.setVisibility(View.GONE);
             }
         }
 

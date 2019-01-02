@@ -203,7 +203,6 @@ public class CommentActivity extends AppSyncActivity {
                     newComment.setId(id);
                     newComment.setReplyDepth(replyDepth);
                     newComment.setReplyToId(replyToId);
-                    Log.d("JEFF", replyToId + " : " + replyDepth);
                     final List<Comment> dummyList = new ArrayList<>();
                     dummyList.add(newComment);
                     LocalSettingsHelper.upvotePost(activity, id);

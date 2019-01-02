@@ -1,6 +1,7 @@
 package com.devingotaswitch.rankings;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
@@ -15,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -56,9 +58,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class PlayerInfo extends AppCompatActivity {
     private static final String TAG = "PlayerInfo";
@@ -95,6 +99,7 @@ public class PlayerInfo extends AppCompatActivity {
     private static final DecimalFormat df = new DecimalFormat("#.##");
 
     private List<Comment> comments = new ArrayList<>();
+    private Map<String, List<Comment>> replyMap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -288,6 +293,7 @@ public class PlayerInfo extends AppCompatActivity {
 
     private void sortCommentsByDate() {
         comments.clear();
+        replyMap.clear();
         commentData.clear();
         sortByUpvotes = false;
         AppSyncHelper.getCommentsForPlayer(this, player.getUniqueId(), null, sortByUpvotes);
@@ -297,6 +303,7 @@ public class PlayerInfo extends AppCompatActivity {
 
     private void sortCommentsByUpvotes() {
         comments.clear();
+        replyMap.clear();
         commentData.clear();
         sortByUpvotes = true;
         AppSyncHelper.getCommentsForPlayer(this, player.getUniqueId(), null, true);
@@ -1077,38 +1084,32 @@ public class PlayerInfo extends AppCompatActivity {
         commentsView.setVisibility(View.VISIBLE);
 
         for (Comment comment : comments) {
-            Map<String, String> commentMap = new HashMap<>();
-            commentMap.put(Constants.COMMENT_AUTHOR, comment.getAuthor());
-            commentMap.put(Constants.COMMENT_CONTENT, comment.getContent());
-            commentMap.put(Constants.COMMENT_TIMESTAMP, comment.getTime());
-            commentMap.put(Constants.COMMENT_ID, comment.getId());
-            commentMap.put(Constants.COMMENT_REPLY_DEPTH, String.valueOf(comment.getReplyDepth()));
-            commentMap.put(Constants.COMMENT_REPLY_ID, comment.getReplyToId());
-            commentMap.put(Constants.COMMENT_UPVOTE_COUNT, String.valueOf(comment.getUpvotes()));
-            commentMap.put(Constants.COMMENT_DOWNVOTE_COUNT, String.valueOf(comment.getDownvotes()));
-            if (LocalSettingsHelper.isPostUpvoted(this, comment.getId())) {
-                commentMap.put(Constants.COMMENT_UPVOTE_IMAGE, Integer.toString(R.drawable.upvoted));
-                commentMap.put(Constants.COMMENT_DOWNVOTE_IMAGE, Integer.toString(R.drawable.not_downvoted));
-            } else if (!LocalSettingsHelper.isPostDownvoted(this, comment.getId())
-                    && comment.getAuthor().equals(CUPHelper.getCurrUser())) {
-                LocalSettingsHelper.upvotePost(this, comment.getId());
-                commentMap.put(Constants.COMMENT_UPVOTE_IMAGE, Integer.toString(R.drawable.upvoted));
-                commentMap.put(Constants.COMMENT_DOWNVOTE_IMAGE, Integer.toString(R.drawable.not_downvoted));
-            } else if (LocalSettingsHelper.isPostDownvoted(this, comment.getId())) {
-                commentMap.put(Constants.COMMENT_UPVOTE_IMAGE, Integer.toString(R.drawable.not_upvoted));
-                commentMap.put(Constants.COMMENT_DOWNVOTE_IMAGE, Integer.toString(R.drawable.downvoted));
-            } else {
-                commentMap.put(Constants.COMMENT_UPVOTE_IMAGE, Integer.toString(R.drawable.not_upvoted));
-                commentMap.put(Constants.COMMENT_DOWNVOTE_IMAGE, Integer.toString(R.drawable.not_downvoted));
-            }
-
-            commentData.add(commentMap);
+            commentData.add(getCommentDatum(comment));
         }
         if (comments.size() == 0) {
             Map<String, String> emptyMap = new HashMap<>();
             emptyMap.put(Constants.COMMENT_CONTENT, "No comments exist for this player. Be the first to post!");
             commentData.add(emptyMap);
         }
+
+        boolean moreFound = false;
+        Set<String> seenComments = new HashSet<>();
+        do {
+            moreFound = false;
+            for (int i = 0; i < commentData.size(); i++) {
+                Map<String, String> datum = commentData.get(i);
+                String commentId = datum.get(Constants.COMMENT_ID);
+                if (replyMap.containsKey(commentId) && !seenComments.contains(commentId)) {
+                    seenComments.add(commentId);
+                    moreFound = true;
+                    List<Comment> replies = replyMap.get(commentId);
+                    int newIndex = i + 1;
+                    for (Comment comment : replies) {
+                        commentData.add(newIndex++, getCommentDatum(comment));
+                    }
+                }
+            }
+        } while (moreFound);
 
         final EditText input = findViewById(R.id.player_info_comment_input);
         final ImageButton submit = findViewById(R.id.player_info_comment_submit);
@@ -1119,7 +1120,6 @@ public class PlayerInfo extends AppCompatActivity {
                 String commentContent = input.getText().toString();
                 if (!StringUtils.isBlank(commentContent)) {
                     input.setText("");
-                    Log.d("JEFF", replyId + " : " + replyDepth);
                     AppSyncHelper.createComment(activity, commentContent, player.getUniqueId(), replyId, replyDepth);
                     GeneralUtils.hideKeyboard(activity);
                 }
@@ -1130,11 +1130,40 @@ public class PlayerInfo extends AppCompatActivity {
             public boolean onLongClick(View v) {
                 input.setText("");
                 resetReplyContext();
+                GeneralUtils.hideKeyboard(activity);
                 return true;
             }
         });
 
         commentAdapter.notifyDataSetChanged();
+    }
+
+    private Map<String, String> getCommentDatum(Comment comment) {
+        Map<String, String> commentMap = new HashMap<>();
+        commentMap.put(Constants.COMMENT_AUTHOR, comment.getAuthor());
+        commentMap.put(Constants.COMMENT_CONTENT, comment.getContent());
+        commentMap.put(Constants.COMMENT_TIMESTAMP, comment.getTime());
+        commentMap.put(Constants.COMMENT_ID, comment.getId());
+        commentMap.put(Constants.COMMENT_REPLY_DEPTH, String.valueOf(comment.getReplyDepth()));
+        commentMap.put(Constants.COMMENT_REPLY_ID, comment.getReplyToId());
+        commentMap.put(Constants.COMMENT_UPVOTE_COUNT, String.valueOf(comment.getUpvotes()));
+        commentMap.put(Constants.COMMENT_DOWNVOTE_COUNT, String.valueOf(comment.getDownvotes()));
+        if (LocalSettingsHelper.isPostUpvoted(this, comment.getId())) {
+            commentMap.put(Constants.COMMENT_UPVOTE_IMAGE, Integer.toString(R.drawable.upvoted));
+            commentMap.put(Constants.COMMENT_DOWNVOTE_IMAGE, Integer.toString(R.drawable.not_downvoted));
+        } else if (!LocalSettingsHelper.isPostDownvoted(this, comment.getId())
+                && comment.getAuthor().equals(CUPHelper.getCurrUser())) {
+            LocalSettingsHelper.upvotePost(this, comment.getId());
+            commentMap.put(Constants.COMMENT_UPVOTE_IMAGE, Integer.toString(R.drawable.upvoted));
+            commentMap.put(Constants.COMMENT_DOWNVOTE_IMAGE, Integer.toString(R.drawable.not_downvoted));
+        } else if (LocalSettingsHelper.isPostDownvoted(this, comment.getId())) {
+            commentMap.put(Constants.COMMENT_UPVOTE_IMAGE, Integer.toString(R.drawable.not_upvoted));
+            commentMap.put(Constants.COMMENT_DOWNVOTE_IMAGE, Integer.toString(R.drawable.downvoted));
+        } else {
+            commentMap.put(Constants.COMMENT_UPVOTE_IMAGE, Integer.toString(R.drawable.not_upvoted));
+            commentMap.put(Constants.COMMENT_DOWNVOTE_IMAGE, Integer.toString(R.drawable.not_downvoted));
+        }
+        return commentMap;
     }
 
     public void updateReplyContext(int replyDepth, String replyId, String newHint) {
@@ -1211,7 +1240,25 @@ public class PlayerInfo extends AppCompatActivity {
     }
 
     public void addComments(List<Comment> comments, String nextToken) {
-        this.comments.addAll(comments);
+        List<Comment> newComments = new ArrayList<>();
+        int maxDepth = 0;
+        for (Comment comment : comments) {
+            if (comment.getReplyDepth() > maxDepth) {
+                maxDepth = comment.getReplyDepth();
+            }
+            if (comment.getReplyDepth() > 0) {
+                if (replyMap.containsKey(comment.getReplyToId())) {
+                    replyMap.get(comment.getReplyToId()).add(comment);
+                } else {
+                    List<Comment> repliesList = new ArrayList<>();
+                    repliesList.add(comment);
+                    replyMap.put(comment.getReplyToId(), repliesList);
+                }
+            } else {
+                newComments.add(comment);
+            }
+        }
+        this.comments.addAll(newComments);
         if (sortByUpvotes) {
             Collections.sort(this.comments,new Comparator<Comment>() {
                 @Override
@@ -1219,7 +1266,16 @@ public class PlayerInfo extends AppCompatActivity {
                     return b.getUpvotes().compareTo(a.getUpvotes());
                 }
             });
+            for (List<Comment> replies : replyMap.values()) {
+                Collections.sort(replies,new Comparator<Comment>() {
+                    @Override
+                    public int compare(Comment a, Comment b) {
+                        return b.getUpvotes().compareTo(a.getUpvotes());
+                    }
+                });
+            }
         }
+
         View commentsView = findViewById(R.id.comment_button_selected);
         if (View.VISIBLE == commentsView.getVisibility()) {
             displayComments();
@@ -1234,6 +1290,11 @@ public class PlayerInfo extends AppCompatActivity {
         if (!StringUtils.isBlank(nextToken)) {
             AppSyncHelper.getCommentsForPlayer(this, player.getUniqueId(), nextToken, sortByUpvotes);
         }
+    }
+
+    public void giveCommentInputFocus() {
+        InputMethodManager imm = (InputMethodManager)   getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0);
     }
 
     private String getLeverage() {
