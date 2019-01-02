@@ -21,7 +21,8 @@ mutation CreateComment(
   $date: Float!,
   $author: String!,
   $content: String!,
-  $replyToId: String
+  $replyToId: String!,
+  $replyDepth: Int!
 ) {
   createComment(
     id: $id,
@@ -29,7 +30,8 @@ mutation CreateComment(
     date: $date,
     author: $author,
     content: $content,
-    replyToId: $replyToId
+    replyToId: $replyToId,
+    replyDepth: $replyDepth
   ) {
     id
   }

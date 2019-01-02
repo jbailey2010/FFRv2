@@ -265,6 +265,9 @@ public class Constants {
     public final static String COMMENT_CONTENT = "content";
     public final static String COMMENT_TIMESTAMP = "timestamp";
     public final static String COMMENT_ID = "id";
+    public final static String COMMENT_REPLY_DEPTH = "reply_depth";
+    public final static String COMMENT_NO_REPLY_ID = "not_reply";
+    public final static String COMMENT_REPLY_ID = "reply_id";
     public final static String COMMENT_UPVOTE_IMAGE = "upvote_img";
     public final static String COMMENT_DOWNVOTE_IMAGE = "downvote_img";
     public final static String COMMENT_UPVOTE_COUNT = "upvote_count";

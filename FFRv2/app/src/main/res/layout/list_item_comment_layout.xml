@@ -44,6 +44,30 @@
         android:layout_marginBottom="10dp"
         android:focusable="false" />
 
+    <TextView
+        android:id="@+id/comment_reply_depth"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_below="@+id/comment_timestamp"
+        android:text="Text Main"
+        android:textSize="16sp"
+        android:visibility="invisible"
+        android:layout_marginBottom="10dp"
+        android:focusable="false" />
+
+    <TextView
+        android:id="@+id/comment_reply_id"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="8dp"
+        android:layout_below="@+id/comment_timestamp"
+        android:text="Text Main"
+        android:textSize="16sp"
+        android:visibility="invisible"
+        android:layout_marginBottom="10dp"
+        android:focusable="false" />
+
     <ImageView
         android:layout_width="18dp"
         android:layout_height="18dp"
@@ -51,6 +75,15 @@
         android:layout_below="@+id/comment_content"
         android:layout_marginTop="10dp"
         android:layout_marginBottom="5dp"/>
+
+    <ImageView
+        android:layout_width="23dp"
+        android:layout_height="23dp"
+        android:id="@+id/comment_reply"
+        android:visibility="gone"
+        android:layout_alignTop="@+id/comment_author"
+        android:layout_alignParentRight="true"
+        android:background="@drawable/reply"/>
 
     <TextView
         android:id="@+id/comment_upvote_count"

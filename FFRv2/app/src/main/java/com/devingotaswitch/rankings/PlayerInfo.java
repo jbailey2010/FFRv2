@@ -73,7 +73,7 @@ public class PlayerInfo extends AppCompatActivity {
     private int draftCount = -1;
     private boolean sortByUpvotes = false;
     private boolean doUpdateImage = false;
-    private String replyId = null;
+    private String replyId = Constants.COMMENT_NO_REPLY_ID;
     private int replyDepth = 0;
 
     private List<Map<String, String>> data;
@@ -424,9 +424,11 @@ public class PlayerInfo extends AppCompatActivity {
         commentAdapter = new CommentAdapter(this, commentData,
                 R.layout.list_item_comment_layout,
                 new String[] {Constants.COMMENT_AUTHOR, Constants.COMMENT_CONTENT, Constants.COMMENT_TIMESTAMP, Constants.COMMENT_ID,
-                Constants.COMMENT_UPVOTE_IMAGE, Constants.COMMENT_UPVOTE_COUNT, Constants.COMMENT_DOWNVOTE_IMAGE, Constants.COMMENT_DOWNVOTE_COUNT},
-                new int[] { R.id.comment_author, R.id.comment_content, R.id.comment_timestamp, R.id.comment_id, R.id.comment_upvoted_icon,
-                R.id.comment_upvote_count, R.id.comment_downvoted_icon, R.id.comment_downvote_count});
+                    Constants.COMMENT_REPLY_ID, Constants.COMMENT_REPLY_DEPTH, Constants.COMMENT_UPVOTE_IMAGE, Constants.COMMENT_UPVOTE_COUNT,
+                    Constants.COMMENT_DOWNVOTE_IMAGE, Constants.COMMENT_DOWNVOTE_COUNT},
+                new int[] { R.id.comment_author, R.id.comment_content, R.id.comment_timestamp, R.id.comment_id, R.id.comment_reply_id,
+                    R.id.comment_reply_depth, R.id.comment_upvoted_icon, R.id.comment_upvote_count, R.id.comment_downvoted_icon,
+                    R.id.comment_downvote_count});
         infoList.setAdapter(adapter);
         commentList.setAdapter(commentAdapter);
         PlayerInfoSwipeDetector detector = new PlayerInfoSwipeDetector(this);
@@ -1057,7 +1059,6 @@ public class PlayerInfo extends AppCompatActivity {
         commentList.setVisibility(View.VISIBLE);
         infoList.setVisibility(View.GONE);
         chipCloud.setVisibility(View.GONE);
-        resetReplyContext();
         if (doUpdateImage) {
             ((ImageButton) findViewById(R.id.player_info_comments)).setImageResource(R.drawable.comment_white);
             doUpdateImage = false;
@@ -1081,6 +1082,8 @@ public class PlayerInfo extends AppCompatActivity {
             commentMap.put(Constants.COMMENT_CONTENT, comment.getContent());
             commentMap.put(Constants.COMMENT_TIMESTAMP, comment.getTime());
             commentMap.put(Constants.COMMENT_ID, comment.getId());
+            commentMap.put(Constants.COMMENT_REPLY_DEPTH, String.valueOf(comment.getReplyDepth()));
+            commentMap.put(Constants.COMMENT_REPLY_ID, comment.getReplyToId());
             commentMap.put(Constants.COMMENT_UPVOTE_COUNT, String.valueOf(comment.getUpvotes()));
             commentMap.put(Constants.COMMENT_DOWNVOTE_COUNT, String.valueOf(comment.getDownvotes()));
             if (LocalSettingsHelper.isPostUpvoted(this, comment.getId())) {
@@ -1116,6 +1119,7 @@ public class PlayerInfo extends AppCompatActivity {
                 String commentContent = input.getText().toString();
                 if (!StringUtils.isBlank(commentContent)) {
                     input.setText("");
+                    Log.d("JEFF", replyId + " : " + replyDepth);
                     AppSyncHelper.createComment(activity, commentContent, player.getUniqueId(), replyId, replyDepth);
                     GeneralUtils.hideKeyboard(activity);
                 }
@@ -1141,7 +1145,7 @@ public class PlayerInfo extends AppCompatActivity {
     }
 
     private void resetReplyContext() {
-        updateReplyContext(0, null, "Comment");
+        updateReplyContext(0, Constants.COMMENT_NO_REPLY_ID, "Comment");
     }
 
     public void conditionallyUpvoteComment(String commentId) {
@@ -1206,7 +1210,7 @@ public class PlayerInfo extends AppCompatActivity {
         }
     }
 
-    public void addComments(Collection<Comment> comments, String nextToken) {
+    public void addComments(List<Comment> comments, String nextToken) {
         this.comments.addAll(comments);
         if (sortByUpvotes) {
             Collections.sort(this.comments,new Comparator<Comment>() {
