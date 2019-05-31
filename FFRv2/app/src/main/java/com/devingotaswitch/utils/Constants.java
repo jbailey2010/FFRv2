@@ -207,6 +207,7 @@ public class Constants {
     // Player settings: SQL
     public static final String PLAYER_TABLE_NAME = "player_data";
     public static final String PLAYER_CUSTOM_TABLE_NAME = "custom_player_data";
+    public static final String PLAYER_PROJECTIONS_TABLE_NAME = "player_projections";
     public static final String PLAYER_NAME_COLUMN = "player_name";
     public static final String PLAYER_POSITION_COLUMN = "position";
     public static final String PLAYER_AGE_COLUMN = "age";
@@ -220,6 +221,7 @@ public class Constants {
     public static final String PLAYER_STATS_COLUMN = "stats";
     public static final String PLAYER_INJURED_COLUMN = "injury_status";
     public static final String PLAYER_PROJECTION_COLUMN = "projection";
+    public static final String PLAYER_PROJECTION_DATE_COLUMN = "projection_date";
     public static final String PLAYER_PAA_COLUMN = "paa";
     public static final String PLAYER_XVAL_COLUMN = "xval";
     public static final String PLAYER_VORP_COLUMN = "vorp";

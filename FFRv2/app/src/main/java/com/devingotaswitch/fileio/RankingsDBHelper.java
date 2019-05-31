@@ -28,6 +28,7 @@ class RankingsDBHelper extends SQLiteOpenHelper {
         db.execSQL(getCreateTeamTableSQL());
         db.execSQL(getCreatePlayerTableSQL());
         db.execSQL(getCreatePlayerCustomTableSQL());
+        db.execSQL(getCreatePlayerProjectionsTableSQL());
     }
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         db.execSQL(getDeleteScoringTableSQL());
@@ -36,6 +37,7 @@ class RankingsDBHelper extends SQLiteOpenHelper {
         db.execSQL(getDeleteTeamTableSQL());
         db.execSQL(getDeletePlayerTableSQL());
         db.execSQL(getDeletePlayerCustomTableSQL());
+        db.execSQL(getDeletePlayerProjectionsTableSQL());
         onCreate(db);
     }
 
@@ -160,5 +162,21 @@ class RankingsDBHelper extends SQLiteOpenHelper {
 
     private String getDeletePlayerCustomTableSQL() {
         return "DROP TABLE IF EXISTS " + Constants.PLAYER_CUSTOM_TABLE_NAME;
+    }
+
+    private String getCreatePlayerProjectionsTableSQL() {
+        return "CREATE TABLE "                   + Constants.PLAYER_PROJECTIONS_TABLE_NAME + " (" +
+                Constants.PLAYER_NAME_COLUMN     + " TEXT," +
+                Constants.PLAYER_POSITION_COLUMN + " TEXT," +
+                Constants.TEAM_NAME_COLUMN       + " TEXT," +
+                Constants.PLAYER_PROJECTION_DATE_COLUMN     + " TEXT," +
+                Constants.PLAYER_PROJECTION_COLUMN  + " BOOLEAN," +
+                "PRIMARY KEY(" + Constants.PLAYER_NAME_COLUMN + ", " + Constants.TEAM_NAME_COLUMN + ", " + Constants.PLAYER_POSITION_COLUMN +
+                    ", " + Constants.PLAYER_PROJECTION_DATE_COLUMN + ")" +
+                ");";
+    }
+
+    private String getDeletePlayerProjectionsTableSQL() {
+        return "DROP TABLE IF EXISTS " + Constants.PLAYER_PROJECTIONS_TABLE_NAME;
     }
 }
