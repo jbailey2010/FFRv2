@@ -7,7 +7,6 @@ import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -34,11 +33,11 @@ import com.devingotaswitch.appsync.AppSyncHelper;
 import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.fileio.LocalSettingsHelper;
 import com.devingotaswitch.fileio.RankingsDBWrapper;
-import com.devingotaswitch.rankings.domain.appsync.comments.Comment;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.PlayerNews;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.domain.Team;
+import com.devingotaswitch.rankings.domain.appsync.comments.Comment;
 import com.devingotaswitch.rankings.domain.appsync.tags.Tag;
 import com.devingotaswitch.rankings.extras.CommentAdapter;
 import com.devingotaswitch.rankings.extras.PlayerInfoSwipeDetector;
@@ -50,11 +49,8 @@ import com.devingotaswitch.utils.FlashbarFactory;
 import com.devingotaswitch.utils.GeneralUtils;
 import com.devingotaswitch.youruserpools.CUPHelper;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.text.DecimalFormat;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -224,7 +220,7 @@ public class PlayerInfo extends AppCompatActivity {
         rankings.getPlayer(player.getUniqueId()).setWatched(true);
         final Flashbar.OnActionTapListener removeWatch = new Flashbar.OnActionTapListener() {
             @Override
-            public void onActionTapped(@NotNull Flashbar flashbar) {
+            public void onActionTapped(Flashbar flashbar) {
                 flashbar.dismiss();
                 removeWatched();
             }
@@ -241,7 +237,7 @@ public class PlayerInfo extends AppCompatActivity {
         rankings.getPlayer(player.getUniqueId()).setWatched(false);
         final Flashbar.OnActionTapListener addWatch = new Flashbar.OnActionTapListener() {
             @Override
-            public void onActionTapped(@NotNull Flashbar flashbar) {
+            public void onActionTapped(Flashbar flashbar) {
                 flashbar.dismiss();
                 addWatched();
             }
@@ -348,7 +344,7 @@ public class PlayerInfo extends AppCompatActivity {
     private void draftByMe(int cost) {
         Flashbar.OnActionTapListener listener = new Flashbar.OnActionTapListener() {
             @Override
-            public void onActionTapped(@NotNull Flashbar flashbar) {
+            public void onActionTapped(Flashbar flashbar) {
                 undraftPlayer();
             }
         };
@@ -360,7 +356,7 @@ public class PlayerInfo extends AppCompatActivity {
     private void draftBySomeone() {
         Flashbar.OnActionTapListener listener = new Flashbar.OnActionTapListener() {
             @Override
-            public void onActionTapped(@NotNull Flashbar flashbar) {
+            public void onActionTapped(Flashbar flashbar) {
                 undraftPlayer();
             }
         };
