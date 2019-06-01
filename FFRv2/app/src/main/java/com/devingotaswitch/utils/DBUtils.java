@@ -3,6 +3,7 @@ package com.devingotaswitch.utils;
 import android.content.ContentValues;
 import android.database.Cursor;
 
+import com.devingotaswitch.rankings.domain.DailyProjection;
 import com.devingotaswitch.rankings.domain.LeagueSettings;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.RosterSettings;
@@ -11,6 +12,9 @@ import com.devingotaswitch.rankings.domain.ScoringSettings;
 import com.devingotaswitch.rankings.domain.Team;
 import com.devingotaswitch.rankings.domain.projections.PlayerProjection;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.Map;
 
 public class DBUtils {
@@ -275,6 +279,35 @@ public class DBUtils {
         values.put(Constants.PLAYER_XVAL_COLUMN, player.getxVal());
         values.put(Constants.PLAYER_VORP_COLUMN, player.getVOLS());
         return values;
+    }
+
+    public static ContentValues playerProjectionToContentValues(Player player) {
+        Date c = Calendar.getInstance().getTime();
+        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+        String date = df.format(c);
+
+        ContentValues values = new ContentValues();
+        values.put(Constants.PLAYER_NAME_COLUMN, sanitizeName(player.getName()));
+        values.put(Constants.PLAYER_POSITION_COLUMN, player.getPosition());
+        values.put(Constants.TEAM_NAME_COLUMN, player.getTeamName());
+        values.put(Constants.PLAYER_PROJECTION_DATE_COLUMN, date);
+        values.put(Constants.PLAYER_PROJECTION_COLUMN, player.getProjection());
+
+        return values;
+    }
+
+    public static DailyProjection cursorToPlayerProjection(Cursor result) {
+        DailyProjection projection = new DailyProjection();
+
+        Player player = new Player();
+        player.setName(desanitizeName(result.getString(result.getColumnIndex(Constants.PLAYER_NAME_COLUMN))));
+        player.setPosition(result.getString(result.getColumnIndex(Constants.PLAYER_POSITION_COLUMN)));
+        player.setTeamName(result.getString(result.getColumnIndex(Constants.TEAM_NAME_COLUMN)));
+        projection.setPlayerKey(player.getUniqueId());
+        projection.setDate(result.getString(result.getColumnIndex(Constants.PLAYER_PROJECTION_DATE_COLUMN)));
+        projection.setProjection(result.getDouble(result.getColumnIndex(Constants.PLAYER_PROJECTION_COLUMN)));
+
+        return projection;
     }
 
     private static String sanitizeStats(String input) {

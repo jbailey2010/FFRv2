@@ -24,6 +24,7 @@ public class Rankings {
     private static LeagueSettings leagueSettings;
     private static RankingsFetcher processor;
     private static RankingsLoader loader;
+    private static Map<String, List<DailyProjection>> playerProjectionHistory;
 
     public static Rankings init() {
         return new Rankings();
@@ -31,11 +32,11 @@ public class Rankings {
 
     public static Rankings initWithDefaults(LeagueSettings leagueSettings) {
         return init(new HashMap<String, Team>(), new HashMap<String, Player>(), new ArrayList<String>(), leagueSettings,
-                new Draft());
+                new Draft(), new HashMap<String, List<DailyProjection>>());
     }
 
     public static Rankings init(Map<String, Team> inputTeams, Map<String, Player> inputPlayers, List<String> inputIds,
-                                LeagueSettings inputSettings, Draft inputDraft) {
+                                LeagueSettings inputSettings, Draft inputDraft, Map<String, List<DailyProjection>> inputProjectionHistory) {
         players = inputPlayers;
         teams = inputTeams;
         leagueSettings = inputSettings;
@@ -43,6 +44,7 @@ public class Rankings {
         loader = new RankingsLoader();
         orderedIds = inputIds;
         draft = inputDraft;
+        playerProjectionHistory = inputProjectionHistory;
         return new Rankings();
     }
 
@@ -135,6 +137,10 @@ public class Rankings {
     public Map<String, Player> getPlayers() { return players; }
 
     public Map<String, Team> getTeams() { return teams; }
+
+    public Map<String, List<DailyProjection>> getPlayerProjectionHistory() {
+        return playerProjectionHistory;
+    }
 
     public Team getTeam(Player player) { return getTeam(player.getTeamName()); }
 

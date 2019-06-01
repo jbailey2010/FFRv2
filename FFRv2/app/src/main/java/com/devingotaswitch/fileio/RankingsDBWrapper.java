@@ -5,9 +5,9 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
-import android.util.Log;
 
 import com.devingotaswitch.appsync.AppSyncHelper;
+import com.devingotaswitch.rankings.domain.DailyProjection;
 import com.devingotaswitch.rankings.domain.LeagueSettings;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.RosterSettings;
@@ -47,6 +47,34 @@ public class RankingsDBWrapper {
         emptyTableAndBulkSave(db, Constants.PLAYER_TABLE_NAME, values);
 
         bulkSaveCustomValuesConditionally(db, players);
+
+        bulkSaveDailyProjections(db, players);
+    }
+
+    private void bulkSaveDailyProjections(SQLiteDatabase db, Collection<Player> players) {
+        Set<ContentValues> projections = new HashSet<>();
+        for (Player player : players) {
+            projections.add(DBUtils.playerProjectionToContentValues(player));
+        }
+
+        bulkSave(db, Constants.PLAYER_PROJECTIONS_TABLE_NAME, projections);
+    }
+
+    public Map<String, List<DailyProjection>> getPlayerProjectionHistory(Context context) {
+        Map<String, List<DailyProjection>> playerProjectionHistory = new HashMap<>();
+        SQLiteDatabase db = getInstance(context).getReadableDatabase();
+        Cursor allProj = getAllEntries(db, Constants.PLAYER_PROJECTIONS_TABLE_NAME);
+        while (!allProj.isAfterLast()) {
+            DailyProjection proj = DBUtils.cursorToPlayerProjection(allProj);
+            if (!playerProjectionHistory.containsKey(proj.getPlayerKey())) {
+                List<DailyProjection> projections = new ArrayList<>();
+                projections.add(proj);
+                playerProjectionHistory.put(proj.getPlayerKey(), projections);
+            } else {
+                playerProjectionHistory.get(proj.getPlayerKey()).add(proj);
+            }
+        }
+        return playerProjectionHistory;
     }
 
     public Map<String, Player> getPlayers(Context context) {
@@ -299,6 +327,7 @@ public class RankingsDBWrapper {
 
     private void updateScoring(SQLiteDatabase db, String id, Map<String, String> updatedFields) {
         updateEntry(db, id, DBUtils.updatedValuesToContentValues(updatedFields), Constants.SCORING_TABLE_NAME, Constants.SCORING_ID_COLUMN);
+        deleteItemsInTable(db, Constants.PLAYER_PROJECTIONS_TABLE_NAME);
     }
 
     private void deleteScoring(SQLiteDatabase db, String id) {

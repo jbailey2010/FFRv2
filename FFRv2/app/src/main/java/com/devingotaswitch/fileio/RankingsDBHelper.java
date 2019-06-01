@@ -170,7 +170,7 @@ class RankingsDBHelper extends SQLiteOpenHelper {
                 Constants.PLAYER_POSITION_COLUMN + " TEXT," +
                 Constants.TEAM_NAME_COLUMN       + " TEXT," +
                 Constants.PLAYER_PROJECTION_DATE_COLUMN     + " TEXT," +
-                Constants.PLAYER_PROJECTION_COLUMN  + " BOOLEAN," +
+                Constants.PLAYER_PROJECTION_COLUMN  + " REAL," +
                 "PRIMARY KEY(" + Constants.PLAYER_NAME_COLUMN + ", " + Constants.TEAM_NAME_COLUMN + ", " + Constants.PLAYER_POSITION_COLUMN +
                     ", " + Constants.PLAYER_PROJECTION_DATE_COLUMN + ")" +
                 ");";
