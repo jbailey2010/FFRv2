@@ -34,8 +34,6 @@ import com.devingotaswitch.rankings.RankingsHome;
 import com.devingotaswitch.utils.FlashbarFactory;
 import com.devingotaswitch.utils.GeneralUtils;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.Locale;
 import java.util.Map;
 
@@ -448,7 +446,7 @@ public class MainActivity extends AppCompatActivity {
     private void notifyUserOnInternet(boolean isRefresh) {
         Flashbar.OnActionTapListener snackBarListener = new Flashbar.OnActionTapListener() {
             @Override
-            public void onActionTapped(@NotNull Flashbar flashbar) {
+            public void onActionTapped(Flashbar flashbar) {
                 findCurrent();
             }
         };

@@ -17,8 +17,6 @@ import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
 
-import org.jetbrains.annotations.NotNull;
-
 import java.util.List;
 import java.util.Map;
 
@@ -29,7 +27,7 @@ public class DraftUtils {
                                                                   final Map<String, String> datum, final int position, final boolean updateList) {
         return new Flashbar.OnActionTapListener() {
             @Override
-            public void onActionTapped(@NotNull Flashbar flashbar) {
+            public void onActionTapped(Flashbar flashbar) {
                 rankings.getDraft().undraft(rankings, player, activity, view);
                 if (updateList) {
                     data.add(position, datum);

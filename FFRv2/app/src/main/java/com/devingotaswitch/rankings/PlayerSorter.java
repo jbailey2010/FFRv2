@@ -52,7 +52,6 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 
 import org.angmarch.views.NiceSpinner;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -590,7 +589,7 @@ public class PlayerSorter extends AppCompatActivity {
                     player.setWatched(false);
                     Flashbar.OnActionTapListener listener = new Flashbar.OnActionTapListener() {
                         @Override
-                        public void onActionTapped(@NotNull Flashbar flashbar) {
+                        public void onActionTapped(Flashbar flashbar) {
                             flashbar.dismiss();
                             player.setWatched(true);
                             playerStatus.setImageResource(R.drawable.star);
@@ -605,7 +604,7 @@ public class PlayerSorter extends AppCompatActivity {
                     player.setWatched(true);
                     Flashbar.OnActionTapListener listener = new Flashbar.OnActionTapListener() {
                         @Override
-                        public void onActionTapped(@NotNull Flashbar flashbar) {
+                        public void onActionTapped(Flashbar flashbar) {
                             flashbar.dismiss();
                             player.setWatched(false);
                             playerStatus.setImageResource(0);

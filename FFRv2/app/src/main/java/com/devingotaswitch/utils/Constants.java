@@ -5,7 +5,7 @@ import android.graphics.Color;
 import java.text.DecimalFormat;
 
 public class Constants {
-    public final static String YEAR_KEY = "2018";
+    public final static String YEAR_KEY = "2019";
     public final static String LAST_YEAR_KEY = String.valueOf(Integer.parseInt(YEAR_KEY) - 1);
     // Positions
     public final static String QB = "QB";

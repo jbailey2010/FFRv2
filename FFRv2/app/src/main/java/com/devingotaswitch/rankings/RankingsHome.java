@@ -65,7 +65,6 @@ import com.devingotaswitch.youruserpools.ChangePasswordActivity;
 import com.devingotaswitch.youruserpools.MainActivity;
 
 import org.angmarch.views.NiceSpinner;
-import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -443,7 +442,7 @@ public class RankingsHome extends AppCompatActivity {
                     player.setWatched(false);
                     Flashbar.OnActionTapListener add = new Flashbar.OnActionTapListener() {
                         @Override
-                        public void onActionTapped(@NotNull Flashbar flashbar) {
+                        public void onActionTapped(Flashbar flashbar) {
                             flashbar.dismiss();
                             player.setWatched(true);
                             playerStatus.setImageResource(R.drawable.star);
@@ -458,7 +457,7 @@ public class RankingsHome extends AppCompatActivity {
                     player.setWatched(true);
                     Flashbar.OnActionTapListener remove = new Flashbar.OnActionTapListener() {
                         @Override
-                        public void onActionTapped(@NotNull Flashbar flashbar) {
+                        public void onActionTapped(Flashbar flashbar) {
                             flashbar.dismiss();
                             player.setWatched(false);
                             playerStatus.setImageResource(0);
