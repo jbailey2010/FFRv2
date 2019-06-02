@@ -30,4 +30,7 @@
     <item android:id="@+id/player_info_sort_comments_top"
           android:title="See top comments"
           app:showAsAction="never"/>
+    <item android:id="@+id/player_info_projection_history"
+          android:title="See projection history"
+          app:showAsAction="never"/>
 </menu>

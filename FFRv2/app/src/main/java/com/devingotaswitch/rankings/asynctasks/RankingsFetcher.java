@@ -7,6 +7,7 @@ import android.util.Log;
 
 import com.devingotaswitch.fileio.LocalSettingsHelper;
 import com.devingotaswitch.fileio.RankingsDBWrapper;
+import com.devingotaswitch.rankings.domain.DailyProjection;
 import com.devingotaswitch.rankings.domain.LeagueSettings;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.sources.ParseDraft;
@@ -29,9 +30,12 @@ import com.devingotaswitch.rankings.sources.ParseYahoo;
 import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.GeneralUtils;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -348,6 +352,22 @@ public class RankingsFetcher {
             Log.i(TAG, "Ordering players for display");
             rankings.setOrderedIds(getOrderedIds());
             setWatchedPlayers();
+
+            // If there were no projection histories saved against the rankings, we'll set them here.
+            if (rankings.getPlayerProjectionHistory().size() == 0) {
+                for (Player player : rankings.getPlayers().values()) {
+                    DailyProjection proj = new DailyProjection();
+                    proj.setPlayerKey(player.getUniqueId());
+                    proj.setProjection(player.getProjection());
+                    Date c = Calendar.getInstance().getTime();
+                    SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
+                    String date = df.format(c);
+                    proj.setDate(date);
+                    List<DailyProjection> projections = new ArrayList<>();
+                    projections.add(proj);
+                    rankings.getPlayerProjectionHistory().put(player.getUniqueId(), projections);
+                }
+            }
 
             return rankings;
         }

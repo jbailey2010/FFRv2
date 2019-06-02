@@ -70,12 +70,13 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
         rankingsUpdated = false;
 
+        final Activity localCopy = this;
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), RankingsHome.class);
                 intent.putExtra(Constants.RANKINGS_UPDATED, rankingsUpdated);
-                getApplication().startActivity(intent);
+                localCopy.startActivity(intent);
             }
         });
     }

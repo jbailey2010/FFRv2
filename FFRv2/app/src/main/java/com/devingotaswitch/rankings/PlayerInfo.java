@@ -33,6 +33,7 @@ import com.devingotaswitch.appsync.AppSyncHelper;
 import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.fileio.LocalSettingsHelper;
 import com.devingotaswitch.fileio.RankingsDBWrapper;
+import com.devingotaswitch.rankings.domain.DailyProjection;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.PlayerNews;
 import com.devingotaswitch.rankings.domain.Rankings;
@@ -47,7 +48,18 @@ import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.DraftUtils;
 import com.devingotaswitch.utils.FlashbarFactory;
 import com.devingotaswitch.utils.GeneralUtils;
+import com.devingotaswitch.utils.GraphUtils;
 import com.devingotaswitch.youruserpools.CUPHelper;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.AxisBase;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
+import com.github.mikephil.charting.formatter.DefaultAxisValueFormatter;
+import com.github.mikephil.charting.formatter.IndexAxisValueFormatter;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -209,6 +221,9 @@ public class PlayerInfo extends AppCompatActivity {
             case R.id.player_info_sort_comments_top:
                 sortCommentsByUpvotes();
                 return true;
+            case R.id.player_info_projection_history:
+                showProjectionHistory();
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
 
@@ -305,6 +320,74 @@ public class PlayerInfo extends AppCompatActivity {
         AppSyncHelper.getCommentsForPlayer(this, player.getUniqueId(), null, true);
         LocalSettingsHelper.saveCommentSortType(this, Constants.COMMENT_SORT_TOP);
         hideMenuItemsOnCommentSort();
+    }
+
+    private void showProjectionHistory() {
+        LayoutInflater li = LayoutInflater.from(this);
+        View graphView = li.inflate(R.layout.sort_graph_popup, null);
+        AlertDialog.Builder alertDialogBuilder = new AlertDialog.Builder(
+                this);
+
+        alertDialogBuilder.setView(graphView);
+        LineChart lineGraph =  graphView.findViewById(R.id.sort_graph);
+
+        List<Entry> projectionDays = new ArrayList<>();
+        List<DailyProjection> projections = rankings.getPlayerProjectionHistory().get(player.getUniqueId());
+        if (projections != null) {
+            for (int i = 0; i < projections.size(); i++) {
+                DailyProjection projection = projections.get(i);
+                projectionDays.add(new Entry((float) i, (float) projection.getProjection()));
+            }
+        } else {
+            // If a league scoring setting change was made, the data will clear, so we'll just take the current projection.
+            projectionDays.add(new Entry(1f, player.getProjection().floatValue()));
+        }
+        LineDataSet projectionHistoryDataset = GraphUtils.getLineDataSet(projectionDays,
+                player.getName() + " Projections", "blue");
+        if (projectionDays.size() == 1) {
+            projectionHistoryDataset.setDrawCircles(true);
+        }
+        LineData lineData = new LineData();
+        lineData.addDataSet(projectionHistoryDataset);
+
+        lineGraph.setData(lineData);
+        lineGraph.setDrawBorders(true);
+        lineGraph.setNoDataText("No projections are available for " + player.getName());
+        Description description = new Description();
+        description.setText("");
+        lineGraph.setDescription(description);
+        lineGraph.invalidate();
+        lineGraph.setTouchEnabled(true);
+        lineGraph.setPinchZoom(true);
+        lineGraph.setDragEnabled(true);
+        lineGraph.animateX(1500);
+        lineGraph.animateY(1500);
+
+        XAxis x = lineGraph.getXAxis();
+        x.setPosition(XAxis.XAxisPosition.BOTTOM);
+        x.setDrawAxisLine(false);
+        x.setDrawLabels(false);
+        x.setDrawGridLines(false);
+
+        YAxis yR = lineGraph.getAxisRight();
+        yR.setDrawAxisLine(false);
+        yR.setDrawGridLines(false);
+        yR.setDrawLabels(false);
+
+        YAxis yL = lineGraph.getAxisLeft();
+        yL.setDrawLabels(true);
+        yL.setDrawGridLines(true);
+        yL.setDrawAxisLine(false);
+
+        alertDialogBuilder
+                .setNegativeButton("Dismiss",
+                        new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog,int id) {
+                                dialog.cancel();
+                            }
+                        });
+        AlertDialog alertDialog = alertDialogBuilder.create();
+        alertDialog.show();
     }
 
     private void hideMenuItemsOnCommentSort() {

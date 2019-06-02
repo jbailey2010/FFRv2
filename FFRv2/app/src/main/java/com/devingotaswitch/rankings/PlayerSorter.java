@@ -45,6 +45,7 @@ import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.DraftUtils;
 import com.devingotaswitch.utils.FlashbarFactory;
 import com.devingotaswitch.utils.GeneralUtils;
+import com.devingotaswitch.utils.GraphUtils;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
 import com.github.mikephil.charting.data.Entry;
@@ -1374,15 +1375,15 @@ public class PlayerSorter extends AppCompatActivity {
                     break;
             }
         }
-        LineDataSet allPositions = getLineDataSet(entries, "All Positions", "blue");
+        LineDataSet allPositions = GraphUtils.getLineDataSet(entries, "All Positions", "blue");
         LineData lineData = new LineData();
 
-        conditionallyAddData(lineData, qbs, "QBs", "green");
-        conditionallyAddData(lineData, rbs, "RBs", "red");
-        conditionallyAddData(lineData, wrs, "WRs", "purple");
-        conditionallyAddData(lineData, tes, "TEs", "yellow");
-        conditionallyAddData(lineData, dsts, "DSTs", "black");
-        conditionallyAddData(lineData, ks, "Ks", "grey");
+        GraphUtils.conditionallyAddData(lineData, qbs, "QBs", "green");
+        GraphUtils.conditionallyAddData(lineData, rbs, "RBs", "red");
+        GraphUtils.conditionallyAddData(lineData, wrs, "WRs", "purple");
+        GraphUtils.conditionallyAddData(lineData, tes, "TEs", "yellow");
+        GraphUtils.conditionallyAddData(lineData, dsts, "DSTs", "black");
+        GraphUtils.conditionallyAddData(lineData, ks, "Ks", "grey");
 
         if (lineData.getDataSetCount() > 1) {
             lineData.addDataSet(allPositions);
@@ -1409,20 +1410,5 @@ public class PlayerSorter extends AppCompatActivity {
                         });
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
-    }
-
-    private void conditionallyAddData(LineData lineData, List<Entry> entries, String label, String color) {
-        if (entries.size() > 0) {
-            lineData.addDataSet(getLineDataSet(entries, label, color));
-        }
-    }
-
-    private LineDataSet getLineDataSet(List<Entry> entries, String label, String color) {
-        LineDataSet dataSet = new LineDataSet(entries, label);
-        dataSet.setColor(Color.parseColor(color));
-        dataSet.setDrawIcons(false);
-        dataSet.setDrawValues(false);
-        dataSet.setDrawCircles(false);
-        return dataSet;
     }
 }

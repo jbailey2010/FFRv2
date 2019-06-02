@@ -5,6 +5,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.DatabaseUtils;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import com.devingotaswitch.appsync.AppSyncHelper;
 import com.devingotaswitch.rankings.domain.DailyProjection;
@@ -57,7 +58,7 @@ public class RankingsDBWrapper {
             projections.add(DBUtils.playerProjectionToContentValues(player));
         }
 
-        bulkSave(db, Constants.PLAYER_PROJECTIONS_TABLE_NAME, projections);
+        bulkUpsert(db, Constants.PLAYER_PROJECTIONS_TABLE_NAME, projections);
     }
 
     public Map<String, List<DailyProjection>> getPlayerProjectionHistory(Context context) {
@@ -73,6 +74,7 @@ public class RankingsDBWrapper {
             } else {
                 playerProjectionHistory.get(proj.getPlayerKey()).add(proj);
             }
+            allProj.moveToNext();
         }
         return playerProjectionHistory;
     }
@@ -355,6 +357,10 @@ public class RankingsDBWrapper {
         db.insert(tableName, null, values);
     }
 
+    private void upsertEntry(SQLiteDatabase db, ContentValues values, String tableName) {
+        db.insertWithOnConflict(tableName, null, values, SQLiteDatabase.CONFLICT_REPLACE);
+    }
+
     private void updateEntry(SQLiteDatabase db, String id, ContentValues updatedFields, String tableName, String idColumn) {
         db.update(tableName, updatedFields, DBUtils.getUpdateAndDeleteKeyString(idColumn), new String[] {id});
     }
@@ -376,6 +382,18 @@ public class RankingsDBWrapper {
         db.beginTransaction();
         try {
             bulkSaveWorker(db, tableName, valuesToInsert);
+        } finally {
+            db.endTransaction();
+        }
+    }
+
+    private void bulkUpsert(SQLiteDatabase db, String tableName, Set<ContentValues> valuesToInsert) {
+        db.beginTransaction();
+        try {
+            for (ContentValues values: valuesToInsert) {
+                upsertEntry(db, values, tableName);
+            }
+            db.setTransactionSuccessful();
         } finally {
             db.endTransaction();
         }
