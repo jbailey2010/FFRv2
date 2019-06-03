@@ -48,6 +48,7 @@ import com.devingotaswitch.utils.GeneralUtils;
 import com.devingotaswitch.utils.GraphUtils;
 import com.github.mikephil.charting.charts.LineChart;
 import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
@@ -1400,6 +1401,10 @@ public class PlayerSorter extends AppCompatActivity {
         lineGraph.setDragEnabled(true);
         lineGraph.animateX(1500);
         lineGraph.animateY(1500);
+
+        XAxis x = lineGraph.getXAxis();
+        x.setPosition(XAxis.XAxisPosition.BOTTOM);
+        x.setDrawAxisLine(true);
 
         alertDialogBuilder
                 .setNegativeButton("Dismiss",

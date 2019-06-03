@@ -344,6 +344,7 @@ public class PlayerInfo extends AppCompatActivity {
         }
         LineDataSet projectionHistoryDataset = GraphUtils.getLineDataSet(projectionDays,
                 player.getName() + " Projections", "blue");
+        projectionHistoryDataset.setFillColor(Color.parseColor("blue"));
         if (projectionDays.size() == 1) {
             projectionHistoryDataset.setDrawCircles(true);
         }
