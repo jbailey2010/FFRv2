@@ -22,8 +22,6 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f5fe9503-cc09-4a8d-b7d9-507f98789a95" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerSorter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerSorter.java" afterDir="false" />
     </list>
     <ignored path="AmazonCognitoYourUserPoolsDemo.iws" />
@@ -67,8 +65,20 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerSorter.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="363">
-              <caret line="1406" column="30" selection-start-line="1406" selection-start-column="30" selection-end-line="1406" selection-end-column="30" />
+            <state relative-caret-position="422">
+              <caret line="1411" column="30" selection-start-line="1411" selection-start-column="30" selection-end-line="1411" selection-end-column="30" />
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="-63">
+              <caret line="346" column="57" selection-start-line="346" selection-start-column="57" selection-end-line="346" selection-end-column="57" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -1032,16 +1042,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="299">
-          <caret line="346" column="57" selection-start-line="346" selection-start-column="57" selection-end-line="346" selection-end-column="57" />
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-28/android/graphics/Color.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="159">
@@ -1049,10 +1049,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-63">
+          <caret line="346" column="57" selection-start-line="346" selection-start-column="57" selection-end-line="346" selection-end-column="57" />
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerSorter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="363">
-          <caret line="1406" column="30" selection-start-line="1406" selection-start-column="30" selection-end-line="1406" selection-end-column="30" />
+        <state relative-caret-position="422">
+          <caret line="1411" column="30" selection-start-line="1411" selection-start-column="30" selection-end-line="1411" selection-end-column="30" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
