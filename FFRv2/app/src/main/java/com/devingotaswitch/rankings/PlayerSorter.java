@@ -55,6 +55,7 @@ import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
 
 import org.angmarch.views.NiceSpinner;
+import org.angmarch.views.OnSpinnerItemSelectedListener;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -215,9 +216,9 @@ public class PlayerSorter extends AppCompatActivity {
         factors.setBackgroundColor(Color.parseColor("#FAFAFA"));
 
         final Activity act = this;
-        factors.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+        factors.setOnSpinnerItemSelectedListener(new OnSpinnerItemSelectedListener() {
             @Override
-            public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+            public void onItemSelected(NiceSpinner parent, View view, final int position, long id) {
                 String selection = ((TextView)view).getText().toString();
                 if (Constants.SORT_VBD_EXPANDED.equals(selection) ||
                         Constants.SORT_PROJECTION_EXPANDED.equals(selection)) {
@@ -238,9 +239,18 @@ public class PlayerSorter extends AppCompatActivity {
                         public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                             if (Constants.SORT_BACK.equals(((TextView)view).getText().toString())) {
                                 popup.dismiss();
+                                // Seems to be an annoying bug with the spinner library, can't re-select the same item.
+                                // So this is done to work around it.
+                                factors.attachDataSource(factorList);
                                 factors.showDropDown();
+                                if (StringUtils.isBlank(expandedFactor)) {
+                                    factors.setSelectedIndex(lastFactorIndex);
+                                } else {
+                                    factors.setText(expandedFactorType);
+                                }
                             } else {
                                 expandedFactor = ((TextView) view).getText().toString();
+                                factors.setSelectedIndex(position);
                                 factors.setText(factors.getText() + " " + expandedFactor);
                                 popup.dismiss();
                             }
@@ -251,18 +261,11 @@ public class PlayerSorter extends AppCompatActivity {
                         public void onDismiss() {
                             if (StringUtils.isBlank(expandedFactor)) {
                                 factors.setSelectedIndex(lastFactorIndex);
-                            } else if (!StringUtils.isBlank(expandedFactorType) &&
-                                    !factors.getText().toString().startsWith(expandedFactorType)) {
-                                factors.setText(expandedFactorType);
                             }
                         }
                     });
                     popup.show();
                 }
-            }
-
-            @Override
-            public void onNothingSelected(AdapterView<?> adapterView) {
             }
         });
 
@@ -300,15 +303,23 @@ public class PlayerSorter extends AppCompatActivity {
                 if (!Constants.ALL_POSITIONS.equals(currentPosition)) {
                     filteredIds = rankings.getPlayersByPosition(filteredIds, currentPosition);
                 }
-                String selection = factorList.get(factors.getSelectedIndex());
-                if (!selection.startsWith(Constants.SORT_VBD_EXPANDED) &&
-                        !selection.startsWith(Constants.SORT_PROJECTION_EXPANDED)) {
+                String selection = factors.getText().toString();
+                if ((!selection.startsWith(Constants.SORT_VBD_EXPANDED) &&
+                        !selection.startsWith(Constants.SORT_PROJECTION_EXPANDED)) || StringUtils.isBlank(expandedFactor)) {
                     factor = factorList.get(factors.getSelectedIndex());
                     lastFactorIndex = factors.getSelectedIndex();
                     expandedFactor = null;
+                    // Seems to be an annoying bug with the spinner library, can't re-select the same item.
+                    // So this is done to work around it.
+                    factors.attachDataSource(factorList);
+                    factors.setSelectedIndex(lastFactorIndex);
                 } else {
                     factor = expandedFactor;
                     expandedFactorType = factors.getText().toString();
+                    // Seems to be an annoying bug with the spinner library, can't re-select the same item.
+                    // So this is done to work around it.
+                    factors.attachDataSource(factorList);
+                    factors.setText(expandedFactorType);
                 }
                 posIndex = positions.getSelectedIndex();
                 sortIndex = factors.getSelectedIndex();
