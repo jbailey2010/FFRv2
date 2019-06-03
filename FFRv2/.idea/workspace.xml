@@ -22,7 +22,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f5fe9503-cc09-4a8d-b7d9-507f98789a95" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerSorter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerSorter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java" afterDir="false" />
     </list>
     <ignored path="AmazonCognitoYourUserPoolsDemo.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -63,22 +64,10 @@
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="300">
       <file pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerSorter.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="422">
-              <caret line="1411" column="30" selection-start-line="1411" selection-start-column="30" selection-end-line="1411" selection-end-column="30" />
-              <folding>
-                <element signature="imports" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-63">
-              <caret line="346" column="57" selection-start-line="346" selection-start-column="57" selection-end-line="346" selection-end-column="57" />
+            <state relative-caret-position="348">
+              <caret line="1228" column="71" lean-forward="true" selection-start-line="1228" selection-start-column="71" selection-end-line="1228" selection-end-column="71" />
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -201,8 +190,8 @@
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/asynctasks/RankingsFetcher.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/LeagueSettingsActivity.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/fileio/RankingsDBWrapper.java" />
-        <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java" />
         <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerSorter.java" />
+        <option value="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java" />
       </list>
     </option>
   </component>
@@ -304,6 +293,17 @@
               <item name="devingotaswitch" type="462c0819:PsiDirectoryNode" />
               <item name="rankings" type="462c0819:PsiDirectoryNode" />
               <item name="domain" type="462c0819:PsiDirectoryNode" />
+            </path>
+            <path>
+              <item name="FFRv2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="FFRv2" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="app" type="8a07ba80:GradleTreeStructureProvider$GradleModuleDirectoryNode" />
+              <item name="src" type="462c0819:PsiDirectoryNode" />
+              <item name="main" type="462c0819:PsiDirectoryNode" />
+              <item name="java" type="462c0819:PsiDirectoryNode" />
+              <item name="devingotaswitch" type="462c0819:PsiDirectoryNode" />
+              <item name="rankings" type="462c0819:PsiDirectoryNode" />
+              <item name="sources" type="462c0819:PsiDirectoryNode" />
             </path>
             <path>
               <item name="FFRv2" type="b2602c69:ProjectViewProjectNode" />
@@ -580,16 +580,57 @@
     <frame x="-7" y="-7" width="1550" height="878" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Resources Explorer" />
-      <window_info active="true" content_ui="combo" id="Project" order="0" sideWeight="0.4953917" visible="true" weight="0.2557047" />
-      <window_info id="Structure" order="1" side_tool="true" weight="0.24973147" />
-      <window_info id="Captures" order="2" side_tool="true" weight="0.25" />
-      <window_info id="Capture Tool" order="3" />
-      <window_info id="Nl-Palette" order="4" />
-      <window_info id="Image Layers" order="5" />
-      <window_info id="Designer" order="6" />
-      <window_info id="Favorites" order="7" side_tool="true" />
-      <window_info id="Build Variants" order="8" sideWeight="0.5046083" side_tool="true" weight="0.24650913" />
+      <window_info id="Resources Explorer" order="0" />
+      <window_info content_ui="combo" id="Project" order="1" sideWeight="0.4953917" weight="0.2557047" />
+      <window_info id="Structure" order="2" side_tool="true" weight="0.24973147" />
+      <window_info id="Captures" order="3" side_tool="true" weight="0.25" />
+      <window_info id="Capture Tool" order="4" />
+      <window_info id="Nl-Palette" order="5" />
+      <window_info id="Image Layers" order="6" />
+      <window_info id="Designer" order="7" />
+      <window_info id="Favorites" order="8" side_tool="true" />
+      <window_info id="Build Variants" order="9" sideWeight="0.5046083" side_tool="true" weight="0.24650913" />
+      <window_info anchor="bottom" id="Inspection Results" order="0" weight="0.32815966" />
+      <window_info anchor="bottom" id="Message" order="1" />
+      <window_info anchor="bottom" id="Find" order="2" sideWeight="0.4899329" weight="0.36652836" />
+      <window_info anchor="bottom" id="Run" order="3" sideWeight="0.4967475" weight="0.31310344" />
+      <window_info anchor="bottom" id="Debug" order="4" weight="0.4" />
+      <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
+      <window_info anchor="bottom" id="Inspection" order="6" weight="0.4" />
+      <window_info anchor="bottom" id="TODO" order="7" sideWeight="0.49785176" weight="0.32890365" />
+      <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.5087248" side_tool="true" weight="0.2987552" />
+      <window_info anchor="bottom" id="Logcat" order="9" sideWeight="0.49127516" weight="0.2987552" />
+      <window_info anchor="bottom" id="Build" order="10" sideWeight="0.4986577" weight="0.32226834" />
+      <window_info anchor="bottom" id="Android Profiler" order="11" weight="0.32921347" />
+      <window_info anchor="bottom" id="Android Monitor" order="12" sideWeight="0.47905478" weight="0.2911111" />
+      <window_info anchor="bottom" id="Version Control" order="13" sideWeight="0.49785176" weight="0.32827586" />
+      <window_info anchor="bottom" id="Terminal" order="14" sideWeight="0.4919463" weight="0.32689655" />
+      <window_info anchor="bottom" id="Gradle Console" order="15" show_stripe_button="false" sideWeight="0.5021482" side_tool="true" weight="0.32258064" />
+      <window_info active="true" anchor="bottom" id="Messages" order="16" sideWeight="0.4828142" visible="true" weight="0.31777778" />
+      <window_info anchor="right" id="Preview" order="0" />
+      <window_info anchor="right" id="Commander" order="1" weight="0.4" />
+      <window_info anchor="right" id="Ant Build" order="2" weight="0.25" />
+      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="3" weight="0.25" />
+      <window_info anchor="right" id="Capture Analysis" order="4" />
+      <window_info anchor="right" id="Theme Preview" order="5" />
+      <window_info anchor="right" id="Properties" order="6" />
+      <window_info anchor="right" id="Palette&#9;" order="7" />
+      <window_info anchor="right" id="Assistant" order="8" weight="0.3295302" />
+      <window_info anchor="right" id="Android Model" order="9" weight="0.32975295" />
+      <window_info anchor="right" id="Gradle" order="10" side_tool="true" weight="0.32885906" />
+      <window_info anchor="right" id="Device File Explorer" order="11" side_tool="true" weight="0.3295302" />
+    </layout>
+    <layout-to-restore>
+      <window_info id="Resources Explorer" order="0" />
+      <window_info content_ui="combo" id="Project" order="1" sideWeight="0.4953917" visible="true" weight="0.2557047" />
+      <window_info id="Structure" order="2" side_tool="true" weight="0.24973147" />
+      <window_info id="Captures" order="3" side_tool="true" weight="0.25" />
+      <window_info id="Capture Tool" order="4" />
+      <window_info id="Nl-Palette" order="5" />
+      <window_info id="Image Layers" order="6" />
+      <window_info id="Designer" order="7" />
+      <window_info id="Favorites" order="8" side_tool="true" />
+      <window_info id="Build Variants" order="9" sideWeight="0.5046083" side_tool="true" weight="0.24650913" />
       <window_info anchor="bottom" id="Inspection Results" order="0" weight="0.32815966" />
       <window_info anchor="bottom" id="Message" order="1" />
       <window_info anchor="bottom" id="Find" order="2" sideWeight="0.4899329" weight="0.36652836" />
@@ -619,45 +660,6 @@
       <window_info anchor="right" id="Android Model" order="9" weight="0.32975295" />
       <window_info anchor="right" id="Gradle" order="10" side_tool="true" weight="0.32885906" />
       <window_info anchor="right" id="Device File Explorer" order="11" side_tool="true" weight="0.3295302" />
-    </layout>
-    <layout-to-restore>
-      <window_info content_ui="combo" id="Project" order="0" sideWeight="0.4953917" visible="true" weight="0.24463807" />
-      <window_info id="Structure" order="1" weight="0.24973147" />
-      <window_info id="Captures" order="2" weight="0.25" />
-      <window_info id="Capture Tool" order="3" />
-      <window_info id="Nl-Palette" order="4" />
-      <window_info id="Image Layers" order="5" />
-      <window_info id="Designer" order="6" />
-      <window_info id="Favorites" order="7" side_tool="true" />
-      <window_info id="Build Variants" order="8" sideWeight="0.5046083" side_tool="true" weight="0.24650913" />
-      <window_info anchor="bottom" id="Inspection Results" order="0" weight="0.32815966" />
-      <window_info anchor="bottom" id="Message" order="1" />
-      <window_info anchor="bottom" id="Find" order="2" sideWeight="0.48925886" visible="true" weight="0.36689654" />
-      <window_info anchor="bottom" id="Run" order="3" sideWeight="0.4967475" weight="0.31348315" />
-      <window_info anchor="bottom" id="Debug" order="4" weight="0.4" />
-      <window_info anchor="bottom" id="Cvs" order="5" weight="0.25" />
-      <window_info anchor="bottom" id="Inspection" order="6" weight="0.4" />
-      <window_info anchor="bottom" id="TODO" order="7" sideWeight="0.49785176" weight="0.32890365" />
-      <window_info anchor="bottom" id="Event Log" order="8" sideWeight="0.5147453" side_tool="true" weight="0.29931036" />
-      <window_info anchor="bottom" id="Logcat" order="9" sideWeight="0.4852547" weight="0.29931036" />
-      <window_info anchor="bottom" id="Build" order="10" weight="0.32275862" />
-      <window_info anchor="bottom" id="Android Profiler" order="11" weight="0.32921347" />
-      <window_info anchor="bottom" id="Android Monitor" order="12" sideWeight="0.47905478" weight="0.2911111" />
-      <window_info anchor="bottom" id="Version Control" order="13" sideWeight="0.49785176" weight="0.32827586" />
-      <window_info anchor="bottom" id="Terminal" order="14" sideWeight="0.49231225" weight="0.3280899" />
-      <window_info anchor="bottom" id="Gradle Console" order="15" show_stripe_button="false" sideWeight="0.5021482" side_tool="true" weight="0.32258064" />
-      <window_info active="true" anchor="bottom" id="Messages" order="16" sideWeight="0.4828142" visible="true" weight="0.31777778" />
-      <window_info anchor="right" id="Preview" order="0" />
-      <window_info anchor="right" id="Commander" order="1" weight="0.4" />
-      <window_info anchor="right" id="Ant Build" order="2" weight="0.25" />
-      <window_info anchor="right" content_ui="combo" id="Hierarchy" order="3" weight="0.25" />
-      <window_info anchor="right" id="Capture Analysis" order="4" />
-      <window_info anchor="right" id="Theme Preview" order="5" />
-      <window_info anchor="right" id="Properties" order="6" />
-      <window_info anchor="right" id="Palette&#9;" order="7" />
-      <window_info anchor="right" id="Android Model" order="8" weight="0.32975295" />
-      <window_info anchor="right" id="Device File Explorer" order="9" side_tool="true" weight="0.32975295" />
-      <window_info anchor="right" id="Gradle" order="10" side_tool="true" weight="0.32908848" />
     </layout-to-restore>
   </component>
   <component name="Vcs.Log.UiProperties">
@@ -1014,13 +1016,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParsePFO.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="152">
-          <caret line="92" selection-start-line="92" selection-end-line="92" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Android/sdk/sources/android-28/android/database/sqlite/SQLiteDatabase.java">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="152">
@@ -1049,20 +1044,27 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerSorter.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-63">
-          <caret line="346" column="57" selection-start-line="346" selection-start-column="57" selection-end-line="346" selection-end-column="57" />
+        <state relative-caret-position="422">
+          <caret line="1411" column="30" selection-start-line="1411" selection-start-column="30" selection-end-line="1411" selection-end-column="30" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerSorter.java">
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParsePFO.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="422">
-          <caret line="1411" column="30" selection-start-line="1411" selection-start-column="30" selection-end-line="1411" selection-end-column="30" />
+        <state relative-caret-position="119">
+          <caret line="20" column="58" selection-start-line="20" selection-start-column="17" selection-end-line="20" selection-end-column="58" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="348">
+          <caret line="1228" column="71" lean-forward="true" selection-start-line="1228" selection-start-column="71" selection-end-line="1228" selection-end-column="71" />
           <folding>
             <element signature="imports" expanded="true" />
           </folding>

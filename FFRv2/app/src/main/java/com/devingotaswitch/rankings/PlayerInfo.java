@@ -931,6 +931,7 @@ public class PlayerInfo extends AppCompatActivity {
         commentList.setVisibility(View.GONE);
         infoList.setVisibility(View.VISIBLE);
         chipCloud.setVisibility(View.VISIBLE);
+        infoList.setSelection(0);
 
         View ranks = findViewById(R.id.ranks_button_selected);
         View playerSelected = findViewById(R.id.player_info_button_selected);
@@ -1047,6 +1048,7 @@ public class PlayerInfo extends AppCompatActivity {
         commentList.setVisibility(View.GONE);
         infoList.setVisibility(View.VISIBLE);
         chipCloud.setVisibility(View.GONE);
+        infoList.setSelection(0);
 
         View ranks = findViewById(R.id.ranks_button_selected);
         View playerSelected = findViewById(R.id.player_info_button_selected);
@@ -1111,6 +1113,7 @@ public class PlayerInfo extends AppCompatActivity {
         commentList.setVisibility(View.GONE);
         infoList.setVisibility(View.VISIBLE);
         chipCloud.setVisibility(View.GONE);
+        infoList.setSelection(0);
 
         View ranks = findViewById(R.id.ranks_button_selected);
         View playerSelected = findViewById(R.id.player_info_button_selected);
@@ -1150,6 +1153,7 @@ public class PlayerInfo extends AppCompatActivity {
             ((ImageButton) findViewById(R.id.player_info_comments)).setImageResource(R.drawable.comment_white);
             doUpdateImage = false;
         }
+        commentList.setSelection(0);
 
         View ranks = findViewById(R.id.ranks_button_selected);
         View playerSelected = findViewById(R.id.player_info_button_selected);
