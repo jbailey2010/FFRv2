@@ -368,6 +368,8 @@ public class RankingsFetcher {
                     rankings.getPlayerProjectionHistory().put(player.getUniqueId(), projections);
                 }
             }
+            // If there's no projection history saved for today, set it here
+            // TODO
 
             return rankings;
         }

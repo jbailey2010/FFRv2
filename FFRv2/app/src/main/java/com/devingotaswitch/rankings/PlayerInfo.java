@@ -244,6 +244,7 @@ public class PlayerInfo extends AppCompatActivity {
                 Flashbar.Gravity.BOTTOM, removeWatch)
                 .show();
         rankingsDB.updatePlayerWatchedStatus(this, player);
+        conditionallyUpdatePlayerStatus();
         hideMenuItemOnWatchStatus();
     }
 
@@ -262,6 +263,7 @@ public class PlayerInfo extends AppCompatActivity {
                 .show();
         rankingsDB.updatePlayerWatchedStatus(this, player);
         hideMenuItemOnWatchStatus();
+        conditionallyUpdatePlayerStatus();
     }
 
     public void swipeLeftToRight() {
@@ -344,7 +346,7 @@ public class PlayerInfo extends AppCompatActivity {
         }
         LineDataSet projectionHistoryDataset = GraphUtils.getLineDataSet(projectionDays,
                 player.getName() + " Projections", "blue");
-        projectionHistoryDataset.setFillColor(Color.parseColor("blue"));
+        projectionHistoryDataset.setFillColor(Color.BLUE);
         if (projectionDays.size() == 1) {
             projectionHistoryDataset.setDrawCircles(true);
         }
@@ -452,6 +454,13 @@ public class PlayerInfo extends AppCompatActivity {
     private void undraftPlayer() {
         rankings.getDraft().undraft(rankings, player, this, infoList);
         hideMenuItemsOnDraftStatus();
+        conditionallyUpdatePlayerStatus();
+    }
+
+    private void conditionallyUpdatePlayerStatus() {
+        if (View.VISIBLE == chipCloud.getVisibility()) {
+            displayInfo();
+        }
     }
 
     private void comparePlayer() {

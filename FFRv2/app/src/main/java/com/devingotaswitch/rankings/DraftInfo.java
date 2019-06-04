@@ -105,6 +105,11 @@ public class DraftInfo extends AppCompatActivity {
         viewTeam = menu.findItem(R.id.draft_info_team);
         undraftPlayers = menu.findItem(R.id.draft_info_players);
         viewTeam.setVisible(false);
+        if (rankings.getDraft().getDraftedPlayers().size() == 0) {
+            // No need to let someone draft or undraft if there's no draft picks.
+            undraftPlayers.setVisible(false);
+            menu.findItem(R.id.draft_info_clear).setVisible(false);
+        }
         return true;
     }
 
