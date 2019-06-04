@@ -68,6 +68,7 @@ import org.angmarch.views.NiceSpinner;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -415,6 +416,7 @@ public class RankingsHome extends AppCompatActivity {
         final ListView listview =  findViewById(R.id.rankings_list);
         listview.setAdapter(null);
         final List<Map<String, String>> data = new ArrayList<>();
+        Map<String, Integer> posRankMap = DisplayUtils.getPositionRankMap();
         final SimpleAdapter adapter = DisplayUtils.getDisplayAdapter(this, data);
         listview.setAdapter(adapter);
         for (int i = 0; i < Math.min(orderedIds.size(), maxPlayers); i++) {
@@ -425,7 +427,7 @@ public class RankingsHome extends AppCompatActivity {
                     // the constant is 'not set', so skip these. No sense showing a 10 year vet in rookie ranks.
                     continue;
                 }
-                Map<String, String> datum = DisplayUtils.getDatumForPlayer(rankings, player, true);
+                Map<String, String> datum = DisplayUtils.getDatumForPlayer(rankings, player, true, posRankMap);
                 data.add(datum);
             }
         }

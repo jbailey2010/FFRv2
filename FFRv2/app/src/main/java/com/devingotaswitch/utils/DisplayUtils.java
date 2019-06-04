@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.support.v7.widget.DividerItemDecoration;
 import android.view.View;
-import android.widget.ListView;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
@@ -13,7 +12,6 @@ import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.domain.Team;
 
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -21,8 +19,9 @@ import java.util.Map;
 public class DisplayUtils {
 
 
-    private static String generateOutputSubtext(Player player, Rankings rankings) {
+    private static String generateOutputSubtext(Player player, Rankings rankings, String posSuffix) {
         StringBuilder sub = new StringBuilder(player.getPosition())
+                .append(posSuffix)
                 .append(Constants.POS_TEAM_DELIMITER)
                 .append(player.getTeamName());
         Team team = rankings.getTeam(player);
@@ -44,7 +43,7 @@ public class DisplayUtils {
         String teamPosBye = playerInfo.getText().toString().split(Constants.LINE_BREAK)[0];
         String teamPos = teamPosBye.split(" \\(")[0];
         String team = teamPos.split(Constants.POS_TEAM_DELIMITER)[1];
-        String pos = teamPos.split(Constants.POS_TEAM_DELIMITER)[0];
+        String pos = teamPos.split(Constants.POS_TEAM_DELIMITER)[0].replaceAll("\\d","");;
 
         return name +
                 Constants.PLAYER_ID_DELIMITER +
@@ -53,13 +52,31 @@ public class DisplayUtils {
                 pos;
     }
 
-    public static Map<String, String> getDatumForPlayer(Rankings rankings, Player player, boolean markWatched) {
+    public static Map<String, Integer> getPositionRankMap() {
+        Map<String, Integer> positionRankMap = new HashMap<>();
+        positionRankMap.put(Constants.QB, 1);
+        positionRankMap.put(Constants.RB, 1);
+        positionRankMap.put(Constants.WR, 1);
+        positionRankMap.put(Constants.TE, 1);
+        positionRankMap.put(Constants.DST, 1);
+        positionRankMap.put(Constants.K, 1);
+        return positionRankMap;
+    }
+
+    public static Map<String, String> getDatumForPlayer(Rankings rankings, Player player, boolean markWatched,
+                                                        Map<String, Integer> posRankMap) {
+        String posSuffix = "";
+        if (posRankMap != null) {
+            Integer suffix = posRankMap.get(player.getPosition());
+            posRankMap.put(player.getPosition(), posRankMap.get(player.getPosition()) + 1);
+            posSuffix = String.valueOf(suffix);
+        }
         String playerBasicContent = player.getDisplayValue(rankings) +
                 Constants.RANKINGS_LIST_DELIMITER +
                 player.getName();
         Map<String, String> datum = new HashMap<>(5);
         datum.put(Constants.PLAYER_BASIC, playerBasicContent);
-        datum.put(Constants.PLAYER_INFO, generateOutputSubtext(player, rankings));
+        datum.put(Constants.PLAYER_INFO, generateOutputSubtext(player, rankings, posSuffix));
         if (markWatched && player.isWatched()) {
             datum.put(Constants.PLAYER_STATUS, Integer.toString(R.drawable.star));
         }

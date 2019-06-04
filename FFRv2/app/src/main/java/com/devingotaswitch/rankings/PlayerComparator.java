@@ -19,10 +19,8 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AutoCompleteTextView;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.ScrollView;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.andrognito.flashbar.Flashbar;
@@ -252,6 +250,7 @@ public class PlayerComparator extends AppCompatActivity {
                         Constants.PLAYER_ADDITIONAL_INFO_2},
                 new int[] { R.id.player_basic, R.id.player_info,
                         R.id.player_status, R.id.player_more_info, R.id.player_additional_info_2 });
+        Map<String, Integer> posRankMap = DisplayUtils.getPositionRankMap();
         for (int i = 0; i < Math.min(Constants.COMPARATOR_LIST_MAX, rankings.getOrderedIds().size()); i++) {
             Player player = rankings.getPlayer(rankings.getOrderedIds().get(i));
             if ((rankings.getDraft().isDrafted(player) && LocalSettingsHelper.hideDraftedComparatorList(this)) ||
@@ -264,7 +263,7 @@ public class PlayerComparator extends AppCompatActivity {
                     // the constant is 'not set', so skip these. No sense showing a 10 year vet in rookie ranks.
                     continue;
                 }
-                Map<String, String> datum = DisplayUtils.getDatumForPlayer(rankings, player, false);
+                Map<String, String> datum = DisplayUtils.getDatumForPlayer(rankings, player, false, posRankMap);
                 data.add(datum);
             }
         }
