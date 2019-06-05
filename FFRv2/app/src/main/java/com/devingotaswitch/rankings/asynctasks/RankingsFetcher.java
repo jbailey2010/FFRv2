@@ -354,22 +354,36 @@ public class RankingsFetcher {
             setWatchedPlayers();
 
             // If there were no projection histories saved against the rankings, we'll set them here.
+            String today = Constants.DATE_FORMAT.format(Calendar.getInstance().getTime());
             if (rankings.getPlayerProjectionHistory().size() == 0) {
                 for (Player player : rankings.getPlayers().values()) {
                     DailyProjection proj = new DailyProjection();
                     proj.setPlayerKey(player.getUniqueId());
                     proj.setPlayerProjection(player.getPlayerProjection());
-                    Date c = Calendar.getInstance().getTime();
-                    SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
-                    String date = df.format(c);
-                    proj.setDate(date);
+                    proj.setDate(today);
                     List<DailyProjection> projections = new ArrayList<>();
                     projections.add(proj);
                     rankings.getPlayerProjectionHistory().put(player.getUniqueId(), projections);
                 }
+            } else {
+                // If there's no projection history saved for today, set it here
+                String topPlayerKey = rankings.getOrderedIds().get(0);
+                boolean isNewDay = true;
+                for (DailyProjection proj : rankings.getPlayerProjectionHistory().get(topPlayerKey)) {
+                    if (proj.getDate().equals(today)) {
+                        isNewDay = false;
+                    }
+                }
+                if (isNewDay) {
+                    for (Player player : rankings.getPlayers().values()) {
+                        DailyProjection proj = new DailyProjection();
+                        proj.setPlayerKey(player.getUniqueId());
+                        proj.setPlayerProjection(player.getPlayerProjection());
+                        proj.setDate(today);
+                        rankings.getPlayerProjectionHistory().get(player.getUniqueId()).add(proj);
+                    }
+                }
             }
-            // If there's no projection history saved for today, set it here
-            // TODO
 
             return rankings;
         }

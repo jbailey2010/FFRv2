@@ -283,8 +283,7 @@ public class DBUtils {
 
     public static ContentValues playerProjectionToContentValues(Player player) {
         Date c = Calendar.getInstance().getTime();
-        SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
-        String date = df.format(c);
+        String date = Constants.DATE_FORMAT.format(c);
 
         ContentValues values = new ContentValues();
         values.put(Constants.PLAYER_NAME_COLUMN, sanitizeName(player.getName()));

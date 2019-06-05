@@ -3,6 +3,7 @@ package com.devingotaswitch.utils;
 import android.graphics.Color;
 
 import java.text.DecimalFormat;
+import java.text.SimpleDateFormat;
 
 public class Constants {
     public final static String YEAR_KEY = "2019";
@@ -332,4 +333,5 @@ public class Constants {
 
     // Non-primitives
     public static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.##");
+    public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("dd-MMM-yyyy");
 }
