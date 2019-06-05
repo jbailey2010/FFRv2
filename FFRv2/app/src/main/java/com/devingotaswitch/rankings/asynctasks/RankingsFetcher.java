@@ -358,7 +358,7 @@ public class RankingsFetcher {
                 for (Player player : rankings.getPlayers().values()) {
                     DailyProjection proj = new DailyProjection();
                     proj.setPlayerKey(player.getUniqueId());
-                    proj.setProjection(player.getProjection());
+                    proj.setPlayerProjection(player.getPlayerProjection());
                     Date c = Calendar.getInstance().getTime();
                     SimpleDateFormat df = new SimpleDateFormat("dd-MMM-yyyy");
                     String date = df.format(c);

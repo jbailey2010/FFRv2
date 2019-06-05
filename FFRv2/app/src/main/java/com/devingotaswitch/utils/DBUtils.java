@@ -291,7 +291,7 @@ public class DBUtils {
         values.put(Constants.PLAYER_POSITION_COLUMN, player.getPosition());
         values.put(Constants.TEAM_NAME_COLUMN, player.getTeamName());
         values.put(Constants.PLAYER_PROJECTION_DATE_COLUMN, date);
-        values.put(Constants.PLAYER_PROJECTION_COLUMN, player.getProjection());
+        values.put(Constants.PLAYER_PROJECTION_COLUMN, player.getPlayerProjection().toString());
 
         return values;
     }
@@ -305,7 +305,8 @@ public class DBUtils {
         player.setTeamName(result.getString(result.getColumnIndex(Constants.TEAM_NAME_COLUMN)));
         projection.setPlayerKey(player.getUniqueId());
         projection.setDate(result.getString(result.getColumnIndex(Constants.PLAYER_PROJECTION_DATE_COLUMN)));
-        projection.setProjection(result.getDouble(result.getColumnIndex(Constants.PLAYER_PROJECTION_COLUMN)));
+        projection.setPlayerProjection(PlayerProjection.fromJson(result.getString(
+                result.getColumnIndex(Constants.PLAYER_PROJECTION_COLUMN))));
 
         return projection;
     }

@@ -1,9 +1,11 @@
 package com.devingotaswitch.rankings.domain;
 
+import com.devingotaswitch.rankings.domain.projections.PlayerProjection;
+
 public class DailyProjection {
 
     private String date;
-    private double projection;
+    private PlayerProjection projection;
     private String playerKey;
 
     public String getDate() {
@@ -14,11 +16,11 @@ public class DailyProjection {
         this.date = date;
     }
 
-    public double getProjection() {
-        return projection;
+    public double getProjection(ScoringSettings scoringSettings) {
+        return projection.getProjectedPoints(scoringSettings);
     }
 
-    public void setProjection(double projection) {
+    public void setPlayerProjection(PlayerProjection projection) {
         this.projection = projection;
     }
 

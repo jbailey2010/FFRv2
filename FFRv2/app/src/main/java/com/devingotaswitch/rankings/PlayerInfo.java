@@ -338,7 +338,7 @@ public class PlayerInfo extends AppCompatActivity {
         if (projections != null) {
             for (int i = 0; i < projections.size(); i++) {
                 DailyProjection projection = projections.get(i);
-                projectionDays.add(new Entry((float) i, (float) projection.getProjection()));
+                projectionDays.add(new Entry((float) i, (float) projection.getProjection(rankings.getLeagueSettings().getScoringSettings())));
             }
         } else {
             // If a league scoring setting change was made, the data will clear, so we'll just take the current projection.

@@ -36,7 +36,7 @@ public class PlayerProjection {
         updateAndGetFormattedProjectedPoints(scoringSettings);
     }
 
-    private double getProjectedPoints(ScoringSettings scoringSettings) {
+    public double getProjectedPoints(ScoringSettings scoringSettings) {
         return this.passingProjection.getProjectedPoints(scoringSettings) +
                 this.rushingProjection.getProjectedPoints(scoringSettings) +
                 this.receivingProjection.getProjectedPoints(scoringSettings) +

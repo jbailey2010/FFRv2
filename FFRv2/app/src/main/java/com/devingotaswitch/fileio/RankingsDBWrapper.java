@@ -329,7 +329,6 @@ public class RankingsDBWrapper {
 
     private void updateScoring(SQLiteDatabase db, String id, Map<String, String> updatedFields) {
         updateEntry(db, id, DBUtils.updatedValuesToContentValues(updatedFields), Constants.SCORING_TABLE_NAME, Constants.SCORING_ID_COLUMN);
-        deleteItemsInTable(db, Constants.PLAYER_PROJECTIONS_TABLE_NAME);
     }
 
     private void deleteScoring(SQLiteDatabase db, String id) {
