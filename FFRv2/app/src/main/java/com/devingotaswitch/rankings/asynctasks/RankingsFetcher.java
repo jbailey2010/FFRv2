@@ -380,7 +380,13 @@ public class RankingsFetcher {
                         proj.setPlayerKey(player.getUniqueId());
                         proj.setPlayerProjection(player.getPlayerProjection());
                         proj.setDate(today);
-                        rankings.getPlayerProjectionHistory().get(player.getUniqueId()).add(proj);
+                        if (rankings.getPlayerProjectionHistory().containsKey(player.getUniqueId())) {
+                            rankings.getPlayerProjectionHistory().get(player.getUniqueId()).add(proj);
+                        } else {
+                            List<DailyProjection> newProj = new ArrayList<>();
+                            newProj.add(proj);
+                            rankings.getPlayerProjectionHistory().put(player.getUniqueId(), newProj);
+                        }
                     }
                 }
             }
