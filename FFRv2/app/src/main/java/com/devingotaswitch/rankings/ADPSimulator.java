@@ -2,6 +2,7 @@ package com.devingotaswitch.rankings;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
@@ -147,6 +148,17 @@ public class ADPSimulator extends AppCompatActivity {
 
     private void displayResult(String output) {
         result.setText(output);
+        final Activity localCopy = this;
+        final String playerId = playerToSearch.getUniqueId();
+        result.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Intent intent = new Intent(localCopy, PlayerInfo.class);
+                intent.putExtra(Constants.PLAYER_ID, playerId);
+                startActivity(intent);
+                return true;
+            }
+        });
         clearInputs();
     }
 
@@ -196,7 +208,7 @@ public class ADPSimulator extends AppCompatActivity {
             }
             String teams = "8";
             int numTeams = rankings.getLeagueSettings().getTeamCount();
-            if (numTeams >= 14) {
+            if (numTeams >= 14 && !"2qb".equals(type)) {
                 teams = "14";
             } else if (numTeams >= 12) {
                 teams = "12";

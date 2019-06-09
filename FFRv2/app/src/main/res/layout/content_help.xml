@@ -87,7 +87,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:layout_marginTop="10dp"
-                android:text="Curious to see what the odds are a player is available in a certain pick/scenario? The ADP simulator checks against adp data to give you an exact number, and is accessible through the fourth option in the bottom menu. Just enter a player and the pick, and see what your odds are!"
+                android:text="Curious to see what the odds are a player is available in a certain pick/scenario? The ADP simulator checks against adp data to give you an exact number, and is accessible through the fourth option in the bottom menu. Just enter a player and the pick, and see what your odds are! You can see more info about the player checked by clicking and holding the results text."
                 android:visibility="gone"
                 android:id="@+id/help_adp_body"/>
 
