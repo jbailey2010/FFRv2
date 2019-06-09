@@ -188,11 +188,10 @@ public class ADPSimulator extends AppCompatActivity {
             String type = "standard";
             ScoringSettings scoring = rankings.getLeagueSettings().getScoringSettings();
             RosterSettings roster = rankings.getLeagueSettings().getRosterSettings();
-            // TODO Tool seems to be broken for this. When fixed, add back in.
-            /*if (roster.getQbCount() > 1 || (roster.getFlex() != null && roster.getQbCount() > 0 &&
+            if (roster.getQbCount() > 1 || (roster.getFlex() != null && roster.getQbCount() > 0 &&
                     roster.getFlex().getQbrbwrteCount() > 0)) {
                 type = "2qb";
-            } else */if (scoring.getReceptions() > 0.0) {
+            } else if (scoring.getReceptions() > 0.0) {
                 type = "ppr";
             }
             String teams = "8";
@@ -220,7 +219,7 @@ public class ADPSimulator extends AppCompatActivity {
     private String getPlayerADPOdds(String url, Player player, int pick) {
         try {
             List<String> td = JsoupUtils.parseURLWithUA(url,
-                    "table.scenario-calculator td");
+                    "table.table td");
             for (int i = 0; i < td.size(); i+=6) {
                 String possibleName = ParsingUtils.normalizeNames(td.get(i));
                 String possiblePos = td.get(i+1);
