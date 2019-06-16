@@ -23,7 +23,7 @@ public class LocalSettingsHelper {
     }
 
     public static String getSelectedNewsSource(Context cont) {
-        return getSharedPreferences(cont).getString(Constants.NEWS_SOURCE, Constants.RW_HEADLINE_TITLE);
+        return getSharedPreferences(cont).getString(Constants.NEWS_SOURCE, Constants.MFL_AGGREGATE_TITLE);
     }
 
     public static void saveSelectedNewsSource(Context cont, String newsSource) {

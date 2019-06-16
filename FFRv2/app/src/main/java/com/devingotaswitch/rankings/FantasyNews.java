@@ -98,7 +98,8 @@ public class FantasyNews extends AppCompatActivity {
             Player player = rankings.getPlayer(key);
             nameToId.put(player.getName(), key);
         }
-        final List<String> sources = new ArrayList<>(Arrays.asList(Constants.RW_HEADLINE_TITLE, Constants.RW_PLAYER_TITLE, Constants.MFL_AGGREGATE_TITLE));
+        final List<String> sources = new ArrayList<>(Arrays.asList(Constants.MFL_AGGREGATE_TITLE, Constants.FP_ALL_NEWS,
+                Constants.FP_RUMORS_TITLE, Constants.FP_BREAKING_NEWS_TITLE, Constants.FP_INJURY_TITLE));
         final NiceSpinner sourcesSpinner = findViewById(R.id.news_source_selector);
 
         sourcesSpinner.attachDataSource(sources);
@@ -209,11 +210,17 @@ public class FantasyNews extends AppCompatActivity {
             List<PlayerNews> news = null;
             try {
                 switch (source) {
-                    case Constants.RW_PLAYER_TITLE:
-                        news = parseNewsRoto("http://www.rotoworld.com/playernews/nfl/football-player-news");
+                    case Constants.FP_ALL_NEWS:
+                        news = parseFantasyPros("https://www.fantasypros.com/nfl/player-news.php");
                         break;
-                    case Constants.RW_HEADLINE_TITLE:
-                        news = parseNewsRoto("http://www.rotoworld.com/headlines/nfl/0/football-headlines");
+                    case Constants.FP_BREAKING_NEWS_TITLE:
+                        news = parseFantasyPros("https://www.fantasypros.com/nfl/breaking-news.php");
+                        break;
+                    case Constants.FP_RUMORS_TITLE:
+                        news = parseFantasyPros("https://www.fantasypros.com/nfl/rumors.php");
+                        break;
+                    case Constants.FP_INJURY_TITLE:
+                        news = parseFantasyPros("https://www.fantasypros.com/nfl/injury-news.php");
                         break;
                     case Constants.MFL_AGGREGATE_TITLE:
                         news = parseMFL();
@@ -227,18 +234,29 @@ public class FantasyNews extends AppCompatActivity {
         }
     }
 
-    private List<PlayerNews> parseNewsRoto(String url) throws IOException {
+    private List<PlayerNews> parseFantasyPros(String url) throws IOException {
         List<PlayerNews> newsSet = new ArrayList<>();
         Document doc = Jsoup.connect(url).timeout(0).get();
-        List<String> reportSet = JsoupUtils.getElemsFromDoc(doc, "div.report");
-        List<String> impactSet = JsoupUtils.getElemsFromDoc(doc, "div.impact");
-        List<String> dateSet = JsoupUtils.getElemsFromDoc(doc, "div.date");
-        for(int i = 0; i < reportSet.size(); i++)
+        List<String> reportSet = JsoupUtils.getElemsFromDoc(doc, "div.player-news-header div.ten a");
+        Elements links = doc.select("div.ten p");
+        List<String> impactSet = new ArrayList<>();
+        for (Element element : links) {
+            if (!element.text().startsWith("Category:")) {
+                impactSet.add(element.text());
+            }
+        }
+        List<String> dateSet = JsoupUtils.getElemsFromDoc(doc, "div.player-news-header div.ten p");
+        for(int i = 0; i < dateSet.size(); i++)
         {
             PlayerNews news = new PlayerNews();
-            news.setNews(reportSet.get(i));
-            news.setImpact(impactSet.get(i+1));
-            news.setDate(dateSet.get(i));
+            news.setNews(reportSet.get(i * 2));
+            String impact = new StringBuilder(impactSet.get(i * 3 + 1))
+                    .append(Constants.LINE_BREAK)
+                    .append(Constants.LINE_BREAK)
+                    .append(impactSet.get(i * 3 + 2))
+                    .toString();
+            news.setImpact(impact);
+            news.setDate(dateSet.get(i).split(" By ")[0]);
             newsSet.add(news);
         }
         return newsSet;

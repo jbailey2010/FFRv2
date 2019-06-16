@@ -92,9 +92,11 @@ public class Constants {
     public final static Double SORT_IGNORE_EARLY_THRESHOLD_ROUNDS = 3.0;
 
     // News sources
-    public static final String RW_HEADLINE_TITLE = "Rotoworld Headline News";
-    public static final String RW_PLAYER_TITLE = "Rotoworld Player News";
     public static final String MFL_AGGREGATE_TITLE = "MFL Aggregate News";
+    public static final String FP_ALL_NEWS = "FantasyPros Aggregate News";
+    public static final String FP_BREAKING_NEWS_TITLE = "FantasyPros Breaking News";
+    public static final String FP_RUMORS_TITLE = "FantasyPros Rumors";
+    public static final String FP_INJURY_TITLE = "FantasyPros Injuries";
 
     // Flashbar constants
     public static final Long FLASHBAR_DURATION = 2500L;
