@@ -65,6 +65,10 @@
         android:visibility="gone"
         android:id="@+id/comparator_output_scroller"
         android:layout_alignParentBottom="true">
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -616,6 +620,17 @@
 
 
     </LinearLayout>
+
+
+    <com.github.mikephil.charting.charts.LineChart
+        android:id="@+id/comparator_graph"
+        android:layout_width="match_parent"
+        android:layout_height="300dp"
+        android:layout_below="@+id/comparator_output_base"
+        android:layout_marginTop="10dp"
+        android:visibility="gone"/>
+
+    </RelativeLayout>
     </ScrollView>
 
 </RelativeLayout>

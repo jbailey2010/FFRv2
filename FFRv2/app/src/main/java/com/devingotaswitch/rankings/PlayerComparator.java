@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import com.andrognito.flashbar.Flashbar;
 import com.devingotaswitch.fileio.LocalSettingsHelper;
+import com.devingotaswitch.rankings.domain.DailyProjection;
 import com.devingotaswitch.rankings.extras.FilterWithSpaceAdapter;
 import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.rankings.domain.Player;
@@ -38,6 +39,14 @@ import com.devingotaswitch.utils.DisplayUtils;
 import com.devingotaswitch.utils.DraftUtils;
 import com.devingotaswitch.utils.FlashbarFactory;
 import com.devingotaswitch.utils.GeneralUtils;
+import com.devingotaswitch.utils.GraphUtils;
+import com.github.mikephil.charting.charts.LineChart;
+import com.github.mikephil.charting.components.Description;
+import com.github.mikephil.charting.components.XAxis;
+import com.github.mikephil.charting.components.YAxis;
+import com.github.mikephil.charting.data.Entry;
+import com.github.mikephil.charting.data.LineData;
+import com.github.mikephil.charting.data.LineDataSet;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -58,6 +67,7 @@ public class PlayerComparator extends AppCompatActivity {
 
     private AutoCompleteTextView inputA;
     private AutoCompleteTextView inputB;
+    private LineChart projGraph;
     private ScrollView comparatorScroller;
     private RecyclerView inputList;
     private List<Map<String, String>> data = new ArrayList<>();
@@ -122,6 +132,7 @@ public class PlayerComparator extends AppCompatActivity {
 
         inputA =  findViewById(R.id.comparator_input_a);
         inputB =  findViewById(R.id.comparator_input_b);
+        projGraph = findViewById(R.id.comparator_graph);
         comparatorScroller = findViewById(R.id.comparator_output_scroller);
         inputList = findViewById(R.id.comparator_input_list);
         inputA.setAdapter(mAdapter);
@@ -314,6 +325,7 @@ public class PlayerComparator extends AppCompatActivity {
         playerB = null;
         inputA.setText("");
         inputB.setText("");
+        projGraph.setVisibility(View.GONE);
         GeneralUtils.hideKeyboard(this);
         displayOptions();
     }
@@ -594,6 +606,17 @@ public class PlayerComparator extends AppCompatActivity {
             clearColors(riskA, riskB);
         }
 
+        // Graph
+        projGraph = findViewById(R.id.comparator_graph);
+        List<DailyProjection> historyA = rankings.getPlayerProjectionHistory().get(playerA.getUniqueId());
+        List<DailyProjection> historyB = rankings.getPlayerProjectionHistory().get(playerB.getUniqueId());
+        if (historyA != null && historyA.size() >= 2 && historyB != null && historyB.size() >= 2) {
+            projGraph.setVisibility(View.VISIBLE);
+            graphPlayers(projGraph, playerA, playerB, historyA, historyB);
+        } else {
+            projGraph.setVisibility(View.GONE);
+        }
+
         GeneralUtils.hideKeyboard(this);
     }
 
@@ -605,6 +628,53 @@ public class PlayerComparator extends AppCompatActivity {
     private void setColors(TextView winner, TextView loser) {
         winner.setBackgroundColor(Color.parseColor(BETTER_COLOR));
         loser.setBackgroundColor(Color.parseColor(WORSE_COLOR));
+    }
+
+    private void graphPlayers(LineChart lineGraph, Player playerA, Player playerB, List<DailyProjection> historyA, List<DailyProjection> historyB) {
+        LineDataSet dataSetA = getLineDataSet(playerA, historyA, "blue");
+        LineDataSet dataSetB = getLineDataSet(playerB, historyB, "green");
+        LineData lineData = new LineData();
+        lineData.addDataSet(dataSetA);
+        lineData.addDataSet(dataSetB);
+
+        lineGraph.setData(lineData);
+        lineGraph.setDrawBorders(true);
+        Description description = new Description();
+        description.setText("");
+        lineGraph.setDescription(description);
+        lineGraph.invalidate();
+        lineGraph.setTouchEnabled(true);
+        lineGraph.setPinchZoom(true);
+        lineGraph.setDragEnabled(true);
+        lineGraph.animateX(1500);
+        lineGraph.animateY(1500);
+
+        XAxis x = lineGraph.getXAxis();
+        x.setPosition(XAxis.XAxisPosition.BOTTOM);
+        x.setDrawAxisLine(false);
+        x.setDrawLabels(false);
+        x.setDrawGridLines(false);
+
+        YAxis yR = lineGraph.getAxisRight();
+        yR.setDrawAxisLine(false);
+        yR.setDrawGridLines(false);
+        yR.setDrawLabels(false);
+
+        YAxis yL = lineGraph.getAxisLeft();
+        yL.setDrawLabels(true);
+        yL.setDrawGridLines(true);
+        yL.setDrawAxisLine(false);
+    }
+
+    private LineDataSet getLineDataSet(Player player, List<DailyProjection> projections, String color) {
+        List<Entry> projectionDays = new ArrayList<>();
+        for (int i = 0; i < projections.size(); i++) {
+            DailyProjection projection = projections.get(i);
+            projectionDays.add(new Entry((float) i, (float) projection.getProjection(rankings.getLeagueSettings().getScoringSettings())));
+        }
+        LineDataSet projectionHistoryDataset = GraphUtils.getLineDataSet(projectionDays,
+                player.getName() + " Projections", color);
+        return projectionHistoryDataset;
     }
 
     private void goToPlayerInfo(Player player) {

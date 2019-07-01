@@ -202,7 +202,7 @@ public class ParseFantasyPros {
                 if (i + rowSize >= td.size()) {
                     break;
                 }
-                Double adpStr = Double.parseDouble(td.get(i + (rowSize - 1)));
+                Double adpStr = Double.parseDouble(td.get(i + (rowSize - 1)).replaceAll(",", ""));
                 String posInd = td.get(i + 2)
                         .replaceAll("(\\d+,\\d+)|\\d+", "")
                         .replaceAll("DST", Constants.DST);

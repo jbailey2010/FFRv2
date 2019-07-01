@@ -18,7 +18,7 @@ import java.util.Set;
 public class ParsePFO {
     public static void parsePFOLineData(Rankings rankings) throws IOException {
         List<String> td = JsoupUtils.parseURLWithUA(
-                "http://www.footballoutsiders.com/stats/ol", "td");
+                "http://www.footballoutsiders.com/stats/ol", "table.stats td");
         Map<String, String> data = new HashMap<>();
         int start = 0;
         for (int i = 0; i < td.size(); i++) {

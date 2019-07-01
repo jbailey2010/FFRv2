@@ -15,7 +15,8 @@ import java.util.Map;
 public class ParseFA {
 
     public static void parseFAClasses(Rankings rankings) throws IOException {
-        List<String> td = JsoupUtils.parseURLWithUA("https://www.profootballfocus.com/" + Constants.YEAR_KEY + "-nfl-free-agency-tracker/",
+        List<String> td = JsoupUtils.parseURLWithUA("https://www.profootballfocus.com/news/pro-"
+                        + Constants.YEAR_KEY + "-nfl-free-agent-tracker/",
                 "article table tbody tr td");
         Map<String, String> arrivingFA = new HashMap<>();
         Map<String, String> departingFA = new HashMap<>();
