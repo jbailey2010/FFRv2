@@ -23,8 +23,10 @@ import android.widget.RelativeLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 
+import com.amazonaws.util.StringUtils;
 import com.andrognito.flashbar.Flashbar;
 import com.devingotaswitch.fileio.LocalSettingsHelper;
+import com.devingotaswitch.fileio.RankingsDBWrapper;
 import com.devingotaswitch.rankings.domain.DailyProjection;
 import com.devingotaswitch.rankings.extras.FilterWithSpaceAdapter;
 import com.devingotaswitch.ffrv2.R;
@@ -72,6 +74,7 @@ public class PlayerComparator extends AppCompatActivity {
     private RecyclerView inputList;
     private List<Map<String, String>> data = new ArrayList<>();
     private RecyclerViewAdapter adapter;
+    private RankingsDBWrapper rankingsDB;
 
     private static final String TAG = "PlayerComparator";
     private static final String BETTER_COLOR = "#F3F3F3";
@@ -130,6 +133,7 @@ public class PlayerComparator extends AppCompatActivity {
         final FilterWithSpaceAdapter mAdapter = GeneralUtils.getPlayerSearchAdapter(rankings, this,
                 LocalSettingsHelper.hideDraftedComparatorSuggestion(this), LocalSettingsHelper.hideRanklessComparatorSuggestion(this));
 
+        rankingsDB = new RankingsDBWrapper();
         inputA =  findViewById(R.id.comparator_input_a);
         inputB =  findViewById(R.id.comparator_input_b);
         projGraph = findViewById(R.id.comparator_graph);
@@ -326,11 +330,12 @@ public class PlayerComparator extends AppCompatActivity {
         inputA.setText("");
         inputB.setText("");
         projGraph.setVisibility(View.GONE);
+        findViewById(R.id.note_output_row).setVisibility(View.GONE);
         GeneralUtils.hideKeyboard(this);
         displayOptions();
     }
 
-    private void displayResults(final Player playerA, final Player playerB) {
+    private void displayResults(Player a, Player b) {
         GeneralUtils.hideKeyboard(this);
         comparatorScroller.setVisibility(View.VISIBLE);
         inputList.setVisibility(View.GONE);
@@ -341,7 +346,8 @@ public class PlayerComparator extends AppCompatActivity {
         outputBase.setVisibility(View.VISIBLE);
         inputA.clearFocus();
         inputB.clearFocus();
-        DecimalFormat df = new DecimalFormat("#.##");
+        final Player playerA = rankingsDB.getPlayer(this, a.getName(), a.getTeamName(), a.getPosition());
+        final Player playerB = rankingsDB.getPlayer(this, b.getName(), b.getTeamName(), b.getPosition());
 
         // Name
         final TextView nameA = findViewById(R.id.comparator_name_a);
@@ -409,6 +415,15 @@ public class PlayerComparator extends AppCompatActivity {
         Team teamB = rankings.getTeam(playerB);
         byeA.setText(teamA != null ? teamA.getBye() : "?");
         byeB.setText(teamB != null ? teamB.getBye() : "?");
+
+        // Note
+        if (!StringUtils.isBlank(playerA.getNote()) || !StringUtils.isBlank(playerB.getNote())) {
+            findViewById(R.id.note_output_row).setVisibility(View.VISIBLE);
+            TextView noteA = findViewById(R.id.comparator_note_a);
+            TextView noteB = findViewById(R.id.comparator_note_b);
+            noteA.setText(playerA.getNote() == null ? "" : playerA.getNote());
+            noteB.setText(playerB.getNote() == null ? "" : playerB.getNote());
+        }
 
         // Expert's selection percentages (default to hidden)
         LinearLayout ecrRow = findViewById(R.id.expert_output_row);
@@ -500,8 +515,8 @@ public class PlayerComparator extends AppCompatActivity {
         // Auction value
         TextView aucA = findViewById(R.id.comparator_auc_a);
         TextView aucB = findViewById(R.id.comparator_auc_b);
-        aucA.setText(df.format(playerA.getAuctionValueCustom(rankings)));
-        aucB.setText(df.format(playerB.getAuctionValueCustom(rankings)));
+        aucA.setText(Constants.DECIMAL_FORMAT.format(playerA.getAuctionValueCustom(rankings)));
+        aucB.setText(Constants.DECIMAL_FORMAT.format(playerB.getAuctionValueCustom(rankings)));
         if (playerA.getAuctionValue() > playerB.getAuctionValue()) {
             setColors(aucA, aucB);
         } else if (playerA.getAuctionValue() < playerB.getAuctionValue()) {
@@ -543,8 +558,8 @@ public class PlayerComparator extends AppCompatActivity {
         // Projection
         TextView projA = findViewById(R.id.comparator_proj_a);
         TextView projB = findViewById(R.id.comparator_proj_b);
-        projA.setText(df.format(playerA.getProjection()));
-        projB.setText(df.format(playerB.getProjection()));
+        projA.setText(Constants.DECIMAL_FORMAT.format(playerA.getProjection()));
+        projB.setText(Constants.DECIMAL_FORMAT.format(playerB.getProjection()));
         if (playerA.getProjection() > playerB.getProjection()) {
             setColors(projA, projB);
         } else if (playerA.getProjection() < playerB.getProjection()){
@@ -556,8 +571,10 @@ public class PlayerComparator extends AppCompatActivity {
         // PAA
         TextView paaA = findViewById(R.id.comparator_paa_a);
         TextView paaB = findViewById(R.id.comparator_paa_b);
-        paaA.setText(df.format(playerA.getPaa()) + Constants.COMPARATOR_SCALED_PREFIX + df.format(playerA.getScaledPAA(rankings)) + Constants.COMPARATOR_SCALED_SUFFIX);
-        paaB.setText(df.format(playerB.getPaa()) + Constants.COMPARATOR_SCALED_PREFIX + df.format(playerB.getScaledPAA(rankings)) + Constants.COMPARATOR_SCALED_SUFFIX);
+        paaA.setText(Constants.DECIMAL_FORMAT.format(playerA.getPaa()) + Constants.COMPARATOR_SCALED_PREFIX +
+                Constants.DECIMAL_FORMAT.format(playerA.getScaledPAA(rankings)) + Constants.COMPARATOR_SCALED_SUFFIX);
+        paaB.setText(Constants.DECIMAL_FORMAT.format(playerB.getPaa()) + Constants.COMPARATOR_SCALED_PREFIX +
+                Constants.DECIMAL_FORMAT.format(playerB.getScaledPAA(rankings)) + Constants.COMPARATOR_SCALED_SUFFIX);
         if (playerA.getScaledPAA(rankings) > playerB.getScaledPAA(rankings)) {
             setColors(paaA, paaB);
         } else if (playerA.getScaledPAA(rankings) < playerB.getScaledPAA(rankings)){
@@ -569,8 +586,10 @@ public class PlayerComparator extends AppCompatActivity {
         // XVal
         TextView xvalA = findViewById(R.id.comparator_xval_a);
         TextView xvalB = findViewById(R.id.comparator_xval_b);
-        xvalA.setText(df.format(playerA.getxVal()) + Constants.COMPARATOR_SCALED_PREFIX + df.format(playerA.getScaledXVal(rankings)) + Constants.COMPARATOR_SCALED_SUFFIX);
-        xvalB.setText(df.format(playerB.getxVal()) + Constants.COMPARATOR_SCALED_PREFIX + df.format(playerB.getScaledXVal(rankings)) + Constants.COMPARATOR_SCALED_SUFFIX);
+        xvalA.setText(Constants.DECIMAL_FORMAT.format(playerA.getxVal()) + Constants.COMPARATOR_SCALED_PREFIX +
+                Constants.DECIMAL_FORMAT.format(playerA.getScaledXVal(rankings)) + Constants.COMPARATOR_SCALED_SUFFIX);
+        xvalB.setText(Constants.DECIMAL_FORMAT.format(playerB.getxVal()) + Constants.COMPARATOR_SCALED_PREFIX +
+                Constants.DECIMAL_FORMAT.format(playerB.getScaledXVal(rankings)) + Constants.COMPARATOR_SCALED_SUFFIX);
         if (playerA.getScaledXVal(rankings) > playerB.getScaledXVal(rankings)) {
             setColors(xvalA, xvalB);
         } else if (playerA.getScaledXVal(rankings) < playerB.getScaledXVal(rankings)){
@@ -582,8 +601,10 @@ public class PlayerComparator extends AppCompatActivity {
         // VoLS
         TextView volsA = findViewById(R.id.comparator_vols_a);
         TextView volsB = findViewById(R.id.comparator_vols_b);
-        volsA.setText(df.format(playerA.getVOLS()) + Constants.COMPARATOR_SCALED_PREFIX + df.format(playerA.getScaledVOLS(rankings)) + Constants.COMPARATOR_SCALED_SUFFIX);
-        volsB.setText(df.format(playerB.getVOLS()) + Constants.COMPARATOR_SCALED_PREFIX + df.format(playerB.getScaledVOLS(rankings)) + Constants.COMPARATOR_SCALED_SUFFIX);
+        volsA.setText(Constants.DECIMAL_FORMAT.format(playerA.getVOLS()) + Constants.COMPARATOR_SCALED_PREFIX +
+                Constants.DECIMAL_FORMAT.format(playerA.getScaledVOLS(rankings)) + Constants.COMPARATOR_SCALED_SUFFIX);
+        volsB.setText(Constants.DECIMAL_FORMAT.format(playerB.getVOLS()) + Constants.COMPARATOR_SCALED_PREFIX +
+                Constants.DECIMAL_FORMAT.format(playerB.getScaledVOLS(rankings)) + Constants.COMPARATOR_SCALED_SUFFIX);
         if (playerA.getScaledVOLS(rankings) > playerB.getScaledVOLS(rankings)) {
             setColors(volsA, volsB);
         } else if (playerA.getScaledVOLS(rankings) < playerB.getScaledVOLS(rankings)) {

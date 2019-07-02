@@ -16,4 +16,5 @@
     <dimen name="action_bar_text">20dp</dimen>
     <dimen name="nav_header_height">160dp</dimen>
     <dimen name="comparator_view_height">45dp</dimen>
+    <dimen name="comparator_taller_view_height">70dp</dimen>
 </resources>
