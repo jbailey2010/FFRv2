@@ -25,15 +25,17 @@ public class DisplayUtils {
                 .append(Constants.POS_TEAM_DELIMITER)
                 .append(player.getTeamName());
         Team team = rankings.getTeam(player);
-        if (team != null) {
-            sub = sub.append(" (Bye: ")
-                    .append(team.getBye())
-                    .append(")");
+        if (!Constants.NO_TEAM.equals(player.getTeamName())) {
+            if (team != null) {
+                sub = sub.append(" (Bye: ")
+                        .append(team.getBye())
+                        .append(")");
+            }
+            sub = sub.append(Constants.LINE_BREAK)
+                    .append("Projection: ")
+                    .append(Constants.DECIMAL_FORMAT.format(player.getProjection()));
         }
-        return sub.append(Constants.LINE_BREAK)
-                .append("Projection: ")
-                .append(Constants.DECIMAL_FORMAT.format(player.getProjection()))
-                .toString();
+        return sub.toString();
     }
 
     public static String getPlayerKeyFromListViewItem(View view) {
