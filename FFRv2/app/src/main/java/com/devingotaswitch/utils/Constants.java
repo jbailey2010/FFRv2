@@ -110,15 +110,6 @@ public class Constants {
     public static final String NUM_PLAYERS = "MAX_PLAYERS_VISIBLE";
     public static final String RANKINGS_FETCHED = "RANKINGS_FETCHED";
     public static final String NEWS_SOURCE = "NEWS_SOURCE";
-    public static final String HIDE_DRAFTED_SEARCH = "HIDE_DRAFTED_SEARCH";
-    public static final String HIDE_DRAFTED_COMPARATOR_LIST = "HIDE_DRAFTED_COMPARATOR_LIST";
-    public static final String HIDE_DRAFTED_COMPARATOR_SUGGESTION = "HIDE_DRAFTED_COMPARATOR_SUGGESTION";
-    public static final String HIDE_DRAFTED_SORT_OUTPUT = "HIDE_DRAFTED_SORT_OUTPUT";
-    public static final String HIDE_RANKLESS_SEARCH = "HIDE_RANKLESS_SEARCH";
-    public static final String HIDE_RANKLESS_COMPARATOR_LIST = "HIDE_RANKLESS_COMPARATOR_LIST";
-    public static final String HIDE_RANKLESS_COMPARATOR_SUGGESTION = "HIDE_RANKLESS_COMPARATOR_SUGGESTION";
-    public static final String HIDE_RANKLESS_SORT_OUTPUT = "HIDE_RANKLESS_SORT_OUTPUT";
-    public static final String REFRESH_RANKS_ON_OVERSCROLL = "REFRESH_RANKS_ON_OVERSCROLL";
     public static final String PLAYER_COMMENT_COUNT_PREFIX = "PLAYER_COMMENT_COUNT";
 
     // SP: defaults

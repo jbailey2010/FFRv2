@@ -45,7 +45,7 @@ public class DisplayUtils {
         String teamPosBye = playerInfo.getText().toString().split(Constants.LINE_BREAK)[0];
         String teamPos = teamPosBye.split(" \\(")[0];
         String team = teamPos.split(Constants.POS_TEAM_DELIMITER)[1];
-        String pos = teamPos.split(Constants.POS_TEAM_DELIMITER)[0].replaceAll("\\d","");;
+        String pos = teamPos.split(Constants.POS_TEAM_DELIMITER)[0].replaceAll("\\d","");
 
         return name +
                 Constants.PLAYER_ID_DELIMITER +

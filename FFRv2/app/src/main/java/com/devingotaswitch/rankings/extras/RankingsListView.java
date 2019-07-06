@@ -13,6 +13,7 @@ import com.devingotaswitch.utils.GeneralUtils;
 public class RankingsListView extends ListView {
     private Context context;
     private long lastRefreshTime = 0l;
+    private boolean refreshRanksOnOverscroll = false;
 
     public RankingsListView(Context context) {
         super(context);
@@ -34,6 +35,10 @@ public class RankingsListView extends ListView {
         this.context = context;
     }
 
+    public void setRefreshRanksOnOverscroll(boolean refreshRanksOnOverscroll) {
+        this.refreshRanksOnOverscroll = refreshRanksOnOverscroll;
+    }
+
     @Override
     public boolean overScrollBy (int deltaX,
                                  int deltaY,
@@ -46,7 +51,7 @@ public class RankingsListView extends ListView {
                                  boolean isTouchEvent) {
         if (isTouchEvent && deltaY < -25) {
             long deltaSeconds = GeneralUtils.getLatency(lastRefreshTime);
-            if (deltaSeconds > Constants.OVERSCROLL_REFRESH_THRESHOLD && LocalSettingsHelper.refreshRanksOnOverscroll(context)) {
+            if (deltaSeconds > Constants.OVERSCROLL_REFRESH_THRESHOLD && refreshRanksOnOverscroll) {
                 lastRefreshTime = System.currentTimeMillis();
                 ((RankingsHome)context).refreshRanks();
             }

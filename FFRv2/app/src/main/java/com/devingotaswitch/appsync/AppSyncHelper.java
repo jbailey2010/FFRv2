@@ -9,6 +9,7 @@ public class AppSyncHelper {
 
     private static final PlayerMetadataActivity metadataActivity = new PlayerMetadataActivity();
     private static final CommentActivity commentActivity = new CommentActivity();
+    private static final UserSettingsActivity userSettingsActivity = new UserSettingsActivity();
 
     public static void getOrCreatePlayerMetadataAndIncrementViewCount(Activity activity, String playerId) {
         metadataActivity.incrementViewCount(activity, playerId);
@@ -56,5 +57,16 @@ public class AppSyncHelper {
 
     public static void downvoteComment(Activity activity, String commentId, boolean decrementUpvote) {
         commentActivity.downvoteComment(activity, commentId, decrementUpvote);
+    }
+
+    public static void updateUserSettings(Activity activity, boolean hideRanklessSearch, boolean hideRanklessSort,
+                                            boolean hideRanklessComparator, boolean hideDraftedSearch, boolean hideDraftedSort,
+                                            boolean hideDraftedComparator, boolean refreshOnOverscroll) {
+        userSettingsActivity.updateUserSettings(activity, hideRanklessSearch, hideRanklessSort, hideRanklessComparator,
+                hideDraftedSearch, hideDraftedSort, hideDraftedComparator, refreshOnOverscroll);
+    }
+
+    public static void getUserSettings(Activity activity) {
+        userSettingsActivity.getUserSettings(activity);
     }
 }

@@ -25,6 +25,7 @@ import android.widget.TextView;
 
 import com.amazonaws.util.StringUtils;
 import com.andrognito.flashbar.Flashbar;
+import com.devingotaswitch.appsync.AppSyncHelper;
 import com.devingotaswitch.fileio.LocalSettingsHelper;
 import com.devingotaswitch.fileio.RankingsDBWrapper;
 import com.devingotaswitch.rankings.domain.DailyProjection;
@@ -75,6 +76,9 @@ public class PlayerComparator extends AppCompatActivity {
     private List<Map<String, String>> data = new ArrayList<>();
     private RecyclerViewAdapter adapter;
     private RankingsDBWrapper rankingsDB;
+
+    private boolean hideDraftedSuggestion = false;
+    private boolean hideRanklessSuggestion = false;
 
     private static final String TAG = "PlayerComparator";
     private static final String BETTER_COLOR = "#F3F3F3";
@@ -129,16 +133,20 @@ public class PlayerComparator extends AppCompatActivity {
         }
     }
 
-    private void init() {
-        final FilterWithSpaceAdapter mAdapter = GeneralUtils.getPlayerSearchAdapter(rankings, this,
-                LocalSettingsHelper.hideDraftedComparatorSuggestion(this), LocalSettingsHelper.hideRanklessComparatorSuggestion(this));
+    public void setUserSettings(boolean hideDraftedSuggestion, boolean hideRanklessSuggestion) {
+        this.hideDraftedSuggestion = hideDraftedSuggestion;
+        this.hideRanklessSuggestion = hideRanklessSuggestion;
 
-        rankingsDB = new RankingsDBWrapper();
+        setSuggestionAdapter();
+        displayOptions();
+    }
+
+    private void setSuggestionAdapter() {
         inputA =  findViewById(R.id.comparator_input_a);
         inputB =  findViewById(R.id.comparator_input_b);
-        projGraph = findViewById(R.id.comparator_graph);
-        comparatorScroller = findViewById(R.id.comparator_output_scroller);
-        inputList = findViewById(R.id.comparator_input_list);
+
+        final FilterWithSpaceAdapter mAdapter = GeneralUtils.getPlayerSearchAdapter(rankings, this,
+                hideDraftedSuggestion, hideRanklessSuggestion);
         inputA.setAdapter(mAdapter);
         inputB.setAdapter(mAdapter);
 
@@ -156,6 +164,15 @@ public class PlayerComparator extends AppCompatActivity {
                 return true;
             }
         });
+    }
+
+    private void init() {
+        rankingsDB = new RankingsDBWrapper();
+        projGraph = findViewById(R.id.comparator_graph);
+        comparatorScroller = findViewById(R.id.comparator_output_scroller);
+        inputList = findViewById(R.id.comparator_input_list);
+
+        setSuggestionAdapter();
 
         if (playerA != null && playerB != null) {
             displayResults(playerA, playerB);
@@ -236,6 +253,8 @@ public class PlayerComparator extends AppCompatActivity {
                 }
             }
         });
+
+        AppSyncHelper.getUserSettings(this);
     }
 
     private void toggleListItemStar(Player player, boolean doStar) {
@@ -268,8 +287,7 @@ public class PlayerComparator extends AppCompatActivity {
         Map<String, Integer> posRankMap = DisplayUtils.getPositionRankMap();
         for (int i = 0; i < Math.min(Constants.COMPARATOR_LIST_MAX, rankings.getOrderedIds().size()); i++) {
             Player player = rankings.getPlayer(rankings.getOrderedIds().get(i));
-            if ((rankings.getDraft().isDrafted(player) && LocalSettingsHelper.hideDraftedComparatorList(this)) ||
-                    (LocalSettingsHelper.hideRanklessComparatorList(this) &&
+            if ((rankings.getDraft().isDrafted(player)  && hideDraftedSuggestion) || (hideRanklessSuggestion &&
                             Constants.DEFAULT_DISPLAY_RANK_NOT_SET.equals(player.getDisplayValue(rankings)))) {
                 continue;
             }

@@ -20,7 +20,6 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
@@ -32,8 +31,8 @@ import android.widget.TextView;
 
 import com.amazonaws.util.StringUtils;
 import com.andrognito.flashbar.Flashbar;
+import com.devingotaswitch.appsync.AppSyncHelper;
 import com.devingotaswitch.ffrv2.R;
-import com.devingotaswitch.fileio.LocalSettingsHelper;
 import com.devingotaswitch.fileio.RankingsDBWrapper;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
@@ -69,6 +68,9 @@ import java.util.Set;
 public class PlayerSorter extends AppCompatActivity {
 
     private static final String TAG = "PlayerSorter";
+
+    private boolean hideDrafted = false;
+    private boolean hideRankless = false;
 
     private Rankings rankings;
     private RankingsDBWrapper rankingsDB;
@@ -154,7 +156,36 @@ public class PlayerSorter extends AppCompatActivity {
         }
     }
 
+    public void setUserSettings(boolean hideRanklessSort, boolean hideDraftedSort) {
+        this.hideDrafted = hideDraftedSort;
+        this.hideRankless = hideRanklessSort;
+
+        setSpinnerAdapter();
+    }
+
+    private MultiSelectionSpinner setSpinnerAdapter() {
+        final MultiSelectionSpinner spinner=findViewById(R.id.sort_players_additional_factors);
+        List<String> list = new ArrayList<>();
+        if (hideDrafted) {
+            list.add(Constants.SORT_HIDE_DRAFTED);
+        }
+        list.add(Constants.SORT_ONLY_HEALTHY);
+        list.add(Constants.SORT_EASY_SOS);
+        list.add(Constants.SORT_ONLY_WATCHED);
+        list.add(Constants.SORT_ONLY_ROOKIES);
+        list.add(Constants.SORT_UNDER_30);
+        if (!rankings.getLeagueSettings().isRookie() && !rankings.getLeagueSettings().isDynasty() && !rankings.getLeagueSettings().isBestBall()) {
+            list.add(Constants.SORT_IGNORE_EARLY);
+            list.add(Constants.SORT_IGNORE_LATE);
+        }
+        spinner.setItems(list, Constants.SORT_DEFAULT_STRING);
+        spinner.setSelection(new ArrayList<>(factorStrings));
+        return spinner;
+    }
+
     private void init() {
+        AppSyncHelper.getUserSettings(this);
+
         final NiceSpinner positions = findViewById(R.id.sort_players_position);
         final List<String> posList = new ArrayList<>();
         RosterSettings roster = rankings.getLeagueSettings().getRosterSettings();
@@ -269,25 +300,9 @@ public class PlayerSorter extends AppCompatActivity {
             }
         });
 
-        final MultiSelectionSpinner spinner=findViewById(R.id.sort_players_additional_factors);
-        List<String> list = new ArrayList<>();
-        if (!LocalSettingsHelper.hideDraftedSortOutput(this)) {
-            list.add(Constants.SORT_HIDE_DRAFTED);
-        }
-        list.add(Constants.SORT_ONLY_HEALTHY);
-        list.add(Constants.SORT_EASY_SOS);
-        list.add(Constants.SORT_ONLY_WATCHED);
-        list.add(Constants.SORT_ONLY_ROOKIES);
-        list.add(Constants.SORT_UNDER_30);
-        if (!rankings.getLeagueSettings().isRookie() && !rankings.getLeagueSettings().isDynasty() && !rankings.getLeagueSettings().isBestBall()) {
-            list.add(Constants.SORT_IGNORE_EARLY);
-            list.add(Constants.SORT_IGNORE_LATE);
-        }
-        spinner.setItems(list, Constants.SORT_DEFAULT_STRING);
-
+        final MultiSelectionSpinner spinner = setSpinnerAdapter();
         positions.setSelectedIndex(posIndex);
         factors.setSelectedIndex(sortIndex);
-        spinner.setSelection(new ArrayList<>(factorStrings));
 
         final CheckBox reverse = findViewById(R.id.sort_players_reverse);
 
@@ -489,12 +504,11 @@ public class PlayerSorter extends AppCompatActivity {
             }
 
 
-            if ((booleanFactors.contains(Constants.SORT_HIDE_DRAFTED) || LocalSettingsHelper.hideDraftedSortOutput(this) ||
+            if ((booleanFactors.contains(Constants.SORT_HIDE_DRAFTED) || hideDrafted ||
                     Constants.SORT_VBD_SUGGESTED.equals(factor)) && rankings.getDraft().isDrafted(player)) {
                 continue;
             }
-            if (LocalSettingsHelper.hideRanklessSortOutput(this) &&
-                    Constants.DEFAULT_DISPLAY_RANK_NOT_SET.equals(player.getDisplayValue(rankings))) {
+            if (hideRankless && Constants.DEFAULT_DISPLAY_RANK_NOT_SET.equals(player.getDisplayValue(rankings))) {
                 continue;
             }
             if (booleanFactors.contains(Constants.SORT_EASY_SOS)) {

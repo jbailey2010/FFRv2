@@ -45,6 +45,7 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.continuations.Mult
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.AuthenticationHandler;
 import com.amazonaws.util.StringUtils;
 import com.andrognito.flashbar.Flashbar;
+import com.devingotaswitch.appsync.AppSyncHelper;
 import com.devingotaswitch.rankings.extras.FilterWithSpaceAdapter;
 import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.fileio.LocalSettingsHelper;
@@ -54,6 +55,7 @@ import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.domain.RosterSettings;
 import com.devingotaswitch.rankings.extras.InstantAutoCompleteTextView;
+import com.devingotaswitch.rankings.extras.RankingsListView;
 import com.devingotaswitch.rankings.extras.SwipeDismissTouchListener;
 import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.DisplayUtils;
@@ -94,6 +96,9 @@ public class RankingsHome extends AppCompatActivity {
     private boolean loadRanks;
     private static Integer selectedIndex = 0;
     private boolean ranksDisplayed = false;
+
+    private boolean hideDraftedSearch = false;
+    private boolean hideRanklessSearch = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -199,6 +204,13 @@ public class RankingsHome extends AppCompatActivity {
             TextView navHeaderSubTitle = navigationHeader.findViewById(R.id.textViewNavUserSub);
             navHeaderSubTitle.setText(CUPHelper.getCurrUser());
         }
+    }
+
+    public void setUserSettings(boolean hideRanklessSearch, boolean hideDraftedSearch, boolean refreshOnOverscroll) {
+        this.hideDraftedSearch = hideDraftedSearch;
+        this.hideRanklessSearch = hideRanklessSearch;
+        setSearchAutocomplete();
+        ((RankingsListView)findViewById(R.id.rankings_list)).setRefreshRanksOnOverscroll(refreshOnOverscroll);
     }
 
     private void toggleFilterView() {
@@ -499,14 +511,14 @@ public class RankingsHome extends AppCompatActivity {
                             final Map<String, String> datum = data.get(position);
                             String name = datum.get(Constants.PLAYER_BASIC).split(Constants.RANKINGS_LIST_DELIMITER)[1];
                             String posAndTeam = datum.get(Constants.PLAYER_INFO).split("\n")[0].split(" \\(")[0];
-                            String pos = posAndTeam.split(Constants.POS_TEAM_DELIMITER)[0];
+                            String pos = posAndTeam.split(Constants.POS_TEAM_DELIMITER)[0].replaceAll("\\d","");
                             String team = posAndTeam.split(Constants.POS_TEAM_DELIMITER)[1];
                             final Player player  = rankings.getPlayer(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + pos);
                             Flashbar.OnActionTapListener listener = DraftUtils.getUndraftListener(localCopy, rankings, player, findViewById(R.id.user_drawer_layout),
                                     adapter, data, datum, position, true);
                             if (!rightDismiss) {
                                 rankings.getDraft().draftBySomeone(rankings, player, localCopy, findViewById(R.id.user_drawer_layout), listener);
-                                if (LocalSettingsHelper.hideDraftedSearch(localCopy)) {
+                                if (hideDraftedSearch) {
                                     setSearchAutocomplete();
                                 }
                             } else {
@@ -540,6 +552,7 @@ public class RankingsHome extends AppCompatActivity {
         ranksDisplayed = true;
 
         setSearchAutocomplete();
+        AppSyncHelper.getUserSettings(this);
     }
 
     private void getAuctionCost(final Player player, final int position, final List<Map<String, String>> data,
@@ -573,7 +586,7 @@ public class RankingsHome extends AppCompatActivity {
 
     private void draftByMe(Player player, int cost, Flashbar.OnActionTapListener listener) {
         rankings.getDraft().draftByMe(rankings, player, this, cost, findViewById(R.id.user_drawer_layout), listener);
-        if (LocalSettingsHelper.hideDraftedSearch(this)) {
+        if (hideDraftedSearch) {
             setSearchAutocomplete();
         }
     }
@@ -582,7 +595,7 @@ public class RankingsHome extends AppCompatActivity {
         final InstantAutoCompleteTextView searchInput = searchBase.findViewById(R.id.ranking_search);
         searchInput.setAdapter(null);
         final FilterWithSpaceAdapter mAdapter = GeneralUtils.getPlayerSearchAdapter(rankings, this,
-                LocalSettingsHelper.hideDraftedSearch(this), LocalSettingsHelper.hideRanklessSearch(this));
+                hideDraftedSearch, hideRanklessSearch);
         searchInput.setAdapter(mAdapter);
         searchInput.setOnTouchListener(new View.OnTouchListener() {
             @Override

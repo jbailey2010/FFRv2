@@ -1,0 +1,37 @@
+query GetUserSettings {
+  getUserSettings {
+    hideIrrelevantSearch
+    hideIrrelevantSort
+    hideIrrelevantComparator
+    hideDraftedSearch
+    hideDraftedSort
+    hideDraftedComparator
+    refreshOnOverscroll
+  }
+}
+
+mutation UpdateUserSettings(
+    $hideIrrelevantSearch: Boolean!,
+    $hideIrrelevantSort: Boolean!,
+    $hideIrrelevantComparator: Boolean!,
+    $hideDraftedSearch: Boolean!,
+    $hideDraftedSort: Boolean!,
+    $hideDraftedComparator: Boolean!,
+    $refreshOnOverscroll: Boolean!) {
+  updateUserSettings(
+      hideIrrelevantSearch: $hideIrrelevantSearch,
+      hideIrrelevantSort: $hideIrrelevantSort,
+      hideIrrelevantComparator: $hideIrrelevantComparator,
+      hideDraftedSearch: $hideDraftedSearch,
+      hideDraftedSort: $hideDraftedSort,
+      hideDraftedComparator: $hideDraftedComparator,
+      refreshOnOverscroll: $refreshOnOverscroll) {
+    hideIrrelevantSearch
+    hideIrrelevantSort
+    hideIrrelevantComparator
+    hideDraftedSearch
+    hideDraftedSort
+    hideDraftedComparator
+    refreshOnOverscroll
+  }
+}

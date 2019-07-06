@@ -5,16 +5,26 @@ import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
 import android.widget.TextView;
 
+import com.devingotaswitch.appsync.AppSyncHelper;
 import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.fileio.LocalSettingsHelper;
 
 public class SettingsActivity extends AppCompatActivity {
     private final String TAG="SettingsActivity";
+
+    CheckBox dSearch;
+    CheckBox rSearch;
+    CheckBox dsOutput;
+    CheckBox rsOutput;
+    CheckBox dcSuggestion;
+    CheckBox rcSuggestion;
+    CheckBox overscrollRefresh;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,83 +52,80 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     private void init() {
-        CheckBox dSearch = findViewById(R.id.hide_search_drafted);
-        CheckBox rSearch = findViewById(R.id.hide_search_rankless);
-        CheckBox dsOutput = findViewById(R.id.hide_sort_output_drafted);
-        CheckBox rsOutput = findViewById(R.id.hide_sort_output_rankless);
-        CheckBox dcSuggestion = findViewById(R.id.hide_comparator_input_drafted);
-        CheckBox rcSuggestion = findViewById(R.id.hide_comparator_input_rankless);
-        CheckBox dcList = findViewById(R.id.hide_comparator_list_drafted);
-        CheckBox rcList = findViewById(R.id.hide_comparator_list_rankless);
+        dSearch = findViewById(R.id.hide_search_drafted);
+        rSearch = findViewById(R.id.hide_search_rankless);
+        dsOutput = findViewById(R.id.hide_sort_output_drafted);
+        rsOutput = findViewById(R.id.hide_sort_output_rankless);
+        dcSuggestion = findViewById(R.id.hide_comparator_input_drafted);
+        rcSuggestion = findViewById(R.id.hide_comparator_input_rankless);
+        overscrollRefresh = findViewById(R.id.general_refresh_on_overscroll);
 
-        CheckBox overscrollRefresh = findViewById(R.id.general_refresh_on_overscroll);
+        AppSyncHelper.getUserSettings(this);
 
-        dSearch.setChecked(LocalSettingsHelper.hideDraftedSearch(this));
-        dsOutput.setChecked(LocalSettingsHelper.hideDraftedSortOutput(this));
-        dcSuggestion.setChecked(LocalSettingsHelper.hideDraftedComparatorSuggestion(this));
-        dcList.setChecked(LocalSettingsHelper.hideDraftedComparatorList(this));
-
-        rSearch.setChecked(LocalSettingsHelper.hideRanklessSearch(this));
-        rsOutput.setChecked(LocalSettingsHelper.hideRanklessSortOutput(this));
-        rcSuggestion.setChecked(LocalSettingsHelper.hideRanklessComparatorSuggestion(this));
-        rcList.setChecked(LocalSettingsHelper.hideRanklessComparatorList(this));
-
-        final Activity act = this;
         dSearch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                LocalSettingsHelper.setHideDraftedSearch(act, b);
+                updateUserSettings();
             }
         });
         dsOutput.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                LocalSettingsHelper.setHideDraftedSortOutput(act, b);
+                updateUserSettings();
             }
         });
         dcSuggestion.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                LocalSettingsHelper.setHideDraftedComparatorSuggestion(act, b);
-            }
-        });
-        dcList.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                LocalSettingsHelper.setHideDraftedComparatorList(act, b);
+                updateUserSettings();
             }
         });
 
         rSearch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                LocalSettingsHelper.setHideRanklessSearch(act, b);
+                updateUserSettings();
             }
         });
         rsOutput.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                LocalSettingsHelper.setHideRanklessSortOutput(act, b);
+                updateUserSettings();
             }
         });
         rcSuggestion.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                LocalSettingsHelper.setHideRanklessComparatorSuggestion(act, b);
-            }
-        });
-        rcList.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                LocalSettingsHelper.setHideRanklessComparatorList(act, b);
+                updateUserSettings();
             }
         });
 
         overscrollRefresh.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                LocalSettingsHelper.setRefreshRanksOnOverscroll(act, b);
+                updateUserSettings();
             }
         });
+    }
+
+    private void updateUserSettings() {
+        AppSyncHelper.updateUserSettings(this, rSearch.isChecked(), rsOutput.isChecked(), rcSuggestion.isChecked(),
+                dSearch.isChecked(), dsOutput.isChecked(), dcSuggestion.isChecked(), overscrollRefresh.isChecked());
+    }
+
+    public void updateUserSettings(boolean hideIrrelevantSearch, boolean hideIrrelevantSort,
+                                   boolean hideIrrelevantComparator, boolean hideDraftedSearch, boolean hideDraftedSort,
+                                   boolean hideDraftedComparator, boolean refreshOnOverscroll) {
+        if (rSearch != null && rsOutput != null && rcSuggestion != null && dSearch != null && dsOutput != null
+                && dcSuggestion != null && overscrollRefresh != null) {
+            // Useless if statement to ensure we don't get an NPE on rapid activity swap
+            rSearch.setChecked(hideIrrelevantSearch);
+            rsOutput.setChecked(hideIrrelevantSort);
+            rcSuggestion.setChecked(hideIrrelevantComparator);
+            dSearch.setChecked(hideDraftedSearch);
+            dsOutput.setChecked(hideDraftedSort);
+            dcSuggestion.setChecked(hideDraftedComparator);
+            overscrollRefresh.setChecked(refreshOnOverscroll);
+        }
     }
 }

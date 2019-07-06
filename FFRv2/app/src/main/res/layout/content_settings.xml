@@ -18,16 +18,15 @@
         android:overScrollMode="never"
         android:layout_alignParentTop="true">
 
-      <LinearLayout
+      <RelativeLayout
           android:layout_width="match_parent"
-          android:layout_height="wrap_content"
-          android:orientation="vertical">
+          android:layout_height="wrap_content">
 
           <RelativeLayout
+              android:id="@+id/settings_rankless_base"
               android:layout_width="match_parent"
-              android:layout_height="0dp"
-              android:padding="4dp"
-              android:layout_weight="1">
+              android:layout_height="wrap_content"
+              android:padding="4dp">
 
               <TextView
                   android:layout_width="match_parent"
@@ -60,20 +59,13 @@
                   android:layout_marginTop="8dp"
                   android:text="Hide from comparator suggestions"/>
 
-              <CheckBox
-                  android:id="@+id/hide_comparator_list_rankless"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_below="@+id/hide_comparator_input_rankless"
-                  android:layout_marginTop="8dp"
-                  android:text="Hide from comparator list"/>
-
           </RelativeLayout>
 
           <RelativeLayout
+              android:id="@+id/settings_drafted_base"
               android:layout_width="match_parent"
-              android:layout_height="0dp"
-              android:layout_weight="1"
+              android:layout_height="wrap_content"
+              android:layout_below="@+id/settings_rankless_base"
               android:padding="4dp">
 
               <TextView
@@ -107,20 +99,13 @@
                   android:layout_marginTop="8dp"
                   android:text="Hide from comparator suggestions"/>
 
-              <CheckBox
-                  android:id="@+id/hide_comparator_list_drafted"
-                  android:layout_width="wrap_content"
-                  android:layout_height="wrap_content"
-                  android:layout_below="@+id/hide_comparator_input_drafted"
-                  android:layout_marginTop="8dp"
-                  android:text="Hide from comparator list"/>
-
           </RelativeLayout>
 
           <RelativeLayout
+              android:id="@+id/settings_general_base"
+              android:layout_below="@+id/settings_drafted_base"
               android:layout_width="match_parent"
-              android:layout_height="0dp"
-              android:layout_weight="1"
+              android:layout_height="wrap_content"
               android:padding="4dp">
 
               <TextView
@@ -140,7 +125,7 @@
           </RelativeLayout>
 
 
-      </LinearLayout>
+      </RelativeLayout>
 
   </ScrollView>
 
