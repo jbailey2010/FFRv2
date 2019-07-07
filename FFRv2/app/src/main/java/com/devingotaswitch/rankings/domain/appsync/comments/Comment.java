@@ -10,6 +10,8 @@ public class Comment {
     private Integer downvotes;
     private String replyToId;
     private Integer replyDepth;
+    private boolean isUpvoted;
+    private boolean isDownvoted;
 
     public String getAuthor() {
         return author;
@@ -81,5 +83,21 @@ public class Comment {
 
     public void setReplyDepth(Integer replyDepth) {
         this.replyDepth = replyDepth;
+    }
+
+    public boolean isUpvoted() {
+        return isUpvoted;
+    }
+
+    public void setUpvoted(boolean upvoted) {
+        isUpvoted = upvoted;
+    }
+
+    public boolean isDownvoted() {
+        return isDownvoted;
+    }
+
+    public void setDownvoted(boolean downvoted) {
+        isDownvoted = downvoted;
     }
 }

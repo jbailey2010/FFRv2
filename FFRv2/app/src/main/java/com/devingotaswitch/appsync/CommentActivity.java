@@ -124,6 +124,13 @@ public class CommentActivity extends AppSyncActivity {
                         comment.setId(item.id());
                         comment.setReplyDepth(item.replyDepth());
                         comment.setReplyToId(item.replyToId() == null ? "" : item.replyToId());
+                        if (item.userVoteStatus() != null) {
+                            comment.setUpvoted(item.userVoteStatus().upvoted());
+                            comment.setDownvoted(item.userVoteStatus().downvoted());
+                        } else {
+                            comment.setUpvoted(false);
+                            comment.setDownvoted(false);
+                        }
                         comments.add(comment);
                     }
                     runOnUiThread(new Runnable() {
@@ -201,11 +208,12 @@ public class CommentActivity extends AppSyncActivity {
                     newComment.setPlayerId(playerId);
                     newComment.setTime(formatCurrentTime(time));
                     newComment.setId(id);
+                    newComment.setUpvoted(true);
+                    newComment.setDownvoted(false);
                     newComment.setReplyDepth(replyDepth);
                     newComment.setReplyToId(replyToId);
                     final List<Comment> dummyList = new ArrayList<>();
                     dummyList.add(newComment);
-                    LocalSettingsHelper.upvotePost(activity, id);
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

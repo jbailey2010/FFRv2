@@ -92,32 +92,6 @@ public class LocalSettingsHelper {
         editor.apply();
     }
 
-    public static boolean isPostUpvoted(Context cont, String commentId) {
-        return getSharedPreferences(cont).getBoolean(commentId + Constants.COMMENT_UPVOTE, Constants.NOT_SET_BOOLEAN);
-    }
-
-    public static boolean isPostDownvoted(Context cont, String commentId) {
-        return getSharedPreferences(cont).getBoolean(commentId + Constants.COMMENT_DOWNVOTE, Constants.NOT_SET_BOOLEAN);
-    }
-
-    public static void downvotePost(Context cont, String commentId) {
-        if (!isPostDownvoted(cont, commentId)) {
-            SharedPreferences.Editor editor = getSharedPreferences(cont).edit();
-            editor.remove(commentId + Constants.COMMENT_UPVOTE);
-            editor.putBoolean(commentId + Constants.COMMENT_DOWNVOTE, true);
-            editor.apply();
-        }
-    }
-
-    public static void upvotePost(Context cont, String commentId) {
-        if (!isPostUpvoted(cont, commentId)) {
-            SharedPreferences.Editor editor = getSharedPreferences(cont).edit();
-            editor.remove(commentId + Constants.COMMENT_DOWNVOTE);
-            editor.putBoolean(commentId + Constants.COMMENT_UPVOTE, true);
-            editor.apply();
-        }
-    }
-
     public static boolean isPlayerTagged(Context cont, String playerId, String tagType) {
         return getSharedPreferences(cont).getBoolean(playerId + tagType + Constants.SP_TAG_SUFFIX, Constants.NOT_SET_BOOLEAN);
     }

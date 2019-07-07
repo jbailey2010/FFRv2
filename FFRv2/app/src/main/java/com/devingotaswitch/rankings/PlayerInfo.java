@@ -1241,15 +1241,10 @@ public class PlayerInfo extends AppCompatActivity {
         commentMap.put(Constants.COMMENT_REPLY_ID, comment.getReplyToId());
         commentMap.put(Constants.COMMENT_UPVOTE_COUNT, String.valueOf(comment.getUpvotes()));
         commentMap.put(Constants.COMMENT_DOWNVOTE_COUNT, String.valueOf(comment.getDownvotes()));
-        if (LocalSettingsHelper.isPostUpvoted(this, comment.getId())) {
+        if (comment.isUpvoted()) {
             commentMap.put(Constants.COMMENT_UPVOTE_IMAGE, Integer.toString(R.drawable.upvoted));
             commentMap.put(Constants.COMMENT_DOWNVOTE_IMAGE, Integer.toString(R.drawable.not_downvoted));
-        } else if (!LocalSettingsHelper.isPostDownvoted(this, comment.getId())
-                && comment.getAuthor().equals(CUPHelper.getCurrUser())) {
-            LocalSettingsHelper.upvotePost(this, comment.getId());
-            commentMap.put(Constants.COMMENT_UPVOTE_IMAGE, Integer.toString(R.drawable.upvoted));
-            commentMap.put(Constants.COMMENT_DOWNVOTE_IMAGE, Integer.toString(R.drawable.not_downvoted));
-        } else if (LocalSettingsHelper.isPostDownvoted(this, comment.getId())) {
+        } else if (comment.isDownvoted()) {
             commentMap.put(Constants.COMMENT_UPVOTE_IMAGE, Integer.toString(R.drawable.not_upvoted));
             commentMap.put(Constants.COMMENT_DOWNVOTE_IMAGE, Integer.toString(R.drawable.downvoted));
         } else {
@@ -1271,47 +1266,59 @@ public class PlayerInfo extends AppCompatActivity {
     }
 
     public void conditionallyUpvoteComment(String commentId) {
-        if (!LocalSettingsHelper.isPostUpvoted(this, commentId)) {
-            for (Map<String, String> datum : commentData) {
-                if (datum.get(Constants.COMMENT_ID).equals(commentId)) {
-                    datum.put(Constants.COMMENT_UPVOTE_IMAGE, Integer.toString(R.drawable.upvoted));
-                    datum.put(Constants.COMMENT_DOWNVOTE_IMAGE, Integer.toString(R.drawable.not_downvoted));
-                    if (LocalSettingsHelper.isPostDownvoted(this, commentId)) {
-                        int downvotes = Integer.parseInt(datum.get(Constants.COMMENT_DOWNVOTE_COUNT));
-                        datum.put(Constants.COMMENT_DOWNVOTE_COUNT, String.valueOf(--downvotes));
-                    }
-                    int upvotes = Integer.parseInt(datum.get(Constants.COMMENT_UPVOTE_COUNT));
-                    datum.put(Constants.COMMENT_UPVOTE_COUNT, String.valueOf(++upvotes));
-                    commentAdapter.notifyDataSetChanged();
-                    break;
-                }
+        Comment domainComment = null;
+        for (Comment comment : comments) {
+            if (comment.getId().equals(commentId)) {
+                domainComment = comment;
+                break;
             }
-            AppSyncHelper.upvoteComment(this, commentId, LocalSettingsHelper.isPostDownvoted(this, commentId));
-            LocalSettingsHelper.upvotePost(this, commentId);
+        }
+        for (Map<String, String> datum : commentData) {
+            if (datum.get(Constants.COMMENT_ID).equals(commentId) && !domainComment.isUpvoted()) {
+                datum.put(Constants.COMMENT_UPVOTE_IMAGE, Integer.toString(R.drawable.upvoted));
+                datum.put(Constants.COMMENT_DOWNVOTE_IMAGE, Integer.toString(R.drawable.not_downvoted));
+                if (domainComment.isDownvoted()) {
+                    int downvotes = Integer.parseInt(datum.get(Constants.COMMENT_DOWNVOTE_COUNT));
+                    datum.put(Constants.COMMENT_DOWNVOTE_COUNT, String.valueOf(--downvotes));
+                }
+                int upvotes = Integer.parseInt(datum.get(Constants.COMMENT_UPVOTE_COUNT));
+                datum.put(Constants.COMMENT_UPVOTE_COUNT, String.valueOf(++upvotes));
+                commentAdapter.notifyDataSetChanged();
+                AppSyncHelper.upvoteComment(this, commentId, domainComment.isDownvoted());
+                domainComment.setUpvoted(true);
+                domainComment.setDownvoted(false);
+                break;
+            }
         }
     }
 
     public void conditionallyDownvoteComment(String commentId) {
-        if (!LocalSettingsHelper.isPostDownvoted(this, commentId)) {
-            for (Map<String, String> datum : commentData) {
-                if (datum.get(Constants.COMMENT_ID).equals(commentId)) {
-                    datum.put(Constants.COMMENT_UPVOTE_IMAGE, Integer.toString(R.drawable.not_upvoted));
-                    datum.put(Constants.COMMENT_DOWNVOTE_IMAGE, Integer.toString(R.drawable.downvoted));
-                    if (LocalSettingsHelper.isPostUpvoted(this, commentId)) {
-                        int upvotes = Integer.parseInt(datum.get(Constants.COMMENT_UPVOTE_COUNT));
-                        datum.put(Constants.COMMENT_UPVOTE_COUNT, String.valueOf(--upvotes));
-                    }
-                    int downvotes = Integer.parseInt(datum.get(Constants.COMMENT_DOWNVOTE_COUNT));
-                    datum.put(Constants.COMMENT_DOWNVOTE_COUNT, String.valueOf(++downvotes));
-                    commentAdapter.notifyDataSetChanged();
-                    break;
-                }
+        Comment domainComment = null;
+        for (Comment comment : comments) {
+            if (comment.getId().equals(commentId)) {
+                domainComment = comment;
+                break;
             }
-            AppSyncHelper.downvoteComment(this, commentId, LocalSettingsHelper.isPostUpvoted(this, commentId));
-            LocalSettingsHelper.downvotePost(this, commentId);
         }
-
+        for (Map<String, String> datum : commentData) {
+            if (datum.get(Constants.COMMENT_ID).equals(commentId) && !domainComment.isDownvoted()) {
+                datum.put(Constants.COMMENT_UPVOTE_IMAGE, Integer.toString(R.drawable.not_upvoted));
+                datum.put(Constants.COMMENT_DOWNVOTE_IMAGE, Integer.toString(R.drawable.downvoted));
+                if (domainComment.isUpvoted()) {
+                    int upvotes = Integer.parseInt(datum.get(Constants.COMMENT_UPVOTE_COUNT));
+                    datum.put(Constants.COMMENT_UPVOTE_COUNT, String.valueOf(--upvotes));
+                }
+                int downvotes = Integer.parseInt(datum.get(Constants.COMMENT_DOWNVOTE_COUNT));
+                datum.put(Constants.COMMENT_DOWNVOTE_COUNT, String.valueOf(++downvotes));
+                commentAdapter.notifyDataSetChanged();
+                AppSyncHelper.downvoteComment(this, commentId, domainComment.isUpvoted());
+                domainComment.setUpvoted(false);
+                domainComment.setDownvoted(true);
+                break;
+            }
+        }
     }
+
 
     public void updateVoteCount(String commentId, int upvotes, int downvotes) {
         for (Map<String, String> comment : commentData) {
