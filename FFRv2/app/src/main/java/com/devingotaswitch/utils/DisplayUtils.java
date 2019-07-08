@@ -79,7 +79,7 @@ public class DisplayUtils {
         Map<String, String> datum = new HashMap<>(5);
         datum.put(Constants.PLAYER_BASIC, playerBasicContent);
         datum.put(Constants.PLAYER_INFO, generateOutputSubtext(player, rankings, posSuffix));
-        if (markWatched && player.isWatched()) {
+        if (markWatched && rankings.isPlayerWatched(player.getUniqueId())) {
             datum.put(Constants.PLAYER_STATUS, Integer.toString(R.drawable.star));
         }
         if (player.getAge() != null  && !Constants.DST.equals(player.getPosition())) {

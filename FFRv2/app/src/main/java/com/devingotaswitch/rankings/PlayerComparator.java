@@ -435,12 +435,13 @@ public class PlayerComparator extends AppCompatActivity {
         byeB.setText(teamB != null ? teamB.getBye() : "?");
 
         // Note
-        if (!StringUtils.isBlank(playerA.getNote()) || !StringUtils.isBlank(playerB.getNote())) {
+        if (!StringUtils.isBlank(rankings.getPlayerNote(playerA.getUniqueId())) ||
+                !StringUtils.isBlank(rankings.getPlayerNote(playerB.getUniqueId()))) {
             findViewById(R.id.note_output_row).setVisibility(View.VISIBLE);
             TextView noteA = findViewById(R.id.comparator_note_a);
             TextView noteB = findViewById(R.id.comparator_note_b);
-            noteA.setText(playerA.getNote() == null ? "" : playerA.getNote());
-            noteB.setText(playerB.getNote() == null ? "" : playerB.getNote());
+            noteA.setText(rankings.getPlayerNote(playerA.getUniqueId()));
+            noteB.setText(rankings.getPlayerNote(playerB.getUniqueId()));
         }
 
         // Expert's selection percentages (default to hidden)

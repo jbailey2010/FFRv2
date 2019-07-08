@@ -343,10 +343,18 @@ public class RankingsHome extends AppCompatActivity {
 
         GeneralUtils.hideKeyboard(this);
 
+        AppSyncHelper.getUserCustomPlayerData(this);
+
         // Cogneato stuff
         username = CUPHelper.getCurrUser();
         user = CUPHelper.getPool().getUser(username);
         refreshTokens();
+    }
+
+    public void setUserCustomData(List<String> watchList, Map<String, String> notes) {
+        Rankings.setCustomUserData(watchList, notes);
+
+        displayRankings(rankings.getOrderedIds());
     }
 
     private void initRankingsContext() {
@@ -452,15 +460,14 @@ public class RankingsHome extends AppCompatActivity {
                 String playerKey = DisplayUtils.getPlayerKeyFromListViewItem(view);
                 final ImageView playerStatus = view.findViewById(R.id.player_status);
                 final Player player = rankings.getPlayer(playerKey);
-                if (player.isWatched()) {
-                    player.setWatched(false);
+                if (rankings.isPlayerWatched(playerKey)) {
+                    rankings.togglePlayerWatched(act, player.getUniqueId());
                     Flashbar.OnActionTapListener add = new Flashbar.OnActionTapListener() {
                         @Override
                         public void onActionTapped(Flashbar flashbar) {
                             flashbar.dismiss();
-                            player.setWatched(true);
                             playerStatus.setImageResource(R.drawable.star);
-                            rankingsDB.updatePlayerWatchedStatus(act, player);
+                            rankings.togglePlayerWatched(act, player.getUniqueId());
                         }
                     };
                     FlashbarFactory.generateFlashbarWithUndo(act, "Success!", player.getName() + " removed from watch list",
@@ -468,14 +475,13 @@ public class RankingsHome extends AppCompatActivity {
                             .show();
                     playerStatus.setImageResource(0);
                 } else {
-                    player.setWatched(true);
+                    rankings.togglePlayerWatched(act, player.getUniqueId());
                     Flashbar.OnActionTapListener remove = new Flashbar.OnActionTapListener() {
                         @Override
                         public void onActionTapped(Flashbar flashbar) {
                             flashbar.dismiss();
-                            player.setWatched(false);
                             playerStatus.setImageResource(0);
-                            rankingsDB.updatePlayerWatchedStatus(act, player);
+                            rankings.togglePlayerWatched(act, player.getUniqueId());
                         }
                     };
                     FlashbarFactory.generateFlashbarWithUndo(act, "Success!", player.getName() + " added to watch list",
@@ -483,7 +489,6 @@ public class RankingsHome extends AppCompatActivity {
                             .show();
                     playerStatus.setImageResource(R.drawable.star);
                 }
-                rankingsDB.updatePlayerWatchedStatus(act, player);
                 return true;
             }
         });

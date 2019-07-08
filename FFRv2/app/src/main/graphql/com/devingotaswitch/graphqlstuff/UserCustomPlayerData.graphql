@@ -1,0 +1,13 @@
+query GetUserCustomPlayerData {
+  getUserCustomPlayerData {
+    watchList
+    notes
+  }
+}
+
+mutation UpdateUserCustomPlayerData($watchList: String!, $notes: String!) {
+  updateUserCustomPlayerData(watchList: $watchList, notes: $notes) {
+    watchList
+    notes
+  }
+}

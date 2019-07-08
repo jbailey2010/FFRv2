@@ -351,7 +351,6 @@ public class RankingsFetcher {
 
             Log.i(TAG, "Ordering players for display");
             rankings.setOrderedIds(getOrderedIds());
-            setWatchedPlayers();
 
             // If there were no projection histories saved against the rankings, we'll set them here.
             String today = Constants.DATE_FORMAT.format(Calendar.getInstance().getTime());
@@ -417,13 +416,6 @@ public class RankingsFetcher {
 
         private String getDedupKey(Player player) {
             return player.getName() + Constants.PLAYER_ID_DELIMITER + player.getPosition();
-        }
-        private void setWatchedPlayers() {
-            RankingsDBWrapper rankingsDB = new RankingsDBWrapper();
-            List<Player> watchList = rankingsDB.getWatchList(act);
-            for (Player player : watchList) {
-                rankings.getPlayer(player.getUniqueId()).setWatched(true);
-            }
         }
 
         private List<String> getOrderedIds() {

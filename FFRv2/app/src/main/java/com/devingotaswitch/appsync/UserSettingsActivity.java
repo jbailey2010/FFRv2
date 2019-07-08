@@ -33,10 +33,13 @@ public class UserSettingsActivity extends AppSyncActivity {
 
             @Override
             public void onResponse(@Nonnull Response<UpdateUserSettingsMutation.Data> response) {
-                for (Error error : response.errors()) {
-                    Log.e(TAG, "Update user settings failed: " + error.message());
+                if (!response.errors().isEmpty()) {
+                    for (Error error : response.errors()) {
+                        Log.e(TAG, "Update user settings failed: " + error.message());
+                    }
+                } else {
+                    Log.d(TAG, "Successfully updated user settings.");
                 }
-                Log.d(TAG, "Successfully updated user settings.");
             }
 
             @Override
@@ -65,30 +68,35 @@ public class UserSettingsActivity extends AppSyncActivity {
 
             @Override
             public void onResponse(@Nonnull Response<GetUserSettingsQuery.Data> response) {
-                for (Error error : response.errors()) {
-                    Log.e(TAG, "Get user settings failed: " + error.message());
-                }
-                Log.d(TAG, "Successfully retrieved user settings.");
-
-                final GetUserSettingsQuery.GetUserSettings settings = response.data().getUserSettings();
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (activity instanceof SettingsActivity) {
-                            ((SettingsActivity) activity).updateUserSettings(settings.hideIrrelevantSearch(), settings.hideIrrelevantSort(),
-                                    settings.hideIrrelevantComparator(), settings.hideDraftedSearch(), settings.hideDraftedSort(),
-                                    settings.hideDraftedComparator(), settings.refreshOnOverscroll());
-                        } else if (activity instanceof PlayerComparator) {
-                            ((PlayerComparator)activity).setUserSettings(settings.hideDraftedComparator(),
-                                    settings.hideIrrelevantComparator());
-                        } else if (activity instanceof PlayerSorter) {
-                            ((PlayerSorter)activity).setUserSettings(settings.hideIrrelevantSort(), settings.hideDraftedSort());
-                        } else if (activity instanceof RankingsHome) {
-                            ((RankingsHome)activity).setUserSettings(settings.hideIrrelevantSearch(), settings.hideDraftedSearch(),
-                                    settings.refreshOnOverscroll());
-                        }
+                if (!response.errors().isEmpty()) {
+                    for (Error error : response.errors()) {
+                        Log.e(TAG, "Get user settings failed: " + error.message());
                     }
-                });
+                } else {
+                    Log.d(TAG, "Successfully retrieved user settings.");
+
+                    final GetUserSettingsQuery.GetUserSettings settings = response.data().getUserSettings();
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            if (activity instanceof SettingsActivity) {
+                                ((SettingsActivity) activity).updateUserSettings(settings.hideIrrelevantSearch(), settings.hideIrrelevantSort(),
+                                        settings.hideIrrelevantComparator(), settings.hideDraftedSearch(), settings.hideDraftedSort(),
+                                        settings.hideDraftedComparator(), settings.refreshOnOverscroll());
+                            } else if (activity instanceof PlayerComparator) {
+                                ((PlayerComparator)activity).setUserSettings(settings.hideDraftedComparator(),
+                                        settings.hideIrrelevantComparator());
+                            } else if (activity instanceof PlayerSorter) {
+                                ((PlayerSorter)activity).setUserSettings(settings.hideIrrelevantSort(), settings.hideDraftedSort());
+                            } else if (activity instanceof RankingsHome) {
+                                ((RankingsHome)activity).setUserSettings(settings.hideIrrelevantSearch(), settings.hideDraftedSearch(),
+                                        settings.refreshOnOverscroll());
+                            }
+                        }
+                    });
+                }
+
+
             }
 
             @Override

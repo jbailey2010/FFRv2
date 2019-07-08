@@ -523,7 +523,7 @@ public class PlayerSorter extends AppCompatActivity {
                 }
             }
             if  (booleanFactors.contains(Constants.SORT_ONLY_WATCHED)) {
-                if (!player.isWatched()) {
+                if (!rankings.isPlayerWatched(player.getUniqueId())) {
                     continue;
                 }
             }
@@ -594,7 +594,7 @@ public class PlayerSorter extends AppCompatActivity {
                 Map<String, String> datum = new HashMap<>(3);
                 datum.put(Constants.PLAYER_BASIC, getMainTextForFactor(player));
                 datum.put(Constants.PLAYER_INFO, getSubTextForFactor(player));
-                if (player.isWatched()) {
+                if (rankings.isPlayerWatched(player.getUniqueId())) {
                     datum.put(Constants.PLAYER_STATUS, Integer.toString(R.drawable.star));
                 }
                 if (rankings.getDraft().isDrafted(player)) {
@@ -613,38 +613,35 @@ public class PlayerSorter extends AppCompatActivity {
                 String playerKey = getPlayerKeyFromListViewItem(view);
                 final ImageView playerStatus = view.findViewById(R.id.player_status);
                 final Player player = rankings.getPlayer(playerKey);
-                if (player.isWatched()) {
-                    player.setWatched(false);
+                if (rankings.isPlayerWatched(player.getUniqueId())) {
                     Flashbar.OnActionTapListener listener = new Flashbar.OnActionTapListener() {
                         @Override
                         public void onActionTapped(Flashbar flashbar) {
                             flashbar.dismiss();
-                            player.setWatched(true);
                             playerStatus.setImageResource(R.drawable.star);
-                            rankingsDB.updatePlayerWatchedStatus(act, player);
+                            rankings.togglePlayerWatched(act, player.getUniqueId());
                         }
                     };
                     FlashbarFactory.generateFlashbarWithUndo(act, "Success!", player.getName() + " removed from watch list",
                             Flashbar.Gravity.BOTTOM, listener)
                             .show();
+                    rankings.togglePlayerWatched(act, player.getUniqueId());
                     playerStatus.setImageResource(0);
                 } else {
-                    player.setWatched(true);
                     Flashbar.OnActionTapListener listener = new Flashbar.OnActionTapListener() {
                         @Override
                         public void onActionTapped(Flashbar flashbar) {
                             flashbar.dismiss();
-                            player.setWatched(false);
                             playerStatus.setImageResource(0);
-                            rankingsDB.updatePlayerWatchedStatus(act, player);
+                            rankings.togglePlayerWatched(act, player.getUniqueId());
                         }
                     };
                     FlashbarFactory.generateFlashbarWithUndo(act, "Success!", player.getName() + " added to watch list",
                             Flashbar.Gravity.BOTTOM, listener)
                             .show();
+                    rankings.togglePlayerWatched(act, player.getUniqueId());
                     playerStatus.setImageResource(R.drawable.star);
                 }
-                rankingsDB.updatePlayerWatchedStatus(act, player);
                 return true;
             }
         });

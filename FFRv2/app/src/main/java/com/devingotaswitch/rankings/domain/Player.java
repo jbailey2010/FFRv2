@@ -17,10 +17,8 @@ public class Player {
     private Double rookieRank = Constants.DEFAULT_RANK;
     private Double bestBallRank = Constants.DEFAULT_RANK;
     private String teamName;
-    private String note;
     private String stats;
     private String injuryStatus;
-    private boolean isWatched;
     private Double auctionValue = 0.0;
     private Double numRankings = 0.0;
     private Double risk = Constants.DEFAULT_RISK;
@@ -125,12 +123,12 @@ public class Player {
         if (getAuctionValue() <= 1.0) {
             return getAuctionValue();
         }
-        double scalar = ((double)auctionBudget) / ((double)Constants.DEFAULT_AUCTION_BUDGET);
+        double scalar = ((double) auctionBudget) / ((double) Constants.DEFAULT_AUCTION_BUDGET);
         if (teamCount > Constants.AUCTION_TEAM_SCALE_COUNT) {
             // First, get the extra % of money. If there's 14 teams, that means 14/12 = 1.16667 = 16.6667 % more money.
             // To limit crazy numbers, it's capped at 16 teams/33.333% above.
-            double teamScaleDelta = (Math.min((double)teamCount, 16.0)) /
-                    ((double)Constants.AUCTION_TEAM_SCALE_COUNT) - 1.0;
+            double teamScaleDelta = (Math.min((double) teamCount, 16.0)) /
+                    ((double) Constants.AUCTION_TEAM_SCALE_COUNT) - 1.0;
             // Next, scale that down a bit.
             teamScaleDelta *= Constants.AUCTION_TEAM_SCALE_THRESHOLD;
             // Finally, add it back to 1 so we can scale values accordingly, x * (1.16667 * scale down factor).
@@ -138,13 +136,6 @@ public class Player {
             scalar *= teamScaleDelta;
         }
         return getAuctionValue() * scalar;
-    }
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(String note) {
-        this.note = note;
     }
 
     public String getStats() { return stats; }
@@ -154,10 +145,6 @@ public class Player {
     public String getInjuryStatus() { return injuryStatus; }
 
     public void setInjuryStatus(String injuryStatus) { this.injuryStatus = injuryStatus; }
-
-    public boolean isWatched() { return isWatched; }
-
-    public void setWatched(boolean isWatched) { this.isWatched = isWatched; }
 
     public Double getRisk() { return risk; }
 

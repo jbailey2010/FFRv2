@@ -1,7 +1,10 @@
 package com.devingotaswitch.rankings.domain;
 
 import android.app.Activity;
+import android.util.Log;
 
+import com.amazonaws.util.StringUtils;
+import com.devingotaswitch.appsync.AppSyncHelper;
 import com.devingotaswitch.fileio.RankingsDBWrapper;
 import com.devingotaswitch.rankings.RankingsHome;
 import com.devingotaswitch.rankings.asynctasks.RankingsFetcher;
@@ -26,6 +29,9 @@ public class Rankings {
     private static RankingsLoader loader;
     private static Map<String, List<DailyProjection>> playerProjectionHistory;
 
+    private static List<String> playerWatchList = new ArrayList<>();
+    private static Map<String, String> playerNotes = new HashMap<>();
+
     public static Rankings init() {
         return new Rankings();
     }
@@ -46,6 +52,40 @@ public class Rankings {
         draft = inputDraft;
         playerProjectionHistory = inputProjectionHistory;
         return new Rankings();
+    }
+
+    public static void setCustomUserData(List<String> watchList, Map<String, String> notes) {
+        playerWatchList = watchList;
+        playerNotes = notes;
+    }
+
+    public boolean isPlayerWatched(String playerId) {
+        return playerWatchList.contains(playerId);
+    }
+
+    public void updatePlayerNote(Activity act, String playerId, String note) {
+        if (!StringUtils.isBlank(note)) {
+            playerNotes.put(playerId, note);
+        } else {
+            playerNotes.remove(playerId);
+        }
+        AppSyncHelper.updateUserCustomPlayerData(act, playerWatchList, playerNotes);
+    }
+
+    public void togglePlayerWatched(Activity act, String playerId) {
+        if (playerWatchList.contains(playerId)) {
+            playerWatchList.remove(playerId);
+        } else {
+            playerWatchList.add(playerId);
+        }
+        AppSyncHelper.updateUserCustomPlayerData(act, playerWatchList, playerNotes);
+    }
+
+    public String getPlayerNote(String playerId) {
+        if (playerNotes.containsKey(playerId)) {
+            return playerNotes.get(playerId);
+        }
+        return "";
     }
 
     public LeagueSettings getLeagueSettings() {
@@ -215,14 +255,7 @@ public class Rankings {
     }
 
     public List<String> getWatchedPlayers(List<String> source) {
-        List<String> watchedIds = new ArrayList<>();
-        for (String key : source) {
-            Player player = players.get(key);
-            if (player.isWatched()) {
-                watchedIds.add(key);
-            }
-        }
-        return watchedIds;
+        return playerWatchList;
     }
 
     public List<String> getPlayersByPosition(List<String> source, String position) {

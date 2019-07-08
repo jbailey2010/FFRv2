@@ -220,8 +220,6 @@ public class Constants {
     public static final String PLAYER_XVAL_COLUMN = "xval";
     public static final String PLAYER_VORP_COLUMN = "vorp";
     // Team name is already in team settings
-    public static final String PLAYER_NOTE_COLUMN = "player_note";
-    public static final String PLAYER_WATCHED_COLUMN = "player_watched";
     public static final String AUCTION_VALUE_COLUMN = "auction_value";
 
     // Other internal stuff

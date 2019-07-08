@@ -47,8 +47,6 @@ public class RankingsDBWrapper {
         }
         emptyTableAndBulkSave(db, Constants.PLAYER_TABLE_NAME, values);
 
-        bulkSaveCustomValuesConditionally(db, players);
-
         bulkSaveDailyProjections(db, players);
     }
 
@@ -83,19 +81,9 @@ public class RankingsDBWrapper {
         Map<String, Player> players = new HashMap<>();
         SQLiteDatabase db = getInstance(context).getReadableDatabase();
 
-        Set<String> watchedIds = new HashSet<>();
-        List<Player> watchList = getWatchList(context);
-        for (Player player : watchList) {
-            if (!watchedIds.contains(player.getUniqueId())) {
-                watchedIds.add(player.getUniqueId());
-            }
-        }
         Cursor result = getAllEntries(db, Constants.PLAYER_TABLE_NAME);
         while(!result.isAfterLast()){
             Player player = DBUtils.cursorToPlayer(result);
-            if (watchedIds.contains(DBUtils.sanitizeName(player.getUniqueId()))) {
-                player.setWatched(true);
-            }
             players.put(player.getUniqueId(), player);
             result.moveToNext();
 
@@ -150,57 +138,12 @@ public class RankingsDBWrapper {
         return players;
     }
 
-    public List<Player> getWatchList(Context context) {
-        List<Player> players = new ArrayList<>();
-        SQLiteDatabase db = getInstance(context).getReadableDatabase();
-        Cursor result =  db.rawQuery(DBUtils.getSelectAllString(Constants.PLAYER_CUSTOM_TABLE_NAME) +
-                " WHERE " + Constants.PLAYER_WATCHED_COLUMN + " = 1", null );
-        result.moveToFirst();
-
-        while(!result.isAfterLast()){
-            players.add(DBUtils.cursorToCustomPlayer(result, new Player()));
-            result.moveToNext();
-        }
-        result.close();
-        return players;
-    }
-
-    public void updatePlayerWatchedStatus(Context context, Player player) {
-        SQLiteDatabase db = getInstance(context).getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(Constants.PLAYER_WATCHED_COLUMN, player.isWatched() ? "1": "0");
-        updateMultipleKeyEntry(db, DBUtils.sanitizeName(player.getName()), player.getPosition(), values, Constants.PLAYER_CUSTOM_TABLE_NAME,
-                Constants.PLAYER_NAME_COLUMN, Constants.PLAYER_POSITION_COLUMN);
-        if (player.isWatched()) {
-            AppSyncHelper.incrementPlayerWatchedCount(context, player.getUniqueId());
-        } else {
-            AppSyncHelper.decrementPlayerWatchedCount(context, player.getUniqueId());
-        }
-    }
-
-    public void updatePlayerNote(Context context, Player player, String note) {
-        SQLiteDatabase db = getInstance(context).getWritableDatabase();
-        ContentValues values = new ContentValues();
-        values.put(Constants.PLAYER_NOTE_COLUMN, note);
-
-        updateMultipleKeyEntry(db, DBUtils.sanitizeName(player.getName()), player.getPosition(), values, Constants.PLAYER_CUSTOM_TABLE_NAME,
-                Constants.PLAYER_NAME_COLUMN, Constants.PLAYER_POSITION_COLUMN);
-    }
-
     public Player getPlayer(Context context, String name, String team, String position) {
         SQLiteDatabase db = getInstance(context).getReadableDatabase();
         Cursor result = getThreeKeyEntry(db, Constants.PLAYER_NAME_COLUMN, Constants.TEAM_NAME_COLUMN,
                 Constants.PLAYER_POSITION_COLUMN, DBUtils.sanitizeName(name), team, position,
                 Constants.PLAYER_TABLE_NAME);
         Player player = DBUtils.cursorToPlayer(result);
-        player = loadPlayerCustomFields(db, player);
-        result.close();
-        return player;
-    }
-
-    private Player loadPlayerCustomFields(SQLiteDatabase db, Player player) {
-        Cursor result = getCustomPlayerCursor(db, player);
-        player = DBUtils.cursorToCustomPlayer(result, player);
         result.close();
         return player;
     }
@@ -404,23 +347,6 @@ public class RankingsDBWrapper {
         }
 
         db.setTransactionSuccessful();
-    }
-
-    private void bulkSaveCustomValuesConditionally(SQLiteDatabase db, Collection<Player> players) {
-        Set<ContentValues> customValues = new HashSet<>();
-        db.beginTransaction();
-        try {
-            for (Player player : players) {
-                Cursor cursor = getCustomPlayerCursor(db, player);
-                if (cursor.getCount() == 0) {
-                    customValues.add(DBUtils.customPlayerToContentValues(player));
-                }
-                cursor.close();
-            }
-            bulkSaveWorker(db, Constants.PLAYER_CUSTOM_TABLE_NAME, customValues);
-        } finally {
-            db.endTransaction();
-        }
     }
 
     private int getNumberOfRowsInTable(SQLiteDatabase db, String tableName) {

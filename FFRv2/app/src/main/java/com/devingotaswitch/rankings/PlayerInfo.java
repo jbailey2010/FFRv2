@@ -231,8 +231,6 @@ public class PlayerInfo extends AppCompatActivity {
     }
 
     private void addWatched() {
-        player.setWatched(true);
-        rankings.getPlayer(player.getUniqueId()).setWatched(true);
         final Flashbar.OnActionTapListener removeWatch = new Flashbar.OnActionTapListener() {
             @Override
             public void onActionTapped(Flashbar flashbar) {
@@ -243,14 +241,12 @@ public class PlayerInfo extends AppCompatActivity {
         FlashbarFactory.generateFlashbarWithUndo(this, "Success!", player.getName() + " added to watch list",
                 Flashbar.Gravity.BOTTOM, removeWatch)
                 .show();
-        rankingsDB.updatePlayerWatchedStatus(this, player);
+        rankings.togglePlayerWatched(this, player.getUniqueId());
         conditionallyUpdatePlayerStatus();
         hideMenuItemOnWatchStatus();
     }
 
     private void removeWatched() {
-        player.setWatched(false);
-        rankings.getPlayer(player.getUniqueId()).setWatched(false);
         final Flashbar.OnActionTapListener addWatch = new Flashbar.OnActionTapListener() {
             @Override
             public void onActionTapped(Flashbar flashbar) {
@@ -261,7 +257,7 @@ public class PlayerInfo extends AppCompatActivity {
         FlashbarFactory.generateFlashbarWithUndo(this, "Success!", player.getName() + " removed from watch list",
                 Flashbar.Gravity.BOTTOM, addWatch)
                 .show();
-        rankingsDB.updatePlayerWatchedStatus(this, player);
+        rankings.togglePlayerWatched(this, player.getUniqueId());
         hideMenuItemOnWatchStatus();
         conditionallyUpdatePlayerStatus();
     }
@@ -295,7 +291,7 @@ public class PlayerInfo extends AppCompatActivity {
     }
 
     private void hideMenuItemOnWatchStatus() {
-        if (player.isWatched()) {
+        if (rankings.isPlayerWatched(player.getUniqueId())) {
             addWatch.setVisible(false);
             removeWatch.setVisible(true);
         } else {
@@ -762,8 +758,7 @@ public class PlayerInfo extends AppCompatActivity {
     }
 
     private void setNoteAndDisplayIt(String newNote) {
-        player.setNote(newNote);
-        rankingsDB.updatePlayerNote(this, player, newNote);
+        rankings.updatePlayerNote(this, player.getUniqueId(), newNote);
         displayInfo();
     }
 
@@ -957,7 +952,7 @@ public class PlayerInfo extends AppCompatActivity {
         Map<String, String> context = new HashMap<>();
         context.put(Constants.PLAYER_BASIC, "Current status");
         StringBuilder playerSub = new StringBuilder();
-        if (player.isWatched()) {
+        if (rankings.isPlayerWatched(player.getUniqueId())) {
             playerSub.append("In your watch list").append(Constants.LINE_BREAK);
         }
         if (rankings.getDraft().isDrafted(player)) {
@@ -1009,14 +1004,14 @@ public class PlayerInfo extends AppCompatActivity {
         context.put(Constants.PLAYER_INFO, playerStatus);
         data.add(context);
 
-        if (StringUtils.isBlank(player.getNote())) {
+        if (StringUtils.isBlank(rankings.getPlayerNote(player.getUniqueId()))) {
             Map<String, String> note = new HashMap<>();
             note.put(Constants.PLAYER_BASIC, Constants.DEFAULT_NOTE);
             note.put(Constants.PLAYER_INFO, Constants.NOTE_SUB);
             data.add(note);
         } else {
             Map<String, String> note = new HashMap<>();
-            note.put(Constants.PLAYER_BASIC, player.getNote());
+            note.put(Constants.PLAYER_BASIC, rankings.getPlayerNote(player.getUniqueId()));
             note.put(Constants.PLAYER_INFO, Constants.NOTE_SUB);
             data.add(note);
         }

@@ -5,11 +5,15 @@ import android.content.Context;
 
 import com.devingotaswitch.rankings.domain.appsync.tags.Tag;
 
+import java.util.List;
+import java.util.Map;
+
 public class AppSyncHelper {
 
     private static final PlayerMetadataActivity metadataActivity = new PlayerMetadataActivity();
     private static final CommentActivity commentActivity = new CommentActivity();
     private static final UserSettingsActivity userSettingsActivity = new UserSettingsActivity();
+    private static final UserCustomPlayerDataActivity customPlayerDataActivity = new UserCustomPlayerDataActivity();
 
     public static void getOrCreatePlayerMetadataAndIncrementViewCount(Activity activity, String playerId) {
         metadataActivity.incrementViewCount(activity, playerId);
@@ -68,5 +72,13 @@ public class AppSyncHelper {
 
     public static void getUserSettings(Activity activity) {
         userSettingsActivity.getUserSettings(activity);
+    }
+
+    public static void updateUserCustomPlayerData(Activity activity, List<String> watchList, Map<String, String> notes) {
+        customPlayerDataActivity.updateCustomPlayerData(activity, watchList, notes);
+    }
+
+    public static void getUserCustomPlayerData(Activity activity) {
+        customPlayerDataActivity.getCustomPlayerData(activity);
     }
 }

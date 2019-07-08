@@ -35,18 +35,21 @@ public class CommentActivity extends AppSyncActivity {
 
             @Override
             public void onResponse(@Nonnull Response<UpvoteCommentMutation.Data> response) {
-                for (Error error : response.errors()) {
-                    Log.e(TAG, "Upvote comment failed: " + error.message());
-                }
-                Log.d(TAG, "Successfully upvoted comment " + commentId);
-                final UpvoteCommentMutation.UpvoteComment comment = response.data().upvoteComment();
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ((PlayerInfo) activity).updateVoteCount(comment.id(), comment.upvotes(), comment.downvotes());
+                if (!response.errors().isEmpty()) {
+                    for (Error error : response.errors()) {
+                        Log.e(TAG, "Upvote comment failed: " + error.message());
                     }
-                });
+                } else {
+                    Log.d(TAG, "Successfully upvoted comment " + commentId);
+                    final UpvoteCommentMutation.UpvoteComment comment = response.data().upvoteComment();
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ((PlayerInfo) activity).updateVoteCount(comment.id(), comment.upvotes(), comment.downvotes());
+                        }
+                    });
+                }
 
             }
 
@@ -71,18 +74,21 @@ public class CommentActivity extends AppSyncActivity {
 
             @Override
             public void onResponse(@Nonnull Response<DownvoteCommentMutation.Data> response) {
-                for (Error error : response.errors()) {
-                    Log.e(TAG, "Downvote comment failed: " + error.message());
-                }
-                Log.d(TAG, "Successfully downvoted comment " + commentId);
-                final DownvoteCommentMutation.DownvoteComment comment = response.data().downvoteComment();
-
-                runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        ((PlayerInfo) activity).updateVoteCount(comment.id(), comment.upvotes(), comment.downvotes());
+                if (!response.errors().isEmpty()) {
+                    for (Error error : response.errors()) {
+                        Log.e(TAG, "Downvote comment failed: " + error.message());
                     }
-                });
+                } else{
+                    Log.d(TAG, "Successfully downvoted comment " + commentId);
+                    final DownvoteCommentMutation.DownvoteComment comment = response.data().downvoteComment();
+
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            ((PlayerInfo) activity).updateVoteCount(comment.id(), comment.upvotes(), comment.downvotes());
+                        }
+                    });
+                }
             }
 
             @Override
@@ -169,8 +175,9 @@ public class CommentActivity extends AppSyncActivity {
                     for (Error error : response.errors()) {
                         Log.e(TAG, "Delete comment failed: " + error.message());
                     }
+                } else {
+                    Log.d(TAG, "Successfully deleted comment " + commentId);
                 }
-                Log.d(TAG, "Successfully deleted comment " + commentId);
             }
 
             @Override

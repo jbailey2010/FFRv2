@@ -211,15 +211,6 @@ public class DBUtils {
         return team;
     }
 
-    public static Player cursorToCustomPlayer(Cursor result, Player player) {
-        player.setNote(result.getString(result.getColumnIndex(Constants.PLAYER_NOTE_COLUMN)));
-        player.setWatched(result.getInt(result.getColumnIndex(Constants.PLAYER_WATCHED_COLUMN)) > 0);
-        player.setName(desanitizeName(result.getString(result.getColumnIndex(Constants.PLAYER_NAME_COLUMN))));
-        player.setPosition(result.getString(result.getColumnIndex(Constants.PLAYER_POSITION_COLUMN)));
-        player.setTeamName(result.getString(result.getColumnIndex(Constants.TEAM_NAME_COLUMN)));
-        return player;
-    }
-
     public static Player cursorToPlayer(Cursor result) {
         Player player = cursorToPlayerBasic(result);
         player.setAdp(result.getDouble(result.getColumnIndex(Constants.PLAYER_ADP_COLUMN)));
@@ -246,16 +237,6 @@ public class DBUtils {
         player.setPosition(result.getString(result.getColumnIndex(Constants.PLAYER_POSITION_COLUMN)));
         player.setTeamName(result.getString(result.getColumnIndex(Constants.TEAM_NAME_COLUMN)));
         return player;
-    }
-
-    public static ContentValues customPlayerToContentValues(Player player) {
-        ContentValues values = new ContentValues();
-        values.put(Constants.PLAYER_NAME_COLUMN, sanitizeName(player.getName()));
-        values.put(Constants.PLAYER_POSITION_COLUMN, player.getPosition());
-        values.put(Constants.TEAM_NAME_COLUMN, player.getTeamName());
-        values.put(Constants.PLAYER_NOTE_COLUMN, player.getNote());
-        values.put(Constants.PLAYER_WATCHED_COLUMN, player.isWatched());
-        return values;
     }
 
     public static ContentValues playerToContentValues(Player player) {

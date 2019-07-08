@@ -109,7 +109,7 @@ public class LocalSettingsHelper {
     }
 
     public static void saveCommentSortType(Context cont, String commentSortType) {
-        getSharedPreferences(cont).edit().putString(Constants.COMMENT_SORT_KEY, commentSortType).apply();;
+        getSharedPreferences(cont).edit().putString(Constants.COMMENT_SORT_KEY, commentSortType).apply();
     }
 
     public static String getCommentSortType(Context cont) {

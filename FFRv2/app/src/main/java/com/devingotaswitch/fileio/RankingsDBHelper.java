@@ -27,7 +27,6 @@ class RankingsDBHelper extends SQLiteOpenHelper {
         db.execSQL(getCreateLeagueTableSQL());
         db.execSQL(getCreateTeamTableSQL());
         db.execSQL(getCreatePlayerTableSQL());
-        db.execSQL(getCreatePlayerCustomTableSQL());
         db.execSQL(getCreatePlayerProjectionsTableSQL());
     }
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -36,7 +35,6 @@ class RankingsDBHelper extends SQLiteOpenHelper {
         db.execSQL(getDeleteLeagueTableSQL());
         db.execSQL(getDeleteTeamTableSQL());
         db.execSQL(getDeletePlayerTableSQL());
-        db.execSQL(getDeletePlayerCustomTableSQL());
         db.execSQL(getDeletePlayerProjectionsTableSQL());
         onCreate(db);
     }
@@ -147,21 +145,6 @@ class RankingsDBHelper extends SQLiteOpenHelper {
 
     private String getDeletePlayerTableSQL() {
         return "DROP TABLE IF EXISTS " + Constants.PLAYER_TABLE_NAME;
-    }
-
-    private String getCreatePlayerCustomTableSQL() {
-        return "CREATE TABLE "                   + Constants.PLAYER_CUSTOM_TABLE_NAME + " (" +
-                Constants.PLAYER_NAME_COLUMN     + " TEXT," +
-                Constants.PLAYER_POSITION_COLUMN + " TEXT," +
-                Constants.TEAM_NAME_COLUMN       + " TEXT," +
-                Constants.PLAYER_NOTE_COLUMN     + " TEXT," +
-                Constants.PLAYER_WATCHED_COLUMN  + " BOOLEAN," +
-                "PRIMARY KEY(" + Constants.PLAYER_NAME_COLUMN + ", " + Constants.TEAM_NAME_COLUMN + ", " + Constants.PLAYER_POSITION_COLUMN + ")" +
-                ");";
-    }
-
-    private String getDeletePlayerCustomTableSQL() {
-        return "DROP TABLE IF EXISTS " + Constants.PLAYER_CUSTOM_TABLE_NAME;
     }
 
     private String getCreatePlayerProjectionsTableSQL() {

@@ -175,8 +175,8 @@ public class ExportRankings extends AppCompatActivity {
                 playerData.add(String.valueOf(player.getPaa()));
                 playerData.add(String.valueOf(player.getxVal()));
                 playerData.add(String.valueOf(player.getVOLS()));
-                playerData.add(!StringUtils.isBlank(player.getNote()) ? player.getNote() : "");
-                playerData.add(String.valueOf(player.isWatched()));
+                playerData.add(rankings.getPlayerNote(player.getUniqueId()));
+                playerData.add(String.valueOf(rankings.isPlayerWatched(player.getUniqueId())));
 
                 // Allocating at size 0 is faster than the actual size (somehow)
                 writer.writeNext(playerData.toArray(new String[0]));
