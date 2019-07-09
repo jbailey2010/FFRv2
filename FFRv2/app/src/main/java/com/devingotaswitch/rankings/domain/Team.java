@@ -128,7 +128,7 @@ public class Team {
     }
 
     public void setFaClass(String faClass) {
-        if (faClass != null) {
+        if (faClass != null && faClass.contains(FA_DELIMITER)) {
             String[] faArr = faClass.split(FA_DELIMITER);
             this.incomingFA = faArr[0];
             this.outgoingFA = faArr[1];
