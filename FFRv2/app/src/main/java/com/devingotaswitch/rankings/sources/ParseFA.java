@@ -1,5 +1,7 @@
 package com.devingotaswitch.rankings.sources;
 
+import android.util.Log;
+
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.domain.Team;
 import com.devingotaswitch.utils.Constants;
@@ -63,15 +65,8 @@ public class ParseFA {
         for (String key : arrivingFA.keySet()) {
             Team team = rankings.getTeam(key);
             if (team != null) {
-                String faClass = "Arriving:" +
-                        Constants.LINE_BREAK +
-                        arrivingFA.get(key) +
-                        Constants.LINE_BREAK +
-                        Constants.LINE_BREAK +
-                        "Departing:" +
-                        Constants.LINE_BREAK +
-                        departingFA.get(key);
-                team.setFaClass(faClass);
+                team.setIncomingFA(arrivingFA.get(key));
+                team.setOutgoingFA(departingFA.get(key));
             }
         }
     }

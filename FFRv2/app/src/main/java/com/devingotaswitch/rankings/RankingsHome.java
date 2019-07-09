@@ -354,7 +354,10 @@ public class RankingsHome extends AppCompatActivity {
     public void setUserCustomData(List<String> watchList, Map<String, String> notes) {
         Rankings.setCustomUserData(watchList, notes);
 
-        displayRankings(rankings.getOrderedIds());
+        if (findViewById(R.id.rankings_list) != null) {
+            // Just in case to avoid random activity shifts
+            displayRankings(rankings.getOrderedIds());
+        }
     }
 
     private void initRankingsContext() {

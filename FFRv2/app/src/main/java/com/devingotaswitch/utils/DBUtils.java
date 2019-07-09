@@ -2,6 +2,7 @@ package com.devingotaswitch.utils;
 
 import android.content.ContentValues;
 import android.database.Cursor;
+import android.util.Log;
 
 import com.devingotaswitch.rankings.domain.DailyProjection;
 import com.devingotaswitch.rankings.domain.LeagueSettings;

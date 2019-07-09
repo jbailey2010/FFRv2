@@ -1,5 +1,6 @@
 package com.devingotaswitch.rankings.domain;
 
+import com.amazonaws.util.StringUtils;
 import com.devingotaswitch.utils.Constants;
 
 public class Team {
@@ -14,8 +15,11 @@ public class Team {
     private int dstSos;
     private int kSos;
     private String bye;
-    private String faClass;
+    private String incomingFA;
+    private String outgoingFA;
     private String schedule;
+
+    private static final String FA_DELIMITER = "~~~";
 
     public String getName() {
         return name;
@@ -97,12 +101,38 @@ public class Team {
         this.bye = bye;
     }
 
+    public String getOutgoingFA() {
+        return outgoingFA;
+    }
+
+    public void setOutgoingFA(String outgoingFA) {
+        this.outgoingFA = outgoingFA;
+    }
+
+    public String getIncomingFA() {
+        return incomingFA;
+    }
+
+    public void setIncomingFA(String incomingFA) {
+        this.incomingFA = incomingFA;
+    }
+
     public String getFaClass() {
-        return faClass;
+        if (!StringUtils.isBlank(incomingFA) && !StringUtils.isBlank(outgoingFA)) {
+            return new StringBuilder(incomingFA)
+                    .append(FA_DELIMITER)
+                    .append(outgoingFA)
+                    .toString();
+        }
+        return "";
     }
 
     public void setFaClass(String faClass) {
-        this.faClass = faClass;
+        if (faClass != null) {
+            String[] faArr = faClass.split(FA_DELIMITER);
+            this.incomingFA = faArr[0];
+            this.outgoingFA = faArr[1];
+        }
     }
 
     public String getSchedule() {
