@@ -132,7 +132,7 @@
                 android:layout_height="wrap_content"
                 android:textSize="16sp"
                 android:layout_marginTop="10dp"
-                android:text="You can customize various displays via the settings option in the side menu. Specifically, it allows you to customize whether you want to show or hide drafted or rankless players (those without a rank for the league type, such as a veteran in a rookie draft) in various contexts, as well as allowing you to overscroll (scroll past the top player) to refresh rankings.\n\nAdditionally, the side menu has options to change your password, or sign out."
+                android:text="You can customize various displays via the settings option in the side menu. Specifically, it allows you to customize whether you want to show or hide player notes and drafted or rankless players (those without a rank for the league type, such as a veteran in a rookie draft) in various contexts, as well as allowing you to overscroll (scroll past the top player) to refresh rankings.\n\nAdditionally, the side menu has options to change your password, or sign out."
                 android:visibility="gone"
                 android:id="@+id/help_profile_body"/>
 

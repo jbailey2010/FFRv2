@@ -27,7 +27,8 @@ public class UserSettingsActivity extends AppSyncActivity {
 
     public void updateUserSettings(Activity activity, boolean hideRanklessSearch, boolean hideRanklessSort,
                                      boolean hideRanklessComparator, boolean hideDraftedSearch, boolean hideDraftedSort,
-                                     boolean hideDraftedComparator, boolean refreshOnOverscroll) {
+                                     boolean hideDraftedComparator, boolean noteInRanks, boolean noteInSort,
+                                     boolean refreshOnOverscroll) {
         GraphQLCall.Callback<UpdateUserSettingsMutation.Data> callback = new GraphQLCall
                 .Callback<UpdateUserSettingsMutation.Data>() {
 
@@ -57,6 +58,8 @@ public class UserSettingsActivity extends AppSyncActivity {
                 .hideIrrelevantComparator(hideRanklessComparator)
                 .hideIrrelevantSearch(hideRanklessSearch)
                 .hideIrrelevantSort(hideRanklessSort)
+                .showNoteOnRanks(noteInRanks)
+                .showNoteOnSort(noteInSort)
                 .build()
         ).enqueue(callback);
 
@@ -72,7 +75,7 @@ public class UserSettingsActivity extends AppSyncActivity {
                     for (Error error : response.errors()) {
                         Log.e(TAG, "Get user settings failed: " + error.message());
                     }
-                } else {
+                } else if (response.data().getUserSettings() != null) {
                     Log.d(TAG, "Successfully retrieved user settings.");
 
                     final GetUserSettingsQuery.GetUserSettings settings = response.data().getUserSettings();
@@ -82,15 +85,17 @@ public class UserSettingsActivity extends AppSyncActivity {
                             if (activity instanceof SettingsActivity) {
                                 ((SettingsActivity) activity).updateUserSettings(settings.hideIrrelevantSearch(), settings.hideIrrelevantSort(),
                                         settings.hideIrrelevantComparator(), settings.hideDraftedSearch(), settings.hideDraftedSort(),
-                                        settings.hideDraftedComparator(), settings.refreshOnOverscroll());
+                                        settings.hideDraftedComparator(), settings.showNoteOnRanks(), settings.showNoteOnSort(),
+                                        settings.refreshOnOverscroll());
                             } else if (activity instanceof PlayerComparator) {
                                 ((PlayerComparator)activity).setUserSettings(settings.hideDraftedComparator(),
                                         settings.hideIrrelevantComparator());
                             } else if (activity instanceof PlayerSorter) {
-                                ((PlayerSorter)activity).setUserSettings(settings.hideIrrelevantSort(), settings.hideDraftedSort());
+                                ((PlayerSorter)activity).setUserSettings(settings.hideIrrelevantSort(), settings.hideDraftedSort(),
+                                        settings.showNoteOnSort());
                             } else if (activity instanceof RankingsHome) {
                                 ((RankingsHome)activity).setUserSettings(settings.hideIrrelevantSearch(), settings.hideDraftedSearch(),
-                                        settings.refreshOnOverscroll());
+                                        settings.refreshOnOverscroll(), settings.showNoteOnRanks());
                             }
                         }
                     });

@@ -24,6 +24,8 @@ public class SettingsActivity extends AppCompatActivity {
     CheckBox rsOutput;
     CheckBox dcSuggestion;
     CheckBox rcSuggestion;
+    CheckBox noteSort;
+    CheckBox noteRanks;
     CheckBox overscrollRefresh;
 
     @Override
@@ -58,6 +60,8 @@ public class SettingsActivity extends AppCompatActivity {
         rsOutput = findViewById(R.id.hide_sort_output_rankless);
         dcSuggestion = findViewById(R.id.hide_comparator_input_drafted);
         rcSuggestion = findViewById(R.id.hide_comparator_input_rankless);
+        noteRanks = findViewById(R.id.show_note_ranks);
+        noteSort = findViewById(R.id.show_note_sort);
         overscrollRefresh = findViewById(R.id.general_refresh_on_overscroll);
 
         AppSyncHelper.getUserSettings(this);
@@ -100,6 +104,19 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        noteRanks.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                updateUserSettings();
+            }
+        });
+        noteSort.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
+                updateUserSettings();
+            }
+        });
+
         overscrollRefresh.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
@@ -110,12 +127,14 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void updateUserSettings() {
         AppSyncHelper.updateUserSettings(this, rSearch.isChecked(), rsOutput.isChecked(), rcSuggestion.isChecked(),
-                dSearch.isChecked(), dsOutput.isChecked(), dcSuggestion.isChecked(), overscrollRefresh.isChecked());
+                dSearch.isChecked(), dsOutput.isChecked(), dcSuggestion.isChecked(), noteRanks.isChecked(),
+                noteSort.isChecked(), overscrollRefresh.isChecked());
     }
 
     public void updateUserSettings(boolean hideIrrelevantSearch, boolean hideIrrelevantSort,
                                    boolean hideIrrelevantComparator, boolean hideDraftedSearch, boolean hideDraftedSort,
-                                   boolean hideDraftedComparator, boolean refreshOnOverscroll) {
+                                   boolean hideDraftedComparator, boolean showNoteOnRanks, boolean showNoteOnSort,
+                                   boolean refreshOnOverscroll) {
         if (rSearch != null && rsOutput != null && rcSuggestion != null && dSearch != null && dsOutput != null
                 && dcSuggestion != null && overscrollRefresh != null) {
             // Useless if statement to ensure we don't get an NPE on rapid activity swap
@@ -125,6 +144,8 @@ public class SettingsActivity extends AppCompatActivity {
             dSearch.setChecked(hideDraftedSearch);
             dsOutput.setChecked(hideDraftedSort);
             dcSuggestion.setChecked(hideDraftedComparator);
+            noteRanks.setChecked(showNoteOnRanks);
+            noteSort.setChecked(showNoteOnSort);
             overscrollRefresh.setChecked(refreshOnOverscroll);
         }
     }

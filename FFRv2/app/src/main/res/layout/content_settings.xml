@@ -102,8 +102,40 @@
           </RelativeLayout>
 
           <RelativeLayout
-              android:id="@+id/settings_general_base"
+              android:id="@+id/settings_note_base"
+              android:layout_width="match_parent"
+              android:layout_height="wrap_content"
               android:layout_below="@+id/settings_drafted_base"
+              android:padding="4dp">
+
+              <TextView
+                  android:id="@+id/settings_note_header"
+                  android:layout_width="match_parent"
+                  android:textSize="18sp"
+                  android:layout_height="wrap_content"
+                  android:text="Player notes"/>
+
+              <CheckBox
+                  android:id="@+id/show_note_ranks"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_below="@+id/settings_note_header"
+                  android:layout_marginTop="8dp"
+                  android:text="Show in ranks"/>
+
+              <CheckBox
+                  android:id="@+id/show_note_sort"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_below="@+id/show_note_ranks"
+                  android:layout_marginTop="8dp"
+                  android:text="Show in player sort"/>
+
+          </RelativeLayout>
+
+          <RelativeLayout
+              android:id="@+id/settings_general_base"
+              android:layout_below="@+id/settings_note_base"
               android:layout_width="match_parent"
               android:layout_height="wrap_content"
               android:padding="4dp">

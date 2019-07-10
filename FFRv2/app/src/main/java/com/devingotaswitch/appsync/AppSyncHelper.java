@@ -65,9 +65,10 @@ public class AppSyncHelper {
 
     public static void updateUserSettings(Activity activity, boolean hideRanklessSearch, boolean hideRanklessSort,
                                             boolean hideRanklessComparator, boolean hideDraftedSearch, boolean hideDraftedSort,
-                                            boolean hideDraftedComparator, boolean refreshOnOverscroll) {
+                                            boolean hideDraftedComparator, boolean noteInRanks, boolean noteInSort,
+                                            boolean refreshOnOverscroll) {
         userSettingsActivity.updateUserSettings(activity, hideRanklessSearch, hideRanklessSort, hideRanklessComparator,
-                hideDraftedSearch, hideDraftedSort, hideDraftedComparator, refreshOnOverscroll);
+                hideDraftedSearch, hideDraftedSort, hideDraftedComparator, noteInRanks, noteInSort, refreshOnOverscroll);
     }
 
     public static void getUserSettings(Activity activity) {

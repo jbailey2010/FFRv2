@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
+import com.amazonaws.util.StringUtils;
 import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
@@ -19,7 +20,8 @@ import java.util.Map;
 public class DisplayUtils {
 
 
-    private static String generateOutputSubtext(Player player, Rankings rankings, String posSuffix) {
+    private static String generateOutputSubtext(Player player, Rankings rankings, String posSuffix,
+                                                boolean showNote) {
         StringBuilder sub = new StringBuilder(player.getPosition())
                 .append(posSuffix)
                 .append(Constants.POS_TEAM_DELIMITER)
@@ -34,6 +36,10 @@ public class DisplayUtils {
             sub = sub.append(Constants.LINE_BREAK)
                     .append("Projection: ")
                     .append(Constants.DECIMAL_FORMAT.format(player.getProjection()));
+        }
+        if (showNote && !StringUtils.isBlank(rankings.getPlayerNote(player.getUniqueId()))) {
+            sub = sub.append(Constants.LINE_BREAK)
+                    .append(rankings.getPlayerNote(player.getUniqueId()));
         }
         return sub.toString();
     }
@@ -66,7 +72,7 @@ public class DisplayUtils {
     }
 
     public static Map<String, String> getDatumForPlayer(Rankings rankings, Player player, boolean markWatched,
-                                                        Map<String, Integer> posRankMap) {
+                                                        Map<String, Integer> posRankMap, boolean showNote) {
         String posSuffix = "";
         if (posRankMap != null) {
             Integer suffix = posRankMap.get(player.getPosition());
@@ -78,7 +84,7 @@ public class DisplayUtils {
                 player.getName();
         Map<String, String> datum = new HashMap<>(5);
         datum.put(Constants.PLAYER_BASIC, playerBasicContent);
-        datum.put(Constants.PLAYER_INFO, generateOutputSubtext(player, rankings, posSuffix));
+        datum.put(Constants.PLAYER_INFO, generateOutputSubtext(player, rankings, posSuffix, showNote));
         if (markWatched && rankings.isPlayerWatched(player.getUniqueId())) {
             datum.put(Constants.PLAYER_STATUS, Integer.toString(R.drawable.star));
         }

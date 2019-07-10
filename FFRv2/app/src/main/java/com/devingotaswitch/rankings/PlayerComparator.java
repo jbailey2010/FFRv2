@@ -296,7 +296,8 @@ public class PlayerComparator extends AppCompatActivity {
                     // the constant is 'not set', so skip these. No sense showing a 10 year vet in rookie ranks.
                     continue;
                 }
-                Map<String, String> datum = DisplayUtils.getDatumForPlayer(rankings, player, false, posRankMap);
+                Map<String, String> datum = DisplayUtils.getDatumForPlayer(rankings, player,
+                        false, posRankMap, false);
                 data.add(datum);
             }
         }

@@ -99,6 +99,7 @@ public class RankingsHome extends AppCompatActivity {
 
     private boolean hideDraftedSearch = false;
     private boolean hideRanklessSearch = false;
+    private boolean showNote = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -206,9 +207,11 @@ public class RankingsHome extends AppCompatActivity {
         }
     }
 
-    public void setUserSettings(boolean hideRanklessSearch, boolean hideDraftedSearch, boolean refreshOnOverscroll) {
+    public void setUserSettings(boolean hideRanklessSearch, boolean hideDraftedSearch,
+                                boolean refreshOnOverscroll, boolean showNote) {
         this.hideDraftedSearch = hideDraftedSearch;
         this.hideRanklessSearch = hideRanklessSearch;
+        this.showNote = showNote;
         setSearchAutocomplete();
         ((RankingsListView)findViewById(R.id.rankings_list)).setRefreshRanksOnOverscroll(refreshOnOverscroll);
     }
@@ -450,7 +453,8 @@ public class RankingsHome extends AppCompatActivity {
                     // the constant is 'not set', so skip these. No sense showing a 10 year vet in rookie ranks.
                     continue;
                 }
-                Map<String, String> datum = DisplayUtils.getDatumForPlayer(rankings, player, true, posRankMap);
+                Map<String, String> datum = DisplayUtils.getDatumForPlayer(rankings, player,
+                        true, posRankMap, true);
                 data.add(datum);
             }
         }

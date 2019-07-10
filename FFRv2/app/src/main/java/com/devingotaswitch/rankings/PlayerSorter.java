@@ -71,6 +71,7 @@ public class PlayerSorter extends AppCompatActivity {
 
     private boolean hideDrafted = false;
     private boolean hideRankless = false;
+    private boolean showNote = false;
 
     private Rankings rankings;
     private RankingsDBWrapper rankingsDB;
@@ -156,9 +157,10 @@ public class PlayerSorter extends AppCompatActivity {
         }
     }
 
-    public void setUserSettings(boolean hideRanklessSort, boolean hideDraftedSort) {
+    public void setUserSettings(boolean hideRanklessSort, boolean hideDraftedSort, boolean showNote) {
         this.hideDrafted = hideDraftedSort;
         this.hideRankless = hideRanklessSort;
+        this.showNote = showNote;
 
         setSpinnerAdapter();
     }
@@ -1318,6 +1320,10 @@ public class PlayerSorter extends AppCompatActivity {
             subtextBuilder.append(Constants.LINE_BREAK)
                     .append("Best Ball Rank: ")
                     .append(player.getBestBallRank().equals(Constants.DEFAULT_RANK) ? Constants.DEFAULT_DISPLAY_RANK_NOT_SET : player.getBestBallRank());
+        }
+        if (showNote && !StringUtils.isBlank(rankings.getPlayerNote(player.getUniqueId()))) {
+            subtextBuilder.append(Constants.LINE_BREAK)
+                    .append(rankings.getPlayerNote(player.getUniqueId()));
         }
         return subtextBuilder.toString();
     }
