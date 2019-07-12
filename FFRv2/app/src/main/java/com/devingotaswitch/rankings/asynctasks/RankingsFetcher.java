@@ -314,7 +314,7 @@ public class RankingsFetcher {
             try {
                 ParseInjuries.parsePlayerInjuries(rankings);
             } catch (Exception e) {
-                Log.e(TAG, "Failed to parse player injuries");
+                Log.e(TAG, "Failed to parse player injuries", e);
             }
 
             Log.i(TAG, "Getting player stats");

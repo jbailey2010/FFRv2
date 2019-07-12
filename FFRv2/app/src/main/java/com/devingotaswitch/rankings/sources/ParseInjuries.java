@@ -1,11 +1,15 @@
 package com.devingotaswitch.rankings.sources;
 
+import android.util.Log;
+
 import com.amazonaws.util.StringUtils;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.JsoupUtils;
 import com.devingotaswitch.utils.ParsingUtils;
+
+import org.jsoup.nodes.Document;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -17,29 +21,82 @@ public class ParseInjuries {
     public static void parsePlayerInjuries(Rankings rankings)
             throws IOException {
         Map<String, String> injuries = new HashMap<>();
-        List<String> perRow = JsoupUtils.parseURLWithUA(
-                "http://www.rotoworld.com/teams/injuries/nfl/all/", "td");
-        for (int i = 7; i < perRow.size(); i++) {
-            String pos = perRow.get(i + 2);
-            String name = ParsingUtils.normalizeNames(perRow.get(i));
-            String status = perRow.get(i += 3);
-            String injuryType = perRow.get(i += 2);
-            if (injuryType.equals("-")) {
-                injuryType = "Suspended";
+        Document doc = JsoupUtils.getDocument(
+                "https://www.pro-football-reference.com/players/injuries.htm");
+        List<String> players = JsoupUtils.getElemsFromDoc(doc, "table.stats_table th.left a");
+        List<String> left = JsoupUtils.getElemsFromDoc(doc, "table.stats_table td.left");
+        List<String> right = JsoupUtils.getElemsFromDoc(doc, "table.stats_table td.right");
+                //"table.stats_table tbody tr");
+        for (int i = 0; i < players.size(); i++) {
+            String name = ParsingUtils.normalizeNames(players.get(i));
+
+            int leftIndex = i * 3;
+            String team = ParsingUtils.normalizeTeams(left.get(leftIndex ));
+            String pos = left.get(leftIndex + 1);
+            String comment = left.get(leftIndex + 2);
+
+            int rightIndex = i * 2;
+            String injuryType = right.get(rightIndex);
+            String playerStatus = right.get(rightIndex + 1);
+            playerStatus = playerStatus.substring(0, 1).toUpperCase() + playerStatus.substring(1);
+
+
+            String injuryStr = "";
+
+            if (pos.equals("CB") || pos.equals("LB") || pos.equals("DT") || pos.equals("DB") ||
+                    pos.equals("DE") || pos.equals("S")) {
+                String playerName = name;
+                name = ParsingUtils.normalizeDefenses(team);
+                pos = Constants.DST;
+                String playerId = getPlayerId(name, pos, team);
+
+                // If it's defense, we'll track it collectively.
+                String baseStr = "";
+                if (injuries.containsKey(team)) {
+                    baseStr = injuries.get(playerId) + Constants.LINE_BREAK;
+                }
+                baseStr = new StringBuilder(baseStr)
+                        .append(playerName)
+                        .append(": ")
+                        .append(playerStatus)
+                        .append(" (")
+                        .append(injuryType)
+                        .append(")")
+                        .toString();
+                injuries.put(playerId, baseStr);
+
+            } else {
+                String playerId = getPlayerId(name, pos, team);
+
+                injuryStr = new StringBuilder(playerStatus)
+                        .append(" (")
+                        .append(injuryType)
+                        .append(")")
+                        .append(Constants.LINE_BREAK)
+                        .append(Constants.LINE_BREAK)
+                        .append(comment)
+                        .toString();
+
+                injuries.put(playerId, injuryStr);
             }
-            String returnDate = perRow.get(++i);
-            String output = "Injury Status: " + status + Constants.LINE_BREAK
-                    + "Type of Injury: " + injuryType + Constants.LINE_BREAK
-                    + "Expected Return: " + returnDate + Constants.LINE_BREAK;
-            injuries.put(name + Constants.PLAYER_ID_DELIMITER + pos, output);
         }
 
         for (String key : rankings.getPlayers().keySet()) {
             Player player = rankings.getPlayer(key);
-            String injuryStatus = injuries.get(player.getName() + Constants.PLAYER_ID_DELIMITER + player.getPosition());
+            String injuryStatus = injuries.get(player.getUniqueId());
             if (!StringUtils.isBlank(injuryStatus)) {
                 player.setInjuryStatus(injuryStatus);
             }
         }
+    }
+
+    private static String getPlayerId(String name, String pos, String team) {
+        String playerId = new StringBuilder(name)
+                .append(Constants.PLAYER_ID_DELIMITER)
+                .append(team)
+                .append(Constants.PLAYER_ID_DELIMITER)
+                .append(pos)
+                .toString();
+        return playerId;
     }
 }
