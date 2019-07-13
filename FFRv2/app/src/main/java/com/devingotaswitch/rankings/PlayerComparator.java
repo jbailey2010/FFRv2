@@ -77,9 +77,6 @@ public class PlayerComparator extends AppCompatActivity {
     private RecyclerViewAdapter adapter;
     private RankingsDBWrapper rankingsDB;
 
-    private boolean hideDraftedSuggestion = false;
-    private boolean hideRanklessSuggestion = false;
-
     private static final String TAG = "PlayerComparator";
     private static final String BETTER_COLOR = "#F3F3F3";
     private static final String WORSE_COLOR = "#FAFAFA";
@@ -133,20 +130,13 @@ public class PlayerComparator extends AppCompatActivity {
         }
     }
 
-    public void setUserSettings(boolean hideDraftedSuggestion, boolean hideRanklessSuggestion) {
-        this.hideDraftedSuggestion = hideDraftedSuggestion;
-        this.hideRanklessSuggestion = hideRanklessSuggestion;
-
-        setSuggestionAdapter();
-        displayOptions();
-    }
-
     private void setSuggestionAdapter() {
         inputA =  findViewById(R.id.comparator_input_a);
         inputB =  findViewById(R.id.comparator_input_b);
 
         final FilterWithSpaceAdapter mAdapter = GeneralUtils.getPlayerSearchAdapter(rankings, this,
-                hideDraftedSuggestion, hideRanklessSuggestion);
+                rankings.getUserSettings().isHideDraftedComparator(),
+                rankings.getUserSettings().isHideRanklessComparator());
         inputA.setAdapter(mAdapter);
         inputB.setAdapter(mAdapter);
 
@@ -287,7 +277,8 @@ public class PlayerComparator extends AppCompatActivity {
         Map<String, Integer> posRankMap = DisplayUtils.getPositionRankMap();
         for (int i = 0; i < Math.min(Constants.COMPARATOR_LIST_MAX, rankings.getOrderedIds().size()); i++) {
             Player player = rankings.getPlayer(rankings.getOrderedIds().get(i));
-            if ((rankings.getDraft().isDrafted(player)  && hideDraftedSuggestion) || (hideRanklessSuggestion &&
+            if ((rankings.getDraft().isDrafted(player)  && rankings.getUserSettings().isHideDraftedComparator()) ||
+                    (rankings.getUserSettings().isHideRanklessComparator() &&
                             Constants.DEFAULT_DISPLAY_RANK_NOT_SET.equals(player.getDisplayValue(rankings)))) {
                 continue;
             }

@@ -69,10 +69,6 @@ public class PlayerSorter extends AppCompatActivity {
 
     private static final String TAG = "PlayerSorter";
 
-    private boolean hideDrafted = false;
-    private boolean hideRankless = false;
-    private boolean showNote = false;
-
     private Rankings rankings;
     private RankingsDBWrapper rankingsDB;
 
@@ -157,18 +153,10 @@ public class PlayerSorter extends AppCompatActivity {
         }
     }
 
-    public void setUserSettings(boolean hideRanklessSort, boolean hideDraftedSort, boolean showNote) {
-        this.hideDrafted = hideDraftedSort;
-        this.hideRankless = hideRanklessSort;
-        this.showNote = showNote;
-
-        setSpinnerAdapter();
-    }
-
     private MultiSelectionSpinner setSpinnerAdapter() {
         final MultiSelectionSpinner spinner=findViewById(R.id.sort_players_additional_factors);
         List<String> list = new ArrayList<>();
-        if (hideDrafted) {
+        if (!rankings.getUserSettings().isHideDraftedSort()) {
             list.add(Constants.SORT_HIDE_DRAFTED);
         }
         list.add(Constants.SORT_ONLY_HEALTHY);
@@ -506,11 +494,12 @@ public class PlayerSorter extends AppCompatActivity {
             }
 
 
-            if ((booleanFactors.contains(Constants.SORT_HIDE_DRAFTED) || hideDrafted ||
+            if ((booleanFactors.contains(Constants.SORT_HIDE_DRAFTED) || rankings.getUserSettings().isHideDraftedSort() ||
                     Constants.SORT_VBD_SUGGESTED.equals(factor)) && rankings.getDraft().isDrafted(player)) {
                 continue;
             }
-            if (hideRankless && Constants.DEFAULT_DISPLAY_RANK_NOT_SET.equals(player.getDisplayValue(rankings))) {
+            if (rankings.getUserSettings().isHideRanklessSort() &&
+                    Constants.DEFAULT_DISPLAY_RANK_NOT_SET.equals(player.getDisplayValue(rankings))) {
                 continue;
             }
             if (booleanFactors.contains(Constants.SORT_EASY_SOS)) {
@@ -1321,7 +1310,8 @@ public class PlayerSorter extends AppCompatActivity {
                     .append("Best Ball Rank: ")
                     .append(player.getBestBallRank().equals(Constants.DEFAULT_RANK) ? Constants.DEFAULT_DISPLAY_RANK_NOT_SET : player.getBestBallRank());
         }
-        if (showNote && !StringUtils.isBlank(rankings.getPlayerNote(player.getUniqueId()))) {
+        if (rankings.getUserSettings().isShowNoteSort() &&
+                !StringUtils.isBlank(rankings.getPlayerNote(player.getUniqueId()))) {
             subtextBuilder.append(Constants.LINE_BREAK)
                     .append(rankings.getPlayerNote(player.getUniqueId()));
         }

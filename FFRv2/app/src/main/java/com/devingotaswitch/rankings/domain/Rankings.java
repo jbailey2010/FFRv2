@@ -29,6 +29,8 @@ public class Rankings {
     private static RankingsLoader loader;
     private static Map<String, List<DailyProjection>> playerProjectionHistory;
 
+    // AppSync stuff
+    private static UserSettings userSettings = new UserSettings();
     private static List<String> playerWatchList = new ArrayList<>();
     private static Map<String, String> playerNotes = new HashMap<>();
 
@@ -52,6 +54,14 @@ public class Rankings {
         draft = inputDraft;
         playerProjectionHistory = inputProjectionHistory;
         return new Rankings();
+    }
+
+    public static void setUserSettings(UserSettings settings) {
+        userSettings = settings;
+    }
+
+    public UserSettings getUserSettings() {
+        return userSettings;
     }
 
     public static void setCustomUserData(List<String> watchList, Map<String, String> notes) {

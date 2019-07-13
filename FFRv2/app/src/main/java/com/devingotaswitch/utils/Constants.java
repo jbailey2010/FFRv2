@@ -229,6 +229,7 @@ public class Constants {
     public final static String RANKINGS_LIST_DELIMITER = ": ";
     public final static String PLAYER_ID = "player_id";
     public final static String RANKINGS_UPDATED = "rankings_updated";
+    public final static String RANKINGS_LIST_RELOAD_NEEDED = "rankings_list_reload_needed";
     public final static Long OVERSCROLL_REFRESH_THRESHOLD = 30L;
 
     // Draft

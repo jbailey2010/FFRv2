@@ -46,6 +46,7 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.Authentic
 import com.amazonaws.util.StringUtils;
 import com.andrognito.flashbar.Flashbar;
 import com.devingotaswitch.appsync.AppSyncHelper;
+import com.devingotaswitch.rankings.domain.UserSettings;
 import com.devingotaswitch.rankings.extras.FilterWithSpaceAdapter;
 import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.fileio.LocalSettingsHelper;
@@ -54,7 +55,6 @@ import com.devingotaswitch.rankings.domain.LeagueSettings;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.domain.RosterSettings;
-import com.devingotaswitch.rankings.extras.InstantAutoCompleteTextView;
 import com.devingotaswitch.rankings.extras.RankingsListView;
 import com.devingotaswitch.rankings.extras.SwipeDismissTouchListener;
 import com.devingotaswitch.utils.Constants;
@@ -97,9 +97,7 @@ public class RankingsHome extends AppCompatActivity {
     private static Integer selectedIndex = 0;
     private boolean ranksDisplayed = false;
 
-    private boolean hideDraftedSearch = false;
-    private boolean hideRanklessSearch = false;
-    private boolean showNote = false;
+    private boolean settingsNeedRefresh = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -147,6 +145,7 @@ public class RankingsHome extends AppCompatActivity {
             initApp();
             init();
         } catch(Exception e) {
+            Log.d(TAG, "Error initializing app", e);
             try {
                 initApp();
                 init();
@@ -207,13 +206,12 @@ public class RankingsHome extends AppCompatActivity {
         }
     }
 
-    public void setUserSettings(boolean hideRanklessSearch, boolean hideDraftedSearch,
-                                boolean refreshOnOverscroll, boolean showNote) {
-        this.hideDraftedSearch = hideDraftedSearch;
-        this.hideRanklessSearch = hideRanklessSearch;
-        this.showNote = showNote;
+    public void setUserSettings(UserSettings userSettings) {
+        Rankings.setUserSettings(userSettings);
+        this.settingsNeedRefresh = false;
         setSearchAutocomplete();
-        ((RankingsListView)findViewById(R.id.rankings_list)).setRefreshRanksOnOverscroll(refreshOnOverscroll);
+        ((RankingsListView)findViewById(R.id.rankings_list))
+                .setRefreshRanksOnOverscroll(userSettings.isRefreshOnOverscroll());
     }
 
     private void toggleFilterView() {
@@ -421,6 +419,12 @@ public class RankingsHome extends AppCompatActivity {
             // Don't save again if we're just displaying rankings we just loaded
             rankings.saveRankings(this, rankingsDB);
         }
+        if (getIntent().getBooleanExtra(Constants.RANKINGS_LIST_RELOAD_NEEDED, false)) {
+            setUserSettings(rankings.getUserSettings());
+        }
+        if (settingsNeedRefresh) {
+            AppSyncHelper.getUserSettings(this);
+        }
     }
 
     private void clearAndAddView(int viewId) {
@@ -454,7 +458,7 @@ public class RankingsHome extends AppCompatActivity {
                     continue;
                 }
                 Map<String, String> datum = DisplayUtils.getDatumForPlayer(rankings, player,
-                        true, posRankMap, true);
+                        true, posRankMap, rankings.getUserSettings().isShowNoteRank());
                 data.add(datum);
             }
         }
@@ -530,7 +534,7 @@ public class RankingsHome extends AppCompatActivity {
                                     adapter, data, datum, position, true);
                             if (!rightDismiss) {
                                 rankings.getDraft().draftBySomeone(rankings, player, localCopy, findViewById(R.id.user_drawer_layout), listener);
-                                if (hideDraftedSearch) {
+                                if (rankings.getUserSettings().isHideDraftedSearch()) {
                                     setSearchAutocomplete();
                                 }
                             } else {
@@ -564,7 +568,6 @@ public class RankingsHome extends AppCompatActivity {
         ranksDisplayed = true;
 
         setSearchAutocomplete();
-        AppSyncHelper.getUserSettings(this);
     }
 
     private void getAuctionCost(final Player player, final int position, final List<Map<String, String>> data,
@@ -598,26 +601,18 @@ public class RankingsHome extends AppCompatActivity {
 
     private void draftByMe(Player player, int cost, Flashbar.OnActionTapListener listener) {
         rankings.getDraft().draftByMe(rankings, player, this, cost, findViewById(R.id.user_drawer_layout), listener);
-        if (hideDraftedSearch) {
+        if (rankings.getUserSettings().isHideDraftedSearch()) {
             setSearchAutocomplete();
         }
     }
 
     private void setSearchAutocomplete() {
-        final InstantAutoCompleteTextView searchInput = searchBase.findViewById(R.id.ranking_search);
+        final AutoCompleteTextView searchInput = searchBase.findViewById(R.id.ranking_search);
         searchInput.setAdapter(null);
         final FilterWithSpaceAdapter mAdapter = GeneralUtils.getPlayerSearchAdapter(rankings, this,
-                hideDraftedSearch, hideRanklessSearch);
+                rankings.getUserSettings().isHideDraftedSearch(),
+                rankings.getUserSettings().isHideRanklessSearch());
         searchInput.setAdapter(mAdapter);
-        searchInput.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (MotionEvent.ACTION_DOWN == event.getAction()) {
-                    searchInput.showDropDown();
-                }
-                return false;
-            }
-        });
 
         searchInput.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

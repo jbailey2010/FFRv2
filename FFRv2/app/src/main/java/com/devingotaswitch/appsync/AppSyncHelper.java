@@ -3,6 +3,7 @@ package com.devingotaswitch.appsync;
 import android.app.Activity;
 import android.content.Context;
 
+import com.devingotaswitch.rankings.domain.UserSettings;
 import com.devingotaswitch.rankings.domain.appsync.tags.Tag;
 
 import java.util.List;
@@ -63,12 +64,8 @@ public class AppSyncHelper {
         commentActivity.downvoteComment(activity, commentId, decrementUpvote);
     }
 
-    public static void updateUserSettings(Activity activity, boolean hideRanklessSearch, boolean hideRanklessSort,
-                                            boolean hideRanklessComparator, boolean hideDraftedSearch, boolean hideDraftedSort,
-                                            boolean hideDraftedComparator, boolean noteInRanks, boolean noteInSort,
-                                            boolean refreshOnOverscroll) {
-        userSettingsActivity.updateUserSettings(activity, hideRanklessSearch, hideRanklessSort, hideRanklessComparator,
-                hideDraftedSearch, hideDraftedSort, hideDraftedComparator, noteInRanks, noteInSort, refreshOnOverscroll);
+    public static void updateUserSettings(Activity activity, UserSettings userSettings) {
+        userSettingsActivity.updateUserSettings(activity, userSettings);
     }
 
     public static void getUserSettings(Activity activity) {

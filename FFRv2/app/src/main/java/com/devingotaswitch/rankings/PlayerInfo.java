@@ -1017,7 +1017,7 @@ public class PlayerInfo extends AppCompatActivity {
         }
 
         Map<String, String> injury = new HashMap<>();
-        injury.put(Constants.PLAYER_BASIC, "Injury status");
+        injury.put(Constants.PLAYER_BASIC, "Player availability");
         if (!StringUtils.isBlank(player.getInjuryStatus())) {
             injury.put(Constants.PLAYER_INFO, player.getInjuryStatus());
         } else {

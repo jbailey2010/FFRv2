@@ -1,6 +1,7 @@
 package com.devingotaswitch.rankings;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -14,6 +15,9 @@ import android.widget.TextView;
 import com.devingotaswitch.appsync.AppSyncHelper;
 import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.fileio.LocalSettingsHelper;
+import com.devingotaswitch.rankings.domain.Rankings;
+import com.devingotaswitch.rankings.domain.UserSettings;
+import com.devingotaswitch.utils.Constants;
 
 public class SettingsActivity extends AppCompatActivity {
     private final String TAG="SettingsActivity";
@@ -27,6 +31,10 @@ public class SettingsActivity extends AppCompatActivity {
     CheckBox noteSort;
     CheckBox noteRanks;
     CheckBox overscrollRefresh;
+
+    boolean isRankingsReloadNeeded = false;
+
+    private Rankings rankings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,13 +51,19 @@ public class SettingsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
+        final Activity localCopy = this;
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), RankingsHome.class);
+                intent.putExtra(Constants.RANKINGS_LIST_RELOAD_NEEDED, isRankingsReloadNeeded);
+                localCopy.startActivity(intent);
+
                 onBackPressed();
             }
         });
 
+        rankings = Rankings.init();
         init();
     }
 
@@ -64,89 +78,91 @@ public class SettingsActivity extends AppCompatActivity {
         noteSort = findViewById(R.id.show_note_sort);
         overscrollRefresh = findViewById(R.id.general_refresh_on_overscroll);
 
-        AppSyncHelper.getUserSettings(this);
+        final UserSettings settings = rankings.getUserSettings();
+        dSearch.setChecked(settings.isHideDraftedSearch());
+        rSearch.setChecked(settings.isHideRanklessSearch());
+        dsOutput.setChecked(settings.isHideDraftedSort());
+        rsOutput.setChecked(settings.isHideRanklessSort());
+        dcSuggestion.setChecked(settings.isHideDraftedComparator());
+        rcSuggestion.setChecked(settings.isHideRanklessComparator());
+        noteRanks.setChecked(settings.isShowNoteRank());
+        noteSort.setChecked(settings.isShowNoteSort());
+        overscrollRefresh.setChecked(settings.isRefreshOnOverscroll());
 
         dSearch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                updateUserSettings();
+                isRankingsReloadNeeded = true;
+                settings.setHideDraftedSearch(b);
+                updateUserSettings(settings);
             }
         });
         dsOutput.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                updateUserSettings();
+                settings.setHideDraftedSort(b);
+                updateUserSettings(settings);
             }
         });
         dcSuggestion.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                updateUserSettings();
+                settings.setHideDraftedComparator(b);
+                updateUserSettings(settings);
             }
         });
 
         rSearch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                updateUserSettings();
+                isRankingsReloadNeeded = true;
+                settings.setHideRanklessSearch(b);
+                updateUserSettings(settings);
             }
         });
         rsOutput.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                updateUserSettings();
+                settings.setHideRanklessSort(b);
+                updateUserSettings(settings);
             }
         });
         rcSuggestion.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                updateUserSettings();
+                settings.setHideRanklessComparator(b);
+                updateUserSettings(settings);
             }
         });
 
         noteRanks.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                updateUserSettings();
+                settings.setShowNoteRank(b);
+                updateUserSettings(settings);
             }
         });
         noteSort.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                updateUserSettings();
+                settings.setShowNoteSort(b);
+                updateUserSettings(settings);
             }
         });
 
         overscrollRefresh.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                updateUserSettings();
+                settings.setRefreshOnOverscroll(b);
+                isRankingsReloadNeeded = true;
+                updateUserSettings(settings);
             }
         });
     }
 
-    private void updateUserSettings() {
-        AppSyncHelper.updateUserSettings(this, rSearch.isChecked(), rsOutput.isChecked(), rcSuggestion.isChecked(),
-                dSearch.isChecked(), dsOutput.isChecked(), dcSuggestion.isChecked(), noteRanks.isChecked(),
-                noteSort.isChecked(), overscrollRefresh.isChecked());
-    }
+    private void updateUserSettings(UserSettings userSettings) {
+        Rankings.setUserSettings(userSettings);
 
-    public void updateUserSettings(boolean hideIrrelevantSearch, boolean hideIrrelevantSort,
-                                   boolean hideIrrelevantComparator, boolean hideDraftedSearch, boolean hideDraftedSort,
-                                   boolean hideDraftedComparator, boolean showNoteOnRanks, boolean showNoteOnSort,
-                                   boolean refreshOnOverscroll) {
-        if (rSearch != null && rsOutput != null && rcSuggestion != null && dSearch != null && dsOutput != null
-                && dcSuggestion != null && overscrollRefresh != null) {
-            // Useless if statement to ensure we don't get an NPE on rapid activity swap
-            rSearch.setChecked(hideIrrelevantSearch);
-            rsOutput.setChecked(hideIrrelevantSort);
-            rcSuggestion.setChecked(hideIrrelevantComparator);
-            dSearch.setChecked(hideDraftedSearch);
-            dsOutput.setChecked(hideDraftedSort);
-            dcSuggestion.setChecked(hideDraftedComparator);
-            noteRanks.setChecked(showNoteOnRanks);
-            noteSort.setChecked(showNoteOnSort);
-            overscrollRefresh.setChecked(refreshOnOverscroll);
-        }
+        AppSyncHelper.updateUserSettings(this, userSettings);
     }
 }

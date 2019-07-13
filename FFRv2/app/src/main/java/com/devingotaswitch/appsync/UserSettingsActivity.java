@@ -17,6 +17,7 @@ import com.devingotaswitch.rankings.PlayerComparator;
 import com.devingotaswitch.rankings.PlayerSorter;
 import com.devingotaswitch.rankings.RankingsHome;
 import com.devingotaswitch.rankings.SettingsActivity;
+import com.devingotaswitch.rankings.domain.UserSettings;
 import com.devingotaswitch.utils.AWSClientFactory;
 
 import javax.annotation.Nonnull;
@@ -25,10 +26,7 @@ public class UserSettingsActivity extends AppSyncActivity {
 
     private static final String TAG = "UserSettingsActivity";
 
-    public void updateUserSettings(Activity activity, boolean hideRanklessSearch, boolean hideRanklessSort,
-                                     boolean hideRanklessComparator, boolean hideDraftedSearch, boolean hideDraftedSort,
-                                     boolean hideDraftedComparator, boolean noteInRanks, boolean noteInSort,
-                                     boolean refreshOnOverscroll) {
+    public void updateUserSettings(Activity activity, UserSettings userSettings) {
         GraphQLCall.Callback<UpdateUserSettingsMutation.Data> callback = new GraphQLCall
                 .Callback<UpdateUserSettingsMutation.Data>() {
 
@@ -51,15 +49,15 @@ public class UserSettingsActivity extends AppSyncActivity {
 
         AWSClientFactory.getAppSyncInstance(activity).mutate(
                 UpdateUserSettingsMutation.builder()
-                .refreshOnOverscroll(refreshOnOverscroll)
-                .hideDraftedComparator(hideDraftedComparator)
-                .hideDraftedSearch(hideDraftedSearch)
-                .hideDraftedSort(hideDraftedSort)
-                .hideIrrelevantComparator(hideRanklessComparator)
-                .hideIrrelevantSearch(hideRanklessSearch)
-                .hideIrrelevantSort(hideRanklessSort)
-                .showNoteOnRanks(noteInRanks)
-                .showNoteOnSort(noteInSort)
+                .refreshOnOverscroll(userSettings.isRefreshOnOverscroll())
+                .hideDraftedComparator(userSettings.isHideDraftedComparator())
+                .hideDraftedSearch(userSettings.isHideDraftedSearch())
+                .hideDraftedSort(userSettings.isHideDraftedSort())
+                .hideIrrelevantComparator(userSettings.isHideRanklessComparator())
+                .hideIrrelevantSearch(userSettings.isHideRanklessSearch())
+                .hideIrrelevantSort(userSettings.isHideRanklessSort())
+                .showNoteOnRanks(userSettings.isShowNoteRank())
+                .showNoteOnSort(userSettings.isShowNoteSort())
                 .build()
         ).enqueue(callback);
 
@@ -79,23 +77,21 @@ public class UserSettingsActivity extends AppSyncActivity {
                     Log.d(TAG, "Successfully retrieved user settings.");
 
                     final GetUserSettingsQuery.GetUserSettings settings = response.data().getUserSettings();
+                    final UserSettings userSettings = new UserSettings();
+                    userSettings.setShowNoteSort(settings.showNoteOnSort());
+                    userSettings.setShowNoteRank(settings.showNoteOnRanks());
+                    userSettings.setRefreshOnOverscroll(settings.refreshOnOverscroll());
+                    userSettings.setHideDraftedComparator(settings.hideDraftedComparator());
+                    userSettings.setHideDraftedSort(settings.hideDraftedSort());
+                    userSettings.setHideDraftedSearch(settings.hideDraftedSearch());
+                    userSettings.setHideRanklessComparator(settings.hideIrrelevantComparator());
+                    userSettings.setHideRanklessSearch(settings.hideIrrelevantSearch());
+                    userSettings.setHideRanklessSort(settings.hideIrrelevantSort());
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            if (activity instanceof SettingsActivity) {
-                                ((SettingsActivity) activity).updateUserSettings(settings.hideIrrelevantSearch(), settings.hideIrrelevantSort(),
-                                        settings.hideIrrelevantComparator(), settings.hideDraftedSearch(), settings.hideDraftedSort(),
-                                        settings.hideDraftedComparator(), settings.showNoteOnRanks(), settings.showNoteOnSort(),
-                                        settings.refreshOnOverscroll());
-                            } else if (activity instanceof PlayerComparator) {
-                                ((PlayerComparator)activity).setUserSettings(settings.hideDraftedComparator(),
-                                        settings.hideIrrelevantComparator());
-                            } else if (activity instanceof PlayerSorter) {
-                                ((PlayerSorter)activity).setUserSettings(settings.hideIrrelevantSort(), settings.hideDraftedSort(),
-                                        settings.showNoteOnSort());
-                            } else if (activity instanceof RankingsHome) {
-                                ((RankingsHome)activity).setUserSettings(settings.hideIrrelevantSearch(), settings.hideDraftedSearch(),
-                                        settings.refreshOnOverscroll(), settings.showNoteOnRanks());
+                            if (activity instanceof RankingsHome) {
+                                ((RankingsHome)activity).setUserSettings(userSettings);
                             }
                         }
                     });
