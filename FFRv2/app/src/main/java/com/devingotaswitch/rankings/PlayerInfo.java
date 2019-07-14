@@ -83,6 +83,7 @@ public class PlayerInfo extends AppCompatActivity {
     private int viewCount = -1;
     private int watchCount= -1;
     private int draftCount = -1;
+    private List<String> userTags = new ArrayList<>();
     private boolean sortByUpvotes = false;
     private boolean doUpdateImage = false;
     private String replyId = Constants.COMMENT_NO_REPLY_ID;
@@ -601,10 +602,12 @@ public class PlayerInfo extends AppCompatActivity {
         displayRanks();
     }
 
-    public void setAggregatePlayerMetadata(int viewCount, int watchCount, int draftCount, List<Tag> tags) {
+    public void setAggregatePlayerMetadata(int viewCount, int watchCount, int draftCount, List<Tag> tags,
+                                           List<String> userTags) {
         this.watchCount = watchCount;
         this.viewCount = viewCount;
         this.draftCount = draftCount;
+        this.userTags = userTags;
 
         setTags(tags);
     }
@@ -615,7 +618,7 @@ public class PlayerInfo extends AppCompatActivity {
         for (int i = 0; i < tags.size(); i++) {
             Tag tag = tags.get(i);
             tagArr[i] = tag.getTagText();
-            if (LocalSettingsHelper.isPlayerTagged(this, playerId, tag.getTitle())) {
+            if (userTags.contains(tag.getTitle())) {
                 taggedIndices.add(i);
             }
         }
@@ -641,18 +644,18 @@ public class PlayerInfo extends AppCompatActivity {
                     public void chipSelected(int index) {
                         Tag tag = tags.get(index);
                         String text = tag.getTitle();
-                        if (!LocalSettingsHelper.isPlayerTagged(activity, playerId, text)) {
-                            LocalSettingsHelper.tagPlayer(activity, playerId, text);
-                            AppSyncHelper.incrementTagCount(activity, playerId, tag);
+                        if (!userTags.contains(text)) {
+                            userTags.add(text);
+                            AppSyncHelper.incrementTagCount(activity, playerId, tag, userTags);
                         }
                     }
                     @Override
                     public void chipDeselected(int index) {
                         Tag tag = tags.get(index);
                         String text = tag.getTitle();
-                        if (LocalSettingsHelper.isPlayerTagged(activity, playerId, text)) {
-                            LocalSettingsHelper.untagPlayer(activity, playerId, text);
-                            AppSyncHelper.decrementTagCount(activity, playerId, tag);
+                        if (userTags.contains(text)) {
+                            userTags.remove(text);
+                            AppSyncHelper.decrementTagCount(activity, playerId, tag, userTags);
                         }
                     }
                 })

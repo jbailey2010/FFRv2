@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.util.Log;
 
+import com.amazonaws.util.StringUtils;
 import com.apollographql.apollo.GraphQLCall;
 import com.apollographql.apollo.api.Error;
 import com.apollographql.apollo.api.Response;
@@ -41,10 +42,19 @@ import com.devingotaswitch.rankings.domain.appsync.tags.StudTag;
 import com.devingotaswitch.rankings.domain.appsync.tags.Tag;
 import com.devingotaswitch.rankings.domain.appsync.tags.UndervaluedTag;
 import com.devingotaswitch.utils.AWSClientFactory;
+import com.google.gson.Gson;
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonSyntaxException;
+import com.google.gson.reflect.TypeToken;
 
+import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 
 import javax.annotation.Nonnull;
 
@@ -168,13 +178,15 @@ class PlayerMetadataActivity extends AppSyncActivity {
                             metadata.consistentScorer(), metadata.efficient(), metadata.handcuff(), metadata.inefficient(), metadata.injuryBounceBack(), metadata.injuryProne(), metadata.lotteryTicket(), metadata.newStaff(),
                             metadata.newTeam(), metadata.overvalued(), metadata.postHypeSleeper(), metadata.pprSpecialist(), metadata.returner(), metadata.risky(), metadata.safe(), metadata.sleeper(),
                             metadata.stud(), metadata.undervalued());
+                    Type listType = new TypeToken<ArrayList<String>>(){}.getType();
+                    final List<String> userTags = getUserTags(metadata.userTags());
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
                             ((PlayerInfo)activity).setAggregatePlayerMetadata(metadata.viewCount(),
                                     metadata.watchCount() == null ? 0 : metadata.watchCount(),
                                     metadata.draftCount() == null ? 0 : metadata.draftCount(),
-                                    tags);
+                                    tags, userTags);
                         }
                     });
                 }
@@ -190,7 +202,17 @@ class PlayerMetadataActivity extends AppSyncActivity {
                 .enqueue(incrementViewCallback);
     }
 
-    void incrementTagCount(final Activity activity, final String playerId, final String tagName) {
+    private List<String> getUserTags(String serializedTags) {
+        if (!StringUtils.isBlank(serializedTags)) {
+            // We have to do a really hacky parse as AppSync doesn't support ProjectionExpression
+            // and the only way to get only the tags field would be to have a whole separate query.
+            return GSON.fromJson(serializedTags.split("userTags=")[1].split(", ")[0],
+                    List.class);
+        }
+        return new ArrayList<>();
+    }
+
+    void incrementTagCount(final Activity activity, final String playerId, final String tagName, final List<String> tags) {
         GraphQLCall.Callback<IncrementTagCountMutation.Data> incrementTagCallback = new GraphQLCall
                 .Callback <IncrementTagCountMutation.Data>() {
             @Override
@@ -220,11 +242,16 @@ class PlayerMetadataActivity extends AppSyncActivity {
             }
         };
 
-        AWSClientFactory.getAppSyncInstance(activity).mutate(IncrementTagCountMutation.builder().playerId(getPlayerId(playerId)).tagName(tagName).build())
+        AWSClientFactory.getAppSyncInstance(activity).mutate(
+                IncrementTagCountMutation.builder()
+                        .playerId(getPlayerId(playerId))
+                        .tagName(tagName)
+                        .userTags(GSON.toJson(tags).replaceAll("\"", "\\\\\""))
+                        .build())
                 .enqueue(incrementTagCallback);
     }
 
-    void decrementTagCount(final Activity activity, final String playerId, final String tagName) {
+    void decrementTagCount(final Activity activity, final String playerId, final String tagName, final List<String> tags) {
         GraphQLCall.Callback<DecrementTagCountMutation.Data> decrementTagCallback = new GraphQLCall
                 .Callback <DecrementTagCountMutation.Data>() {
             @Override
@@ -254,7 +281,12 @@ class PlayerMetadataActivity extends AppSyncActivity {
             }
         };
 
-        AWSClientFactory.getAppSyncInstance(activity).mutate(DecrementTagCountMutation.builder().playerId(getPlayerId(playerId)).tagName(tagName).build())
+        AWSClientFactory.getAppSyncInstance(activity).mutate(
+                DecrementTagCountMutation.builder()
+                        .playerId(getPlayerId(playerId))
+                        .tagName(tagName)
+                        .userTags(GSON.toJson(tags).replaceAll("\"", "\\\\\""))
+                        .build())
                 .enqueue(decrementTagCallback);
     }
     

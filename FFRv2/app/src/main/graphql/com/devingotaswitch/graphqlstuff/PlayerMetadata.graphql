@@ -27,6 +27,7 @@ mutation IncrementPlayerViewCount($playerId: String!) {
     sleeper
     stud
     undervalued
+    userTags
   }
 }
 
@@ -54,8 +55,8 @@ mutation DecrementPlayerDraftedCount($playerId: String!) {
   }
 }
 
-mutation IncrementTagCount($playerId: String!, $tagName: String!) {
-  incrementTagCount(playerId: $playerId, tagName: $tagName) {
+mutation IncrementTagCount($playerId: String!, $tagName: String!, $userTags: String!) {
+  incrementTagCount(playerId: $playerId, tagName: $tagName, userTags: $userTags) {
     playerId
     aging
 	boomOrBust
@@ -83,8 +84,8 @@ mutation IncrementTagCount($playerId: String!, $tagName: String!) {
   }
 }
 
-mutation DecrementTagCount($playerId: String!, $tagName: String!) {
-  decrementTagCount(playerId: $playerId, tagName: $tagName) {
+mutation DecrementTagCount($playerId: String!, $tagName: String!, $userTags: String!) {
+  decrementTagCount(playerId: $playerId, tagName: $tagName, userTags: $userTags) {
     playerId
     aging
 	boomOrBust

@@ -25,8 +25,6 @@ import javax.annotation.Nonnull;
 
 public class UserCustomPlayerDataActivity extends AppSyncActivity {
 
-    private static final Gson GSON = new Gson();
-
     private static final String TAG = "UserCustomPlayerDataActivity";
 
     public void updateCustomPlayerData(Activity activity, List<String> watchList, Map<String, String> notes) {

@@ -36,12 +36,12 @@ public class AppSyncHelper {
         metadataActivity.decrementDraftCount(context, playerId);
     }
 
-    public static void incrementTagCount(Activity activity, String playerId, Tag tag) {
-        metadataActivity.incrementTagCount(activity, playerId, tag.getRemoteTitle());
+    public static void incrementTagCount(Activity activity, String playerId, Tag tag, List<String> tags) {
+        metadataActivity.incrementTagCount(activity, playerId, tag.getRemoteTitle(), tags);
     }
 
-    public static void decrementTagCount(Activity activity, String playerId, Tag tag) {
-        metadataActivity.decrementTagCount(activity, playerId, tag.getRemoteTitle());
+    public static void decrementTagCount(Activity activity, String playerId, Tag tag, List<String> tags) {
+        metadataActivity.decrementTagCount(activity, playerId, tag.getRemoteTitle(), tags);
     }
 
     public static void createComment(Activity activity, String comment, String playerId, String replyToId, Integer replyDepth) {

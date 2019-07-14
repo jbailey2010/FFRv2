@@ -275,7 +275,6 @@ public class Constants {
     public final static String COMMENT_SORT_DATE = "Sort By Date";
 
     // Tags
-    public final static String SP_TAG_SUFFIX = "tag";
     public final static String TAG_TEXT_DELIMITER = ": ";
     public final static String AGING_TAG = "Aging";
     public final static String BOOM_OR_BUST_TAG = "Boom or Bust";

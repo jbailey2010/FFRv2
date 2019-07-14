@@ -1143,6 +1143,20 @@
                                         }
                                     },
                                     "defaultValue": null
+                                },
+                                {
+                                    "name": "userTags",
+                                    "description": null,
+                                    "type": {
+                                        "kind": "NON_NULL",
+                                        "name": null,
+                                        "ofType": {
+                                            "kind": "SCALAR",
+                                            "name": "String",
+                                            "ofType": null
+                                        }
+                                    },
+                                    "defaultValue": null
                                 }
                             ],
                             "type": {
@@ -1173,6 +1187,20 @@
                                 },
                                 {
                                     "name": "tagName",
+                                    "description": null,
+                                    "type": {
+                                        "kind": "NON_NULL",
+                                        "name": null,
+                                        "ofType": {
+                                            "kind": "SCALAR",
+                                            "name": "String",
+                                            "ofType": null
+                                        }
+                                    },
+                                    "defaultValue": null
+                                },
+                                {
+                                    "name": "userTags",
                                     "description": null,
                                     "type": {
                                         "kind": "NON_NULL",
@@ -1528,6 +1556,18 @@
                             "type": {
                                 "kind": "SCALAR",
                                 "name": "Int",
+                                "ofType": null
+                            },
+                            "isDeprecated": false,
+                            "deprecationReason": null
+                        },
+                        {
+                            "name": "userTags",
+                            "description": null,
+                            "args": [],
+                            "type": {
+                                "kind": "SCALAR",
+                                "name": "String",
                                 "ofType": null
                             },
                             "isDeprecated": false,
@@ -2460,6 +2500,32 @@
                     "onField": true
                 },
                 {
+                    "name": "aws_auth",
+                    "description": "Directs the schema to enforce authorization on a field",
+                    "locations": [
+                        "FIELD_DEFINITION"
+                    ],
+                    "args": [
+                        {
+                            "name": "cognito_groups",
+                            "description": "List of cognito user pool groups which have access on this field",
+                            "type": {
+                                "kind": "LIST",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                }
+                            },
+                            "defaultValue": null
+                        }
+                    ],
+                    "onOperation": false,
+                    "onFragment": false,
+                    "onField": false
+                },
+                {
                     "name": "aws_iam",
                     "description": "Tells the service this field/object has access authorized by sigv4 signing.",
                     "locations": [
@@ -2472,22 +2538,26 @@
                     "onField": false
                 },
                 {
-                    "name": "deprecated",
-                    "description": null,
+                    "name": "aws_cognito_user_pools",
+                    "description": "Tells the service this field/object has access authorized by a Cognito User Pools token.",
                     "locations": [
-                        "FIELD_DEFINITION",
-                        "ENUM_VALUE"
+                        "OBJECT",
+                        "FIELD_DEFINITION"
                     ],
                     "args": [
                         {
-                            "name": "reason",
-                            "description": null,
+                            "name": "cognito_groups",
+                            "description": "List of cognito user pool groups which have access on this field",
                             "type": {
-                                "kind": "SCALAR",
-                                "name": "String",
-                                "ofType": null
+                                "kind": "LIST",
+                                "name": null,
+                                "ofType": {
+                                    "kind": "SCALAR",
+                                    "name": "String",
+                                    "ofType": null
+                                }
                             },
-                            "defaultValue": "\"No longer supported\""
+                            "defaultValue": null
                         }
                     ],
                     "onOperation": false,
@@ -2533,26 +2603,22 @@
                     "onField": false
                 },
                 {
-                    "name": "aws_cognito_user_pools",
-                    "description": "Tells the service this field/object has access authorized by a Cognito User Pools token.",
+                    "name": "deprecated",
+                    "description": null,
                     "locations": [
-                        "OBJECT",
-                        "FIELD_DEFINITION"
+                        "FIELD_DEFINITION",
+                        "ENUM_VALUE"
                     ],
                     "args": [
                         {
-                            "name": "cognito_groups",
-                            "description": "List of cognito user pool groups which have access on this field",
+                            "name": "reason",
+                            "description": null,
                             "type": {
-                                "kind": "LIST",
-                                "name": null,
-                                "ofType": {
-                                    "kind": "SCALAR",
-                                    "name": "String",
-                                    "ofType": null
-                                }
+                                "kind": "SCALAR",
+                                "name": "String",
+                                "ofType": null
                             },
-                            "defaultValue": null
+                            "defaultValue": "\"No longer supported\""
                         }
                     ],
                     "onOperation": false,
@@ -2569,32 +2635,6 @@
                         {
                             "name": "subscriptions",
                             "description": "List of subscriptions which will be published to when this mutation is called.",
-                            "type": {
-                                "kind": "LIST",
-                                "name": null,
-                                "ofType": {
-                                    "kind": "SCALAR",
-                                    "name": "String",
-                                    "ofType": null
-                                }
-                            },
-                            "defaultValue": null
-                        }
-                    ],
-                    "onOperation": false,
-                    "onFragment": false,
-                    "onField": false
-                },
-                {
-                    "name": "aws_auth",
-                    "description": "Directs the schema to enforce authorization on a field",
-                    "locations": [
-                        "FIELD_DEFINITION"
-                    ],
-                    "args": [
-                        {
-                            "name": "cognito_groups",
-                            "description": "List of cognito user pool groups which have access on this field",
                             "type": {
                                 "kind": "LIST",
                                 "name": null,
