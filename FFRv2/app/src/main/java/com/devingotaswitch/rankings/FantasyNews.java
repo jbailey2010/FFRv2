@@ -122,6 +122,11 @@ public class FantasyNews extends AppCompatActivity {
                 }
             }
         });
+
+        List<PlayerNews> cachedNews = LocalSettingsHelper.loadNews(this);
+        if (cachedNews.size() > 0) {
+            displayNews(cachedNews);
+        }
     }
 
     private void getNews(String source) {
@@ -173,7 +178,7 @@ public class FantasyNews extends AppCompatActivity {
             }
         });
 
-
+        LocalSettingsHelper.cacheNews(this, news);
     }
 
     private void displayPlayerInfo(String playerKey) {
