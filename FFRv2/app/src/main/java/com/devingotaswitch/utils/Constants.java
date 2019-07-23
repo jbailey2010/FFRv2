@@ -124,6 +124,7 @@ public class Constants {
     public static final String LEAGUE_TABLE_NAME = "league_settings";
     public static final String NAME_COLUMN = "league_name";
     public static final String TEAM_COUNT_COLUMN = "team_count";
+    public static final String LEAGUE_HOST_COLUMN = "league_host";
     public static final String IS_AUCTION_COLUMN = "is_auction";
     public static final String IS_DYNASTY_STARTUP_COLUMN = "is_dynasty_startup";
     public static final String IS_DYNASTY_ROOKIE_COLUMN = "is_dynasty_rookie";

@@ -1088,12 +1088,12 @@ public class PlayerInfo extends AppCompatActivity {
 
             if (!StringUtils.isBlank(team.getFaClass()) && team.getFaClass().length() > 4) {
                 Map<String, String> incomingFa = new HashMap<>();
-                incomingFa.put(Constants.PLAYER_BASIC, "Incoming Free Agents");
+                incomingFa.put(Constants.PLAYER_BASIC, "Incoming Players");
                 incomingFa.put(Constants.PLAYER_INFO, team.getIncomingFA());
                 data.add(incomingFa);
 
                 Map<String, String> outgoingFa = new HashMap<>();
-                outgoingFa.put(Constants.PLAYER_BASIC, "Outgoing Free Agents");
+                outgoingFa.put(Constants.PLAYER_BASIC, "Outgoing Players");
                 outgoingFa.put(Constants.PLAYER_INFO, team.getOutgoingFA());
                 data.add(outgoingFa);
             } else {
