@@ -105,7 +105,8 @@ public class PlayerInfo extends AppCompatActivity {
     private ChipCloud chipCloud;
 
     private static String playerId;
-    private static final DecimalFormat df = new DecimalFormat("#.##");
+
+    private static final Integer MAX_NEARBY_PLAYERS = 6;
 
     private List<Comment> comments = new ArrayList<>();
     private Map<String, List<Comment>> replyMap = new HashMap<>();
@@ -818,7 +819,7 @@ public class PlayerInfo extends AppCompatActivity {
         data.add(adp);
 
         Map<String, String> auc = new HashMap<>();
-        auc.put(Constants.PLAYER_BASIC, "Auction Value: $" + df.format(player.getAuctionValueCustom(rankings)));
+        auc.put(Constants.PLAYER_BASIC, "Auction Value: $" + Constants.DECIMAL_FORMAT.format(player.getAuctionValueCustom(rankings)));
         int aucRank = getAuc(null, player.getAuctionValue());
         int aucPos = getAuc(player.getPosition(), player.getAuctionValue());
         String auctionSub = getRankingSub(aucRank, aucPos) +
@@ -886,38 +887,38 @@ public class PlayerInfo extends AppCompatActivity {
             data.add(proj);
 
             Map<String, String> paa = new HashMap<>();
-            paa.put(Constants.PLAYER_BASIC, "PAA: " + df.format(player.getPaa()));
+            paa.put(Constants.PLAYER_BASIC, "PAA: " + Constants.DECIMAL_FORMAT.format(player.getPaa()));
             int paaRank = getPaa(null, player.getPaa());
             int paaPos = getPaa(player.getPosition(), player.getPaa());
             String subRank = getRankingSub(paaRank, paaPos);
             if (player.getAuctionValueCustom(rankings) > 0.0) {
-                subRank += Constants.LINE_BREAK + "PAA/$: " + df.format(player.getPaa() / player.getAuctionValueCustom(rankings));
+                subRank += Constants.LINE_BREAK + "PAA/$: " + Constants.DECIMAL_FORMAT.format(player.getPaa() / player.getAuctionValueCustom(rankings));
             }
-            subRank += Constants.LINE_BREAK + "Scaled PAA: " + df.format(player.getScaledPAA(rankings));
+            subRank += Constants.LINE_BREAK + "Scaled PAA: " + Constants.DECIMAL_FORMAT.format(player.getScaledPAA(rankings));
             paa.put(Constants.PLAYER_INFO, subRank);
             data.add(paa);
 
             Map<String, String> xVal = new HashMap<>();
-            xVal.put(Constants.PLAYER_BASIC, "X Value: " + df.format(player.getxVal()));
+            xVal.put(Constants.PLAYER_BASIC, "X Value: " + Constants.DECIMAL_FORMAT.format(player.getxVal()));
             int xValRank = getXVal(null, player.getxVal());
             int xValPos = getXVal(player.getPosition(), player.getxVal());
             String xValSub = getRankingSub(xValRank, xValPos);
             if (player.getAuctionValueCustom(rankings) > 0.0) {
-                xValSub  += Constants.LINE_BREAK + "X Value/$: " + df.format(player.getxVal() / player.getAuctionValueCustom(rankings));
+                xValSub  += Constants.LINE_BREAK + "X Value/$: " + Constants.DECIMAL_FORMAT.format(player.getxVal() / player.getAuctionValueCustom(rankings));
             }
-            xValSub += Constants.LINE_BREAK + "Scaled X Value: " + df.format(player.getScaledXVal(rankings));
+            xValSub += Constants.LINE_BREAK + "Scaled X Value: " + Constants.DECIMAL_FORMAT.format(player.getScaledXVal(rankings));
             xVal.put(Constants.PLAYER_INFO, xValSub);
             data.add(xVal);
 
             Map<String, String> voLS = new HashMap<>();
-            voLS.put(Constants.PLAYER_BASIC, "VOLS: " + df.format(player.getVOLS()));
+            voLS.put(Constants.PLAYER_BASIC, "VOLS: " + Constants.DECIMAL_FORMAT.format(player.getVOLS()));
             int voLSRank = getVoLSRank(null, player.getVOLS());
             int voLSPos = getVoLSRank(player.getPosition(), player.getVOLS());
             String voLSSub = getRankingSub(voLSRank, voLSPos);
             if (player.getAuctionValueCustom(rankings) > 0.0) {
-                voLSSub += Constants.LINE_BREAK + "VOLS/$: " + df.format(player.getVOLS() / player.getAuctionValueCustom(rankings));
+                voLSSub += Constants.LINE_BREAK + "VOLS/$: " + Constants.DECIMAL_FORMAT.format(player.getVOLS() / player.getAuctionValueCustom(rankings));
             }
-            voLSSub += Constants.LINE_BREAK + "Scaled VOLS: " + df.format(player.getScaledVOLS(rankings));
+            voLSSub += Constants.LINE_BREAK + "Scaled VOLS: " + Constants.DECIMAL_FORMAT.format(player.getScaledVOLS(rankings));
             voLS.put(Constants.PLAYER_INFO, voLSSub);
             data.add(voLS);
         }
@@ -1027,6 +1028,29 @@ public class PlayerInfo extends AppCompatActivity {
             injury.put(Constants.PLAYER_INFO, "Healthy");
         }
         data.add(injury);
+
+        if (!Constants.DEFAULT_RANK.equals(player.getAdp())) {
+            List<Player> nearbyPlayers = getPlayersDraftedNearby();
+            Map<String, String> nearbyData = new HashMap<>();
+            nearbyData.put(Constants.PLAYER_BASIC, "Players drafted nearby");
+            StringBuilder nearbyString = new StringBuilder();
+            for (Player nearPlayer : nearbyPlayers) {
+                nearbyString = nearbyString
+                        .append(nearPlayer.getAdp() < player.getAdp() ? "" : "+")
+                        .append(
+                            Constants.DECIMAL_FORMAT.format(nearPlayer.getAdp() - player.getAdp()))
+                        .append(": ")
+                        .append(nearPlayer.getName())
+                        .append(" - ")
+                        .append(nearPlayer.getPosition())
+                        .append(", ")
+                        .append(nearPlayer.getTeamName())
+                        .append(Constants.LINE_BREAK);
+            }
+            nearbyData.put(Constants.PLAYER_INFO, nearbyString.toString());
+
+            data.add(nearbyData);
+        }
 
         if (viewCount > 0) {
             Map<String, String> activityData = new HashMap<>();
@@ -1541,5 +1565,56 @@ public class PlayerInfo extends AppCompatActivity {
             }
         }
         return rank;
+    }
+
+    private List<Player> getPlayersDraftedNearby() {
+
+        // First, sort all players by nearest adp to player
+        Comparator<Player> comparator =  new Comparator<Player>() {
+            @Override
+            public int compare(Player a, Player b) {
+                int diffA = Math.abs((int)(a.getAdp() - player.getAdp()));
+                int diffB = Math.abs((int)(b.getAdp() - player.getAdp()));
+                if (diffA > diffB) {
+                    return 1;
+                }
+                if (diffA < diffB) {
+                    return -1;
+                }
+                return 0;
+            }
+        };
+        List<Player> allPlayers = new ArrayList<>();
+        allPlayers.addAll(rankings.getPlayers().values());
+        Collections.sort(allPlayers, comparator);
+
+        // Next, we want to get the x nearest, instead of hundreds.
+        int listSize = 0;
+        List<Player> nearestPlayers = new ArrayList<>();
+        for (int i = 0; i < allPlayers.size(); i++) {
+            if (listSize == MAX_NEARBY_PLAYERS) {
+                break;
+            } else if (allPlayers.get(i).getUniqueId().equals(player.getUniqueId())) {
+                continue;
+            }
+            nearestPlayers.add(allPlayers.get(i));
+            listSize++;
+        }
+
+        // Finally, we want to sort these by adp overall.
+        Comparator<Player> adpComparator =  new Comparator<Player>() {
+            @Override
+            public int compare(Player a, Player b) {
+                if (a.getAdp() > b.getAdp()) {
+                    return 1;
+                }
+                if (a.getAdp() < b.getAdp()) {
+                    return -1;
+                }
+                return 0;
+            }
+        };
+        Collections.sort(nearestPlayers, adpComparator);
+        return nearestPlayers;
     }
 }
