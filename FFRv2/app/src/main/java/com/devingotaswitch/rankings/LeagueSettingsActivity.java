@@ -48,6 +48,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
     private RankingsDBWrapper rankingsDB;
     private LinearLayout baseLayout;
     private Rankings rankings;
+    private TextView main_title;
     private boolean rankingsUpdated;
 
     private Map<String, LeagueSettings> leagues;
@@ -62,7 +63,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         // Set toolbar for this screen
         Toolbar toolbar =  findViewById(R.id.toolbar_league_settings);
         toolbar.setTitle("");
-        TextView main_title =  findViewById(R.id.main_toolbar_title);
+        main_title =  findViewById(R.id.main_toolbar_title);
         main_title.setText("League Settings");
         setSupportActionBar(toolbar);
 
@@ -155,6 +156,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
 
     private void displayLeague(final LeagueSettings currentLeague) {
         View view = initializeLeagueSettingsBase();
+        main_title.setText("League Settings");
         final EditText leagueName = view.findViewById(R.id.league_settings_name);
         leagueName.setText(currentLeague.getName());
         leagueName.setVisibility(View.GONE);
@@ -241,6 +243,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
 
     private void displayNoLeague() {
         View view = initializeLeagueSettingsBase();
+        main_title.setText("League Settings");
         final Button advanced = view.findViewById(R.id.league_settings_advanced_settings);
         final Button save =  view.findViewById(R.id.league_settings_create_default);
         Button delete =  view.findViewById(R.id.league_settings_delete_league);
@@ -461,6 +464,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
 
     private void displayRoster(final LeagueSettings currentLeague, final Map<String, String> leagueUpdates) {
         View view = initializeLeagueSettingsRoster();
+        main_title.setText("Roster Settings");
         Button update =  view.findViewById(R.id.league_roster_create_default);
         update.setText("Update");
         Button advanced =  view.findViewById(R.id.league_roster_advanced_settings);
@@ -531,6 +535,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
 
     private void displayRosterNoLeague(final LeagueSettings newLeague) {
         View view = initializeLeagueSettingsRoster();
+        main_title.setText("Roster Settings");
         final EditText qbs = view.findViewById(R.id.league_settings_qbs);
         final EditText rbs = view.findViewById(R.id.league_settings_rbs);
         final EditText wrs = view.findViewById(R.id.league_settings_wrs);
@@ -705,6 +710,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
     private void displayFlex(final LeagueSettings currentLeague, final Map<String, String> leagueUpdates,
                              final Map<String, String> baseRosterUpdates) {
         View view = initializeLeagueSettingsFlex();
+        main_title.setText("Flex Settings");
         final EditText rbwr = view.findViewById(R.id.league_flex_rbwr);
         final EditText rbte = view.findViewById(R.id.league_flex_rbte);
         final EditText rbwrte = view.findViewById(R.id.league_flex_rbwrte);
@@ -752,6 +758,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
 
     private void displayFlexNoLeague(final LeagueSettings newLeague) {
         View view = initializeLeagueSettingsFlex();
+        main_title.setText("Flex Settings");
         final EditText rbwr = view.findViewById(R.id.league_flex_rbwr);
         final EditText rbte = view.findViewById(R.id.league_flex_rbte);
         final EditText rbwrte = view.findViewById(R.id.league_flex_rbwrte);
@@ -882,6 +889,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
 
     private void displayScoringNoTeam(final LeagueSettings newLeague) {
         View view = initializeLeagueSettingsScoring();
+        main_title.setText("Scoring Settings");
         final EditText passTds =  view.findViewById(R.id.league_scoring_passing_tds);
         final EditText rushTds =  view.findViewById(R.id.league_scoring_rushing_tds);
         final EditText recTds =  view.findViewById(R.id.league_scoring_receiving_tds);
@@ -914,6 +922,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
     private void displayScoring(final LeagueSettings currentLeague, final Map<String, String> leagueUpdates,
                              final Map<String, String> rosterUpdates) {
         View view = initializeLeagueSettingsScoring();
+        main_title.setText("Scoring Settings");
         final EditText passTds =  view.findViewById(R.id.league_scoring_passing_tds);
         final EditText rushTds =  view.findViewById(R.id.league_scoring_rushing_tds);
         final EditText recTds =  view.findViewById(R.id.league_scoring_receiving_tds);
