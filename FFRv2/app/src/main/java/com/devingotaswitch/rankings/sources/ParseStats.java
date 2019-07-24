@@ -136,8 +136,15 @@ public class ParseStats {
                 normal += "Rushing Touchdowns: " + tds;
                 qbPlayers.put(getPlayerIdKey(name, team, Constants.QB), normal);
             } else {
-                data.append("Pass Attempts: ").append(player[player.length - 10]).append(Constants.LINE_BREAK);
-                data.append("Completion Percentage: ").append(player[player.length - 3]).append(Constants.LINE_BREAK);
+                String attempts = player[player.length - 10];
+                Integer attemptsNum = Integer.parseInt(attempts);
+                String completionPercentage = player[player.length - 3];
+                Double completionInt = Double.parseDouble(completionPercentage.substring(0, completionPercentage.length() - 1));
+                Double completionRate = completionInt / 100.0;
+                Integer completionsIsh = (int) Math.round(attemptsNum * completionRate);
+                data.append("Pass Attempts: ").append(attempts).append(Constants.LINE_BREAK);
+                data.append("Completions: ").append(completionsIsh).append(Constants.LINE_BREAK);
+                data.append("Completion Percentage: ").append(completionPercentage).append(Constants.LINE_BREAK);
                 data.append("Yards: ").append(player[player.length - 9].replace(",", "")).append(Constants.LINE_BREAK);
                 data.append("Adjusted Yards: ").append(player[player.length - 8].replace(",", "")).append(Constants.LINE_BREAK);
                 data.append("Touchdowns: ").append(player[player.length - 7]).append(Constants.LINE_BREAK);
@@ -184,7 +191,13 @@ public class ParseStats {
                 String effectiveYards = player[player.length - 4];
                 String tds = player[player.length - 3];
                 String catchRate = player[player.length - 2];
-                String normal = rbPlayers.get(getPlayerIdKey(name, team, Constants.RB)) + "\nTargets: " + catches + Constants.LINE_BREAK +
+                Double receptionInt = Double.parseDouble(
+                        catchRate.substring(0, catchRate.length() - 1));
+                Double receptionRate = receptionInt / 100.0;
+                Integer receptionsIsh = (int) Math.round(Integer.parseInt(catches) * receptionRate);
+                String normal = rbPlayers.get(getPlayerIdKey(name, team, Constants.RB)) + Constants.LINE_BREAK +
+                        "Targets: " + catches + Constants.LINE_BREAK +
+                        "Receptions: " + receptionsIsh + Constants.LINE_BREAK +
                         "Catch Rate: " + catchRate + Constants.LINE_BREAK +
                         "Receiving Yards: " + yards + Constants.LINE_BREAK +
                         "Adjusted Receiving Yards: " + effectiveYards + Constants.LINE_BREAK +
@@ -250,11 +263,16 @@ public class ParseStats {
                 normal += "Rushing Touchdowns: " + tds;
                 wrPlayers.put(getPlayerIdKey(name, team, Constants.WR), normal);
             } else {
-                data.append("Targets: ").append(player[player.length - 7]).append(Constants.LINE_BREAK);
+                String catchRateStr = player[player.length - 3];
+                Double catchRate = Double.parseDouble(catchRateStr.substring(0, catchRateStr.length() - 1));
+                Integer targets = Integer.parseInt(player[player.length - 7]);
+                Integer catchesIsh = (int) Math.round(targets * (catchRate / 100.0));
+                data.append("Targets: ").append(targets).append(Constants.LINE_BREAK);
+                data.append("Receptions: ").append(catchesIsh).append(Constants.LINE_BREAK);
+                data.append("Catch Rate: ").append(catchRateStr).append(Constants.LINE_BREAK);
                 data.append("Yards: ").append(player[player.length - 6]).append(Constants.LINE_BREAK);
                 data.append("Adjusted Yards: ").append(player[player.length - 5].replace(",", "")).append(Constants.LINE_BREAK);
                 data.append("Touchdowns: ").append(player[player.length - 4]).append(Constants.LINE_BREAK);
-                data.append("Catch Rate: ").append(player[player.length - 3]).append(Constants.LINE_BREAK);
                 data.append("Fumbles: ")
                         .append(player[player.length - 2])
                         .append(Constants.LINE_BREAK);
@@ -296,11 +314,16 @@ public class ParseStats {
                     && player.length < 15) {
                 continue;
             }
-            data.append("Targets: ").append(player[player.length - 7]).append(Constants.LINE_BREAK);
+            String catchRateStr = player[player.length - 3];
+            Double catchRate = Double.parseDouble(catchRateStr.substring(0, catchRateStr.length() - 1));
+            Integer targets = Integer.parseInt(player[player.length - 7]);
+            Integer catchesIsh = (int) Math.round(targets * (catchRate / 100.0));
+            data.append("Targets: ").append(targets).append(Constants.LINE_BREAK);
+            data.append("Receptions: ").append(catchesIsh).append(Constants.LINE_BREAK);
+            data.append("Catch Rate: ").append(catchRateStr).append(Constants.LINE_BREAK);
             data.append("Yards: ").append(player[player.length - 6]).append(Constants.LINE_BREAK);
             data.append("Adjusted Yards: ").append(player[player.length - 5].replace(",", "")).append(Constants.LINE_BREAK);
             data.append("Touchdowns: ").append(player[player.length - 4]).append(Constants.LINE_BREAK);
-            data.append("Catch Rate: ").append(player[player.length - 3]).append(Constants.LINE_BREAK);
             data.append("Fumbles: ")
                     .append(player[player.length - 2])
                     .append(Constants.LINE_BREAK);
