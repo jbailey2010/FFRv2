@@ -13,7 +13,6 @@ import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.sources.ParseDraft;
 import com.devingotaswitch.rankings.sources.ParseDraftWizard;
 import com.devingotaswitch.rankings.sources.ParseFantasyPros;
-import com.devingotaswitch.rankings.sources.ParseESPN;
 import com.devingotaswitch.rankings.sources.ParseFA;
 import com.devingotaswitch.rankings.sources.ParseFFTB;
 import com.devingotaswitch.rankings.sources.ParseInjuries;
@@ -142,15 +141,6 @@ public class RankingsFetcher {
                 Log.e(TAG, "Failed to parse WF", e);
             }
             publishProgress("Fetching rankings... 1/14");
-
-            Log.i(TAG, "Getting ESPN ADV rankings");
-            try {
-                ParseESPN.parseESPNAggregate(rankings);
-            } catch (Exception e) {
-                Log.e(TAG, "Failed to parse ESPN", e);
-            }
-            publishProgress("Fetching rankings... 3/14");
-
 
             Log.i(TAG, "Getting FFTB rankings");
             try {
@@ -286,7 +276,6 @@ public class RankingsFetcher {
                 }
             }
             if (projSet) {
-                ParseMath.getPAAAuctionValue(rankings);
                 ParseMath.getPAAAuctionValue(rankings);
             } else {
                 Log.d(TAG, "Not setting PAA auction values, no projections are set.");

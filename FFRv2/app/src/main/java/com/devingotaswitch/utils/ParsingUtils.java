@@ -1,5 +1,7 @@
 package com.devingotaswitch.utils;
 
+import android.util.Log;
+
 import com.amazonaws.util.StringUtils;
 import com.devingotaswitch.rankings.domain.Player;
 
@@ -354,6 +356,7 @@ public class ParsingUtils {
             case "WR,RB":
             case "WR/RB":
             case "RB,WR":
+            case "CB,RB":
             case "RB/WR":
                 position = Constants.RB;
                 break;

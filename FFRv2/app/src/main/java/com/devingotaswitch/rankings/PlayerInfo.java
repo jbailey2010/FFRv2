@@ -502,8 +502,10 @@ public class PlayerInfo extends AppCompatActivity {
         } else if (Constants.DST.equals(player.getPosition())) {
             headerLeft.setText("Age: N/A");
         }
-        if (rankings.getTeam(player) != null) {
+        if (rankings.getTeam(player) != null && !"0".equals(rankings.getTeam(player).getBye())) {
             headerRight.setText("Bye:" + Constants.LINE_BREAK + rankings.getTeam(player).getBye());
+        } else if ("0".equals(rankings.getTeam(player).getBye())) {
+            headerRight.setText("Bye: N/A");
         }
         headerMiddle.setText(player.getTeamName() + Constants.LINE_BREAK + player.getPosition());
 

@@ -83,7 +83,10 @@ class PlayerMetadataActivity extends AppSyncActivity {
             }
         };
 
-        AWSClientFactory.getAppSyncInstance(context).mutate(IncrementPlayerWatchedCountMutation.builder().playerId(getPlayerId(playerId)).build())
+        AWSClientFactory.getAppSyncInstance(context).mutate(
+                IncrementPlayerWatchedCountMutation.builder()
+                        .playerId(getPlayerId(playerId))
+                        .build())
                 .enqueue(callback);
     }
 
@@ -108,7 +111,10 @@ class PlayerMetadataActivity extends AppSyncActivity {
             }
         };
 
-        AWSClientFactory.getAppSyncInstance(context).mutate(IncrementPlayerDraftedCountMutation.builder().playerId(getPlayerId(playerId)).build())
+        AWSClientFactory.getAppSyncInstance(context).mutate(
+                IncrementPlayerDraftedCountMutation.builder()
+                        .playerId(getPlayerId(playerId))
+                        .build())
                 .enqueue(callback);
     }
 
@@ -133,7 +139,10 @@ class PlayerMetadataActivity extends AppSyncActivity {
             }
         };
 
-        AWSClientFactory.getAppSyncInstance(context).mutate(DecrementPlayerWatchedCountMutation.builder().playerId(getPlayerId(playerId)).build())
+        AWSClientFactory.getAppSyncInstance(context)
+                .mutate(DecrementPlayerWatchedCountMutation.builder()
+                        .playerId(getPlayerId(playerId))
+                        .build())
                 .enqueue(callback);
     }
 
@@ -158,7 +167,10 @@ class PlayerMetadataActivity extends AppSyncActivity {
             }
         };
 
-        AWSClientFactory.getAppSyncInstance(context).mutate(DecrementPlayerDraftedCountMutation.builder().playerId(getPlayerId(playerId)).build())
+        AWSClientFactory.getAppSyncInstance(context).mutate(
+                DecrementPlayerDraftedCountMutation.builder()
+                        .playerId(getPlayerId(playerId))
+                        .build())
                 .enqueue(callback);
     }
 
@@ -198,7 +210,10 @@ class PlayerMetadataActivity extends AppSyncActivity {
             }
         };
 
-        AWSClientFactory.getAppSyncInstance(activity).mutate(IncrementPlayerViewCountMutation.builder().playerId(getPlayerId(playerId)).build())
+        AWSClientFactory.getAppSyncInstance(activity).mutate(
+                IncrementPlayerViewCountMutation.builder()
+                        .playerId(getPlayerId(playerId))
+                        .build())
                 .enqueue(incrementViewCallback);
     }
 
