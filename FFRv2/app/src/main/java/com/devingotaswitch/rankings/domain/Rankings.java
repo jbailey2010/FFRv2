@@ -268,7 +268,13 @@ public class Rankings {
     }
 
     public List<String> getWatchedPlayers(List<String> source) {
-        return playerWatchList;
+        List<String> overlap = new ArrayList<>();
+        for (String id : playerWatchList) {
+            if (source.contains(id)) {
+                overlap.add(id);
+            }
+        }
+        return overlap;
     }
 
     public List<String> getPlayersByPosition(List<String> source, String position) {
