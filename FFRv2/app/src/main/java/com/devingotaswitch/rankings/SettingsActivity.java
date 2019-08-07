@@ -31,6 +31,7 @@ public class SettingsActivity extends AppCompatActivity {
     CheckBox noteSort;
     CheckBox noteRanks;
     CheckBox overscrollRefresh;
+    CheckBox sortWatchListByTime;
 
     boolean isRankingsReloadNeeded = false;
 
@@ -77,6 +78,7 @@ public class SettingsActivity extends AppCompatActivity {
         noteRanks = findViewById(R.id.show_note_ranks);
         noteSort = findViewById(R.id.show_note_sort);
         overscrollRefresh = findViewById(R.id.general_refresh_on_overscroll);
+        sortWatchListByTime = findViewById(R.id.general_sort_watch_list_by_time);
 
         final UserSettings settings = rankings.getUserSettings();
         dSearch.setChecked(settings.isHideDraftedSearch());
@@ -88,6 +90,7 @@ public class SettingsActivity extends AppCompatActivity {
         noteRanks.setChecked(settings.isShowNoteRank());
         noteSort.setChecked(settings.isShowNoteSort());
         overscrollRefresh.setChecked(settings.isRefreshOnOverscroll());
+        sortWatchListByTime.setChecked(settings.isSortWatchListByTime());
 
         dSearch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -155,6 +158,13 @@ public class SettingsActivity extends AppCompatActivity {
             public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
                 settings.setRefreshOnOverscroll(b);
                 isRankingsReloadNeeded = true;
+                updateUserSettings(settings);
+            }
+        });
+        sortWatchListByTime.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                settings.setSortWatchListByTime(isChecked);
                 updateUserSettings(settings);
             }
         });

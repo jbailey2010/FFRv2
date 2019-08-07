@@ -13,6 +13,9 @@ import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.ParsingUtils;
 
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -310,5 +313,82 @@ public class Rankings {
             }
         }
         return idsByPos;
+    }
+
+    public List<String> orderPlayersByLeagueType(Collection<Player> players) {
+        List<String> orderedIds = new ArrayList<>();
+        Comparator<Player> comparator;
+        if (getLeagueSettings().isAuction()) {
+            comparator = new Comparator<Player>() {
+                    @Override
+                    public int compare(Player a, Player b) {
+                    if (a.getAuctionValue() > b.getAuctionValue()) {
+                         return -1;
+                    }
+                    if (a.getAuctionValue() < b.getAuctionValue()) {
+                        return 1;
+                    }
+                    return 0;
+                }
+                };
+        } else if (getLeagueSettings().isDynasty()) {
+            comparator = new Comparator<Player>() {
+                    @Override
+                    public int compare(Player a, Player b) {
+                    if (a.getDynastyRank() > b.getDynastyRank()) {
+                        return 1;
+                    }
+                    if (a.getDynastyRank() < b.getDynastyRank()) {
+                        return -1;
+                    }
+                    return 0;
+                }
+                };
+        } else if (getLeagueSettings().isRookie()) {
+            comparator = new Comparator<Player>() {
+                    @Override
+                    public int compare(Player a, Player b) {
+                    if (a.getRookieRank() > b.getRookieRank()) {
+                        return 1;
+                    }
+                    if (a.getRookieRank() < b.getRookieRank()) {
+                        return -1;
+                    }
+                    return 0;
+                }
+                };
+        } else if (getLeagueSettings().isBestBall()) {
+            comparator = new Comparator<Player>() {
+                    @Override
+                    public int compare(Player a, Player b) {
+                    if (a.getBestBallRank() > b.getBestBallRank()) {
+                        return 1;
+                    }
+                    if (a.getBestBallRank() < b.getBestBallRank()) {
+                        return -1;
+                    }
+                    return 0;
+                }
+                };
+        } else {
+            comparator = new Comparator<Player>() {
+                    @Override
+                    public int compare(Player a, Player b) {
+                    if (a.getEcr() > b.getEcr()) {
+                        return 1;
+                    }
+                    if (a.getEcr() < b.getEcr()) {
+                        return -1;
+                    }
+                    return 0;
+                }
+                };
+        }
+        List<Player> playerList = new ArrayList<>(players);
+        Collections.sort(playerList, comparator);
+        for (Player player : playerList) {
+            orderedIds.add(player.getUniqueId());
+        }
+        return orderedIds;
     }
 }

@@ -14,6 +14,7 @@ public class UserSettings {
     private boolean showNoteSort = true;
 
     private boolean refreshOnOverscroll = false;
+    private boolean sortWatchListByTime = false;
 
     public boolean isHideDraftedSearch() {
         return hideDraftedSearch;
@@ -85,5 +86,13 @@ public class UserSettings {
 
     public void setRefreshOnOverscroll(boolean refreshOnOverscroll) {
         this.refreshOnOverscroll = refreshOnOverscroll;
+    }
+
+    public boolean isSortWatchListByTime() {
+        return sortWatchListByTime;
+    }
+
+    public void setSortWatchListByTime(boolean sortByTime) {
+        this.sortWatchListByTime = sortByTime;
     }
 }

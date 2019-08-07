@@ -29,12 +29,8 @@ import com.devingotaswitch.rankings.sources.ParseYahoo;
 import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.GeneralUtils;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -339,7 +335,7 @@ public class RankingsFetcher {
             }
 
             Log.i(TAG, "Ordering players for display");
-            rankings.setOrderedIds(getOrderedIds());
+            rankings.setOrderedIds(rankings.orderPlayersByLeagueType(rankings.getPlayers().values()));
 
             // If there were no projection histories saved against the rankings, we'll set them here.
             String today = Constants.DATE_FORMAT.format(Calendar.getInstance().getTime());
@@ -405,83 +401,6 @@ public class RankingsFetcher {
 
         private String getDedupKey(Player player) {
             return player.getName() + Constants.PLAYER_ID_DELIMITER + player.getPosition();
-        }
-
-        private List<String> getOrderedIds() {
-            List<String> orderedIds = new ArrayList<>();
-            Comparator<Player> comparator;
-            if (rankings.getLeagueSettings().isAuction()) {
-                comparator = new Comparator<Player>() {
-                    @Override
-                    public int compare(Player a, Player b) {
-                        if (a.getAuctionValue() > b.getAuctionValue()) {
-                            return -1;
-                        }
-                        if (a.getAuctionValue() < b.getAuctionValue()) {
-                            return 1;
-                        }
-                        return 0;
-                    }
-                };
-            } else if (rankings.getLeagueSettings().isDynasty()) {
-                comparator = new Comparator<Player>() {
-                    @Override
-                    public int compare(Player a, Player b) {
-                        if (a.getDynastyRank() > b.getDynastyRank()) {
-                            return 1;
-                        }
-                        if (a.getDynastyRank() < b.getDynastyRank()) {
-                            return -1;
-                        }
-                        return 0;
-                    }
-                };
-            } else if (rankings.getLeagueSettings().isRookie()) {
-                comparator = new Comparator<Player>() {
-                    @Override
-                    public int compare(Player a, Player b) {
-                        if (a.getRookieRank() > b.getRookieRank()) {
-                            return 1;
-                        }
-                        if (a.getRookieRank() < b.getRookieRank()) {
-                            return -1;
-                        }
-                        return 0;
-                    }
-                };
-            } else if (rankings.getLeagueSettings().isBestBall()) {
-                comparator = new Comparator<Player>() {
-                    @Override
-                    public int compare(Player a, Player b) {
-                        if (a.getBestBallRank() > b.getBestBallRank()) {
-                            return 1;
-                        }
-                        if (a.getBestBallRank() < b.getBestBallRank()) {
-                            return -1;
-                        }
-                        return 0;
-                    }
-                };
-            } else {
-                comparator = new Comparator<Player>() {
-                            @Override
-                            public int compare(Player a, Player b) {
-                                if (a.getEcr() > b.getEcr()) {
-                                    return 1;
-                                }
-                                if (a.getEcr() < b.getEcr()) {
-                                    return -1;
-                                }
-                                return 0;
-                            }
-                        };
-            }
-            List<Player> playerList = new ArrayList<>(rankings.getPlayers().values());
-            Collections.sort(playerList, comparator);
-            for (Player player : playerList) {
-                orderedIds.add(player.getUniqueId());
-            }
-            return orderedIds;
         }
 
         @Override

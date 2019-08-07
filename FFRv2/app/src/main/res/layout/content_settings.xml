@@ -145,7 +145,7 @@
                   android:layout_width="match_parent"
                   android:textSize="18sp"
                   android:layout_height="wrap_content"
-                  android:text="General Settings"/>
+                  android:text="Rankings Settings"/>
 
               <CheckBox
                   android:id="@+id/general_refresh_on_overscroll"
@@ -154,6 +154,14 @@
                   android:layout_below="@+id/settings_general_header"
                   android:layout_marginTop="8dp"
                   android:text="Refresh rankings on overscroll"/>
+
+              <CheckBox
+                  android:id="@+id/general_sort_watch_list_by_time"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:layout_below="@+id/general_refresh_on_overscroll"
+                  android:layout_marginTop="8dp"
+                  android:text="Sort watch list by time added"/>
           </RelativeLayout>
 
 

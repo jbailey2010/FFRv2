@@ -2,25 +2,19 @@ package com.devingotaswitch.rankings;
 
 import android.app.Activity;
 import android.app.ProgressDialog;
-import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.util.AttributeSet;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.AbsListView;
 import android.widget.AdapterView;
@@ -70,7 +64,6 @@ import org.angmarch.views.NiceSpinner;
 
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -295,6 +288,13 @@ public class RankingsHome extends AppCompatActivity {
                 }
                 if (isWatched) {
                     filteredIds = rankings.getWatchedPlayers(filteredIds);
+                    if (!rankings.getUserSettings().isSortWatchListByTime()) {
+                        List<Player> filteredPlayers = new ArrayList<>();
+                        for (String id : filteredIds) {
+                            filteredPlayers.add(rankings.getPlayer(id));
+                        }
+                        filteredIds = rankings.orderPlayersByLeagueType(filteredPlayers);
+                    }
                 }
                 String maxPlayersInput = maxPlayersField.getText().toString();
                 if (GeneralUtils.isInteger(maxPlayersInput)) {

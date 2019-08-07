@@ -58,6 +58,7 @@ public class UserSettingsActivity extends AppSyncActivity {
                 .hideIrrelevantSort(userSettings.isHideRanklessSort())
                 .showNoteOnRanks(userSettings.isShowNoteRank())
                 .showNoteOnSort(userSettings.isShowNoteSort())
+                .sortWatchListByTime(userSettings.isSortWatchListByTime())
                 .build()
         ).enqueue(callback);
 
@@ -87,6 +88,7 @@ public class UserSettingsActivity extends AppSyncActivity {
                     userSettings.setHideRanklessComparator(settings.hideIrrelevantComparator());
                     userSettings.setHideRanklessSearch(settings.hideIrrelevantSearch());
                     userSettings.setHideRanklessSort(settings.hideIrrelevantSort());
+                    userSettings.setSortWatchListByTime(settings.sortWatchListByTime());
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {

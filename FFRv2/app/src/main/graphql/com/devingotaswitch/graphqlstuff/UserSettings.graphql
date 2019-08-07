@@ -9,6 +9,7 @@ query GetUserSettings {
     showNoteOnRanks
     showNoteOnSort
     refreshOnOverscroll
+    sortWatchListByTime
   }
 }
 
@@ -21,7 +22,8 @@ mutation UpdateUserSettings(
     $hideDraftedComparator: Boolean!,
     $showNoteOnRanks: Boolean!,
     $showNoteOnSort: Boolean!,
-    $refreshOnOverscroll: Boolean!) {
+    $refreshOnOverscroll: Boolean!,
+    $sortWatchListByTime: Boolean!) {
   updateUserSettings(
       hideIrrelevantSearch: $hideIrrelevantSearch,
       hideIrrelevantSort: $hideIrrelevantSort,
@@ -31,7 +33,8 @@ mutation UpdateUserSettings(
       hideDraftedComparator: $hideDraftedComparator,
       showNoteOnRanks: $showNoteOnRanks,
       showNoteOnSort: $showNoteOnSort,
-      refreshOnOverscroll: $refreshOnOverscroll) {
+      refreshOnOverscroll: $refreshOnOverscroll,
+      sortWatchListByTime: $sortWatchListByTime) {
     hideIrrelevantSearch
     hideIrrelevantSort
     hideIrrelevantComparator
@@ -41,5 +44,6 @@ mutation UpdateUserSettings(
     showNoteOnRanks
     showNoteOnSort
     refreshOnOverscroll
+    sortWatchListByTime
   }
 }
