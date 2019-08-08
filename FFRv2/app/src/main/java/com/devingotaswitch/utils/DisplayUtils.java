@@ -88,7 +88,7 @@ public class DisplayUtils {
         if (markWatched && rankings.isPlayerWatched(player.getUniqueId())) {
             datum.put(Constants.PLAYER_STATUS, Integer.toString(R.drawable.star));
         }
-        if (player.getAge() != null  && !Constants.DST.equals(player.getPosition())) {
+        if (player.getAge() != null  && !Constants.DST.equals(player.getPosition()) && player.getAge() > 0) {
             datum.put(Constants.PLAYER_ADDITIONAL_INFO, "Age: " + player.getAge());
         }
         if (player.getExperience() != null && player.getExperience() >= 0 && !Constants.DST.equals(player.getPosition())) {

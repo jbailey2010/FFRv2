@@ -1,0 +1,4 @@
+mutation AddPlayerComparisonCount($trendingId: String!) {
+  addPlayerComparisonCount(trendingId: $trendingId)
+
+}

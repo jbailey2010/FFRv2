@@ -88,8 +88,10 @@ public class Rankings {
     public void togglePlayerWatched(Activity act, String playerId) {
         if (playerWatchList.contains(playerId)) {
             playerWatchList.remove(playerId);
+            AppSyncHelper.decrementPlayerWatchedCount(act, playerId);
         } else {
             playerWatchList.add(playerId);
+            AppSyncHelper.incrementPlayerWatchedCount(act, playerId);
         }
         AppSyncHelper.updateUserCustomPlayerData(act, playerWatchList, playerNotes);
     }

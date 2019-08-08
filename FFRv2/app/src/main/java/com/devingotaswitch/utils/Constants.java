@@ -242,7 +242,7 @@ public class Constants {
     public final static String DISPLAY_DRAFTED = "Drafted";
     public final static String COMPARATOR_DRAFTED_SUFFIX = " *";
 
-    // Comparator list display constants
+    // Comparator
     public static final int COMPARATOR_LIST_MAX = 250;
 
     // Display rankings utilities
@@ -323,6 +323,9 @@ public class Constants {
     public final static String SLEEPER_TAG_REMOTE = "sleeper";
     public final static String STUD_TAG_REMOTE = "stud";
     public final static String UNDERVALUED_TAG_REMOTE = "undervalued";
+
+    // Trending
+    public static final String TRENDING_ID_DELIMITER = "-.-";
 
     // Non-primitives
     public static final DecimalFormat DECIMAL_FORMAT = new DecimalFormat("#.##");

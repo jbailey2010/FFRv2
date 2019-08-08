@@ -15,6 +15,7 @@ public class AppSyncHelper {
     private static final CommentActivity commentActivity = new CommentActivity();
     private static final UserSettingsActivity userSettingsActivity = new UserSettingsActivity();
     private static final UserCustomPlayerDataActivity customPlayerDataActivity = new UserCustomPlayerDataActivity();
+    private static final TrendingPlayerDataActivity trendingPlayerDataActivity = new TrendingPlayerDataActivity();
 
     public static void getOrCreatePlayerMetadataAndIncrementViewCount(Activity activity, String playerId) {
         metadataActivity.incrementViewCount(activity, playerId);
@@ -78,5 +79,9 @@ public class AppSyncHelper {
 
     public static void getUserCustomPlayerData(Activity activity) {
         customPlayerDataActivity.getCustomPlayerData(activity);
+    }
+
+    public static void addPlayerComparisonCount(Activity activity, String idA, String idB) {
+        trendingPlayerDataActivity.addPlayerComparisonCount(activity, idA, idB);
     }
 }

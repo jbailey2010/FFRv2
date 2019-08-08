@@ -244,7 +244,11 @@ public class PlayerComparator extends AppCompatActivity {
             }
         });
 
-        AppSyncHelper.getUserSettings(this);
+        if (View.GONE == comparatorScroller.getVisibility()) {
+            AppSyncHelper.getUserSettings(this);
+        } else {
+            Log.d(TAG, "Comparator already showing, assuming back was pressed and ignoring settings.");
+        }
     }
 
     private void toggleListItemStar(Player player, boolean doStar) {
@@ -347,6 +351,11 @@ public class PlayerComparator extends AppCompatActivity {
 
     private void displayResults(Player a, Player b) {
         GeneralUtils.hideKeyboard(this);
+        if (View.GONE == comparatorScroller.getVisibility()) {
+            AppSyncHelper.addPlayerComparisonCount(this, playerA.getUniqueId(), playerB.getUniqueId());
+        } else {
+            Log.d(TAG, "Comparator already showing, assuming back was pressed and ignoring count incrementing.");
+        }
         comparatorScroller.setVisibility(View.VISIBLE);
         inputList.setVisibility(View.GONE);
         ParseFP parseFP = new ParseFP(this, playerA, playerB);
@@ -442,12 +451,12 @@ public class PlayerComparator extends AppCompatActivity {
 
         // ECR val
         TextView ecrA = findViewById(R.id.comparator_ecr_val_a);
-        TextView ecrB =  findViewById(R.id.comparator_ecr_val_b);
+        TextView ecrB = findViewById(R.id.comparator_ecr_val_b);
         ecrA.setText(String.valueOf(playerA.getEcr()));
         ecrB.setText(String.valueOf(playerB.getEcr()));
         if (playerA.getEcr() < playerB.getEcr()) {
             setColors(ecrA, ecrB);
-        } else if (playerA.getEcr() > playerB.getEcr()){
+        } else if (playerA.getEcr() > playerB.getEcr()) {
             setColors(ecrB, ecrA);
         } else {
             clearColors(ecrA, ecrB);
@@ -460,7 +469,7 @@ public class PlayerComparator extends AppCompatActivity {
         adpB.setText(String.valueOf(playerB.getAdp()));
         if (playerA.getAdp() < playerB.getAdp()) {
             setColors(adpA, adpB);
-        } else if (playerA.getAdp() > playerB.getAdp()){
+        } else if (playerA.getAdp() > playerB.getAdp()) {
             setColors(adpB, adpA);
         } else {
             clearColors(adpA, adpB);
@@ -560,7 +569,7 @@ public class PlayerComparator extends AppCompatActivity {
         sosB.setText(String.valueOf(sosForB));
         if (sosForA < sosForB) {
             setColors(sosA, sosB);
-        } else if (sosForA > sosForB){
+        } else if (sosForA > sosForB) {
             setColors(sosB, sosA);
         } else {
             clearColors(sosA, sosB);
@@ -573,7 +582,7 @@ public class PlayerComparator extends AppCompatActivity {
         projB.setText(Constants.DECIMAL_FORMAT.format(playerB.getProjection()));
         if (playerA.getProjection() > playerB.getProjection()) {
             setColors(projA, projB);
-        } else if (playerA.getProjection() < playerB.getProjection()){
+        } else if (playerA.getProjection() < playerB.getProjection()) {
             setColors(projB, projA);
         } else {
             clearColors(projA, projB);
@@ -588,7 +597,7 @@ public class PlayerComparator extends AppCompatActivity {
                 Constants.DECIMAL_FORMAT.format(playerB.getScaledPAA(rankings)) + Constants.COMPARATOR_SCALED_SUFFIX);
         if (playerA.getScaledPAA(rankings) > playerB.getScaledPAA(rankings)) {
             setColors(paaA, paaB);
-        } else if (playerA.getScaledPAA(rankings) < playerB.getScaledPAA(rankings)){
+        } else if (playerA.getScaledPAA(rankings) < playerB.getScaledPAA(rankings)) {
             setColors(paaB, paaA);
         } else {
             clearColors(paaA, paaB);
@@ -603,7 +612,7 @@ public class PlayerComparator extends AppCompatActivity {
                 Constants.DECIMAL_FORMAT.format(playerB.getScaledXVal(rankings)) + Constants.COMPARATOR_SCALED_SUFFIX);
         if (playerA.getScaledXVal(rankings) > playerB.getScaledXVal(rankings)) {
             setColors(xvalA, xvalB);
-        } else if (playerA.getScaledXVal(rankings) < playerB.getScaledXVal(rankings)){
+        } else if (playerA.getScaledXVal(rankings) < playerB.getScaledXVal(rankings)) {
             setColors(xvalB, xvalA);
         } else {
             clearColors(xvalA, xvalB);
