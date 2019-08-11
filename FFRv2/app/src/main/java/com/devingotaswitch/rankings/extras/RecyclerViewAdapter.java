@@ -54,6 +54,8 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 ((TextView)holder.viewMap.get(viewId)).setText(datum.get(mapKey));
             } else if (holder.viewMap.get(viewId) instanceof ImageView && !StringUtils.isBlank(datum.get(mapKey))) {
                 ((ImageView)holder.viewMap.get(viewId)).setImageResource(Integer.valueOf(datum.get(mapKey)));
+            } else if (holder.viewMap.get(viewId) instanceof ImageView) {
+                ((ImageView)holder.viewMap.get(viewId)).setImageResource(android.R.color.transparent);
             }
         }
     }

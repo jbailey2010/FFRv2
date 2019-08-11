@@ -302,19 +302,15 @@ public class PlayerComparator extends AppCompatActivity {
             public void onItemClick(View view, int position) {
                 Player clickedPlayer = rankings.getPlayer(DisplayUtils.getPlayerKeyFromListViewItem(((RelativeLayout)view)));
                 if (playerA != null && playerA.getUniqueId().equals(clickedPlayer.getUniqueId())) {
+                    toggleListItemStar(playerA, false);
                     playerA = null;
                     inputA.setText(null);
-                    Map<String, String> datum = data.get(position);
-                    datum.put(Constants.PLAYER_STATUS, null);
-                    adapter.notifyDataSetChanged();
                 } else {
                     if (playerA == null && playerB == null) {
                         playerA = clickedPlayer;
                         inputA.setText(playerA.getName());
                         inputA.clearFocus();
-                        Map<String, String> datum = data.get(position);
-                        datum.put(Constants.PLAYER_STATUS, Integer.toString(R.drawable.star));
-                        adapter.notifyDataSetChanged();
+                        toggleListItemStar(playerA, true);
                     } else if (playerA == null && playerB != null) {
                         playerA = clickedPlayer;
                         inputA.setText(playerA.getName());
