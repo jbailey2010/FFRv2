@@ -36,6 +36,9 @@ public class DisplayUtils {
             sub = sub.append(Constants.LINE_BREAK)
                     .append("Projection: ")
                     .append(Constants.DECIMAL_FORMAT.format(player.getProjection()));
+        } else {
+            // An empty line if there's no team so sizing doesn't get wonky as players are drafted.
+            sub = sub.append(Constants.LINE_BREAK);
         }
         if (showNote && !StringUtils.isBlank(rankings.getPlayerNote(player.getUniqueId()))) {
             sub = sub.append(Constants.LINE_BREAK)

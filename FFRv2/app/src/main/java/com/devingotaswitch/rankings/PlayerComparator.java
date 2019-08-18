@@ -354,6 +354,8 @@ public class PlayerComparator extends AppCompatActivity {
         }
         comparatorScroller.setVisibility(View.VISIBLE);
         inputList.setVisibility(View.GONE);
+        // Ensure note doesn't re-display the last comparison's note if two are done in a row.
+        findViewById(R.id.note_output_row).setVisibility(View.GONE);
         ParseFP parseFP = new ParseFP(this, playerA, playerB);
         parseFP.execute();
 

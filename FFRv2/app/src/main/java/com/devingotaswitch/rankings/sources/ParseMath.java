@@ -373,7 +373,7 @@ public class ParseMath {
     }
 
     private static double convertRanking(double ranking) {
-        double possVal = 78.6341 - 14.793 * Math.log(ranking);
+        double possVal = 78.6341 - 13.793 * Math.log(ranking);
         if (possVal < 1.0) {
             possVal = 1.0;
         }

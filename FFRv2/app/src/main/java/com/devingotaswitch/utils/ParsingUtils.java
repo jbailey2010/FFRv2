@@ -69,6 +69,7 @@ public class ParsingUtils {
         playerFixes.put("Mitch Trubisky", "Mitchell Trubisky");
         playerFixes.put("Will Fuller V", "Will Fuller");
         playerFixes.put("Melvin Gordon III", "Melvin Gordon");
+        playerFixes.put("D.K. Metcalf", "DK Metcalf");
 
         teamFixes.put("cin", "Cincinnati Bengals");
         teamFixes.put("cincinnati", "Cincinnati Bengals");

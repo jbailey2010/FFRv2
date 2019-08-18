@@ -1596,7 +1596,8 @@ public class PlayerInfo extends AppCompatActivity {
         for (int i = 0; i < allPlayers.size(); i++) {
             if (listSize == MAX_NEARBY_PLAYERS) {
                 break;
-            } else if (allPlayers.get(i).getUniqueId().equals(player.getUniqueId())) {
+            } else if (allPlayers.get(i).getUniqueId().equals(player.getUniqueId()) ||
+                !rankings.getLeagueSettings().getRosterSettings().isPositionValid(player.getPosition())) {
                 continue;
             }
             nearestPlayers.add(allPlayers.get(i));
