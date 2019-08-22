@@ -1594,13 +1594,14 @@ public class PlayerInfo extends AppCompatActivity {
         int listSize = 0;
         List<Player> nearestPlayers = new ArrayList<>();
         for (int i = 0; i < allPlayers.size(); i++) {
+            Player possiblePlayer = allPlayers.get(i);
             if (listSize == MAX_NEARBY_PLAYERS) {
                 break;
-            } else if (allPlayers.get(i).getUniqueId().equals(player.getUniqueId()) ||
-                !rankings.getLeagueSettings().getRosterSettings().isPositionValid(player.getPosition())) {
+            } else if (possiblePlayer.getUniqueId().equals(player.getUniqueId()) ||
+                !rankings.getLeagueSettings().getRosterSettings().isPositionValid(possiblePlayer.getPosition())) {
                 continue;
             }
-            nearestPlayers.add(allPlayers.get(i));
+            nearestPlayers.add(possiblePlayer);
             listSize++;
         }
 

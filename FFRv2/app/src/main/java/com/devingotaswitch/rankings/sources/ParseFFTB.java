@@ -60,12 +60,25 @@ public class ParseFFTB {
             }
             String age = brokenUp.get(i + 4);
             String exp = brokenUp.get(i + 5);
-            String val = brokenUp.get(i + 6);
             String bye = brokenUp.get(i + 3);
 
             if (team.split(" ").length <= 3) {
-                val = val.substring(1, val.length());
-                Player player = ParsingUtils.getPlayerFromRankings(name, team, pos, Double.parseDouble(val));
+                boolean isNewPlayer = false;
+                String playerId = name +
+                        Constants.PLAYER_ID_DELIMITER +
+                        team +
+                        Constants.PLAYER_ID_DELIMITER +
+                        pos;
+                Player player = null;
+                if (rankings.getPlayers().containsKey(playerId)) {
+                    player = rankings.getPlayer(playerId);
+                } else {
+                    // FF Toolbox rankings are ass, so we'll just default to 1 if we haven't seen it yet.
+                    // They have retired players for $30+, so their value is suspect.
+                    isNewPlayer = true;
+                    player = ParsingUtils.getPlayerFromRankings(name,team,pos, 1.0);
+                }
+
                 if (GeneralUtils.isInteger(age)) {
                     player.setAge(Integer.parseInt(age));
                 }
@@ -74,7 +87,12 @@ public class ParseFFTB {
                 } else if ("R".equals(exp)) {
                     player.setExperience(0);
                 }
-                rankings.processNewPlayer(player);
+
+                if (isNewPlayer) {
+                    rankings.processNewPlayer(player);
+                } else {
+                    rankings.getPlayers().put(player.getUniqueId(), player);
+                }
             }
             Team newTeam = new Team();
             newTeam.setBye(bye);

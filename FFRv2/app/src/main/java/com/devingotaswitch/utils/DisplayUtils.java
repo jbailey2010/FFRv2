@@ -43,6 +43,9 @@ public class DisplayUtils {
         if (showNote && !StringUtils.isBlank(rankings.getPlayerNote(player.getUniqueId()))) {
             sub = sub.append(Constants.LINE_BREAK)
                     .append(rankings.getPlayerNote(player.getUniqueId()));
+        } else if (showNote){
+            // An empty line if there's no team so sizing doesn't get wonky as players are drafted.
+            sub = sub.append(Constants.LINE_BREAK);
         }
         return sub.toString();
     }
