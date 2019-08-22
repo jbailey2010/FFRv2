@@ -138,14 +138,6 @@ public class RankingsFetcher {
             }
             publishProgress("Fetching rankings... 1/14");
 
-            Log.i(TAG, "Getting FFTB rankings");
-            try {
-                ParseFFTB.parseFFTBRankingsWrapper(rankings);
-            } catch (Exception e) {
-                Log.e(TAG, "Failed to parse FFTB", e);
-            }
-            publishProgress("Fetching rankings... 4/14");
-
             Log.i(TAG, "Getting Yahoo rankings");
             try {
                 ParseYahoo.parseYahooWrapper(rankings);
@@ -169,6 +161,14 @@ public class RankingsFetcher {
                 Log.e(TAG, "Failed to parse Draft Wizard", e);
             }
             publishProgress("Fetching rankings... 10/14");
+
+            Log.i(TAG, "Getting FFTB rankings");
+            try {
+                ParseFFTB.parseFFTBRankingsWrapper(rankings);
+            } catch (Exception e) {
+                Log.e(TAG, "Failed to parse FFTB", e);
+            }
+            publishProgress("Fetching rankings... 4/14");
 
             Log.i(TAG, "Getting projections");
             publishProgress("Getting projections...");
