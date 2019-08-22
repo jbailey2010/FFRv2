@@ -375,6 +375,7 @@ public class RankingsFetcher {
                 }
             }
 
+            LocalSettingsHelper.saveLastRankingsSavedDate(act);
             return rankings;
         }
 

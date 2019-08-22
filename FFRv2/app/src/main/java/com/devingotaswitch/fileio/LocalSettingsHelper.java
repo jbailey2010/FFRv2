@@ -11,6 +11,7 @@ import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.youruserpools.CUPHelper;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Map;
 
@@ -109,6 +110,15 @@ public class LocalSettingsHelper {
 
     public static void setNumberOfCommentsOnPlayer(Context cont, String playerKey, int newCount) {
         getSharedPreferences(cont).edit().putInt(Constants.PLAYER_COMMENT_COUNT_PREFIX + playerKey + Constants.YEAR_KEY, newCount).apply();
+    }
+
+    public static String getLastRankingsFetchedDate(Context cont) {
+        return getSharedPreferences(cont).getString(Constants.LAST_RANKINGS_FETCHED_TIME, Constants.NOT_SET_KEY);
+    }
+
+    public static void saveLastRankingsSavedDate(Context cont) {
+        String today = Constants.DATE_FORMAT.format(Calendar.getInstance().getTime());
+        getSharedPreferences(cont).edit().putString(Constants.LAST_RANKINGS_FETCHED_TIME, today).apply();
     }
 
     public static void cacheNews(Context cont, List<PlayerNews> news) {

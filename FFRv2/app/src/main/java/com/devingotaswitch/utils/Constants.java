@@ -112,6 +112,7 @@ public class Constants {
     public static final String NEWS_SOURCE = "NEWS_SOURCE";
     public static final String PLAYER_COMMENT_COUNT_PREFIX = "PLAYER_COMMENT_COUNT";
     public static final String PLAYER_NEWS = "PLAYER_NEWS";
+    public static final String LAST_RANKINGS_FETCHED_TIME = "LAST_RANKINGS_FETCHED_TIME";
     public static final String CACHE_DELIMITER = "~~~";
     public static final String CACHE_ITEM_DELIMITER = "###";
 
