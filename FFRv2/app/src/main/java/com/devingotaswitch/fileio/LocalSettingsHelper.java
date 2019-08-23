@@ -2,6 +2,8 @@ package com.devingotaswitch.fileio;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.text.format.DateUtils;
+import android.util.Log;
 
 import com.amazonaws.util.StringUtils;
 import com.devingotaswitch.rankings.domain.Draft;
@@ -12,6 +14,7 @@ import com.devingotaswitch.youruserpools.CUPHelper;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -113,12 +116,16 @@ public class LocalSettingsHelper {
     }
 
     public static String getLastRankingsFetchedDate(Context cont) {
-        return getSharedPreferences(cont).getString(Constants.LAST_RANKINGS_FETCHED_TIME, Constants.NOT_SET_KEY);
+        long timeFetched =  getSharedPreferences(cont).getLong(Constants.LAST_RANKINGS_FETCHED_TIME,
+                0l);
+        if (timeFetched > 0l) {
+            return DateUtils.getRelativeTimeSpanString(timeFetched, new Date().getTime(), DateUtils.MINUTE_IN_MILLIS).toString();
+        }
+        return Constants.NOT_SET_KEY;
     }
 
     public static void saveLastRankingsSavedDate(Context cont) {
-        String today = Constants.DATE_FORMAT.format(Calendar.getInstance().getTime());
-        getSharedPreferences(cont).edit().putString(Constants.LAST_RANKINGS_FETCHED_TIME, today).apply();
+        getSharedPreferences(cont).edit().putLong(Constants.LAST_RANKINGS_FETCHED_TIME, new Date().getTime()).apply();
     }
 
     public static void cacheNews(Context cont, List<PlayerNews> news) {

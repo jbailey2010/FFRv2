@@ -55,10 +55,10 @@ public class ParseFantasyPros {
             rowSize = 10;
         } else if (rankings.getLeagueSettings().getScoringSettings().getReceptions() > 0) {
             adpUrl = "https://www.fantasypros.com/nfl/adp/half-point-ppr-overall.php";
-            rowSize = 8;
+            rowSize = 7;
         } else {
             adpUrl = "http://www.fantasypros.com/nfl/adp/overall.php";
-            rowSize = 11;
+            rowSize = 7;
         }
         parseADPWorker(adp, adpUrl, rowSize);
 
