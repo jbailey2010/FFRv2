@@ -66,7 +66,7 @@ public class DisplayUtils {
                 pos;
     }
 
-    public static Map<String, Integer> getPositionRankMap() {
+    private static Map<String, Integer> getPositionRankMap() {
         Map<String, Integer> positionRankMap = new HashMap<>();
         positionRankMap.put(Constants.QB, 1);
         positionRankMap.put(Constants.RB, 1);
@@ -77,13 +77,23 @@ public class DisplayUtils {
         return positionRankMap;
     }
 
+    public static Map<String, Integer> getPositionalRank(List<String> orderedIds, Rankings rankings) {
+        // First, pre-process the ordered ids to get personal ranks
+        Map<String, Integer> positionalRanks = DisplayUtils.getPositionRankMap();
+        Map<String, Integer> playerRanks = new HashMap<>();
+        for (String id : orderedIds) {
+            Player player = rankings.getPlayer(id);
+            playerRanks.put(player.getUniqueId(), positionalRanks.get(player.getPosition()));
+            positionalRanks.put(player.getPosition(), positionalRanks.get(player.getPosition()) + 1);
+        }
+        return playerRanks;
+    }
+
     public static Map<String, String> getDatumForPlayer(Rankings rankings, Player player, boolean markWatched,
-                                                        Map<String, Integer> posRankMap, boolean showNote) {
+                                                        Integer posRank, boolean showNote) {
         String posSuffix = "";
-        if (posRankMap != null) {
-            Integer suffix = posRankMap.get(player.getPosition());
-            posRankMap.put(player.getPosition(), posRankMap.get(player.getPosition()) + 1);
-            posSuffix = String.valueOf(suffix);
+        if (posRank != null) {
+            posSuffix = String.valueOf(posRank);
         }
         String playerBasicContent = player.getDisplayValue(rankings) +
                 Constants.RANKINGS_LIST_DELIMITER +

@@ -272,13 +272,14 @@ public class PlayerComparator extends AppCompatActivity {
         comparatorScroller.setVisibility(View.GONE);
         inputList.setAdapter(null);
         data.clear();
+        Map<String, Integer> playerRanks = DisplayUtils.getPositionalRank(rankings.getOrderedIds(),
+                rankings);
         adapter = new RecyclerViewAdapter(this, data,
                 R.layout.list_item_layout,
                 new String[] { Constants.PLAYER_BASIC, Constants.PLAYER_INFO, Constants.PLAYER_STATUS, Constants.PLAYER_ADDITIONAL_INFO,
                         Constants.PLAYER_ADDITIONAL_INFO_2},
                 new int[] { R.id.player_basic, R.id.player_info,
                         R.id.player_status, R.id.player_more_info, R.id.player_additional_info_2 });
-        Map<String, Integer> posRankMap = DisplayUtils.getPositionRankMap();
         for (int i = 0; i < Math.min(Constants.COMPARATOR_LIST_MAX, rankings.getOrderedIds().size()); i++) {
             Player player = rankings.getPlayer(rankings.getOrderedIds().get(i));
             if ((rankings.getDraft().isDrafted(player)  && rankings.getUserSettings().isHideDraftedComparator()) ||
@@ -292,7 +293,7 @@ public class PlayerComparator extends AppCompatActivity {
                     continue;
                 }
                 Map<String, String> datum = DisplayUtils.getDatumForPlayer(rankings, player,
-                        false, posRankMap, false);
+                        false, playerRanks.get(player.getUniqueId()), false);
                 data.add(datum);
             }
         }

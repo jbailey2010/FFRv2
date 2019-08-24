@@ -458,8 +458,8 @@ public class DraftInfo extends AppCompatActivity {
         conditionallyAddData(draft.getMyRbs(), barData.getDataSetCount(), draft.getRBPAA(), barData, "RBs", "red");
         conditionallyAddData(draft.getMyWrs(), barData.getDataSetCount(), draft.getWRPAA(), barData, "WRs", "blue");
         conditionallyAddData(draft.getMyTes(), barData.getDataSetCount(), draft.getTEPAA(), barData, "TEs", "yellow");
-        conditionallyAddData(draft.getMyKs(), barData.getDataSetCount(), draft.getKPAA(), barData, "DSTs", "black");
-        conditionallyAddData(draft.getMyDsts(), barData.getDataSetCount(), draft.getDSTPAA(), barData, "Ks", "grey");
+        conditionallyAddData(draft.getMyKs(), barData.getDataSetCount(), draft.getDSTPAA(), barData, "DSTs", "black");
+        conditionallyAddData(draft.getMyDsts(), barData.getDataSetCount(), draft.getKPAA(), barData, "Ks", "grey");
 
         if (barData.getDataSetCount() > 1) {
             List<BarEntry> entries = new ArrayList<>();

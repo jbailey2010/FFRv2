@@ -64,6 +64,7 @@ import org.angmarch.views.NiceSpinner;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -434,6 +435,8 @@ public class RankingsHome extends AppCompatActivity {
     }
 
     private void displayRankings(List<String> orderedIds) {
+        // First, pre-process the ordered ids to get personal ranks
+        Map<String, Integer> playerRanks = DisplayUtils.getPositionalRank(orderedIds, rankings);
         ranksDisplayed = false;
         searchBase.setVisibility(View.VISIBLE);
         buttonBase.setVisibility(View.VISIBLE);
@@ -446,7 +449,6 @@ public class RankingsHome extends AppCompatActivity {
         final ListView listview =  findViewById(R.id.rankings_list);
         listview.setAdapter(null);
         final List<Map<String, String>> data = new ArrayList<>();
-        Map<String, Integer> posRankMap = DisplayUtils.getPositionRankMap();
         final SimpleAdapter adapter = DisplayUtils.getDisplayAdapter(this, data);
         listview.setAdapter(adapter);
         for (int i = 0; i < Math.min(orderedIds.size(), maxPlayers); i++) {
@@ -458,7 +460,8 @@ public class RankingsHome extends AppCompatActivity {
                     continue;
                 }
                 Map<String, String> datum = DisplayUtils.getDatumForPlayer(rankings, player,
-                        true, posRankMap, rankings.getUserSettings().isShowNoteRank());
+                        true, playerRanks.get(player.getUniqueId()),
+                        rankings.getUserSettings().isShowNoteRank());
                 data.add(datum);
             }
         }
