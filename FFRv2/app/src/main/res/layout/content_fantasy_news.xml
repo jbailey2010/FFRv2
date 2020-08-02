@@ -35,7 +35,7 @@
                 android:textSize="@dimen/activity_button_text_size"/>
 
         </LinearLayout>
-        <android.support.v7.widget.RecyclerView
+        <androidx.recyclerview.widget.RecyclerView
             android:id="@+id/news_list"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"

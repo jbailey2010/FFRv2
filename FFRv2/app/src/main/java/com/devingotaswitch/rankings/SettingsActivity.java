@@ -3,10 +3,10 @@ package com.devingotaswitch.rankings;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.widget.Toolbar;
-import android.util.Log;
+import androidx.appcompat.widget.Toolbar;
+
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.CompoundButton;
@@ -14,7 +14,6 @@ import android.widget.TextView;
 
 import com.devingotaswitch.appsync.AppSyncHelper;
 import com.devingotaswitch.ffrv2.R;
-import com.devingotaswitch.fileio.LocalSettingsHelper;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.domain.UserSettings;
 import com.devingotaswitch.utils.Constants;

@@ -2,16 +2,16 @@
 
 buildscript {
     repositories {
-        jcenter()
         maven {
-            url 'https://maven.google.com/'
-            name 'Google'
+            url "https://plugins.gradle.org/m2/"
         }
         google()
+        jcenter()
     }
+
     dependencies {
-        classpath 'com.android.tools.build:gradle:3.4.2'
-        classpath 'com.amazonaws:aws-android-sdk-appsync-gradle-plugin:2.10.+'
+        classpath 'com.android.tools.build:gradle:4.0.1'
+        classpath 'com.amazonaws:aws-android-sdk-appsync-gradle-plugin:3.1.0'
 
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
@@ -21,12 +21,16 @@ buildscript {
 allprojects {
     repositories {
         jcenter()
+        google()
         maven {
             url "https://jitpack.io"
         }
         maven {
             url 'https://maven.google.com/'
             name 'Google'
+        }
+        maven {
+            url "https://plugins.gradle.org/m2/"
         }
     }
 }

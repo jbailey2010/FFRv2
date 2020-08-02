@@ -2,7 +2,6 @@ package com.devingotaswitch.rankings.domain;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.design.widget.Snackbar;
 import android.view.View;
 
 import com.andrognito.flashbar.Flashbar;

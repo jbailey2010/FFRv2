@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: com.amazonaws:aws-android-sdk-appsync-runtime:3.1.0@jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.amazonaws/aws-android-sdk-appsync-runtime/3.1.0/d84f63f3833ea629e25c8e6ffa0d2f240b2d04b1/aws-android-sdk-appsync-runtime-3.1.0.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.amazonaws/aws-android-sdk-appsync-runtime/3.1.0/7410996f753bc92c12ea8dc9b432d47b214fb9ba/aws-android-sdk-appsync-runtime-3.1.0-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.amazonaws/aws-android-sdk-appsync-runtime/3.1.0/915012daf87276f9652b5a2adfeb62bfac75d5d0/aws-android-sdk-appsync-runtime-3.1.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

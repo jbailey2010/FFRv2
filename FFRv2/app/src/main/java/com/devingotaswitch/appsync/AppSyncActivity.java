@@ -1,6 +1,6 @@
 package com.devingotaswitch.appsync;
 
-import android.support.v7.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatActivity;
 import android.text.format.DateUtils;
 
 import com.devingotaswitch.utils.Constants;

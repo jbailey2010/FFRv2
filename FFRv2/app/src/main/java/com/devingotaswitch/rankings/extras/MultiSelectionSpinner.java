@@ -11,7 +11,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-public class MultiSelectionSpinner extends android.support.v7.widget.AppCompatSpinner implements
+public class MultiSelectionSpinner extends androidx.appcompat.widget.AppCompatSpinner implements
         DialogInterface.OnMultiChoiceClickListener
 {
     private String[] _items = null;

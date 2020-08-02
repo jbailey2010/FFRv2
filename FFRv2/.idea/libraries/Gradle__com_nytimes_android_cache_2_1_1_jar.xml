@@ -1,0 +1,13 @@
+<component name="libraryTable">
+  <library name="Gradle: com.nytimes.android:cache:2.1.1@jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.nytimes.android/cache/2.1.1/f94caf54ad544a72ae93eef0c8b7ac468c12ca17/cache-2.1.1.jar!/" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.nytimes.android/cache/2.1.1/30e7e92602a9a88e8757e94685abacf105e3018f/cache-2.1.1-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.nytimes.android/cache/2.1.1/29f17f1c211d88106cb394c97e01182f5bf0e0df/cache-2.1.1-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

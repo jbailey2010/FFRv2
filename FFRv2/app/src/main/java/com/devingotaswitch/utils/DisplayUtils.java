@@ -2,7 +2,7 @@ package com.devingotaswitch.utils;
 
 import android.app.Activity;
 import android.content.Context;
-import android.support.v7.widget.DividerItemDecoration;
+import androidx.recyclerview.widget.DividerItemDecoration;
 import android.view.View;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;

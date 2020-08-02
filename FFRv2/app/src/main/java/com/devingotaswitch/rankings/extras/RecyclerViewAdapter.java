@@ -1,8 +1,8 @@
 package com.devingotaswitch.rankings.extras;
 
 import android.content.Context;
-import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -10,7 +10,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.amazonaws.util.StringUtils;
-import com.devingotaswitch.ffrv2.R;
 
 import java.util.HashMap;
 import java.util.List;
