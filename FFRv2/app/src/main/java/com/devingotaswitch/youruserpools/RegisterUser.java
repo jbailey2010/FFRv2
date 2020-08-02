@@ -19,6 +19,8 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUser;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserAttributes;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserCodeDeliveryDetails;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.SignUpHandler;
+import com.amazonaws.services.cognitoidentityprovider.model.CodeDeliveryDetailsType;
+import com.amazonaws.services.cognitoidentityprovider.model.SignUpResult;
 import com.devingotaswitch.ffrv2.R;
 
 public class RegisterUser extends AppCompatActivity {
@@ -218,17 +220,16 @@ public class RegisterUser extends AppCompatActivity {
 
     private final SignUpHandler signUpHandler = new SignUpHandler() {
         @Override
-        public void onSuccess(CognitoUser user, boolean signUpConfirmationState,
-                              CognitoUserCodeDeliveryDetails cognitoUserCodeDeliveryDetails) {
+        public void onSuccess(CognitoUser user, SignUpResult signUpResult) {
             // Check signUpConfirmationState to see if the user is already confirmed
             closeWaitDialog();
-            if (signUpConfirmationState) {
+            if (signUpResult.isUserConfirmed()) {
                 // User is already confirmed
                 showDialogMessage("Sign up successful!",usernameInput+" has been confirmed", true);
             }
             else {
                 // User is not confirmed
-               confirmSignUp(cognitoUserCodeDeliveryDetails);
+                confirmSignUp(signUpResult.getCodeDeliveryDetails());
             }
         }
 
@@ -242,7 +243,7 @@ public class RegisterUser extends AppCompatActivity {
         }
     };
 
-    private void confirmSignUp(CognitoUserCodeDeliveryDetails cognitoUserCodeDeliveryDetails) {
+    private void confirmSignUp(CodeDeliveryDetailsType cognitoUserCodeDeliveryDetails) {
         Intent intent = new Intent(this, SignUpConfirm.class);
         intent.putExtra("source","signup");
         intent.putExtra("name", usernameInput);
