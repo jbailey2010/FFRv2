@@ -200,12 +200,12 @@ public class DBUtils {
         team.setName(result.getString(result.getColumnIndex(Constants.TEAM_NAME_COLUMN)));
         team.setoLineRanks(result.getString(result.getColumnIndex(Constants.OLINE_RANKS_COLUMN)));
         team.setDraftClass(result.getString(result.getColumnIndex(Constants.DRAFT_CLASS_COLUMN)));
-        team.setQbSos(result.getInt(result.getColumnIndex(Constants.QB_SOS_COLUMN)));
-        team.setRbSos(result.getInt(result.getColumnIndex(Constants.RB_SOS_COLUMN)));
-        team.setWrSos(result.getInt(result.getColumnIndex(Constants.WR_SOS_COLUMN)));
-        team.setTeSos(result.getInt(result.getColumnIndex(Constants.TE_SOS_COLUMN)));
-        team.setDstSos(result.getInt(result.getColumnIndex(Constants.DST_SOS_COLUMN)));
-        team.setkSos(result.getInt(result.getColumnIndex(Constants.K_SOS_COLUMN)));
+        team.setQbSos(result.getDouble(result.getColumnIndex(Constants.QB_SOS_COLUMN)));
+        team.setRbSos(result.getDouble(result.getColumnIndex(Constants.RB_SOS_COLUMN)));
+        team.setWrSos(result.getDouble(result.getColumnIndex(Constants.WR_SOS_COLUMN)));
+        team.setTeSos(result.getDouble(result.getColumnIndex(Constants.TE_SOS_COLUMN)));
+        team.setDstSos(result.getDouble(result.getColumnIndex(Constants.DST_SOS_COLUMN)));
+        team.setkSos(result.getDouble(result.getColumnIndex(Constants.K_SOS_COLUMN)));
         team.setBye(result.getString(result.getColumnIndex(Constants.BYE_COLUMN)));
         team.setFaClass(result.getString(result.getColumnIndex(Constants.FREE_AGENCY_COLUMN)));
         team.setSchedule(result.getString(result.getColumnIndex(Constants.SCHEDULE_COLUMN)));

@@ -1143,7 +1143,7 @@ public class PlayerInfo extends AppCompatActivity {
             schedule.put(Constants.PLAYER_BASIC, Constants.YEAR_KEY + " schedule");
             schedule.put(Constants.PLAYER_INFO, team.getSchedule() + Constants.LINE_BREAK + Constants.LINE_BREAK
                     + "Positional SOS: " + team.getSosForPosition(player.getPosition()) + Constants.LINE_BREAK
-                    + "1 is easiest, 32 hardest");
+                    + "A lower SOS reflects a harder schedule");
             data.add(schedule);
         }
         adapter.notifyDataSetChanged();

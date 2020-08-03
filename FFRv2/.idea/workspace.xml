@@ -12,7 +12,7 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_LOG_LEVEL" value="verbose" />
+    <option name="TOOL_WINDOW_LOG_LEVEL" value="debug" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="CMakeSettings">
@@ -23,9 +23,20 @@
   <component name="ChangeListManager">
     <list default="true" id="f5fe9503-cc09-4a8d-b7d9-507f98789a95" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/fileio/RankingsDBHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/fileio/RankingsDBHelper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/FantasyNews.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/FantasyNews.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerComparator.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerComparator.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerSorter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerSorter.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/RankingsHome.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/RankingsHome.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/Team.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/Team.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParseSOS.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParseSOS.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParseStats.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParseStats.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/AWSClientFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/AWSClientFactory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/DBUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/DBUtils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/JsoupUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/JsoupUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/ParsingUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/ParsingUtils.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/youruserpools/CUPHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/youruserpools/CUPHelper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/youruserpools/RegisterUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/youruserpools/RegisterUser.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/youruserpools/SignUpConfirm.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/youruserpools/SignUpConfirm.java" afterDir="false" />
@@ -344,30 +355,30 @@
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="421" y="87" key="FileChooserDialogImpl/0.0.1280.720@0.0.1280.720" timestamp="1596346360959" />
-    <state width="1236" height="131" key="GridCell.Tab.0.bottom" timestamp="1596414364085">
+    <state width="1236" height="131" key="GridCell.Tab.0.bottom" timestamp="1596425539760">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="131" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1596414364085" />
-    <state width="1236" height="131" key="GridCell.Tab.0.center" timestamp="1596414364085">
+    <state width="1236" height="131" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1596425539760" />
+    <state width="1236" height="131" key="GridCell.Tab.0.center" timestamp="1596425539758">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="131" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1596414364085" />
-    <state width="1236" height="131" key="GridCell.Tab.0.left" timestamp="1596414364083">
+    <state width="1236" height="131" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1596425539758" />
+    <state width="1236" height="131" key="GridCell.Tab.0.left" timestamp="1596425539752">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="131" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1596414364083" />
-    <state width="1236" height="131" key="GridCell.Tab.0.right" timestamp="1596414364085">
+    <state width="1236" height="131" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1596425539752" />
+    <state width="1236" height="131" key="GridCell.Tab.0.right" timestamp="1596425539760">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="131" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1596414364085" />
+    <state width="1236" height="131" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1596425539760" />
     <state x="142" y="3" key="SettingsEditor" timestamp="1596346369394">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="142" y="3" key="SettingsEditor/0.0.1280.720@0.0.1280.720" timestamp="1596346369394" />
-    <state x="100" y="100" width="1080" height="520" key="com.android.tools.idea.avdmanager.AvdListDialog" timestamp="1596410264155">
+    <state x="100" y="100" width="1080" height="520" key="com.android.tools.idea.avdmanager.AvdListDialog" timestamp="1596420359257">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state x="100" y="100" width="1080" height="520" key="com.android.tools.idea.avdmanager.AvdListDialog/0.0.1280.720@0.0.1280.720" timestamp="1596410264155" />
+    <state x="100" y="100" width="1080" height="520" key="com.android.tools.idea.avdmanager.AvdListDialog/0.0.1280.720@0.0.1280.720" timestamp="1596420359257" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
@@ -379,7 +390,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/ParsingUtils.java</url>
-          <line>260</line>
+          <line>262</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>

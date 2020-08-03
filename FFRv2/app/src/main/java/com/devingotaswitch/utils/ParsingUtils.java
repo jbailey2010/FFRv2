@@ -124,9 +124,11 @@ public class ParsingUtils {
         teamFixes.put("kansas", "Kansas City Chiefs");
         teamFixes.put("kansas city", "Kansas City Chiefs");
         teamFixes.put("chiefs", "Kansas City Chiefs");
-        teamFixes.put("oak", "Oakland Raiders");
-        teamFixes.put("oakland", "Oakland Raiders");
-        teamFixes.put("raiders", "Oakland Raiders");
+        teamFixes.put("oak", "Las Vegas Raiders");
+        teamFixes.put("oakland", "Las Vegas Raiders");
+        teamFixes.put("raiders", "Las Vegas Raiders");
+        teamFixes.put("lv", "Las Vegas Raiders");
+        teamFixes.put("lvr", "Las Vegas Raiders");
         teamFixes.put("den", "Denver Broncos");
         teamFixes.put("denver", "Denver Broncos");
         teamFixes.put("broncos", "Denver Broncos");

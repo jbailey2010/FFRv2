@@ -344,7 +344,9 @@ public class RankingsHome extends AppCompatActivity {
 
         GeneralUtils.hideKeyboard(this);
 
-        AppSyncHelper.getUserCustomPlayerData(this);
+        if (LocalSettingsHelper.wereRankingsFetched(this)) {
+            AppSyncHelper.getUserCustomPlayerData(this);
+        }
 
         // Cogneato stuff
         username = CUPHelper.getCurrUser();

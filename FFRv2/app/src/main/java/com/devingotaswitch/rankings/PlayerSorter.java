@@ -482,8 +482,7 @@ public class PlayerSorter extends AppCompatActivity {
                 // Also skip if we're looking at rookie rank for someone without one (meaning, not a rookie).
                 continue;
             }
-            if (Constants.SORT_SOS.equals(factor) && ((rankings.getTeam(player) == null)
-                    || (rankings.getTeam(player).getSosForPosition(player.getPosition()) < 1))) {
+            if (Constants.SORT_SOS.equals(factor) && ((rankings.getTeam(player) == null))) {
                 // If the player's team isn't a valid team, skip over for sos
                 continue;
             }
@@ -1171,17 +1170,18 @@ public class PlayerSorter extends AppCompatActivity {
         return new Comparator<Player>() {
             @Override
             public int compare(Player a, Player b) {
-                int sosA = getSOS(a);
-                int sosB = getSOS(b);
-                return Integer.compare(sosA, sosB);
+                double sosA = getSOS(a);
+                double sosB = getSOS(b);
+                // Compare returns lower first, we want to reverse that.
+                return Double.compare(sosA, sosB) * -1;
             }
         };
     }
 
-    private int getSOS(Player player) {
+    private double getSOS(Player player) {
         Team team = rankings.getTeam(player);
         if (team == null) {
-            return 32;
+            return 1.0;
         }
         return team.getSosForPosition(player.getPosition());
     }

@@ -104,12 +104,12 @@ class RankingsDBHelper extends SQLiteOpenHelper {
                 Constants.TEAM_NAME_COLUMN       + " TEXT PRIMARY KEY," +
                 Constants.OLINE_RANKS_COLUMN     + " TEXT," +
                 Constants.DRAFT_CLASS_COLUMN     + " TEXT," +
-                Constants.QB_SOS_COLUMN          + " INTEGER," +
-                Constants.RB_SOS_COLUMN          + " INTEGER," +
-                Constants.WR_SOS_COLUMN          + " INTEGER," +
-                Constants.TE_SOS_COLUMN          + " INTEGER," +
-                Constants.DST_SOS_COLUMN         + " INTEGER," +
-                Constants.K_SOS_COLUMN           + " INTEGER," +
+                Constants.QB_SOS_COLUMN          + " REAL," +
+                Constants.RB_SOS_COLUMN          + " REAL," +
+                Constants.WR_SOS_COLUMN          + " REAL," +
+                Constants.TE_SOS_COLUMN          + " REAL," +
+                Constants.DST_SOS_COLUMN         + " REAL," +
+                Constants.K_SOS_COLUMN           + " REAL," +
                 Constants.BYE_COLUMN             + " TEXT," +
                 Constants.FREE_AGENCY_COLUMN     + " TEXT," +
                 Constants.SCHEDULE_COLUMN        + " TEXT);";

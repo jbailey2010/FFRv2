@@ -560,13 +560,13 @@ public class PlayerComparator extends AppCompatActivity {
         // SOS
         TextView sosA = findViewById(R.id.comparator_sos_a);
         TextView sosB = findViewById(R.id.comparator_sos_b);
-        int sosForA = rankings.getTeam(playerA).getSosForPosition(playerA.getPosition());
-        int sosForB = rankings.getTeam(playerB).getSosForPosition(playerB.getPosition());
+        double sosForA = rankings.getTeam(playerA).getSosForPosition(playerA.getPosition());
+        double sosForB = rankings.getTeam(playerB).getSosForPosition(playerB.getPosition());
         sosA.setText(String.valueOf(sosForA));
         sosB.setText(String.valueOf(sosForB));
-        if (sosForA < sosForB) {
+        if (sosForA > sosForB) {
             setColors(sosA, sosB);
-        } else if (sosForA > sosForB) {
+        } else if (sosForA < sosForB) {
             setColors(sosB, sosA);
         } else {
             clearColors(sosA, sosB);

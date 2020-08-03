@@ -265,7 +265,7 @@ public class FantasyNews extends AppCompatActivity {
 
     private List<PlayerNews> parseMFL() throws IOException {
         List<PlayerNews> newsSet = new ArrayList<>();
-        String url = "http://www03.myfantasyleague.com/" + Constants.YEAR_KEY + "/news_articles";
+        String url = "http://www03.myfantasyleague.com/" + Constants.YEAR_KEY + "/news_articles?L=&PLAYERS=*&SOURCE=*&TEAM=*&POSITION=*&DAYS=7";
         Document doc = Jsoup.connect(url).timeout(0).get();
         List<String> title = JsoupUtils.getElemsFromDoc(doc, "td.headline b a");
         Elements elems = doc.select("tr.oddtablerow");

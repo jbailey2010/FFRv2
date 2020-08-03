@@ -8,12 +8,12 @@ public class Team {
     private String name;
     private String oLineRanks;
     private String draftClass;
-    private int qbSos;
-    private int rbSos;
-    private int wrSos;
-    private int teSos;
-    private int dstSos;
-    private int kSos;
+    private double qbSos;
+    private double rbSos;
+    private double wrSos;
+    private double teSos;
+    private double dstSos;
+    private double kSos;
     private String bye;
     private String incomingFA;
     private String outgoingFA;
@@ -41,51 +41,51 @@ public class Team {
         return draftClass;
     }
 
-    public int getQbSos() {
+    public double getQbSos() {
         return qbSos;
     }
 
-    public void setQbSos(int qbSos) {
+    public void setQbSos(double qbSos) {
         this.qbSos = qbSos;
     }
 
-    public int getRbSos() {
+    public double getRbSos() {
         return rbSos;
     }
 
-    public void setRbSos(int rbSos) {
+    public void setRbSos(double rbSos) {
         this.rbSos = rbSos;
     }
 
-    public int getWrSos() {
+    public double getWrSos() {
         return wrSos;
     }
 
-    public void setWrSos(int wrSos) {
+    public void setWrSos(double wrSos) {
         this.wrSos = wrSos;
     }
 
-    public int getTeSos() {
+    public double getTeSos() {
         return teSos;
     }
 
-    public void setTeSos(int teSos) {
+    public void setTeSos(double teSos) {
         this.teSos = teSos;
     }
 
-    public int getDstSos() {
+    public double getDstSos() {
         return dstSos;
     }
 
-    public void setDstSos(int dstSos) {
+    public void setDstSos(double dstSos) {
         this.dstSos = dstSos;
     }
 
-    public int getkSos() {
+    public double getkSos() {
         return kSos;
     }
 
-    public void setkSos(int kSos) {
+    public void setkSos(double kSos) {
         this.kSos = kSos;
     }
 
@@ -143,7 +143,7 @@ public class Team {
         this.schedule = schedule;
     }
 
-    public int getSosForPosition(String position) {
+    public double getSosForPosition(String position) {
         switch (position) {
             case Constants.QB:
                 return getQbSos();

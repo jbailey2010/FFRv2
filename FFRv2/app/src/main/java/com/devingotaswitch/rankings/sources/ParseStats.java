@@ -114,7 +114,7 @@ public class ParseStats {
 
     private static Map<String, String> parseQBStats() throws IOException {
         List<String> rows = JsoupUtils.parseURLWithUA(
-                "http://www.footballoutsiders.com/stats/qb", "tr");
+                "http://www.footballoutsiders.com/stats/qb/" + Constants.LAST_YEAR_KEY, "tr");
         Map<String, String> qbPlayers = new HashMap<>();
         for (int i = 0; i < rows.size(); i++) {
             String[] player = rows.get(i).split(" ");
@@ -172,7 +172,7 @@ public class ParseStats {
 
     private static Map<String, String> parseRBStats() throws IOException {
         List<String> rows = JsoupUtils.parseURLWithUA(
-                "http://www.footballoutsiders.com/stats/rb", "tr");
+                "http://www.footballoutsiders.com/stats/rb/" + Constants.LAST_YEAR_KEY, "tr");
         Map<String, String> rbPlayers = new HashMap<>();
         for (int i = 0; i < rows.size(); i++) {
             String[] player = rows.get(i).split(" ");
@@ -235,7 +235,7 @@ public class ParseStats {
 
     private static Map<String, String> parseWRStats() throws IOException {
         List<String> rows = JsoupUtils.parseURLWithUA(
-                "http://www.footballoutsiders.com/stats/wr", "tr");
+                "http://www.footballoutsiders.com/stats/wr/" + Constants.LAST_YEAR_KEY, "tr");
         Map<String, String> wrPlayers = new HashMap<>();
         for (int i = 0; i < rows.size(); i++) {
             String[] player = rows.get(i).split(" ");
@@ -296,7 +296,7 @@ public class ParseStats {
 
     private static Map<String, String> parseTEStats() throws IOException {
         List<String> rows = JsoupUtils.parseURLWithUA(
-                "http://www.footballoutsiders.com/stats/te", "tr");
+                "http://www.footballoutsiders.com/stats/te/" + Constants.LAST_YEAR_KEY, "tr");
         Map<String, String> tePlayers = new HashMap<>();
         for (int i = 0; i < rows.size(); i++) {
             String[] player = rows.get(i).split(" ");
