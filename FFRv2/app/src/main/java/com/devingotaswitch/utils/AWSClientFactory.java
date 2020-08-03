@@ -49,13 +49,14 @@ public class AWSClientFactory {
      */
     private static CognitoUserPool USER_POOLS_CLIENT;
     // Cogneato constants
-    private static final String USER_POOL_ID = "us-west-2_LMdno4yy1";
-    private static final String CLIENT_ID = "1d6n52mmd2m28t270fnu7ntbca";
-    private static final String CLIENT_SECRET = "nh4tkf4kbppd2rckd4g5j0qhn1q55l2h4lcq8kqjahg1nlfe4r9";
+    private static final String USER_POOL_ID = "us-west-2_WaDeKBgWJ";
+    private static final String CLIENT_ID = "1k3mgj979jdu5aburhj6pcotdg";
+    private static final String CLIENT_SECRET = "1g0bf9bthvmdu5llhafgg4pe23devkorm22sig28idn6hc431he6";
 
     public static CognitoUserPool getUserPoolsInstance(final Context context) {
         if (USER_POOLS_CLIENT == null) {
             USER_POOLS_CLIENT = new CognitoUserPool(context, USER_POOL_ID, CLIENT_ID, CLIENT_SECRET, REGION);
+            USER_POOLS_CLIENT.setAdvancedSecurityDataCollectionFlag(false);
         }
         return USER_POOLS_CLIENT;
     }

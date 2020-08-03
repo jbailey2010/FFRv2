@@ -1,4 +1,5 @@
 package com.devingotaswitch.youruserpools;
+import com.amazonaws.cognito.clientcontext.data.UserContextDataProvider;
 
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,6 +10,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,6 +28,7 @@ public class SignUpConfirm extends AppCompatActivity {
     private String userName;
     private AlertDialog userDialog;
 
+    private static final String TAG = "SignUpConfirm";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

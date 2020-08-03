@@ -10,6 +10,7 @@ import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -29,12 +30,14 @@ public class RegisterUser extends AppCompatActivity {
     private EditText password;
     private EditText givenName;
     private EditText phone;
+    private EditText email;
 
     private AlertDialog userDialog;
     private ProgressDialog waitDialog;
     private String usernameInput;
     private String userPasswd;
 
+    private static final String TAG = "RegisterUser";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -175,6 +178,32 @@ public class RegisterUser extends AppCompatActivity {
                 }
             }
         });
+        //
+        email = findViewById(R.id.editTextRegEmail);
+        email.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                if (s.length() == 0) {
+                    TextView label = findViewById(R.id.textViewRegEmailLabel);
+                    label.setText(email.getHint());
+                    email.setBackground(getDrawable(R.drawable.text_border_selector));
+                }
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                TextView label = findViewById(R.id.textViewRegEmailMessage);
+                label.setText("");
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if (s.length() == 0) {
+                    TextView label = findViewById(R.id.textViewRegEmailLabel);
+                    label.setText("");
+                }
+            }
+        });
 
         Button signUp = findViewById(R.id.signUp);
         signUp.setOnClickListener(new View.OnClickListener() {
@@ -202,17 +231,38 @@ public class RegisterUser extends AppCompatActivity {
 
                 String userInput = givenName.getText().toString();
                 if (userInput != null && userInput.length() > 0) {
-                    userAttributes.addAttribute(CUPHelper.getSignUpFieldsC2O().get("Given name"), userInput);
+                    userAttributes.addAttribute(CUPHelper.getSignUpFieldsC2O().get("Name"), userInput);
+                } else {
+                    TextView view = findViewById(R.id.textViewRegGivenNameMessage);
+                    view.setText(givenName.getHint() + " cannot be empty");
+                    givenName.setBackground(getDrawable(R.drawable.text_border_error));
+                    return;
                 }
 
-                userInput = phone.getText().toString();
-                if (userInput != null && userInput.length() > 0) {
-                    userAttributes.addAttribute(CUPHelper.getSignUpFieldsC2O().get("Phone number"), userInput);
+                String phoneNumber = phone.getText().toString();
+                if (phoneNumber != null && phoneNumber.length() > 0) {
+                    userAttributes.addAttribute(CUPHelper.getSignUpFieldsC2O().get("Phone number"), phoneNumber);
+                } else {
+                    TextView view = findViewById(R.id.textViewRegPhoneMessage);
+                    view.setText(phone.getHint() + " cannot be empty");
+                    phone.setBackground(getDrawable(R.drawable.text_border_error));
+                    return;
+                }
+
+                String emailAddress = email.getText().toString();
+                if (emailAddress != null && emailAddress.length() > 0) {
+                    userAttributes.addAttribute(CUPHelper.getSignUpFieldsC2O().get("Email"), emailAddress);
+                } else {
+                    TextView view = findViewById(R.id.textViewRegEmailMessage);
+                    view.setText(email.getHint() + " cannot be empty");
+                    email.setBackground(getDrawable(R.drawable.text_border_error));
+                    return;
                 }
 
                 showWaitDialog("Signing up...");
 
-                CUPHelper.getPool().signUpInBackground(usernameInput, userpasswordInput, userAttributes, null, signUpHandler);
+                CUPHelper.getPool().signUpInBackground(usernameInput, userpasswordInput,
+                        userAttributes, null, signUpHandler);
 
             }
         });
@@ -250,6 +300,7 @@ public class RegisterUser extends AppCompatActivity {
         intent.putExtra("destination", cognitoUserCodeDeliveryDetails.getDestination());
         intent.putExtra("deliveryMed", cognitoUserCodeDeliveryDetails.getDeliveryMedium());
         intent.putExtra("attribute", cognitoUserCodeDeliveryDetails.getAttributeName());
+
         startActivityForResult(intent, 10);
     }
 

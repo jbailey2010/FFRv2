@@ -156,10 +156,43 @@
         android:layout_below="@id/editTextRegPhone"
         android:layout_centerHorizontal="true" />
 
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textSize="@dimen/activity_text_size_small"
+        android:text=" "
+        android:id="@+id/textViewRegEmailLabel"
+        android:layout_centerHorizontal="true"
+        android:layout_below="@id/textViewRegPhoneMessage" />
+
+    <EditText
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/activity_text_height"
+        android:paddingLeft="@dimen/activity_text_padding"
+        android:paddingRight="@dimen/activity_text_padding"
+        android:id="@+id/editTextRegEmail"
+        android:layout_below="@id/textViewRegEmailLabel"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/text_border_selector"
+        android:hint="Email address"
+        android:inputType="textEmailAddress"/>
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceSmall"
+        android:textSize="@dimen/activity_text_padding"
+        android:text=" "
+        android:textColor="@color/alert"
+        android:id="@+id/textViewRegEmailMessage"
+        android:layout_below="@id/editTextRegEmail"
+        android:layout_centerHorizontal="true" />
+
     <Space
         android:layout_width="match_parent"
         android:layout_height="@dimen/activity_intra_group_separation"
-        android:layout_below="@id/textViewRegPhoneMessage"
+        android:layout_below="@id/textViewRegEmailMessage"
         android:id="@+id/space_about_2" />
 
     <Button

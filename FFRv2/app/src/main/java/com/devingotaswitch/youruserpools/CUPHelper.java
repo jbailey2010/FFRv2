@@ -186,6 +186,7 @@ public class CUPHelper {
     private static void setData() {
         // Set attribute display sequence
         attributeDisplaySeq = new ArrayList<>();
+        attributeDisplaySeq.add("name");
         attributeDisplaySeq.add("given_name");
         attributeDisplaySeq.add("middle_name");
         attributeDisplaySeq.add("family_name");
@@ -194,6 +195,7 @@ public class CUPHelper {
         attributeDisplaySeq.add("email");
 
         signUpFieldsC2O = new HashMap<>();
+        signUpFieldsC2O.put("Name", "name");
         signUpFieldsC2O.put("Given name", "given_name");
         signUpFieldsC2O.put("Family name", "family_name");
         signUpFieldsC2O.put("Nick name", "nickname");
@@ -204,6 +206,7 @@ public class CUPHelper {
         signUpFieldsC2O.put("Middle name","middle_name");
 
         signUpFieldsO2C = new HashMap<>();
+        signUpFieldsO2C.put("name", "Name");
         signUpFieldsO2C.put("given_name", "Given name");
         signUpFieldsO2C.put("family_name", "Family name");
         signUpFieldsO2C.put("nickname", "Nick name");

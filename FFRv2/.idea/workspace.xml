@@ -12,7 +12,7 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_LOG_LEVEL" value="debug" />
+    <option name="TOOL_WINDOW_LOG_LEVEL" value="verbose" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="CMakeSettings">
@@ -22,9 +22,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f5fe9503-cc09-4a8d-b7d9-507f98789a95" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/AWSClientFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/AWSClientFactory.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/Constants.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/JsoupUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/JsoupUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/youruserpools/CUPHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/youruserpools/CUPHelper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/youruserpools/RegisterUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/youruserpools/RegisterUser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/youruserpools/SignUpConfirm.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/youruserpools/SignUpConfirm.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/content_register.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/content_register.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,7 +39,7 @@
   <component name="CreatePatchCommitExecutor">
     <option name="PATCH_PATH" value="" />
   </component>
-  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_3_XL_API_29" />
+  <component name="ExecutionTargetManager" SELECTED_TARGET="Pixel_XL_API_30" />
   <component name="ExternalProjectsData">
     <projectState path="$PROJECT_DIR$">
       <ProjectState />
@@ -70,50 +75,6 @@
       </list>
     </option>
   </component>
-  <component name="FindInProjectRecents">
-    <findStrings>
-      <find>tag</find>
-      <find>GSON.from</find>
-      <find>outgoing</find>
-      <find>getRe</find>
-      <find>getRank</find>
-      <find>getPla</find>
-      <find>comparator</find>
-      <find>convertRanking(</find>
-      <find>bye</find>
-      <find>paa</find>
-      <find>watchList</find>
-      <find>getOrderedIds</find>
-      <find>watched</find>
-      <find>watch</find>
-      <find>Comparator</find>
-      <find>onBa</find>
-      <find>PlayerInfo</find>
-      <find>AppSyncHelper</find>
-      <find>AppSyncH</find>
-      <find>age</find>
-      <find>sub</find>
-      <find>onItemClickLIstener</find>
-      <find>adapter</find>
-      <find>auction</find>
-      <find>note</find>
-      <find>draftedNear</find>
-      <find>getUniqueId</find>
-      <find>nDrawer</find>
-      <find>qbCount</find>
-      <find>int pos</find>
-    </findStrings>
-    <replaceStrings>
-      <replace>_REMOTE =</replace>
-      <replace>Constants.COMPARATOR_SCALED_SUFFIX</replace>
-      <replace>Constants.D</replace>
-      <replace>Constants.DECIMAL_FORMAT.format</replace>
-      <replace>RANKLESS</replace>
-      <replace>rS</replace>
-      <replace>rc</replace>
-      <replace>0dp</replace>
-    </replaceStrings>
-  </component>
   <component name="GenerateSignedApkSettings">
     <option name="KEY_STORE_PATH" value="C:\Users\jeffbail\Desktop\keystore.jks" />
     <option name="KEY_ALIAS" value="key0" />
@@ -133,6 +94,8 @@
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DeviceAndSnapshotComboBoxAction.selectedDevice" value="Pixel_3_XL_API_29" />
+    <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-08-02T23:14:43.018Z" />
     <property name="ExportApk.ApkPath" value="C:\Users\jeffbail\Documents\GitHub\FFRv2\FFRv2\app" />
     <property name="ExportApk.BuildType" value="release" />
     <property name="ExportApk.Flavors" value="" />
@@ -369,6 +332,10 @@
     </option>
   </component>
   <component name="WindowStateProjectService">
+    <state x="95" y="15" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1596410460633">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state x="95" y="15" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.720@0.0.1280.720" timestamp="1596410460633" />
     <state x="446" y="70" key="#com.intellij.ide.util.MemberChooser" timestamp="1596346725133">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
@@ -377,10 +344,30 @@
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="421" y="87" key="FileChooserDialogImpl/0.0.1280.720@0.0.1280.720" timestamp="1596346360959" />
+    <state width="1236" height="131" key="GridCell.Tab.0.bottom" timestamp="1596414364085">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state width="1236" height="131" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1596414364085" />
+    <state width="1236" height="131" key="GridCell.Tab.0.center" timestamp="1596414364085">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state width="1236" height="131" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1596414364085" />
+    <state width="1236" height="131" key="GridCell.Tab.0.left" timestamp="1596414364083">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state width="1236" height="131" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1596414364083" />
+    <state width="1236" height="131" key="GridCell.Tab.0.right" timestamp="1596414364085">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state width="1236" height="131" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1596414364085" />
     <state x="142" y="3" key="SettingsEditor" timestamp="1596346369394">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="142" y="3" key="SettingsEditor/0.0.1280.720@0.0.1280.720" timestamp="1596346369394" />
+    <state x="100" y="100" width="1080" height="520" key="com.android.tools.idea.avdmanager.AvdListDialog" timestamp="1596410264155">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state x="100" y="100" width="1080" height="520" key="com.android.tools.idea.avdmanager.AvdListDialog/0.0.1280.720@0.0.1280.720" timestamp="1596410264155" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
