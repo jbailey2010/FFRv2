@@ -20,7 +20,8 @@ import java.util.Set;
 public class ParsePFO {
     public static void parsePFOLineData(Rankings rankings) throws IOException {
         List<String> td = JsoupUtils.parseURLWithUA(
-                "http://www.footballoutsiders.com/stats/ol", "table.stats td");
+                "https://www.footballoutsiders.com/stats/nfl/offensive-line/" + Constants.LAST_YEAR_KEY,
+                "table.stats td");
         int start = 0;
         for (int i = 0; i < td.size(); i++) {
             if (GeneralUtils.isInteger(td.get(i))) {
@@ -28,20 +29,20 @@ public class ParsePFO {
                 break;
             }
         }
-        for (int i = start; i < td.size(); i += 15) {
+        for (int i = start; i < td.size(); i += 16) {
             if (td.get(i).equals("RUN BLOCKING")) {
                 i += 2;
                 continue;
             } else if (td.get(i + 1).equals("Team") || "".equals(td.get(i+1))) {
-                i += 15;
+                i += 16;
                 continue;
             } else if (td.get(i + 1).equals("NFL")) {
                 break;
             }
 
             String team = ParsingUtils.normalizeTeams(td.get(i+1));
-            String sackRate = td.get(i + 14);
-            String pbRank = td.get(i + 12);
+            String sackRate = td.get(i + 15);
+            String pbRank = td.get(i + 13);
             String adjYPC = td.get(i + 2);
             String adjYPCRank = td.get(i);
             String power = td.get(i + 4);
@@ -92,6 +93,7 @@ public class ParsePFO {
                     .append(adjYPCRank)
                     .toString();
 
+            Log.d("JEFF", "Saving to " + team + " with " + olData);
             rankings.getTeam(team).setoLineRanks(olData);
         }
     }

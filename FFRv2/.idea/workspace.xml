@@ -30,6 +30,7 @@
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerSorter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerSorter.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/RankingsHome.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/RankingsHome.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/Team.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/Team.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParsePFO.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParsePFO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParseSOS.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParseSOS.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParseStats.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParseStats.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/AWSClientFactory.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/AWSClientFactory.java" afterDir="false" />
@@ -355,30 +356,30 @@
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="421" y="87" key="FileChooserDialogImpl/0.0.1280.720@0.0.1280.720" timestamp="1596346360959" />
-    <state width="1236" height="131" key="GridCell.Tab.0.bottom" timestamp="1596425539760">
+    <state width="1236" height="131" key="GridCell.Tab.0.bottom" timestamp="1596509155488">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="131" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1596425539760" />
-    <state width="1236" height="131" key="GridCell.Tab.0.center" timestamp="1596425539758">
+    <state width="1236" height="131" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1596509155488" />
+    <state width="1236" height="131" key="GridCell.Tab.0.center" timestamp="1596509155488">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="131" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1596425539758" />
-    <state width="1236" height="131" key="GridCell.Tab.0.left" timestamp="1596425539752">
+    <state width="1236" height="131" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1596509155488" />
+    <state width="1236" height="131" key="GridCell.Tab.0.left" timestamp="1596509155487">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="131" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1596425539752" />
-    <state width="1236" height="131" key="GridCell.Tab.0.right" timestamp="1596425539760">
+    <state width="1236" height="131" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1596509155487" />
+    <state width="1236" height="131" key="GridCell.Tab.0.right" timestamp="1596509155488">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="131" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1596425539760" />
+    <state width="1236" height="131" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1596509155488" />
     <state x="142" y="3" key="SettingsEditor" timestamp="1596346369394">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="142" y="3" key="SettingsEditor/0.0.1280.720@0.0.1280.720" timestamp="1596346369394" />
-    <state x="100" y="100" width="1080" height="520" key="com.android.tools.idea.avdmanager.AvdListDialog" timestamp="1596420359257">
+    <state x="100" y="100" width="1080" height="520" key="com.android.tools.idea.avdmanager.AvdListDialog" timestamp="1596508533170">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state x="100" y="100" width="1080" height="520" key="com.android.tools.idea.avdmanager.AvdListDialog/0.0.1280.720@0.0.1280.720" timestamp="1596420359257" />
+    <state x="100" y="100" width="1080" height="520" key="com.android.tools.idea.avdmanager.AvdListDialog/0.0.1280.720@0.0.1280.720" timestamp="1596508533170" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
