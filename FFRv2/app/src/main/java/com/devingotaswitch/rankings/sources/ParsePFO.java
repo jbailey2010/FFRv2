@@ -93,7 +93,6 @@ public class ParsePFO {
                     .append(adjYPCRank)
                     .toString();
 
-            Log.d("JEFF", "Saving to " + team + " with " + olData);
             rankings.getTeam(team).setoLineRanks(olData);
         }
     }

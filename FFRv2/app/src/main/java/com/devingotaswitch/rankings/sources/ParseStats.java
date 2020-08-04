@@ -1,5 +1,7 @@
 package com.devingotaswitch.rankings.sources;
 
+import android.util.Log;
+
 import com.amazonaws.util.StringUtils;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
@@ -122,10 +124,15 @@ public class ParseStats {
             // Name
             String name = ParsingUtils.normalizeNames(player[0]);
             String team = ParsingUtils.normalizeTeams(player[1]);
+            if (name.equals("AJ") && team.equals("McCarron")) {
+                // handle the bullshit convention they broke with AJ McCarron. If this is resolved, remove this code.
+                continue;
+            }
             if (player[0].equals("Player")
                     || (!qbPlayers.containsKey(getPlayerIdKey(name, team, Constants.QB)) && player.length < 17)) {
                 continue;
             }
+            Log.d("JEFF", "Looking at stats for " + name + " of " + team);
             if (qbPlayers.containsKey(getPlayerIdKey(name, team, Constants.QB))) {
                 String yards = player[player.length - 4];
                 String effectiveYards = player[player.length - 3];
@@ -154,6 +161,9 @@ public class ParseStats {
                 data.append("DPI: ").append(player[player.length - 2]).append(Constants.LINE_BREAK);
                 data.append("ALEX: ").append(player[player.length - 1]).append(Constants.LINE_BREAK);
                 if (player.length > 17) {
+                    for (int j = 0; j < player.length; j++) {
+                        Log.d("JEFF", i + ": " + player[j]);
+                    }
                     data.append("DYAR: ")
                             .append(player[player.length - 19]).append(Constants.LINE_BREAK);
                     data.append("DVOA: ")
