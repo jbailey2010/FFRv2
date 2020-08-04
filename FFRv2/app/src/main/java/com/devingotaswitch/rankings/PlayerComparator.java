@@ -832,20 +832,21 @@ public class PlayerComparator extends AppCompatActivity {
             String baseURL = "http://www.fantasypros.com/nfl/draft/";
             baseURL += ParsePlayerNews.playerNameUrl(playerA.getName(), playerA.getTeamName()) + "-"
                     + ParsePlayerNews.playerNameUrl(playerB.getName(), playerB.getTeamName()) + ".php";
-            if (rankings.getLeagueSettings().getScoringSettings().getReceptions() > 1.0) {
+            if (rankings.getLeagueSettings().getScoringSettings().getReceptions() >= 1.0) {
                 baseURL += "?scoring=PPR";
             } else if (rankings.getLeagueSettings().getScoringSettings().getReceptions() > 0) {
                 baseURL += "?scoring=HALF";
             }
             Map<String, String> results = new HashMap<>();
+            Log.d(TAG, "Looking up expert numbers at " + baseURL);
             try {
                 Document doc = Jsoup.connect(baseURL).get();
                 Elements elems = doc.select("div.pick-percent");
                 String percentOne = elems.get(0).text();
                 String percentTwo = elems.get(1).text();
                 Element tableElem = elems.get(0).parent().parent().parent().parent();
-                String nameOne = tableElem.child(1).child(1).child(1).child(0).child(0).child(0).text();
-                String nameTwo = tableElem.child(1).child(1).child(2).child(0).child(0).child(0).text();
+                String nameOne = tableElem.child(2).child(1).child(1).child(0).child(0).child(0).text();
+                String nameTwo = tableElem.child(2).child(1).child(2).child(0).child(0).child(0).text();
                 if (playerA.getName().equals(nameOne)) {
                     results.put(playerA.getUniqueId(), percentOne);
                     results.put(playerB.getUniqueId(), percentTwo);
