@@ -37,6 +37,7 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -94,7 +95,8 @@ public class FantasyNews extends AppCompatActivity {
             Player player = rankings.getPlayer(key);
             nameToId.put(player.getName(), key);
         }
-        final List<String> sources = new ArrayList<>(Arrays.asList(Constants.MFL_AGGREGATE_TITLE, Constants.FP_ALL_NEWS,
+        final List<String> sources = new ArrayList<>(Arrays.asList(Constants.MFL_AGGREGATE_TITLE,
+                Constants.SPOTRAC_TRANSACTIONS_TITLE, Constants.FP_ALL_NEWS,
                 Constants.FP_RUMORS_TITLE, Constants.FP_BREAKING_NEWS_TITLE, Constants.FP_INJURY_TITLE));
         final NiceSpinner sourcesSpinner = findViewById(R.id.news_source_selector);
 
@@ -226,6 +228,9 @@ public class FantasyNews extends AppCompatActivity {
                     case Constants.MFL_AGGREGATE_TITLE:
                         news = parseMFL();
                         break;
+                    case Constants.SPOTRAC_TRANSACTIONS_TITLE:
+                        news = parseSpotrac();
+                        break;
                 }
                 return news;
             } catch (Exception e) {
@@ -233,6 +238,22 @@ public class FantasyNews extends AppCompatActivity {
             }
             return null;
         }
+    }
+
+    private List<PlayerNews> parseSpotrac() throws IOException {
+        List<PlayerNews> newsSet = new ArrayList<>();
+        Document doc = Jsoup.connect("https://www.spotrac.com/nfl/transactions/").timeout(0).get();
+        List<String> dates = JsoupUtils.getElemsFromDoc(doc, "span.date");
+        List<String> headlines = JsoupUtils.getElemsFromDoc(doc, "div.transactions div#transactionslist div.cnt a");
+        List<String> content = JsoupUtils.getElemsFromDoc(doc, "div.transactions div#transactionslist div.cnt p");
+        for (int i = 0; i < dates.size(); i++) {
+            PlayerNews newsItem = new PlayerNews();
+            newsItem.setDate(dates.get(i));
+            newsItem.setNews(headlines.get(i));
+            newsItem.setImpact(content.get(i));
+            newsSet.add(newsItem);
+        }
+        return newsSet;
     }
 
     private List<PlayerNews> parseFantasyPros(String url) throws IOException {

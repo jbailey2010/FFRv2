@@ -97,6 +97,7 @@ public class Constants {
     public static final String FP_BREAKING_NEWS_TITLE = "FantasyPros Breaking News";
     public static final String FP_RUMORS_TITLE = "FantasyPros Rumors";
     public static final String FP_INJURY_TITLE = "FantasyPros Injuries";
+    public static final String SPOTRAC_TRANSACTIONS_TITLE = "Spotrac Transactions";
 
     // Flashbar constants
     public static final Long FLASHBAR_DURATION = 2500L;

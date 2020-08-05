@@ -36,6 +36,7 @@ public class JsoupUtils {
 
     public static List<String> parseURLWithoutUAOrTls(String url, String params) throws IOException {
         Document doc = getConnection(url)
+                .timeout(0)
                 .userAgent("Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36")
                 .get();
         return getElemsFromDoc(doc, params);

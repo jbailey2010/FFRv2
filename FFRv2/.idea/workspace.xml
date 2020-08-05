@@ -356,30 +356,30 @@
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="421" y="87" key="FileChooserDialogImpl/0.0.1280.720@0.0.1280.720" timestamp="1596346360959" />
-    <state width="1236" height="131" key="GridCell.Tab.0.bottom" timestamp="1596509155488">
+    <state width="0" height="0" key="GridCell.Tab.0.bottom" timestamp="1596588735784">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="131" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1596509155488" />
-    <state width="1236" height="131" key="GridCell.Tab.0.center" timestamp="1596509155488">
+    <state width="0" height="0" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1596588735784" />
+    <state width="0" height="0" key="GridCell.Tab.0.center" timestamp="1596588735784">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="131" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1596509155488" />
-    <state width="1236" height="131" key="GridCell.Tab.0.left" timestamp="1596509155487">
+    <state width="0" height="0" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1596588735784" />
+    <state width="0" height="0" key="GridCell.Tab.0.left" timestamp="1596588735784">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="131" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1596509155487" />
-    <state width="1236" height="131" key="GridCell.Tab.0.right" timestamp="1596509155488">
+    <state width="0" height="0" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1596588735784" />
+    <state width="0" height="0" key="GridCell.Tab.0.right" timestamp="1596588735784">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="131" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1596509155488" />
+    <state width="0" height="0" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1596588735784" />
     <state x="142" y="3" key="SettingsEditor" timestamp="1596346369394">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="142" y="3" key="SettingsEditor/0.0.1280.720@0.0.1280.720" timestamp="1596346369394" />
-    <state x="100" y="100" width="1080" height="520" key="com.android.tools.idea.avdmanager.AvdListDialog" timestamp="1596508533170">
+    <state x="100" y="100" width="1080" height="520" key="com.android.tools.idea.avdmanager.AvdListDialog" timestamp="1596588497892">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state x="100" y="100" width="1080" height="520" key="com.android.tools.idea.avdmanager.AvdListDialog/0.0.1280.720@0.0.1280.720" timestamp="1596508533170" />
+    <state x="100" y="100" width="1080" height="520" key="com.android.tools.idea.avdmanager.AvdListDialog/0.0.1280.720@0.0.1280.720" timestamp="1596588497892" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
