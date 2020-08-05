@@ -132,7 +132,6 @@ public class ParseStats {
                     || (!qbPlayers.containsKey(getPlayerIdKey(name, team, Constants.QB)) && player.length < 17)) {
                 continue;
             }
-            Log.d("JEFF", "Looking at stats for " + name + " of " + team);
             if (qbPlayers.containsKey(getPlayerIdKey(name, team, Constants.QB))) {
                 String yards = player[player.length - 4];
                 String effectiveYards = player[player.length - 3];
@@ -161,9 +160,6 @@ public class ParseStats {
                 data.append("DPI: ").append(player[player.length - 2]).append(Constants.LINE_BREAK);
                 data.append("ALEX: ").append(player[player.length - 1]).append(Constants.LINE_BREAK);
                 if (player.length > 17) {
-                    for (int j = 0; j < player.length; j++) {
-                        Log.d("JEFF", i + ": " + player[j]);
-                    }
                     data.append("DYAR: ")
                             .append(player[player.length - 19]).append(Constants.LINE_BREAK);
                     data.append("DVOA: ")
