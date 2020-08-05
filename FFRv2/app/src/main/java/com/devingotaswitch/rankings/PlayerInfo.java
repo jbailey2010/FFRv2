@@ -100,6 +100,9 @@ public class PlayerInfo extends AppCompatActivity {
     private MenuItem commentSortTop;
     private ChipCloud chipCloud;
 
+    private List<Tag> playerTags;
+    private boolean chipsDisplayed = false;
+
     private static String playerId;
 
     private static final Integer MAX_NEARBY_PLAYERS = 6;
@@ -530,6 +533,11 @@ public class PlayerInfo extends AppCompatActivity {
         chipCloud = footerView.findViewById(R.id.chip_cloud);
         infoList.addFooterView(footerView);
 
+        // to handle a race condition, we'll try to set the chip cloud if tags have been fetched but it hasn't yet
+        if (!chipsDisplayed && playerTags != null) {
+            setChipCloud();
+        }
+
         ImageButton ranks = findViewById(R.id.player_info_ranks);
         ImageButton info =  findViewById(R.id.player_info_about);
         ImageButton team =  findViewById(R.id.player_info_team);
@@ -612,10 +620,20 @@ public class PlayerInfo extends AppCompatActivity {
     }
 
     public void setTags(final List<Tag> tags) {
-        String[] tagArr = new String[tags.size()];
+        this.playerTags = tags;
+        if (chipCloud != null) {
+            // There's a race condition that could cause an npe here if chip cloud hasn't been looked up yet.
+            // So, we only display if it has been, and set a flag to true at the end. When the view is fetched,
+            // that flag is checked, and this called if it's not true.
+            setChipCloud();
+        }
+    }
+
+    private void setChipCloud() {
+        String[] tagArr = new String[playerTags.size()];
         List<Integer> taggedIndices = new ArrayList<>();
-        for (int i = 0; i < tags.size(); i++) {
-            Tag tag = tags.get(i);
+        for (int i = 0; i < playerTags.size(); i++) {
+            Tag tag = playerTags.get(i);
             tagArr[i] = tag.getTagText();
             if (userTags.contains(tag.getTitle())) {
                 taggedIndices.add(i);
@@ -641,7 +659,7 @@ public class PlayerInfo extends AppCompatActivity {
                 .chipListener(new ChipListener() {
                     @Override
                     public void chipSelected(int index) {
-                        Tag tag = tags.get(index);
+                        Tag tag = playerTags.get(index);
                         String text = tag.getTitle();
                         if (!userTags.contains(text)) {
                             userTags.add(text);
@@ -650,7 +668,7 @@ public class PlayerInfo extends AppCompatActivity {
                     }
                     @Override
                     public void chipDeselected(int index) {
-                        Tag tag = tags.get(index);
+                        Tag tag = playerTags.get(index);
                         String text = tag.getTitle();
                         if (userTags.contains(text)) {
                             userTags.remove(text);
@@ -663,6 +681,7 @@ public class PlayerInfo extends AppCompatActivity {
         for (Integer index : taggedIndices) {
             chipCloud.setSelectedChip(index);
         }
+        chipsDisplayed = true;
     }
 
     private void confirmCommentDeletion(final String commentId) {
