@@ -31,6 +31,7 @@
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/RankingsHome.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/RankingsHome.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/Team.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/Team.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParseDraft.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParseDraft.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParseFA.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParseFA.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParsePFO.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParsePFO.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParseSOS.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParseSOS.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParseStats.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParseStats.java" afterDir="false" />
@@ -357,22 +358,22 @@
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="421" y="87" key="FileChooserDialogImpl/0.0.1280.720@0.0.1280.720" timestamp="1596346360959" />
-    <state width="1236" height="176" key="GridCell.Tab.0.bottom" timestamp="1596595044796">
+    <state width="618" height="131" key="GridCell.Tab.0.bottom" timestamp="1596682978192">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="176" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1596595044796" />
-    <state width="1236" height="176" key="GridCell.Tab.0.center" timestamp="1596595044796">
+    <state width="618" height="131" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1596682978192" />
+    <state width="618" height="131" key="GridCell.Tab.0.center" timestamp="1596682978192">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="176" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1596595044796" />
-    <state width="1236" height="176" key="GridCell.Tab.0.left" timestamp="1596595044796">
+    <state width="618" height="131" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1596682978192" />
+    <state width="618" height="131" key="GridCell.Tab.0.left" timestamp="1596682978191">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="176" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1596595044796" />
-    <state width="1236" height="176" key="GridCell.Tab.0.right" timestamp="1596595044796">
+    <state width="618" height="131" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1596682978191" />
+    <state width="618" height="131" key="GridCell.Tab.0.right" timestamp="1596682978192">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="176" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1596595044796" />
+    <state width="618" height="131" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1596682978192" />
     <state x="142" y="3" key="SettingsEditor" timestamp="1596346369394">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
