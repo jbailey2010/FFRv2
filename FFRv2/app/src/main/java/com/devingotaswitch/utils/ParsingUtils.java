@@ -78,6 +78,7 @@ public class ParsingUtils {
         teamFixes.put("pittsburgh", "Pittsburgh Steelers");
         teamFixes.put("steelers", "Pittsburgh Steelers");
         teamFixes.put("cle", "Cleveland Browns");
+        teamFixes.put("cle1", "Cleveland Browns");
         teamFixes.put("clv", "Cleveland Browns");
         teamFixes.put("cleveland", "Cleveland Browns");
         teamFixes.put("browns", "Cleveland Browns");
@@ -131,6 +132,7 @@ public class ParsingUtils {
         teamFixes.put("lvr", "Las Vegas Raiders");
         teamFixes.put("den", "Denver Broncos");
         teamFixes.put("denver", "Denver Broncos");
+        teamFixes.put("den3", "Denver Broncos");
         teamFixes.put("broncos", "Denver Broncos");
         teamFixes.put("sd", "Los Angeles Chargers");
         teamFixes.put("lach", "Los Angeles Chargers");
@@ -173,6 +175,7 @@ public class ParsingUtils {
         teamFixes.put("redskins", "Washington Redskins");
         teamFixes.put("atl", "Atlanta Falcons");
         teamFixes.put("atlanta", "Atlanta Falcons");
+        teamFixes.put("atl2", "Atlanta Falcons");
         teamFixes.put("falcons", "Atlanta Falcons");
         teamFixes.put("car", "Carolina Panthers");
         teamFixes.put("carolina", "Carolina Panthers");

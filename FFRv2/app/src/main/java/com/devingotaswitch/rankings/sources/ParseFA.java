@@ -12,19 +12,29 @@ import com.devingotaswitch.utils.ParsingUtils;
 
 import org.jsoup.internal.StringUtil;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 public class ParseFA {
 
+    private static final String TAG = "ParseFA";
+
     public static void parseFAClasses(Rankings rankings) throws IOException {
         Map<String, String> arrivingFA = new HashMap<>();
         Map<String, String> departingFA = new HashMap<>();
-        getTradeChanges(arrivingFA, departingFA);
         getFAChanges(arrivingFA, departingFA);
+        try {
+            // This is an especially hacky parser, so making it optional
+            getTradeChanges(arrivingFA, departingFA);
+        } catch (Exception e) {
+            Log.e(TAG, "Failed to parse trade changes", e);
+        }
 
         for (String key : arrivingFA.keySet()) {
             Team team = rankings.getTeam(key);
@@ -36,8 +46,50 @@ public class ParseFA {
     }
 
     private static void getTradeChanges(Map<String, String> arrivingFA,
-                                        Map<String, String> departingFA) {
+                                        Map<String, String> departingFA) throws IOException{
+        Document doc = JsoupUtils.getDocument("https://www.spotrac.com/nfl/transactions/"
+                + Constants.YEAR_KEY + "/trade/");
 
+        Elements teamNames = doc.select("table.tradetable tbody tr td.tradeitem img.tradelogo");
+        for (int i = 0; i < teamNames.size(); i+=2) {
+            Element elementA = teamNames.get(i);
+            Element elementB = teamNames.get(i+1);
+            // First, we get the team names, left to right, top to bottom. In text is says New York acquires,
+            // which is ambiguous, so it parses the team name from the source for the image nearby.
+            String logoAURL = elementA.attr("src");
+            String teamAName = ParsingUtils.normalizeTeams(logoAURL.substring(
+                    logoAURL.lastIndexOf('/') + 1).split(".png")[0]);
+            String logoBURL = elementB.attr("src");
+            String teamBName = ParsingUtils.normalizeTeams(logoBURL.substring(
+                    logoBURL.lastIndexOf('/') + 1).split(".png")[0]);
+
+            List<String> fromAToB = parseTradeHaul(elementB);
+            List<String> fromBToA = parseTradeHaul(elementA);
+
+            for (String playerEntry : fromAToB) {
+                applyPlayerChange(arrivingFA, teamBName, departingFA, teamAName, playerEntry);
+            }
+
+            for (String playerEntry : fromBToA) {
+                applyPlayerChange(arrivingFA, teamAName, departingFA, teamBName, playerEntry);
+            }
+        }
+    }
+
+    private static List<String> parseTradeHaul(Element element) {
+        Element tradeParent = element.parent();
+        Elements tradeHaul = tradeParent.select("span.tradedata span.tradeplayer");
+        List<String> fromAToB = new ArrayList<>();
+        for (Element tradeElement : tradeHaul) {
+            // Skip picks and what those picks turned into
+            if (tradeElement.text().contains("round pick") || tradeElement.text().startsWith("(#")) {
+                continue;
+            }
+            String tradePiece = tradeElement.text().split(" \\(\\$")[0]
+                    + ", traded";
+            fromAToB.add(tradePiece);
+        }
+        return fromAToB;
     }
 
     private static void getFAChanges(Map<String, String> arrivingFA,
@@ -80,28 +132,35 @@ public class ParseFA {
                     }
                 }
 
-                if (arrivingFA.containsKey(newTeam)) {
-                    String updatedEntry = arrivingFA.get(newTeam) +
-                            Constants.LINE_BREAK +
-                            playerEntry;
-                    arrivingFA.put(newTeam, updatedEntry);
-                } else {
-                    arrivingFA.put(newTeam, playerEntry);
-                }
-                if (departingFA.containsKey(oldTeam)) {
-                    String updatedEntry = departingFA.get(oldTeam) +
-                            Constants.LINE_BREAK +
-                            playerEntry;
-                    departingFA.put(oldTeam, updatedEntry);
-                } else {
-                    departingFA.put(oldTeam, playerEntry);
-                }
+                applyPlayerChange(arrivingFA, newTeam, departingFA, oldTeam, playerEntry);
+
             }
             if ("TBD".equals(newTeam)) {
                 // Yet-unsigned players only have 6 entries per row in the table instead of 12.
                 // So we're offsetting the index by 6 so the next iteration will count correctly.
                 i -= 6;
             }
+        }
+    }
+
+    private static void applyPlayerChange(Map<String, String> arrivingFA, String newTeam,
+                                   Map<String, String> departingFA, String oldTeam,
+                                   String playerEntry) {
+        if (arrivingFA.containsKey(newTeam)) {
+            String updatedEntry = arrivingFA.get(newTeam) +
+                    Constants.LINE_BREAK +
+                    playerEntry;
+            arrivingFA.put(newTeam, updatedEntry);
+        } else {
+            arrivingFA.put(newTeam, playerEntry);
+        }
+        if (departingFA.containsKey(oldTeam)) {
+            String updatedEntry = departingFA.get(oldTeam) +
+                    Constants.LINE_BREAK +
+                    playerEntry;
+            departingFA.put(oldTeam, updatedEntry);
+        } else {
+            departingFA.put(oldTeam, playerEntry);
         }
     }
 }

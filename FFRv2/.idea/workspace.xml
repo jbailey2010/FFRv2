@@ -393,7 +393,7 @@
         </line-breakpoint>
         <line-breakpoint enabled="true" type="java-line">
           <url>file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/ParsingUtils.java</url>
-          <line>265</line>
+          <line>268</line>
           <option name="timeStamp" value="2" />
         </line-breakpoint>
       </breakpoints>
