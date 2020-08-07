@@ -503,7 +503,7 @@ public class PlayerInfo extends AppCompatActivity {
         }
         if (rankings.getTeam(player) != null && !"0".equals(rankings.getTeam(player).getBye())) {
             headerRight.setText("Bye:" + Constants.LINE_BREAK + rankings.getTeam(player).getBye());
-        } else if ("0".equals(rankings.getTeam(player).getBye())) {
+        } else if (rankings.getTeam(player) == null || "0".equals(rankings.getTeam(player).getBye())) {
             headerRight.setText("Bye: N/A");
         }
         headerMiddle.setText(player.getTeamName() + Constants.LINE_BREAK + player.getPosition());
@@ -1135,20 +1135,6 @@ public class PlayerInfo extends AppCompatActivity {
                 Log.d(TAG, "No draft class to display");
             }
 
-            if (!StringUtils.isBlank(team.getFaClass()) && team.getFaClass().length() > 4) {
-                Map<String, String> incomingFa = new HashMap<>();
-                incomingFa.put(Constants.PLAYER_BASIC, "Incoming Players");
-                incomingFa.put(Constants.PLAYER_INFO, team.getIncomingFA());
-                data.add(incomingFa);
-
-                Map<String, String> outgoingFa = new HashMap<>();
-                outgoingFa.put(Constants.PLAYER_BASIC, "Outgoing Players");
-                outgoingFa.put(Constants.PLAYER_INFO, team.getOutgoingFA());
-                data.add(outgoingFa);
-            } else {
-                Log.d(TAG, "No FA class to display");
-            }
-
             if (!StringUtils.isBlank(team.getoLineRanks()) && team.getoLineRanks().length() > 4) {
                 Map<String, String> oline = new HashMap<>();
                 oline.put(Constants.PLAYER_BASIC, "Offensive line grades");
@@ -1165,6 +1151,21 @@ public class PlayerInfo extends AppCompatActivity {
                     + "A lower SOS reflects a harder schedule");
             data.add(schedule);
         }
+
+        if (!StringUtils.isBlank(team.getFaClass()) && team.getFaClass().length() > 4) {
+            Map<String, String> incomingFa = new HashMap<>();
+            incomingFa.put(Constants.PLAYER_BASIC, "Incoming Players");
+            incomingFa.put(Constants.PLAYER_INFO, team.getIncomingFA());
+            data.add(incomingFa);
+
+            Map<String, String> outgoingFa = new HashMap<>();
+            outgoingFa.put(Constants.PLAYER_BASIC, "Outgoing Players");
+            outgoingFa.put(Constants.PLAYER_INFO, team.getOutgoingFA());
+            data.add(outgoingFa);
+        } else {
+            Log.d(TAG, "No FA class to display");
+        }
+
         adapter.notifyDataSetChanged();
     }
 

@@ -18,8 +18,10 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class ParseFA {
 
@@ -74,6 +76,9 @@ public class ParseFA {
                 applyPlayerChange(arrivingFA, teamAName, departingFA, teamBName, playerEntry);
             }
         }
+
+        cleanUpSpacing(arrivingFA);
+        cleanUpSpacing(departingFA);
     }
 
     private static List<String> parseTradeHaul(Element element) {
@@ -85,8 +90,9 @@ public class ParseFA {
             if (tradeElement.text().contains("round pick") || tradeElement.text().startsWith("(#")) {
                 continue;
             }
-            String tradePiece = tradeElement.text().split(" \\(\\$")[0]
-                    + ", traded";
+            String tradePiece = tradeElement.text().split(" \\(\\$")[0].replace(" (", ", ")
+                    .replace(")", "")
+                    + " (traded)";
             fromAToB.add(tradePiece);
         }
         return fromAToB;
@@ -112,10 +118,13 @@ public class ParseFA {
             String newTeam = "TBD".equals(parsedTeam) ? parsedTeam : ParsingUtils.normalizeTeams(td.get(i+4));
             if (!oldTeam.equals(newTeam)) {
                 String playerEntry = name +
-                        ": " +
-                        age +
-                        ", " +
-                        pos;
+                        ": ";
+                if (!"?".equals(age)) {
+                    playerEntry +=
+                            age +
+                            ", ";
+                }
+                playerEntry += pos;
 
                 // Make sure we're not at an unsigned, last in the table entry.
                 if (i+6 < td.size()) {
@@ -141,6 +150,9 @@ public class ParseFA {
                 i -= 6;
             }
         }
+
+        postProcessFA(arrivingFA);
+        postProcessFA(departingFA);
     }
 
     private static void applyPlayerChange(Map<String, String> arrivingFA, String newTeam,
@@ -161,6 +173,24 @@ public class ParseFA {
             departingFA.put(oldTeam, updatedEntry);
         } else {
             departingFA.put(oldTeam, playerEntry);
+        }
+    }
+
+    private static void postProcessFA(Map<String, String> fa) {
+        // Add a line break at the end of each fa set, so there's a break between traded and fa.
+        for (String key : fa.keySet()) {
+            fa.put(key, fa.get(key) + Constants.LINE_BREAK);
+        }
+    }
+
+    private static void cleanUpSpacing(Map<String, String> fa) {
+        // Clean up any trailing line breaks on sets that don't have trades.
+        for (String key : fa.keySet()) {
+            String entrySet = fa.get(key);
+            if (entrySet.endsWith(Constants.LINE_BREAK)) {
+                entrySet = entrySet.substring(0, entrySet.length() - 1);
+                fa.put(key, entrySet);
+            }
         }
     }
 }
