@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/toolbar_background</item>
         <item name="colorPrimaryDark">@color/toolbar_background</item>
         <item name="colorAccent">@color/toolbar_items</item>
+        <item name="colorSurface">@color/color_surface</item>
         <item name="android:dropDownListViewStyle">@style/myDropDownListViewStyle</item>
     </style>
 

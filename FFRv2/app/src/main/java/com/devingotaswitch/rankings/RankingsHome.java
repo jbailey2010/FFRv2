@@ -73,7 +73,6 @@ public class RankingsHome extends AppCompatActivity {
     // Cognito user objects
     private CognitoUser user;
     private String username;
-    private ProgressDialog waitDialog;
 
     private MenuItem filterItem;
     private NavigationView nDrawer;
@@ -804,14 +803,6 @@ public class RankingsHome extends AppCompatActivity {
         public void onFailure(Exception e) {
             Log.d(TAG, "Failed to refresh token from rankings page, should never happen.", e);
             signOut();
-        }
-    }
-
-    private void closeWaitDialog() {
-        try {
-            waitDialog.dismiss();
-        }
-        catch (Exception ignored) {
         }
     }
 

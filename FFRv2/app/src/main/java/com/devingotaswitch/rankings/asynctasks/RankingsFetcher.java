@@ -1,9 +1,10 @@
 package com.devingotaswitch.rankings.asynctasks;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
+
+import androidx.appcompat.app.AlertDialog;
 
 import com.devingotaswitch.fileio.LocalSettingsHelper;
 import com.devingotaswitch.fileio.RankingsDBWrapper;
@@ -28,6 +29,7 @@ import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.sources.ParseYahoo;
 import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.GeneralUtils;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -97,14 +99,17 @@ public class RankingsFetcher {
     }
 
     public class RanksAggregator extends AsyncTask<Object, String, Rankings> {
-        private final ProgressDialog pdia;
+        private final AlertDialog pdia;
         private final RankingsHome act;
         private final Rankings rankings;
         private long start;
 
         public RanksAggregator(RankingsHome activity, Rankings rankings) {
-            this.pdia = new ProgressDialog(activity);
-            pdia.setCancelable(false);
+            this.pdia = new MaterialAlertDialogBuilder(activity)
+                .setCancelable(false)
+                .setTitle("Please wait")
+                .setMessage("Fetching the rankings...")
+                .create();
             this.act = activity;
             this.rankings = rankings;
         }
@@ -112,7 +117,6 @@ public class RankingsFetcher {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pdia.setMessage("Please wait, fetching the rankings...");
             pdia.show();
         }
 

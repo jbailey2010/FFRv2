@@ -33,6 +33,7 @@ import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.rankings.RankingsHome;
 import com.devingotaswitch.utils.FlashbarFactory;
 import com.devingotaswitch.utils.GeneralUtils;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.Locale;
 import java.util.Map;
@@ -41,7 +42,7 @@ public class MainActivity extends AppCompatActivity {
     private final String TAG="MainActivity";
 
     private AlertDialog userDialog;
-    private ProgressDialog waitDialog;
+    private AlertDialog waitDialog;
 
     // Screen fields
     private EditText inUsername;
@@ -497,8 +498,9 @@ public class MainActivity extends AppCompatActivity {
 
     private void showWaitDialog(String message) {
         closeWaitDialog();
-        waitDialog = new ProgressDialog(this);
-        waitDialog.setTitle(message);
+        waitDialog = new MaterialAlertDialogBuilder(this)
+            .setTitle(message)
+            .create();
         waitDialog.show();
     }
 

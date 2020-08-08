@@ -23,6 +23,7 @@ import com.amazonaws.mobileconnectors.cognitoidentityprovider.handlers.SignUpHan
 import com.amazonaws.services.cognitoidentityprovider.model.CodeDeliveryDetailsType;
 import com.amazonaws.services.cognitoidentityprovider.model.SignUpResult;
 import com.devingotaswitch.ffrv2.R;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 public class RegisterUser extends AppCompatActivity {
 
@@ -33,7 +34,7 @@ public class RegisterUser extends AppCompatActivity {
     private EditText email;
 
     private AlertDialog userDialog;
-    private ProgressDialog waitDialog;
+    private AlertDialog waitDialog;
     private String usernameInput;
     private String userPasswd;
 
@@ -340,8 +341,9 @@ public class RegisterUser extends AppCompatActivity {
 
     private void showWaitDialog(String message) {
         closeWaitDialog();
-        waitDialog = new ProgressDialog(this);
-        waitDialog.setTitle(message);
+        waitDialog = new MaterialAlertDialogBuilder(this)
+            .setTitle(message)
+            .create();
         waitDialog.show();
     }
 

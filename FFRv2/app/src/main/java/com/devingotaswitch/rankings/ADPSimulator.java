@@ -1,10 +1,11 @@
 package com.devingotaswitch.rankings;
 
 import android.app.Activity;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.AsyncTask;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
@@ -28,6 +29,7 @@ import com.devingotaswitch.utils.FlashbarFactory;
 import com.devingotaswitch.utils.GeneralUtils;
 import com.devingotaswitch.utils.JsoupUtils;
 import com.devingotaswitch.utils.ParsingUtils;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.List;
 
@@ -170,19 +172,21 @@ public class ADPSimulator extends AppCompatActivity {
     }
 
     private class ParseADPOdds extends AsyncTask<Object, Void, String> {
-        private final ProgressDialog pdia;
+        private final AlertDialog pdia;
         private final Rankings rankings;
 
         ParseADPOdds(ADPSimulator activity, Rankings rankings) {
-            pdia = new ProgressDialog(activity);
-            pdia.setCancelable(false);
+            pdia = new MaterialAlertDialogBuilder(activity)
+                .setCancelable(false)
+                .setTitle("Please wait")
+                .setMessage("Doing fancy math...")
+                .create();
             this.rankings = rankings;
         }
 
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pdia.setMessage("Please wait, doing fancy math...");
             pdia.show();
         }
 

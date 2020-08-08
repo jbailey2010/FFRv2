@@ -7,6 +7,8 @@ import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -29,6 +31,7 @@ import com.devingotaswitch.utils.DisplayUtils;
 import com.devingotaswitch.utils.FlashbarFactory;
 import com.devingotaswitch.utils.GeneralUtils;
 import com.devingotaswitch.utils.JsoupUtils;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.angmarch.views.NiceSpinner;
 import org.jsoup.Jsoup;
@@ -186,18 +189,20 @@ public class FantasyNews extends AppCompatActivity {
     }
 
     class ParseNews extends AsyncTask<Object, Void, List<PlayerNews>> {
-        final ProgressDialog pdia;
+        final AlertDialog pdia;
         final String source;
         ParseNews(FantasyNews act, String source) {
-            pdia = new ProgressDialog(act);
-            pdia.setCancelable(false);
+            pdia = new MaterialAlertDialogBuilder(act)
+                .setTitle("Please wait")
+                .setMessage("Fetching the news...")
+                .setCancelable(false)
+                .create();
             this.source = source;
         }
 
         @Override
         protected void onPreExecute(){
             super.onPreExecute();
-            pdia.setMessage("Please wait, fetching the news...");
             pdia.show();
         }
 

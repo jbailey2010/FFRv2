@@ -4,6 +4,8 @@ import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
+import androidx.appcompat.app.AlertDialog;
+
 import com.devingotaswitch.appsync.AppSyncHelper;
 import com.devingotaswitch.fileio.LocalSettingsHelper;
 import com.devingotaswitch.fileio.RankingsDBWrapper;
@@ -15,6 +17,7 @@ import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.domain.Team;
 import com.devingotaswitch.utils.GeneralUtils;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.List;
 import java.util.Map;
@@ -23,14 +26,17 @@ public class RankingsLoader {
     private static final String TAG = "RankingLoader";
 
     public class RanksLoader extends AsyncTask<Object, String, Rankings> {
-        private final ProgressDialog pdia;
+        private final AlertDialog pdia;
         private final RankingsHome act;
         private long start;
         private final RankingsDBWrapper rankingsDB;
 
         public RanksLoader(RankingsHome activity, RankingsDBWrapper rankingsDB) {
-            this.pdia = new ProgressDialog(activity);
-            pdia.setCancelable(false);
+            this.pdia = new MaterialAlertDialogBuilder(activity)
+                .setCancelable(false)
+                .setTitle("Please wait")
+                .setMessage("Loading the rankings...")
+                .create();
             this.act = activity;
             this.rankingsDB = rankingsDB;
         }
@@ -38,7 +44,6 @@ public class RankingsLoader {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pdia.setMessage("Please wait, loading the rankings...");
             pdia.show();
         }
 
@@ -65,14 +70,17 @@ public class RankingsLoader {
     }
 
     public class RanksSaver extends AsyncTask<Object, String, Void> {
-        private final ProgressDialog pdia;
+        private final AlertDialog pdia;
         private final RankingsHome act;
         private long start;
         private final RankingsDBWrapper rankingsDB;
 
         public RanksSaver(RankingsHome activity, RankingsDBWrapper rankingsDB) {
-            this.pdia = new ProgressDialog(activity);
-            pdia.setCancelable(false);
+            this.pdia = new MaterialAlertDialogBuilder(activity)
+                .setCancelable(false)
+                .setTitle("Please wait")
+                .setMessage("Saving the rankings...")
+                .create();
             this.act = activity;
             this.rankingsDB = rankingsDB;
         }
@@ -80,7 +88,6 @@ public class RankingsLoader {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pdia.setMessage("Please wait, saving the rankings...");
             pdia.show();
         }
 

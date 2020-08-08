@@ -49,6 +49,7 @@ import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.Entry;
 import com.github.mikephil.charting.data.LineData;
 import com.github.mikephil.charting.data.LineDataSet;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -796,14 +797,17 @@ public class PlayerComparator extends AppCompatActivity {
     }
 
     private class ParseFP extends AsyncTask<Object, Void, Map<String, String>> {
-        private final ProgressDialog pdia;
+        private final AlertDialog pdia;
         private final PlayerComparator act;
         private final Player playerA;
         private final Player playerB;
 
         ParseFP(PlayerComparator activity, Player playerA, Player playerB) {
-            pdia = new ProgressDialog(activity);
-            pdia.setCancelable(false);
+            pdia = new MaterialAlertDialogBuilder(activity)
+                .setCancelable(false)
+                .setTitle("Please wait")
+                .setMessage("Trying to get expert's preferences...")
+                .create();
             act = activity;
             this.playerA = playerA;
             this.playerB = playerB;
@@ -812,7 +816,6 @@ public class PlayerComparator extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            pdia.setMessage("Please wait, trying to get the ECR starting numbers...");
             pdia.show();
         }
 
