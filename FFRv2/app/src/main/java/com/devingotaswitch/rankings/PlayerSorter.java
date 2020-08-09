@@ -604,7 +604,7 @@ public class PlayerSorter extends AppCompatActivity {
         adapter.notifyDataSetChanged();
         final Activity act = this;
         final boolean hideDrafted = factorStrings.contains(Constants.SORT_HIDE_DRAFTED);
-        adapter.setOnItemLongClickListener(new RecyclerViewAdapter.OnItemLongClickListener() {
+        RecyclerViewAdapter.OnItemLongClickListener onItemLongClickListener = new RecyclerViewAdapter.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(View view, int position) {
                 String playerKey = getPlayerKeyFromListViewItem(view);
@@ -641,7 +641,7 @@ public class PlayerSorter extends AppCompatActivity {
                 }
                 return true;
             }
-        });
+        };
         RecyclerViewAdapter.OnItemClickListener onItemClickListener = new RecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -686,7 +686,7 @@ public class PlayerSorter extends AppCompatActivity {
                         }
                         adapter.notifyDataSetChanged();
                     }
-                }, onItemClickListener);
+                }, onItemClickListener, onItemLongClickListener);
         adapter.setOnTouchListener(swipeListener);
         listview.addOnScrollListener(new OnScrollListener() {
             @Override

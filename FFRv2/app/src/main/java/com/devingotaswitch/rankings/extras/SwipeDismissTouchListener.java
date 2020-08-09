@@ -48,6 +48,7 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
     private boolean mDoDismiss;
     private GestureDetector gestureDetector;
     private RecyclerViewAdapter.OnItemClickListener mOnClickListener;
+    private RecyclerViewAdapter.OnItemLongClickListener mOnLongClickListener;
 
     public interface DismissCallbacks {
         /**
@@ -67,7 +68,8 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
     }
 
     public SwipeDismissTouchListener(RecyclerView listView, boolean doAnimate, DismissCallbacks callbacks,
-                                     RecyclerViewAdapter.OnItemClickListener onClickListener) {
+                                     RecyclerViewAdapter.OnItemClickListener onClickListener,
+                                     RecyclerViewAdapter.OnItemLongClickListener onLongClickListener) {
         ViewConfiguration vc = ViewConfiguration.get(listView.getContext());
         mSlop = vc.getScaledTouchSlop();
         mMinFlingVelocity = vc.getScaledMinimumFlingVelocity() * 16;
@@ -79,6 +81,7 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
         mDoDismiss = doAnimate;
         gestureDetector = new GestureDetector(listView.getContext(), new SingleTapConfirm());
         mOnClickListener = onClickListener;
+        mOnLongClickListener = onLongClickListener;
     }
 
     /**
@@ -88,8 +91,10 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
      * @param callbacks The callback to trigger when the user has indicated that she would like to
      *                  dismiss one or more list items.
      */
-    public SwipeDismissTouchListener(RecyclerView listView, DismissCallbacks callbacks, RecyclerViewAdapter.OnItemClickListener onClickListener) {
-        this(listView, true, callbacks, onClickListener);
+    public SwipeDismissTouchListener(RecyclerView listView, DismissCallbacks callbacks,
+                                     RecyclerViewAdapter.OnItemClickListener onClickListener,
+                                     RecyclerViewAdapter.OnItemLongClickListener onLongClickListener) {
+        this(listView, true, callbacks, onClickListener, onLongClickListener);
     }
 
     /**
@@ -103,6 +108,10 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
+        long startTouch = 0L;
+        long endTouch = 0L;
+        boolean shouldLongClick = false;
+
         if (mViewWidth < 2) {
             mViewWidth = mListView.getWidth();
         }
@@ -115,6 +124,7 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
 
         switch (motionEvent.getActionMasked()) {
             case MotionEvent.ACTION_DOWN: {
+                startTouch = System.currentTimeMillis();
                 if (mPaused) {
                     return false;
                 }
@@ -157,6 +167,9 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
                     break;
                 }
 
+                endTouch = System.currentTimeMillis();
+                shouldLongClick = getShouldLongClick(startTouch, endTouch);
+
                 if (mDownView != null && mSwiping) {
                     // cancel
                     cancelSwipe();
@@ -168,6 +181,10 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
                 mDownView = null;
                 mDownPosition = ListView.INVALID_POSITION;
                 mSwiping = false;
+                if (shouldLongClick) {
+                    LinearLayoutManager layoutManager = (LinearLayoutManager)mListView.getLayoutManager();
+                    mOnLongClickListener.onItemLongClick(view, layoutManager.findFirstVisibleItemPosition());
+                }
                 break;
             }
 
@@ -175,6 +192,9 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
                 if (mVelocityTracker == null) {
                     break;
                 }
+
+                endTouch = System.currentTimeMillis();
+                shouldLongClick = getShouldLongClick(startTouch, endTouch);
 
                 final float deltaX = motionEvent.getRawX() - mDownX;
 
@@ -185,7 +205,7 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
                 float absVelocityY = Math.abs(mVelocityTracker.getYVelocity());
                 boolean dismiss = false;
                 boolean dismissRight = false;
-                if (Math.abs(deltaX) > mViewWidth / 2 && mSwiping) {
+                if (Math.abs(deltaX) > mViewWidth / 2.0 && mSwiping) {
                     dismiss = true;
                     dismissRight = deltaX > 0;
                 } else if (mMinFlingVelocity <= absVelocityX && absVelocityX <= mMaxFlingVelocity
@@ -210,6 +230,7 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
                                         performDismiss(downView, downPosition, deltaX > 0);
                                     }
                                 });
+                        shouldLongClick = false;
                     } else {
                         int[] positions = new int[1];
                         positions[0] = downPosition;
@@ -227,6 +248,10 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
                 mDownView = null;
                 mDownPosition = ListView.INVALID_POSITION;
                 mSwiping = false;
+                if (shouldLongClick) {
+                    LinearLayoutManager layoutManager = (LinearLayoutManager)mListView.getLayoutManager();
+                    mOnLongClickListener.onItemLongClick(view, layoutManager.findFirstVisibleItemPosition());
+                }
                 break;
             }
 
@@ -265,6 +290,10 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
             }
         }
         return false;
+    }
+
+    private boolean getShouldLongClick(long startTouch, long endTouch) {
+        return (endTouch - startTouch) > ViewConfiguration.getLongPressTimeout();
     }
 
     private void cancelSwipe() {

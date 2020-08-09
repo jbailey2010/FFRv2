@@ -473,7 +473,7 @@ public class RankingsHome extends AppCompatActivity {
         adapter.notifyDataSetChanged();
         final Activity act = this;
 
-        adapter.setOnItemLongClickListener(new RecyclerViewAdapter.OnItemLongClickListener() {
+        RecyclerViewAdapter.OnItemLongClickListener longClickListener = new RecyclerViewAdapter.OnItemLongClickListener() {
             @Override
             public boolean onItemLongClick(View view, int position) {
                 String playerKey = DisplayUtils.getPlayerKeyFromListViewItem(view);
@@ -510,7 +510,7 @@ public class RankingsHome extends AppCompatActivity {
                 }
                 return true;
             }
-        });
+        };
         RecyclerViewAdapter.OnItemClickListener onItemClickListener = new RecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
@@ -556,7 +556,7 @@ public class RankingsHome extends AppCompatActivity {
                         }
                         adapter.notifyDataSetChanged();
                     }
-                }, onItemClickListener);
+                }, onItemClickListener, longClickListener);
         adapter.setOnTouchListener(swipeListener);
         listview.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
