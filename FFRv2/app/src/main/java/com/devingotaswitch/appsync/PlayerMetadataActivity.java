@@ -42,19 +42,12 @@ import com.devingotaswitch.rankings.domain.appsync.tags.StudTag;
 import com.devingotaswitch.rankings.domain.appsync.tags.Tag;
 import com.devingotaswitch.rankings.domain.appsync.tags.UndervaluedTag;
 import com.devingotaswitch.utils.AWSClientFactory;
-import com.google.gson.Gson;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonSyntaxException;
 import com.google.gson.reflect.TypeToken;
 
 import java.lang.reflect.Type;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Set;
 
 import javax.annotation.Nonnull;
 

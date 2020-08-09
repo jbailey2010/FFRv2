@@ -9,7 +9,6 @@ import com.devingotaswitch.rankings.domain.RosterSettings;
 import com.devingotaswitch.rankings.domain.RosterSettings.Flex;
 import com.devingotaswitch.utils.Constants;
 
-import java.text.DecimalFormat;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.Comparator;

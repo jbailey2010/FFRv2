@@ -8,7 +8,6 @@ import com.apollographql.apollo.GraphQLCall;
 import com.apollographql.apollo.api.Error;
 import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.exception.ApolloException;
-import com.devingotaswitch.fileio.LocalSettingsHelper;
 import com.devingotaswitch.graphqlstuff.CreateCommentMutation;
 import com.devingotaswitch.graphqlstuff.DeleteCommentMutation;
 import com.devingotaswitch.graphqlstuff.DownvoteCommentMutation;

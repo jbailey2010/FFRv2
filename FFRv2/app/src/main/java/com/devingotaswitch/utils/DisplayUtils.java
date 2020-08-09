@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import android.view.View;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.amazonaws.util.StringUtils;

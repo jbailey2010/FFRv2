@@ -8,7 +8,6 @@ import android.text.InputType;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.EditText;
-import android.widget.SimpleAdapter;
 import android.widget.TextView;
 
 import com.andrognito.flashbar.Flashbar;

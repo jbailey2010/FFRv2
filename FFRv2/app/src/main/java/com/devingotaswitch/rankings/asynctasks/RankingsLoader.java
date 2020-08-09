@@ -1,12 +1,10 @@
 package com.devingotaswitch.rankings.asynctasks;
 
-import android.app.ProgressDialog;
 import android.os.AsyncTask;
 import android.util.Log;
 
 import androidx.appcompat.app.AlertDialog;
 
-import com.devingotaswitch.appsync.AppSyncHelper;
 import com.devingotaswitch.fileio.LocalSettingsHelper;
 import com.devingotaswitch.fileio.RankingsDBWrapper;
 import com.devingotaswitch.rankings.RankingsHome;

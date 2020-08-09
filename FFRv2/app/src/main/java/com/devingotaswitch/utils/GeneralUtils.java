@@ -9,14 +9,11 @@ import android.view.inputmethod.InputMethodManager;
 import android.widget.TextView;
 
 import com.amazonaws.util.StringUtils;
-import com.andrognito.flashbar.Flashbar;
-import com.andrognito.flashbar.anim.FlashAnim;
 import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.extras.FilterWithSpaceAdapter;
 
-import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;

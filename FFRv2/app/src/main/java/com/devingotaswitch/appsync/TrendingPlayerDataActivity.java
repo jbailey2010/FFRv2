@@ -8,13 +8,8 @@ import com.apollographql.apollo.api.Error;
 import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.exception.ApolloException;
 import com.devingotaswitch.graphqlstuff.AddPlayerComparisonCountMutation;
-import com.devingotaswitch.graphqlstuff.UpdateUserCustomPlayerDataMutation;
 import com.devingotaswitch.utils.AWSClientFactory;
 import com.devingotaswitch.utils.Constants;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
 
 import javax.annotation.Nonnull;
 

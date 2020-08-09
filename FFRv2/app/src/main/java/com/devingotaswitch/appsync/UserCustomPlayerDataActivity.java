@@ -10,11 +10,8 @@ import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.exception.ApolloException;
 import com.devingotaswitch.graphqlstuff.GetUserCustomPlayerDataQuery;
 import com.devingotaswitch.graphqlstuff.UpdateUserCustomPlayerDataMutation;
-import com.devingotaswitch.graphqlstuff.UpdateUserSettingsMutation;
 import com.devingotaswitch.rankings.RankingsHome;
-import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.utils.AWSClientFactory;
-import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.HashMap;

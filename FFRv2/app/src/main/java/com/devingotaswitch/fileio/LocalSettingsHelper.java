@@ -3,7 +3,6 @@ package com.devingotaswitch.fileio;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.format.DateUtils;
-import android.util.Log;
 
 import com.amazonaws.util.StringUtils;
 import com.devingotaswitch.rankings.domain.Draft;
@@ -13,7 +12,6 @@ import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.youruserpools.CUPHelper;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;

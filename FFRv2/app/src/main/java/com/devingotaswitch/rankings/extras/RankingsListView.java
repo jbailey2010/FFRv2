@@ -2,12 +2,9 @@ package com.devingotaswitch.rankings.extras;
 
 import android.content.Context;
 import android.util.AttributeSet;
-import android.util.Log;
-import android.widget.ListView;
 
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.devingotaswitch.fileio.LocalSettingsHelper;
 import com.devingotaswitch.rankings.RankingsHome;
 import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.GeneralUtils;

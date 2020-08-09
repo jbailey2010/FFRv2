@@ -23,13 +23,11 @@ import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import androidx.recyclerview.widget.RecyclerView.OnScrollListener;
 
-import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.PopupWindow;
 import android.widget.SimpleAdapter;
 import android.widget.TextView;

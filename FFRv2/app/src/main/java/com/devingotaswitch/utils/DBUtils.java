@@ -2,7 +2,6 @@ package com.devingotaswitch.utils;
 
 import android.content.ContentValues;
 import android.database.Cursor;
-import android.util.Log;
 
 import com.devingotaswitch.rankings.domain.DailyProjection;
 import com.devingotaswitch.rankings.domain.LeagueSettings;
@@ -13,7 +12,6 @@ import com.devingotaswitch.rankings.domain.ScoringSettings;
 import com.devingotaswitch.rankings.domain.Team;
 import com.devingotaswitch.rankings.domain.projections.PlayerProjection;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
@@ -296,7 +294,7 @@ public class DBUtils {
         if (input == null) {
             return input;
         }
-        return input.replaceAll("\\%", "PER").replaceAll(": ", "SPL").replaceAll("\n", "NL");
+        return input.replaceAll("%", "PER").replaceAll(": ", "SPL").replaceAll("\n", "NL");
     }
 
     private static String desanitizeStats(String input) {

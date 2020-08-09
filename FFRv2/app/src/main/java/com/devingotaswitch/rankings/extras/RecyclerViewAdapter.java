@@ -3,7 +3,6 @@ package com.devingotaswitch.rankings.extras;
 import android.content.Context;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;

@@ -4,7 +4,6 @@ import com.devingotaswitch.utils.Constants;
 
 import java.util.Arrays;
 import java.util.HashSet;
-import java.util.Set;
 
 public class SafeTag extends Tag {
     public SafeTag(int count) {

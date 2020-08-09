@@ -1,7 +1,5 @@
 package com.devingotaswitch.utils;
 
-import android.graphics.Color;
-
 import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 

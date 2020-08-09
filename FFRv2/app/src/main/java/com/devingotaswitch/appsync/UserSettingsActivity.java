@@ -1,7 +1,6 @@
 package com.devingotaswitch.appsync;
 
 import android.app.Activity;
-import android.provider.Settings;
 import android.util.Log;
 
 import com.amazonaws.mobileconnectors.appsync.fetcher.AppSyncResponseFetchers;
@@ -9,14 +8,9 @@ import com.apollographql.apollo.GraphQLCall;
 import com.apollographql.apollo.api.Error;
 import com.apollographql.apollo.api.Response;
 import com.apollographql.apollo.exception.ApolloException;
-import com.devingotaswitch.graphqlstuff.GetCommentsOnPlayerQuery;
 import com.devingotaswitch.graphqlstuff.GetUserSettingsQuery;
 import com.devingotaswitch.graphqlstuff.UpdateUserSettingsMutation;
-import com.devingotaswitch.graphqlstuff.UpvoteCommentMutation;
-import com.devingotaswitch.rankings.PlayerComparator;
-import com.devingotaswitch.rankings.PlayerSorter;
 import com.devingotaswitch.rankings.RankingsHome;
-import com.devingotaswitch.rankings.SettingsActivity;
 import com.devingotaswitch.rankings.domain.UserSettings;
 import com.devingotaswitch.utils.AWSClientFactory;
 
