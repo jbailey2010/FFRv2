@@ -1610,8 +1610,7 @@ public class PlayerInfo extends AppCompatActivity {
                 return 0;
             }
         };
-        List<Player> allPlayers = new ArrayList<>();
-        allPlayers.addAll(rankings.getPlayers().values());
+        List<Player> allPlayers = new ArrayList<>(rankings.getPlayers().values());
         Collections.sort(allPlayers, comparator);
 
         // Next, we want to get the x nearest, instead of hundreds.

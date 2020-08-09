@@ -34,6 +34,7 @@
                 android:hint="Comment"
                 android:paddingLeft="15dp"
                 android:textColor="#dedede"
+                android:inputType="text"
                 android:textColorHint="#dedede"
                 android:textSize="13sp"/>
 

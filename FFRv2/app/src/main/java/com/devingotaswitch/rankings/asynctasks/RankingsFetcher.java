@@ -360,6 +360,7 @@ public class RankingsFetcher {
                 for (DailyProjection proj : rankings.getPlayerProjectionHistory().get(topPlayerKey)) {
                     if (proj.getDate().equals(today)) {
                         isNewDay = false;
+                        break;
                     }
                 }
                 if (isNewDay) {

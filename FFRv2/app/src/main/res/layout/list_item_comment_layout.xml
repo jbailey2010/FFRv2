@@ -93,7 +93,7 @@
         android:layout_toEndOf="@+id/comment_upvoted_icon"
         android:text="1"
         android:layout_marginLeft="5dp"
-        android:textSize="11sp"/>
+        android:textSize="12sp"/>
 
     <ImageView
         android:id="@+id/comment_downvoted_icon"
@@ -111,7 +111,7 @@
         android:layout_toEndOf="@+id/comment_downvoted_icon"
         android:text="0"
         android:layout_marginLeft="5dp"
-        android:textSize="11sp"/>
+        android:textSize="12sp"/>
 
 
 

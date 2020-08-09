@@ -75,7 +75,7 @@ public class MultiSelectionSpinner extends androidx.appcompat.widget.AppCompatSp
     }
 
     public void setItems(List<String> items, String defaultMesssage) {
-        _items = items.toArray(new String[items.size()]);
+        _items = items.toArray(new String[0]);
         mSelection = new boolean[_items.length];
         simple_adapter.clear();
         simple_adapter.add(defaultMesssage);
