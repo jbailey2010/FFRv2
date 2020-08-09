@@ -1343,14 +1343,20 @@ public class PlayerInfo extends AppCompatActivity {
         }
     }
 
-    public void conditionallyDownvoteComment(String commentId) {
-        Comment domainComment = null;
+    private Comment findDomainComment(String commentId, List<Comment> comments) {
         for (Comment comment : comments) {
             if (comment.getId().equals(commentId)) {
-                domainComment = comment;
-                break;
+                return comment;
+            } else if (replyMap.containsKey(comment.getId())) {
+                return findDomainComment(commentId, replyMap.get(comment.getId()));
             }
         }
+        return null;
+    }
+
+    public void conditionallyDownvoteComment(String commentId) {
+        Comment domainComment = findDomainComment(commentId, comments);
+
         for (Map<String, String> datum : commentData) {
             if (datum.get(Constants.COMMENT_ID).equals(commentId) && !domainComment.isDownvoted()) {
                 datum.put(Constants.COMMENT_UPVOTE_IMAGE, Integer.toString(R.drawable.not_upvoted));

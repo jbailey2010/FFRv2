@@ -160,7 +160,7 @@ public class CommentActivity extends AppSyncActivity {
                         .nextToken(nextToken)
                         .topComments(topComments)
                 .build())
-                .responseFetcher(AppSyncResponseFetchers.CACHE_AND_NETWORK)
+                .responseFetcher(AppSyncResponseFetchers.NETWORK_FIRST)
                 .enqueue(callback);
     }
 
