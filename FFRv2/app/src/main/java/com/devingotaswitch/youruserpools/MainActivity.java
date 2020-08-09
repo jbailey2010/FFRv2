@@ -143,7 +143,7 @@ public class MainActivity extends AppCompatActivity {
             case 6:
                 //New password
                 closeWaitDialog();
-                Boolean continueSignIn = false;
+                boolean continueSignIn = false;
                 if (resultCode == RESULT_OK) {
                    continueSignIn = data.getBooleanExtra("continueSignIn", false);
                 }

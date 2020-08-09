@@ -42,9 +42,8 @@ public class PlayerProjection {
                 this.kickingProjection.getProjectedPoints(scoringSettings);
     }
 
-    public double updateAndGetFormattedProjectedPoints(ScoringSettings scoringSettings) {
+    public void updateAndGetFormattedProjectedPoints(ScoringSettings scoringSettings) {
         this.projection = Double.parseDouble(Constants.DECIMAL_FORMAT.format(getProjectedPoints(scoringSettings)));
-        return this.projection;
     }
 
     public double getFormattedProjectedPoints() {

@@ -102,7 +102,7 @@ public class Rankings {
     }
 
     public LeagueSettings getLeagueSettings() {
-        return this.leagueSettings;
+        return leagueSettings;
     }
 
     public Player getPlayer(String id) {
@@ -114,7 +114,7 @@ public class Rankings {
     }
 
     public void setOrderedIds(List<String> orderedIds) {
-        this.orderedIds = orderedIds;
+        Rankings.orderedIds = orderedIds;
     }
 
     public Draft getDraft() {
@@ -209,9 +209,9 @@ public class Rankings {
     }
 
     public void clearRankings() {
-        this.players.clear();
-        this.teams.clear();
-        this.orderedIds.clear();
+        players.clear();
+        teams.clear();
+        orderedIds.clear();
     }
 
     public void refreshRankings(RankingsHome activity) {

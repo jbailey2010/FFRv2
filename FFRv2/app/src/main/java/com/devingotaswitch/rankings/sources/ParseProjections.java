@@ -228,7 +228,7 @@ public class ParseProjections {
             name = new StringBuilder(name.substring(0, name.length() - 1));
             String team = ParsingUtils.normalizeTeams(name.toString());
             name = new StringBuilder(ParsingUtils.normalizeDefenses(name.toString()));
-            Double proj = Double.parseDouble(td.get(i+9));
+            double proj = Double.parseDouble(td.get(i+9));
             PlayerProjection projection = new PlayerProjection(0.0, 0.0, 0.0,
                     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, proj, 0.0,
                     rankings.getLeagueSettings().getScoringSettings());

@@ -32,7 +32,7 @@ public class CommentAdapter extends SimpleAdapter {
         String depthString = ((TextView)row.findViewById(R.id.comment_reply_depth)).getText().toString();
 
         if (GeneralUtils.isInteger(depthString)) {
-            final Integer replyDepth = Integer.parseInt(depthString);
+            final int replyDepth = Integer.parseInt(depthString);
             float scale = playerInfo.getResources().getDisplayMetrics().density;
             int dpAsPixels = (int) (6 * replyDepth * scale + 0.5f);
             row.setPadding(dpAsPixels, 0, 0, 0);
