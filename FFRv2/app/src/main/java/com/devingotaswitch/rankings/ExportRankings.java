@@ -39,8 +39,6 @@ public class ExportRankings extends AppCompatActivity {
     private static final String FILE_NAME = "rankings.csv";
     private static final String TAG = "ExportRankings";
 
-    private Button submit;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -82,7 +80,7 @@ public class ExportRankings extends AppCompatActivity {
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
         StrictMode.setVmPolicy(builder.build());
 
-        submit = findViewById(R.id.export_rankings_button);
+        Button submit = findViewById(R.id.export_rankings_button);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

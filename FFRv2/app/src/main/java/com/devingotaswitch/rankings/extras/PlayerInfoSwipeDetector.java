@@ -8,14 +8,14 @@ import com.devingotaswitch.rankings.PlayerInfo;
 public class PlayerInfoSwipeDetector implements View.OnTouchListener {
 
     private static final int MIN_DISTANCE = 450;
-    private float downX, upX;
+    private float downX;
     private PlayerInfo hold;
 
     public PlayerInfoSwipeDetector(PlayerInfo playerInfo) {
         hold = playerInfo;
     }
 
-    private final void onRightToLeftSwipe() {
+    private void onRightToLeftSwipe() {
         hold.swipeRightToLeft();
     }
 
@@ -29,7 +29,7 @@ public class PlayerInfoSwipeDetector implements View.OnTouchListener {
                 downX = event.getX();
             }
             case MotionEvent.ACTION_UP: {
-                upX = event.getX();
+                float upX = event.getX();
                 float deltaX = downX - upX;
                 if (Math.abs(deltaX) > MIN_DISTANCE) {
                     if (deltaX < 0) {

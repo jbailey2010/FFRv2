@@ -26,7 +26,6 @@ public class ChangePasswordActivity extends AppCompatActivity {
 
     private EditText currPassword;
     private EditText newPassword;
-    private Button changeButton;
     private AlertDialog userDialog;
     private AlertDialog waitDialog;
 
@@ -111,7 +110,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
             }
         });
 
-        changeButton = findViewById(R.id.change_pass_button);
+        Button changeButton = findViewById(R.id.change_pass_button);
         changeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

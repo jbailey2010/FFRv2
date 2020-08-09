@@ -75,7 +75,6 @@ public class PlayerSorter extends AppCompatActivity {
     private static final String TAG = "PlayerSorter";
 
     private Rankings rankings;
-    private RankingsDBWrapper rankingsDB;
 
     private MenuItem graphItem;
     private final List<Player> players = new ArrayList<>();
@@ -98,7 +97,7 @@ public class PlayerSorter extends AppCompatActivity {
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 
         rankings = Rankings.init();
-        rankingsDB = new RankingsDBWrapper();
+        RankingsDBWrapper rankingsDB = new RankingsDBWrapper();
 
         // Set toolbar for this screen
         Toolbar toolbar =  findViewById(R.id.player_sorter_toolbar);
