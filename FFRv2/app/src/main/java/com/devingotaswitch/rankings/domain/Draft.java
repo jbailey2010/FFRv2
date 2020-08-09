@@ -316,12 +316,7 @@ public class Draft {
     }
 
     public List<Player> getSortedAvailablePlayersForPosition(String pos, Rankings rankings) {
-        Comparator<Player> comparator = new Comparator<Player>() {
-            @Override
-            public int compare(Player a, Player b) {
-                return b.getProjection().compareTo(a.getProjection());
-            }
-        };
+        Comparator<Player> comparator = (a, b) -> b.getProjection().compareTo(a.getProjection());
         List<Player> players = new ArrayList<>();
         for (Player player : rankings.getPlayers().values()) {
             if (!isDrafted(player) && player.getPosition().equals(pos)) {

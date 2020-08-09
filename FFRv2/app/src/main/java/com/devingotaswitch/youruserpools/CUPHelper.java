@@ -6,7 +6,6 @@ import android.util.Log;
 
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserDetails;
 import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserPool;
-import com.amazonaws.mobileconnectors.cognitoidentityprovider.CognitoUserSession;
 import com.devingotaswitch.utils.AWSClientFactory;
 
 import java.util.ArrayList;
@@ -159,7 +158,7 @@ public class CUPHelper {
             if ((firstTimeLogInRequiredAttributes != null) && (firstTimeLogInRequiredAttributes.contains(attr.getKey()))) {
                 message = "Required";
             }
-            ItemToDisplay item = new ItemToDisplay(attr.getKey(), attr.getValue(), message, Color.BLACK, Color.DKGRAY, Color.parseColor("#329AD6"), 0, null);
+            ItemToDisplay item = new ItemToDisplay(attr.getKey(), attr.getValue(), message, Color.parseColor("#329AD6"));
             firstTimeLogInDetails.add(item);
             firstTimeLogInRequiredAttributes.size();
             firstTimeLogInItemsCount++;
@@ -167,7 +166,7 @@ public class CUPHelper {
 
         for (String attr: firstTimeLogInRequiredAttributes) {
             if (!firstTimeLogInUserAttributes.containsKey(attr)) {
-                ItemToDisplay item = new ItemToDisplay(attr, "", "Required", Color.BLACK, Color.DKGRAY, Color.parseColor("#329AD6"), 0, null);
+                ItemToDisplay item = new ItemToDisplay(attr, "", "Required", Color.parseColor("#329AD6"));
                 firstTimeLogInDetails.add(item);
                 firstTimeLogInItemsCount++;
             }
@@ -242,8 +241,8 @@ public class CUPHelper {
                 // Adding items to display list in the required sequence
 
                 ItemToDisplay item = new ItemToDisplay(signUpFieldsO2C.get(det), tempValues.get(tempKeys.indexOf(det)), "",
-                        Color.BLACK, Color.DKGRAY, Color.parseColor("#37A51C"),
-                        0, null);
+                        Color.parseColor("#37A51C")
+                );
 
                 if(det.contains("phone_number")) {
                     if(phoneVerified) {

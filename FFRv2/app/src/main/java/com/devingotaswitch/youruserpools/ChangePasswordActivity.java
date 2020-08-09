@@ -42,12 +42,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
         TextView main_title = findViewById(R.id.change_password_toolbar_title);
         main_title.setText("Change password");
@@ -111,12 +106,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
         });
 
         Button changeButton = findViewById(R.id.change_pass_button);
-        changeButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                changePassword();
-            }
-        });
+        changeButton.setOnClickListener(v -> changePassword());
     }
 
     private void changePassword() {
@@ -137,7 +127,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
             newPassword.setBackground(getDrawable(R.drawable.text_border_error));
             return;
         }
-        showWaitDialog("Changing password...");
+        showWaitDialog();
         CUPHelper.getPool().getUser(CUPHelper.getCurrUser()).changePasswordInBackground(cPass, nPass, callback);
     }
 
@@ -157,7 +147,7 @@ public class ChangePasswordActivity extends AppCompatActivity {
             closeWaitDialog();
             newPassword.setBackground(getDrawable(R.drawable.text_border_error));
             currPassword.setBackground(getDrawable(R.drawable.text_border_error));
-            showDialogMessage("Password change failed", CUPHelper.formatException(exception), false);
+            showDialogMessage(CUPHelper.formatException(exception));
         }
     };
 
@@ -166,29 +156,26 @@ public class ChangePasswordActivity extends AppCompatActivity {
         newPassword.setText("");
     }
 
-    private void showDialogMessage(String title, String body, final boolean exitActivity) {
+    private void showDialogMessage(String body) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(title).setMessage(body).setNeutralButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                try {
-                    userDialog.dismiss();
-                    if (exitActivity) {
-                        onBackPressed();
-                    }
-                } catch (Exception e) {
+        builder.setTitle("Password change failed").setMessage(body).setNeutralButton("OK", (dialog, which) -> {
+            try {
+                userDialog.dismiss();
+                if (false) {
                     onBackPressed();
                 }
+            } catch (Exception e) {
+                onBackPressed();
             }
         });
         userDialog = builder.create();
         userDialog.show();
     }
 
-    private void showWaitDialog(String message) {
+    private void showWaitDialog() {
         closeWaitDialog();
         waitDialog = new MaterialAlertDialogBuilder(this)
-            .setTitle(message)
+            .setTitle("Changing password...")
             .create();
         waitDialog.show();
     }

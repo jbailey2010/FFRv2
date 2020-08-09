@@ -41,12 +41,7 @@ public class SignUpConfirm extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
         TextView main_title = findViewById(R.id.confirm_toolbar_title);
         main_title.setText("Confirm");
@@ -145,20 +140,10 @@ public class SignUpConfirm extends AppCompatActivity {
         });
 
         Button confirm = findViewById(R.id.confirm_button);
-        confirm.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sendConfCode();
-            }
-        });
+        confirm.setOnClickListener(v -> sendConfCode());
 
         TextView reqCode = findViewById(R.id.resend_confirm_req);
-        reqCode.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                reqConfCode();
-            }
-        });
+        reqCode.setOnClickListener(v -> reqConfCode());
     }
 
 
@@ -236,17 +221,14 @@ public class SignUpConfirm extends AppCompatActivity {
 
     private void showDialogMessage(String title, String body, final boolean exitActivity) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(title).setMessage(body).setNeutralButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                try {
-                    userDialog.dismiss();
-                    if(exitActivity) {
-                        exit();
-                    }
-                } catch (Exception e) {
+        builder.setTitle(title).setMessage(body).setNeutralButton("OK", (dialog, which) -> {
+            try {
+                userDialog.dismiss();
+                if(exitActivity) {
                     exit();
                 }
+            } catch (Exception e) {
+                exit();
             }
         });
         userDialog = builder.create();

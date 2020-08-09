@@ -271,37 +271,34 @@ public class RankingsHome extends AppCompatActivity {
 
         Button submit = filterBase.findViewById(R.id.rankings_filter_submit);
         final Activity act = this;
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String currentTeam = teamList.get(teams.getSelectedIndex());
-                String currentPosition = posList.get(positions.getSelectedIndex());
-                boolean isWatched = watched.isChecked();
-                List<String> filteredIds = rankings.getOrderedIds();
-                if (!Constants.ALL_POSITIONS.equals(currentPosition)) {
-                    filteredIds = rankings.getPlayersByPosition(filteredIds, currentPosition);
-                }
-                if (!Constants.ALL_TEAMS.equals(currentTeam)) {
-                    filteredIds = rankings.getPlayersByTeam(filteredIds, currentTeam);
-                }
-                if (isWatched) {
-                    filteredIds = rankings.getWatchedPlayers(filteredIds);
-                    if (!rankings.getUserSettings().isSortWatchListByTime()) {
-                        List<Player> filteredPlayers = new ArrayList<>();
-                        for (String id : filteredIds) {
-                            filteredPlayers.add(rankings.getPlayer(id));
-                        }
-                        filteredIds = rankings.orderPlayersByLeagueType(filteredPlayers);
-                    }
-                }
-                String maxPlayersInput = maxPlayersField.getText().toString();
-                if (GeneralUtils.isInteger(maxPlayersInput)) {
-                    maxPlayers = Integer.parseInt(maxPlayersInput);
-                    LocalSettingsHelper.saveNumVisiblePlayers(getApplication(), maxPlayers);
-                }
-                GeneralUtils.hideKeyboard(act);
-                displayRankings(filteredIds);
+        submit.setOnClickListener(v -> {
+            String currentTeam = teamList.get(teams.getSelectedIndex());
+            String currentPosition = posList.get(positions.getSelectedIndex());
+            boolean isWatched = watched.isChecked();
+            List<String> filteredIds = rankings.getOrderedIds();
+            if (!Constants.ALL_POSITIONS.equals(currentPosition)) {
+                filteredIds = rankings.getPlayersByPosition(filteredIds, currentPosition);
             }
+            if (!Constants.ALL_TEAMS.equals(currentTeam)) {
+                filteredIds = rankings.getPlayersByTeam(filteredIds, currentTeam);
+            }
+            if (isWatched) {
+                filteredIds = rankings.getWatchedPlayers(filteredIds);
+                if (!rankings.getUserSettings().isSortWatchListByTime()) {
+                    List<Player> filteredPlayers = new ArrayList<>();
+                    for (String id : filteredIds) {
+                        filteredPlayers.add(rankings.getPlayer(id));
+                    }
+                    filteredIds = rankings.orderPlayersByLeagueType(filteredPlayers);
+                }
+            }
+            String maxPlayersInput = maxPlayersField.getText().toString();
+            if (GeneralUtils.isInteger(maxPlayersInput)) {
+                maxPlayers = Integer.parseInt(maxPlayersInput);
+                LocalSettingsHelper.saveNumVisiblePlayers(getApplication(), maxPlayers);
+            }
+            GeneralUtils.hideKeyboard(act);
+            displayRankings(filteredIds);
         });
     }
 
@@ -311,33 +308,13 @@ public class RankingsHome extends AppCompatActivity {
         buttonBase = findViewById(R.id.rankings_button_bar);
         maxPlayers = LocalSettingsHelper.getNumVisiblePlayers(this);
         ImageButton adpSimulator = buttonBase.findViewById(R.id.rankings_simulator);
-        adpSimulator.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getAdpSimulator();
-            }
-        });
+        adpSimulator.setOnClickListener(v -> getAdpSimulator());
         ImageButton draftInfo = buttonBase.findViewById(R.id.rankings_draft_info);
-        draftInfo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                getDraftInfo();
-            }
-        });
+        draftInfo.setOnClickListener(v -> getDraftInfo());
         ImageButton comparePlayers = buttonBase.findViewById(R.id.rankings_comparator);
-        comparePlayers.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                comparePlayers();
-            }
-        });
+        comparePlayers.setOnClickListener(v -> comparePlayers());
         ImageButton sortPlayers = buttonBase.findViewById(R.id.rankings_sort);
-        sortPlayers.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                sortPlayers();
-            }
-        });
+        sortPlayers.setOnClickListener(v -> sortPlayers());
         initRankingsContext();
 
         GeneralUtils.hideKeyboard(this);
@@ -467,51 +444,39 @@ public class RankingsHome extends AppCompatActivity {
         adapter.notifyDataSetChanged();
         final Activity act = this;
 
-        RecyclerViewAdapter.OnItemLongClickListener longClickListener = new RecyclerViewAdapter.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(View view, int position) {
-                String playerKey = DisplayUtils.getPlayerKeyFromListViewItem(view);
-                final ImageView playerStatus = view.findViewById(R.id.player_status);
-                final Player player = rankings.getPlayer(playerKey);
-                if (rankings.isPlayerWatched(playerKey)) {
-                    rankings.togglePlayerWatched(act, player.getUniqueId());
-                    Flashbar.OnActionTapListener add = new Flashbar.OnActionTapListener() {
-                        @Override
-                        public void onActionTapped(Flashbar flashbar) {
-                            flashbar.dismiss();
-                            playerStatus.setImageResource(R.drawable.star);
-                            rankings.togglePlayerWatched(act, player.getUniqueId());
-                        }
-                    };
-                    FlashbarFactory.generateFlashbarWithUndo(act, "Success!", player.getName() + " removed from watch list",
-                            Flashbar.Gravity.BOTTOM, add)
-                            .show();
-                    playerStatus.setImageResource(0);
-                } else {
-                    rankings.togglePlayerWatched(act, player.getUniqueId());
-                    Flashbar.OnActionTapListener remove = new Flashbar.OnActionTapListener() {
-                        @Override
-                        public void onActionTapped(Flashbar flashbar) {
-                            flashbar.dismiss();
-                            playerStatus.setImageResource(0);
-                            rankings.togglePlayerWatched(act, player.getUniqueId());
-                        }
-                    };
-                    FlashbarFactory.generateFlashbarWithUndo(act, "Success!", player.getName() + " added to watch list",
-                            Flashbar.Gravity.BOTTOM, remove)
-                            .show();
+        RecyclerViewAdapter.OnItemLongClickListener longClickListener = (view, position) -> {
+            String playerKey = DisplayUtils.getPlayerKeyFromListViewItem(view);
+            final ImageView playerStatus = view.findViewById(R.id.player_status);
+            final Player player = rankings.getPlayer(playerKey);
+            if (rankings.isPlayerWatched(playerKey)) {
+                rankings.togglePlayerWatched(act, player.getUniqueId());
+                Flashbar.OnActionTapListener add = flashbar -> {
+                    flashbar.dismiss();
                     playerStatus.setImageResource(R.drawable.star);
-                }
-                return true;
+                    rankings.togglePlayerWatched(act, player.getUniqueId());
+                };
+                FlashbarFactory.generateFlashbarWithUndo(act, "Success!", player.getName() + " removed from watch list",
+                        Flashbar.Gravity.BOTTOM, add)
+                        .show();
+                playerStatus.setImageResource(0);
+            } else {
+                rankings.togglePlayerWatched(act, player.getUniqueId());
+                Flashbar.OnActionTapListener remove = flashbar -> {
+                    flashbar.dismiss();
+                    playerStatus.setImageResource(0);
+                    rankings.togglePlayerWatched(act, player.getUniqueId());
+                };
+                FlashbarFactory.generateFlashbarWithUndo(act, "Success!", player.getName() + " added to watch list",
+                        Flashbar.Gravity.BOTTOM, remove)
+                        .show();
+                playerStatus.setImageResource(R.drawable.star);
             }
+            return true;
         };
-        RecyclerViewAdapter.OnItemClickListener onItemClickListener = new RecyclerViewAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                String playerKey = DisplayUtils.getPlayerKeyFromListViewItem(view);
-                selectedIndex = position;
-                displayPlayerInfo(playerKey);
-            }
+        RecyclerViewAdapter.OnItemClickListener onItemClickListener = (view, position) -> {
+            String playerKey = DisplayUtils.getPlayerKeyFromListViewItem(view);
+            selectedIndex = position;
+            displayPlayerInfo(playerKey);
         };
         final Activity localCopy = this;
         final SwipeDismissTouchListener swipeListener = new SwipeDismissTouchListener(listview,
@@ -618,25 +583,19 @@ public class RankingsHome extends AppCompatActivity {
                 rankings.getUserSettings().isHideRanklessSearch());
         searchInput.setAdapter(mAdapter);
 
-        searchInput.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                searchInput.setText("");
-                displayPlayerInfo(GeneralUtils.getPlayerIdFromSearchView(view));
-            }
+        searchInput.setOnItemClickListener((parent, view, position, id) -> {
+            searchInput.setText("");
+            displayPlayerInfo(GeneralUtils.getPlayerIdFromSearchView(view));
         });
 
         final RankingsListView listview =  findViewById(R.id.rankings_list);
-        searchInput.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                if (searchInput.getText().length() > 0) {
-                    searchInput.setText("");
-                } else {
-                    listview.smoothScrollToPosition(0);
-                }
-                return true;
+        searchInput.setOnLongClickListener(v -> {
+            if (searchInput.getText().length() > 0) {
+                searchInput.setText("");
+            } else {
+                listview.smoothScrollToPosition(0);
             }
+            return true;
         });
     }
 
@@ -668,12 +627,9 @@ public class RankingsHome extends AppCompatActivity {
 
     // Handle when the a navigation item is selected
     private void setNavDrawer() {
-        nDrawer.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(MenuItem item) {
-                performAction(item);
-                return true;
-            }
+        nDrawer.setNavigationItemSelectedListener(item -> {
+            performAction(item);
+            return true;
         });
     }
 

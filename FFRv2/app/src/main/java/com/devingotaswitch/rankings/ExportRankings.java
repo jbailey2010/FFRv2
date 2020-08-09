@@ -56,12 +56,7 @@ public class ExportRankings extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
     }
 
     @Override
@@ -81,12 +76,7 @@ public class ExportRankings extends AppCompatActivity {
         StrictMode.setVmPolicy(builder.build());
 
         Button submit = findViewById(R.id.export_rankings_button);
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                requestExportPermissions();
-            }
-        });
+        submit.setOnClickListener(v -> requestExportPermissions());
     }
 
     private void requestExportPermissions() {

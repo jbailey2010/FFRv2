@@ -17,17 +17,17 @@ public class ParseProjections {
     public static void projPointsWrapper(Rankings rankings)
             throws IOException {
         Map<String, PlayerProjection> points = new HashMap<>();
-        qbProj("http://www.fantasypros.com/nfl/projections/qb.php?year=" + Constants.YEAR_KEY + "&week=draft",
+        qbProj(
                 points, rankings);
-        rbProj("http://www.fantasypros.com/nfl/projections/rb.php?year=" + Constants.YEAR_KEY + "&week=draft",
+        rbProj(
                 points, rankings);
-        wrProj("http://www.fantasypros.com/nfl/projections/wr.php?year=" + Constants.YEAR_KEY + "&week=draft",
+        wrProj(
                 points, rankings);
-        teProj("http://www.fantasypros.com/nfl/projections/te.php?year=" + Constants.YEAR_KEY + "&week=draft",
+        teProj(
                 points, rankings);
-        defProj("http://www.fantasypros.com/nfl/projections/dst.php?year=" + Constants.YEAR_KEY + "&week=draft",
+        defProj(
                 points, rankings);
-        kProj("http://www.fantasypros.com/nfl/projections/k.php?year=" + Constants.YEAR_KEY + "&week=draft",
+        kProj(
                 points, rankings);
 
         for (String playerId : rankings.getPlayers().keySet()) {
@@ -40,9 +40,9 @@ public class ParseProjections {
         }
     }
 
-    private static void qbProj(String url, Map<String, PlayerProjection> points,
+    private static void qbProj(Map<String, PlayerProjection> points,
                                Rankings rankings) throws IOException {
-        List<String> td = JsoupUtils.parseURLWithUA(url, "table.table-bordered tbody tr td");
+        List<String> td = JsoupUtils.parseURLWithUA("http://www.fantasypros.com/nfl/projections/qb.php?year=2020&week=draft", "table.table-bordered tbody tr td");
 
         int min = 0;
         for (int i = 0; i < td.size(); i++) {
@@ -79,9 +79,9 @@ public class ParseProjections {
         }
     }
 
-    private static void rbProj(String url, Map<String, PlayerProjection> points,
+    private static void rbProj(Map<String, PlayerProjection> points,
                                Rankings rankings) throws IOException {
-        List<String> td = JsoupUtils.parseURLWithUA(url, "table.table-bordered tbody tr td");
+        List<String> td = JsoupUtils.parseURLWithUA("http://www.fantasypros.com/nfl/projections/rb.php?year=2020&week=draft", "table.table-bordered tbody tr td");
 
         int min = 0;
 
@@ -121,9 +121,9 @@ public class ParseProjections {
         }
     }
 
-    private static void wrProj(String url, Map<String, PlayerProjection> points,
+    private static void wrProj(Map<String, PlayerProjection> points,
                                Rankings rankings) throws IOException {
-        List<String> td = JsoupUtils.parseURLWithUA(url, "table.table-bordered tbody tr td");
+        List<String> td = JsoupUtils.parseURLWithUA("http://www.fantasypros.com/nfl/projections/wr.php?year=2020&week=draft", "table.table-bordered tbody tr td");
 
         int min = 0;
 
@@ -163,9 +163,9 @@ public class ParseProjections {
         }
     }
 
-    private static void teProj(String url, Map<String, PlayerProjection> points,
+    private static void teProj(Map<String, PlayerProjection> points,
                                Rankings rankings) throws IOException {
-        List<String> td = JsoupUtils.parseURLWithUA(url, "table.table-bordered tbody tr td");
+        List<String> td = JsoupUtils.parseURLWithUA("http://www.fantasypros.com/nfl/projections/te.php?year=2020&week=draft", "table.table-bordered tbody tr td");
 
         int min = 0;
         for (int i = 0; i < td.size(); i++) {
@@ -201,8 +201,8 @@ public class ParseProjections {
         }
     }
 
-    private static void defProj(String url, Map<String, PlayerProjection> points, Rankings rankings) throws IOException {
-        List<String> td = JsoupUtils.parseURLWithUA(url, "table.table-bordered tbody tr td");
+    private static void defProj(Map<String, PlayerProjection> points, Rankings rankings) throws IOException {
+        List<String> td = JsoupUtils.parseURLWithUA("http://www.fantasypros.com/nfl/projections/dst.php?year=2020&week=draft", "table.table-bordered tbody tr td");
 
         int min = 0;
         for (int i = 0; i < td.size(); i++) {
@@ -236,8 +236,8 @@ public class ParseProjections {
         }
     }
 
-    private static void kProj(String url, Map<String, PlayerProjection> points, Rankings rankings) throws IOException {
-        List<String> td = JsoupUtils.parseURLWithUA(url, "table.table-bordered tbody tr td");
+    private static void kProj(Map<String, PlayerProjection> points, Rankings rankings) throws IOException {
+        List<String> td = JsoupUtils.parseURLWithUA("http://www.fantasypros.com/nfl/projections/k.php?year=2020&week=draft", "table.table-bordered tbody tr td");
 
         int min = 0;
         for (int i = 0; i < td.size(); i++) {

@@ -72,13 +72,10 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         rankingsUpdated = false;
 
         final Activity localCopy = this;
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), RankingsHome.class);
-                intent.putExtra(Constants.RANKINGS_UPDATED, rankingsUpdated);
-                localCopy.startActivity(intent);
-            }
+        toolbar.setNavigationOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), RankingsHome.class);
+            intent.putExtra(Constants.RANKINGS_UPDATED, rankingsUpdated);
+            localCopy.startActivity(intent);
         });
     }
 
@@ -195,46 +192,37 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         save.setText("Update");
         Button advanced =  view.findViewById(R.id.league_settings_advanced_settings);
         final Activity act = this;
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!validateLeagueInputs(leagueName, teamCount, auctionBudget, isAuction)) {
-                    return;
-                }
-                Map<String, String> updates = getLeagueUpdates(currentLeague, leagueName, teamCount, isAuction, isSnake,
-                        isDynasty, isRookie, isBestBall, auctionBudget);
-                if (updates == null) {
-                    GeneralUtils.hideKeyboard(act);
-                    FlashbarFactory.generateTextOnlyFlashbar(act, "No can do", "No updates given", Flashbar.Gravity.BOTTOM)
-                            .show();
-                    return;
-                }
-                updateLeague(null, null, updates, currentLeague);
-                FlashbarFactory.generateTextOnlyFlashbar(act, "Success!", currentLeague.getName() + " updated", Flashbar.Gravity.BOTTOM)
+        save.setOnClickListener(view12 -> {
+            if (!validateLeagueInputs(leagueName, teamCount, auctionBudget, isAuction)) {
+                return;
+            }
+            Map<String, String> updates = getLeagueUpdates(currentLeague, leagueName, teamCount, isAuction, isSnake,
+                    isDynasty, isRookie, isBestBall, auctionBudget);
+            if (updates == null) {
+                GeneralUtils.hideKeyboard(act);
+                FlashbarFactory.generateTextOnlyFlashbar(act, "No can do", "No updates given", Flashbar.Gravity.BOTTOM)
                         .show();
+                return;
             }
+            updateLeague(null, null, updates, currentLeague);
+            FlashbarFactory.generateTextOnlyFlashbar(act, "Success!", currentLeague.getName() + " updated", Flashbar.Gravity.BOTTOM)
+                    .show();
         });
-        advanced.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!validateLeagueInputs(leagueName, teamCount, auctionBudget, isAuction)) {
-                    return;
-                }
-                Map<String, String> updates = getLeagueUpdates(currentLeague, leagueName, teamCount, isAuction, isSnake,
-                        isDynasty, isRookie, isBestBall, auctionBudget);
-                displayRoster(currentLeague, updates);
+        advanced.setOnClickListener(view1 -> {
+            if (!validateLeagueInputs(leagueName, teamCount, auctionBudget, isAuction)) {
+                return;
             }
+            Map<String, String> updates = getLeagueUpdates(currentLeague, leagueName, teamCount, isAuction, isSnake,
+                    isDynasty, isRookie, isBestBall, auctionBudget);
+            displayRoster(currentLeague, updates);
         });
-        delete.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (leagues.size() > 1) {
-                    deleteLeague(currentLeague);
-                } else {
-                    GeneralUtils.hideKeyboard(act);
-                    FlashbarFactory.generateTextOnlyFlashbar(act, "No can do", "Can't delete league, none would remain", Flashbar.Gravity.BOTTOM)
-                            .show();
-                }
+        delete.setOnClickListener(v -> {
+            if (leagues.size() > 1) {
+                deleteLeague(currentLeague);
+            } else {
+                GeneralUtils.hideKeyboard(act);
+                FlashbarFactory.generateTextOnlyFlashbar(act, "No can do", "Can't delete league, none would remain", Flashbar.Gravity.BOTTOM)
+                        .show();
             }
         });
 
@@ -309,29 +297,23 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         deactivateButton(advanced);
 
         final Activity act = this;
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!validateLeagueInputs(leagueName, teamCount, auctionBudget, isAuction)) {
-                    return;
-                }
-                LeagueSettings defaults = getLeagueSettingsFromFirstPage(leagueName, teamCount, isAuction, isSnake,
-                        isDynasty, isRookie, isBestBall, auctionBudget);
-                saveNewLeague(defaults);
-                FlashbarFactory.generateTextOnlyFlashbar(act, "Success!", defaults.getName() + " saved", Flashbar.Gravity.BOTTOM)
-                        .show();
+        save.setOnClickListener(view12 -> {
+            if (!validateLeagueInputs(leagueName, teamCount, auctionBudget, isAuction)) {
+                return;
             }
+            LeagueSettings defaults = getLeagueSettingsFromFirstPage(leagueName, teamCount, isAuction, isSnake,
+                    isDynasty, isRookie, isBestBall, auctionBudget);
+            saveNewLeague(defaults);
+            FlashbarFactory.generateTextOnlyFlashbar(act, "Success!", defaults.getName() + " saved", Flashbar.Gravity.BOTTOM)
+                    .show();
         });
-        advanced.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!validateLeagueInputs(leagueName, teamCount, auctionBudget, isAuction)) {
-                    return;
-                }
-                LeagueSettings defaults = getLeagueSettingsFromFirstPage(leagueName, teamCount, isAuction, isSnake,
-                        isDynasty, isRookie, isBestBall, auctionBudget);
-                displayRosterNoLeague(defaults);
+        advanced.setOnClickListener(view1 -> {
+            if (!validateLeagueInputs(leagueName, teamCount, auctionBudget, isAuction)) {
+                return;
             }
+            LeagueSettings defaults = getLeagueSettingsFromFirstPage(leagueName, teamCount, isAuction, isSnake,
+                    isDynasty, isRookie, isBestBall, auctionBudget);
+            displayRosterNoLeague(defaults);
         });
     }
 
@@ -447,16 +429,13 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         final EditText auctionBudget = child.findViewById(R.id.league_settings_auction_budget);
         final TextView auctionBudgetHeader = child.findViewById(R.id.league_settings_auction_budget_header);
         RadioButton isAuction = child.findViewById(R.id.league_settings_auction);
-        isAuction.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean isChecked) {
-                if (isChecked) {
-                    auctionBudget.setVisibility(View.VISIBLE);
-                    auctionBudgetHeader.setVisibility(View.VISIBLE);
-                } else {
-                    auctionBudget.setVisibility(View.GONE);
-                    auctionBudgetHeader.setVisibility(View.GONE);
-                }
+        isAuction.setOnCheckedChangeListener((compoundButton, isChecked) -> {
+            if (isChecked) {
+                auctionBudget.setVisibility(View.VISIBLE);
+                auctionBudgetHeader.setVisibility(View.VISIBLE);
+            } else {
+                auctionBudget.setVisibility(View.GONE);
+                auctionBudgetHeader.setVisibility(View.GONE);
             }
         });
         return child;
@@ -503,33 +482,27 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         }
 
         final Activity act = this;
-        update.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!validateRosterInputs(qbs, rbs, wrs, tes, dsts, ks, bench)) {
-                    return;
-                }
-                Map<String, String> rosterUpdates = getRosterUpdates(qbs, rbs, wrs, tes, dsts, ks, bench, currentLeague);
-                if (rosterUpdates == null && leagueUpdates == null) {
-                    GeneralUtils.hideKeyboard(act);
-                    FlashbarFactory.generateTextOnlyFlashbar(act, "No can do", "No updates given", Flashbar.Gravity.BOTTOM)
-                            .show();
-                    return;
-                }
-                updateLeague(null, rosterUpdates, leagueUpdates, currentLeague);
-                FlashbarFactory.generateTextOnlyFlashbar(act, "Success!", currentLeague.getName() + " updated", Flashbar.Gravity.BOTTOM)
+        update.setOnClickListener(view1 -> {
+            if (!validateRosterInputs(qbs, rbs, wrs, tes, dsts, ks, bench)) {
+                return;
+            }
+            Map<String, String> rosterUpdates = getRosterUpdates(qbs, rbs, wrs, tes, dsts, ks, bench, currentLeague);
+            if (rosterUpdates == null && leagueUpdates == null) {
+                GeneralUtils.hideKeyboard(act);
+                FlashbarFactory.generateTextOnlyFlashbar(act, "No can do", "No updates given", Flashbar.Gravity.BOTTOM)
                         .show();
+                return;
             }
+            updateLeague(null, rosterUpdates, leagueUpdates, currentLeague);
+            FlashbarFactory.generateTextOnlyFlashbar(act, "Success!", currentLeague.getName() + " updated", Flashbar.Gravity.BOTTOM)
+                    .show();
         });
-        advanced.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!validateRosterInputs(qbs, rbs, wrs, tes, dsts, ks, bench)) {
-                    return;
-                }
-                Map<String, String> rosterUpdates = getRosterUpdates(qbs, rbs, wrs, tes, dsts, ks, bench, currentLeague);
-                displayFlex(currentLeague, leagueUpdates, rosterUpdates);
+        advanced.setOnClickListener(v -> {
+            if (!validateRosterInputs(qbs, rbs, wrs, tes, dsts, ks, bench)) {
+                return;
             }
+            Map<String, String> rosterUpdates = getRosterUpdates(qbs, rbs, wrs, tes, dsts, ks, bench, currentLeague);
+            displayFlex(currentLeague, leagueUpdates, rosterUpdates);
         });
     }
 
@@ -568,29 +541,23 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         Button advanced =  view.findViewById(R.id.league_roster_advanced_settings);
 
         final Activity act = this;
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!validateRosterInputs(qbs, rbs, wrs, tes, dsts, ks, bench)) {
-                    return;
-                }
-                RosterSettings defaults = getRosterSettingsFromFirstPage(qbs, rbs, wrs, tes, dsts, ks, bench);
-                newLeague.setRosterSettings(defaults);
-                saveNewLeague(newLeague);
-                FlashbarFactory.generateTextOnlyFlashbar(act, "Success!", newLeague.getName() + " saved", Flashbar.Gravity.BOTTOM)
-                        .show();
+        save.setOnClickListener(view12 -> {
+            if (!validateRosterInputs(qbs, rbs, wrs, tes, dsts, ks, bench)) {
+                return;
             }
+            RosterSettings defaults = getRosterSettingsFromFirstPage(qbs, rbs, wrs, tes, dsts, ks, bench);
+            newLeague.setRosterSettings(defaults);
+            saveNewLeague(newLeague);
+            FlashbarFactory.generateTextOnlyFlashbar(act, "Success!", newLeague.getName() + " saved", Flashbar.Gravity.BOTTOM)
+                    .show();
         });
-        advanced.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!validateRosterInputs(qbs, rbs, wrs, tes, dsts, ks, bench)) {
-                    return;
-                }
-                RosterSettings defaults = getRosterSettingsFromFirstPage(qbs, rbs, wrs, tes, dsts, ks, bench);
-                newLeague.setRosterSettings(defaults);
-                displayFlexNoLeague(newLeague);
+        advanced.setOnClickListener(view1 -> {
+            if (!validateRosterInputs(qbs, rbs, wrs, tes, dsts, ks, bench)) {
+                return;
             }
+            RosterSettings defaults = getRosterSettingsFromFirstPage(qbs, rbs, wrs, tes, dsts, ks, bench);
+            newLeague.setRosterSettings(defaults);
+            displayFlexNoLeague(newLeague);
         });
     }
 
@@ -726,33 +693,27 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         Button advanced = findViewById(R.id.league_flex_advanced_settings);
 
         final Activity act = this;
-        update.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!validateFlexInputs(rbwr, rbte, rbwrte, wrte, op)) {
-                    return;
-                }
-                Map<String, String> rosterUpdates = getFlexUpdates(rbwr, rbte, rbwrte, wrte, op, baseRosterUpdates, currentLeague);
-                if (rosterUpdates == null && leagueUpdates == null) {
-                    GeneralUtils.hideKeyboard(act);
-                    FlashbarFactory.generateTextOnlyFlashbar(act, "No can do", "No updates given", Flashbar.Gravity.BOTTOM)
-                        .show();
-                    return;
-                }
-                updateLeague(null, rosterUpdates, leagueUpdates, currentLeague);
-                FlashbarFactory.generateTextOnlyFlashbar(act, "Success!", currentLeague.getName() + " updated", Flashbar.Gravity.BOTTOM)
-                        .show();
+        update.setOnClickListener(view1 -> {
+            if (!validateFlexInputs(rbwr, rbte, rbwrte, wrte, op)) {
+                return;
             }
+            Map<String, String> rosterUpdates = getFlexUpdates(rbwr, rbte, rbwrte, wrte, op, baseRosterUpdates, currentLeague);
+            if (rosterUpdates == null && leagueUpdates == null) {
+                GeneralUtils.hideKeyboard(act);
+                FlashbarFactory.generateTextOnlyFlashbar(act, "No can do", "No updates given", Flashbar.Gravity.BOTTOM)
+                    .show();
+                return;
+            }
+            updateLeague(null, rosterUpdates, leagueUpdates, currentLeague);
+            FlashbarFactory.generateTextOnlyFlashbar(act, "Success!", currentLeague.getName() + " updated", Flashbar.Gravity.BOTTOM)
+                    .show();
         });
-        advanced.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (!validateFlexInputs(rbwr, rbte, rbwrte, wrte, op)) {
-                    return;
-                }
-                Map<String, String> rosterUpdates = getFlexUpdates(rbwr, rbte, rbwrte, wrte, op, baseRosterUpdates, currentLeague);
-                displayScoring(currentLeague, leagueUpdates, rosterUpdates);
+        advanced.setOnClickListener(v -> {
+            if (!validateFlexInputs(rbwr, rbte, rbwrte, wrte, op)) {
+                return;
             }
+            Map<String, String> rosterUpdates = getFlexUpdates(rbwr, rbte, rbwrte, wrte, op, baseRosterUpdates, currentLeague);
+            displayScoring(currentLeague, leagueUpdates, rosterUpdates);
         });
     }
 
@@ -768,29 +729,23 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         Button save = findViewById(R.id.league_flex_create_default);
 
         final Activity act = this;
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!validateFlexInputs(rbwr, rbte, rbwrte, wrte, op)) {
-                    return;
-                }
-                RosterSettings.Flex defaults = getFlexSettingsFromFirstPage(rbwr, rbte, rbwrte, wrte, op);
-                newLeague.getRosterSettings().setFlex(defaults);
-                saveNewLeague(newLeague);
-                FlashbarFactory.generateTextOnlyFlashbar(act, "Success!", newLeague.getName() + " saved", Flashbar.Gravity.BOTTOM)
-                        .show();
+        save.setOnClickListener(view12 -> {
+            if (!validateFlexInputs(rbwr, rbte, rbwrte, wrte, op)) {
+                return;
             }
+            RosterSettings.Flex defaults = getFlexSettingsFromFirstPage(rbwr, rbte, rbwrte, wrte, op);
+            newLeague.getRosterSettings().setFlex(defaults);
+            saveNewLeague(newLeague);
+            FlashbarFactory.generateTextOnlyFlashbar(act, "Success!", newLeague.getName() + " saved", Flashbar.Gravity.BOTTOM)
+                    .show();
         });
-        advanced.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!validateFlexInputs(rbwr, rbte, rbwrte, wrte, op)) {
-                    return;
-                }
-                RosterSettings.Flex defaults = getFlexSettingsFromFirstPage(rbwr, rbte, rbwrte, wrte, op);
-                newLeague.getRosterSettings().setFlex(defaults);
-                displayScoringNoTeam(newLeague);
+        advanced.setOnClickListener(view1 -> {
+            if (!validateFlexInputs(rbwr, rbte, rbwrte, wrte, op)) {
+                return;
             }
+            RosterSettings.Flex defaults = getFlexSettingsFromFirstPage(rbwr, rbte, rbwrte, wrte, op);
+            newLeague.getRosterSettings().setFlex(defaults);
+            displayScoringNoTeam(newLeague);
         });
     }
 
@@ -902,20 +857,17 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         final Button save = view.findViewById(R.id.league_scoring_save);
 
         final Activity act = this;
-        save.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!validateScoringInputs(passTds, rushTds, recTds, passYds, rushYds, recYds,
-                        ints, fumbles, ppr)) {
-                    return;
-                }
-                ScoringSettings scoring = getScoringSettingsFromFirstPage(passTds, rushTds, recTds, passYds, rushYds, recYds,
-                        ints, fumbles, ppr);
-                newLeague.setScoringSettings(scoring);
-                saveNewLeague(newLeague);
-                FlashbarFactory.generateTextOnlyFlashbar(act, "Success!", newLeague.getName() + " saved", Flashbar.Gravity.BOTTOM)
-                        .show();
+        save.setOnClickListener(view1 -> {
+            if (!validateScoringInputs(passTds, rushTds, recTds, passYds, rushYds, recYds,
+                    ints, fumbles, ppr)) {
+                return;
             }
+            ScoringSettings scoring = getScoringSettingsFromFirstPage(passTds, rushTds, recTds, passYds, rushYds, recYds,
+                    ints, fumbles, ppr);
+            newLeague.setScoringSettings(scoring);
+            saveNewLeague(newLeague);
+            FlashbarFactory.generateTextOnlyFlashbar(act, "Success!", newLeague.getName() + " saved", Flashbar.Gravity.BOTTOM)
+                    .show();
         });
     }
 
@@ -945,25 +897,22 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         ppr.setText(String.valueOf(currentLeague.getScoringSettings().getReceptions()));
 
         final Activity act = this;
-        update.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!validateScoringInputs(passTds, rushTds, recTds, passYds, rushYds, recYds,
-                        ints, fumbles, ppr)) {
-                    return;
-                }
-                Map<String, String> scoringUpdates = getScoringUpdates(passTds, rushTds, recTds, passYds, rushYds, recYds,
-                        ints, fumbles, ppr, currentLeague);
-                if (rosterUpdates == null && leagueUpdates == null && scoringUpdates == null) {
-                    GeneralUtils.hideKeyboard(act);
-                    FlashbarFactory.generateTextOnlyFlashbar(act, "No can do", "No updates given", Flashbar.Gravity.BOTTOM)
-                            .show();
-                    return;
-                }
-                updateLeague(scoringUpdates, rosterUpdates, leagueUpdates, currentLeague);
-                FlashbarFactory.generateTextOnlyFlashbar(act, "Success!", currentLeague.getName() + " updated", Flashbar.Gravity.BOTTOM)
-                        .show();
+        update.setOnClickListener(view1 -> {
+            if (!validateScoringInputs(passTds, rushTds, recTds, passYds, rushYds, recYds,
+                    ints, fumbles, ppr)) {
+                return;
             }
+            Map<String, String> scoringUpdates = getScoringUpdates(passTds, rushTds, recTds, passYds, rushYds, recYds,
+                    ints, fumbles, ppr, currentLeague);
+            if (rosterUpdates == null && leagueUpdates == null && scoringUpdates == null) {
+                GeneralUtils.hideKeyboard(act);
+                FlashbarFactory.generateTextOnlyFlashbar(act, "No can do", "No updates given", Flashbar.Gravity.BOTTOM)
+                        .show();
+                return;
+            }
+            updateLeague(scoringUpdates, rosterUpdates, leagueUpdates, currentLeague);
+            FlashbarFactory.generateTextOnlyFlashbar(act, "Success!", currentLeague.getName() + " updated", Flashbar.Gravity.BOTTOM)
+                    .show();
         });
     }
 

@@ -98,12 +98,9 @@ public class PlayerComparator extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         final Activity act = this;
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                GeneralUtils.hideKeyboard(act);
-                onBackPressed();
-            }
+        toolbar.setNavigationOnClickListener(v -> {
+            GeneralUtils.hideKeyboard(act);
+            onBackPressed();
         });
     }
 
@@ -138,19 +135,13 @@ public class PlayerComparator extends AppCompatActivity {
         inputA.setAdapter(mAdapter);
         inputB.setAdapter(mAdapter);
 
-        inputA.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                clearInputs();
-                return true;
-            }
+        inputA.setOnLongClickListener(v -> {
+            clearInputs();
+            return true;
         });
-        inputB.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                clearInputs();
-                return true;
-            }
+        inputB.setOnLongClickListener(v -> {
+            clearInputs();
+            return true;
         });
     }
 
@@ -169,36 +160,30 @@ public class PlayerComparator extends AppCompatActivity {
         }
         final Activity localCopy = this;
 
-        inputA.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                playerA = getPlayerFromView(view);
-                inputA.setText(playerA.getName());
-                if (playerB != null && playerA.getUniqueId().equals(playerB.getUniqueId())) {
-                    FlashbarFactory.generateTextOnlyFlashbar(localCopy, "No can do", "Select two different players",
-                            Flashbar.Gravity.TOP)
-                            .show();
-                } else if (playerB != null) {
-                    displayResults(playerA, playerB);
-                } else {
-                    toggleListItemStar(playerA, true);
-                }
+        inputA.setOnItemClickListener((parent, view, position, id) -> {
+            playerA = getPlayerFromView(view);
+            inputA.setText(playerA.getName());
+            if (playerB != null && playerA.getUniqueId().equals(playerB.getUniqueId())) {
+                FlashbarFactory.generateTextOnlyFlashbar(localCopy, "No can do", "Select two different players",
+                        Flashbar.Gravity.TOP)
+                        .show();
+            } else if (playerB != null) {
+                displayResults(playerA, playerB);
+            } else {
+                toggleListItemStar(playerA, true);
             }
         });
-        inputB.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                playerB = getPlayerFromView(view);
-                inputB.setText(playerB.getName());
-                if (playerA != null && playerA.getUniqueId().equals(playerB.getUniqueId())) {
-                    FlashbarFactory.generateTextOnlyFlashbar(localCopy, "No can do", "Select two different players",
-                            Flashbar.Gravity.TOP)
-                            .show();
-                } else if (playerA != null) {
-                    displayResults(playerA, playerB);
-                } else {
-                    toggleListItemStar(playerB, true);
-                }
+        inputB.setOnItemClickListener((parent, view, position, id) -> {
+            playerB = getPlayerFromView(view);
+            inputB.setText(playerB.getName());
+            if (playerA != null && playerA.getUniqueId().equals(playerB.getUniqueId())) {
+                FlashbarFactory.generateTextOnlyFlashbar(localCopy, "No can do", "Select two different players",
+                        Flashbar.Gravity.TOP)
+                        .show();
+            } else if (playerA != null) {
+                displayResults(playerA, playerB);
+            } else {
+                toggleListItemStar(playerB, true);
             }
         });
 
@@ -296,31 +281,28 @@ public class PlayerComparator extends AppCompatActivity {
             }
         }
 
-        adapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                Player clickedPlayer = rankings.getPlayer(DisplayUtils.getPlayerKeyFromListViewItem(view));
-                if (playerA != null && playerA.getUniqueId().equals(clickedPlayer.getUniqueId())) {
-                    toggleListItemStar(playerA, false);
-                    playerA = null;
-                    inputA.setText(null);
+        adapter.setOnItemClickListener((view, position) -> {
+            Player clickedPlayer = rankings.getPlayer(DisplayUtils.getPlayerKeyFromListViewItem(view));
+            if (playerA != null && playerA.getUniqueId().equals(clickedPlayer.getUniqueId())) {
+                toggleListItemStar(playerA, false);
+                playerA = null;
+                inputA.setText(null);
+            } else {
+                if (playerA == null && playerB == null) {
+                    playerA = clickedPlayer;
+                    inputA.setText(playerA.getName());
+                    inputA.clearFocus();
+                    toggleListItemStar(playerA, true);
+                } else if (playerA == null && playerB != null) {
+                    playerA = clickedPlayer;
+                    inputA.setText(playerA.getName());
+                    inputA.clearFocus();
+                    displayResults(playerA, playerB);
                 } else {
-                    if (playerA == null && playerB == null) {
-                        playerA = clickedPlayer;
-                        inputA.setText(playerA.getName());
-                        inputA.clearFocus();
-                        toggleListItemStar(playerA, true);
-                    } else if (playerA == null && playerB != null) {
-                        playerA = clickedPlayer;
-                        inputA.setText(playerA.getName());
-                        inputA.clearFocus();
-                        displayResults(playerA, playerB);
-                    } else {
-                        playerB = clickedPlayer;
-                        inputB.setText(playerB.getName());
-                        inputB.clearFocus();
-                        displayResults(playerA, playerB);
-                    }
+                    playerB = clickedPlayer;
+                    inputB.setText(playerB.getName());
+                    inputB.clearFocus();
+                    displayResults(playerA, playerB);
                 }
             }
         });
@@ -378,45 +360,29 @@ public class PlayerComparator extends AppCompatActivity {
         }
         nameA.setText(titleA);
         nameB.setText(titleB);
-        nameA.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goToPlayerInfo(playerA);
-            }
-        });
-        nameB.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                goToPlayerInfo(playerB);
-            }
-        });
-        nameA.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                if (!rankings.getDraft().isDrafted(playerA)) {
-                    if (rankings.getLeagueSettings().isAuction()) {
-                        getAuctionCost(playerA, nameA);
-                    } else {
-                        draftPlayer(playerA, nameA, 0);
-                    }
-                    return true;
+        nameA.setOnClickListener(v -> goToPlayerInfo(playerA));
+        nameB.setOnClickListener(v -> goToPlayerInfo(playerB));
+        nameA.setOnLongClickListener(view -> {
+            if (!rankings.getDraft().isDrafted(playerA)) {
+                if (rankings.getLeagueSettings().isAuction()) {
+                    getAuctionCost(playerA, nameA);
+                } else {
+                    draftPlayer(playerA, nameA, 0);
                 }
-                return false;
+                return true;
             }
+            return false;
         });
-        nameB.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                if (!rankings.getDraft().isDrafted(playerB)) {
-                    if (rankings.getLeagueSettings().isAuction()) {
-                        getAuctionCost(playerB, nameB);
-                    } else {
-                        draftPlayer(playerB, nameB, 0);
-                    }
-                    return true;
+        nameB.setOnLongClickListener(view -> {
+            if (!rankings.getDraft().isDrafted(playerB)) {
+                if (rankings.getLeagueSettings().isAuction()) {
+                    getAuctionCost(playerB, nameB);
+                } else {
+                    draftPlayer(playerB, nameB, 0);
                 }
-                return false;
+                return true;
             }
+            return false;
         });
 
         // Age
@@ -746,12 +712,7 @@ public class PlayerComparator extends AppCompatActivity {
     }
 
     private void draftPlayer(final Player player, final TextView title, int cost) {
-        Flashbar.OnActionTapListener listener = new Flashbar.OnActionTapListener() {
-            @Override
-            public void onActionTapped(Flashbar flashbar) {
-                undraftPlayer(player, title);
-            }
-        };
+        Flashbar.OnActionTapListener listener = flashbar -> undraftPlayer(player, title);
         rankings.getDraft().draftByMe(rankings, player, this, cost, title, listener);
         title.setText(player.getName() + Constants.COMPARATOR_DRAFTED_SUFFIX);
     }

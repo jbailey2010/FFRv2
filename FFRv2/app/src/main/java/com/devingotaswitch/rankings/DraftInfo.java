@@ -72,12 +72,9 @@ public class DraftInfo extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         final Activity act = this;
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                GeneralUtils.hideKeyboard(act);
-                onBackPressed();
-            }
+        toolbar.setNavigationOnClickListener(v -> {
+            GeneralUtils.hideKeyboard(act);
+            onBackPressed();
         });
     }
 
@@ -323,19 +320,11 @@ public class DraftInfo extends AppCompatActivity {
         RecyclerViewAdapter recyclerAdapter = new RecyclerViewAdapter(this, data, R.layout.list_item_layout,
                 new String[] { Constants.PLAYER_BASIC, Constants.PLAYER_INFO},
                 new int[] { R.id.player_basic, R.id.player_info});
-        recyclerAdapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                viewPlayer(view);
-            }
-        });
+        recyclerAdapter.setOnItemClickListener((view12, position) -> viewPlayer(view12));
 
-        recyclerAdapter.setOnItemLongClickListener(new RecyclerViewAdapter.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(View view, int position) {
-                undraftPlayer(view);
-                return true;
-            }
+        recyclerAdapter.setOnItemLongClickListener((view1, position) -> {
+            undraftPlayer(view1);
+            return true;
         });
         listview.setLayoutManager(new LinearLayoutManager(this));
         listview.addItemDecoration(DisplayUtils.getVerticalDividerDecoration(this));

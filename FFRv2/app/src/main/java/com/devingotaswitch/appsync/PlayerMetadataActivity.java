@@ -185,15 +185,10 @@ class PlayerMetadataActivity extends AppSyncActivity {
                             metadata.stud(), metadata.undervalued());
                     Type listType = new TypeToken<ArrayList<String>>(){}.getType();
                     final List<String> userTags = getUserTags(metadata.userTags());
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            ((PlayerInfo)activity).setAggregatePlayerMetadata(metadata.viewCount(),
-                                    metadata.watchCount() == null ? 0 : metadata.watchCount(),
-                                    metadata.draftCount() == null ? 0 : metadata.draftCount(),
-                                    tags, userTags);
-                        }
-                    });
+                    runOnUiThread(() -> ((PlayerInfo)activity).setAggregatePlayerMetadata(metadata.viewCount(),
+                            metadata.watchCount() == null ? 0 : metadata.watchCount(),
+                            metadata.draftCount() == null ? 0 : metadata.draftCount(),
+                            tags, userTags));
                 }
             }
 
@@ -235,12 +230,7 @@ class PlayerMetadataActivity extends AppSyncActivity {
                             metadata.consistentScorer(), metadata.efficient(), metadata.handcuff(), metadata.inefficient(), metadata.injuryBounceBack(), metadata.injuryProne(), metadata.lotteryTicket(), metadata.newStaff(),
                             metadata.newTeam(), metadata.overvalued(), metadata.postHypeSleeper(), metadata.pprSpecialist(), metadata.returner(), metadata.risky(), metadata.safe(), metadata.sleeper(),
                             metadata.stud(), metadata.undervalued());
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            ((PlayerInfo)activity).setTags(tags);
-                        }
-                    });
+                    runOnUiThread(() -> ((PlayerInfo)activity).setTags(tags));
                 }
             }
 
@@ -274,12 +264,7 @@ class PlayerMetadataActivity extends AppSyncActivity {
                             metadata.consistentScorer(), metadata.efficient(), metadata.handcuff(), metadata.inefficient(), metadata.injuryBounceBack(), metadata.injuryProne(), metadata.lotteryTicket(), metadata.newStaff(),
                             metadata.newTeam(), metadata.overvalued(), metadata.postHypeSleeper(), metadata.pprSpecialist(), metadata.returner(), metadata.risky(), metadata.safe(), metadata.sleeper(),
                             metadata.stud(), metadata.undervalued());
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            ((PlayerInfo)activity).setTags(tags);
-                        }
-                    });
+                    runOnUiThread(() -> ((PlayerInfo)activity).setTags(tags));
                 }
             }
 

@@ -110,12 +110,9 @@ public class PlayerSorter extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         final Activity act = this;
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                GeneralUtils.hideKeyboard(act);
-                onBackPressed();
-            }
+        toolbar.setNavigationOnClickListener(v -> {
+            GeneralUtils.hideKeyboard(act);
+            onBackPressed();
         });
     }
 
@@ -238,56 +235,47 @@ public class PlayerSorter extends AppCompatActivity {
         factors.setBackgroundColor(Color.parseColor("#FAFAFA"));
 
         final Activity act = this;
-        factors.setOnSpinnerItemSelectedListener(new OnSpinnerItemSelectedListener() {
-            @Override
-            public void onItemSelected(NiceSpinner parent, View view, final int position, long id) {
-                String selection = ((TextView)view).getText().toString();
-                if (Constants.SORT_VBD_EXPANDED.equals(selection) ||
-                        Constants.SORT_PROJECTION_EXPANDED.equals(selection)) {
-                    final ListPopupWindow popup = new ListPopupWindow(act);
-                    popup.setAnchorView(factors);
-                    List<Map<String, String>> data = null;
-                    if (Constants.SORT_VBD_EXPANDED.equals(selection)) {
-                        data = getVBDOptions();
-                    } else if (Constants.SORT_PROJECTION_EXPANDED.equals(selection)) {
-                        data = getProjectionOptions();
-                    }
-                    SimpleAdapter adapter = new SimpleAdapter(act, data,
-                            R.layout.nested_spinner_item, new String[] { Constants.NESTED_SPINNER_DISPLAY},
-                            new int[] { R.id.text_view_spinner });
-                    popup.setAdapter(adapter);
-                    popup.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
-                            if (Constants.SORT_BACK.equals(((TextView)view).getText().toString())) {
-                                popup.dismiss();
-                                // Seems to be an annoying bug with the spinner library, can't re-select the same item.
-                                // So this is done to work around it.
-                                factors.attachDataSource(factorList);
-                                factors.showDropDown();
-                                if (StringUtils.isBlank(expandedFactor)) {
-                                    factors.setSelectedIndex(lastFactorIndex);
-                                } else {
-                                    factors.setText(expandedFactorType);
-                                }
-                            } else {
-                                expandedFactor = ((TextView) view).getText().toString();
-                                factors.setSelectedIndex(position);
-                                factors.setText(factors.getText() + " " + expandedFactor);
-                                popup.dismiss();
-                            }
-                        }
-                    });
-                    popup.setOnDismissListener(new PopupWindow.OnDismissListener() {
-                        @Override
-                        public void onDismiss() {
-                            if (StringUtils.isBlank(expandedFactor)) {
-                                factors.setSelectedIndex(lastFactorIndex);
-                            }
-                        }
-                    });
-                    popup.show();
+        factors.setOnSpinnerItemSelectedListener((parent, view, position, id) -> {
+            String selection = ((TextView)view).getText().toString();
+            if (Constants.SORT_VBD_EXPANDED.equals(selection) ||
+                    Constants.SORT_PROJECTION_EXPANDED.equals(selection)) {
+                final ListPopupWindow popup = new ListPopupWindow(act);
+                popup.setAnchorView(factors);
+                List<Map<String, String>> data = null;
+                if (Constants.SORT_VBD_EXPANDED.equals(selection)) {
+                    data = getVBDOptions();
+                } else if (Constants.SORT_PROJECTION_EXPANDED.equals(selection)) {
+                    data = getProjectionOptions();
                 }
+                SimpleAdapter adapter = new SimpleAdapter(act, data,
+                        R.layout.nested_spinner_item, new String[] { Constants.NESTED_SPINNER_DISPLAY},
+                        new int[] { R.id.text_view_spinner });
+                popup.setAdapter(adapter);
+                popup.setOnItemClickListener((adapterView, view1, i, l) -> {
+                    if (Constants.SORT_BACK.equals(((TextView) view1).getText().toString())) {
+                        popup.dismiss();
+                        // Seems to be an annoying bug with the spinner library, can't re-select the same item.
+                        // So this is done to work around it.
+                        factors.attachDataSource(factorList);
+                        factors.showDropDown();
+                        if (StringUtils.isBlank(expandedFactor)) {
+                            factors.setSelectedIndex(lastFactorIndex);
+                        } else {
+                            factors.setText(expandedFactorType);
+                        }
+                    } else {
+                        expandedFactor = ((TextView) view1).getText().toString();
+                        factors.setSelectedIndex(position);
+                        factors.setText(factors.getText() + " " + expandedFactor);
+                        popup.dismiss();
+                    }
+                });
+                popup.setOnDismissListener(() -> {
+                    if (StringUtils.isBlank(expandedFactor)) {
+                        factors.setSelectedIndex(lastFactorIndex);
+                    }
+                });
+                popup.show();
             }
         });
 
@@ -301,45 +289,42 @@ public class PlayerSorter extends AppCompatActivity {
 
         Button submit = findViewById(R.id.sort_players_submit);
         final PlayerSorter activity = this;
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String currentPosition = posList.get(positions.getSelectedIndex());
-                List<String> filteredIds = new ArrayList<>(rankings.getOrderedIds());
-                if (!Constants.ALL_POSITIONS.equals(currentPosition)) {
-                    filteredIds = rankings.getPlayersByPosition(filteredIds, currentPosition);
-                }
-                String selection = factors.getText().toString();
-                if ((!selection.startsWith(Constants.SORT_VBD_EXPANDED) &&
-                        !selection.startsWith(Constants.SORT_PROJECTION_EXPANDED)) || StringUtils.isBlank(expandedFactor)) {
-                    factor = factorList.get(factors.getSelectedIndex());
-                    lastFactorIndex = factors.getSelectedIndex();
-                    expandedFactor = null;
-                    // Seems to be an annoying bug with the spinner library, can't re-select the same item.
-                    // So this is done to work around it.
-                    factors.attachDataSource(factorList);
-                    factors.setSelectedIndex(lastFactorIndex);
-                } else {
-                    factor = expandedFactor;
-                    expandedFactorType = factors.getText().toString();
-                    // Seems to be an annoying bug with the spinner library, can't re-select the same item.
-                    // So this is done to work around it.
-                    factors.attachDataSource(factorList);
-                    factors.setText(expandedFactorType);
-                }
-                posIndex = positions.getSelectedIndex();
-                sortIndex = factors.getSelectedIndex();
-                factorStrings = spinner.getSelectedStrings();
-
-                String numberShownStr = numberShown.getText().toString();
-                sortMax = 1000;
-                if (!StringUtils.isBlank(numberShownStr) && GeneralUtils.isInteger(numberShownStr)) {
-                    sortMax = Integer.parseInt(numberShownStr);
-                }
-                GeneralUtils.hideKeyboard(activity);
-                getComparatorForFactor(filteredIds, spinner.getSelectedStrings(), reverse.isChecked());
-                graphItem.setVisible(true);
+        submit.setOnClickListener(v -> {
+            String currentPosition = posList.get(positions.getSelectedIndex());
+            List<String> filteredIds = new ArrayList<>(rankings.getOrderedIds());
+            if (!Constants.ALL_POSITIONS.equals(currentPosition)) {
+                filteredIds = rankings.getPlayersByPosition(filteredIds, currentPosition);
             }
+            String selection = factors.getText().toString();
+            if ((!selection.startsWith(Constants.SORT_VBD_EXPANDED) &&
+                    !selection.startsWith(Constants.SORT_PROJECTION_EXPANDED)) || StringUtils.isBlank(expandedFactor)) {
+                factor = factorList.get(factors.getSelectedIndex());
+                lastFactorIndex = factors.getSelectedIndex();
+                expandedFactor = null;
+                // Seems to be an annoying bug with the spinner library, can't re-select the same item.
+                // So this is done to work around it.
+                factors.attachDataSource(factorList);
+                factors.setSelectedIndex(lastFactorIndex);
+            } else {
+                factor = expandedFactor;
+                expandedFactorType = factors.getText().toString();
+                // Seems to be an annoying bug with the spinner library, can't re-select the same item.
+                // So this is done to work around it.
+                factors.attachDataSource(factorList);
+                factors.setText(expandedFactorType);
+            }
+            posIndex = positions.getSelectedIndex();
+            sortIndex = factors.getSelectedIndex();
+            factorStrings = spinner.getSelectedStrings();
+
+            String numberShownStr = numberShown.getText().toString();
+            sortMax = 1000;
+            if (!StringUtils.isBlank(numberShownStr) && GeneralUtils.isInteger(numberShownStr)) {
+                sortMax = Integer.parseInt(numberShownStr);
+            }
+            GeneralUtils.hideKeyboard(activity);
+            getComparatorForFactor(filteredIds, spinner.getSelectedStrings(), reverse.isChecked());
+            graphItem.setVisible(true);
         });
     }
 
@@ -598,51 +583,39 @@ public class PlayerSorter extends AppCompatActivity {
         adapter.notifyDataSetChanged();
         final Activity act = this;
         final boolean hideDrafted = factorStrings.contains(Constants.SORT_HIDE_DRAFTED);
-        RecyclerViewAdapter.OnItemLongClickListener onItemLongClickListener = new RecyclerViewAdapter.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(View view, int position) {
-                String playerKey = getPlayerKeyFromListViewItem(view);
-                final ImageView playerStatus = view.findViewById(R.id.player_status);
-                final Player player = rankings.getPlayer(playerKey);
-                if (rankings.isPlayerWatched(player.getUniqueId())) {
-                    Flashbar.OnActionTapListener listener = new Flashbar.OnActionTapListener() {
-                        @Override
-                        public void onActionTapped(Flashbar flashbar) {
-                            flashbar.dismiss();
-                            playerStatus.setImageResource(R.drawable.star);
-                            rankings.togglePlayerWatched(act, player.getUniqueId());
-                        }
-                    };
-                    FlashbarFactory.generateFlashbarWithUndo(act, "Success!", player.getName() + " removed from watch list",
-                            Flashbar.Gravity.BOTTOM, listener)
-                            .show();
-                    rankings.togglePlayerWatched(act, player.getUniqueId());
-                    playerStatus.setImageResource(0);
-                } else {
-                    Flashbar.OnActionTapListener listener = new Flashbar.OnActionTapListener() {
-                        @Override
-                        public void onActionTapped(Flashbar flashbar) {
-                            flashbar.dismiss();
-                            playerStatus.setImageResource(0);
-                            rankings.togglePlayerWatched(act, player.getUniqueId());
-                        }
-                    };
-                    FlashbarFactory.generateFlashbarWithUndo(act, "Success!", player.getName() + " added to watch list",
-                            Flashbar.Gravity.BOTTOM, listener)
-                            .show();
-                    rankings.togglePlayerWatched(act, player.getUniqueId());
+        RecyclerViewAdapter.OnItemLongClickListener onItemLongClickListener = (view, position) -> {
+            String playerKey = getPlayerKeyFromListViewItem(view);
+            final ImageView playerStatus = view.findViewById(R.id.player_status);
+            final Player player = rankings.getPlayer(playerKey);
+            if (rankings.isPlayerWatched(player.getUniqueId())) {
+                Flashbar.OnActionTapListener listener = flashbar -> {
+                    flashbar.dismiss();
                     playerStatus.setImageResource(R.drawable.star);
-                }
-                return true;
+                    rankings.togglePlayerWatched(act, player.getUniqueId());
+                };
+                FlashbarFactory.generateFlashbarWithUndo(act, "Success!", player.getName() + " removed from watch list",
+                        Flashbar.Gravity.BOTTOM, listener)
+                        .show();
+                rankings.togglePlayerWatched(act, player.getUniqueId());
+                playerStatus.setImageResource(0);
+            } else {
+                Flashbar.OnActionTapListener listener = flashbar -> {
+                    flashbar.dismiss();
+                    playerStatus.setImageResource(0);
+                    rankings.togglePlayerWatched(act, player.getUniqueId());
+                };
+                FlashbarFactory.generateFlashbarWithUndo(act, "Success!", player.getName() + " added to watch list",
+                        Flashbar.Gravity.BOTTOM, listener)
+                        .show();
+                rankings.togglePlayerWatched(act, player.getUniqueId());
+                playerStatus.setImageResource(R.drawable.star);
             }
+            return true;
         };
-        RecyclerViewAdapter.OnItemClickListener onItemClickListener = new RecyclerViewAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                String playerKey = getPlayerKeyFromListViewItem(view);
-                selectedIndex = position;
-                displayPlayerInfo(playerKey);
-            }
+        RecyclerViewAdapter.OnItemClickListener onItemClickListener = (view, position) -> {
+            String playerKey = getPlayerKeyFromListViewItem(view);
+            selectedIndex = position;
+            displayPlayerInfo(playerKey);
         };
         final Activity localCopy = this;
         final SwipeDismissTouchListener swipeListener = new SwipeDismissTouchListener(listview, hideDrafted,
@@ -698,18 +671,10 @@ public class PlayerSorter extends AppCompatActivity {
         listview.addItemDecoration(DisplayUtils.getVerticalDividerDecoration(this));
 
         TextView titleView = findViewById(R.id.main_toolbar_title);
-        titleView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listview.smoothScrollToPosition(0);
-            }
-        });
-        titleView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                listview.scrollToPosition(0);
-                return true;
-            }
+        titleView.setOnClickListener(v -> listview.smoothScrollToPosition(0));
+        titleView.setOnLongClickListener(view -> {
+            listview.scrollToPosition(0);
+            return true;
         });
 
         View view = this.getCurrentFocus();
@@ -759,178 +724,89 @@ public class PlayerSorter extends AppCompatActivity {
     }
 
     private Comparator<Player> getECRComparator() {
-        return new Comparator<Player>() {
-            @Override
-            public int compare(Player a, Player b) {
-                return a.getEcr().compareTo(b.getEcr());
-            }
-        };
+        return (a, b) -> a.getEcr().compareTo(b.getEcr());
     }
     private Comparator<Player> getPassingTDsComparator() {
-        return new Comparator<Player>() {
-            @Override
-            public int compare(Player a, Player b) {
-                return Double.compare(b.getPlayerProjection().getPassingProjection().getTds(), a.getPlayerProjection().getPassingProjection().getTds());
-            }
-        };
+        return (a, b) -> Double.compare(b.getPlayerProjection().getPassingProjection().getTds(), a.getPlayerProjection().getPassingProjection().getTds());
     }
 
     private Comparator<Player> getPassingYardsComparator() {
-        return new Comparator<Player>() {
-            @Override
-            public int compare(Player a, Player b) {
-                return Double.compare(b.getPlayerProjection().getPassingProjection().getYards(), a.getPlayerProjection().getPassingProjection().getYards());
-            }
-        };
+        return (a, b) -> Double.compare(b.getPlayerProjection().getPassingProjection().getYards(), a.getPlayerProjection().getPassingProjection().getYards());
     }
 
     private Comparator<Player> getRushingYardsComparator() {
-        return new Comparator<Player>() {
-            @Override
-            public int compare(Player a, Player b) {
-                return Double.compare(b.getPlayerProjection().getRushingProjection().getYards(), a.getPlayerProjection().getRushingProjection().getYards());
-            }
-        };
+        return (a, b) -> Double.compare(b.getPlayerProjection().getRushingProjection().getYards(), a.getPlayerProjection().getRushingProjection().getYards());
     }
 
     private Comparator<Player> getRushingTdsComparator() {
-        return new Comparator<Player>() {
-            @Override
-            public int compare(Player a, Player b) {
-                return Double.compare(b.getPlayerProjection().getRushingProjection().getTds(), a.getPlayerProjection().getRushingProjection().getTds());
-            }
-        };
+        return (a, b) -> Double.compare(b.getPlayerProjection().getRushingProjection().getTds(), a.getPlayerProjection().getRushingProjection().getTds());
     }
 
     private Comparator<Player> getReceivingYardsComparator() {
-        return new Comparator<Player>() {
-            @Override
-            public int compare(Player a, Player b) {
-                return Double.compare(b.getPlayerProjection().getReceivingProjection().getYards(), a.getPlayerProjection().getReceivingProjection().getYards());
-            }
-        };
+        return (a, b) -> Double.compare(b.getPlayerProjection().getReceivingProjection().getYards(), a.getPlayerProjection().getReceivingProjection().getYards());
     }
 
     private Comparator<Player> getReceivingTdsComparator() {
-        return new Comparator<Player>() {
-            @Override
-            public int compare(Player a, Player b) {
-                return Double.compare(b.getPlayerProjection().getReceivingProjection().getTds(), a.getPlayerProjection().getReceivingProjection().getTds());
-            }
-        };
+        return (a, b) -> Double.compare(b.getPlayerProjection().getReceivingProjection().getTds(), a.getPlayerProjection().getReceivingProjection().getTds());
     }
 
     private Comparator<Player> getReceptionsComparator() {
-        return new Comparator<Player>() {
-            @Override
-            public int compare(Player a, Player b) {
-                return Double.compare(b.getPlayerProjection().getReceivingProjection().getReceptions(), a.getPlayerProjection().getReceivingProjection().getReceptions());
-            }
-        };
+        return (a, b) -> Double.compare(b.getPlayerProjection().getReceivingProjection().getReceptions(), a.getPlayerProjection().getReceivingProjection().getReceptions());
     }
 
     private Comparator<Player> getDynastyComparator() {
-        return new Comparator<Player>() {
-            @Override
-            public int compare(Player a, Player b) {
-                return a.getDynastyRank().compareTo(b.getDynastyRank());
-            }
-        };
+        return (a, b) -> a.getDynastyRank().compareTo(b.getDynastyRank());
     }
 
     private Comparator<Player> getRookieComparator() {
-        return new Comparator<Player>() {
-            @Override
-            public int compare(Player a, Player b) {
-                return a.getRookieRank().compareTo(b.getRookieRank());
-            }
-        };
+        return (a, b) -> a.getRookieRank().compareTo(b.getRookieRank());
     }
 
     private Comparator<Player> getBestBallComparator() {
-        return new Comparator<Player>() {
-            @Override
-            public int compare(Player a, Player b) {
-                return a.getBestBallRank().compareTo(b.getBestBallRank());
-            }
-        };
+        return (a, b) -> a.getBestBallRank().compareTo(b.getBestBallRank());
     }
 
     private Comparator<Player> getADPComparator() {
-        return new Comparator<Player>() {
-            @Override
-            public int compare(Player a, Player b) {
-                return a.getAdp().compareTo(b.getAdp());
-            }
-        };
+        return (a, b) -> a.getAdp().compareTo(b.getAdp());
     }
 
     private Comparator<Player> getUnderdraftedComparator() {
-        return new Comparator<Player>() {
-            @Override
-            public int compare(Player a, Player b) {
-                double diffA = a.getEcr() - a.getAdp();
-                double diffB = b.getEcr() - b.getAdp();
-                return Double.compare(diffA, diffB);
-            }
+        return (a, b) -> {
+            double diffA = a.getEcr() - a.getAdp();
+            double diffB = b.getEcr() - b.getAdp();
+            return Double.compare(diffA, diffB);
         };
     }
 
     private Comparator<Player> getOverdraftedComparator() {
-        return new Comparator<Player>() {
-            @Override
-            public int compare(Player a, Player b) {
-                double diffA = a.getEcr() - a.getAdp();
-                double diffB = b.getEcr() - b.getAdp();
-                return Double.compare(diffB, diffA);
-            }
+        return (a, b) -> {
+            double diffA = a.getEcr() - a.getAdp();
+            double diffB = b.getEcr() - b.getAdp();
+            return Double.compare(diffB, diffA);
         };
     }
 
     private Comparator<Player> getAuctionComparator() {
-        return new Comparator<Player>() {
-            @Override
-            public int compare(Player a, Player b) {
-                return b.getAuctionValue().compareTo(a.getAuctionValue());
-            }
-        };
+        return (a, b) -> b.getAuctionValue().compareTo(a.getAuctionValue());
     }
 
     private Comparator<Player> getProjectionComparator() {
-        return new Comparator<Player>() {
-            @Override
-            public int compare(Player a, Player b) {
-                return b.getProjection().compareTo(a.getProjection());
-            }
-        };
+        return (a, b) -> b.getProjection().compareTo(a.getProjection());
     }
 
     private Comparator<Player> getPAAComparator() {
-        return new Comparator<Player>() {
-            @Override
-            public int compare(Player a, Player b) {
-                return b.getPaa().compareTo(a.getPaa());
-            }
-        };
+        return (a, b) -> b.getPaa().compareTo(a.getPaa());
     }
 
     private Comparator<Player> getPAAScaledComparator() {
-        return new Comparator<Player>() {
-            @Override
-            public int compare(Player a, Player b) {
-                return b.getScaledPAA(rankings).compareTo(a.getScaledPAA(rankings));
-            }
-        };
+        return (a, b) -> b.getScaledPAA(rankings).compareTo(a.getScaledPAA(rankings));
     }
 
     private Comparator<Player> getPAAPDComparator() {
-        return new Comparator<Player>() {
-            @Override
-            public int compare(Player a, Player b) {
-                double paapdA = getPAAPD(a);
-                double paapdB = getPAAPD(b);
-                return Double.compare(paapdB, paapdA);
-            }
+        return (a, b) -> {
+            double paapdA = getPAAPD(a);
+            double paapdB = getPAAPD(b);
+            return Double.compare(paapdB, paapdA);
         };
     }
 
@@ -963,92 +839,55 @@ public class PlayerSorter extends AppCompatActivity {
     }
 
     private Comparator<Player> getXValComparator() {
-        return new Comparator<Player>() {
-            @Override
-            public int compare(Player a, Player b) {
-                return b.getxVal().compareTo(a.getxVal());
-            }
-        };
+        return (a, b) -> b.getxVal().compareTo(a.getxVal());
     }
 
     private Comparator<Player> getVoLSComparator() {
-        return new Comparator<Player>() {
-            @Override
-            public int compare(Player a, Player b) {
-                return b.getVOLS().compareTo(a.getVOLS());
-            }
-        };
+        return (a, b) -> b.getVOLS().compareTo(a.getVOLS());
     }
 
     private Comparator<Player> getXvalPDComparator() {
-        return new Comparator<Player>() {
-            @Override
-            public int compare(Player a, Player b) {
-                double xvalpdA = getXvalPD(a);
-                double xvalpdB = getXvalPD(b);
-                return Double.compare(xvalpdB, xvalpdA);
-            }
+        return (a, b) -> {
+            double xvalpdA = getXvalPD(a);
+            double xvalpdB = getXvalPD(b);
+            return Double.compare(xvalpdB, xvalpdA);
         };
     }
 
     private Comparator<Player> getVoLSPDComparator() {
-        return new Comparator<Player>() {
-            @Override
-            public int compare(Player a, Player b) {
-                double volspdA = getVoLSPD(a);
-                double volspdB = getVoLSPD(b);
-                return Double.compare(volspdB, volspdA);
-            }
+        return (a, b) -> {
+            double volspdA = getVoLSPD(a);
+            double volspdB = getVoLSPD(b);
+            return Double.compare(volspdB, volspdA);
         };
     }
 
     private Comparator<Player> getVBDSuggestedComparator() {
-        return new Comparator<Player>() {
-            @Override
-            public int compare(Player a, Player b) {
-                double vbdValA = getVBDSuggestedValue(a);
-                double vbdValB = getVBDSuggestedValue(b);
-                return Double.compare(vbdValB, vbdValA);
-            }
+        return (a, b) -> {
+            double vbdValA = getVBDSuggestedValue(a);
+            double vbdValB = getVBDSuggestedValue(b);
+            return Double.compare(vbdValB, vbdValA);
         };
     }
 
     private Comparator<Player> getXValScaledComparator() {
-        return new Comparator<Player>() {
-            @Override
-            public int compare(Player a, Player b) {
-                return b.getScaledXVal(rankings).compareTo(a.getScaledXVal(rankings));
-            }
-        };
+        return (a, b) -> b.getScaledXVal(rankings).compareTo(a.getScaledXVal(rankings));
     }
 
     private Comparator<Player> getVoLSScaledComparator() {
-        return new Comparator<Player>() {
-            @Override
-            public int compare(Player a, Player b) {
-                return b.getScaledVOLS(rankings).compareTo(a.getScaledVOLS(rankings));
-            }
-        };
+        return (a, b) -> b.getScaledVOLS(rankings).compareTo(a.getScaledVOLS(rankings));
     }
 
     private Comparator<Player> getRiskComparator() {
-        return new Comparator<Player>() {
-            @Override
-            public int compare(Player a, Player b) {
-                return a.getRisk().compareTo(b.getRisk());
-            }
-        };
+        return (a, b) -> a.getRisk().compareTo(b.getRisk());
     }
 
     private Comparator<Player> getSOSComparator() {
-        return new Comparator<Player>() {
-            @Override
-            public int compare(Player a, Player b) {
-                double sosA = getSOS(a);
-                double sosB = getSOS(b);
-                // Compare returns lower first, we want to reverse that.
-                return Double.compare(sosA, sosB) * -1;
-            }
+        return (a, b) -> {
+            double sosA = getSOS(a);
+            double sosB = getSOS(b);
+            // Compare returns lower first, we want to reverse that.
+            return Double.compare(sosA, sosB) * -1;
         };
     }
 
@@ -1305,11 +1144,7 @@ public class PlayerSorter extends AppCompatActivity {
 
         alertDialogBuilder
                 .setNegativeButton("Dismiss",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
-                                dialog.cancel();
-                            }
-                        });
+                        (dialog, id) -> dialog.cancel());
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }

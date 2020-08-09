@@ -48,12 +48,7 @@ public class HelpActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
 
         init();
     }
@@ -91,12 +86,9 @@ public class HelpActivity extends AppCompatActivity {
         spinner.attachDataSource(posList);
 
         Button submit = findViewById(R.id.help_selection_submit);
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String selected = posList.get(spinner.getSelectedIndex());
-                updateLayout(selected);
-            }
+        submit.setOnClickListener(v -> {
+            String selected = posList.get(spinner.getSelectedIndex());
+            updateLayout(selected);
         });
     }
 

@@ -57,11 +57,8 @@ public class MultiSelectionSpinner extends androidx.appcompat.widget.AppCompatSp
         final AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
         builder.setMultiChoiceItems(_items, mSelection, this);
 
-        builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface arg0, int arg1) {
+        builder.setPositiveButton("Ok", (arg0, arg1) -> {
 
-            }
         });
 
         builder.show();

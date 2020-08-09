@@ -52,15 +52,12 @@ public class SettingsActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         final Activity localCopy = this;
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(getApplicationContext(), RankingsHome.class);
-                intent.putExtra(Constants.RANKINGS_LIST_RELOAD_NEEDED, isRankingsReloadNeeded);
-                localCopy.startActivity(intent);
+        toolbar.setNavigationOnClickListener(v -> {
+            Intent intent = new Intent(getApplicationContext(), RankingsHome.class);
+            intent.putExtra(Constants.RANKINGS_LIST_RELOAD_NEEDED, isRankingsReloadNeeded);
+            localCopy.startActivity(intent);
 
-                onBackPressed();
-            }
+            onBackPressed();
         });
 
         rankings = Rankings.init();
@@ -91,81 +88,51 @@ public class SettingsActivity extends AppCompatActivity {
         overscrollRefresh.setChecked(settings.isRefreshOnOverscroll());
         sortWatchListByTime.setChecked(settings.isSortWatchListByTime());
 
-        dSearch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                isRankingsReloadNeeded = true;
-                settings.setHideDraftedSearch(b);
-                updateUserSettings(settings);
-            }
+        dSearch.setOnCheckedChangeListener((compoundButton, b) -> {
+            isRankingsReloadNeeded = true;
+            settings.setHideDraftedSearch(b);
+            updateUserSettings(settings);
         });
-        dsOutput.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                settings.setHideDraftedSort(b);
-                updateUserSettings(settings);
-            }
+        dsOutput.setOnCheckedChangeListener((compoundButton, b) -> {
+            settings.setHideDraftedSort(b);
+            updateUserSettings(settings);
         });
-        dcSuggestion.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                settings.setHideDraftedComparator(b);
-                updateUserSettings(settings);
-            }
+        dcSuggestion.setOnCheckedChangeListener((compoundButton, b) -> {
+            settings.setHideDraftedComparator(b);
+            updateUserSettings(settings);
         });
 
-        rSearch.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                isRankingsReloadNeeded = true;
-                settings.setHideRanklessSearch(b);
-                updateUserSettings(settings);
-            }
+        rSearch.setOnCheckedChangeListener((compoundButton, b) -> {
+            isRankingsReloadNeeded = true;
+            settings.setHideRanklessSearch(b);
+            updateUserSettings(settings);
         });
-        rsOutput.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                settings.setHideRanklessSort(b);
-                updateUserSettings(settings);
-            }
+        rsOutput.setOnCheckedChangeListener((compoundButton, b) -> {
+            settings.setHideRanklessSort(b);
+            updateUserSettings(settings);
         });
-        rcSuggestion.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                settings.setHideRanklessComparator(b);
-                updateUserSettings(settings);
-            }
+        rcSuggestion.setOnCheckedChangeListener((compoundButton, b) -> {
+            settings.setHideRanklessComparator(b);
+            updateUserSettings(settings);
         });
 
-        noteRanks.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                settings.setShowNoteRank(b);
-                updateUserSettings(settings);
-            }
+        noteRanks.setOnCheckedChangeListener((compoundButton, b) -> {
+            settings.setShowNoteRank(b);
+            updateUserSettings(settings);
         });
-        noteSort.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                settings.setShowNoteSort(b);
-                updateUserSettings(settings);
-            }
+        noteSort.setOnCheckedChangeListener((compoundButton, b) -> {
+            settings.setShowNoteSort(b);
+            updateUserSettings(settings);
         });
 
-        overscrollRefresh.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean b) {
-                settings.setRefreshOnOverscroll(b);
-                isRankingsReloadNeeded = true;
-                updateUserSettings(settings);
-            }
+        overscrollRefresh.setOnCheckedChangeListener((compoundButton, b) -> {
+            settings.setRefreshOnOverscroll(b);
+            isRankingsReloadNeeded = true;
+            updateUserSettings(settings);
         });
-        sortWatchListByTime.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                settings.setSortWatchListByTime(isChecked);
-                updateUserSettings(settings);
-            }
+        sortWatchListByTime.setOnCheckedChangeListener((buttonView, isChecked) -> {
+            settings.setSortWatchListByTime(isChecked);
+            updateUserSettings(settings);
         });
     }
 

@@ -19,16 +19,15 @@ public class ItemToDisplay {
 
     // Constructor
     ItemToDisplay(String labelText, String dataText, String messageText,
-                  int labelColor, int dataColor, int messageColor,
-                  int dataBackground, String dataDrawable) {
+                  int messageColor) {
         this.labelText = labelText;
         this.dataText = dataText;
         this.messageText = messageText;
-        this.labelColor = labelColor;
-        this.dataColor = dataColor;
+        this.labelColor = android.graphics.Color.BLACK;
+        this.dataColor = android.graphics.Color.DKGRAY;
         this.messageColor = messageColor;
-        this.dataBackground = dataBackground;
-        this.dataDrawable = dataDrawable;
+        this.dataBackground = 0;
+        this.dataDrawable = null;
     }
 
     public String getLabelText() {

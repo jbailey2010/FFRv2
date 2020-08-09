@@ -80,12 +80,7 @@ public class UserCustomPlayerDataActivity extends AppSyncActivity {
                     if (data != null && data.notes() != null && data.notes().length() > 0) {
                         notes.putAll(GSON.fromJson(data.notes(), Map.class));
                     }
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            ((RankingsHome)activity).setUserCustomData(watchList, notes);
-                        }
-                    });
+                    runOnUiThread(() -> ((RankingsHome)activity).setUserCustomData(watchList, notes));
 
                 }
             }

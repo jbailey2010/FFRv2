@@ -42,12 +42,7 @@ public class CommentActivity extends AppSyncActivity {
                     Log.d(TAG, "Successfully upvoted comment " + commentId);
                     final UpvoteCommentMutation.UpvoteComment comment = response.data().upvoteComment();
 
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            ((PlayerInfo) activity).updateVoteCount(comment.id(), comment.upvotes(), comment.downvotes());
-                        }
-                    });
+                    runOnUiThread(() -> ((PlayerInfo) activity).updateVoteCount(comment.id(), comment.upvotes(), comment.downvotes()));
                 }
 
             }
@@ -81,12 +76,7 @@ public class CommentActivity extends AppSyncActivity {
                     Log.d(TAG, "Successfully downvoted comment " + commentId);
                     final DownvoteCommentMutation.DownvoteComment comment = response.data().downvoteComment();
 
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            ((PlayerInfo) activity).updateVoteCount(comment.id(), comment.upvotes(), comment.downvotes());
-                        }
-                    });
+                    runOnUiThread(() -> ((PlayerInfo) activity).updateVoteCount(comment.id(), comment.upvotes(), comment.downvotes()));
                 }
             }
 
@@ -138,12 +128,7 @@ public class CommentActivity extends AppSyncActivity {
                         }
                         comments.add(comment);
                     }
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            ((PlayerInfo)activity).addComments(comments, nextToken);
-                        }
-                    });
+                    runOnUiThread(() -> ((PlayerInfo)activity).addComments(comments, nextToken));
                 }
             }
 
@@ -220,14 +205,11 @@ public class CommentActivity extends AppSyncActivity {
                     newComment.setReplyToId(replyToId);
                     final List<Comment> dummyList = new ArrayList<>();
                     dummyList.add(newComment);
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            try {
-                                ((PlayerInfo) activity).addComments(dummyList, null);
-                            } catch (Exception e) {
-                                Log.d(TAG, "Failed to add comments for player " + playerId, e);
-                            }
+                    runOnUiThread(() -> {
+                        try {
+                            ((PlayerInfo) activity).addComments(dummyList, null);
+                        } catch (Exception e) {
+                            Log.d(TAG, "Failed to add comments for player " + playerId, e);
                         }
                     });
                 }

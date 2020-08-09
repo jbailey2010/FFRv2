@@ -278,12 +278,7 @@ public class ParseMath {
         if (limit == 0.0) {
             return 0.0;
         }
-        Comparator comparator = new Comparator<Player>() {
-            @Override
-            public int compare(Player a, Player b) {
-                return b.getProjection().compareTo(a.getProjection());
-            }
-        };
+        Comparator comparator = (Comparator<Player>) (a, b) -> b.getProjection().compareTo(a.getProjection());
         Collections.sort(position, comparator);
         Player player;
         if (limit.intValue() <= position.size()) {
@@ -330,12 +325,7 @@ public class ParseMath {
     private static double getPositionalProjection(double limit, List<Player> players) {
         double posCounter;
         double posTotal = 0.0;
-        Comparator comparator = new Comparator<Player>() {
-            @Override
-            public int compare(Player a, Player b) {
-                return b.getProjection().compareTo(a.getProjection());
-            }
-        };
+        Comparator comparator = (Comparator<Player>) (a, b) -> b.getProjection().compareTo(a.getProjection());
         Collections.sort(players, comparator);
         int posCap = Math.min((int) limit, players.size());
         for (posCounter = 0; posCounter < posCap; posCounter++) {

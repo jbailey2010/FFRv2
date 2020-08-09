@@ -24,17 +24,14 @@ public class DraftUtils {
     public static Flashbar.OnActionTapListener getUndraftListener(final Activity activity, final Rankings rankings, final Player player,
                                                                   final View view, final RecyclerViewAdapter adapter, final List<Map<String, String>> data,
                                                                   final Map<String, String> datum, final int position, final boolean updateList) {
-        return new Flashbar.OnActionTapListener() {
-            @Override
-            public void onActionTapped(Flashbar flashbar) {
-                rankings.getDraft().undraft(rankings, player, activity, view);
-                if (updateList) {
-                    data.add(position, datum);
-                } else {
-                    datum.put(Constants.PLAYER_ADDITIONAL_INFO, "");
-                }
-                adapter.notifyDataSetChanged();
+        return flashbar -> {
+            rankings.getDraft().undraft(rankings, player, activity, view);
+            if (updateList) {
+                data.add(position, datum);
+            } else {
+                datum.put(Constants.PLAYER_ADDITIONAL_INFO, "");
             }
+            adapter.notifyDataSetChanged();
         };
     }
 
@@ -53,23 +50,15 @@ public class DraftUtils {
         TextView title = noteView.findViewById(R.id.user_input_popup_title);
         title.setText("How much did " + player.getName() + " cost?");
         alertDialogBuilder
-                .setPositiveButton("Save", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        String input = userInput.getText().toString();
-                        if (input.isEmpty() || !GeneralUtils.isInteger(input)) {
-                            callback.onInvalidInput();
-                        } else {
-                            callback.onValidInput(Integer.parseInt(input));
-                        }
+                .setPositiveButton("Save", (dialogInterface, i) -> {
+                    String input = userInput.getText().toString();
+                    if (input.isEmpty() || !GeneralUtils.isInteger(input)) {
+                        callback.onInvalidInput();
+                    } else {
+                        callback.onValidInput(Integer.parseInt(input));
                     }
                 })
-                .setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        callback.onCancel();
-                    }
-                });
+                .setNegativeButton("Cancel", (dialogInterface, i) -> callback.onCancel());
         alertDialogBuilder.setCancelable(false);
         return alertDialogBuilder.create();
     }

@@ -41,12 +41,9 @@ public class CommentAdapter extends SimpleAdapter {
                 ImageView reply = row.findViewById(R.id.comment_reply);
                 reply.setVisibility(View.VISIBLE);
                 final String author = ((TextView)row.findViewById(R.id.comment_author)).getText().toString();
-                reply.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        playerInfo.updateReplyContext(replyDepth +1, id, "Reply to " + author);
-                        playerInfo.giveCommentInputFocus();
-                    }
+                reply.setOnClickListener(v -> {
+                    playerInfo.updateReplyContext(replyDepth +1, id, "Reply to " + author);
+                    playerInfo.giveCommentInputFocus();
                 });
             } else {
                 ImageView reply = row.findViewById(R.id.comment_reply);
@@ -54,19 +51,9 @@ public class CommentAdapter extends SimpleAdapter {
             }
         }
 
-        upvote.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                playerInfo.conditionallyUpvoteComment(id);
-            }
-        });
+        upvote.setOnClickListener(view -> playerInfo.conditionallyUpvoteComment(id));
 
-        downvote.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                playerInfo.conditionallyDownvoteComment(id);
-            }
-        });
+        downvote.setOnClickListener(view -> playerInfo.conditionallyDownvoteComment(id));
 
         return row;
     }
