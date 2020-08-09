@@ -24,12 +24,19 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f5fe9503-cc09-4a8d-b7d9-507f98789a95" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/Rankings.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/Rankings.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/projections/PlayerProjection.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/projections/PlayerProjection.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/extras/CommentAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/extras/CommentAdapter.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParseProjections.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParseProjections.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParseStats.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParseStats.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/appsync/UserSettingsActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/appsync/UserSettingsActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/FantasyNews.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/FantasyNews.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/GeneralUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/GeneralUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/youruserpools/ForgotPasswordActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/youruserpools/ForgotPasswordActivity.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/youruserpools/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/youruserpools/MainActivity.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/youruserpools/RegisterUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/youruserpools/RegisterUser.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/league_settings_base.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/league_settings_base.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/league_settings_flex.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/league_settings_flex.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/league_settings_roster.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/league_settings_roster.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/user_input_popup.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/user_input_popup.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/dimens.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -400,22 +407,22 @@
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="421" y="87" key="FileChooserDialogImpl/0.0.1280.720@0.0.1280.720" timestamp="1596963883874" />
-    <state width="1220" height="127" key="GridCell.Tab.0.bottom" timestamp="1596999675335">
+    <state width="1220" height="170" key="GridCell.Tab.0.bottom" timestamp="1597002048936">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1220" height="127" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1596999675335" />
-    <state width="1220" height="127" key="GridCell.Tab.0.center" timestamp="1596999675335">
+    <state width="1220" height="170" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1597002048936" />
+    <state width="1220" height="170" key="GridCell.Tab.0.center" timestamp="1597002048936">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1220" height="127" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1596999675335" />
-    <state width="1220" height="127" key="GridCell.Tab.0.left" timestamp="1596999675335">
+    <state width="1220" height="170" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1597002048936" />
+    <state width="1220" height="170" key="GridCell.Tab.0.left" timestamp="1597002048936">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1220" height="127" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1596999675335" />
-    <state width="1220" height="127" key="GridCell.Tab.0.right" timestamp="1596999675335">
+    <state width="1220" height="170" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1597002048936" />
+    <state width="1220" height="170" key="GridCell.Tab.0.right" timestamp="1597002048936">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1220" height="127" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1596999675335" />
+    <state width="1220" height="170" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1597002048936" />
     <state x="142" y="3" key="SettingsEditor" timestamp="1596346369394">
       <screen x="0" y="0" width="1280" height="720" />
     </state>

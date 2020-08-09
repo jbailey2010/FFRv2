@@ -133,12 +133,9 @@ public class PlayerInfo extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         final Activity activity = this;
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                GeneralUtils.hideKeyboard(activity);
-                onBackPressed();
-            }
+        toolbar.setNavigationOnClickListener(v -> {
+            GeneralUtils.hideKeyboard(activity);
+            onBackPressed();
         });
 
         sortByUpvotes = Constants.COMMENT_SORT_TOP.equals(LocalSettingsHelper.getCommentSortType(this));
@@ -232,12 +229,9 @@ public class PlayerInfo extends AppCompatActivity {
     }
 
     private void addWatched() {
-        final Flashbar.OnActionTapListener removeWatch = new Flashbar.OnActionTapListener() {
-            @Override
-            public void onActionTapped(Flashbar flashbar) {
-                flashbar.dismiss();
-                removeWatched();
-            }
+        final Flashbar.OnActionTapListener removeWatch = flashbar -> {
+            flashbar.dismiss();
+            removeWatched();
         };
         FlashbarFactory.generateFlashbarWithUndo(this, "Success!", player.getName() + " added to watch list",
                 Flashbar.Gravity.BOTTOM, removeWatch)
@@ -248,12 +242,9 @@ public class PlayerInfo extends AppCompatActivity {
     }
 
     private void removeWatched() {
-        final Flashbar.OnActionTapListener addWatch = new Flashbar.OnActionTapListener() {
-            @Override
-            public void onActionTapped(Flashbar flashbar) {
-                flashbar.dismiss();
-                addWatched();
-            }
+        final Flashbar.OnActionTapListener addWatch = flashbar -> {
+            flashbar.dismiss();
+            addWatched();
         };
         FlashbarFactory.generateFlashbarWithUndo(this, "Success!", player.getName() + " removed from watch list",
                 Flashbar.Gravity.BOTTOM, addWatch)
@@ -381,11 +372,7 @@ public class PlayerInfo extends AppCompatActivity {
 
         alertDialogBuilder
                 .setNegativeButton("Dismiss",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
-                                dialog.cancel();
-                            }
-                        });
+                        (dialog, id) -> dialog.cancel());
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }
@@ -425,24 +412,14 @@ public class PlayerInfo extends AppCompatActivity {
     }
 
     private void draftByMe(int cost) {
-        Flashbar.OnActionTapListener listener = new Flashbar.OnActionTapListener() {
-            @Override
-            public void onActionTapped(Flashbar flashbar) {
-                undraftPlayer();
-            }
-        };
+        Flashbar.OnActionTapListener listener = flashbar -> undraftPlayer();
         rankings.getDraft().draftByMe(rankings, player, this, cost, infoList, listener);
         hideMenuItemsOnDraftStatus();
         displayRanks();
     }
 
     private void draftBySomeone() {
-        Flashbar.OnActionTapListener listener = new Flashbar.OnActionTapListener() {
-            @Override
-            public void onActionTapped(Flashbar flashbar) {
-                undraftPlayer();
-            }
-        };
+        Flashbar.OnActionTapListener listener = flashbar -> undraftPlayer();
         rankings.getDraft().draftBySomeone(rankings, player, this, infoList, listener);
         hideMenuItemsOnDraftStatus();
         displayRanks();
@@ -543,67 +520,33 @@ public class PlayerInfo extends AppCompatActivity {
         ImageButton team =  findViewById(R.id.player_info_team);
         ImageButton news =  findViewById(R.id.player_info_news);
         ImageButton comments = findViewById(R.id.player_info_comments);
-        ranks.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                displayRanks();
-            }
-        });
-        info.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                displayInfo();
-            }
-        });
-        team.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                displayTeam();
-            }
-        });
-        news.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                displayNews();
-            }
-        });
-        comments.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                displayComments();
-            }
-        });
+        ranks.setOnClickListener(v -> displayRanks());
+        info.setOnClickListener(v -> displayInfo());
+        team.setOnClickListener(v -> displayTeam());
+        news.setOnClickListener(v -> displayNews());
+        comments.setOnClickListener(view -> displayComments());
 
-        infoList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView subView = view.findViewById(R.id.player_info);
-                if (Constants.NOTE_SUB.equals(subView.getText().toString())) {
-                    String existing = ((TextView)view.findViewById(R.id.player_basic)).getText().toString();
-                    getNote(existing);
-                }
+        infoList.setOnItemClickListener((parent, view, position, id) -> {
+            TextView subView = view.findViewById(R.id.player_info);
+            if (Constants.NOTE_SUB.equals(subView.getText().toString())) {
+                String existing = ((TextView)view.findViewById(R.id.player_basic)).getText().toString();
+                getNote(existing);
             }
         });
-        infoList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
-                TextView subView = view.findViewById(R.id.player_info);
-                if (Constants.NOTE_SUB.equals(subView.getText().toString())) {
-                    setNoteAndDisplayIt("");
-                }
-                return true;
+        infoList.setOnItemLongClickListener((parent, view, position, id) -> {
+            TextView subView = view.findViewById(R.id.player_info);
+            if (Constants.NOTE_SUB.equals(subView.getText().toString())) {
+                setNoteAndDisplayIt("");
             }
+            return true;
         });
-        commentList.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-            @Override
-            public boolean onItemLongClick(AdapterView<?> adapterView, View view, int i, long l) {
-                String author = ((TextView)view.findViewById(R.id.comment_author)).getText().toString();
-                if (CUPHelper.getCurrUser().equals(author)) {
-                    String id = ((TextView)view.findViewById(R.id.comment_id)).getText().toString();
-                    confirmCommentDeletion(id);
-                }
-                return true;
+        commentList.setOnItemLongClickListener((adapterView, view, i, l) -> {
+            String author = ((TextView)view.findViewById(R.id.comment_author)).getText().toString();
+            if (CUPHelper.getCurrUser().equals(author)) {
+                String id = ((TextView)view.findViewById(R.id.comment_id)).getText().toString();
+                confirmCommentDeletion(id);
             }
+            return true;
         });
 
         displayRanks();
@@ -700,18 +643,12 @@ public class PlayerInfo extends AppCompatActivity {
         final Activity activity = this;
         alertDialogBuilder
                 .setPositiveButton("Yes",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
-                                AppSyncHelper.deleteComment(activity, commentId);
-                                hideComment(commentId);
-                            }
+                        (dialog, id) -> {
+                            AppSyncHelper.deleteComment(activity, commentId);
+                            hideComment(commentId);
                         })
                 .setNegativeButton("No",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
-                                dialog.cancel();
-                            }
-                        });
+                        (dialog, id) -> dialog.cancel());
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }
@@ -755,25 +692,19 @@ public class PlayerInfo extends AppCompatActivity {
         final Activity localCopy = this;
         alertDialogBuilder
                 .setPositiveButton("Save",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
-                                String newNote = userInput.getText().toString();
-                                if (StringUtils.isBlank(newNote)) {
-                                    FlashbarFactory.generateTextOnlyFlashbar(localCopy, "No can do", "No note given",
-                                        Flashbar.Gravity.TOP)
-                                        .show();
-                                } else {
-                                    setNoteAndDisplayIt(newNote);
-                                    dialog.dismiss();
-                                }
+                        (dialog, id) -> {
+                            String newNote = userInput.getText().toString();
+                            if (StringUtils.isBlank(newNote)) {
+                                FlashbarFactory.generateTextOnlyFlashbar(localCopy, "No can do", "No note given",
+                                    Flashbar.Gravity.TOP)
+                                    .show();
+                            } else {
+                                setNoteAndDisplayIt(newNote);
+                                dialog.dismiss();
                             }
                         })
                 .setNegativeButton("Cancel",
-                        new DialogInterface.OnClickListener() {
-                            public void onClick(DialogInterface dialog,int id) {
-                                dialog.cancel();
-                            }
-                        });
+                        (dialog, id) -> dialog.cancel());
         AlertDialog alertDialog = alertDialogBuilder.create();
         alertDialog.show();
     }
@@ -1258,25 +1189,19 @@ public class PlayerInfo extends AppCompatActivity {
         final EditText input = findViewById(R.id.player_info_comment_input);
         final ImageButton submit = findViewById(R.id.player_info_comment_submit);
         final Activity activity = this;
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String commentContent = input.getText().toString();
-                if (!StringUtils.isBlank(commentContent)) {
-                    input.setText("");
-                    AppSyncHelper.createComment(activity, commentContent, player.getUniqueId(), replyId, replyDepth);
-                    GeneralUtils.hideKeyboard(activity);
-                }
+        submit.setOnClickListener(view -> {
+            String commentContent = input.getText().toString();
+            if (!StringUtils.isBlank(commentContent)) {
+                input.setText("");
+                AppSyncHelper.createComment(activity, commentContent, player.getUniqueId(), replyId, replyDepth);
+                GeneralUtils.hideKeyboard(activity);
             }
         });
-        input.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                input.setText("");
-                resetReplyContext();
-                GeneralUtils.hideKeyboard(activity);
-                return true;
-            }
+        input.setOnLongClickListener(v -> {
+            input.setText("");
+            resetReplyContext();
+            GeneralUtils.hideKeyboard(activity);
+            return true;
         });
 
         commentAdapter.notifyDataSetChanged();
@@ -1417,19 +1342,9 @@ public class PlayerInfo extends AppCompatActivity {
         }
         this.comments.addAll(newComments);
         if (sortByUpvotes) {
-            Collections.sort(this.comments,new Comparator<Comment>() {
-                @Override
-                public int compare(Comment a, Comment b) {
-                    return b.getUpvotes().compareTo(a.getUpvotes());
-                }
-            });
+            Collections.sort(this.comments, (a, b) -> b.getUpvotes().compareTo(a.getUpvotes()));
             for (List<Comment> replies : replyMap.values()) {
-                Collections.sort(replies,new Comparator<Comment>() {
-                    @Override
-                    public int compare(Comment a, Comment b) {
-                        return b.getUpvotes().compareTo(a.getUpvotes());
-                    }
-                });
+                Collections.sort(replies, (a, b) -> b.getUpvotes().compareTo(a.getUpvotes()));
             }
         }
 
@@ -1600,13 +1515,10 @@ public class PlayerInfo extends AppCompatActivity {
     private List<Player> getPlayersDraftedNearby() {
 
         // First, sort all players by nearest adp to player
-        Comparator<Player> comparator =  new Comparator<Player>() {
-            @Override
-            public int compare(Player a, Player b) {
-                int diffA = Math.abs((int)(a.getAdp() - player.getAdp()));
-                int diffB = Math.abs((int)(b.getAdp() - player.getAdp()));
-                return Integer.compare(diffA, diffB);
-            }
+        Comparator<Player> comparator = (a, b) -> {
+            int diffA = Math.abs((int)(a.getAdp() - player.getAdp()));
+            int diffB = Math.abs((int)(b.getAdp() - player.getAdp()));
+            return Integer.compare(diffA, diffB);
         };
         List<Player> allPlayers = new ArrayList<>(rankings.getPlayers().values());
         Collections.sort(allPlayers, comparator);
@@ -1627,12 +1539,7 @@ public class PlayerInfo extends AppCompatActivity {
         }
 
         // Finally, we want to sort these by adp overall.
-        Comparator<Player> adpComparator =  new Comparator<Player>() {
-            @Override
-            public int compare(Player a, Player b) {
-                return a.getAdp().compareTo(b.getAdp());
-            }
-        };
+        Comparator<Player> adpComparator = (a, b) -> a.getAdp().compareTo(b.getAdp());
         Collections.sort(nearestPlayers, adpComparator);
         return nearestPlayers;
     }

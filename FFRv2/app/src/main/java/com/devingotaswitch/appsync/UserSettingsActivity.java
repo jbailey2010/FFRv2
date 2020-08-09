@@ -83,12 +83,9 @@ public class UserSettingsActivity extends AppSyncActivity {
                     userSettings.setHideRanklessSearch(settings.hideIrrelevantSearch());
                     userSettings.setHideRanklessSort(settings.hideIrrelevantSort());
                     userSettings.setSortWatchListByTime(settings.sortWatchListByTime());
-                    runOnUiThread(new Runnable() {
-                        @Override
-                        public void run() {
-                            if (activity instanceof RankingsHome) {
-                                ((RankingsHome)activity).setUserSettings(userSettings);
-                            }
+                    runOnUiThread(() -> {
+                        if (activity instanceof RankingsHome) {
+                            ((RankingsHome)activity).setUserSettings(userSettings);
                         }
                     });
                 }

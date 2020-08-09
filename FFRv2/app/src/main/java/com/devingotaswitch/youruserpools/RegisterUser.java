@@ -60,12 +60,7 @@ public class RegisterUser extends AppCompatActivity {
         TextView main_title = findViewById(R.id.signUp_toolbar_title);
         main_title.setText("Sign up");
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
         init();
     }
 
@@ -204,65 +199,62 @@ public class RegisterUser extends AppCompatActivity {
         });
 
         Button signUp = findViewById(R.id.signUp);
-        signUp.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Read user data and register
-                CognitoUserAttributes userAttributes = new CognitoUserAttributes();
+        signUp.setOnClickListener(v -> {
+            // Read user data and register
+            CognitoUserAttributes userAttributes = new CognitoUserAttributes();
 
-                usernameInput = username.getText().toString();
-                if (usernameInput == null || usernameInput.isEmpty()) {
-                    TextView view = findViewById(R.id.textViewRegUserIdMessage);
-                    view.setText(username.getHint() + " cannot be empty");
-                    username.setBackground(getDrawable(R.drawable.text_border_error));
-                    return;
-                }
-
-                String userpasswordInput = password.getText().toString();
-                userPasswd = userpasswordInput;
-                if (userpasswordInput == null || userpasswordInput.isEmpty()) {
-                    TextView view = findViewById(R.id.textViewUserRegPasswordMessage);
-                    view.setText(password.getHint() + " cannot be empty");
-                    password.setBackground(getDrawable(R.drawable.text_border_error));
-                    return;
-                }
-
-                String userInput = givenName.getText().toString();
-                if (userInput != null && userInput.length() > 0) {
-                    userAttributes.addAttribute(CUPHelper.getSignUpFieldsC2O().get("Name"), userInput);
-                } else {
-                    TextView view = findViewById(R.id.textViewRegGivenNameMessage);
-                    view.setText(givenName.getHint() + " cannot be empty");
-                    givenName.setBackground(getDrawable(R.drawable.text_border_error));
-                    return;
-                }
-
-                String phoneNumber = phone.getText().toString();
-                if (phoneNumber != null && phoneNumber.length() > 0) {
-                    userAttributes.addAttribute(CUPHelper.getSignUpFieldsC2O().get("Phone number"), phoneNumber);
-                } else {
-                    TextView view = findViewById(R.id.textViewRegPhoneMessage);
-                    view.setText(phone.getHint() + " cannot be empty");
-                    phone.setBackground(getDrawable(R.drawable.text_border_error));
-                    return;
-                }
-
-                String emailAddress = email.getText().toString();
-                if (emailAddress != null && emailAddress.length() > 0) {
-                    userAttributes.addAttribute(CUPHelper.getSignUpFieldsC2O().get("Email"), emailAddress);
-                } else {
-                    TextView view = findViewById(R.id.textViewRegEmailMessage);
-                    view.setText(email.getHint() + " cannot be empty");
-                    email.setBackground(getDrawable(R.drawable.text_border_error));
-                    return;
-                }
-
-                showWaitDialog("Signing up...");
-
-                CUPHelper.getPool().signUpInBackground(usernameInput, userpasswordInput,
-                        userAttributes, null, signUpHandler);
-
+            usernameInput = username.getText().toString();
+            if (usernameInput == null || usernameInput.isEmpty()) {
+                TextView view = findViewById(R.id.textViewRegUserIdMessage);
+                view.setText(username.getHint() + " cannot be empty");
+                username.setBackground(getDrawable(R.drawable.text_border_error));
+                return;
             }
+
+            String userpasswordInput = password.getText().toString();
+            userPasswd = userpasswordInput;
+            if (userpasswordInput == null || userpasswordInput.isEmpty()) {
+                TextView view = findViewById(R.id.textViewUserRegPasswordMessage);
+                view.setText(password.getHint() + " cannot be empty");
+                password.setBackground(getDrawable(R.drawable.text_border_error));
+                return;
+            }
+
+            String userInput = givenName.getText().toString();
+            if (userInput != null && userInput.length() > 0) {
+                userAttributes.addAttribute(CUPHelper.getSignUpFieldsC2O().get("Name"), userInput);
+            } else {
+                TextView view = findViewById(R.id.textViewRegGivenNameMessage);
+                view.setText(givenName.getHint() + " cannot be empty");
+                givenName.setBackground(getDrawable(R.drawable.text_border_error));
+                return;
+            }
+
+            String phoneNumber = phone.getText().toString();
+            if (phoneNumber != null && phoneNumber.length() > 0) {
+                userAttributes.addAttribute(CUPHelper.getSignUpFieldsC2O().get("Phone number"), phoneNumber);
+            } else {
+                TextView view = findViewById(R.id.textViewRegPhoneMessage);
+                view.setText(phone.getHint() + " cannot be empty");
+                phone.setBackground(getDrawable(R.drawable.text_border_error));
+                return;
+            }
+
+            String emailAddress = email.getText().toString();
+            if (emailAddress != null && emailAddress.length() > 0) {
+                userAttributes.addAttribute(CUPHelper.getSignUpFieldsC2O().get("Email"), emailAddress);
+            } else {
+                TextView view = findViewById(R.id.textViewRegEmailMessage);
+                view.setText(email.getHint() + " cannot be empty");
+                email.setBackground(getDrawable(R.drawable.text_border_error));
+                return;
+            }
+
+            showWaitDialog();
+
+            CUPHelper.getPool().signUpInBackground(usernameInput, userpasswordInput,
+                    userAttributes, null, signUpHandler);
+
         });
     }
 
@@ -317,18 +309,15 @@ public class RegisterUser extends AppCompatActivity {
 
     private void showDialogMessage(String title, String body, final boolean exit) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(title).setMessage(body).setNeutralButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                try {
-                    userDialog.dismiss();
-                    if(exit) {
-                        exit(usernameInput);
-                    }
-                } catch (Exception e) {
-                    if(exit) {
-                        exit(usernameInput);
-                    }
+        builder.setTitle(title).setMessage(body).setNeutralButton("OK", (dialog, which) -> {
+            try {
+                userDialog.dismiss();
+                if(exit) {
+                    exit(usernameInput);
+                }
+            } catch (Exception e) {
+                if(exit) {
+                    exit(usernameInput);
                 }
             }
         });
@@ -336,10 +325,10 @@ public class RegisterUser extends AppCompatActivity {
         userDialog.show();
     }
 
-    private void showWaitDialog(String message) {
+    private void showWaitDialog() {
         closeWaitDialog();
         waitDialog = new MaterialAlertDialogBuilder(this)
-            .setTitle(message)
+            .setTitle("Signing up...")
             .create();
         waitDialog.show();
     }

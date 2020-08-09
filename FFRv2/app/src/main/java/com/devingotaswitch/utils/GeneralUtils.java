@@ -33,13 +33,11 @@ public class GeneralUtils {
 
     private static List<String> sortData(
             List<String> data) {
-        Collections.sort(data, new Comparator<String>() {
-            public int compare(String a, String b) {
-                String aName = a.split(Constants.RANKINGS_LIST_DELIMITER)[1].split(Constants.LINE_BREAK)[0];
-                String bName = b.split(Constants.RANKINGS_LIST_DELIMITER)[1].split(Constants.LINE_BREAK)[0];
-                int judgment = aName.compareTo(bName);
-                return Integer.compare(judgment, 0);
-            }
+        Collections.sort(data, (a, b) -> {
+            String aName = a.split(Constants.RANKINGS_LIST_DELIMITER)[1].split(Constants.LINE_BREAK)[0];
+            String bName = b.split(Constants.RANKINGS_LIST_DELIMITER)[1].split(Constants.LINE_BREAK)[0];
+            int judgment = aName.compareTo(bName);
+            return Integer.compare(judgment, 0);
         });
         return data;
     }

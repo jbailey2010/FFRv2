@@ -146,6 +146,7 @@
             android:id="@+id/league_settings_create_default"
             android:background="@drawable/button_selector"
             android:layout_weight="1"
+            style="?android:attr/buttonBarButtonStyle"
             android:layout_margin="2dp"/>
 
         <Button
@@ -156,6 +157,7 @@
             android:text="Advanced Settings"
             android:textAllCaps="false"
             android:textColor="@color/white"
+            style="?android:attr/buttonBarButtonStyle"
             android:textSize="15sp"
             android:layout_weight="1"
             android:layout_margin="2dp"/>

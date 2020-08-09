@@ -69,12 +69,7 @@ public class FantasyNews extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                onBackPressed();
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> onBackPressed());
     }
 
     @Override
@@ -106,18 +101,15 @@ public class FantasyNews extends AppCompatActivity {
 
         final Button submit = findViewById(R.id.news_selection_submit);
         final Activity localCopy = this;
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (GeneralUtils.confirmInternet(localCopy)) {
-                    String selectedSource = sources.get(sourcesSpinner.getSelectedIndex());
-                    getNews(selectedSource);
-                    LocalSettingsHelper.saveSelectedNewsSource(localCopy, selectedSource);
-                } else {
-                    FlashbarFactory.generateTextOnlyFlashbar(localCopy, "No can do", "No internet connection available",
-                            Flashbar.Gravity.BOTTOM)
-                            .show();
-                }
+        submit.setOnClickListener(v -> {
+            if (GeneralUtils.confirmInternet(localCopy)) {
+                String selectedSource = sources.get(sourcesSpinner.getSelectedIndex());
+                getNews(selectedSource);
+                LocalSettingsHelper.saveSelectedNewsSource(localCopy, selectedSource);
+            } else {
+                FlashbarFactory.generateTextOnlyFlashbar(localCopy, "No can do", "No internet connection available",
+                        Flashbar.Gravity.BOTTOM)
+                        .show();
             }
         });
 
@@ -148,19 +140,16 @@ public class FantasyNews extends AppCompatActivity {
                 R.layout.list_item_layout,
                 new String[] { Constants.PLAYER_BASIC, Constants.PLAYER_INFO},
                 new int[] { R.id.player_basic, R.id.player_info});
-        adapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                if (nameToId.size() > 0) {
-                    String[] newsMainArr = ((TextView) view.findViewById(R.id.player_basic)).getText().toString()
-                            .replaceAll(":", "").replaceAll(",", "").replaceAll("\\?", "").split(" ");
-                    for (int i = 0; i < newsMainArr.length - 1; i++) {
-                        String possibleName = newsMainArr[i] +
-                                " " +
-                                newsMainArr[i + 1];
-                        if (nameToId.containsKey(possibleName)) {
-                            displayPlayerInfo(nameToId.get(possibleName));
-                        }
+        adapter.setOnItemClickListener((view, position) -> {
+            if (nameToId.size() > 0) {
+                String[] newsMainArr = ((TextView) view.findViewById(R.id.player_basic)).getText().toString()
+                        .replaceAll(":", "").replaceAll(",", "").replaceAll("\\?", "").split(" ");
+                for (int i = 0; i < newsMainArr.length - 1; i++) {
+                    String possibleName = newsMainArr[i] +
+                            " " +
+                            newsMainArr[i + 1];
+                    if (nameToId.containsKey(possibleName)) {
+                        displayPlayerInfo(nameToId.get(possibleName));
                     }
                 }
             }
@@ -169,12 +158,7 @@ public class FantasyNews extends AppCompatActivity {
         listview.addItemDecoration(DisplayUtils.getVerticalDividerDecoration(this));
 
         listview.setAdapter(adapter);
-        findViewById(R.id.main_toolbar_title).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                listview.smoothScrollToPosition(0);
-            }
-        });
+        findViewById(R.id.main_toolbar_title).setOnClickListener(v -> listview.smoothScrollToPosition(0));
 
         LocalSettingsHelper.cacheNews(this, news);
     }

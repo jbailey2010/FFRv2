@@ -31,12 +31,7 @@ public class ForgotPasswordActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                exit(null, null);
-            }
-        });
+        toolbar.setNavigationOnClickListener(v -> exit(null, null));
 
         TextView main_title = findViewById(R.id.forgot_password_toolbar_title);
         main_title.setText("Forgot password");

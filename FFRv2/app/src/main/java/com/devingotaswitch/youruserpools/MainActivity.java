@@ -443,12 +443,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void notifyUserOnInternet(boolean isRefresh) {
-        Flashbar.OnActionTapListener snackBarListener = new Flashbar.OnActionTapListener() {
-            @Override
-            public void onActionTapped(Flashbar flashbar) {
-                findCurrent();
-            }
-        };
+        Flashbar.OnActionTapListener snackBarListener = flashbar -> findCurrent();
         if (isRefresh) {
             FlashbarFactory.generateInfiniteFlashbarWithAction(this, "No can do", "No internet connection", Flashbar.Gravity.BOTTOM,
                     snackBarListener, "Re-connect")
@@ -504,16 +499,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void showDialogMessage(String title, final String body) {
         final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle(title).setMessage(body).setNeutralButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                try {
-                    userDialog.dismiss();
-                    if (body.toLowerCase().contains("confirmed")) {
-                        confirmUser(true);
-                    }
-                } catch (Exception ignored) {
+        builder.setTitle(title).setMessage(body).setNeutralButton("OK", (dialog, which) -> {
+            try {
+                userDialog.dismiss();
+                if (body.toLowerCase().contains("confirmed")) {
+                    confirmUser(true);
                 }
+            } catch (Exception ignored) {
             }
         });
         userDialog = builder.create();
