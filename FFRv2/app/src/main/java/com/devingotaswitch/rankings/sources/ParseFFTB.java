@@ -69,7 +69,7 @@ public class ParseFFTB {
                         team +
                         Constants.PLAYER_ID_DELIMITER +
                         pos;
-                Player player = null;
+                Player player;
                 if (rankings.getPlayers().containsKey(playerId)) {
                     player = rankings.getPlayer(playerId);
                 } else {

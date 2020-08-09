@@ -42,8 +42,6 @@ public class CUPHelper {
     private static boolean phoneVerified;
     private static boolean phoneAvailable;
 
-    private static Set<String> currUserAttributes;
-
     public static void init(Context context) {
         setData();
 
@@ -59,7 +57,6 @@ public class CUPHelper {
         phoneVerified = false;
         phoneAvailable = false;
 
-        currUserAttributes = new HashSet<>();
         currDisplayedItems = new ArrayList<>();
         firstTimeLogInDetails = new ArrayList<>();
         firstTimeLogInUpDatedAttributes= new HashMap<>();
@@ -228,7 +225,6 @@ public class CUPHelper {
         phoneAvailable = false;
 
         currDisplayedItems = new ArrayList<>();
-        currUserAttributes.clear();
         itemCount = 0;
 
         for(Map.Entry<String, String> attr: userDetails.getAttributes().getAttributes().entrySet()) {
@@ -268,7 +264,6 @@ public class CUPHelper {
                 }
                 
                 currDisplayedItems.add(item);
-                currUserAttributes.add(det);
                 itemCount++;
             }
         }

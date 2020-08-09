@@ -1236,7 +1236,7 @@ public class PlayerInfo extends AppCompatActivity {
             commentData.add(emptyMap);
         }
 
-        boolean moreFound = false;
+        boolean moreFound;
         Set<String> seenComments = new HashSet<>();
         do {
             moreFound = false;

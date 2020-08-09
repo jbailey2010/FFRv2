@@ -5,9 +5,9 @@ import com.devingotaswitch.utils.Constants;
 
 public class PassingProjection extends ProjectionBase {
 
-    private double yards = 0.0;
-    private double tds = 0.0;
-    private double ints = 0.0;
+    private double yards;
+    private double tds;
+    private double ints;
 
     PassingProjection(double yards, double tds, double ints) {
         this.tds = tds;

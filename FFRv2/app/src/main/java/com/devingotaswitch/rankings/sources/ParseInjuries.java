@@ -39,7 +39,7 @@ public class ParseInjuries {
             playerStatus = playerStatus.substring(0, 1).toUpperCase() + playerStatus.substring(1);
 
 
-            String injuryStr = "";
+            String injuryStr;
 
             if (pos.equals("CB") || pos.equals("LB") || pos.equals("DT") || pos.equals("DB") ||
                     pos.equals("DE") || pos.equals("S")) {

@@ -4,9 +4,9 @@ import com.devingotaswitch.rankings.domain.ScoringSettings;
 import com.devingotaswitch.utils.Constants;
 
 public class RushingProjection extends ProjectionBase {
-    private double yards = 0.0;
-    private double tds = 0.0;
-    private double fumbles = 0.0;
+    private double yards;
+    private double tds;
+    private double fumbles;
 
     RushingProjection(double yards, double tds, double fumbles) {
         this.yards = yards;
