@@ -47,6 +47,7 @@ import com.devingotaswitch.rankings.extras.MultiSelectionSpinner;
 import com.devingotaswitch.rankings.extras.RecyclerViewAdapter;
 import com.devingotaswitch.rankings.extras.SwipeDismissTouchListener;
 import com.devingotaswitch.utils.Constants;
+import com.devingotaswitch.utils.DisplayUtils;
 import com.devingotaswitch.utils.DraftUtils;
 import com.devingotaswitch.utils.FlashbarFactory;
 import com.devingotaswitch.utils.GeneralUtils;
@@ -686,13 +687,11 @@ public class PlayerSorter extends AppCompatActivity {
                         adapter.notifyDataSetChanged();
                     }
                 }, onItemClickListener);
-        listview.setOnTouchListener(swipeListener);
+        adapter.setOnTouchListener(swipeListener);
         listview.addOnScrollListener(new OnScrollListener() {
-
-
             @Override
             public void onScrollStateChanged(RecyclerView view, int scrollState) {
-                swipeListener.setEnabled(scrollState != AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL);
+                swipeListener.setEnabled(scrollState == RecyclerView.SCROLL_STATE_IDLE);
             }
 
             @Override
@@ -705,6 +704,7 @@ public class PlayerSorter extends AppCompatActivity {
             }
         });
         listview.getLayoutManager().scrollToPosition(selectedIndex);
+        listview.addItemDecoration(DisplayUtils.getVerticalDividerDecoration(this));
 
         TextView titleView = findViewById(R.id.main_toolbar_title);
         titleView.setOnClickListener(new View.OnClickListener() {
