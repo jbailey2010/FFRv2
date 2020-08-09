@@ -23,17 +23,11 @@
   <component name="ChangeListManager">
     <list default="true" id="f5fe9503-cc09-4a8d-b7d9-507f98789a95" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/ADPSimulator.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/ADPSimulator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/FantasyNews.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/FantasyNews.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerComparator.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerComparator.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/RankingsHome.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/RankingsHome.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/asynctasks/RankingsFetcher.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/asynctasks/RankingsFetcher.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/asynctasks/RankingsLoader.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/asynctasks/RankingsLoader.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/youruserpools/ChangePasswordActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/youruserpools/ChangePasswordActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/youruserpools/MainActivity.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/youruserpools/MainActivity.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/youruserpools/RegisterUser.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/youruserpools/RegisterUser.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/colors.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/values/styles.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/youruserpools/NewPassword.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_new_password.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/content_new_password.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/current_user_details.xml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -107,7 +101,7 @@
     <property name="ExportApk.Flavors" value="" />
     <property name="ExportApk.SignV2" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="SearchEverywhereHistoryKey" value="&#9;FILE&#9;file://C:/Users/jeffbail/Documents/GitHub/FFRv2/FFRv2/app/src/main/res/layout/content_player_comparator.xml&#10;InputMethodManager&#9;PSI&#9;JAVA://android.view.inputmethod.InputMethodManager" />
+    <property name="SearchEverywhereHistoryKey" value=" FILE file://C:/Users/jeffbail/Documents/GitHub/FFRv2/FFRv2/app/src/main/res/layout/content_player_comparator.xml&#10;InputMethodManager PSI JAVA://android.view.inputmethod.InputMethodManager" />
     <property name="UI_DESIGNER_EDITOR_MODE.CaptureAnalysis.SHOW" value="false" />
     <property name="android.profiler.active" value="true" />
     <property name="android.project.structure.last.selected" value="app" />
@@ -115,7 +109,7 @@
     <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
     <property name="device.picker.selection" value="Pixel_3_XL_API_29" />
     <property name="extract.method.default.visibility" value="private" />
-    <property name="last_opened_file_path" value="$USER_HOME$/Dropbox" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$/amplify/backend/api/amplifyDatasource" />
     <property name="run.code.analysis.last.selected.profile" value="pProject Default" />
     <property name="settings.editor.selected.configurable" value="vcs.Git" />
     <property name="sync.plugin.last.upgrade.timestamp" value="1533796515537" />
@@ -141,6 +135,7 @@
       <recent name="com.devingotaswitch.rankings.sources" />
     </key>
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\jbail\Documents\GitHub\FFRv2\FFRv2\amplify\backend\api\amplifyDatasource" />
       <recent name="C:\Users\jeffbail\Documents\GitHub\FFRv2\FFRv2\app\src\main\res\menu" />
       <recent name="C:\Users\jeffbail\Documents\GitHub\FFRv2\FFRv2\app\src\main\res\drawable" />
     </key>
@@ -148,7 +143,7 @@
       <recent name="" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Android App.app">
     <configuration default="true" type="AndroidTestRunConfigurationType" factoryName="Android Tests">
       <module name="" />
       <option name="TESTING_TYPE" value="0" />
@@ -298,6 +293,44 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="amplifyPush" type="GradleRunConfiguration" factoryName="Gradle" nameIsGenerated="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="amplifyPush" />
+          </list>
+        </option>
+        <option name="vmOptions" value="" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
+    <configuration name="modelgen" type="GradleRunConfiguration" factoryName="Gradle" nameIsGenerated="true">
+      <ExternalSystemSettings>
+        <option name="executionName" />
+        <option name="externalProjectPath" value="$PROJECT_DIR$" />
+        <option name="externalSystemIdString" value="GRADLE" />
+        <option name="scriptParameters" value="" />
+        <option name="taskDescriptions">
+          <list />
+        </option>
+        <option name="taskNames">
+          <list>
+            <option value="modelgen" />
+          </list>
+        </option>
+        <option name="vmOptions" value="" />
+      </ExternalSystemSettings>
+      <GradleScriptDebugEnabled>true</GradleScriptDebugEnabled>
+      <method v="2" />
+    </configuration>
     <configuration default="true" type="TestNG">
       <option name="TEST_OBJECT" value="CLASS" />
       <option name="WORKING_DIRECTORY" value="$MODULE_DIR$" />
@@ -351,22 +384,22 @@
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="421" y="87" key="FileChooserDialogImpl/0.0.1280.720@0.0.1280.720" timestamp="1596864574900" />
-    <state width="1220" height="173" key="GridCell.Tab.0.bottom" timestamp="1596872026490">
+    <state width="1236" height="173" key="GridCell.Tab.0.bottom" timestamp="1596934474459">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1220" height="173" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1596872026490" />
-    <state width="1220" height="173" key="GridCell.Tab.0.center" timestamp="1596872026489">
+    <state width="1236" height="173" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1596934474459" />
+    <state width="1236" height="173" key="GridCell.Tab.0.center" timestamp="1596934474458">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1220" height="173" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1596872026489" />
-    <state width="1220" height="173" key="GridCell.Tab.0.left" timestamp="1596872026489">
+    <state width="1236" height="173" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1596934474458" />
+    <state width="1236" height="173" key="GridCell.Tab.0.left" timestamp="1596934474458">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1220" height="173" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1596872026489" />
-    <state width="1220" height="173" key="GridCell.Tab.0.right" timestamp="1596872026489">
+    <state width="1236" height="173" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1596934474458" />
+    <state width="1236" height="173" key="GridCell.Tab.0.right" timestamp="1596934474459">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1220" height="173" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1596872026489" />
+    <state width="1236" height="173" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1596934474459" />
     <state x="142" y="3" key="SettingsEditor" timestamp="1596346369394">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
@@ -379,10 +412,10 @@
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="297" y="163" key="run.anything.popup/0.0.1280.720@0.0.1280.720" timestamp="1596869974378" />
-    <state x="303" y="41" width="672" height="678" key="search.everywhere.popup" timestamp="1596871590323">
+    <state x="303" y="41" width="672" height="678" key="search.everywhere.popup" timestamp="1596872366129">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state x="303" y="41" width="672" height="678" key="search.everywhere.popup/0.0.1280.720@0.0.1280.720" timestamp="1596871590323" />
+    <state x="303" y="41" width="672" height="678" key="search.everywhere.popup/0.0.1280.720@0.0.1280.720" timestamp="1596872366129" />
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
