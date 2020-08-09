@@ -326,70 +326,55 @@ public class Rankings {
         List<String> orderedIds = new ArrayList<>();
         Comparator<Player> comparator;
         if (getLeagueSettings().isAuction()) {
-            comparator = new Comparator<Player>() {
-                    @Override
-                    public int compare(Player a, Player b) {
-                    if (a.getAuctionValue() > b.getAuctionValue()) {
-                         return -1;
-                    }
-                    if (a.getAuctionValue() < b.getAuctionValue()) {
-                        return 1;
-                    }
-                    return 0;
-                }
-                };
+            comparator = (a, b) -> {
+            if (a.getAuctionValue() > b.getAuctionValue()) {
+                 return -1;
+            }
+            if (a.getAuctionValue() < b.getAuctionValue()) {
+                return 1;
+            }
+            return 0;
+        };
         } else if (getLeagueSettings().isDynasty()) {
-            comparator = new Comparator<Player>() {
-                    @Override
-                    public int compare(Player a, Player b) {
-                    if (a.getDynastyRank() > b.getDynastyRank()) {
-                        return 1;
-                    }
-                    if (a.getDynastyRank() < b.getDynastyRank()) {
-                        return -1;
-                    }
-                    return 0;
-                }
-                };
+            comparator = (a, b) -> {
+            if (a.getDynastyRank() > b.getDynastyRank()) {
+                return 1;
+            }
+            if (a.getDynastyRank() < b.getDynastyRank()) {
+                return -1;
+            }
+            return 0;
+        };
         } else if (getLeagueSettings().isRookie()) {
-            comparator = new Comparator<Player>() {
-                    @Override
-                    public int compare(Player a, Player b) {
-                    if (a.getRookieRank() > b.getRookieRank()) {
-                        return 1;
-                    }
-                    if (a.getRookieRank() < b.getRookieRank()) {
-                        return -1;
-                    }
-                    return 0;
-                }
-                };
+            comparator = (a, b) -> {
+            if (a.getRookieRank() > b.getRookieRank()) {
+                return 1;
+            }
+            if (a.getRookieRank() < b.getRookieRank()) {
+                return -1;
+            }
+            return 0;
+        };
         } else if (getLeagueSettings().isBestBall()) {
-            comparator = new Comparator<Player>() {
-                    @Override
-                    public int compare(Player a, Player b) {
-                    if (a.getBestBallRank() > b.getBestBallRank()) {
-                        return 1;
-                    }
-                    if (a.getBestBallRank() < b.getBestBallRank()) {
-                        return -1;
-                    }
-                    return 0;
-                }
-                };
+            comparator = (a, b) -> {
+            if (a.getBestBallRank() > b.getBestBallRank()) {
+                return 1;
+            }
+            if (a.getBestBallRank() < b.getBestBallRank()) {
+                return -1;
+            }
+            return 0;
+        };
         } else {
-            comparator = new Comparator<Player>() {
-                    @Override
-                    public int compare(Player a, Player b) {
-                    if (a.getEcr() > b.getEcr()) {
-                        return 1;
-                    }
-                    if (a.getEcr() < b.getEcr()) {
-                        return -1;
-                    }
-                    return 0;
-                }
-                };
+            comparator = (a, b) -> {
+            if (a.getEcr() > b.getEcr()) {
+                return 1;
+            }
+            if (a.getEcr() < b.getEcr()) {
+                return -1;
+            }
+            return 0;
+        };
         }
         List<Player> playerList = new ArrayList<>(players);
         Collections.sort(playerList, comparator);

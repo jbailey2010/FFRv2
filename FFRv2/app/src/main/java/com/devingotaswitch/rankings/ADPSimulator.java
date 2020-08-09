@@ -64,12 +64,9 @@ public class ADPSimulator extends AppCompatActivity {
         getSupportActionBar().setDisplayShowHomeEnabled(true);
 
         final Activity act = this;
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                GeneralUtils.hideKeyboard(act);
-                onBackPressed();
-            }
+        toolbar.setNavigationOnClickListener(v -> {
+            GeneralUtils.hideKeyboard(act);
+            onBackPressed();
         });
     }
 
@@ -96,45 +93,37 @@ public class ADPSimulator extends AppCompatActivity {
         final FilterWithSpaceAdapter mAdapter = GeneralUtils.getPlayerSearchAdapter(rankings, this, false, false);
         searchInput.setAdapter(mAdapter);
 
-        searchInput.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                setPlayerToBeChecked(GeneralUtils.getPlayerIdFromSearchView(view));
-            }
-        });
+        searchInput.setOnItemClickListener((parent, view, position, id) -> setPlayerToBeChecked(GeneralUtils.getPlayerIdFromSearchView(view)));
 
         result = findViewById(R.id.adp_output_view);
         roundInput = findViewById(R.id.adp_pick_round);
         pickInput = findViewById(R.id.adp_pick_in_round);
         Button submit = findViewById(R.id.adp_submit_button);
         final Activity act = this;
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (playerToSearch == null) {
-                    FlashbarFactory.generateTextOnlyFlashbar(act, "No can do", "Invalid player, use the dropdown to pick", Flashbar.Gravity.TOP)
-                            .show();
-                    return;
-                }
-                String roundStr = roundInput.getText().toString();
-                String pickStr = pickInput.getText().toString();
-                if (!GeneralUtils.isInteger(roundStr) || !GeneralUtils.isInteger(pickStr)) {
-                    FlashbarFactory.generateTextOnlyFlashbar(act, "No can do", "Pick/round must be provided as numbers", Flashbar.Gravity.TOP)
-                            .show();
-                    return;
-                }
-                int round = Integer.parseInt(roundStr);
-                int pick = Integer.parseInt(pickStr);
-                if (pick > rankings.getLeagueSettings().getTeamCount()) {
-                    FlashbarFactory.generateTextOnlyFlashbar(act, "No can do", "Pick can't be higher than current league team count", Flashbar.Gravity.TOP)
-                            .show();
-                    return;
-                }
-                int overallPick = ((round - 1) * rankings.getLeagueSettings().getTeamCount()) + pick;
-
-                GeneralUtils.hideKeyboard(act);
-                getADPOddsForInput(overallPick);
+        submit.setOnClickListener(v -> {
+            if (playerToSearch == null) {
+                FlashbarFactory.generateTextOnlyFlashbar(act, "No can do", "Invalid player, use the dropdown to pick", Flashbar.Gravity.TOP)
+                        .show();
+                return;
             }
+            String roundStr = roundInput.getText().toString();
+            String pickStr = pickInput.getText().toString();
+            if (!GeneralUtils.isInteger(roundStr) || !GeneralUtils.isInteger(pickStr)) {
+                FlashbarFactory.generateTextOnlyFlashbar(act, "No can do", "Pick/round must be provided as numbers", Flashbar.Gravity.TOP)
+                        .show();
+                return;
+            }
+            int round = Integer.parseInt(roundStr);
+            int pick = Integer.parseInt(pickStr);
+            if (pick > rankings.getLeagueSettings().getTeamCount()) {
+                FlashbarFactory.generateTextOnlyFlashbar(act, "No can do", "Pick can't be higher than current league team count", Flashbar.Gravity.TOP)
+                        .show();
+                return;
+            }
+            int overallPick = ((round - 1) * rankings.getLeagueSettings().getTeamCount()) + pick;
+
+            GeneralUtils.hideKeyboard(act);
+            getADPOddsForInput(overallPick);
         });
     }
 
@@ -152,14 +141,11 @@ public class ADPSimulator extends AppCompatActivity {
         result.setText(output);
         final Activity localCopy = this;
         final String playerId = playerToSearch.getUniqueId();
-        result.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                Intent intent = new Intent(localCopy, PlayerInfo.class);
-                intent.putExtra(Constants.PLAYER_ID, playerId);
-                startActivity(intent);
-                return true;
-            }
+        result.setOnLongClickListener(v -> {
+            Intent intent = new Intent(localCopy, PlayerInfo.class);
+            intent.putExtra(Constants.PLAYER_ID, playerId);
+            startActivity(intent);
+            return true;
         });
         clearInputs();
     }

@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.graphics.Rect;
 import android.os.SystemClock;
+import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
@@ -107,9 +108,6 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
 
     @Override
     public boolean onTouch(View view, MotionEvent motionEvent) {
-        long startTouch = 0L;
-        long endTouch = 0L;
-        boolean shouldLongClick = false;
 
         if (mViewWidth < 2) {
             mViewWidth = mListView.getWidth();
@@ -123,7 +121,6 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
 
         switch (motionEvent.getActionMasked()) {
             case MotionEvent.ACTION_DOWN: {
-                startTouch = System.currentTimeMillis();
                 if (mPaused) {
                     return false;
                 }
@@ -166,9 +163,6 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
                     break;
                 }
 
-                endTouch = System.currentTimeMillis();
-                shouldLongClick = getShouldLongClick(startTouch, endTouch);
-
                 if (mDownView != null && mSwiping) {
                     // cancel
                     cancelSwipe();
@@ -180,10 +174,6 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
                 mDownView = null;
                 mDownPosition = ListView.INVALID_POSITION;
                 mSwiping = false;
-                if (shouldLongClick) {
-                    LinearLayoutManager layoutManager = (LinearLayoutManager)mListView.getLayoutManager();
-                    mOnLongClickListener.onItemLongClick(view, layoutManager.findFirstVisibleItemPosition());
-                }
                 break;
             }
 
@@ -191,9 +181,6 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
                 if (mVelocityTracker == null) {
                     break;
                 }
-
-                endTouch = System.currentTimeMillis();
-                shouldLongClick = getShouldLongClick(startTouch, endTouch);
 
                 final float deltaX = motionEvent.getRawX() - mDownX;
 
@@ -229,7 +216,6 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
                                         performDismiss(downView, downPosition, deltaX > 0);
                                     }
                                 });
-                        shouldLongClick = false;
                     } else {
                         int[] positions = new int[1];
                         positions[0] = downPosition;
@@ -247,10 +233,6 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
                 mDownView = null;
                 mDownPosition = ListView.INVALID_POSITION;
                 mSwiping = false;
-                if (shouldLongClick) {
-                    LinearLayoutManager layoutManager = (LinearLayoutManager)mListView.getLayoutManager();
-                    mOnLongClickListener.onItemLongClick(view, layoutManager.findFirstVisibleItemPosition());
-                }
                 break;
             }
 
@@ -289,10 +271,6 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
             }
         }
         return false;
-    }
-
-    private boolean getShouldLongClick(long startTouch, long endTouch) {
-        return (endTouch - startTouch) > ViewConfiguration.getLongPressTimeout();
     }
 
     private void cancelSwipe() {
@@ -381,11 +359,18 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
         animator.start();
     }
 
-    private static class SingleTapConfirm extends GestureDetector.SimpleOnGestureListener {
+    private class SingleTapConfirm extends GestureDetector.SimpleOnGestureListener {
 
         @Override
         public boolean onSingleTapUp(MotionEvent event) {
             return true;
+        }
+
+        @Override
+        public void onLongPress(MotionEvent event) {
+            super.onLongPress(event);
+            LinearLayoutManager layoutManager = (LinearLayoutManager)mListView.getLayoutManager();
+            mOnLongClickListener.onItemLongClick(mDownView, layoutManager.findFirstVisibleItemPosition());
         }
     }
 }
