@@ -18,14 +18,14 @@ import java.util.Map;
 
 public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder> {
 
-    private List<Map<String, String>> mData;
-    private LayoutInflater mInflater;
+    private final List<Map<String, String>> mData;
+    private final LayoutInflater mInflater;
     private OnItemClickListener mClickListener;
     private OnItemLongClickListener mLongClickListener;
     private View.OnTouchListener mTouchListener;
-    private int mLayoutView;
-    private String[] mMapKeys;
-    private int[] mViewIds;
+    private final int mLayoutView;
+    private final String[] mMapKeys;
+    private final int[] mViewIds;
 
     // data is passed into the constructor
     public RecyclerViewAdapter(Context context, List<Map<String, String>> data, int layoutView, String[] mapKeys,
@@ -71,7 +71,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     // stores and recycles views as they are scrolled off screen
     public class ViewHolder extends RecyclerView.ViewHolder implements View.OnTouchListener, View.OnClickListener, View.OnLongClickListener {
 
-        Map<Integer, View> viewMap = new HashMap<>();
+        final Map<Integer, View> viewMap = new HashMap<>();
 
         ViewHolder(View itemView) {
             super(itemView);

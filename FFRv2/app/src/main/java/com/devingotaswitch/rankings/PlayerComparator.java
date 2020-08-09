@@ -71,7 +71,7 @@ public class PlayerComparator extends AppCompatActivity {
     private LineChart projGraph;
     private ScrollView comparatorScroller;
     private RecyclerView inputList;
-    private List<Map<String, String>> data = new ArrayList<>();
+    private final List<Map<String, String>> data = new ArrayList<>();
     private RecyclerViewAdapter adapter;
     private RankingsDBWrapper rankingsDB;
 

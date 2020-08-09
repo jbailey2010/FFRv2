@@ -9,7 +9,7 @@ public class PlayerInfoSwipeDetector implements View.OnTouchListener {
 
     private static final int MIN_DISTANCE = 450;
     private float downX;
-    private PlayerInfo hold;
+    private final PlayerInfo hold;
 
     public PlayerInfoSwipeDetector(PlayerInfo playerInfo) {
         hold = playerInfo;

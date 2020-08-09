@@ -10,7 +10,7 @@ import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.GeneralUtils;
 
 public class RankingsListView extends RecyclerView {
-    private Context context;
+    private final Context context;
     private long lastRefreshTime = 0L;
     private boolean refreshRanksOnOverscroll = false;
 

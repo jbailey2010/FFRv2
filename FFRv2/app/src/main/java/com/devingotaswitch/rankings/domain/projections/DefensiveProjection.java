@@ -3,7 +3,7 @@ package com.devingotaswitch.rankings.domain.projections;
 import com.devingotaswitch.rankings.domain.ScoringSettings;
 
 class DefensiveProjection extends ProjectionBase {
-    private double projection;
+    private final double projection;
 
     DefensiveProjection(double projection) {
         this.projection = projection;

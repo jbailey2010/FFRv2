@@ -4,9 +4,9 @@ import com.devingotaswitch.rankings.domain.ScoringSettings;
 import com.devingotaswitch.utils.Constants;
 
 public class ReceivingProjection extends ProjectionBase {
-    private double yards;
-    private double receptions;
-    private double tds;
+    private final double yards;
+    private final double receptions;
+    private final double tds;
 
     ReceivingProjection(double yards, double receptions, double tds) {
         this.yards = yards;

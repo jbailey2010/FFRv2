@@ -107,8 +107,8 @@ public class PlayerInfo extends AppCompatActivity {
 
     private static final Integer MAX_NEARBY_PLAYERS = 6;
 
-    private List<Comment> comments = new ArrayList<>();
-    private Map<String, List<Comment>> replyMap = new HashMap<>();
+    private final List<Comment> comments = new ArrayList<>();
+    private final Map<String, List<Comment>> replyMap = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

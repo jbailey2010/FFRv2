@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Map;
 
 public class CommentAdapter extends SimpleAdapter {
-    PlayerInfo playerInfo;
+    final PlayerInfo playerInfo;
 
     public CommentAdapter(PlayerInfo playerInfo, List<? extends Map<String, ?>> data, int resource, String[] from, int[] to) {
         super(playerInfo, data, resource, from, to);

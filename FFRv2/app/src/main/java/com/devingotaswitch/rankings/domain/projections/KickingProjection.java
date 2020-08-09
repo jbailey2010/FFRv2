@@ -3,7 +3,7 @@ package com.devingotaswitch.rankings.domain.projections;
 import com.devingotaswitch.rankings.domain.ScoringSettings;
 
 class KickingProjection extends ProjectionBase {
-    private double projection;
+    private final double projection;
 
     KickingProjection(double projection) {
         this.projection = projection;

@@ -9,11 +9,11 @@ public class PlayerProjection {
 
     private static final Gson GSON = new GsonBuilder().create();
 
-    private PassingProjection passingProjection;
-    private RushingProjection rushingProjection;
-    private ReceivingProjection receivingProjection;
-    private DefensiveProjection defensiveProjection;
-    private KickingProjection kickingProjection;
+    private final PassingProjection passingProjection;
+    private final RushingProjection rushingProjection;
+    private final ReceivingProjection receivingProjection;
+    private final DefensiveProjection defensiveProjection;
+    private final KickingProjection kickingProjection;
 
     private double projection;
 

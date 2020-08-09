@@ -44,10 +44,10 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
     private int mDownPosition;
     private View mDownView;
     private boolean mPaused;
-    private boolean mDoDismiss;
-    private GestureDetector gestureDetector;
-    private RecyclerViewAdapter.OnItemClickListener mOnClickListener;
-    private RecyclerViewAdapter.OnItemLongClickListener mOnLongClickListener;
+    private final boolean mDoDismiss;
+    private final GestureDetector gestureDetector;
+    private final RecyclerViewAdapter.OnItemClickListener mOnClickListener;
+    private final RecyclerViewAdapter.OnItemLongClickListener mOnLongClickListener;
 
     public interface DismissCallbacks {
         /**
