@@ -281,13 +281,7 @@ public class ParseMath {
         Comparator comparator = new Comparator<Player>() {
             @Override
             public int compare(Player a, Player b) {
-                if (a.getProjection() > b.getProjection()) {
-                    return -1;
-                }
-                if (a.getProjection() < b.getProjection()) {
-                    return 1;
-                }
-                return 0;
+                return b.getProjection().compareTo(a.getProjection());
             }
         };
         Collections.sort(position, comparator);
@@ -339,13 +333,7 @@ public class ParseMath {
         Comparator comparator = new Comparator<Player>() {
             @Override
             public int compare(Player a, Player b) {
-                if (a.getProjection() > b.getProjection()) {
-                    return -1;
-                }
-                if (a.getProjection() < b.getProjection()) {
-                    return 1;
-                }
-                return 0;
+                return b.getProjection().compareTo(a.getProjection());
             }
         };
         Collections.sort(players, comparator);

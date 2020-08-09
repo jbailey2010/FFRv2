@@ -47,8 +47,8 @@ public class ParseDraftWizard {
             }
         }
         for (int i = startingIndex; i < td.size(); i += 5) {
-            double aucVal = Double.parseDouble(td.get(i + 2).substring(1,
-                    td.get(i + 2).length()));
+            double aucVal = Double.parseDouble(td.get(i + 2).substring(1
+            ));
             String playerName = td.get(i).split(" \\(")[0];
             String teamPos = td.get(i).split(" \\(")[1];
             String team = teamPos.split(" - ")[0];

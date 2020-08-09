@@ -762,13 +762,7 @@ public class PlayerSorter extends AppCompatActivity {
         return new Comparator<Player>() {
             @Override
             public int compare(Player a, Player b) {
-                if (a.getEcr() > b.getEcr()) {
-                    return 1;
-                }
-                if (a.getEcr() < b.getEcr()) {
-                    return -1;
-                }
-                return 0;
+                return a.getEcr().compareTo(b.getEcr());
             }
         };
     }
@@ -776,13 +770,7 @@ public class PlayerSorter extends AppCompatActivity {
         return new Comparator<Player>() {
             @Override
             public int compare(Player a, Player b) {
-                if (a.getPlayerProjection().getPassingProjection().getTds() > b.getPlayerProjection().getPassingProjection().getTds()) {
-                    return -1;
-                }
-                if (a.getPlayerProjection().getPassingProjection().getTds() < b.getPlayerProjection().getPassingProjection().getTds()) {
-                    return 1;
-                }
-                return 0;
+                return Double.compare(b.getPlayerProjection().getPassingProjection().getTds(), a.getPlayerProjection().getPassingProjection().getTds());
             }
         };
     }
@@ -791,13 +779,7 @@ public class PlayerSorter extends AppCompatActivity {
         return new Comparator<Player>() {
             @Override
             public int compare(Player a, Player b) {
-                if (a.getPlayerProjection().getPassingProjection().getYards() > b.getPlayerProjection().getPassingProjection().getYards()) {
-                    return -1;
-                }
-                if (a.getPlayerProjection().getPassingProjection().getYards() < b.getPlayerProjection().getPassingProjection().getYards()) {
-                    return 1;
-                }
-                return 0;
+                return Double.compare(b.getPlayerProjection().getPassingProjection().getYards(), a.getPlayerProjection().getPassingProjection().getYards());
             }
         };
     }
@@ -806,13 +788,7 @@ public class PlayerSorter extends AppCompatActivity {
         return new Comparator<Player>() {
             @Override
             public int compare(Player a, Player b) {
-                if (a.getPlayerProjection().getRushingProjection().getYards() > b.getPlayerProjection().getRushingProjection().getYards()) {
-                    return -1;
-                }
-                if (a.getPlayerProjection().getRushingProjection().getYards() < b.getPlayerProjection().getRushingProjection().getYards()) {
-                    return 1;
-                }
-                return 0;
+                return Double.compare(b.getPlayerProjection().getRushingProjection().getYards(), a.getPlayerProjection().getRushingProjection().getYards());
             }
         };
     }
@@ -821,13 +797,7 @@ public class PlayerSorter extends AppCompatActivity {
         return new Comparator<Player>() {
             @Override
             public int compare(Player a, Player b) {
-                if (a.getPlayerProjection().getRushingProjection().getTds() > b.getPlayerProjection().getRushingProjection().getTds()) {
-                    return -1;
-                }
-                if (a.getPlayerProjection().getRushingProjection().getTds() < b.getPlayerProjection().getRushingProjection().getTds()) {
-                    return 1;
-                }
-                return 0;
+                return Double.compare(b.getPlayerProjection().getRushingProjection().getTds(), a.getPlayerProjection().getRushingProjection().getTds());
             }
         };
     }
@@ -836,13 +806,7 @@ public class PlayerSorter extends AppCompatActivity {
         return new Comparator<Player>() {
             @Override
             public int compare(Player a, Player b) {
-                if (a.getPlayerProjection().getReceivingProjection().getYards() > b.getPlayerProjection().getReceivingProjection().getYards()) {
-                    return -1;
-                }
-                if (a.getPlayerProjection().getReceivingProjection().getYards() < b.getPlayerProjection().getReceivingProjection().getYards()) {
-                    return 1;
-                }
-                return 0;
+                return Double.compare(b.getPlayerProjection().getReceivingProjection().getYards(), a.getPlayerProjection().getReceivingProjection().getYards());
             }
         };
     }
@@ -851,13 +815,7 @@ public class PlayerSorter extends AppCompatActivity {
         return new Comparator<Player>() {
             @Override
             public int compare(Player a, Player b) {
-                if (a.getPlayerProjection().getReceivingProjection().getTds() > b.getPlayerProjection().getReceivingProjection().getTds()) {
-                    return -1;
-                }
-                if (a.getPlayerProjection().getReceivingProjection().getTds() < b.getPlayerProjection().getReceivingProjection().getTds()) {
-                    return 1;
-                }
-                return 0;
+                return Double.compare(b.getPlayerProjection().getReceivingProjection().getTds(), a.getPlayerProjection().getReceivingProjection().getTds());
             }
         };
     }
@@ -866,13 +824,7 @@ public class PlayerSorter extends AppCompatActivity {
         return new Comparator<Player>() {
             @Override
             public int compare(Player a, Player b) {
-                if (a.getPlayerProjection().getReceivingProjection().getReceptions() > b.getPlayerProjection().getReceivingProjection().getReceptions()) {
-                    return -1;
-                }
-                if (a.getPlayerProjection().getReceivingProjection().getReceptions() < b.getPlayerProjection().getReceivingProjection().getReceptions()) {
-                    return 1;
-                }
-                return 0;
+                return Double.compare(b.getPlayerProjection().getReceivingProjection().getReceptions(), a.getPlayerProjection().getReceivingProjection().getReceptions());
             }
         };
     }
@@ -881,13 +833,7 @@ public class PlayerSorter extends AppCompatActivity {
         return new Comparator<Player>() {
             @Override
             public int compare(Player a, Player b) {
-                if (a.getDynastyRank() > b.getDynastyRank()) {
-                    return 1;
-                }
-                if (a.getDynastyRank() < b.getDynastyRank()) {
-                    return -1;
-                }
-                return 0;
+                return a.getDynastyRank().compareTo(b.getDynastyRank());
             }
         };
     }
@@ -896,13 +842,7 @@ public class PlayerSorter extends AppCompatActivity {
         return new Comparator<Player>() {
             @Override
             public int compare(Player a, Player b) {
-                if (a.getRookieRank() > b.getRookieRank()) {
-                    return 1;
-                }
-                if (a.getRookieRank() < b.getRookieRank()) {
-                    return -1;
-                }
-                return 0;
+                return a.getRookieRank().compareTo(b.getRookieRank());
             }
         };
     }
@@ -911,13 +851,7 @@ public class PlayerSorter extends AppCompatActivity {
         return new Comparator<Player>() {
             @Override
             public int compare(Player a, Player b) {
-                if (a.getBestBallRank() > b.getBestBallRank()) {
-                    return 1;
-                }
-                if (a.getBestBallRank() < b.getBestBallRank()) {
-                    return -1;
-                }
-                return 0;
+                return a.getBestBallRank().compareTo(b.getBestBallRank());
             }
         };
     }
@@ -926,13 +860,7 @@ public class PlayerSorter extends AppCompatActivity {
         return new Comparator<Player>() {
             @Override
             public int compare(Player a, Player b) {
-                if (a.getAdp() > b.getAdp()) {
-                    return 1;
-                }
-                if (a.getAdp() < b.getAdp()) {
-                    return -1;
-                }
-                return 0;
+                return a.getAdp().compareTo(b.getAdp());
             }
         };
     }
@@ -963,13 +891,7 @@ public class PlayerSorter extends AppCompatActivity {
         return new Comparator<Player>() {
             @Override
             public int compare(Player a, Player b) {
-                if (a.getAuctionValue() > b.getAuctionValue()) {
-                    return -1;
-                }
-                if (a.getAuctionValue() < b.getAuctionValue()) {
-                    return 1;
-                }
-                return 0;
+                return b.getAuctionValue().compareTo(a.getAuctionValue());
             }
         };
     }
@@ -978,13 +900,7 @@ public class PlayerSorter extends AppCompatActivity {
         return new Comparator<Player>() {
             @Override
             public int compare(Player a, Player b) {
-                if (a.getProjection() > b.getProjection()) {
-                    return -1;
-                }
-                if (a.getProjection() < b.getProjection()) {
-                    return 1;
-                }
-                return 0;
+                return b.getProjection().compareTo(a.getProjection());
             }
         };
     }
@@ -993,13 +909,7 @@ public class PlayerSorter extends AppCompatActivity {
         return new Comparator<Player>() {
             @Override
             public int compare(Player a, Player b) {
-                if (a.getPaa() > b.getPaa()) {
-                    return -1;
-                }
-                if (a.getPaa() < b.getPaa()) {
-                    return 1;
-                }
-                return 0;
+                return b.getPaa().compareTo(a.getPaa());
             }
         };
     }
@@ -1008,13 +918,7 @@ public class PlayerSorter extends AppCompatActivity {
         return new Comparator<Player>() {
             @Override
             public int compare(Player a, Player b) {
-                if (a.getScaledPAA(rankings) > b.getScaledPAA(rankings)) {
-                    return -1;
-                }
-                if (a.getScaledPAA(rankings) < b.getScaledPAA(rankings)) {
-                    return 1;
-                }
-                return 0;
+                return b.getScaledPAA(rankings).compareTo(a.getScaledPAA(rankings));
             }
         };
     }
@@ -1062,13 +966,7 @@ public class PlayerSorter extends AppCompatActivity {
         return new Comparator<Player>() {
             @Override
             public int compare(Player a, Player b) {
-                if (a.getxVal() > b.getxVal()) {
-                    return -1;
-                }
-                if (a.getxVal() < b.getxVal()) {
-                    return 1;
-                }
-                return 0;
+                return b.getxVal().compareTo(a.getxVal());
             }
         };
     }
@@ -1077,13 +975,7 @@ public class PlayerSorter extends AppCompatActivity {
         return new Comparator<Player>() {
             @Override
             public int compare(Player a, Player b) {
-                if (a.getVOLS() > b.getVOLS()) {
-                    return -1;
-                }
-                if (a.getVOLS() < b.getVOLS()) {
-                    return 1;
-                }
-                return 0;
+                return b.getVOLS().compareTo(a.getVOLS());
             }
         };
     }
@@ -1125,13 +1017,7 @@ public class PlayerSorter extends AppCompatActivity {
         return new Comparator<Player>() {
             @Override
             public int compare(Player a, Player b) {
-                if (a.getScaledXVal(rankings) > b.getScaledXVal(rankings)) {
-                    return -1;
-                }
-                if (a.getScaledXVal(rankings) < b.getScaledXVal(rankings)) {
-                    return 1;
-                }
-                return 0;
+                return b.getScaledXVal(rankings).compareTo(a.getScaledXVal(rankings));
             }
         };
     }
@@ -1140,13 +1026,7 @@ public class PlayerSorter extends AppCompatActivity {
         return new Comparator<Player>() {
             @Override
             public int compare(Player a, Player b) {
-                if (a.getScaledVOLS(rankings) > b.getScaledVOLS(rankings)) {
-                    return -1;
-                }
-                if (a.getScaledVOLS(rankings) < b.getScaledVOLS(rankings)) {
-                    return 1;
-                }
-                return 0;
+                return b.getScaledVOLS(rankings).compareTo(a.getScaledVOLS(rankings));
             }
         };
     }
@@ -1155,13 +1035,7 @@ public class PlayerSorter extends AppCompatActivity {
         return new Comparator<Player>() {
             @Override
             public int compare(Player a, Player b) {
-                if (a.getRisk() > b.getRisk()) {
-                    return 1;
-                }
-                if (a.getRisk() < b.getRisk()) {
-                    return -1;
-                }
-                return 0;
+                return a.getRisk().compareTo(b.getRisk());
             }
         };
     }

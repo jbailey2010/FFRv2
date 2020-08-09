@@ -779,7 +779,6 @@ public class RankingsHome extends AppCompatActivity {
         @Override
         public void onSuccess(CognitoUserSession cognitoUserSession, CognitoDevice device) {
             Log.i(TAG, "Refresh success");
-            CUPHelper.setCurrSession(cognitoUserSession);
         }
 
         @Override

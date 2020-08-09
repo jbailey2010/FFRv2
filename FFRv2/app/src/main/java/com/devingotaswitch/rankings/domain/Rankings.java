@@ -27,7 +27,6 @@ public class Rankings {
     private static List<String> orderedIds;
     private static Draft draft;
     private static LeagueSettings leagueSettings;
-    private static RankingsFetcher processor;
     private static RankingsLoader loader;
     private static Map<String, List<DailyProjection>> playerProjectionHistory;
 
@@ -50,7 +49,7 @@ public class Rankings {
         players = inputPlayers;
         teams = inputTeams;
         leagueSettings = inputSettings;
-        processor = new RankingsFetcher();
+        RankingsFetcher processor = new RankingsFetcher();
         loader = new RankingsLoader();
         orderedIds = inputIds;
         draft = inputDraft;
@@ -327,54 +326,24 @@ public class Rankings {
         Comparator<Player> comparator;
         if (getLeagueSettings().isAuction()) {
             comparator = (a, b) -> {
-            if (a.getAuctionValue() > b.getAuctionValue()) {
-                 return -1;
-            }
-            if (a.getAuctionValue() < b.getAuctionValue()) {
-                return 1;
-            }
-            return 0;
-        };
+                return b.getAuctionValue().compareTo(a.getAuctionValue());
+            };
         } else if (getLeagueSettings().isDynasty()) {
             comparator = (a, b) -> {
-            if (a.getDynastyRank() > b.getDynastyRank()) {
-                return 1;
-            }
-            if (a.getDynastyRank() < b.getDynastyRank()) {
-                return -1;
-            }
-            return 0;
-        };
+                return a.getDynastyRank().compareTo(b.getDynastyRank());
+            };
         } else if (getLeagueSettings().isRookie()) {
             comparator = (a, b) -> {
-            if (a.getRookieRank() > b.getRookieRank()) {
-                return 1;
-            }
-            if (a.getRookieRank() < b.getRookieRank()) {
-                return -1;
-            }
-            return 0;
-        };
+                return a.getRookieRank().compareTo(b.getRookieRank());
+            };
         } else if (getLeagueSettings().isBestBall()) {
             comparator = (a, b) -> {
-            if (a.getBestBallRank() > b.getBestBallRank()) {
-                return 1;
-            }
-            if (a.getBestBallRank() < b.getBestBallRank()) {
-                return -1;
-            }
-            return 0;
-        };
+                return a.getBestBallRank().compareTo(b.getBestBallRank());
+            };
         } else {
             comparator = (a, b) -> {
-            if (a.getEcr() > b.getEcr()) {
-                return 1;
-            }
-            if (a.getEcr() < b.getEcr()) {
-                return -1;
-            }
-            return 0;
-        };
+                return a.getEcr().compareTo(b.getEcr());
+            };
         }
         List<Player> playerList = new ArrayList<>(players);
         Collections.sort(playerList, comparator);

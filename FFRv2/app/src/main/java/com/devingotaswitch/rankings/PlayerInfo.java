@@ -1605,13 +1605,7 @@ public class PlayerInfo extends AppCompatActivity {
             public int compare(Player a, Player b) {
                 int diffA = Math.abs((int)(a.getAdp() - player.getAdp()));
                 int diffB = Math.abs((int)(b.getAdp() - player.getAdp()));
-                if (diffA > diffB) {
-                    return 1;
-                }
-                if (diffA < diffB) {
-                    return -1;
-                }
-                return 0;
+                return Integer.compare(diffA, diffB);
             }
         };
         List<Player> allPlayers = new ArrayList<>(rankings.getPlayers().values());
@@ -1636,13 +1630,7 @@ public class PlayerInfo extends AppCompatActivity {
         Comparator<Player> adpComparator =  new Comparator<Player>() {
             @Override
             public int compare(Player a, Player b) {
-                if (a.getAdp() > b.getAdp()) {
-                    return 1;
-                }
-                if (a.getAdp() < b.getAdp()) {
-                    return -1;
-                }
-                return 0;
+                return a.getAdp().compareTo(b.getAdp());
             }
         };
         Collections.sort(nearestPlayers, adpComparator);

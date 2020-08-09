@@ -34,8 +34,6 @@ public class CUPHelper {
     private static Map<String, String> firstTimeLogInUpDatedAttributes;
     private static String firstTimeLoginNewPassword;
 
-    // User details from the service
-    private static CognitoUserSession currSession;
     private static CognitoUserDetails userDetails;
 
     // User details to display - they are the current values, including any local modification
@@ -68,10 +66,6 @@ public class CUPHelper {
 
     public static Map<String, String> getSignUpFieldsC2O() {
         return signUpFieldsC2O;
-    }
-
-    public static void setCurrSession(CognitoUserSession session) {
-        currSession = session;
     }
 
     public static void setUserDetails(CognitoUserDetails details) {

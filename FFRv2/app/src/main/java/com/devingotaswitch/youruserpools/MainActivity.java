@@ -397,7 +397,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         public void onSuccess(CognitoUserSession cognitoUserSession, CognitoDevice device) {
             Log.i(TAG, "Auth Success");
-            CUPHelper.setCurrSession(cognitoUserSession);
             closeWaitDialog();
             launchRankings();
         }
