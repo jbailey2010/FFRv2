@@ -42,7 +42,7 @@ import java.util.Set;
 public class RankingsFetcher {
     private static final String TAG = "RankingsFetcher";
 
-    public class VBDUpdater extends AsyncTask<Object, Void, Void> {
+    public static class VBDUpdater extends AsyncTask<Object, Void, Void> {
         private final Rankings rankings;
         private final Activity activity;
         private final RankingsDBWrapper rankingsDB;
@@ -98,7 +98,7 @@ public class RankingsFetcher {
         }
     }
 
-    public class RanksAggregator extends AsyncTask<Object, String, Rankings> {
+    public static class RanksAggregator extends AsyncTask<Object, String, Rankings> {
         private final AlertDialog pdia;
         private final RankingsHome act;
         private final Rankings rankings;

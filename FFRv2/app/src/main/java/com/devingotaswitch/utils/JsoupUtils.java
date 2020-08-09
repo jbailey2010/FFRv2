@@ -65,9 +65,8 @@ public class JsoupUtils {
         try {
             SSLContext sslContext = SSLContext.getInstance("SSL");
             sslContext.init(null, trustAllCerts, new java.security.SecureRandom());
-            SSLSocketFactory result = sslContext.getSocketFactory();
 
-            return result;
+            return sslContext.getSocketFactory();
         } catch (NoSuchAlgorithmException | KeyManagementException e) {
             throw new RuntimeException("Failed to create a SSL socket factory", e);
         }

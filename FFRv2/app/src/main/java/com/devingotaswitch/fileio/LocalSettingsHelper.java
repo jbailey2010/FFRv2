@@ -115,8 +115,8 @@ public class LocalSettingsHelper {
 
     public static String getLastRankingsFetchedDate(Context cont) {
         long timeFetched =  getSharedPreferences(cont).getLong(Constants.LAST_RANKINGS_FETCHED_TIME,
-                0l);
-        if (timeFetched > 0l) {
+                0L);
+        if (timeFetched > 0L) {
             return DateUtils.getRelativeTimeSpanString(timeFetched, new Date().getTime(), DateUtils.MINUTE_IN_MILLIS).toString();
         }
         return Constants.NOT_SET_KEY;

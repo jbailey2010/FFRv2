@@ -98,7 +98,7 @@ public class ParsePlayerNews {
 
 		if (!playerName.contains(Constants.DST)) {
 			String[] nameSet = playerName.toLowerCase().replaceAll("\\.", "")
-					.replaceAll("\'", "").split(" ");
+					.replaceAll("'", "").split(" ");
 			StringBuilder nameBuilder = new StringBuilder(100);
 			for (String name : nameSet) {
 				nameBuilder.append(name)

@@ -11,7 +11,7 @@ import com.devingotaswitch.utils.GeneralUtils;
 
 public class RankingsListView extends RecyclerView {
     private Context context;
-    private long lastRefreshTime = 0l;
+    private long lastRefreshTime = 0L;
     private boolean refreshRanksOnOverscroll = false;
 
     public RankingsListView(Context context) {

@@ -59,6 +59,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class PlayerComparator extends AppCompatActivity {
 
@@ -286,7 +287,7 @@ public class PlayerComparator extends AppCompatActivity {
                 continue;
             }
             if (rankings.getLeagueSettings().getRosterSettings().isPositionValid(player.getPosition())) {
-                if (rankings.getLeagueSettings().isRookie() && player.getRookieRank() == Constants.DEFAULT_RANK) {
+                if (rankings.getLeagueSettings().isRookie() && Objects.equals(player.getRookieRank(), Constants.DEFAULT_RANK)) {
                     // the constant is 'not set', so skip these. No sense showing a 10 year vet in rookie ranks.
                     continue;
                 }
@@ -710,9 +711,8 @@ public class PlayerComparator extends AppCompatActivity {
             DailyProjection projection = projections.get(i);
             projectionDays.add(new Entry((float) i, (float) projection.getProjection(rankings.getLeagueSettings().getScoringSettings())));
         }
-        LineDataSet projectionHistoryDataset = GraphUtils.getLineDataSet(projectionDays,
+        return GraphUtils.getLineDataSet(projectionDays,
                 player.getName() + " Projections", color);
-        return projectionHistoryDataset;
     }
 
     private void goToPlayerInfo(Player player) {

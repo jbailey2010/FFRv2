@@ -67,6 +67,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 
 public class RankingsHome extends AppCompatActivity {
     private final String TAG="RankingsActivity";
@@ -114,14 +115,11 @@ public class RankingsHome extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Find which menu item was selected
         int menuItem = item.getItemId();
-        switch(menuItem) {
-            case R.id.filter_rankings:
-                toggleFilterView();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-
+        if (menuItem == R.id.filter_rankings) {
+            toggleFilterView();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -456,7 +454,7 @@ public class RankingsHome extends AppCompatActivity {
             Player player = rankings.getPlayer(orderedIds.get(i));
             if (rankings.getLeagueSettings().getRosterSettings().isPositionValid(player.getPosition()) &&
                     !rankings.getDraft().isDrafted(player)) {
-                if (rankings.getLeagueSettings().isRookie() && player.getRookieRank() == Constants.DEFAULT_RANK) {
+                if (rankings.getLeagueSettings().isRookie() && Objects.equals(player.getRookieRank(), Constants.DEFAULT_RANK)) {
                     // the constant is 'not set', so skip these. No sense showing a 10 year vet in rookie ranks.
                     continue;
                 }

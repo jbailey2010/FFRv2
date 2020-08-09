@@ -87,11 +87,10 @@ public class ParseInjuries {
     }
 
     private static String getPlayerId(String name, String pos, String team) {
-        String playerId = name +
+        return name +
                 Constants.PLAYER_ID_DELIMITER +
                 team +
                 Constants.PLAYER_ID_DELIMITER +
                 pos;
-        return playerId;
     }
 }

@@ -435,7 +435,7 @@ public class ParseMath {
 
     private static double getDiscretionaryCash(int auctionBudget, RosterSettings roster) {
         int rosterSize = roster.getRosterSize();
-        return (auctionBudget - rosterSize) / (rosterSize - roster.getBenchCount());
+        return ((double) (auctionBudget - rosterSize)) / ((double) (rosterSize - roster.getBenchCount()));
     }
 
     public static double getLeverage(Player player, Rankings rankings) {

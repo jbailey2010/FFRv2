@@ -132,14 +132,11 @@ public class PlayerSorter extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         // Find which menu item was selected
         int menuItem = item.getItemId();
-        switch(menuItem) {
-            case R.id.graph_sort:
-                graphSort();
-                return true;
-            default:
-                return super.onOptionsItemSelected(item);
-
+        if (menuItem == R.id.graph_sort) {
+            graphSort();
+            return true;
         }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
@@ -652,10 +649,7 @@ public class PlayerSorter extends AppCompatActivity {
                 new SwipeDismissTouchListener.DismissCallbacks() {
                     @Override
                     public boolean canDismiss(View view) {
-                        if (((TextView)view.findViewById(R.id.player_more_info)).getText().toString().contains(Constants.DISPLAY_DRAFTED)) {
-                            return false;
-                        }
-                        return true;
+                        return !((TextView) view.findViewById(R.id.player_more_info)).getText().toString().contains(Constants.DISPLAY_DRAFTED);
                     }
 
                     @Override

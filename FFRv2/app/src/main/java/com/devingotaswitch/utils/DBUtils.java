@@ -28,9 +28,9 @@ public class DBUtils {
                 tableName +
                 " WHERE " +
                 idColumn +
-                " = \'" +
+                " = '" +
                 idValue +
-                "\'";
+                "'";
     }
 
     public static String getSelectThreeAttrString(String tableName, String idOne, String idTwo, String idThree,
@@ -39,17 +39,17 @@ public class DBUtils {
                 tableName +
                 " WHERE " +
                 idOne +
-                " = \'" +
+                " = '" +
                 valueOne +
-                "\' AND " +
+                "' AND " +
                 idTwo +
-                " = \'" +
+                " = '" +
                 valueTwo +
-                "\' AND " +
+                "' AND " +
                 idThree +
-                " = \'" +
+                " = '" +
                 valueThree +
-                "\'";
+                "'";
     }
 
     public static String getDeleteAllString(String tableName) {

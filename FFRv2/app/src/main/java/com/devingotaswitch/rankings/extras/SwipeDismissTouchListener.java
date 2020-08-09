@@ -303,7 +303,7 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
                 .setListener(null);
     }
 
-    class PendingDismissData implements Comparable<PendingDismissData> {
+    static class PendingDismissData implements Comparable<PendingDismissData> {
         final int position;
         final View view;
 
@@ -381,7 +381,7 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
         animator.start();
     }
 
-    private class SingleTapConfirm extends GestureDetector.SimpleOnGestureListener {
+    private static class SingleTapConfirm extends GestureDetector.SimpleOnGestureListener {
 
         @Override
         public boolean onSingleTapUp(MotionEvent event) {

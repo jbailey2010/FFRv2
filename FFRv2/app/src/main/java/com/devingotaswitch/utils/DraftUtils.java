@@ -30,11 +30,10 @@ public class DraftUtils {
                 rankings.getDraft().undraft(rankings, player, activity, view);
                 if (updateList) {
                     data.add(position, datum);
-                    adapter.notifyDataSetChanged();
                 } else {
                     datum.put(Constants.PLAYER_ADDITIONAL_INFO, "");
-                    adapter.notifyDataSetChanged();
                 }
+                adapter.notifyDataSetChanged();
             }
         };
     }

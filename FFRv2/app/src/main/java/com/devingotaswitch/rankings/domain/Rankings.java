@@ -218,18 +218,18 @@ public class Rankings {
     public void refreshRankings(RankingsHome activity) {
         ParsingUtils.init();
 
-        RankingsFetcher.RanksAggregator ranksParser = processor.new RanksAggregator(activity, this);
+        RankingsFetcher.RanksAggregator ranksParser = new RankingsFetcher.RanksAggregator(activity, this);
         ranksParser.execute();
     }
 
     public void updateProjectionsAndVBD(Activity activity, LeagueSettings league, boolean updateProjections,
                                         RankingsDBWrapper rankingsDB) {
-        RankingsFetcher.VBDUpdater vbdUpdater = processor.new VBDUpdater(this, activity, league, updateProjections, rankingsDB);
+        RankingsFetcher.VBDUpdater vbdUpdater = new RankingsFetcher.VBDUpdater(this, activity, league, updateProjections, rankingsDB);
         vbdUpdater.execute();
     }
 
     public void saveRankings(RankingsHome activity, RankingsDBWrapper rankingsDB) {
-        RankingsLoader.RanksSaver ranksSaver = loader.new RanksSaver(activity, rankingsDB);
+        RankingsLoader.RanksSaver ranksSaver = new RankingsLoader.RanksSaver(activity, rankingsDB);
         ranksSaver.execute(players, teams);
     }
 
@@ -237,7 +237,7 @@ public class Rankings {
         if (loader == null) {
             loader = new RankingsLoader();
         }
-        RankingsLoader.RanksLoader ranksLoader = loader.new RanksLoader(activity, rankingsDB);
+        RankingsLoader.RanksLoader ranksLoader = new RankingsLoader.RanksLoader(activity, rankingsDB);
         ranksLoader.execute();
     }
 

@@ -23,7 +23,7 @@ import java.util.Map;
 public class RankingsLoader {
     private static final String TAG = "RankingLoader";
 
-    public class RanksLoader extends AsyncTask<Object, String, Rankings> {
+    public static class RanksLoader extends AsyncTask<Object, String, Rankings> {
         private final AlertDialog pdia;
         private final RankingsHome act;
         private long start;
@@ -67,7 +67,7 @@ public class RankingsLoader {
         }
     }
 
-    public class RanksSaver extends AsyncTask<Object, String, Void> {
+    public static class RanksSaver extends AsyncTask<Object, String, Void> {
         private final AlertDialog pdia;
         private final RankingsHome act;
         private long start;
