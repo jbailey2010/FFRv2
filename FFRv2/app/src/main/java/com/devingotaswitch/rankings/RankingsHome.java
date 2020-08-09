@@ -276,7 +276,7 @@ public class RankingsHome extends AppCompatActivity {
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String currentTeam = teamList.get(teams.getSelectedIndex());;
+                String currentTeam = teamList.get(teams.getSelectedIndex());
                 String currentPosition = posList.get(positions.getSelectedIndex());
                 boolean isWatched = watched.isChecked();
                 List<String> filteredIds = rankings.getOrderedIds();

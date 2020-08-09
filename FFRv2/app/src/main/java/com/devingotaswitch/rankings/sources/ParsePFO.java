@@ -46,44 +46,43 @@ public class ParsePFO {
             String openField = td.get(i + 10);
             String openFieldRank = td.get(i + 11);
 
-            String olData = new StringBuilder(sackRate)
-                    .append(" adjusted team sack rate.")
-                    .append(Constants.LINE_BREAK)
-                    .append(adjYPC)
-                    .append(" adjusted team yards per carry (")
-                    .append(adjYPCRank)
-                    .append(")")
-                    .append(Constants.LINE_BREAK)
-                    .append("Pass Block Ranking: ")
-                    .append(pbRank)
-                    .append(Constants.LINE_BREAK)
-                    .append(power)
-                    .append(" success rate with < 3 yards to go (")
-                    .append(powerRank)
-                    .append(")")
-                    .append(Constants.LINE_BREAK)
-                    .append(stuff)
-                    .append(" rate of being stuffed at the line (")
-                    .append(stuffRank)
-                    .append(")")
-                    .append(Constants.LINE_BREAK)
-                    .append(secLevel)
-                    .append(" YPC earned 5 to 10 yards past LOS (")
-                    .append(secLevelRank)
-                    .append(")")
-                    .append(Constants.LINE_BREAK)
-                    .append(openField)
-                    .append(" YPC earned 10+ yards past LOS (")
-                    .append(openFieldRank)
-                    .append(")")
-                    .append(Constants.LINE_BREAK)
-                    .append(Constants.LINE_BREAK)
-                    .append("Pass Block Ranking: ")
-                    .append(pbRank)
-                    .append(Constants.LINE_BREAK)
-                    .append("Run Block Ranking: ")
-                    .append(adjYPCRank)
-                    .toString();
+            String olData = sackRate +
+                    " adjusted team sack rate." +
+                    Constants.LINE_BREAK +
+                    adjYPC +
+                    " adjusted team yards per carry (" +
+                    adjYPCRank +
+                    ")" +
+                    Constants.LINE_BREAK +
+                    "Pass Block Ranking: " +
+                    pbRank +
+                    Constants.LINE_BREAK +
+                    power +
+                    " success rate with < 3 yards to go (" +
+                    powerRank +
+                    ")" +
+                    Constants.LINE_BREAK +
+                    stuff +
+                    " rate of being stuffed at the line (" +
+                    stuffRank +
+                    ")" +
+                    Constants.LINE_BREAK +
+                    secLevel +
+                    " YPC earned 5 to 10 yards past LOS (" +
+                    secLevelRank +
+                    ")" +
+                    Constants.LINE_BREAK +
+                    openField +
+                    " YPC earned 10+ yards past LOS (" +
+                    openFieldRank +
+                    ")" +
+                    Constants.LINE_BREAK +
+                    Constants.LINE_BREAK +
+                    "Pass Block Ranking: " +
+                    pbRank +
+                    Constants.LINE_BREAK +
+                    "Run Block Ranking: " +
+                    adjYPCRank;
 
             rankings.getTeam(team).setoLineRanks(olData);
         }

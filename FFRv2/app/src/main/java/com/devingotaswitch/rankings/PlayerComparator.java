@@ -299,7 +299,7 @@ public class PlayerComparator extends AppCompatActivity {
         adapter.setOnItemClickListener(new RecyclerViewAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View view, int position) {
-                Player clickedPlayer = rankings.getPlayer(DisplayUtils.getPlayerKeyFromListViewItem(((RelativeLayout)view)));
+                Player clickedPlayer = rankings.getPlayer(DisplayUtils.getPlayerKeyFromListViewItem(view));
                 if (playerA != null && playerA.getUniqueId().equals(clickedPlayer.getUniqueId())) {
                     toggleListItemStar(playerA, false);
                     playerA = null;

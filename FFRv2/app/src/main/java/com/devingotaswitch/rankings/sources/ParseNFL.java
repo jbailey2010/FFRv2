@@ -41,7 +41,7 @@ public class ParseNFL {
             throws IOException {
         List<String> td = JsoupUtils.parseURLWithUA(url, "td");
         for (int i = 0; i < td.size(); i += 4) {
-            String nameSet[] = td.get(i).split(" ");
+            String[] nameSet = td.get(i).split(" ");
             StringBuilder name = new StringBuilder();
             int filter = 0;
             for (int j = 0; j < nameSet.length; j++) {

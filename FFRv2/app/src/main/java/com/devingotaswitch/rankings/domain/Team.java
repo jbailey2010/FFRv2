@@ -119,10 +119,9 @@ public class Team {
 
     public String getFaClass() {
         if (!StringUtils.isBlank(incomingFA) && !StringUtils.isBlank(outgoingFA)) {
-            return new StringBuilder(incomingFA)
-                    .append(FA_DELIMITER)
-                    .append(outgoingFA)
-                    .toString();
+            return incomingFA +
+                    FA_DELIMITER +
+                    outgoingFA;
         }
         return "";
     }

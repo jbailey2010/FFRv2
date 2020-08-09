@@ -25,16 +25,14 @@ public class PassingProjection extends ProjectionBase {
 
     @Override
     String getDisplayString() {
-        return new StringBuilder()
-                .append("Passing Yards: ")
-                .append(yards)
-                .append(Constants.LINE_BREAK)
-                .append("Passing TDs: ")
-                .append(tds)
-                .append(Constants.LINE_BREAK)
-                .append("Interceptions: ")
-                .append(ints)
-                .toString();
+        return "Passing Yards: " +
+                yards +
+                Constants.LINE_BREAK +
+                "Passing TDs: " +
+                tds +
+                Constants.LINE_BREAK +
+                "Interceptions: " +
+                ints;
     }
 
     public double getTds() {

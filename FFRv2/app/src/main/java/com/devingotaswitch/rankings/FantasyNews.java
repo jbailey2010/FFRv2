@@ -274,11 +274,10 @@ public class FantasyNews extends AppCompatActivity {
         {
             PlayerNews news = new PlayerNews();
             news.setNews(reportSet.get(i * 2));
-            String impact = new StringBuilder(impactSet.get(i * 3 + 1))
-                    .append(Constants.LINE_BREAK)
-                    .append(Constants.LINE_BREAK)
-                    .append(impactSet.get(i * 3 + 2))
-                    .toString();
+            String impact = impactSet.get(i * 3 + 1) +
+                    Constants.LINE_BREAK +
+                    Constants.LINE_BREAK +
+                    impactSet.get(i * 3 + 2);
             news.setImpact(impact);
             news.setDate(dateSet.get(i).split(" By ")[0]);
             newsSet.add(news);

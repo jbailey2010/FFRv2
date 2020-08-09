@@ -127,7 +127,7 @@ public class Player {
         if (teamCount > Constants.AUCTION_TEAM_SCALE_COUNT) {
             // First, get the extra % of money. If there's 14 teams, that means 14/12 = 1.16667 = 16.6667 % more money.
             // To limit crazy numbers, it's capped at 16 teams/33.333% above.
-            double teamScaleDelta = (Math.min((double) teamCount, 16.0)) /
+            double teamScaleDelta = (Math.min(teamCount, 16.0)) /
                     ((double) Constants.AUCTION_TEAM_SCALE_COUNT) - 1.0;
             // Next, scale that down a bit.
             teamScaleDelta *= Constants.AUCTION_TEAM_SCALE_THRESHOLD;

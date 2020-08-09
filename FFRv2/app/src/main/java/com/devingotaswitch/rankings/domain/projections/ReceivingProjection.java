@@ -24,16 +24,14 @@ public class ReceivingProjection extends ProjectionBase {
 
     @Override
     String getDisplayString() {
-        return new StringBuilder()
-                .append("Catches: ")
-                .append(receptions)
-                .append(Constants.LINE_BREAK)
-                .append("Receiving Yards: ")
-                .append(yards)
-                .append(Constants.LINE_BREAK)
-                .append("Receiving TDs: ")
-                .append(tds)
-                .toString();
+        return "Catches: " +
+                receptions +
+                Constants.LINE_BREAK +
+                "Receiving Yards: " +
+                yards +
+                Constants.LINE_BREAK +
+                "Receiving TDs: " +
+                tds;
     }
 
     public double getTds() {

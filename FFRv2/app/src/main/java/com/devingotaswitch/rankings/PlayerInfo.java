@@ -894,12 +894,10 @@ public class PlayerInfo extends AppCompatActivity {
             int projRank = getProj(null, player.getProjection());
             int projPos = getProj(player.getPosition(), player.getProjection());
             String projectionBreakdown = player.getPlayerProjection().getDisplayString(player.getPosition());
-            String rankingSub = new StringBuilder()
-                    .append(getRankingSub(projRank, projPos))
-                    .append(projectionBreakdown.length() > 0 ? Constants.LINE_BREAK : "")
-                    .append(projectionBreakdown.length() > 0 ? Constants.LINE_BREAK : "")
-                    .append(projectionBreakdown)
-                    .toString();
+            String rankingSub = getRankingSub(projRank, projPos) +
+                    (projectionBreakdown.length() > 0 ? Constants.LINE_BREAK : "") +
+                    (projectionBreakdown.length() > 0 ? Constants.LINE_BREAK : "") +
+                    projectionBreakdown;
             proj.put(Constants.PLAYER_INFO, rankingSub);
             data.add(proj);
 
@@ -997,7 +995,7 @@ public class PlayerInfo extends AppCompatActivity {
             if (rankings.getDraft().getMyPlayers().size() > 0) {
                 // TODO: should this print more specific info? Names?
                 List<Player> sameBye = rankings.getDraft().getPlayersWithSameBye(player, rankings);
-                if (sameBye.size() > 1 || sameBye.size() == 0) {
+                if (sameBye.size() != 1) {
                     playerSub.append("Same bye as ")
                             .append(sameBye.size())
                             .append(" players on your team");

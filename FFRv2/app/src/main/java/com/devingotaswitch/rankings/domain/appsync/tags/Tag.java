@@ -30,7 +30,7 @@ public abstract class Tag {
     }
 
     public String getTagText() {
-        return title + Constants.TAG_TEXT_DELIMITER + String.valueOf(getCount());
+        return title + Constants.TAG_TEXT_DELIMITER + getCount();
     }
 
     public String getRemoteTitle() {

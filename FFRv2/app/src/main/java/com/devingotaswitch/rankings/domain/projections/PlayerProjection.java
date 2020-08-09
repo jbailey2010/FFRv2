@@ -64,23 +64,17 @@ public class PlayerProjection {
     public String getDisplayString(String position) {
         switch (position) {
             case Constants.QB:
-                return new StringBuilder()
-                        .append(this.passingProjection.getDisplayString())
-                        .append(Constants.LINE_BREAK)
-                        .append(this.rushingProjection.getDisplayString())
-                        .toString();
+                return this.passingProjection.getDisplayString() +
+                        Constants.LINE_BREAK +
+                        this.rushingProjection.getDisplayString();
             case Constants.RB:
-                return new StringBuilder()
-                        .append(this.rushingProjection.getDisplayString())
-                        .append(Constants.LINE_BREAK)
-                        .append(this.receivingProjection.getDisplayString())
-                        .toString();
+                return this.rushingProjection.getDisplayString() +
+                        Constants.LINE_BREAK +
+                        this.receivingProjection.getDisplayString();
             case Constants.WR:
-                return new StringBuilder()
-                        .append(this.receivingProjection.getDisplayString())
-                        .append(Constants.LINE_BREAK)
-                        .append(this.rushingProjection.getDisplayString())
-                        .toString();
+                return this.receivingProjection.getDisplayString() +
+                        Constants.LINE_BREAK +
+                        this.rushingProjection.getDisplayString();
             case Constants.TE:
                 return this.receivingProjection.getDisplayString();
             case Constants.DST:

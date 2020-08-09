@@ -53,27 +53,25 @@ public class ParseInjuries {
                 if (injuries.containsKey(team)) {
                     baseStr = injuries.get(playerId) + Constants.LINE_BREAK;
                 }
-                baseStr = new StringBuilder(baseStr)
-                        .append(playerName)
-                        .append(": ")
-                        .append(playerStatus)
-                        .append(" (")
-                        .append(injuryType)
-                        .append(")")
-                        .toString();
+                baseStr = baseStr +
+                        playerName +
+                        ": " +
+                        playerStatus +
+                        " (" +
+                        injuryType +
+                        ")";
                 injuries.put(playerId, baseStr);
 
             } else {
                 String playerId = getPlayerId(name, pos, team);
 
-                injuryStr = new StringBuilder(playerStatus)
-                        .append(" (")
-                        .append(injuryType)
-                        .append(")")
-                        .append(Constants.LINE_BREAK)
-                        .append(Constants.LINE_BREAK)
-                        .append(comment)
-                        .toString();
+                injuryStr = playerStatus +
+                        " (" +
+                        injuryType +
+                        ")" +
+                        Constants.LINE_BREAK +
+                        Constants.LINE_BREAK +
+                        comment;
 
                 injuries.put(playerId, injuryStr);
             }
@@ -89,12 +87,11 @@ public class ParseInjuries {
     }
 
     private static String getPlayerId(String name, String pos, String team) {
-        String playerId = new StringBuilder(name)
-                .append(Constants.PLAYER_ID_DELIMITER)
-                .append(team)
-                .append(Constants.PLAYER_ID_DELIMITER)
-                .append(pos)
-                .toString();
+        String playerId = name +
+                Constants.PLAYER_ID_DELIMITER +
+                team +
+                Constants.PLAYER_ID_DELIMITER +
+                pos;
         return playerId;
     }
 }

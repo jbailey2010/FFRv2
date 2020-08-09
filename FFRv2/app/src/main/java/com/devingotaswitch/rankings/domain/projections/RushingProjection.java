@@ -24,16 +24,14 @@ public class RushingProjection extends ProjectionBase {
 
     @Override
     String getDisplayString() {
-        return new StringBuilder()
-                .append("Rushing Yards: ")
-                .append(yards)
-                .append(Constants.LINE_BREAK)
-                .append("Rushing TDs: ")
-                .append(tds)
-                .append(Constants.LINE_BREAK)
-                .append("Fumbles: ")
-                .append(fumbles)
-                .toString();
+        return "Rushing Yards: " +
+                yards +
+                Constants.LINE_BREAK +
+                "Rushing TDs: " +
+                tds +
+                Constants.LINE_BREAK +
+                "Fumbles: " +
+                fumbles;
     }
 
     public double getTds() {
