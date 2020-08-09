@@ -3,7 +3,9 @@ package com.devingotaswitch.rankings.extras;
 import android.content.Context;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -21,6 +23,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
     private LayoutInflater mInflater;
     private OnItemClickListener mClickListener;
     private OnItemLongClickListener mLongClickListener;
+    private View.OnTouchListener mTouchListener;
     private int mLayoutView;
     private String[] mMapKeys;
     private int[] mViewIds;
@@ -67,7 +70,7 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
 
     // stores and recycles views as they are scrolled off screen
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
+    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnTouchListener, View.OnClickListener, View.OnLongClickListener {
 
         Map<Integer, View> viewMap = new HashMap<>();
 
@@ -78,11 +81,14 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
             }
             itemView.setOnClickListener(this);
             itemView.setOnLongClickListener(this);
+            itemView.setOnTouchListener(this);
         }
 
         @Override
         public void onClick(View view) {
-            if (mClickListener != null) mClickListener.onItemClick(view, getAdapterPosition());
+            if (mClickListener != null) {
+                mClickListener.onItemClick(view, getAdapterPosition());
+            }
         }
 
         @Override
@@ -91,6 +97,15 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
                 return mLongClickListener.onItemLongClick(view, getAdapterPosition());
             } else {
                 return true;
+            }
+        }
+
+        @Override
+        public boolean onTouch(View view, MotionEvent motionEvent) {
+            if (mTouchListener != null) {
+                return mTouchListener.onTouch(view, motionEvent);
+            } else {
+                return false;
             }
         }
     }
@@ -107,6 +122,11 @@ public class RecyclerViewAdapter extends RecyclerView.Adapter<RecyclerViewAdapte
 
     public void setOnItemLongClickListener(OnItemLongClickListener itemLongClickListener) {
         this.mLongClickListener = itemLongClickListener;
+    }
+
+    public void setOnTouchListener(View.OnTouchListener onTouchListener) {
+        this.mTouchListener = onTouchListener;
+
     }
 
     // parent activity will implement this method to respond to click events

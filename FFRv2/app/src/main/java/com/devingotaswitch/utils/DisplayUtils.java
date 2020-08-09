@@ -12,6 +12,7 @@ import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.domain.Team;
+import com.devingotaswitch.rankings.extras.RecyclerViewAdapter;
 
 import java.util.HashMap;
 import java.util.List;
@@ -113,8 +114,8 @@ public class DisplayUtils {
         return datum;
     }
 
-    public static SimpleAdapter getDisplayAdapter(Activity act, List<Map<String, String>> data) {
-        return new SimpleAdapter(act, data,
+    public static RecyclerViewAdapter getDisplayAdapter(Activity act, List<Map<String, String>> data) {
+        return new RecyclerViewAdapter(act, data,
                 R.layout.list_item_layout,
                 new String[] { Constants.PLAYER_BASIC, Constants.PLAYER_INFO, Constants.PLAYER_STATUS, Constants.PLAYER_ADDITIONAL_INFO,
                         Constants.PLAYER_ADDITIONAL_INFO_2},

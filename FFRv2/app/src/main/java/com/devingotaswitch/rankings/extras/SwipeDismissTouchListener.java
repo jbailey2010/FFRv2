@@ -5,12 +5,17 @@ import android.animation.AnimatorListenerAdapter;
 import android.animation.ValueAnimator;
 import android.graphics.Rect;
 import android.os.SystemClock;
+import android.util.Log;
+import android.view.GestureDetector;
 import android.view.MotionEvent;
 import android.view.VelocityTracker;
 import android.view.View;
 import android.view.ViewConfiguration;
 import android.view.ViewGroup;
 import android.widget.ListView;
+
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,7 +30,7 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
     private final long mAnimationTime;
 
     // Fixed properties
-    private final ListView mListView;
+    private final RecyclerView mListView;
     private final DismissCallbacks mCallbacks;
     private int mViewWidth = 1; // 1 and not 0 to prevent dividing by zero
 
@@ -41,6 +46,8 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
     private View mDownView;
     private boolean mPaused;
     private boolean mDoDismiss;
+    private GestureDetector gestureDetector;
+    private RecyclerViewAdapter.OnItemClickListener mOnClickListener;
 
     public interface DismissCallbacks {
         /**
@@ -56,10 +63,11 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
          * @param reverseSortedPositions An array of positions to dismiss, sorted in descending
          *                               order for convenience.
          */
-        void onDismiss(ListView listView, int[] reverseSortedPositions, boolean rightDismiss);
+        void onDismiss(RecyclerView listView, int[] reverseSortedPositions, boolean rightDismiss);
     }
 
-    public SwipeDismissTouchListener(ListView listView, boolean doAnimate, DismissCallbacks callbacks) {
+    public SwipeDismissTouchListener(RecyclerView listView, boolean doAnimate, DismissCallbacks callbacks,
+                                     RecyclerViewAdapter.OnItemClickListener onClickListener) {
         ViewConfiguration vc = ViewConfiguration.get(listView.getContext());
         mSlop = vc.getScaledTouchSlop();
         mMinFlingVelocity = vc.getScaledMinimumFlingVelocity() * 16;
@@ -69,6 +77,8 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
         mListView = listView;
         mCallbacks = callbacks;
         mDoDismiss = doAnimate;
+        gestureDetector = new GestureDetector(listView.getContext(), new SingleTapConfirm());
+        mOnClickListener = onClickListener;
     }
 
     /**
@@ -78,8 +88,8 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
      * @param callbacks The callback to trigger when the user has indicated that she would like to
      *                  dismiss one or more list items.
      */
-    public SwipeDismissTouchListener(ListView listView, DismissCallbacks callbacks) {
-        this(listView, true, callbacks);
+    public SwipeDismissTouchListener(RecyclerView listView, DismissCallbacks callbacks, RecyclerViewAdapter.OnItemClickListener onClickListener) {
+        this(listView, true, callbacks, onClickListener);
     }
 
     /**
@@ -95,6 +105,12 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
     public boolean onTouch(View view, MotionEvent motionEvent) {
         if (mViewWidth < 2) {
             mViewWidth = mListView.getWidth();
+        }
+
+        if (gestureDetector.onTouchEvent(motionEvent)) {
+            LinearLayoutManager layoutManager = (LinearLayoutManager)mListView.getLayoutManager();
+            mOnClickListener.onItemClick(view, layoutManager.findFirstVisibleItemPosition());
+            return true;
         }
 
         switch (motionEvent.getActionMasked()) {
@@ -125,7 +141,7 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
                 if (mDownView != null) {
                     mDownX = motionEvent.getRawX();
                     mDownY = motionEvent.getRawY();
-                    mDownPosition = mListView.getPositionForView(mDownView);
+                    mDownPosition = mListView.getChildLayoutPosition(mDownView);
                     if (mCallbacks.canDismiss(mDownView)) {
                         mVelocityTracker = VelocityTracker.obtain();
                         mVelocityTracker.addMovement(motionEvent);
@@ -239,6 +255,7 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
                 if (mSwiping) {
                     mDownView.setTranslationX(deltaX - mSwipingSlop);
                     if (mDoDismiss) {
+
                         mDownView.setAlpha(Math.max(0f, Math.min(1f,
                                 1f - 2f * Math.abs(deltaX) / mViewWidth)));
                     }
@@ -334,5 +351,13 @@ public class SwipeDismissTouchListener implements View.OnTouchListener {
 
         mPendingDismisses.add(new PendingDismissData(dismissPosition, dismissView));
         animator.start();
+    }
+
+    private class SingleTapConfirm extends GestureDetector.SimpleOnGestureListener {
+
+        @Override
+        public boolean onSingleTapUp(MotionEvent event) {
+            return true;
+        }
     }
 }

@@ -15,6 +15,7 @@ import com.andrognito.flashbar.Flashbar;
 import com.devingotaswitch.ffrv2.R;
 import com.devingotaswitch.rankings.domain.Player;
 import com.devingotaswitch.rankings.domain.Rankings;
+import com.devingotaswitch.rankings.extras.RecyclerViewAdapter;
 
 import java.util.List;
 import java.util.Map;
@@ -22,7 +23,7 @@ import java.util.Map;
 public class DraftUtils {
 
     public static Flashbar.OnActionTapListener getUndraftListener(final Activity activity, final Rankings rankings, final Player player,
-                                                                  final View view, final SimpleAdapter adapter, final List<Map<String, String>> data,
+                                                                  final View view, final RecyclerViewAdapter adapter, final List<Map<String, String>> data,
                                                                   final Map<String, String> datum, final int position, final boolean updateList) {
         return new Flashbar.OnActionTapListener() {
             @Override

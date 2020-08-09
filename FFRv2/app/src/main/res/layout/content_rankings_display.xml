@@ -82,5 +82,6 @@
         android:divider="@drawable/list_divider"
         android:dividerHeight="1dp"
         android:overScrollMode="never"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:layout_below="@+id/rankings_filter_base"/>
 </RelativeLayout>

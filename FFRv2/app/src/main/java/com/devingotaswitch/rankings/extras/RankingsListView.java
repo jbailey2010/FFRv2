@@ -5,12 +5,14 @@ import android.util.AttributeSet;
 import android.util.Log;
 import android.widget.ListView;
 
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.devingotaswitch.fileio.LocalSettingsHelper;
 import com.devingotaswitch.rankings.RankingsHome;
 import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.GeneralUtils;
 
-public class RankingsListView extends ListView {
+public class RankingsListView extends RecyclerView {
     private Context context;
     private long lastRefreshTime = 0l;
     private boolean refreshRanksOnOverscroll = false;
@@ -27,11 +29,6 @@ public class RankingsListView extends ListView {
 
     public RankingsListView(Context context, AttributeSet attrs, int defStyleAttr) {
         super(context, attrs, defStyleAttr);
-        this.context = context;
-    }
-
-    public RankingsListView(Context context, AttributeSet attrs, int defStyleAttr, int defStyleRes) {
-        super(context, attrs, defStyleAttr, defStyleRes);
         this.context = context;
     }
 

@@ -11,6 +11,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.ListPopupWindow;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -18,6 +21,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
+import androidx.recyclerview.widget.RecyclerView.OnScrollListener;
+
 import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -39,6 +44,7 @@ import com.devingotaswitch.rankings.domain.Rankings;
 import com.devingotaswitch.rankings.domain.RosterSettings;
 import com.devingotaswitch.rankings.domain.Team;
 import com.devingotaswitch.rankings.extras.MultiSelectionSpinner;
+import com.devingotaswitch.rankings.extras.RecyclerViewAdapter;
 import com.devingotaswitch.rankings.extras.SwipeDismissTouchListener;
 import com.devingotaswitch.utils.Constants;
 import com.devingotaswitch.utils.DraftUtils;
@@ -552,10 +558,10 @@ public class PlayerSorter extends AppCompatActivity {
     }
 
     private void displayResults(List<Player> players) {
-        final ListView listview =  findViewById(R.id.sort_players_output);
+        final RecyclerView listview =  findViewById(R.id.sort_players_output);
         listview.setAdapter(null);
         final List<Map<String, String>> data = new ArrayList<>();
-        final SimpleAdapter adapter = new SimpleAdapter(this, data,
+        final RecyclerViewAdapter adapter = new RecyclerViewAdapter(this, data,
                 R.layout.list_item_layout,
                 new String[] { Constants.PLAYER_BASIC, Constants.PLAYER_INFO, Constants.PLAYER_STATUS, Constants.PLAYER_ADDITIONAL_INFO},
                 new int[] { R.id.player_basic, R.id.player_info,
@@ -597,9 +603,9 @@ public class PlayerSorter extends AppCompatActivity {
         adapter.notifyDataSetChanged();
         final Activity act = this;
         final boolean hideDrafted = factorStrings.contains(Constants.SORT_HIDE_DRAFTED);
-        listview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        adapter.setOnItemLongClickListener(new RecyclerViewAdapter.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            public boolean onItemLongClick(View view, int position) {
                 String playerKey = getPlayerKeyFromListViewItem(view);
                 final ImageView playerStatus = view.findViewById(R.id.player_status);
                 final Player player = rankings.getPlayer(playerKey);
@@ -635,14 +641,14 @@ public class PlayerSorter extends AppCompatActivity {
                 return true;
             }
         });
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        RecyclerViewAdapter.OnItemClickListener onItemClickListener = new RecyclerViewAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(View view, int position) {
                 String playerKey = getPlayerKeyFromListViewItem(view);
                 selectedIndex = position;
                 displayPlayerInfo(playerKey);
             }
-        });
+        };
         final Activity localCopy = this;
         final SwipeDismissTouchListener swipeListener = new SwipeDismissTouchListener(listview, hideDrafted,
                 new SwipeDismissTouchListener.DismissCallbacks() {
@@ -655,7 +661,7 @@ public class PlayerSorter extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onDismiss(ListView listView, int[] reverseSortedPositions, boolean rightDismiss) {
+                    public void onDismiss(RecyclerView listView, int[] reverseSortedPositions, boolean rightDismiss) {
                         for (final int position : reverseSortedPositions) {
                             final Map<String, String> datum = data.get(position);
                             String playerKey = getPlayerKeyFromPieces(datum.get(Constants.PLAYER_BASIC), datum.get(Constants.PLAYER_INFO));
@@ -679,23 +685,26 @@ public class PlayerSorter extends AppCompatActivity {
                         }
                         adapter.notifyDataSetChanged();
                     }
-                });
+                }, onItemClickListener);
         listview.setOnTouchListener(swipeListener);
-        listview.setOnScrollListener(new AbsListView.OnScrollListener() {
+        listview.addOnScrollListener(new OnScrollListener() {
+
+
             @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
+            public void onScrollStateChanged(RecyclerView view, int scrollState) {
                 swipeListener.setEnabled(scrollState != AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL);
             }
 
             @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            public void onScrolled(RecyclerView view, int dx, int dy) {
                 if (data.size() > 0) {
                     // A flag is used to green light this set, otherwise onScroll is set to 0 on initial display
-                    selectedIndex = firstVisibleItem;
+                    LinearLayoutManager layoutManager = (LinearLayoutManager) view.getLayoutManager();
+                    selectedIndex = layoutManager.findFirstCompletelyVisibleItemPosition();
                 }
             }
         });
-        listview.setSelection(selectedIndex);
+        listview.getLayoutManager().scrollToPosition(selectedIndex);
 
         TextView titleView = findViewById(R.id.main_toolbar_title);
         titleView.setOnClickListener(new View.OnClickListener() {
@@ -707,7 +716,7 @@ public class PlayerSorter extends AppCompatActivity {
         titleView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                listview.setSelectionAfterHeaderView();
+                listview.scrollToPosition(0);
                 return true;
             }
         });
@@ -719,8 +728,8 @@ public class PlayerSorter extends AppCompatActivity {
         }
     }
 
-    private void getAuctionCost(final ListView listView, final Player player, final int position, final List<Map<String, String>> data,
-                                final Map<String, String> datum, final SimpleAdapter adapter, final Flashbar.OnActionTapListener listener) {
+    private void getAuctionCost(final RecyclerView listView, final Player player, final int position, final List<Map<String, String>> data,
+                                final Map<String, String> datum, final RecyclerViewAdapter adapter, final Flashbar.OnActionTapListener listener) {
         final Activity act = this;
         DraftUtils.AuctionCostInterface callback = new DraftUtils.AuctionCostInterface() {
             @Override

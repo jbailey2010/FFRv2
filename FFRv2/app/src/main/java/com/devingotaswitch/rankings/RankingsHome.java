@@ -5,6 +5,8 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.Color;
+
+import com.devingotaswitch.rankings.extras.RecyclerViewAdapter;
 import com.google.android.material.navigation.NavigationView;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -12,6 +14,9 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -446,10 +451,10 @@ public class RankingsHome extends AppCompatActivity {
             filterItem.setVisible(true);
         }
 
-        final ListView listview =  findViewById(R.id.rankings_list);
+        final RankingsListView listview =  findViewById(R.id.rankings_list);
         listview.setAdapter(null);
         final List<Map<String, String>> data = new ArrayList<>();
-        final SimpleAdapter adapter = DisplayUtils.getDisplayAdapter(this, data);
+        final RecyclerViewAdapter adapter = DisplayUtils.getDisplayAdapter(this, data);
         listview.setAdapter(adapter);
         for (int i = 0; i < Math.min(orderedIds.size(), maxPlayers); i++) {
             Player player = rankings.getPlayer(orderedIds.get(i));
@@ -468,9 +473,9 @@ public class RankingsHome extends AppCompatActivity {
         adapter.notifyDataSetChanged();
         final Activity act = this;
 
-        listview.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+        adapter.setOnItemLongClickListener(new RecyclerViewAdapter.OnItemLongClickListener() {
             @Override
-            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+            public boolean onItemLongClick(View view, int position) {
                 String playerKey = DisplayUtils.getPlayerKeyFromListViewItem(view);
                 final ImageView playerStatus = view.findViewById(R.id.player_status);
                 final Player player = rankings.getPlayer(playerKey);
@@ -506,14 +511,14 @@ public class RankingsHome extends AppCompatActivity {
                 return true;
             }
         });
-        listview.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        RecyclerViewAdapter.OnItemClickListener onItemClickListener = new RecyclerViewAdapter.OnItemClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemClick(View view, int position) {
                 String playerKey = DisplayUtils.getPlayerKeyFromListViewItem(view);
                 selectedIndex = position;
                 displayPlayerInfo(playerKey);
             }
-        });
+        };
         final Activity localCopy = this;
         final SwipeDismissTouchListener swipeListener = new SwipeDismissTouchListener(listview,
                 new SwipeDismissTouchListener.DismissCallbacks() {
@@ -523,7 +528,7 @@ public class RankingsHome extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onDismiss(ListView listView,
+                    public void onDismiss(RecyclerView listView,
                                           int[] reverseSortedPositions,
                                           boolean rightDismiss) {
                         for (final int position : reverseSortedPositions) {
@@ -551,30 +556,32 @@ public class RankingsHome extends AppCompatActivity {
                         }
                         adapter.notifyDataSetChanged();
                     }
-                });
-        listview.setOnTouchListener(swipeListener);
-        listview.setOnScrollListener(new AbsListView.OnScrollListener() {
+                }, onItemClickListener);
+        adapter.setOnTouchListener(swipeListener);
+        listview.addOnScrollListener(new RecyclerView.OnScrollListener() {
             @Override
-            public void onScrollStateChanged(AbsListView view, int scrollState) {
-                swipeListener.setEnabled(scrollState != AbsListView.OnScrollListener.SCROLL_STATE_TOUCH_SCROLL);
+            public void onScrollStateChanged(RecyclerView view, int scrollState) {
+                swipeListener.setEnabled(scrollState == RecyclerView.SCROLL_STATE_IDLE);
             }
 
             @Override
-            public void onScroll(AbsListView view, int firstVisibleItem, int visibleItemCount, int totalItemCount) {
+            public void onScrolled(RecyclerView view, int dx, int dy) {
                 if (ranksDisplayed) {
                     // A flag is used to green light this set, otherwise onScroll is set to 0 on initial display
-                    selectedIndex = firstVisibleItem;
+                    LinearLayoutManager layoutManager = (LinearLayoutManager) view.getLayoutManager();
+                    selectedIndex = layoutManager.findFirstCompletelyVisibleItemPosition();
                 }
             }
         });
-        listview.setSelection(selectedIndex);
+        listview.getLayoutManager().scrollToPosition(selectedIndex);
         ranksDisplayed = true;
+        listview.addItemDecoration(DisplayUtils.getVerticalDividerDecoration(this));
 
         setSearchAutocomplete();
     }
 
     private void getAuctionCost(final Player player, final int position, final List<Map<String, String>> data,
-                                final Map<String, String> datum, final SimpleAdapter adapter, final Flashbar.OnActionTapListener listener) {
+                                final Map<String, String> datum, final RecyclerViewAdapter adapter, final Flashbar.OnActionTapListener listener) {
         final Activity act = this;
         DraftUtils.AuctionCostInterface callback = new DraftUtils.AuctionCostInterface() {
             @Override
@@ -625,7 +632,7 @@ public class RankingsHome extends AppCompatActivity {
             }
         });
 
-        final ListView listview =  findViewById(R.id.rankings_list);
+        final RankingsListView listview =  findViewById(R.id.rankings_list);
         searchInput.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View v) {

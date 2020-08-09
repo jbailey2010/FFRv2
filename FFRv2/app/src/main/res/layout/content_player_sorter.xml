@@ -77,7 +77,7 @@
                 android:id="@+id/sort_players_submit" />
         </LinearLayout>
     </LinearLayout>
-    <ListView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/sort_players_output"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -85,6 +85,7 @@
         android:overScrollMode="never"
         android:divider="@drawable/list_divider"
         android:dividerHeight="1dp"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         android:footerDividersEnabled="false"
         android:layout_below="@+id/sort_players_header"/>
 
