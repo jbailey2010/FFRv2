@@ -1,7 +1,6 @@
 package com.devingotaswitch.utils;
 
 import android.app.Activity;
-import android.content.DialogInterface;
 
 import androidx.appcompat.app.AlertDialog;
 import android.text.InputType;

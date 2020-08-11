@@ -15,7 +15,6 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
@@ -193,7 +192,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         Button advanced =  view.findViewById(R.id.league_settings_advanced_settings);
         final Activity act = this;
         save.setOnClickListener(view12 -> {
-            if (!validateLeagueInputs(leagueName, teamCount, auctionBudget, isAuction)) {
+            if (validateLeagueInputs(leagueName, teamCount, auctionBudget, isAuction)) {
                 return;
             }
             Map<String, String> updates = getLeagueUpdates(currentLeague, leagueName, teamCount, isAuction, isSnake,
@@ -209,7 +208,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                     .show();
         });
         advanced.setOnClickListener(view1 -> {
-            if (!validateLeagueInputs(leagueName, teamCount, auctionBudget, isAuction)) {
+            if (validateLeagueInputs(leagueName, teamCount, auctionBudget, isAuction)) {
                 return;
             }
             Map<String, String> updates = getLeagueUpdates(currentLeague, leagueName, teamCount, isAuction, isSnake,
@@ -298,7 +297,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
 
         final Activity act = this;
         save.setOnClickListener(view12 -> {
-            if (!validateLeagueInputs(leagueName, teamCount, auctionBudget, isAuction)) {
+            if (validateLeagueInputs(leagueName, teamCount, auctionBudget, isAuction)) {
                 return;
             }
             LeagueSettings defaults = getLeagueSettingsFromFirstPage(leagueName, teamCount, isAuction, isSnake,
@@ -308,7 +307,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                     .show();
         });
         advanced.setOnClickListener(view1 -> {
-            if (!validateLeagueInputs(leagueName, teamCount, auctionBudget, isAuction)) {
+            if (validateLeagueInputs(leagueName, teamCount, auctionBudget, isAuction)) {
                 return;
             }
             LeagueSettings defaults = getLeagueSettingsFromFirstPage(leagueName, teamCount, isAuction, isSnake,
@@ -336,34 +335,34 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         if (StringUtils.isBlank(givenName)) {
             FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "League name can't be empty", Flashbar.Gravity.TOP)
                     .show();
-            return false;
+            return true;
         } if (StringUtils.isBlank(givenTeamCount) ||
                 !GeneralUtils.isInteger(givenTeamCount)) {
             FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "Team count not provided", Flashbar.Gravity.TOP)
                     .show();
-            return false;
+            return true;
         }
         int teamCountInt = Integer.parseInt(givenTeamCount);
         if (teamCountInt < 1 || teamCountInt > 32) {
             FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "Invalid team count given", Flashbar.Gravity.TOP)
                     .show();
-            return false;
+            return true;
         }
 
         if (isAuction.isChecked()) {
             if (StringUtils.isBlank(givenAuctionBudget) || !GeneralUtils.isInteger(givenAuctionBudget)) {
                 FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "Auction budget not provided", Flashbar.Gravity.TOP)
                         .show();
-                return false;
+                return true;
             }
             int auctionBudgetInt = Integer.parseInt(givenAuctionBudget);
             if (auctionBudgetInt < 1) {
                 FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "Auction budget must be a positive number", Flashbar.Gravity.TOP)
                         .show();
-                return false;
+                return true;
             }
         }
-        return true;
+        return false;
     }
 
     private Map<String, String> getLeagueUpdates(LeagueSettings league, EditText name, EditText teamCount,
@@ -483,7 +482,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
 
         final Activity act = this;
         update.setOnClickListener(view1 -> {
-            if (!validateRosterInputs(qbs, rbs, wrs, tes, dsts, ks, bench)) {
+            if (validateRosterInputs(qbs, rbs, wrs, tes, dsts, ks, bench)) {
                 return;
             }
             Map<String, String> rosterUpdates = getRosterUpdates(qbs, rbs, wrs, tes, dsts, ks, bench, currentLeague);
@@ -498,7 +497,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                     .show();
         });
         advanced.setOnClickListener(v -> {
-            if (!validateRosterInputs(qbs, rbs, wrs, tes, dsts, ks, bench)) {
+            if (validateRosterInputs(qbs, rbs, wrs, tes, dsts, ks, bench)) {
                 return;
             }
             Map<String, String> rosterUpdates = getRosterUpdates(qbs, rbs, wrs, tes, dsts, ks, bench, currentLeague);
@@ -542,7 +541,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
 
         final Activity act = this;
         save.setOnClickListener(view12 -> {
-            if (!validateRosterInputs(qbs, rbs, wrs, tes, dsts, ks, bench)) {
+            if (validateRosterInputs(qbs, rbs, wrs, tes, dsts, ks, bench)) {
                 return;
             }
             RosterSettings defaults = getRosterSettingsFromFirstPage(qbs, rbs, wrs, tes, dsts, ks, bench);
@@ -552,7 +551,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                     .show();
         });
         advanced.setOnClickListener(view1 -> {
-            if (!validateRosterInputs(qbs, rbs, wrs, tes, dsts, ks, bench)) {
+            if (validateRosterInputs(qbs, rbs, wrs, tes, dsts, ks, bench)) {
                 return;
             }
             RosterSettings defaults = getRosterSettingsFromFirstPage(qbs, rbs, wrs, tes, dsts, ks, bench);
@@ -592,39 +591,39 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         if (StringUtils.isBlank(qbStr) || !GeneralUtils.isInteger(qbStr)) {
             FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "QB count not provided", Flashbar.Gravity.TOP)
                     .show();
-            return false;
+            return true;
         }
         if (StringUtils.isBlank(rbStr) || !GeneralUtils.isInteger(rbStr)) {
             FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "RB count not provided", Flashbar.Gravity.TOP)
                     .show();
-            return false;
+            return true;
         }
         if (StringUtils.isBlank(wrStr) || !GeneralUtils.isInteger(wrStr)) {
             FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "WR count not provided", Flashbar.Gravity.TOP)
                     .show();
-            return false;
+            return true;
         }
         if (StringUtils.isBlank(teStr) || !GeneralUtils.isInteger(teStr)) {
             FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "TE count not provided", Flashbar.Gravity.TOP)
                     .show();
-            return false;
+            return true;
         }
         if (StringUtils.isBlank(dstStr) || !GeneralUtils.isInteger(dstStr)) {
             FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "DST count not provided", Flashbar.Gravity.TOP)
                     .show();
-            return false;
+            return true;
         }
         if (StringUtils.isBlank(kStr) || !GeneralUtils.isInteger(kStr)) {
             FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "K count not provided", Flashbar.Gravity.TOP)
                     .show();
-            return false;
+            return true;
         }
         if (StringUtils.isBlank(benchStr) || !GeneralUtils.isInteger(benchStr)) {
             FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "Bench count not provided", Flashbar.Gravity.TOP)
                     .show();
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     private Map<String, String> getRosterUpdates(EditText qbs, EditText rbs, EditText wrs, EditText tes, EditText dsts,
@@ -694,7 +693,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
 
         final Activity act = this;
         update.setOnClickListener(view1 -> {
-            if (!validateFlexInputs(rbwr, rbte, rbwrte, wrte, op)) {
+            if (validateFlexInputs(rbwr, rbte, rbwrte, wrte, op)) {
                 return;
             }
             Map<String, String> rosterUpdates = getFlexUpdates(rbwr, rbte, rbwrte, wrte, op, baseRosterUpdates, currentLeague);
@@ -709,7 +708,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                     .show();
         });
         advanced.setOnClickListener(v -> {
-            if (!validateFlexInputs(rbwr, rbte, rbwrte, wrte, op)) {
+            if (validateFlexInputs(rbwr, rbte, rbwrte, wrte, op)) {
                 return;
             }
             Map<String, String> rosterUpdates = getFlexUpdates(rbwr, rbte, rbwrte, wrte, op, baseRosterUpdates, currentLeague);
@@ -730,7 +729,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
 
         final Activity act = this;
         save.setOnClickListener(view12 -> {
-            if (!validateFlexInputs(rbwr, rbte, rbwrte, wrte, op)) {
+            if (validateFlexInputs(rbwr, rbte, rbwrte, wrte, op)) {
                 return;
             }
             RosterSettings.Flex defaults = getFlexSettingsFromFirstPage(rbwr, rbte, rbwrte, wrte, op);
@@ -740,7 +739,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
                     .show();
         });
         advanced.setOnClickListener(view1 -> {
-            if (!validateFlexInputs(rbwr, rbte, rbwrte, wrte, op)) {
+            if (validateFlexInputs(rbwr, rbte, rbwrte, wrte, op)) {
                 return;
             }
             RosterSettings.Flex defaults = getFlexSettingsFromFirstPage(rbwr, rbte, rbwrte, wrte, op);
@@ -776,29 +775,29 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         if (StringUtils.isBlank(rbwrStr) || !GeneralUtils.isInteger(rbwrStr)) {
             FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "RB/WR count not provided", Flashbar.Gravity.TOP)
                     .show();
-            return false;
+            return true;
         }
         if (StringUtils.isBlank(rbteStr) || !GeneralUtils.isInteger(rbteStr)) {
             FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "RB/TE count not provided", Flashbar.Gravity.TOP)
                     .show();
-            return false;
+            return true;
         }
         if (StringUtils.isBlank(rbwrteStr) || !GeneralUtils.isInteger(rbwrteStr)) {
             FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "RB/WR/TE count not provided", Flashbar.Gravity.TOP)
                     .show();
-            return false;
+            return true;
         }
         if (StringUtils.isBlank(wrteStr) || !GeneralUtils.isInteger(wrteStr)) {
             FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "WR/TE count not provided", Flashbar.Gravity.TOP)
                     .show();
-            return false;
+            return true;
         }
         if (StringUtils.isBlank(opStr) || !GeneralUtils.isInteger(opStr)) {
             FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "QB/RB/WR/TE count not provided", Flashbar.Gravity.TOP)
                     .show();
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     private Map<String, String> getFlexUpdates(EditText rbwr, EditText rbte, EditText rbwrte, EditText wrte,
@@ -858,7 +857,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
 
         final Activity act = this;
         save.setOnClickListener(view1 -> {
-            if (!validateScoringInputs(passTds, rushTds, recTds, passYds, rushYds, recYds,
+            if (validateScoringInputs(passTds, rushTds, recTds, passYds, rushYds, recYds,
                     ints, fumbles, ppr)) {
                 return;
             }
@@ -898,7 +897,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
 
         final Activity act = this;
         update.setOnClickListener(view1 -> {
-            if (!validateScoringInputs(passTds, rushTds, recTds, passYds, rushYds, recYds,
+            if (validateScoringInputs(passTds, rushTds, recTds, passYds, rushYds, recYds,
                     ints, fumbles, ppr)) {
                 return;
             }
@@ -954,49 +953,49 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         if (StringUtils.isBlank(pTdsStr) || !GeneralUtils.isInteger(pTdsStr)) {
             FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "Pts/passing td must be an integer", Flashbar.Gravity.TOP)
                     .show();
-            return false;
+            return true;
         }
         if (StringUtils.isBlank(ruTdsStr) || !GeneralUtils.isInteger(ruTdsStr)) {
             FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "Pts/rushing td must be an integer", Flashbar.Gravity.TOP)
                     .show();
-            return false;
+            return true;
         }
         if (StringUtils.isBlank(reTdsStr) || !GeneralUtils.isInteger(reTdsStr)) {
             FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "Pts/receiving td must be an integer", Flashbar.Gravity.TOP)
                     .show();
-            return false;
+            return true;
         }
         if (StringUtils.isBlank(pYdsStr) || !GeneralUtils.isInteger(pYdsStr)) {
             FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "Passing yards/point must be an integer", Flashbar.Gravity.TOP)
                     .show();
-            return false;
+            return true;
         }
         if (StringUtils.isBlank(ruYdsStr) || !GeneralUtils.isInteger(ruYdsStr)) {
             FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "Rushing yards/point must be an integer", Flashbar.Gravity.TOP)
                     .show();
-            return false;
+            return true;
         }
         if (StringUtils.isBlank(reYdsStr) || !GeneralUtils.isInteger(reYdsStr)) {
             FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "Receiving yards/point must be an integer", Flashbar.Gravity.TOP)
                     .show();
-            return false;
+            return true;
         }
         if (StringUtils.isBlank(intStr) || !GeneralUtils.isDouble(intStr)) {
             FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "Points/int must be a number (decimals allowed)", Flashbar.Gravity.TOP)
                     .show();
-            return false;
+            return true;
         }
         if (StringUtils.isBlank(fumblesStr) || !GeneralUtils.isDouble(fumblesStr)) {
             FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "Points/fumble must be a number (decimals allowed)", Flashbar.Gravity.TOP)
                     .show();
-            return false;
+            return true;
         }
         if (StringUtils.isBlank(recStr) || !GeneralUtils.isDouble(recStr)) {
             FlashbarFactory.generateTextOnlyFlashbar(this, "No can do", "Points/reception must be a number (decimals allowed)", Flashbar.Gravity.TOP)
                     .show();
-            return false;
+            return true;
         }
-        return true;
+        return false;
     }
 
     private Map<String, String> getScoringUpdates(EditText passTds, EditText rushTds, EditText recTds, EditText passYds,

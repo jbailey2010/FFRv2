@@ -1,6 +1,5 @@
 package com.devingotaswitch.youruserpools;
 
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 
