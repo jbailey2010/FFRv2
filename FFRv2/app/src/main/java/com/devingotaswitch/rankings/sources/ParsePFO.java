@@ -84,7 +84,7 @@ public class ParsePFO {
                     "Run Block Ranking: " +
                     adjYPCRank;
 
-            rankings.getTeam(team).setoLineRanks(olData);
+            rankings.getTeam(team).setOLineRanks(olData);
         }
     }
 }

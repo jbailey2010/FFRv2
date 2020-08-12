@@ -32,7 +32,7 @@ public class ParseSOS {
             currentTeam.setRbSos(Double.parseDouble(allArr.get(i+2)));
             currentTeam.setWrSos(Double.parseDouble(allArr.get(i+3)));
             currentTeam.setTeSos(Double.parseDouble(allArr.get(i+4)));
-            currentTeam.setkSos(Double.parseDouble(allArr.get(i+5)));
+            currentTeam.setKSos(Double.parseDouble(allArr.get(i+5)));
             currentTeam.setDstSos(Double.parseDouble(allArr.get(i+6)));
         }
     }

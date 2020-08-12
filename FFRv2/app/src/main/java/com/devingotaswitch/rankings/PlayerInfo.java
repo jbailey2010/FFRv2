@@ -1062,10 +1062,10 @@ public class PlayerInfo extends AppCompatActivity {
                 Log.d(TAG, "No draft class to display");
             }
 
-            if (!StringUtils.isBlank(team.getoLineRanks()) && team.getoLineRanks().length() > 4) {
+            if (!StringUtils.isBlank(team.getOLineRanks()) && team.getOLineRanks().length() > 4) {
                 Map<String, String> oline = new HashMap<>();
                 oline.put(Constants.PLAYER_BASIC, "Offensive line grades");
-                oline.put(Constants.PLAYER_INFO, team.getoLineRanks());
+                oline.put(Constants.PLAYER_INFO, team.getOLineRanks());
                 data.add(oline);
             } else {
                 Log.d(TAG, "No oline ranks to display");

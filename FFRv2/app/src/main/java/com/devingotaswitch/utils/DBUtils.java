@@ -179,14 +179,14 @@ public class DBUtils {
     public static ContentValues teamToContentValues(Team team) {
         ContentValues values = new ContentValues();
         values.put(Constants.TEAM_NAME_COLUMN, team.getName());
-        values.put(Constants.OLINE_RANKS_COLUMN, team.getoLineRanks());
+        values.put(Constants.OLINE_RANKS_COLUMN, team.getOLineRanks());
         values.put(Constants.DRAFT_CLASS_COLUMN, team.getDraftClass());
         values.put(Constants.QB_SOS_COLUMN, team.getQbSos());
         values.put(Constants.RB_SOS_COLUMN, team.getRbSos());
         values.put(Constants.WR_SOS_COLUMN, team.getWrSos());
         values.put(Constants.TE_SOS_COLUMN, team.getTeSos());
         values.put(Constants.DST_SOS_COLUMN, team.getDstSos());
-        values.put(Constants.K_SOS_COLUMN, team.getkSos());
+        values.put(Constants.K_SOS_COLUMN, team.getKSos());
         values.put(Constants.BYE_COLUMN, team.getBye());
         values.put(Constants.FREE_AGENCY_COLUMN, team.getFaClass());
         values.put(Constants.SCHEDULE_COLUMN, team.getSchedule());
@@ -196,14 +196,14 @@ public class DBUtils {
     public static Team cursorToTeam(Cursor result) {
         Team team = new Team();
         team.setName(result.getString(result.getColumnIndex(Constants.TEAM_NAME_COLUMN)));
-        team.setoLineRanks(result.getString(result.getColumnIndex(Constants.OLINE_RANKS_COLUMN)));
+        team.setOLineRanks(result.getString(result.getColumnIndex(Constants.OLINE_RANKS_COLUMN)));
         team.setDraftClass(result.getString(result.getColumnIndex(Constants.DRAFT_CLASS_COLUMN)));
         team.setQbSos(result.getDouble(result.getColumnIndex(Constants.QB_SOS_COLUMN)));
         team.setRbSos(result.getDouble(result.getColumnIndex(Constants.RB_SOS_COLUMN)));
         team.setWrSos(result.getDouble(result.getColumnIndex(Constants.WR_SOS_COLUMN)));
         team.setTeSos(result.getDouble(result.getColumnIndex(Constants.TE_SOS_COLUMN)));
         team.setDstSos(result.getDouble(result.getColumnIndex(Constants.DST_SOS_COLUMN)));
-        team.setkSos(result.getDouble(result.getColumnIndex(Constants.K_SOS_COLUMN)));
+        team.setKSos(result.getDouble(result.getColumnIndex(Constants.K_SOS_COLUMN)));
         team.setBye(result.getString(result.getColumnIndex(Constants.BYE_COLUMN)));
         team.setFaClass(result.getString(result.getColumnIndex(Constants.FREE_AGENCY_COLUMN)));
         team.setSchedule(result.getString(result.getColumnIndex(Constants.SCHEDULE_COLUMN)));
