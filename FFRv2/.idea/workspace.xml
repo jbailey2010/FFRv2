@@ -13,7 +13,7 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_LOG_LEVEL" value="debug" />
+    <option name="TOOL_WINDOW_LOG_LEVEL" value="verbose" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="CMakeSettings">
@@ -23,17 +23,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f5fe9503-cc09-4a8d-b7d9-507f98789a95" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_android_extensions_runtime_1_3_72_jar.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/Team.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/appsync/comments/Comment.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/appsync/AppSyncHelper.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/appsync/AppSyncHelper.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/DailyProjection.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/DailyProjection.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/Team.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParsePFO.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParsePFO.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParseSOS.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParseSOS.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/Constants.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/DBUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/DBUtils.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/appsync/comments/Comment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/extras/CommentAdapter.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/extras/CommentAdapter.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -409,22 +404,22 @@
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="421" y="87" key="FileChooserDialogImpl/0.0.1280.720@0.0.1280.720" timestamp="1596963883874" />
-    <state width="1220" height="170" key="GridCell.Tab.0.bottom" timestamp="1597212708367">
+    <state width="1220" height="170" key="GridCell.Tab.0.bottom" timestamp="1597215269321">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1220" height="170" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1597212708367" />
-    <state width="1220" height="170" key="GridCell.Tab.0.center" timestamp="1597212708366">
+    <state width="1220" height="170" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1597215269321" />
+    <state width="1220" height="170" key="GridCell.Tab.0.center" timestamp="1597215269321">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1220" height="170" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1597212708366" />
-    <state width="1220" height="170" key="GridCell.Tab.0.left" timestamp="1597212708366">
+    <state width="1220" height="170" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1597215269321" />
+    <state width="1220" height="170" key="GridCell.Tab.0.left" timestamp="1597215269321">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1220" height="170" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1597212708366" />
-    <state width="1220" height="170" key="GridCell.Tab.0.right" timestamp="1597212708366">
+    <state width="1220" height="170" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1597215269321" />
+    <state width="1220" height="170" key="GridCell.Tab.0.right" timestamp="1597215269321">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1220" height="170" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1597212708366" />
+    <state width="1220" height="170" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1597215269321" />
     <state x="142" y="3" key="SettingsEditor" timestamp="1597116921094">
       <screen x="0" y="0" width="1280" height="720" />
     </state>

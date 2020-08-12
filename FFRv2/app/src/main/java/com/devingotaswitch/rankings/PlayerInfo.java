@@ -1135,6 +1135,8 @@ public class PlayerInfo extends AppCompatActivity {
     private void displayComments() {
         data.clear();
         commentData.clear();
+        // A useless line of code, but Android gets pissy thanks to use of the footerview in the other tab
+        adapter.notifyDataSetChanged();
         commentList.setVisibility(View.VISIBLE);
         infoList.setVisibility(View.GONE);
         chipCloud.setVisibility(View.GONE);
@@ -1184,6 +1186,8 @@ public class PlayerInfo extends AppCompatActivity {
             }
         } while (moreFound);
 
+        commentAdapter.notifyDataSetChanged();
+
         final EditText input = findViewById(R.id.player_info_comment_input);
         final ImageButton submit = findViewById(R.id.player_info_comment_submit);
         final Activity activity = this;
@@ -1201,8 +1205,6 @@ public class PlayerInfo extends AppCompatActivity {
             GeneralUtils.hideKeyboard(activity);
             return true;
         });
-
-        commentAdapter.notifyDataSetChanged();
     }
 
     private Map<String, String> getCommentDatum(Comment comment) {
@@ -1240,13 +1242,8 @@ public class PlayerInfo extends AppCompatActivity {
     }
 
     public void conditionallyUpvoteComment(String commentId) {
-        Comment domainComment = null;
-        for (Comment comment : comments) {
-            if (comment.getId().equals(commentId)) {
-                domainComment = comment;
-                break;
-            }
-        }
+        Comment domainComment = findDomainComment(commentId, comments);
+
         for (Map<String, String> datum : commentData) {
             if (datum.get(Constants.COMMENT_ID).equals(commentId) && !domainComment.isUpvoted()) {
                 datum.put(Constants.COMMENT_UPVOTE_IMAGE, Integer.toString(R.drawable.upvoted));
@@ -1267,14 +1264,21 @@ public class PlayerInfo extends AppCompatActivity {
     }
 
     private Comment findDomainComment(String commentId, List<Comment> comments) {
+        // bfs recursive traversal down the comment tree
+        List<Comment> nextIteration = new ArrayList<>();
         for (Comment comment : comments) {
             if (comment.getId().equals(commentId)) {
                 return comment;
             } else if (replyMap.containsKey(comment.getId())) {
-                return findDomainComment(commentId, replyMap.get(comment.getId()));
+                nextIteration.addAll(replyMap.get(comment.getId()));
             }
         }
-        return null;
+        if (nextIteration.isEmpty()) {
+            Log.d(TAG, "Comment wasn't found, returning null (this will go boom)");
+            return null;
+        } else {
+            return findDomainComment(commentId, nextIteration);
+        }
     }
 
     public void conditionallyDownvoteComment(String commentId) {

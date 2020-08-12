@@ -2,6 +2,7 @@ package com.devingotaswitch.appsync;
 
 import android.app.Activity;
 import android.content.Context;
+import android.util.Log;
 
 import com.devingotaswitch.rankings.domain.UserSettings;
 import com.devingotaswitch.rankings.domain.appsync.tags.Tag;
