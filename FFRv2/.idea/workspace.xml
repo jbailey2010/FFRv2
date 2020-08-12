@@ -24,21 +24,16 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f5fe9503-cc09-4a8d-b7d9-507f98789a95" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/projections/DefensiveProjection.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/projections/KickingProjection.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/projections/PassingProjection.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/projections/PlayerProjection.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/projections/ProjectionBase.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/projections/ReceivingProjection.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/projections/RushingProjection.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/ScoringSettings.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/appsync/comments/Comment.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/projections/DefensiveProjection.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/projections/KickingProjection.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/projections/PassingProjection.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/projections/PlayerProjection.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/projections/ProjectionBase.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/projections/ReceivingProjection.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/projections/RushingProjection.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/ScoringSettings.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/appsync/comments/Comment.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/projections/PassingProjection.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/projections/PassingProjection.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/projections/PlayerProjection.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/projections/PlayerProjection.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/projections/ReceivingProjection.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/projections/ReceivingProjection.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/projections/RushingProjection.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/projections/RushingProjection.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
