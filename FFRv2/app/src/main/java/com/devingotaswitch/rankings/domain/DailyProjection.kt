@@ -7,11 +7,11 @@ class DailyProjection {
     private var projection: PlayerProjection? = null
     var playerKey: String? = null
 
-    fun getProjection(scoringSettings: ScoringSettings?): Double {
+    fun getProjection(scoringSettings: ScoringSettings): Double {
         return projection!!.getProjectedPoints(scoringSettings)
     }
 
-    fun setPlayerProjection(projection: PlayerProjection?) {
+    fun setPlayerProjection(projection: PlayerProjection) {
         this.projection = projection
     }
 
