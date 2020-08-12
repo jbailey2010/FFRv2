@@ -14,10 +14,8 @@ class PlayerProjection(passingYds: Double, passingTds: Double, rushingYds: Doubl
     private val defensiveProjection: DefensiveProjection = DefensiveProjection(def)
     private val kickingProjection: KickingProjection = KickingProjection(k)
     var formattedProjectedPoints = 0.0
-      private set
 
-    constructor(scoringSettings: ScoringSettings) : this(0.0, 0.0,
-            0.0, 0.0, 0.0, 0.0,
+    constructor(scoringSettings: ScoringSettings) : this(0.0, 0.0, 0.0, 0.0, 0.0, 0.0,
             0.0, 0.0, 0.0, 0.0, 0.0, scoringSettings) {
     }
 
