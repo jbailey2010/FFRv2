@@ -13,7 +13,6 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_CUSTOM_FILTER" value="JEFFF" />
     <option name="TOOL_WINDOW_LOG_LEVEL" value="debug" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
@@ -24,12 +23,17 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f5fe9503-cc09-4a8d-b7d9-507f98789a95" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/DailyProjection.kt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/PlayerNews.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Gradle__org_jetbrains_kotlin_kotlin_android_extensions_runtime_1_3_72_jar.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/Team.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/caches/build_file_checksums.ser" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/build.gradle" beforeDir="false" afterPath="$PROJECT_DIR$/app/build.gradle" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/DailyProjection.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/PlayerNews.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/PlayerInfo.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/DailyProjection.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/DailyProjection.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/Team.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParsePFO.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParsePFO.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParseSOS.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/sources/ParseSOS.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/Constants.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/Constants.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/DBUtils.java" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/DBUtils.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -102,9 +106,10 @@
     <property name="DeviceAndSnapshotComboBoxAction.selectionTime" value="2020-08-02T23:14:43.018Z" />
     <property name="ExportApk.ApkPath" value="C:\Users\jbail\Dropbox" />
     <property name="ExportApk.BuildType" value="release" />
-    <property name="ExportApk.BuildVariants" value="debug&#10;release" />
+    <property name="ExportApk.BuildVariants" value="debug" />
     <property name="ExportApk.Flavors" value="" />
     <property name="ExportApk.SignV2" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
     <property name="SearchEverywhereHistoryKey" value=" FILE file://C:/Users/jeffbail/Documents/GitHub/FFRv2/FFRv2/app/src/main/res/layout/content_player_comparator.xml&#10;InputMethodManager PSI JAVA://android.view.inputmethod.InputMethodManager" />
     <property name="UI_DESIGNER_EDITOR_MODE.CaptureAnalysis.SHOW" value="false" />
@@ -392,6 +397,10 @@
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="446" y="70" key="#com.intellij.ide.util.MemberChooser/0.0.1280.720@0.0.1280.720" timestamp="1596938354023" />
+    <state x="321" y="88" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1597201410184">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state x="321" y="88" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1280.720@0.0.1280.720" timestamp="1597201410184" />
     <state x="334" y="213" key="ANALYSIS_DLG_com.intellij.analysis.BaseAnalysisAction$1" timestamp="1597114397500">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
@@ -400,22 +409,22 @@
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="421" y="87" key="FileChooserDialogImpl/0.0.1280.720@0.0.1280.720" timestamp="1596963883874" />
-    <state width="1220" height="170" key="GridCell.Tab.0.bottom" timestamp="1597117182835">
+    <state width="1220" height="170" key="GridCell.Tab.0.bottom" timestamp="1597212708367">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1220" height="170" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1597117182835" />
-    <state width="1220" height="170" key="GridCell.Tab.0.center" timestamp="1597117182834">
+    <state width="1220" height="170" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1597212708367" />
+    <state width="1220" height="170" key="GridCell.Tab.0.center" timestamp="1597212708366">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1220" height="170" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1597117182834" />
-    <state width="1220" height="170" key="GridCell.Tab.0.left" timestamp="1597117182834">
+    <state width="1220" height="170" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1597212708366" />
+    <state width="1220" height="170" key="GridCell.Tab.0.left" timestamp="1597212708366">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1220" height="170" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1597117182834" />
-    <state width="1220" height="170" key="GridCell.Tab.0.right" timestamp="1597117182834">
+    <state width="1220" height="170" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1597212708366" />
+    <state width="1220" height="170" key="GridCell.Tab.0.right" timestamp="1597212708366">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1220" height="170" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1597117182834" />
+    <state width="1220" height="170" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1597212708366" />
     <state x="142" y="3" key="SettingsEditor" timestamp="1597116921094">
       <screen x="0" y="0" width="1280" height="720" />
     </state>

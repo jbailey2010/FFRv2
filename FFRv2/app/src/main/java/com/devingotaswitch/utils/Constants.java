@@ -186,6 +186,7 @@ public class Constants {
     public static final Double DEFAULT_RISK = 50.0;
     public static final Double DEFAULT_RANK = 500.0;
     public static final String DEFAULT_DISPLAY_RANK_NOT_SET = "N/A";
+    public static final Double DEFAULT_SOS = -1.0;
 
     // Team settings: SQL
     public static final String TEAM_TABLE_NAME = "team_data";
