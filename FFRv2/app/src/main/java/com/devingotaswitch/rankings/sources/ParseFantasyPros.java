@@ -52,10 +52,10 @@ public class ParseFantasyPros {
             rowSize = 7;
         } else if (rankings.getLeagueSettings().getScoringSettings().getReceptions() >= 1.0) {
             adpUrl = "http://www.fantasypros.com/nfl/adp/ppr-overall.php";
-            rowSize = 10;
+            rowSize = 8;
         } else if (rankings.getLeagueSettings().getScoringSettings().getReceptions() > 0) {
             adpUrl = "https://www.fantasypros.com/nfl/adp/half-point-ppr-overall.php";
-            rowSize = 7;
+            rowSize = 6;
         } else {
             adpUrl = "http://www.fantasypros.com/nfl/adp/overall.php";
             rowSize = 7;
@@ -176,7 +176,6 @@ public class ParseFantasyPros {
         List<String> td = JsoupUtils.parseURLWithUA(adpUrl, "table.player-table tbody tr td");
         int min = 0;
         for (int i = 0; i < td.size(); i++) {
-
             if (GeneralUtils.isInteger(td.get(i))) {
                 min = i;
                 break;
@@ -211,7 +210,7 @@ public class ParseFantasyPros {
                 }
                 adp.put(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + posInd, adpStr);
             } catch(StringIndexOutOfBoundsException siooe) {
-                Log.d(TAG, "Failed to parse a player's ADP", siooe);
+                //Log.d(TAG, "Failed to parse a player's ADP", siooe);
             }
         }
     }
