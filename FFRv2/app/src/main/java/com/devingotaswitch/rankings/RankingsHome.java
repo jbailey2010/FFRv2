@@ -91,6 +91,7 @@ public class RankingsHome extends AppCompatActivity {
     private boolean ranksDisplayed = false;
 
     private boolean settingsNeedRefresh = true;
+    private boolean filterToggleConfigured = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -106,7 +107,12 @@ public class RankingsHome extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.activity_rankings_menu, menu);
         filterItem = menu.findItem(R.id.filter_rankings);
-        setFilterItemVisibility();
+        if (rankings != null) {
+            // There's a possible case where the rankings load after the menu is set up, and it
+            // clears ranks. To fight that, we don't hit that code until rankings are fetched.
+            setFilterItemVisibility();
+            filterToggleConfigured = true;
+        }
         return true;
     }
 
@@ -147,9 +153,6 @@ public class RankingsHome extends AppCompatActivity {
     }
 
     private void setFilterItemVisibility() {
-        if (rankings == null) {
-            rankings = Rankings.initWithDefaults(currentLeague);
-        }
         if (rankings.getLeagueSettings() != null && rankings.getPlayers().size() > 0) {
             filterItem.setVisible(true);
         } else {
@@ -331,8 +334,8 @@ public class RankingsHome extends AppCompatActivity {
     public void setUserCustomData(List<String> watchList, Map<String, String> notes) {
         Rankings.setCustomUserData(watchList, notes);
 
+        // Just in case to avoid random activity shifts
         if (findViewById(R.id.rankings_list) != null) {
-            // Just in case to avoid random activity shifts
             displayRankings(rankings.getOrderedIds());
         }
     }
@@ -389,6 +392,11 @@ public class RankingsHome extends AppCompatActivity {
 
     public void processNewRankings(Rankings newRankings, boolean saveRanks) {
         rankings = newRankings;
+        if (!filterToggleConfigured) {
+            // There's a possible case where the rankings load after the menu is set up, and it
+            // clears ranks. To fight that, we don't hit that code until rankings are fetched.
+            setFilterItemVisibility();
+        }
         clearAndAddView(R.layout.content_rankings_display);
         displayRankings(rankings.getOrderedIds());
         if (saveRanks) {
@@ -534,6 +542,7 @@ public class RankingsHome extends AppCompatActivity {
         listview.getLayoutManager().scrollToPosition(selectedIndex);
         ranksDisplayed = true;
         listview.addItemDecoration(DisplayUtils.getVerticalDividerDecoration(this));
+        adapter.notifyDataSetChanged();
 
         setSearchAutocomplete();
     }

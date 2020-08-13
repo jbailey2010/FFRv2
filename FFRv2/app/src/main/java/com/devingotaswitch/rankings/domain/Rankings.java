@@ -1,6 +1,7 @@
 package com.devingotaswitch.rankings.domain;
 
 import android.app.Activity;
+import android.util.Log;
 
 import com.amazonaws.util.StringUtils;
 import com.devingotaswitch.appsync.AppSyncHelper;
@@ -49,7 +50,6 @@ public class Rankings {
         players = inputPlayers;
         teams = inputTeams;
         leagueSettings = inputSettings;
-        RankingsFetcher processor = new RankingsFetcher();
         loader = new RankingsLoader();
         orderedIds = inputIds;
         draft = inputDraft;
