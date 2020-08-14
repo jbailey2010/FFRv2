@@ -392,7 +392,7 @@ public class RankingsHome extends AppCompatActivity {
 
     public void processNewRankings(Rankings newRankings, boolean saveRanks) {
         rankings = newRankings;
-        if (!filterToggleConfigured) {
+        if (!filterToggleConfigured && filterItem != null) {
             // There's a possible case where the rankings load after the menu is set up, and it
             // clears ranks. To fight that, we don't hit that code until rankings are fetched.
             setFilterItemVisibility();
