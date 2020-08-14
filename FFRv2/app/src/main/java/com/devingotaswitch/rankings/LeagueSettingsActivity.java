@@ -458,7 +458,7 @@ public class LeagueSettingsActivity extends AppCompatActivity {
         final EditText dsts = view.findViewById(R.id.league_settings_dsts);
         dsts.setText(String.valueOf(roster.getDstCount()));
         final EditText ks = view.findViewById(R.id.league_settings_ks);
-        ks.setText(String.valueOf(roster.getkCount()));
+        ks.setText(String.valueOf(roster.getKCount()));
         final EditText bench = view.findViewById(R.id.league_settings_bench);
         bench.setText(String.valueOf(roster.getBenchCount()));
         LinearLayout dstskHeader = findViewById(R.id.league_roster_space2);
@@ -658,9 +658,9 @@ public class LeagueSettingsActivity extends AppCompatActivity {
             rosterUpdates.put(Constants.DST_COUNT_COLUMN, dsts.getText().toString());
             roster.setDstCount(dstTotal);
         }
-        if (kTotal != roster.getkCount()) {
+        if (kTotal != roster.getKCount()) {
             rosterUpdates.put(Constants.K_COUNT_COLUMN, ks.getText().toString());
-            roster.setkCount(kTotal);
+            roster.setKCount(kTotal);
         }
         if (benchTotal != roster.getBenchCount()) {
             rosterUpdates.put(Constants.BENCH_COUNT_COLUMN, bench.getText().toString());

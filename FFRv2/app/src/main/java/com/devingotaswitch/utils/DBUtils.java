@@ -145,7 +145,7 @@ public class DBUtils {
         values.put(Constants.WR_COUNT_COLUMN, roster.getWrCount());
         values.put(Constants.TE_COUNT_COLUMN, roster.getTeCount());
         values.put(Constants.DST_COUNT_COLUMN, roster.getDstCount());
-        values.put(Constants.K_COUNT_COLUMN, roster.getkCount());
+        values.put(Constants.K_COUNT_COLUMN, roster.getKCount());
         values.put(Constants.BENCH_COUNT_COLUMN, roster.getBenchCount());
         values.put(Constants.RBWR_COUNT_COLUMN, roster.getFlex().getRbwrCount());
         values.put(Constants.RBTE_COUNT_COLUMN, roster.getFlex().getRbteCount());

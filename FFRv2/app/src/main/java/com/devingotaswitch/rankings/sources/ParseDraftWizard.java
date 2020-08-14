@@ -24,7 +24,7 @@ public class ParseDraftWizard {
         url += "&RB=" + rankings.getLeagueSettings().getRosterSettings().getRbCount();
         url += "&TE=" + rankings.getLeagueSettings().getRosterSettings().getTeCount();
         url += "&DST=" + rankings.getLeagueSettings().getRosterSettings().getDstCount();
-        url += "&K=" + rankings.getLeagueSettings().getRosterSettings().getkCount();
+        url += "&K=" + rankings.getLeagueSettings().getRosterSettings().getKCount();
         if (rankings.getLeagueSettings().getRosterSettings().getFlex() != null) {
             url += "&WR/RB=" + rankings.getLeagueSettings().getRosterSettings().getFlex().getRbwrCount();
             url += "&WR/RB/TE=" + rankings.getLeagueSettings().getRosterSettings().getFlex().getRbwrteCount();

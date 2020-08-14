@@ -50,7 +50,7 @@ public class ParseMath {
             teLimit++;
             wrLimit++;
         }
-        if (roster.getkCount() == 0) {
+        if (roster.getKCount() == 0) {
             kLimit = 0.0;
             teLimit++;
         }

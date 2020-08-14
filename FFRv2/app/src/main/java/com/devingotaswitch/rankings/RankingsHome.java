@@ -244,7 +244,7 @@ public class RankingsHome extends AppCompatActivity {
         if (roster.getDstCount() > 0) {
             posList.add(Constants.DST);
         }
-        if (roster.getkCount() > 0) {
+        if (roster.getKCount() > 0) {
             posList.add(Constants.K);
         }
         if (roster.getRbCount() > 0 && roster.getWrCount() > 0 && roster.getNumStartingPositions() > 2) {
