@@ -981,7 +981,7 @@ public class PlayerInfo extends AppCompatActivity {
         }
         data.add(injury);
 
-        if (!Constants.DEFAULT_RANK.equals(player.getAdp())) {
+        if (Constants.DEFAULT_RANK != player.getAdp()) {
             List<Player> nearbyPlayers = getPlayersDraftedNearby();
             Map<String, String> nearbyData = new HashMap<>();
             nearbyData.put(Constants.PLAYER_BASIC, "Players drafted nearby");
