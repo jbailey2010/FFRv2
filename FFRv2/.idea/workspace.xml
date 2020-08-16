@@ -23,9 +23,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f5fe9503-cc09-4a8d-b7d9-507f98789a95" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/JsoupUtils.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/ParsingUtils.kt" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/JsoupUtils.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/ParsingUtils.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -401,22 +401,22 @@
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="421" y="87" key="FileChooserDialogImpl/0.0.1280.720@0.0.1280.720" timestamp="1596963883874" />
-    <state width="1236" height="172" key="GridCell.Tab.0.bottom" timestamp="1597551520810">
+    <state width="1236" height="172" key="GridCell.Tab.0.bottom" timestamp="1597552989016">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="172" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1597551520810" />
-    <state width="1236" height="172" key="GridCell.Tab.0.center" timestamp="1597551520810">
+    <state width="1236" height="172" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1597552989016" />
+    <state width="1236" height="172" key="GridCell.Tab.0.center" timestamp="1597552989016">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="172" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1597551520810" />
-    <state width="1236" height="172" key="GridCell.Tab.0.left" timestamp="1597551520810">
+    <state width="1236" height="172" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1597552989016" />
+    <state width="1236" height="172" key="GridCell.Tab.0.left" timestamp="1597552989016">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="172" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1597551520810" />
-    <state width="1236" height="172" key="GridCell.Tab.0.right" timestamp="1597551520810">
+    <state width="1236" height="172" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1597552989016" />
+    <state width="1236" height="172" key="GridCell.Tab.0.right" timestamp="1597552989016">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1236" height="172" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1597551520810" />
+    <state width="1236" height="172" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1597552989016" />
     <state x="142" y="3" key="SettingsEditor" timestamp="1597116921094">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
@@ -433,16 +433,5 @@
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="303" y="41" width="672" height="678" key="search.everywhere.popup/0.0.1280.720@0.0.1280.720" timestamp="1596961381586" />
-  </component>
-  <component name="XDebuggerManager">
-    <breakpoint-manager>
-      <breakpoints>
-        <line-breakpoint enabled="true" type="java-line">
-          <url>file://$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/ParsingUtils.java</url>
-          <line>266</line>
-          <option name="timeStamp" value="2" />
-        </line-breakpoint>
-      </breakpoints>
-    </breakpoint-manager>
   </component>
 </project>
