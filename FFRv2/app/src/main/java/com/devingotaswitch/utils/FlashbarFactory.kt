@@ -1,19 +1,20 @@
-package com.devingotaswitch.utils;
+package com.devingotaswitch.utils
 
-import android.app.Activity;
+import android.app.Activity
+import com.andrognito.flashbar.Flashbar
+import com.andrognito.flashbar.Flashbar.OnActionTapListener
+import com.andrognito.flashbar.anim.FlashAnim
+import com.devingotaswitch.ffrv2.R
 
-import com.andrognito.flashbar.Flashbar;
-import com.andrognito.flashbar.anim.FlashAnim;
-import com.devingotaswitch.ffrv2.R;
-
-public class FlashbarFactory {
-    public static Flashbar generateTextOnlyFlashbar(Activity activity, String title, String message, Flashbar.Gravity gravity) {
-        return new Flashbar.Builder(activity)
+object FlashbarFactory {
+    @JvmStatic
+    fun generateTextOnlyFlashbar(activity: Activity?, title: String?, message: String?, gravity: Flashbar.Gravity?): Flashbar {
+        return Flashbar.Builder(activity!!)
                 .enableSwipeToDismiss()
-                .gravity(gravity)
+                .gravity(gravity!!)
                 .duration(Constants.FLASHBAR_DURATION)
-                .title(title)
-                .message(message)
+                .title(title!!)
+                .message(message!!)
                 .backgroundColorRes(R.color.player_info_buttons)
                 .exitAnimation(FlashAnim.with(activity)
                         .animateBar()
@@ -24,12 +25,13 @@ public class FlashbarFactory {
                         .duration(Constants.FLASHBAR_ANIMATION_ENTER_DURATION)
                         .alpha()
                         .overshoot())
-                .build();
+                .build()
     }
 
-    public static Flashbar generateFlashbarWithUndo(Activity activity, String title, String message, Flashbar.Gravity gravity,
-                                                    Flashbar.OnActionTapListener undoListener) {
-        return new Flashbar.Builder(activity)
+    @JvmStatic
+    fun generateFlashbarWithUndo(activity: Activity, title: String, message: String, gravity: Flashbar.Gravity,
+                                 undoListener: OnActionTapListener?): Flashbar {
+        return Flashbar.Builder(activity)
                 .enableSwipeToDismiss()
                 .gravity(gravity)
                 .duration(Constants.FLASHBAR_WITH_RESPONSE_DURATION)
@@ -46,13 +48,14 @@ public class FlashbarFactory {
                         .alpha()
                         .overshoot())
                 .primaryActionText("UNDO")
-                .primaryActionTapListener(undoListener)
-                .build();
+                .primaryActionTapListener(undoListener!!)
+                .build()
     }
 
-    public static Flashbar generateInfiniteFlashbarWithAction(Activity activity, String title, String message, Flashbar.Gravity gravity,
-                                                    Flashbar.OnActionTapListener listener, String actionText) {
-        return new Flashbar.Builder(activity)
+    @JvmStatic
+    fun generateInfiniteFlashbarWithAction(activity: Activity?, title: String, message: String, gravity: Flashbar.Gravity,
+                                           listener: OnActionTapListener, actionText: String): Flashbar {
+        return Flashbar.Builder(activity!!)
                 .enableSwipeToDismiss()
                 .gravity(gravity)
                 .title(title)
@@ -69,6 +72,6 @@ public class FlashbarFactory {
                         .overshoot())
                 .primaryActionText(actionText)
                 .primaryActionTapListener(listener)
-                .build();
+                .build()
     }
 }
