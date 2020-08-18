@@ -23,8 +23,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f5fe9503-cc09-4a8d-b7d9-507f98789a95" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/DBUtils.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/DBUtils.java" beforeDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/ADPSimulator.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/ADPSimulator.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -384,10 +385,10 @@
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="95" y="15" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1280.720@0.0.1280.720" timestamp="1596410460633" />
-    <state x="446" y="70" key="#com.intellij.ide.util.MemberChooser" timestamp="1597454084374">
+    <state x="446" y="70" key="#com.intellij.ide.util.MemberChooser" timestamp="1597711136233">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state x="446" y="70" key="#com.intellij.ide.util.MemberChooser/0.0.1280.720@0.0.1280.720" timestamp="1597454084374" />
+    <state x="446" y="70" key="#com.intellij.ide.util.MemberChooser/0.0.1280.720@0.0.1280.720" timestamp="1597711136233" />
     <state x="321" y="88" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog" timestamp="1597201410184">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
@@ -400,22 +401,22 @@
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="421" y="87" key="FileChooserDialogImpl/0.0.1280.720@0.0.1280.720" timestamp="1596963883874" />
-    <state width="1220" height="169" key="GridCell.Tab.0.bottom" timestamp="1597632588614">
+    <state width="1220" height="91" key="GridCell.Tab.0.bottom" timestamp="1597708755880">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1220" height="169" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1597632588614" />
-    <state width="1220" height="169" key="GridCell.Tab.0.center" timestamp="1597632588614">
+    <state width="1220" height="91" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1597708755880" />
+    <state width="1220" height="91" key="GridCell.Tab.0.center" timestamp="1597708755879">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1220" height="169" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1597632588614" />
-    <state width="1220" height="169" key="GridCell.Tab.0.left" timestamp="1597632588614">
+    <state width="1220" height="91" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1597708755879" />
+    <state width="1220" height="91" key="GridCell.Tab.0.left" timestamp="1597708755876">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1220" height="169" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1597632588614" />
-    <state width="1220" height="169" key="GridCell.Tab.0.right" timestamp="1597632588614">
+    <state width="1220" height="91" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1597708755876" />
+    <state width="1220" height="91" key="GridCell.Tab.0.right" timestamp="1597708755880">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1220" height="169" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1597632588614" />
+    <state width="1220" height="91" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1597708755880" />
     <state x="142" y="3" key="SettingsEditor" timestamp="1597116921094">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
