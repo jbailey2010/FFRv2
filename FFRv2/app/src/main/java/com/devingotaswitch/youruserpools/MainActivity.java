@@ -229,7 +229,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void continueWithFirstTimeSignIn() {
-        newPasswordContinuation.setPassword(CUPHelper.getPasswordForFirstTimeLogin());
         Map <String, String> newAttributes = CUPHelper.getUserAttributesForFirstTimeLogin();
         if (newAttributes != null) {
             for(Map.Entry<String, String> attr: newAttributes.entrySet()) {
