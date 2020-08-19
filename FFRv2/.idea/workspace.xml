@@ -13,7 +13,7 @@
     </shared>
   </component>
   <component name="AndroidLogFilters">
-    <option name="TOOL_WINDOW_LOG_LEVEL" value="verbose" />
+    <option name="TOOL_WINDOW_LOG_LEVEL" value="error" />
     <option name="TOOL_WINDOW_CONFIGURED_FILTER" value="Show only selected application" />
   </component>
   <component name="CMakeSettings">
@@ -23,9 +23,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f5fe9503-cc09-4a8d-b7d9-507f98789a95" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/ADPSimulator.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/ExportRankings.kt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/app/src/main/res/xml/file_paths.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/codeStyles/Project.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/ADPSimulator.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/AndroidManifest.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/ExportRankings.java" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -121,6 +124,8 @@
   </component>
   <component name="RecentsManager">
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\jbail\Documents\GitHub\FFRv2\FFRv2\app\src\main\res\xml" />
+      <recent name="C:\Users\jbail\Documents\GitHub\FFRv2\FFRv2\app\src\main\res" />
       <recent name="C:\Users\jeffbail\Documents\GitHub\FFRv2\FFRv2\app\src\main\res\menu" />
     </key>
     <key name="android.template.packageName">
@@ -401,30 +406,30 @@
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="421" y="87" key="FileChooserDialogImpl/0.0.1280.720@0.0.1280.720" timestamp="1596963883874" />
-    <state width="1220" height="91" key="GridCell.Tab.0.bottom" timestamp="1597708755880">
+    <state width="1220" height="169" key="GridCell.Tab.0.bottom" timestamp="1597816006222">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1220" height="91" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1597708755880" />
-    <state width="1220" height="91" key="GridCell.Tab.0.center" timestamp="1597708755879">
+    <state width="1220" height="169" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1597816006222" />
+    <state width="1220" height="169" key="GridCell.Tab.0.center" timestamp="1597816006222">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1220" height="91" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1597708755879" />
-    <state width="1220" height="91" key="GridCell.Tab.0.left" timestamp="1597708755876">
+    <state width="1220" height="169" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1597816006222" />
+    <state width="1220" height="169" key="GridCell.Tab.0.left" timestamp="1597816006222">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1220" height="91" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1597708755876" />
-    <state width="1220" height="91" key="GridCell.Tab.0.right" timestamp="1597708755880">
+    <state width="1220" height="169" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1597816006222" />
+    <state width="1220" height="169" key="GridCell.Tab.0.right" timestamp="1597816006222">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1220" height="91" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1597708755880" />
+    <state width="1220" height="169" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1597816006222" />
     <state x="142" y="3" key="SettingsEditor" timestamp="1597116921094">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="142" y="3" key="SettingsEditor/0.0.1280.720@0.0.1280.720" timestamp="1597116921094" />
-    <state x="100" y="100" width="1080" height="520" key="com.android.tools.idea.avdmanager.AvdListDialog" timestamp="1596588497892">
+    <state x="100" y="100" width="1080" height="520" key="com.android.tools.idea.avdmanager.AvdListDialog" timestamp="1597812754130">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state x="100" y="100" width="1080" height="520" key="com.android.tools.idea.avdmanager.AvdListDialog/0.0.1280.720@0.0.1280.720" timestamp="1596588497892" />
+    <state x="100" y="100" width="1080" height="520" key="com.android.tools.idea.avdmanager.AvdListDialog/0.0.1280.720@0.0.1280.720" timestamp="1597812754130" />
     <state x="297" y="163" key="run.anything.popup" timestamp="1596869974378">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
