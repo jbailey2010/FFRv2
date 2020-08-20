@@ -82,7 +82,7 @@ object AppSyncHelper {
     }
 
     @JvmStatic
-    fun updateUserCustomPlayerData(activity: Activity, watchList: List<String>, notes: Map<String, String>) {
+    fun updateUserCustomPlayerData(activity: Activity, watchList: List<String>, notes: Map<String?, String?>?) {
         customPlayerDataActivity.updateCustomPlayerData(activity, watchList, notes)
     }
 
