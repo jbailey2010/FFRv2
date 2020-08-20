@@ -6,7 +6,7 @@ import com.devingotaswitch.utils.Constants
 import com.google.gson.Gson
 import java.util.*
 
-internal open class AppSyncActivity : AppCompatActivity() {
+open class AppSyncActivity : AppCompatActivity() {
     fun getPlayerId(playerId: String): String {
         return playerId + Constants.PLAYER_ID_DELIMITER + Constants.YEAR_KEY
     }
