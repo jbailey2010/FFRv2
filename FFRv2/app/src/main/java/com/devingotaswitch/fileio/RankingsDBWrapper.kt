@@ -170,7 +170,7 @@ class RankingsDBWrapper {
     }
 
     //---------- Leagues ----------
-    fun getLeagues(context: Context): Map<String?, LeagueSettings> {
+    fun getLeagues(context: Context): MutableMap<String?, LeagueSettings> {
         val leagues: MutableMap<String?, LeagueSettings> = HashMap()
         val db = getInstance(context)!!.readableDatabase
         val result = db.rawQuery(getSelectAllString(Constants.LEAGUE_TABLE_NAME), null)
