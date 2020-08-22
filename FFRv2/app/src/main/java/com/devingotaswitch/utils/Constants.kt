@@ -242,6 +242,7 @@ object Constants {
     const val RANKINGS_UPDATED = "rankings_updated"
     const val RANKINGS_LIST_RELOAD_NEEDED = "rankings_list_reload_needed"
     const val OVERSCROLL_REFRESH_THRESHOLD = 30L
+    const val OVERSCROLL_DEPTH_THRESHOLD = -40
 
     // Draft
     const val CURRENT_DRAFT = "current_draft"

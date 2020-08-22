@@ -36,8 +36,8 @@ class RankingsListView : RecyclerView {
                                         state: State?): Int {
             val scrollRange = super.scrollVerticallyBy(dx, recycler, state)
             val overscroll = dx - scrollRange
-            if (overscroll < 0) {
-                Log.e("JEFFF", "In overscrollby")
+            // Below zero means overscroll at the top, but a lower number is used so it isn't so sensitive.
+            if (overscroll < Constants.OVERSCROLL_DEPTH_THRESHOLD) {
                 val deltaSeconds = getLatency(lastRefreshTime)
                 if (deltaSeconds > Constants.OVERSCROLL_REFRESH_THRESHOLD && refreshRanksOnOverscroll) {
                     lastRefreshTime = System.currentTimeMillis()

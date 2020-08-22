@@ -19,6 +19,8 @@ object ParsingUtils {
         playerFixes["Charles D. Johnson"] = "Charles Johnson"
         playerFixes["Leveon Bell"] = "Le'Veon Bell"
         playerFixes["LeVeon Bell"] = "Le'Veon Bell"
+        playerFixes["DJ Moore"] = "D.J. Moore"
+        playerFixes["Dj Moore"] = "D.J. Moore"
         playerFixes["Robert Griffin"] = "Robert Griffin III"
         playerFixes["Jonathan Baldwin"] = "Jon Baldwin"
         playerFixes["Mike A. Williams"] = "Mike Williams"
