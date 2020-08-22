@@ -111,7 +111,7 @@ object DisplayUtils {
     }
 
     @JvmStatic
-    fun getDisplayAdapter(act: Activity, data: List<Map<String, String>>): RecyclerViewAdapter {
+    fun getDisplayAdapter(act: Activity, data: MutableList<Map<String, String?>>): RecyclerViewAdapter {
         return RecyclerViewAdapter(act, data,
                 R.layout.list_item_layout, arrayOf(Constants.PLAYER_BASIC, Constants.PLAYER_INFO, Constants.PLAYER_STATUS, Constants.PLAYER_ADDITIONAL_INFO,
                 Constants.PLAYER_ADDITIONAL_INFO_2), intArrayOf(R.id.player_basic, R.id.player_info,

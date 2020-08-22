@@ -21,6 +21,7 @@ import com.devingotaswitch.fileio.LocalSettingsHelper
 import com.devingotaswitch.rankings.domain.PlayerNews
 import com.devingotaswitch.rankings.domain.Rankings
 import com.devingotaswitch.rankings.extras.RecyclerViewAdapter
+import com.devingotaswitch.rankings.extras.RecyclerViewAdapter.OnItemClickListener
 import com.devingotaswitch.utils.Constants
 import com.devingotaswitch.utils.DisplayUtils.getVerticalDividerDecoration
 import com.devingotaswitch.utils.FlashbarFactory.generateTextOnlyFlashbar
@@ -109,21 +110,30 @@ class FantasyNews : AppCompatActivity() {
         }
         val adapter = RecyclerViewAdapter(this, data,
                 R.layout.list_item_layout, arrayOf(Constants.PLAYER_BASIC, Constants.PLAYER_INFO), intArrayOf(R.id.player_basic, R.id.player_info))
-        adapter.setOnItemClickListener { view: View, _: Int ->
-            if (nameToId!!.isNotEmpty()) {
-                val newsMainArr = (view.findViewById<View>(R.id.player_basic) as TextView).text.toString()
-                        .replace(":", "").replace(",", "")
-                        .replace("\\?".toRegex(), "").split(" ")
-                for (i in 0 until newsMainArr.size - 1) {
-                    val possibleName = newsMainArr[i] +
-                            " " +
-                            newsMainArr[i + 1]
-                    if (nameToId!!.containsKey(possibleName)) {
-                        displayPlayerInfo(nameToId!![possibleName])
+        val onClick = object : OnItemClickListener {
+            override fun onItemClick(view: View?, position: Int) {
+
+            }
+        }
+
+        adapter.setOnItemClickListener(object : OnItemClickListener {
+            override fun onItemClick(view: View?, position: Int) {
+                if (nameToId!!.isNotEmpty()) {
+                    val newsMainArr = (view!!.findViewById<View>(R.id.player_basic) as TextView).text.toString()
+                            .replace(":", "").replace(",", "")
+                            .replace("\\?".toRegex(), "").split(" ")
+                    for (i in 0 until newsMainArr.size - 1) {
+                        val possibleName = newsMainArr[i] +
+                                " " +
+                                newsMainArr[i + 1]
+                        if (nameToId!!.containsKey(possibleName)) {
+                            displayPlayerInfo(nameToId!![possibleName])
+                        }
                     }
                 }
             }
-        }
+        })
+
         listview.layoutManager = LinearLayoutManager(this)
         listview.addItemDecoration(getVerticalDividerDecoration(this))
         listview.adapter = adapter
