@@ -143,11 +143,11 @@ internal class PlayerMetadataActivity : AppSyncActivity() {
                 .enqueue(incrementViewCallback)
     }
 
-    private fun getUserTags(serializedTags: String?): List<String> {
+    private fun getUserTags(serializedTags: String?): MutableList<String> {
         return if (!StringUtils.isBlank(serializedTags)) {
             // We have to do a really hacky parse as AppSync doesn't support ProjectionExpression
             // and the only way to get only the tags field would be to have a whole separate query.
-            GSON.fromJson<List<String>>(serializedTags!!.split("userTags=".toRegex()).toTypedArray()[1].split(", ".toRegex()).toTypedArray()[0],
+            GSON.fromJson<MutableList<String>>(serializedTags!!.split("userTags=".toRegex()).toTypedArray()[1].split(", ".toRegex()).toTypedArray()[0],
                     MutableList::class.java)
         } else ArrayList()
     }
