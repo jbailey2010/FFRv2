@@ -19,8 +19,8 @@ import com.devingotaswitch.utils.GeneralUtils.isInteger
 object DraftUtils {
     @JvmStatic
     fun getUndraftListener(activity: Activity?, rankings: Rankings, player: Player?,
-                           view: View?, adapter: RecyclerViewAdapter, data: MutableList<Map<String?, String?>?>,
-                           datum: MutableMap<String?, String?>, position: Int, updateList: Boolean): OnActionTapListener {
+                           view: View?, adapter: RecyclerViewAdapter, data: MutableList<MutableMap<String, String?>>,
+                           datum: MutableMap<String, String?>, position: Int, updateList: Boolean): OnActionTapListener {
         return object : OnActionTapListener {
             override fun onActionTapped(bar: Flashbar) {
                 rankings.draft.undraft(rankings, player, activity, view)
