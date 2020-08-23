@@ -98,7 +98,7 @@ class FantasyNews : AppCompatActivity() {
 
     private fun displayNews(news: List<PlayerNews>?) {
         val listview = findViewById<RecyclerView>(R.id.news_list)
-        val data: MutableList<Map<String, String?>> = ArrayList()
+        val data: MutableList<MutableMap<String, String?>> = ArrayList()
         for (newsItem in news!!) {
             val datum: MutableMap<String, String?> = HashMap(3)
             datum[Constants.PLAYER_BASIC] = newsItem.news
@@ -110,11 +110,6 @@ class FantasyNews : AppCompatActivity() {
         }
         val adapter = RecyclerViewAdapter(this, data,
                 R.layout.list_item_layout, arrayOf(Constants.PLAYER_BASIC, Constants.PLAYER_INFO), intArrayOf(R.id.player_basic, R.id.player_info))
-        val onClick = object : OnItemClickListener {
-            override fun onItemClick(view: View?, position: Int) {
-
-            }
-        }
 
         adapter.setOnItemClickListener(object : OnItemClickListener {
             override fun onItemClick(view: View?, position: Int) {

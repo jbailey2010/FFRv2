@@ -12,7 +12,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.amazonaws.util.StringUtils
 import java.util.*
 
-class RecyclerViewAdapter(context: Context?, data: MutableList<Map<String, String?>>, layoutView: Int, mapKeys: Array<String>,
+class RecyclerViewAdapter(context: Context?, data: MutableList<MutableMap<String, String?>>, layoutView: Int, mapKeys: Array<String>,
                           viewIds: IntArray) : RecyclerView.Adapter<RecyclerViewAdapter.ViewHolder>() {
     private val mData: List<Map<String, String?>> = data
     private val mInflater: LayoutInflater = LayoutInflater.from(context)

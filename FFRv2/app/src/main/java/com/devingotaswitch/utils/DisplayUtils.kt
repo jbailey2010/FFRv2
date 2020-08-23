@@ -61,7 +61,7 @@ object DisplayUtils {
     }
 
     private val positionRankMap: MutableMap<String, Int>
-        private get() {
+        get() {
             val positionRankMap: MutableMap<String, Int> = HashMap()
             positionRankMap[Constants.QB] = 1
             positionRankMap[Constants.RB] = 1
@@ -87,15 +87,12 @@ object DisplayUtils {
 
     @JvmStatic
     fun getDatumForPlayer(rankings: Rankings, player: Player, markWatched: Boolean,
-                          posRank: Int, showNote: Boolean): Map<String, String> {
-        var posSuffix = ""
-        if (posRank != null) {
-            posSuffix = posRank.toString()
-        }
+                          posRank: Int, showNote: Boolean): MutableMap<String, String?> {
+        var posSuffix: String = posRank.toString()
         val playerBasicContent = player.getDisplayValue(rankings) +
                 Constants.RANKINGS_LIST_DELIMITER +
                 player.name
-        val datum: MutableMap<String, String> = HashMap(5)
+        val datum: MutableMap<String, String?> = HashMap(5)
         datum[Constants.PLAYER_BASIC] = playerBasicContent
         datum[Constants.PLAYER_INFO] = generateOutputSubtext(player, rankings, posSuffix, showNote)
         if (markWatched && rankings.isPlayerWatched(player.uniqueId)) {
@@ -111,7 +108,7 @@ object DisplayUtils {
     }
 
     @JvmStatic
-    fun getDisplayAdapter(act: Activity, data: MutableList<Map<String, String?>>): RecyclerViewAdapter {
+    fun getDisplayAdapter(act: Activity, data: MutableList<MutableMap<String, String?>>): RecyclerViewAdapter {
         return RecyclerViewAdapter(act, data,
                 R.layout.list_item_layout, arrayOf(Constants.PLAYER_BASIC, Constants.PLAYER_INFO, Constants.PLAYER_STATUS, Constants.PLAYER_ADDITIONAL_INFO,
                 Constants.PLAYER_ADDITIONAL_INFO_2), intArrayOf(R.id.player_basic, R.id.player_info,

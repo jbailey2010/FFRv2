@@ -252,7 +252,6 @@ public class Rankings {
         } else {
             Player existingPlayer = players.get(player.getUniqueId());
             players.put(player.getUniqueId(), ParsingUtils.conditionallyAddContext(existingPlayer, player));
-
         }
     }
 
@@ -260,7 +259,7 @@ public class Rankings {
         List<String> idsOnTeam = new ArrayList<>();
         for (String key : source) {
             Player player = players.get(key);
-            if (player.getTeamName().equals(team)) {
+            if (player != null && player.getTeamName().equals(team)) {
                 idsOnTeam.add(key);
             }
         }
@@ -314,7 +313,7 @@ public class Rankings {
         List<String> idsByPos = new ArrayList<>();
         for (String key : source) {
             Player player = players.get(key);
-            if (positions.contains(player.getPosition())) {
+            if (player != null && positions.contains(player.getPosition())) {
                 idsByPos.add(key);
             }
         }
