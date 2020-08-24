@@ -4,7 +4,6 @@ import android.app.Activity
 import android.content.DialogInterface
 import android.text.InputType
 import android.view.LayoutInflater
-import android.view.View
 import android.widget.EditText
 import android.widget.TextView
 import androidx.appcompat.app.AlertDialog
@@ -18,12 +17,12 @@ import com.devingotaswitch.utils.GeneralUtils.isInteger
 
 object DraftUtils {
     @JvmStatic
-    fun getUndraftListener(activity: Activity?, rankings: Rankings, player: Player?,
-                           view: View?, adapter: RecyclerViewAdapter, data: MutableList<MutableMap<String, String?>>,
-                           datum: MutableMap<String, String?>, position: Int, updateList: Boolean): OnActionTapListener {
+    fun getUndraftListener(activity: Activity?, rankings: Rankings, player: Player,
+                           adapter: RecyclerViewAdapter, data: MutableList<MutableMap<String, String?>>, datum: MutableMap<String, String?>,
+                           position: Int, updateList: Boolean): OnActionTapListener {
         return object : OnActionTapListener {
             override fun onActionTapped(bar: Flashbar) {
-                rankings.draft.undraft(rankings, player, activity, view)
+                rankings.draft.undraft(rankings, player, activity)
                 if (updateList) {
                     data.add(position, datum)
                 } else {
@@ -48,7 +47,7 @@ object DraftUtils {
         val title = noteView.findViewById<TextView>(R.id.user_input_popup_title)
         title.text = "How much did " + player.name + " cost?"
         alertDialogBuilder
-                .setPositiveButton("Save") { dialogInterface: DialogInterface?, i: Int ->
+                .setPositiveButton("Save") { _: DialogInterface?, _: Int ->
                     val input = userInput.text.toString()
                     if (input.isEmpty() || !isInteger(input)) {
                         callback.onInvalidInput()
@@ -56,7 +55,7 @@ object DraftUtils {
                         callback.onValidInput(input.toInt())
                     }
                 }
-                .setNegativeButton("Cancel") { dialogInterface: DialogInterface?, i: Int -> callback.onCancel() }
+                .setNegativeButton("Cancel") { _: DialogInterface?, _: Int -> callback.onCancel() }
         alertDialogBuilder.setCancelable(false)
         return alertDialogBuilder.create()
     }

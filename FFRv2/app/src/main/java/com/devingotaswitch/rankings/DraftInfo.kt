@@ -34,7 +34,7 @@ import com.github.mikephil.charting.data.BarEntry
 import java.util.*
 
 class DraftInfo : AppCompatActivity() {
-    private var rankings: Rankings? = null
+    private lateinit var rankings: Rankings
     private var displayPlayers = false
     private var baseLayout: LinearLayout? = null
     private var viewTeam: MenuItem? = null
@@ -75,7 +75,7 @@ class DraftInfo : AppCompatActivity() {
         viewTeam = menu.findItem(R.id.draft_info_team)
         undraftPlayers = menu.findItem(R.id.draft_info_players)
         viewTeam!!.isVisible = false
-        if (rankings!!.draft.draftedPlayers.size == 0) {
+        if (rankings.draft.draftedPlayers.size == 0) {
             // No need to let someone draft or undraft if there's no draft picks.
             undraftPlayers!!.isVisible = false
             menu.findItem(R.id.draft_info_clear).isVisible = false
@@ -108,7 +108,7 @@ class DraftInfo : AppCompatActivity() {
     }
 
     private fun clearDraft() {
-        rankings!!.draft.resetDraft(this, rankings!!.leagueSettings.name)
+        rankings.draft.resetDraft(this, rankings.leagueSettings.name)
         displayTeam()
         findViewById<View>(R.id.team_graph).visibility = View.GONE
         generateTextOnlyFlashbar(this, "Draft cleared", "All players are available again", Flashbar.Gravity.BOTTOM)
@@ -130,7 +130,7 @@ class DraftInfo : AppCompatActivity() {
         val view = clearAndAddView(R.layout.content_draft_info_team)
         val teamView = view.findViewById<TextView>(R.id.base_textview_team)
         val teamOutput = StringBuilder(teamStr)
-        if (rankings!!.leagueSettings.isAuction) {
+        if (rankings.leagueSettings.isAuction) {
             teamOutput.append(auctionValue)
         }
         teamView.text = teamOutput.toString()
@@ -138,11 +138,11 @@ class DraftInfo : AppCompatActivity() {
         val paaLeft = view.findViewById<TextView>(R.id.base_textview_paa_left)
         paaLeft.text = pAALeft
         val playersDrafted = view.findViewById<TextView>(R.id.base_textview_players_drafted)
-        val playersDraftedString = "Total players drafted: " + rankings!!.draft.draftedPlayers.size
+        val playersDraftedString = "Total players drafted: " + rankings.draft.draftedPlayers.size
         playersDrafted.text = playersDraftedString
         val graphLegend = view.findViewById<TextView>(R.id.base_textview_graph_header)
         var graphHeader = "Positional PAA remaining, graphed in the order: "
-        val roster = rankings!!.leagueSettings.rosterSettings
+        val roster = rankings.leagueSettings.rosterSettings
         graphHeader += conditionallyAddPosition(Constants.QB, roster)
         graphHeader += conditionallyAddPosition(Constants.RB, roster)
         graphHeader += conditionallyAddPosition(Constants.WR, roster)
@@ -166,63 +166,63 @@ class DraftInfo : AppCompatActivity() {
     private val pAALeft: String
         get() {
             val paaLeft = StringBuilder()
-            val roster = rankings!!.leagueSettings.rosterSettings
+            val roster = rankings.leagueSettings.rosterSettings
             if (roster!!.isPositionValid(Constants.QB)) {
-                paaLeft.append(rankings!!.draft.getPAALeft(Constants.QB, rankings))
+                paaLeft.append(rankings.draft.getPAALeft(Constants.QB, rankings))
                         .append(Constants.LINE_BREAK)
             }
             if (roster.isPositionValid(Constants.RB)) {
-                paaLeft.append(rankings!!.draft.getPAALeft(Constants.RB, rankings))
+                paaLeft.append(rankings.draft.getPAALeft(Constants.RB, rankings))
                         .append(Constants.LINE_BREAK)
             }
             if (roster.isPositionValid(Constants.WR)) {
-                paaLeft.append(rankings!!.draft.getPAALeft(Constants.WR, rankings))
+                paaLeft.append(rankings.draft.getPAALeft(Constants.WR, rankings))
                         .append(Constants.LINE_BREAK)
             }
             if (roster.isPositionValid(Constants.TE)) {
-                paaLeft.append(rankings!!.draft.getPAALeft(Constants.TE, rankings))
+                paaLeft.append(rankings.draft.getPAALeft(Constants.TE, rankings))
                         .append(Constants.LINE_BREAK)
             }
             if (roster.isPositionValid(Constants.DST)) {
-                paaLeft.append(rankings!!.draft.getPAALeft(Constants.DST, rankings))
+                paaLeft.append(rankings.draft.getPAALeft(Constants.DST, rankings))
                         .append(Constants.LINE_BREAK)
             }
             if (roster.isPositionValid(Constants.K)) {
-                paaLeft.append(rankings!!.draft.getPAALeft(Constants.K, rankings))
+                paaLeft.append(rankings.draft.getPAALeft(Constants.K, rankings))
                         .append(Constants.LINE_BREAK)
             }
             return paaLeft.toString()
         }
     private val auctionValue: String
         get() = "Value: " +
-                Constants.DECIMAL_FORMAT.format(rankings!!.draft.draftValue)
+                Constants.DECIMAL_FORMAT.format(rankings.draft.draftValue)
     private val teamStr: String
         get() {
             val teamOutput = StringBuilder()
-            val roster = rankings!!.leagueSettings.rosterSettings
-            val draft = rankings!!.draft
+            val roster = rankings.leagueSettings.rosterSettings
+            val draft = rankings.draft
             if (roster!!.isPositionValid(Constants.QB)) {
                 teamOutput.append(Constants.QB)
                         .append("s: ")
-                        .append(getPosString(draft.myQbs, draft.qbpaa, draft.qbXval, draft.qbVoLS))
+                        .append(getPosString(draft.myQbs, draft.qBPAA, draft.qBXval, draft.qBVoLS))
             }
             if (roster.isPositionValid(Constants.RB)) {
                 teamOutput.append(Constants.LINE_BREAK)
                         .append(Constants.RB)
                         .append("s: ")
-                        .append(getPosString(draft.myRbs, draft.rbpaa, draft.rbXval, draft.rbVoLS))
+                        .append(getPosString(draft.myRbs, draft.rBPAA, draft.rBXval, draft.rBVoLS))
             }
             if (roster.isPositionValid(Constants.WR)) {
                 teamOutput.append(Constants.LINE_BREAK)
                         .append(Constants.WR)
                         .append("s: ")
-                        .append(getPosString(draft.myWrs, draft.wrpaa, draft.wrXval, draft.wrVoLS))
+                        .append(getPosString(draft.myWrs, draft.wRPAA, draft.wRXval, draft.wRVoLS))
             }
             if (roster.isPositionValid(Constants.TE)) {
                 teamOutput.append(Constants.LINE_BREAK)
                         .append(Constants.TE)
                         .append("s: ")
-                        .append(getPosString(draft.myTes, draft.tepaa, draft.teXval, draft.teVoLS))
+                        .append(getPosString(draft.myTes, draft.tEPAA, draft.tEXval, draft.tEVoLS))
             }
             if (roster.isPositionValid(Constants.DST)) {
                 teamOutput.append(Constants.LINE_BREAK)
@@ -274,8 +274,8 @@ class DraftInfo : AppCompatActivity() {
         val view = clearAndAddView(R.layout.content_draft_info_undraft)
         val listview: RecyclerView = view.findViewById(R.id.base_list)
         val data: MutableList<MutableMap<String, String?>> = ArrayList()
-        for (playerKey in rankings!!.draft.draftedPlayers) {
-            val player = rankings!!.getPlayer(playerKey)
+        for (playerKey in rankings.draft.draftedPlayers) {
+            val player = rankings.getPlayer(playerKey)
             val playerBasicContent = player.getDisplayValue(rankings) +
                     Constants.RANKINGS_LIST_DELIMITER +
                     player.name
@@ -310,8 +310,8 @@ class DraftInfo : AppCompatActivity() {
 
     private fun undraftPlayer(view: View) {
         val key = getPlayerKeyFromListViewItem(view)
-        val player = rankings!!.getPlayer(key)
-        rankings!!.draft.undraft(rankings, player, this, baseLayout)
+        val player = rankings.getPlayer(key)
+        rankings.draft.undraft(rankings, player, this)
         displayPlayers()
     }
 
@@ -334,7 +334,7 @@ class DraftInfo : AppCompatActivity() {
         var sub = StringBuilder(player.position)
                 .append(Constants.POS_TEAM_DELIMITER)
                 .append(player.teamName)
-        val team = rankings!!.getTeam(player)
+        val team = rankings.getTeam(player)
         if (team != null) {
             sub = sub.append(" (Bye: ")
                     .append(team.bye)
@@ -378,12 +378,12 @@ class DraftInfo : AppCompatActivity() {
     }
 
     private fun conditionallyGraphPosition(barData: BarData, position: String) {
-        if (rankings!!.leagueSettings.rosterSettings!!.isPositionValid(position)) {
+        if (rankings.leagueSettings.rosterSettings!!.isPositionValid(position)) {
             val entries: MutableList<BarEntry> = ArrayList()
-            val players = rankings!!.draft.getSortedAvailablePlayersForPosition(position, rankings)
-            val threeBack = rankings!!.draft.getPAANAvailablePlayersBack(players, 3)
-            val fiveBack = rankings!!.draft.getPAANAvailablePlayersBack(players, 5)
-            val tenBack = rankings!!.draft.getPAANAvailablePlayersBack(players, 10)
+            val players = rankings.draft.getSortedAvailablePlayersForPosition(position, rankings)
+            val threeBack = rankings.draft.getPAANAvailablePlayersBack(players, 3)
+            val fiveBack = rankings.draft.getPAANAvailablePlayersBack(players, 5)
+            val tenBack = rankings.draft.getPAANAvailablePlayersBack(players, 10)
             val stackedEntry = BarEntry(barData.dataSetCount.toFloat(),
                     floatArrayOf(threeBack.toFloat(), fiveBack.toFloat(), tenBack.toFloat()))
             stackedEntry.data = position
@@ -396,16 +396,16 @@ class DraftInfo : AppCompatActivity() {
     }
 
     private fun graphTeam() {
-        val draft = rankings!!.draft
+        val draft = rankings.draft
         if (draft.myPlayers.isEmpty()) {
             return
         }
         val teamPAA = findViewById<BarChart>(R.id.team_graph)
         val barData = BarData()
-        conditionallyAddData(draft.myQbs, barData.dataSetCount, draft.qbpaa, barData, "QBs", "green")
-        conditionallyAddData(draft.myRbs, barData.dataSetCount, draft.rbpaa, barData, "RBs", "red")
-        conditionallyAddData(draft.myWrs, barData.dataSetCount, draft.wrpaa, barData, "WRs", "blue")
-        conditionallyAddData(draft.myTes, barData.dataSetCount, draft.tepaa, barData, "TEs", "yellow")
+        conditionallyAddData(draft.myQbs, barData.dataSetCount, draft.qBPAA, barData, "QBs", "green")
+        conditionallyAddData(draft.myRbs, barData.dataSetCount, draft.rBPAA, barData, "RBs", "red")
+        conditionallyAddData(draft.myWrs, barData.dataSetCount, draft.wRPAA, barData, "WRs", "blue")
+        conditionallyAddData(draft.myTes, barData.dataSetCount, draft.tEPAA, barData, "TEs", "yellow")
         conditionallyAddData(draft.myKs, barData.dataSetCount, draft.dstpaa, barData, "DSTs", "black")
         conditionallyAddData(draft.myDsts, barData.dataSetCount, draft.kpaa, barData, "Ks", "grey")
         if (barData.dataSetCount > 1) {

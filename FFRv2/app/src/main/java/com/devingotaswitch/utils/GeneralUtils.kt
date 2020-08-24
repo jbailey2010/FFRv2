@@ -24,13 +24,13 @@ object GeneralUtils {
     }
 
     private fun sortData(
-            data: List<String>): List<String> {
-        Collections.sort(data) { a: String, b: String ->
+            data: MutableList<String>): MutableList<String> {
+        data.sortWith(Comparator { a: String, b: String ->
             val aName = a.split(Constants.RANKINGS_LIST_DELIMITER).toTypedArray()[1].split(Constants.LINE_BREAK).toTypedArray()[0]
             val bName = b.split(Constants.RANKINGS_LIST_DELIMITER).toTypedArray()[1].split(Constants.LINE_BREAK).toTypedArray()[0]
             val judgment = aName.compareTo(bName)
             judgment.compareTo(0)
-        }
+        })
         return data
     }
 

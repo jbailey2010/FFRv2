@@ -48,7 +48,7 @@ import org.angmarch.views.OnSpinnerItemSelectedListener
 import java.util.*
 
 class PlayerSorter : AppCompatActivity() {
-    private var rankings: Rankings? = null
+    private lateinit var rankings: Rankings
     private lateinit var graphItem: MenuItem
     private val players: MutableList<Player> = ArrayList()
     private var factor: String? = null
@@ -76,7 +76,7 @@ class PlayerSorter : AppCompatActivity() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
         val act: Activity = this
-        toolbar.setNavigationOnClickListener { v: View? ->
+        toolbar.setNavigationOnClickListener {
             hideKeyboard(act)
             onBackPressed()
         }
@@ -115,7 +115,7 @@ class PlayerSorter : AppCompatActivity() {
     private fun setSpinnerAdapter(): MultiSelectionSpinner {
         val spinner = findViewById<MultiSelectionSpinner>(R.id.sort_players_additional_factors)
         val list: MutableList<String> = ArrayList()
-        if (!rankings!!.userSettings.isHideDraftedSort) {
+        if (!rankings.userSettings.isHideDraftedSort) {
             list.add(Constants.SORT_HIDE_DRAFTED)
         }
         list.add(Constants.SORT_ONLY_HEALTHY)
@@ -123,7 +123,7 @@ class PlayerSorter : AppCompatActivity() {
         list.add(Constants.SORT_ONLY_WATCHED)
         list.add(Constants.SORT_ONLY_ROOKIES)
         list.add(Constants.SORT_UNDER_30)
-        if (!rankings!!.leagueSettings.isRookie && !rankings!!.leagueSettings.isDynasty && !rankings!!.leagueSettings.isBestBall) {
+        if (!rankings.leagueSettings.isRookie && !rankings.leagueSettings.isDynasty && !rankings.leagueSettings.isBestBall) {
             list.add(Constants.SORT_IGNORE_EARLY)
             list.add(Constants.SORT_IGNORE_LATE)
         }
@@ -136,7 +136,7 @@ class PlayerSorter : AppCompatActivity() {
         getUserSettings(this)
         val positions = findViewById<NiceSpinner>(R.id.sort_players_position)
         val posList: MutableList<String> = ArrayList()
-        val roster = rankings!!.leagueSettings.rosterSettings
+        val roster = rankings.leagueSettings.rosterSettings
         posList.add(Constants.ALL_POSITIONS)
         if (roster!!.qbCount > 0) {
             posList.add(Constants.QB)
@@ -241,9 +241,9 @@ class PlayerSorter : AppCompatActivity() {
         val activity = this
         submit.setOnClickListener {
             val currentPosition = posList[positions.selectedIndex]
-            var filteredIds: List<String?> = ArrayList(rankings!!.orderedIds)
+            var filteredIds: List<String?> = ArrayList(rankings.orderedIds)
             if (Constants.ALL_POSITIONS != currentPosition) {
-                filteredIds = rankings!!.getPlayersByPosition(filteredIds, currentPosition)
+                filteredIds = rankings.getPlayersByPosition(filteredIds, currentPosition)
             }
             val selection = factors.text.toString()
             if (!selection.startsWith(Constants.SORT_VBD_EXPANDED) &&
@@ -353,14 +353,14 @@ class PlayerSorter : AppCompatActivity() {
                                                   comparator: Comparator<Player>?) {
         players.clear()
         for (id in playerIds) {
-            val player = rankings!!.getPlayer(id)
-            if ((Constants.SORT_ALL == factor && rankings!!.leagueSettings.isRookie || Constants.SORT_ROOKIE == factor)
+            val player = rankings.getPlayer(id)
+            if ((Constants.SORT_ALL == factor && rankings.leagueSettings.isRookie || Constants.SORT_ROOKIE == factor)
                     && player.rookieRank == Constants.DEFAULT_RANK) {
                 // Default sort for rookies means only rookies. If it's 'not set',  skip.
                 // Also skip if we're looking at rookie rank for someone without one (meaning, not a rookie).
                 continue
             }
-            if (Constants.SORT_SOS == factor && rankings!!.getTeam(player) == null) {
+            if (Constants.SORT_SOS == factor && rankings.getTeam(player) == null) {
                 // If the player's team isn't a valid team, skip over for sos
                 continue
             }
@@ -369,14 +369,14 @@ class PlayerSorter : AppCompatActivity() {
                 // Don't compare adp to ecr if either is not saved
                 continue
             }
-            if ((booleanFactors.contains(Constants.SORT_HIDE_DRAFTED) || rankings!!.userSettings.isHideDraftedSort || Constants.SORT_VBD_SUGGESTED == factor) && rankings!!.draft.isDrafted(player)) {
+            if ((booleanFactors.contains(Constants.SORT_HIDE_DRAFTED) || rankings.userSettings.isHideDraftedSort || Constants.SORT_VBD_SUGGESTED == factor) && rankings.draft.isDrafted(player)) {
                 continue
             }
-            if (rankings!!.userSettings.isHideRanklessSort && Constants.DEFAULT_DISPLAY_RANK_NOT_SET == player.getDisplayValue(rankings)) {
+            if (rankings.userSettings.isHideRanklessSort && Constants.DEFAULT_DISPLAY_RANK_NOT_SET == player.getDisplayValue(rankings)) {
                 continue
             }
             if (booleanFactors.contains(Constants.SORT_EASY_SOS)) {
-                val team = rankings!!.getTeam(player)
+                val team = rankings.getTeam(player)
                 if (team == null || team.getSosForPosition(player.position) > Constants.SORT_EASY_SOS_THRESHOLD) {
                     continue
                 }
@@ -387,7 +387,7 @@ class PlayerSorter : AppCompatActivity() {
                 }
             }
             if (booleanFactors.contains(Constants.SORT_ONLY_WATCHED)) {
-                if (!rankings!!.isPlayerWatched(player.uniqueId)) {
+                if (!rankings.isPlayerWatched(player.uniqueId)) {
                     continue
                 }
             }
@@ -401,7 +401,7 @@ class PlayerSorter : AppCompatActivity() {
                     continue
                 }
             }
-            val teamCount = rankings!!.leagueSettings.teamCount
+            val teamCount = rankings.leagueSettings.teamCount
             if (booleanFactors.contains(Constants.SORT_IGNORE_LATE)) {
                 if (player.ecr > teamCount * Constants.SORT_IGNORE_LATE_THRESHOLD_ROUNDS) {
                     continue
@@ -434,10 +434,10 @@ class PlayerSorter : AppCompatActivity() {
         listview.adapter = adapter
         maxVal = 0.0
         if (Constants.SORT_VBD_SUGGESTED == factor) {
-            for (key in rankings!!.players.keys) {
-                val player = rankings!!.getPlayer(key)
-                if (!rankings!!.draft.isDrafted(player)) {
-                    val currVal = getVBDSuggestedValue(rankings!!.getPlayer(key))
+            for (key in rankings.players.keys) {
+                val player = rankings.getPlayer(key)
+                if (!rankings.draft.isDrafted(player)) {
+                    val currVal = getVBDSuggestedValue(rankings.getPlayer(key))
                     if (currVal > maxVal) {
                         maxVal = currVal
                     }
@@ -446,17 +446,17 @@ class PlayerSorter : AppCompatActivity() {
         }
         var displayedCount = 0
         for (player in players) {
-            if (rankings!!.leagueSettings.rosterSettings!!.isPositionValid(player!!.position)) {
+            if (rankings.leagueSettings.rosterSettings!!.isPositionValid(player!!.position)) {
                 if (displayedCount >= sortMax) {
                     break
                 }
                 val datum: MutableMap<String, String?> = HashMap(3)
                 datum[Constants.PLAYER_BASIC] = getMainTextForFactor(player)
                 datum[Constants.PLAYER_INFO] = getSubTextForFactor(player)
-                if (rankings!!.isPlayerWatched(player.uniqueId)) {
+                if (rankings.isPlayerWatched(player.uniqueId)) {
                     datum[Constants.PLAYER_STATUS] = R.drawable.star.toString()
                 }
-                if (rankings!!.draft.isDrafted(player)) {
+                if (rankings.draft.isDrafted(player)) {
                     datum[Constants.PLAYER_ADDITIONAL_INFO] = "Drafted"
                 }
                 data.add(datum)
@@ -478,16 +478,16 @@ class PlayerSorter : AppCompatActivity() {
                         for (position in reverseSortedPositions!!) {
                             val datum = data[position]
                             val playerKey = getPlayerKeyFromPieces(datum[Constants.PLAYER_BASIC], datum[Constants.PLAYER_INFO])
-                            val player = rankings!!.getPlayer(playerKey)
-                            val listener = getUndraftListener(localCopy, rankings!!, player, listView,
-                                    adapter, data, datum, position, hideDrafted)
+                            val player = rankings.getPlayer(playerKey)
+                            val listener = getUndraftListener(localCopy, rankings, player, adapter,
+                                    data, datum, position, hideDrafted)
                             if (!rightDismiss) {
-                                rankings!!.draft.draftBySomeone(rankings, player, localCopy, listView, listener)
+                                rankings.draft.draftBySomeone(rankings, player, localCopy, listener)
                             } else {
-                                if (rankings!!.leagueSettings.isAuction) {
+                                if (rankings.leagueSettings.isAuction) {
                                     getAuctionCost(listView, player, position, data, datum, adapter, listener)
                                 } else {
-                                    draftByMe(listView, player, 0, listener)
+                                    draftByMe(player, 0, listener)
                                 }
                             }
                             if (!hideDrafted) {
@@ -510,30 +510,30 @@ class PlayerSorter : AppCompatActivity() {
                     override fun onItemLongClick(view: View?, position: Int): Boolean {
                         val playerKey = DisplayUtils.getPlayerKeyFromListViewItem(view!!)
                         val playerStatus = view.findViewById<ImageView>(R.id.player_status)
-                        val player = rankings!!.getPlayer(playerKey)
-                        if (rankings!!.isPlayerWatched(player.uniqueId)) {
+                        val player = rankings.getPlayer(playerKey)
+                        if (rankings.isPlayerWatched(player.uniqueId)) {
                             val listener = object : OnActionTapListener {
                                 override fun onActionTapped(bar: Flashbar) {
                                     bar.dismiss()
                                     playerStatus.setImageResource(R.drawable.star)
-                                    rankings!!.togglePlayerWatched(act, player.uniqueId)
+                                    rankings.togglePlayerWatched(act, player.uniqueId)
                                 }
                             }
                             generateFlashbarWithUndo(act, "Success!", player.name + " removed from watch list", Flashbar.Gravity.BOTTOM, listener)
                                     .show()
-                            rankings!!.togglePlayerWatched(act, player.uniqueId)
+                            rankings.togglePlayerWatched(act, player.uniqueId)
                             playerStatus.setImageResource(0)
                         } else {
                             val listener = object : OnActionTapListener {
                                 override fun onActionTapped(bar: Flashbar) {
                                     bar.dismiss()
                                     playerStatus.setImageResource(0)
-                                    rankings!!.togglePlayerWatched(act, player.uniqueId)
+                                    rankings.togglePlayerWatched(act, player.uniqueId)
                                 }
                             }
                             generateFlashbarWithUndo(act, "Success!", player.name + " added to watch list", Flashbar.Gravity.BOTTOM, listener)
                                     .show()
-                            rankings!!.togglePlayerWatched(act, player.uniqueId)
+                            rankings.togglePlayerWatched(act, player.uniqueId)
                             playerStatus.setImageResource(R.drawable.star)
                         }
                         return true
@@ -575,7 +575,7 @@ class PlayerSorter : AppCompatActivity() {
         val callback: AuctionCostInterface = object : AuctionCostInterface {
             override fun onValidInput(cost: Int?) {
                 hideKeyboard(act)
-                draftByMe(listView, player, cost!!, listener)
+                draftByMe(player, cost!!, listener)
             }
 
             override fun onInvalidInput() {
@@ -595,8 +595,8 @@ class PlayerSorter : AppCompatActivity() {
         alertDialog.show()
     }
 
-    private fun draftByMe(view: View?, player: Player, cost: Int, listener: OnActionTapListener) {
-        rankings!!.draft.draftByMe(rankings, player, this, cost, view, listener)
+    private fun draftByMe(player: Player, cost: Int, listener: OnActionTapListener) {
+        rankings.draft.draftByMe(rankings, player, this, cost, listener)
     }
 
     private fun displayPlayerInfo(playerKey: String) {
@@ -720,7 +720,7 @@ class PlayerSorter : AppCompatActivity() {
         }
 
     private fun getSOS(player: Player?): Double {
-        val team = rankings!!.getTeam(player) ?: return 1.0
+        val team = rankings.getTeam(player) ?: return 1.0
         return team.getSosForPosition(player!!.position)
     }
 
@@ -790,17 +790,17 @@ class PlayerSorter : AppCompatActivity() {
                     .append("VoLS: ")
                     .append(Constants.DECIMAL_FORMAT.format(player.vols))
         }
-        val isAuction = rankings!!.leagueSettings.isAuction
+        val isAuction = rankings.leagueSettings.isAuction
         if (isAuction && Constants.SORT_AUCTION != factor && Constants.SORT_ALL != factor) {
             subtextBuilder.append(Constants.LINE_BREAK)
                     .append("Auction Value: ")
                     .append(Constants.DECIMAL_FORMAT.format(player!!.getAuctionValueCustom(rankings)))
-        } else if (rankings!!.leagueSettings.isSnake && Constants.SORT_ECR != factor && Constants.SORT_ALL != factor &&
+        } else if (rankings.leagueSettings.isSnake && Constants.SORT_ECR != factor && Constants.SORT_ALL != factor &&
                 Constants.SORT_UNDERDRAFTED != factor && Constants.SORT_OVERDRAFTED != factor) {
             subtextBuilder.append(Constants.LINE_BREAK)
                     .append("ECR: ")
                     .append(if (player!!.ecr == Constants.DEFAULT_RANK) Constants.DEFAULT_DISPLAY_RANK_NOT_SET else player.ecr)
-        } else if (rankings!!.leagueSettings.isDynasty && Constants.SORT_DYNASTY != factor && Constants.SORT_ALL != factor) {
+        } else if (rankings.leagueSettings.isDynasty && Constants.SORT_DYNASTY != factor && Constants.SORT_ALL != factor) {
             subtextBuilder.append(Constants.LINE_BREAK)
                     .append("Dynasty/Keeper Rank: ")
                     .append(if (player!!.dynastyRank == Constants.DEFAULT_RANK) Constants.DEFAULT_DISPLAY_RANK_NOT_SET else player.dynastyRank)
@@ -809,19 +809,19 @@ class PlayerSorter : AppCompatActivity() {
                         .append("Age: ")
                         .append(player.age)
             }
-        } else if (rankings!!.leagueSettings.isRookie && Constants.SORT_ROOKIE != factor && Constants.SORT_ALL != factor) {
+        } else if (rankings.leagueSettings.isRookie && Constants.SORT_ROOKIE != factor && Constants.SORT_ALL != factor) {
             subtextBuilder.append(Constants.LINE_BREAK)
                     .append("Rookie Rank: ")
                     .append(if (player!!.rookieRank == Constants.DEFAULT_RANK) Constants.DEFAULT_DISPLAY_RANK_NOT_SET else player.rookieRank)
-        } else if (rankings!!.leagueSettings.isBestBall && Constants.SORT_BEST_BALL != factor && Constants.SORT_ALL != factor) {
+        } else if (rankings.leagueSettings.isBestBall && Constants.SORT_BEST_BALL != factor && Constants.SORT_ALL != factor) {
             subtextBuilder.append(Constants.LINE_BREAK)
                     .append("Best Ball Rank: ")
                     .append(if (player!!.bestBallRank == Constants.DEFAULT_RANK) Constants.DEFAULT_DISPLAY_RANK_NOT_SET else player.bestBallRank)
         }
-        if (rankings!!.userSettings.isShowNoteSort &&
-                !StringUtils.isBlank(rankings!!.getPlayerNote(player!!.uniqueId))) {
+        if (rankings.userSettings.isShowNoteSort &&
+                !StringUtils.isBlank(rankings.getPlayerNote(player!!.uniqueId))) {
             subtextBuilder.append(Constants.LINE_BREAK)
-                    .append(rankings!!.getPlayerNote(player.uniqueId))
+                    .append(rankings.getPlayerNote(player.uniqueId))
         }
         return subtextBuilder.toString()
     }
@@ -830,7 +830,7 @@ class PlayerSorter : AppCompatActivity() {
         var sub = StringBuilder(player!!.position)
                 .append(Constants.POS_TEAM_DELIMITER)
                 .append(player.teamName)
-        val team = rankings!!.getTeam(player)
+        val team = rankings.getTeam(player)
         if (team != null) {
             sub = sub.append(" (Bye: ")
                     .append(team.bye)

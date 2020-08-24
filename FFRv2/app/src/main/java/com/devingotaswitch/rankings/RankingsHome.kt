@@ -31,13 +31,6 @@ import com.devingotaswitch.appsync.AppSyncHelper.getUserSettings
 import com.devingotaswitch.ffrv2.R
 import com.devingotaswitch.fileio.LocalSettingsHelper
 import com.devingotaswitch.fileio.RankingsDBWrapper
-import com.devingotaswitch.rankings.ADPSimulator
-import com.devingotaswitch.rankings.DraftInfo
-import com.devingotaswitch.rankings.ExportRankings
-import com.devingotaswitch.rankings.FantasyNews
-import com.devingotaswitch.rankings.PlayerComparator
-import com.devingotaswitch.rankings.PlayerInfo
-import com.devingotaswitch.rankings.PlayerSorter
 import com.devingotaswitch.rankings.domain.LeagueSettings
 import com.devingotaswitch.rankings.domain.Player
 import com.devingotaswitch.rankings.domain.Rankings
@@ -446,10 +439,10 @@ class RankingsHome : AppCompatActivity() {
                             val pos = posAndTeam.split(Constants.POS_TEAM_DELIMITER).toTypedArray()[0].replace("\\d".toRegex(), "")
                             val team = posAndTeam.split(Constants.POS_TEAM_DELIMITER).toTypedArray()[1]
                             val player = rankings!!.getPlayer(name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + pos)
-                            val listener = getUndraftListener(localCopy, rankings!!, player, findViewById(R.id.user_drawer_layout),
-                                    adapter, data, datum, position, true)
+                            val listener = getUndraftListener(localCopy, rankings!!, player, adapter,
+                                    data, datum, position, true)
                             if (!rightDismiss) {
-                                rankings!!.draft.draftBySomeone(rankings, player, localCopy, findViewById(R.id.user_drawer_layout), listener)
+                                rankings!!.draft.draftBySomeone(rankings!!, player, localCopy, listener)
                                 if (rankings!!.userSettings.isHideDraftedSearch) {
                                     setSearchAutocomplete()
                                 }
@@ -553,7 +546,7 @@ class RankingsHome : AppCompatActivity() {
     }
 
     private fun draftByMe(player: Player, cost: Int, listener: OnActionTapListener) {
-        rankings!!.draft.draftByMe(rankings, player, this, cost, findViewById(R.id.user_drawer_layout), listener)
+        rankings!!.draft.draftByMe(rankings!!, player, this, cost, listener)
         if (rankings!!.userSettings.isHideDraftedSearch) {
             setSearchAutocomplete()
         }

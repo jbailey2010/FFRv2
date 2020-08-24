@@ -53,7 +53,7 @@ import org.jsoup.Jsoup
 import java.util.*
 
 class PlayerComparator : AppCompatActivity() {
-    private var rankings: Rankings? = null
+    private lateinit var rankings: Rankings
     private var playerA: Player? = null
     private var playerB: Player? = null
     private var inputA: AutoCompleteTextView? = null
@@ -92,7 +92,7 @@ class PlayerComparator : AppCompatActivity() {
             init()
             if (intent.hasExtra(Constants.PLAYER_ID)) {
                 val playerId = intent.getStringExtra(Constants.PLAYER_ID)
-                playerA = rankings!!.getPlayer(playerId)
+                playerA = rankings.getPlayer(playerId)
                 inputA!!.setText(playerA!!.name)
                 inputB!!.requestFocus()
             }
@@ -106,9 +106,9 @@ class PlayerComparator : AppCompatActivity() {
     private fun setSuggestionAdapter() {
         inputA = findViewById(R.id.comparator_input_a)
         inputB = findViewById(R.id.comparator_input_b)
-        val mAdapter: FilterWithSpaceAdapter<*> = getPlayerSearchAdapter(rankings!!, this,
-                rankings!!.userSettings.isHideDraftedComparator,
-                rankings!!.userSettings.isHideRanklessComparator)
+        val mAdapter: FilterWithSpaceAdapter<*> = getPlayerSearchAdapter(rankings, this,
+                rankings.userSettings.isHideDraftedComparator,
+                rankings.userSettings.isHideRanklessComparator)
         inputA!!.setAdapter(mAdapter)
         inputB!!.setAdapter(mAdapter)
         inputA!!.setOnLongClickListener(View.OnLongClickListener {
@@ -206,31 +206,31 @@ class PlayerComparator : AppCompatActivity() {
         comparatorScroller!!.visibility = View.GONE
         inputList!!.adapter = null
         data.clear()
-        val playerRanks = getPositionalRank(rankings!!.orderedIds,
-                rankings!!)
+        val playerRanks = getPositionalRank(rankings.orderedIds,
+                rankings)
         adapter = RecyclerViewAdapter(this, data,
                 R.layout.list_item_layout, arrayOf(Constants.PLAYER_BASIC, Constants.PLAYER_INFO, Constants.PLAYER_STATUS, Constants.PLAYER_ADDITIONAL_INFO,
                 Constants.PLAYER_ADDITIONAL_INFO_2), intArrayOf(R.id.player_basic, R.id.player_info,
                 R.id.player_status, R.id.player_more_info, R.id.player_additional_info_2))
-        for (i in 0 until Constants.COMPARATOR_LIST_MAX.coerceAtMost(rankings!!.orderedIds.size)) {
-            val player = rankings!!.getPlayer(rankings!!.orderedIds[i])
-            if (rankings!!.draft.isDrafted(player) && rankings!!.userSettings.isHideDraftedComparator ||
-                    rankings!!.userSettings.isHideRanklessComparator && Constants.DEFAULT_DISPLAY_RANK_NOT_SET == player.getDisplayValue(rankings)) {
+        for (i in 0 until Constants.COMPARATOR_LIST_MAX.coerceAtMost(rankings.orderedIds.size)) {
+            val player = rankings.getPlayer(rankings.orderedIds[i])
+            if (rankings.draft.isDrafted(player) && rankings.userSettings.isHideDraftedComparator ||
+                    rankings.userSettings.isHideRanklessComparator && Constants.DEFAULT_DISPLAY_RANK_NOT_SET == player.getDisplayValue(rankings)) {
                 continue
             }
-            if (rankings!!.leagueSettings.rosterSettings!!.isPositionValid(player.position)) {
-                if (rankings!!.leagueSettings.isRookie && player.rookieRank == Constants.DEFAULT_RANK) {
+            if (rankings.leagueSettings.rosterSettings!!.isPositionValid(player.position)) {
+                if (rankings.leagueSettings.isRookie && player.rookieRank == Constants.DEFAULT_RANK) {
                     // the constant is 'not set', so skip these. No sense showing a 10 year vet in rookie ranks.
                     continue
                 }
-                val datum: MutableMap<String, String?> = getDatumForPlayer(rankings!!, player,
+                val datum: MutableMap<String, String?> = getDatumForPlayer(rankings, player,
                         false, playerRanks[player.uniqueId]!!, false)
                 data.add(datum)
             }
         }
         adapter!!.setOnItemClickListener(object: RecyclerViewAdapter.OnItemClickListener {
             override fun onItemClick(view: View?, position: Int) {
-                val clickedPlayer = rankings!!.getPlayer(getPlayerKeyFromListViewItem(view!!))
+                val clickedPlayer = rankings.getPlayer(getPlayerKeyFromListViewItem(view!!))
                 if (playerA != null && playerA!!.uniqueId == clickedPlayer.uniqueId) {
                     toggleListItemStar(playerA, false)
                     playerA = null
@@ -261,7 +261,7 @@ class PlayerComparator : AppCompatActivity() {
     }
 
     private fun getPlayerFromView(view: View): Player {
-        return rankings!!.getPlayer(getPlayerIdFromSearchView(view))
+        return rankings.getPlayer(getPlayerIdFromSearchView(view))
     }
 
     private fun clearInputs() {
@@ -300,10 +300,10 @@ class PlayerComparator : AppCompatActivity() {
         val nameB = findViewById<TextView>(R.id.comparator_name_b)
         var titleA = playerA.name
         var titleB = playerB.name
-        if (rankings!!.draft.isDrafted(playerA)) {
+        if (rankings.draft.isDrafted(playerA)) {
             titleA += Constants.COMPARATOR_DRAFTED_SUFFIX
         }
-        if (rankings!!.draft.isDrafted(playerB)) {
+        if (rankings.draft.isDrafted(playerB)) {
             titleB += Constants.COMPARATOR_DRAFTED_SUFFIX
         }
         nameA.text = titleA
@@ -311,8 +311,8 @@ class PlayerComparator : AppCompatActivity() {
         nameA.setOnClickListener { goToPlayerInfo(playerA) }
         nameB.setOnClickListener { goToPlayerInfo(playerB) }
         nameA.setOnLongClickListener {
-            if (!rankings!!.draft.isDrafted(playerA)) {
-                if (rankings!!.leagueSettings.isAuction) {
+            if (!rankings.draft.isDrafted(playerA)) {
+                if (rankings.leagueSettings.isAuction) {
                     getAuctionCost(playerA, nameA)
                 } else {
                     draftPlayer(playerA, nameA, 0)
@@ -322,8 +322,8 @@ class PlayerComparator : AppCompatActivity() {
             false
         }
         nameB.setOnLongClickListener {
-            if (!rankings!!.draft.isDrafted(playerB)) {
-                if (rankings!!.leagueSettings.isAuction) {
+            if (!rankings.draft.isDrafted(playerB)) {
+                if (rankings.leagueSettings.isAuction) {
                     getAuctionCost(playerB, nameB)
                 } else {
                     draftPlayer(playerB, nameB, 0)
@@ -340,19 +340,19 @@ class PlayerComparator : AppCompatActivity() {
         ageB.text = if (playerB.age > 0) playerB.age.toString() else "?"
         val byeA = findViewById<TextView>(R.id.comparator_bye_a)
         val byeB = findViewById<TextView>(R.id.comparator_bye_b)
-        val teamA = rankings!!.getTeam(playerA)
-        val teamB = rankings!!.getTeam(playerB)
+        val teamA = rankings.getTeam(playerA)
+        val teamB = rankings.getTeam(playerB)
         byeA.text = if (teamA != null) teamA.bye else "?"
         byeB.text = if (teamB != null) teamB.bye else "?"
 
         // Note
-        if (!StringUtils.isBlank(rankings!!.getPlayerNote(playerA.uniqueId)) ||
-                !StringUtils.isBlank(rankings!!.getPlayerNote(playerB.uniqueId))) {
+        if (!StringUtils.isBlank(rankings.getPlayerNote(playerA.uniqueId)) ||
+                !StringUtils.isBlank(rankings.getPlayerNote(playerB.uniqueId))) {
             findViewById<View>(R.id.note_output_row).visibility = View.VISIBLE
             val noteA = findViewById<TextView>(R.id.comparator_note_a)
             val noteB = findViewById<TextView>(R.id.comparator_note_b)
-            noteA.text = rankings!!.getPlayerNote(playerA.uniqueId)
-            noteB.text = rankings!!.getPlayerNote(playerB.uniqueId)
+            noteA.text = rankings.getPlayerNote(playerA.uniqueId)
+            noteB.text = rankings.getPlayerNote(playerB.uniqueId)
         }
 
         // Expert's selection percentages (default to hidden)
@@ -400,7 +400,7 @@ class PlayerComparator : AppCompatActivity() {
 
         // Rookie ranks
         val rookieRow = findViewById<LinearLayout>(R.id.rookie_output_row)
-        if (rankings!!.leagueSettings.isRookie && (playerA.rookieRank < 300.0 || playerB.rookieRank < 300.0)) {
+        if (rankings.leagueSettings.isRookie && (playerA.rookieRank < 300.0 || playerB.rookieRank < 300.0)) {
             rookieRow.visibility = View.VISIBLE
             val rookA = findViewById<TextView>(R.id.comparator_rookie_a)
             val rookB = findViewById<TextView>(R.id.comparator_rookie_b)
@@ -471,8 +471,8 @@ class PlayerComparator : AppCompatActivity() {
         // SOS
         val sosA = findViewById<TextView>(R.id.comparator_sos_a)
         val sosB = findViewById<TextView>(R.id.comparator_sos_b)
-        val sosForA = rankings!!.getTeam(playerA).getSosForPosition(playerA.position)
-        val sosForB = rankings!!.getTeam(playerB).getSosForPosition(playerB.position)
+        val sosForA = rankings.getTeam(playerA).getSosForPosition(playerA.position)
+        val sosForB = rankings.getTeam(playerB).getSosForPosition(playerB.position)
         sosA.text = sosForA.toString()
         sosB.text = sosForB.toString()
         if (sosForA > sosForB) {
@@ -557,8 +557,8 @@ class PlayerComparator : AppCompatActivity() {
 
         // Graph
         projGraph = findViewById(R.id.comparator_graph)
-        val historyA = rankings!!.playerProjectionHistory[playerA.uniqueId]
-        val historyB = rankings!!.playerProjectionHistory[playerB.uniqueId]
+        val historyA = rankings.playerProjectionHistory[playerA.uniqueId]
+        val historyB = rankings.playerProjectionHistory[playerB.uniqueId]
         if (historyA != null && historyA.size >= 2 && historyB != null && historyB.size >= 2) {
             projGraph!!.visibility = View.VISIBLE
             graphPlayers(projGraph, playerA, playerB, historyA, historyB)
@@ -614,7 +614,7 @@ class PlayerComparator : AppCompatActivity() {
         val projectionDays: MutableList<Entry?> = ArrayList()
         for (i in projections.indices) {
             val projection = projections[i]
-            projectionDays.add(Entry(i.toFloat(), projection.getProjection(rankings!!.leagueSettings.scoringSettings).toFloat()))
+            projectionDays.add(Entry(i.toFloat(), projection.getProjection(rankings.leagueSettings.scoringSettings).toFloat()))
         }
         return getLineDataSet(projectionDays,
                 player.name + " Projections", color)
@@ -650,12 +650,12 @@ class PlayerComparator : AppCompatActivity() {
                 undraftPlayer(player, title)
             }
         }
-        rankings!!.draft.draftByMe(rankings, player, this, cost, title, listener)
+        rankings.draft.draftByMe(rankings, player, this, cost, listener)
         title.text = player.name + Constants.COMPARATOR_DRAFTED_SUFFIX
     }
 
     private fun undraftPlayer(player: Player, title: TextView) {
-        rankings!!.draft.undraft(rankings, player, this, title)
+        rankings.draft.undraft(rankings, player, this)
         title.text = player.name
     }
 
@@ -718,9 +718,9 @@ class PlayerComparator : AppCompatActivity() {
             var baseURL = "http://www.fantasypros.com/nfl/draft/"
             baseURL += (ParsePlayerNews.playerNameUrl(playerA!!.name, playerA.teamName) + "-"
                     + ParsePlayerNews.playerNameUrl(playerB!!.name, playerB.teamName) + ".php")
-            if (rankings!!.leagueSettings.scoringSettings!!.receptions >= 1.0) {
+            if (rankings.leagueSettings.scoringSettings!!.receptions >= 1.0) {
                 baseURL += "?scoring=PPR"
-            } else if (rankings!!.leagueSettings.scoringSettings!!.receptions > 0) {
+            } else if (rankings.leagueSettings.scoringSettings!!.receptions > 0) {
                 baseURL += "?scoring=HALF"
             }
             val results: MutableMap<String, String> = HashMap()

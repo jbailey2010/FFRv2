@@ -34,8 +34,6 @@ import com.devingotaswitch.appsync.AppSyncHelper.upvoteComment
 import com.devingotaswitch.ffrv2.R
 import com.devingotaswitch.fileio.LocalSettingsHelper
 import com.devingotaswitch.fileio.RankingsDBWrapper
-import com.devingotaswitch.rankings.ADPSimulator
-import com.devingotaswitch.rankings.PlayerComparator
 import com.devingotaswitch.rankings.domain.Player
 import com.devingotaswitch.rankings.domain.PlayerNews
 import com.devingotaswitch.rankings.domain.Rankings
@@ -59,6 +57,7 @@ import com.github.mikephil.charting.components.XAxis
 import com.github.mikephil.charting.data.Entry
 import com.github.mikephil.charting.data.LineData
 import java.util.*
+import kotlin.math.abs
 
 class PlayerInfo : AppCompatActivity() {
     private lateinit var rankings: Rankings
@@ -386,7 +385,7 @@ class PlayerInfo : AppCompatActivity() {
                 undraftPlayer()
             }
         }
-        rankings.draft.draftByMe(rankings, player, this, cost, infoList, listener)
+        rankings.draft.draftByMe(rankings, player!!, this, cost, listener)
         hideMenuItemsOnDraftStatus()
         displayRanks()
     }
@@ -397,13 +396,13 @@ class PlayerInfo : AppCompatActivity() {
                 undraftPlayer()
             }
         }
-        rankings.draft.draftBySomeone(rankings, player, this, infoList, listener)
+        rankings.draft.draftBySomeone(rankings, player!!, this, listener)
         hideMenuItemsOnDraftStatus()
         displayRanks()
     }
 
     private fun undraftPlayer() {
-        rankings.draft.undraft(rankings, player, this, infoList)
+        rankings.draft.undraft(rankings, player!!, this)
         hideMenuItemsOnDraftStatus()
         conditionallyUpdatePlayerStatus()
     }
@@ -427,7 +426,7 @@ class PlayerInfo : AppCompatActivity() {
     }
 
     private fun hideMenuItemsOnDraftStatus() {
-        if (rankings.draft.isDrafted(player)) {
+        if (rankings.draft.isDrafted(player!!)) {
             draftMe!!.isVisible = false
             draftOther!!.isVisible = false
             undraft!!.isVisible = true
@@ -855,8 +854,8 @@ class PlayerInfo : AppCompatActivity() {
         if (rankings.isPlayerWatched(player!!.uniqueId)) {
             playerSub.append("In your watch list").append(Constants.LINE_BREAK)
         }
-        if (rankings.draft.isDrafted(player)) {
-            if (rankings.draft.isDraftedByMe(player)) {
+        if (rankings.draft.isDrafted(player!!)) {
+            if (rankings.draft.isDraftedByMe(player!!)) {
                 playerSub.append("On your team")
             } else {
                 playerSub.append("On another team")
@@ -879,7 +878,7 @@ class PlayerInfo : AppCompatActivity() {
                 if (sameBye.size > 0) {
                     // No sense printing that it's the same as no players AND no <position>s
                     playerSub.append(Constants.LINE_BREAK)
-                    val sameByeAndPos = rankings.draft.getPlayersWithSameByeAndPos(player, rankings)
+                    val sameByeAndPos = rankings.draft.getPlayersWithSameByeAndPos(player!!, rankings)
                     if (sameByeAndPos.size > 1) {
                         playerSub.append("Same bye as ")
                                 .append(sameByeAndPos.size)
@@ -1436,13 +1435,13 @@ class PlayerInfo : AppCompatActivity() {
 
     // First, sort all players by nearest adp to player
     private val playersDraftedNearby: List<Player>
-        private get() {
+        get() {
 
             // First, sort all players by nearest adp to player
             val comparator = Comparator { a: Player, b: Player ->
-                val diffA = Math.abs((a.adp - player!!.adp).toInt())
-                val diffB = Math.abs((b.adp - player!!.adp).toInt())
-                Integer.compare(diffA, diffB)
+                val diffA = abs((a.adp - player!!.adp).toInt())
+                val diffB = abs((b.adp - player!!.adp).toInt())
+                diffA.compareTo(diffB)
             }
             val allPlayers: List<Player> = ArrayList(rankings.players.values)
             Collections.sort(allPlayers, comparator)
