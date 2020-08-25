@@ -61,7 +61,7 @@ import kotlin.math.abs
 
 class PlayerInfo : AppCompatActivity() {
     private lateinit var rankings: Rankings
-    private var player: Player? = null
+    private lateinit var player: Player
     private var playerNews: List<PlayerNews>? = null
     private var rankingsDB: RankingsDBWrapper? = null
     private var viewCount = -1
@@ -104,7 +104,7 @@ class PlayerInfo : AppCompatActivity() {
         val toolbar = findViewById<Toolbar>(R.id.toolbar_player_info)
         toolbar.title = ""
         val main_title = findViewById<TextView>(R.id.main_toolbar_title)
-        main_title.text = player!!.name
+        main_title.text = player.name
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
@@ -116,13 +116,13 @@ class PlayerInfo : AppCompatActivity() {
         sortByUpvotes = Constants.COMMENT_SORT_TOP == LocalSettingsHelper.getCommentSortType(this)
 
         // Kick off the thread to get news
-        ParsePlayerNews.startNews(player!!.name, player!!.teamName, this)
+        ParsePlayerNews.startNews(player.name, player.teamName, this)
 
         // Kick off the thread to get comments
-        getCommentsForPlayer(this, player!!.uniqueId, null, sortByUpvotes)
+        getCommentsForPlayer(this, player.uniqueId, null, sortByUpvotes)
 
         // Kick off the thread to get player metadata
-        getOrCreatePlayerMetadataAndIncrementViewCount(this, player!!.uniqueId)
+        getOrCreatePlayerMetadataAndIncrementViewCount(this, player.uniqueId)
     }
 
     public override fun onResume() {
@@ -213,9 +213,9 @@ class PlayerInfo : AppCompatActivity() {
                 removeWatched()
             }
         }
-        generateFlashbarWithUndo(this, "Success!", player!!.name + " added to watch list", 
+        generateFlashbarWithUndo(this, "Success!", player.name + " added to watch list", 
                 Flashbar.Gravity.BOTTOM, removeWatch).show()
-        rankings.togglePlayerWatched(this, player!!.uniqueId)
+        rankings.togglePlayerWatched(this, player.uniqueId)
         conditionallyUpdatePlayerStatus()
         hideMenuItemOnWatchStatus()
     }
@@ -227,9 +227,9 @@ class PlayerInfo : AppCompatActivity() {
                 addWatched()
             }
         }
-        generateFlashbarWithUndo(this, "Success!", player!!.name + " removed from watch list",
+        generateFlashbarWithUndo(this, "Success!", player.name + " removed from watch list",
                 Flashbar.Gravity.BOTTOM, addWatch).show()
-        rankings.togglePlayerWatched(this, player!!.uniqueId)
+        rankings.togglePlayerWatched(this, player.uniqueId)
         hideMenuItemOnWatchStatus()
         conditionallyUpdatePlayerStatus()
     }
@@ -263,7 +263,7 @@ class PlayerInfo : AppCompatActivity() {
     }
 
     private fun hideMenuItemOnWatchStatus() {
-        if (rankings.isPlayerWatched(player!!.uniqueId)) {
+        if (rankings.isPlayerWatched(player.uniqueId)) {
             addWatch!!.isVisible = false
             removeWatch!!.isVisible = true
         } else {
@@ -277,7 +277,7 @@ class PlayerInfo : AppCompatActivity() {
         replyMap.clear()
         commentData!!.clear()
         sortByUpvotes = false
-        getCommentsForPlayer(this, player!!.uniqueId, null, sortByUpvotes)
+        getCommentsForPlayer(this, player.uniqueId, null, sortByUpvotes)
         LocalSettingsHelper.saveCommentSortType(this, Constants.COMMENT_SORT_DATE)
         hideMenuItemsOnCommentSort()
     }
@@ -287,7 +287,7 @@ class PlayerInfo : AppCompatActivity() {
         replyMap.clear()
         commentData!!.clear()
         sortByUpvotes = true
-        getCommentsForPlayer(this, player!!.uniqueId, null, true)
+        getCommentsForPlayer(this, player.uniqueId, null, true)
         LocalSettingsHelper.saveCommentSortType(this, Constants.COMMENT_SORT_TOP)
         hideMenuItemsOnCommentSort()
     }
@@ -300,7 +300,7 @@ class PlayerInfo : AppCompatActivity() {
         alertDialogBuilder.setView(graphView)
         val lineGraph: LineChart = graphView.findViewById(R.id.sort_graph)
         val projectionDays: MutableList<Entry?> = ArrayList()
-        val projections = rankings.playerProjectionHistory[player!!.uniqueId]
+        val projections = rankings.playerProjectionHistory[player.uniqueId]
         if (projections != null) {
             for (i in projections.indices) {
                 val projection = projections[i]
@@ -308,10 +308,10 @@ class PlayerInfo : AppCompatActivity() {
             }
         } else {
             // If a league scoring setting change was made, the data will clear, so we'll just take the current projection.
-            projectionDays.add(Entry(1f, player!!.projection.toFloat()))
+            projectionDays.add(Entry(1f, player.projection.toFloat()))
         }
         val projectionHistoryDataset = getLineDataSet(projectionDays,
-                player!!.name + " Projections", "blue")
+                player.name + " Projections", "blue")
         projectionHistoryDataset.fillColor = Color.BLUE
         if (projectionDays.size == 1) {
             projectionHistoryDataset.setDrawCircles(true)
@@ -320,7 +320,7 @@ class PlayerInfo : AppCompatActivity() {
         lineData.addDataSet(projectionHistoryDataset)
         lineGraph.data = lineData
         lineGraph.setDrawBorders(true)
-        lineGraph.setNoDataText("No projections are available for " + player!!.name)
+        lineGraph.setNoDataText("No projections are available for " + player.name)
         val description = Description()
         description.text = ""
         lineGraph.description = description
@@ -375,7 +375,7 @@ class PlayerInfo : AppCompatActivity() {
 
                 override fun onCancel() {}
             }
-            val alertDialog = getAuctionCostDialog(this, player!!, callback)
+            val alertDialog = getAuctionCostDialog(this, player, callback)
             alertDialog.show()
         }
 
@@ -385,7 +385,7 @@ class PlayerInfo : AppCompatActivity() {
                 undraftPlayer()
             }
         }
-        rankings.draft.draftByMe(rankings, player!!, this, cost, listener)
+        rankings.draft.draftByMe(rankings, player, this, cost, listener)
         hideMenuItemsOnDraftStatus()
         displayRanks()
     }
@@ -396,13 +396,13 @@ class PlayerInfo : AppCompatActivity() {
                 undraftPlayer()
             }
         }
-        rankings.draft.draftBySomeone(rankings, player!!, this, listener)
+        rankings.draft.draftBySomeone(rankings, player, this, listener)
         hideMenuItemsOnDraftStatus()
         displayRanks()
     }
 
     private fun undraftPlayer() {
-        rankings.draft.undraft(rankings, player!!, this)
+        rankings.draft.undraft(rankings, player, this)
         hideMenuItemsOnDraftStatus()
         conditionallyUpdatePlayerStatus()
     }
@@ -415,18 +415,18 @@ class PlayerInfo : AppCompatActivity() {
 
     private fun comparePlayer() {
         val intent = Intent(this, PlayerComparator::class.java)
-        intent.putExtra(Constants.PLAYER_ID, player!!.uniqueId)
+        intent.putExtra(Constants.PLAYER_ID, player.uniqueId)
         startActivity(intent)
     }
 
     private fun simulateAdp() {
         val intent = Intent(this, ADPSimulator::class.java)
-        intent.putExtra(Constants.PLAYER_ID, player!!.uniqueId)
+        intent.putExtra(Constants.PLAYER_ID, player.uniqueId)
         startActivity(intent)
     }
 
     private fun hideMenuItemsOnDraftStatus() {
-        if (rankings.draft.isDrafted(player!!)) {
+        if (rankings.draft.isDrafted(player)) {
             draftMe!!.isVisible = false
             draftOther!!.isVisible = false
             undraft!!.isVisible = true
@@ -441,17 +441,17 @@ class PlayerInfo : AppCompatActivity() {
         val headerLeft = findViewById<Button>(R.id.dummy_btn_left)
         val headerRight = findViewById<Button>(R.id.dummy_btn_right)
         val headerMiddle = findViewById<Button>(R.id.dummy_btn_center)
-        if (player!!.age != null && player!!.age > 0 && Constants.DST != player!!.position) {
+        if (player.age != null && player.age > 0 && Constants.DST != player.position) {
             val expBuilder = StringBuilder()
                     .append("Age: ")
-                    .append(player!!.age)
-            if (player!!.experience >= 0) {
+                    .append(player.age)
+            if (player.experience >= 0) {
                 expBuilder.append(Constants.LINE_BREAK)
                         .append("Exp: ")
-                        .append(player!!.experience)
+                        .append(player.experience)
             }
             headerLeft.text = expBuilder.toString()
-        } else if (Constants.DST == player!!.position) {
+        } else if (Constants.DST == player.position) {
             headerLeft.text = "Age: N/A"
         }
         if (rankings.getTeam(player) != null && "0" != rankings.getTeam(player).bye) {
@@ -459,7 +459,7 @@ class PlayerInfo : AppCompatActivity() {
         } else if (rankings.getTeam(player) == null || "0" == rankings.getTeam(player).bye) {
             headerRight.text = "Bye: N/A"
         }
-        headerMiddle.text = player!!.teamName + Constants.LINE_BREAK + player!!.position
+        headerMiddle.text = player.teamName + Constants.LINE_BREAK + player.position
         infoList = findViewById(R.id.player_info_list)
         commentList = findViewById(R.id.player_info_comment_list)
         data = ArrayList()
@@ -650,7 +650,7 @@ class PlayerInfo : AppCompatActivity() {
             userInput.setText(existing)
         }
         val title = noteView.findViewById<TextView>(R.id.user_input_popup_title)
-        title.text = "Input a note for " + player!!.name
+        title.text = "Input a note for " + player.name
         val localCopy: Activity = this
         alertDialogBuilder
                 .setPositiveButton("Save"
@@ -671,7 +671,7 @@ class PlayerInfo : AppCompatActivity() {
     }
 
     private fun setNoteAndDisplayIt(newNote: String) {
-        rankings.updatePlayerNote(this, player!!.uniqueId, newNote)
+        rankings.updatePlayerNote(this, player.uniqueId, newNote)
         displayInfo()
     }
 
@@ -693,23 +693,23 @@ class PlayerInfo : AppCompatActivity() {
         news.visibility = View.INVISIBLE
         comments.visibility = View.INVISIBLE
         val ecr: MutableMap<String, String?> = HashMap()
-        ecr[Constants.PLAYER_BASIC] = "ECR: " + if (player!!.ecr == Constants.DEFAULT_RANK) Constants.DEFAULT_DISPLAY_RANK_NOT_SET else player!!.ecr
-        if (player!!.ecr != Constants.DEFAULT_RANK) {
-            val ecrRank = getEcr(null, player!!.ecr)
-            val ecrRankPos = getEcr(player!!.position, player!!.ecr)
+        ecr[Constants.PLAYER_BASIC] = "ECR: " + if (player.ecr == Constants.DEFAULT_RANK) Constants.DEFAULT_DISPLAY_RANK_NOT_SET else player.ecr
+        if (player.ecr != Constants.DEFAULT_RANK) {
+            val ecrRank = getEcr(null, player.ecr)
+            val ecrRankPos = getEcr(player.position, player.ecr)
             var ecrSub = getRankingSub(ecrRank, ecrRankPos)
-            if (player!!.risk != null && (rankings.leagueSettings.isAuction || rankings.leagueSettings.isSnake)) {
-                ecrSub += Constants.LINE_BREAK + "Risk: " + player!!.risk
+            if (player.risk != null && (rankings.leagueSettings.isAuction || rankings.leagueSettings.isSnake)) {
+                ecrSub += Constants.LINE_BREAK + "Risk: " + player.risk
             }
             ecr[Constants.PLAYER_INFO] = ecrSub
         }
         data!!.add(ecr)
         val adp: MutableMap<String, String?> = HashMap()
-        adp[Constants.PLAYER_BASIC] = "ADP: " + if (player!!.adp == Constants.DEFAULT_RANK) Constants.DEFAULT_DISPLAY_RANK_NOT_SET else player!!.adp
+        adp[Constants.PLAYER_BASIC] = "ADP: " + if (player.adp == Constants.DEFAULT_RANK) Constants.DEFAULT_DISPLAY_RANK_NOT_SET else player.adp
         var adpSub = StringBuilder()
-        if (player!!.adp != Constants.DEFAULT_RANK) {
-            val adpRank = getAdp(null, player!!.adp)
-            val adpPos = getAdp(player!!.position, player!!.adp)
+        if (player.adp != Constants.DEFAULT_RANK) {
+            val adpRank = getAdp(null, player.adp)
+            val adpPos = getAdp(player.position, player.adp)
             adpSub = StringBuilder(getRankingSub(adpRank, adpPos))
         }
         val draftedPlayers = rankings.draft.draftedPlayers.size
@@ -723,57 +723,57 @@ class PlayerInfo : AppCompatActivity() {
         adp[Constants.PLAYER_INFO] = adpSub.toString()
         data!!.add(adp)
         val auc: MutableMap<String, String?> = HashMap()
-        auc[Constants.PLAYER_BASIC] = "Auction Value: $" + Constants.DECIMAL_FORMAT.format(player!!.getAuctionValueCustom(rankings))
-        val aucRank = getAuc(null, player!!.auctionValue)
-        val aucPos = getAuc(player!!.position, player!!.auctionValue)
+        auc[Constants.PLAYER_BASIC] = "Auction Value: $" + Constants.DECIMAL_FORMAT.format(player.getAuctionValueCustom(rankings))
+        val aucRank = getAuc(null, player.auctionValue)
+        val aucPos = getAuc(player.position, player.auctionValue)
         val auctionSub = getRankingSub(aucRank, aucPos) +
                 Constants.LINE_BREAK +
                 leverage
         auc[Constants.PLAYER_INFO] = auctionSub
         data!!.add(auc)
         val dynasty: MutableMap<String, String?> = HashMap()
-        dynasty[Constants.PLAYER_BASIC] = "Dynasty/Keeper Ranking: " + if (player!!.dynastyRank == Constants.DEFAULT_RANK) Constants.DEFAULT_DISPLAY_RANK_NOT_SET else player!!.dynastyRank
-        if (player!!.dynastyRank != Constants.DEFAULT_RANK) {
-            val dynRank = getDynasty(null, player!!.dynastyRank)
-            val dynRankPos = getDynasty(player!!.position, player!!.dynastyRank)
+        dynasty[Constants.PLAYER_BASIC] = "Dynasty/Keeper Ranking: " + if (player.dynastyRank == Constants.DEFAULT_RANK) Constants.DEFAULT_DISPLAY_RANK_NOT_SET else player.dynastyRank
+        if (player.dynastyRank != Constants.DEFAULT_RANK) {
+            val dynRank = getDynasty(null, player.dynastyRank)
+            val dynRankPos = getDynasty(player.position, player.dynastyRank)
             var dynSub = getRankingSub(dynRank, dynRankPos)
-            if (player!!.risk != null && rankings.leagueSettings.isDynasty) {
-                dynSub += Constants.LINE_BREAK + "Risk: " + player!!.risk
+            if (player.risk != null && rankings.leagueSettings.isDynasty) {
+                dynSub += Constants.LINE_BREAK + "Risk: " + player.risk
             }
             dynasty[Constants.PLAYER_INFO] = dynSub
         }
         data!!.add(dynasty)
-        if (player!!.rookieRank != Constants.DEFAULT_RANK) {
+        if (player.rookieRank != Constants.DEFAULT_RANK) {
             // 300.0 is the default, so this is basically 'is it set?'
             val rookie: MutableMap<String, String?> = HashMap()
-            rookie[Constants.PLAYER_BASIC] = "Rookie Rankings: " + player!!.rookieRank
-            val rookieRank = getRookie(null, player!!.rookieRank)
-            val rookieRankPos = getRookie(player!!.position, player!!.rookieRank)
+            rookie[Constants.PLAYER_BASIC] = "Rookie Rankings: " + player.rookieRank
+            val rookieRank = getRookie(null, player.rookieRank)
+            val rookieRankPos = getRookie(player.position, player.rookieRank)
             var rookieSub = getRankingSub(rookieRank, rookieRankPos)
-            if (player!!.risk != null && rankings.leagueSettings.isRookie) {
-                rookieSub += Constants.LINE_BREAK + "Risk: " + player!!.risk
+            if (player.risk != null && rankings.leagueSettings.isRookie) {
+                rookieSub += Constants.LINE_BREAK + "Risk: " + player.risk
             }
             rookie[Constants.PLAYER_INFO] = rookieSub
             data!!.add(rookie)
         }
         val bestBall: MutableMap<String, String?> = HashMap()
-        bestBall[Constants.PLAYER_BASIC] = "Best Ball Ranking: " + if (player!!.bestBallRank == Constants.DEFAULT_RANK) Constants.DEFAULT_DISPLAY_RANK_NOT_SET else player!!.bestBallRank
-        if (player!!.bestBallRank != Constants.DEFAULT_RANK) {
-            val bbRank = getBestBall(null, player!!.bestBallRank)
-            val bbRankPos = getBestBall(player!!.position, player!!.bestBallRank)
+        bestBall[Constants.PLAYER_BASIC] = "Best Ball Ranking: " + if (player.bestBallRank == Constants.DEFAULT_RANK) Constants.DEFAULT_DISPLAY_RANK_NOT_SET else player.bestBallRank
+        if (player.bestBallRank != Constants.DEFAULT_RANK) {
+            val bbRank = getBestBall(null, player.bestBallRank)
+            val bbRankPos = getBestBall(player.position, player.bestBallRank)
             var bbSub = getRankingSub(bbRank, bbRankPos)
-            if (player!!.risk != null && rankings.leagueSettings.isBestBall) {
-                bbSub += Constants.LINE_BREAK + "Risk: " + player!!.risk
+            if (player.risk != null && rankings.leagueSettings.isBestBall) {
+                bbSub += Constants.LINE_BREAK + "Risk: " + player.risk
             }
             bestBall[Constants.PLAYER_INFO] = bbSub
         }
         data!!.add(bestBall)
-        if (player!!.projection != null) {
+        if (player.projection != null) {
             val proj: MutableMap<String, String?> = HashMap()
-            proj[Constants.PLAYER_BASIC] = "Projection: " + player!!.projection
-            val projRank = getProj(null, player!!.projection)
-            val projPos = getProj(player!!.position, player!!.projection)
-            val projectionBreakdown = player!!.playerProjection.getDisplayString(player!!.position)
+            proj[Constants.PLAYER_BASIC] = "Projection: " + player.projection
+            val projRank = getProj(null, player.projection)
+            val projPos = getProj(player.position, player.projection)
+            val projectionBreakdown = player.playerProjection.getDisplayString(player.position)
             val rankingSub = getRankingSub(projRank, projPos) +
                     (if (projectionBreakdown.isNotEmpty()) Constants.LINE_BREAK else "") +
                     (if (projectionBreakdown.isNotEmpty()) Constants.LINE_BREAK else "") +
@@ -781,43 +781,43 @@ class PlayerInfo : AppCompatActivity() {
             proj[Constants.PLAYER_INFO] = rankingSub
             data!!.add(proj)
             val paa: MutableMap<String, String?> = HashMap()
-            paa[Constants.PLAYER_BASIC] = "PAA: " + Constants.DECIMAL_FORMAT.format(player!!.paa)
-            val paaRank = getPaa(null, player!!.paa)
-            val paaPos = getPaa(player!!.position, player!!.paa)
+            paa[Constants.PLAYER_BASIC] = "PAA: " + Constants.DECIMAL_FORMAT.format(player.paa)
+            val paaRank = getPaa(null, player.paa)
+            val paaPos = getPaa(player.position, player.paa)
             var subRank = getRankingSub(paaRank, paaPos)
-            if (player!!.getAuctionValueCustom(rankings) > 0.0) {
-                subRank += Constants.LINE_BREAK + "PAA/$: " + Constants.DECIMAL_FORMAT.format(player!!.paa / player!!.getAuctionValueCustom(rankings))
+            if (player.getAuctionValueCustom(rankings) > 0.0) {
+                subRank += Constants.LINE_BREAK + "PAA/$: " + Constants.DECIMAL_FORMAT.format(player.paa / player.getAuctionValueCustom(rankings))
             }
-            subRank += Constants.LINE_BREAK + "Scaled PAA: " + Constants.DECIMAL_FORMAT.format(player!!.getScaledPAA(rankings))
+            subRank += Constants.LINE_BREAK + "Scaled PAA: " + Constants.DECIMAL_FORMAT.format(player.getScaledPAA(rankings))
             paa[Constants.PLAYER_INFO] = subRank
             data!!.add(paa)
             val xVal: MutableMap<String, String?> = HashMap()
-            xVal[Constants.PLAYER_BASIC] = "X Value: " + Constants.DECIMAL_FORMAT.format(player!!.getxVal())
-            val xValRank = getXVal(null, player!!.getxVal())
-            val xValPos = getXVal(player!!.position, player!!.getxVal())
+            xVal[Constants.PLAYER_BASIC] = "X Value: " + Constants.DECIMAL_FORMAT.format(player.getxVal())
+            val xValRank = getXVal(null, player.getxVal())
+            val xValPos = getXVal(player.position, player.getxVal())
             var xValSub = getRankingSub(xValRank, xValPos)
-            if (player!!.getAuctionValueCustom(rankings) > 0.0) {
-                xValSub += Constants.LINE_BREAK + "X Value/$: " + Constants.DECIMAL_FORMAT.format(player!!.getxVal() / player!!.getAuctionValueCustom(rankings))
+            if (player.getAuctionValueCustom(rankings) > 0.0) {
+                xValSub += Constants.LINE_BREAK + "X Value/$: " + Constants.DECIMAL_FORMAT.format(player.getxVal() / player.getAuctionValueCustom(rankings))
             }
-            xValSub += Constants.LINE_BREAK + "Scaled X Value: " + Constants.DECIMAL_FORMAT.format(player!!.getScaledXVal(rankings))
+            xValSub += Constants.LINE_BREAK + "Scaled X Value: " + Constants.DECIMAL_FORMAT.format(player.getScaledXVal(rankings))
             xVal[Constants.PLAYER_INFO] = xValSub
             data!!.add(xVal)
             val voLS: MutableMap<String, String?> = HashMap()
-            voLS[Constants.PLAYER_BASIC] = "VOLS: " + Constants.DECIMAL_FORMAT.format(player!!.vols)
-            val voLSRank = getVoLSRank(null, player!!.vols)
-            val voLSPos = getVoLSRank(player!!.position, player!!.vols)
+            voLS[Constants.PLAYER_BASIC] = "VOLS: " + Constants.DECIMAL_FORMAT.format(player.vols)
+            val voLSRank = getVoLSRank(null, player.vols)
+            val voLSPos = getVoLSRank(player.position, player.vols)
             var voLSSub = getRankingSub(voLSRank, voLSPos)
-            if (player!!.getAuctionValueCustom(rankings) > 0.0) {
-                voLSSub += Constants.LINE_BREAK + "VOLS/$: " + Constants.DECIMAL_FORMAT.format(player!!.vols / player!!.getAuctionValueCustom(rankings))
+            if (player.getAuctionValueCustom(rankings) > 0.0) {
+                voLSSub += Constants.LINE_BREAK + "VOLS/$: " + Constants.DECIMAL_FORMAT.format(player.vols / player.getAuctionValueCustom(rankings))
             }
-            voLSSub += Constants.LINE_BREAK + "Scaled VOLS: " + Constants.DECIMAL_FORMAT.format(player!!.getScaledVOLS(rankings))
+            voLSSub += Constants.LINE_BREAK + "Scaled VOLS: " + Constants.DECIMAL_FORMAT.format(player.getScaledVOLS(rankings))
             voLS[Constants.PLAYER_INFO] = voLSSub
             data!!.add(voLS)
         }
-        if (!StringUtils.isBlank(player!!.stats)) {
+        if (!StringUtils.isBlank(player.stats)) {
             val stats: MutableMap<String, String?> = HashMap()
             stats[Constants.PLAYER_BASIC] = Constants.LAST_YEAR_KEY + " Stats"
-            stats[Constants.PLAYER_INFO] = player!!.stats
+            stats[Constants.PLAYER_INFO] = player.stats
             data!!.add(stats)
         }
         val lastUpdated = LocalSettingsHelper.getLastRankingsFetchedDate(this)
@@ -851,11 +851,11 @@ class PlayerInfo : AppCompatActivity() {
         val context: MutableMap<String, String?> = HashMap()
         context[Constants.PLAYER_BASIC] = "Current status"
         val playerSub = StringBuilder()
-        if (rankings.isPlayerWatched(player!!.uniqueId)) {
+        if (rankings.isPlayerWatched(player.uniqueId)) {
             playerSub.append("In your watch list").append(Constants.LINE_BREAK)
         }
-        if (rankings.draft.isDrafted(player!!)) {
-            if (rankings.draft.isDraftedByMe(player!!)) {
+        if (rankings.draft.isDrafted(player)) {
+            if (rankings.draft.isDraftedByMe(player)) {
                 playerSub.append("On your team")
             } else {
                 playerSub.append("On another team")
@@ -878,18 +878,18 @@ class PlayerInfo : AppCompatActivity() {
                 if (sameBye.size > 0) {
                     // No sense printing that it's the same as no players AND no <position>s
                     playerSub.append(Constants.LINE_BREAK)
-                    val sameByeAndPos = rankings.draft.getPlayersWithSameByeAndPos(player!!, rankings)
+                    val sameByeAndPos = rankings.draft.getPlayersWithSameByeAndPos(player, rankings)
                     if (sameByeAndPos.size > 1) {
                         playerSub.append("Same bye as ")
                                 .append(sameByeAndPos.size)
                                 .append(" ")
-                                .append(player!!.position)
+                                .append(player.position)
                                 .append("s on your team")
                     } else {
                         playerSub.append("Same bye as ")
                                 .append(sameByeAndPos.size)
                                 .append(" ")
-                                .append(player!!.position)
+                                .append(player.position)
                                 .append(" on your team")
                     }
                 }
@@ -901,35 +901,35 @@ class PlayerInfo : AppCompatActivity() {
         }
         context[Constants.PLAYER_INFO] = playerStatus
         data!!.add(context)
-        if (StringUtils.isBlank(rankings.getPlayerNote(player!!.uniqueId))) {
+        if (StringUtils.isBlank(rankings.getPlayerNote(player.uniqueId))) {
             val note: MutableMap<String, String?> = HashMap()
             note[Constants.PLAYER_BASIC] = Constants.DEFAULT_NOTE
             note[Constants.PLAYER_INFO] = Constants.NOTE_SUB
             data!!.add(note)
         } else {
             val note: MutableMap<String, String?> = HashMap()
-            note[Constants.PLAYER_BASIC] = rankings.getPlayerNote(player!!.uniqueId)
+            note[Constants.PLAYER_BASIC] = rankings.getPlayerNote(player.uniqueId)
             note[Constants.PLAYER_INFO] = Constants.NOTE_SUB
             data!!.add(note)
         }
         val injury: MutableMap<String, String?> = HashMap()
         injury[Constants.PLAYER_BASIC] = "Player availability"
-        if (!StringUtils.isBlank(player!!.injuryStatus)) {
-            injury[Constants.PLAYER_INFO] = player!!.injuryStatus
+        if (!StringUtils.isBlank(player.injuryStatus)) {
+            injury[Constants.PLAYER_INFO] = player.injuryStatus
         } else {
             injury[Constants.PLAYER_INFO] = "Healthy"
         }
         data!!.add(injury)
-        if (Constants.DEFAULT_RANK != player!!.adp) {
+        if (Constants.DEFAULT_RANK != player.adp) {
             val nearbyPlayers = playersDraftedNearby
             val nearbyData: MutableMap<String, String?> = HashMap()
             nearbyData[Constants.PLAYER_BASIC] = "Players drafted nearby"
             var nearbyString = StringBuilder()
             for (nearPlayer in nearbyPlayers) {
                 nearbyString = nearbyString
-                        .append(if (nearPlayer.adp < player!!.adp) "" else "+")
+                        .append(if (nearPlayer.adp < player.adp) "" else "+")
                         .append(
-                                Constants.DECIMAL_FORMAT.format(nearPlayer.adp - player!!.adp))
+                                Constants.DECIMAL_FORMAT.format(nearPlayer.adp - player.adp))
                         .append(": ")
                         .append(nearPlayer.name)
                         .append(" - ")
@@ -980,7 +980,7 @@ class PlayerInfo : AppCompatActivity() {
         news.visibility = View.INVISIBLE
         comments.visibility = View.INVISIBLE
         val team = rankings.getTeam(player)
-        if (team == null || Constants.NO_TEAM == player!!.teamName) {
+        if (team == null || Constants.NO_TEAM == player.teamName) {
             val datum: MutableMap<String, String?> = HashMap()
             datum[Constants.PLAYER_BASIC] = "No info available for this team."
             datum[Constants.PLAYER_INFO] = "Please try another player, or refresh your rankings."
@@ -1005,7 +1005,7 @@ class PlayerInfo : AppCompatActivity() {
             val schedule: MutableMap<String, String?> = HashMap()
             schedule[Constants.PLAYER_BASIC] = Constants.YEAR_KEY + " schedule"
             schedule[Constants.PLAYER_INFO] = (team.schedule + Constants.LINE_BREAK + Constants.LINE_BREAK
-                    + "Positional SOS: " + team.getSosForPosition(player!!.position) + Constants.LINE_BREAK
+                    + "Positional SOS: " + team.getSosForPosition(player.position) + Constants.LINE_BREAK
                     + "A lower SOS reflects a harder schedule")
             data!!.add(schedule)
         }
@@ -1116,7 +1116,7 @@ class PlayerInfo : AppCompatActivity() {
             val commentContent = input.text.toString()
             if (!StringUtils.isBlank(commentContent)) {
                 input.setText("")
-                createComment(activity, commentContent, player!!.uniqueId, replyId, replyDepth)
+                createComment(activity, commentContent, player.uniqueId, replyId, replyDepth)
                 hideKeyboard(activity)
             }
         }
@@ -1237,7 +1237,7 @@ class PlayerInfo : AppCompatActivity() {
         }
     }
 
-    fun populateNews(fetchedNews: List<PlayerNews>?) {
+    fun populateNews(fetchedNews: List<PlayerNews>) {
         playerNews = fetchedNews
         val newsView = findViewById<View>(R.id.news_button_selected)
         if (View.VISIBLE == newsView.visibility) {
@@ -1276,13 +1276,13 @@ class PlayerInfo : AppCompatActivity() {
         if (View.VISIBLE == commentsView.visibility) {
             displayComments()
         }
-        if (comments.size > LocalSettingsHelper.getNumberOfCommentsOnPlayer(this, player!!.uniqueId)) {
+        if (comments.size > LocalSettingsHelper.getNumberOfCommentsOnPlayer(this, player.uniqueId)) {
             (findViewById<View>(R.id.player_info_comments) as ImageButton).setImageResource(R.drawable.new_comment_white)
             doUpdateImage = true
-            LocalSettingsHelper.setNumberOfCommentsOnPlayer(this, player!!.uniqueId, comments.size)
+            LocalSettingsHelper.setNumberOfCommentsOnPlayer(this, player.uniqueId, comments.size)
         }
         if (!StringUtils.isBlank(nextToken)) {
-            getCommentsForPlayer(this, player!!.uniqueId, nextToken, sortByUpvotes)
+            getCommentsForPlayer(this, player.uniqueId, nextToken, sortByUpvotes)
         }
     }
 
@@ -1439,8 +1439,8 @@ class PlayerInfo : AppCompatActivity() {
 
             // First, sort all players by nearest adp to player
             val comparator = Comparator { a: Player, b: Player ->
-                val diffA = abs((a.adp - player!!.adp).toInt())
-                val diffB = abs((b.adp - player!!.adp).toInt())
+                val diffA = abs((a.adp - player.adp).toInt())
+                val diffB = abs((b.adp - player.adp).toInt())
                 diffA.compareTo(diffB)
             }
             val allPlayers: List<Player> = ArrayList(rankings.players.values)
@@ -1453,7 +1453,7 @@ class PlayerInfo : AppCompatActivity() {
                 val possiblePlayer = allPlayers[i]
                 if (listSize == MAX_NEARBY_PLAYERS) {
                     break
-                } else if (possiblePlayer.uniqueId == player!!.uniqueId ||
+                } else if (possiblePlayer.uniqueId == player.uniqueId ||
                         !rankings.leagueSettings.rosterSettings!!.isPositionValid(possiblePlayer.position)) {
                     continue
                 }
