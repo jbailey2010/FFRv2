@@ -67,6 +67,7 @@ object ParsingUtils {
         playerFixes["Mitch Trubisky"] = "Mitchell Trubisky"
         playerFixes["Will Fuller V"] = "Will Fuller"
         playerFixes["Melvin Gordon III"] = "Melvin Gordon"
+        playerFixes["Irv Smith Jr."] = "Irv Smith"
         playerFixes["D.K. Metcalf"] = "DK Metcalf"
         teamFixes["cin"] = "Cincinnati Bengals"
         teamFixes["cincinnati"] = "Cincinnati Bengals"
