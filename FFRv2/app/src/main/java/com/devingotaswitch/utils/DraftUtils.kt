@@ -17,7 +17,7 @@ import com.devingotaswitch.utils.GeneralUtils.isInteger
 
 object DraftUtils {
     @JvmStatic
-    fun getUndraftListener(activity: Activity?, rankings: Rankings, player: Player,
+    fun getUndraftListener(activity: Activity, rankings: Rankings, player: Player,
                            adapter: RecyclerViewAdapter, data: MutableList<MutableMap<String, String?>>, datum: MutableMap<String, String?>,
                            position: Int, updateList: Boolean): OnActionTapListener {
         return object : OnActionTapListener {

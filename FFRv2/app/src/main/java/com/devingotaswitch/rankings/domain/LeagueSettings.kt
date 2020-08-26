@@ -1,9 +1,9 @@
 package com.devingotaswitch.rankings.domain
 
-class LeagueSettings @JvmOverloads constructor(name: String?, teamCount: Int, isSnake: Boolean, isAuction: Boolean, isDynasty: Boolean,
+class LeagueSettings @JvmOverloads constructor(name: String, teamCount: Int, isSnake: Boolean, isAuction: Boolean, isDynasty: Boolean,
                                                isRookie: Boolean, isBestBall: Boolean, auctionBudget: Int, scoring: ScoringSettings? = ScoringSettings(), roster: RosterSettings? =
                                                        RosterSettings()) {
-    var name: String? = null
+    var name: String = name
     var teamCount = 0
     var isAuction = false
     var isDynasty = false
@@ -15,7 +15,6 @@ class LeagueSettings @JvmOverloads constructor(name: String?, teamCount: Int, is
     var rosterSettings: RosterSettings? = null
 
     init {
-        this.name = name
         this.teamCount = teamCount
         this.isSnake = isSnake
         this.isAuction = isAuction

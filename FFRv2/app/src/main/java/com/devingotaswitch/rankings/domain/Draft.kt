@@ -232,7 +232,7 @@ class Draft {
         return result
     }
 
-    fun resetDraft(context: Context?, leagueName: String?) {
+    fun resetDraft(context: Context, leagueName: String) {
         myQbs.clear()
         myRbs.clear()
         myWrs.clear()
@@ -245,41 +245,41 @@ class Draft {
         LocalSettingsHelper.clearDraft(context, leagueName)
     }
 
-    fun draftBySomeone(rankings: Rankings, player: Player, act: Activity?, listener: OnActionTapListener?) {
+    fun draftBySomeone(rankings: Rankings, player: Player, act: Activity, listener: OnActionTapListener?) {
         draftPlayer(player, rankings.leagueSettings.teamCount, rankings.leagueSettings.auctionBudget, false, 0)
         if (listener == null) {
             generateTextOnlyFlashbar(act, "Success!", player.name + " drafted", Flashbar.Gravity.BOTTOM)
                     .show()
         } else {
-            generateFlashbarWithUndo(act!!, "Success!", player.name + " drafted", Flashbar.Gravity.BOTTOM, listener)
+            generateFlashbarWithUndo(act, "Success!", player.name + " drafted", Flashbar.Gravity.BOTTOM, listener)
                     .show()
         }
         saveDraft(rankings, act)
-        incrementPlayerDraftCount(act!!, player.uniqueId)
+        incrementPlayerDraftCount(act, player.uniqueId)
     }
 
-    fun draftByMe(rankings: Rankings, player: Player, act: Activity?, cost: Int, listener: OnActionTapListener?) {
+    fun draftByMe(rankings: Rankings, player: Player, act: Activity, cost: Int, listener: OnActionTapListener?) {
         draftPlayer(player, rankings.leagueSettings.teamCount, rankings.leagueSettings.auctionBudget, true, cost)
         if (listener == null) {
             generateTextOnlyFlashbar(act, "Success!", player.name + " drafted by you", Flashbar.Gravity.BOTTOM)
                     .show()
         } else {
-            generateFlashbarWithUndo(act!!, "Success!", player.name + " drafted by you", Flashbar.Gravity.BOTTOM, listener)
+            generateFlashbarWithUndo(act, "Success!", player.name + " drafted by you", Flashbar.Gravity.BOTTOM, listener)
                     .show()
         }
         saveDraft(rankings, act)
-        incrementPlayerDraftCount(act!!, player.uniqueId)
+        incrementPlayerDraftCount(act, player.uniqueId)
     }
 
-    fun undraft(rankings: Rankings, player: Player, act: Activity?) {
+    fun undraft(rankings: Rankings, player: Player, act: Activity) {
         unDraftPlayer(player, rankings)
         generateTextOnlyFlashbar(act, "Success!", player.name + " undrafted", Flashbar.Gravity.BOTTOM)
                 .show()
         saveDraft(rankings, act)
-        decrementPlayerDraftCount(act!!, player.uniqueId)
+        decrementPlayerDraftCount(act, player.uniqueId)
     }
 
-    private fun saveDraft(rankings: Rankings, act: Activity?) {
+    private fun saveDraft(rankings: Rankings, act: Activity) {
         LocalSettingsHelper.saveDraft(act, rankings.leagueSettings.name, rankings.draft)
     }
 
