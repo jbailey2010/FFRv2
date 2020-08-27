@@ -30,7 +30,8 @@ import java.io.IOException
 import java.util.*
 
 class ExportRankings : AppCompatActivity() {
-    private var rankings: Rankings? = null
+    private lateinit var rankings: Rankings
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_export_rankings)
@@ -124,15 +125,15 @@ class ExportRankings : AppCompatActivity() {
         val writer = CSVWriter(FileWriter(file))
         Log.d(TAG, "Logging to $file")
         writer.writeNext(data)
-        for (key in rankings!!.orderedIds) {
-            val player = rankings!!.getPlayer(key)
-            if (rankings!!.leagueSettings.rosterSettings!!.isPositionValid(player.position)) {
+        for (key in rankings.orderedIds) {
+            val player = rankings.getPlayer(key)
+            if (rankings.leagueSettings.rosterSettings!!.isPositionValid(player.position)) {
                 val playerData: MutableList<String> = ArrayList()
                 playerData.add(player.name)
                 playerData.add(if (player.age != null && player.age > 0) { player.age.toString() } else { "" })
                 playerData.add(player.position)
                 playerData.add(player.teamName)
-                val team = rankings!!.getTeam(player)
+                val team = rankings.getTeam(player)
                 if (team != null) {
                     playerData.add(if (!StringUtils.isBlank(player.position)) team.getSosForPosition(player.position).toString() else "")
                     playerData.add(team.bye.toString())
@@ -151,8 +152,8 @@ class ExportRankings : AppCompatActivity() {
                 playerData.add(player.paa.toString())
                 playerData.add(player.getxVal().toString())
                 playerData.add(player.vols.toString())
-                playerData.add(rankings!!.getPlayerNote(player.uniqueId))
-                playerData.add(rankings!!.isPlayerWatched(player.uniqueId).toString())
+                playerData.add(rankings.getPlayerNote(player.uniqueId))
+                playerData.add(rankings.isPlayerWatched(player.uniqueId).toString())
 
                 // Allocating at size 0 is faster than the actual size (somehow)
                 writer.writeNext(playerData.toTypedArray())
