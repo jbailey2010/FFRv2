@@ -20,9 +20,9 @@ object ParseFantasyPros {
         val ecr: MutableMap<String, Double?> = HashMap()
         val risk: MutableMap<String, Double> = HashMap()
         var url = "http://www.fantasypros.com/nfl/rankings/consensus-cheatsheets.php"
-        if (rankings.leagueSettings.scoringSettings!!.receptions >= 1.0) {
+        if (rankings.leagueSettings.scoringSettings.receptions >= 1.0) {
             url = "http://www.fantasypros.com/nfl/rankings/ppr-cheatsheets.php"
-        } else if (rankings.leagueSettings.scoringSettings!!.receptions > 0) {
+        } else if (rankings.leagueSettings.scoringSettings.receptions > 0) {
             url = "https://www.fantasypros.com/nfl/rankings/half-point-ppr-cheatsheets.php"
         }
         parseECRWorker(url, ecr, risk)
@@ -42,18 +42,23 @@ object ParseFantasyPros {
         val adp: MutableMap<String, Double?> = HashMap()
         val adpUrl: String
         val rowSize: Int
-        if (rankings.leagueSettings.isBestBall) {
-            adpUrl = "https://www.fantasypros.com/nfl/adp/best-ball-overall.php"
-            rowSize = 7
-        } else if (rankings.leagueSettings.scoringSettings!!.receptions >= 1.0) {
-            adpUrl = "http://www.fantasypros.com/nfl/adp/ppr-overall.php"
-            rowSize = 8
-        } else if (rankings.leagueSettings.scoringSettings!!.receptions > 0) {
-            adpUrl = "https://www.fantasypros.com/nfl/adp/half-point-ppr-overall.php"
-            rowSize = 6
-        } else {
-            adpUrl = "http://www.fantasypros.com/nfl/adp/overall.php"
-            rowSize = 7
+        when {
+            rankings.leagueSettings.isBestBall -> {
+                adpUrl = "https://www.fantasypros.com/nfl/adp/best-ball-overall.php"
+                rowSize = 7
+            }
+            rankings.leagueSettings.scoringSettings!!.receptions >= 1.0 -> {
+                adpUrl = "http://www.fantasypros.com/nfl/adp/ppr-overall.php"
+                rowSize = 8
+            }
+            rankings.leagueSettings.scoringSettings!!.receptions > 0 -> {
+                adpUrl = "https://www.fantasypros.com/nfl/adp/half-point-ppr-overall.php"
+                rowSize = 6
+            }
+            else -> {
+                adpUrl = "http://www.fantasypros.com/nfl/adp/overall.php"
+                rowSize = 7
+            }
         }
         parseADPWorker(adp, adpUrl, rowSize)
         for (playerId in rankings.players.keys) {

@@ -88,7 +88,7 @@ object DisplayUtils {
     @JvmStatic
     fun getDatumForPlayer(rankings: Rankings, player: Player, markWatched: Boolean,
                           posRank: Int, showNote: Boolean): MutableMap<String, String?> {
-        var posSuffix: String = posRank.toString()
+        val posSuffix: String = posRank.toString()
         val playerBasicContent = player.getDisplayValue(rankings) +
                 Constants.RANKINGS_LIST_DELIMITER +
                 player.name

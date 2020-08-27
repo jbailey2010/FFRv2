@@ -235,30 +235,42 @@ class PlayerInfo : AppCompatActivity() {
     }
 
     fun swipeLeftToRight() {
-        if (View.VISIBLE == findViewById<View>(R.id.ranks_button_selected).visibility) {
-            displayComments()
-        } else if (View.VISIBLE == findViewById<View>(R.id.player_info_button_selected).visibility) {
-            displayRanks()
-        } else if (View.VISIBLE == findViewById<View>(R.id.team_info_button_selected).visibility) {
-            displayInfo()
-        } else if (View.VISIBLE == findViewById<View>(R.id.news_button_selected).visibility) {
-            displayTeam()
-        } else if (View.VISIBLE == findViewById<View>(R.id.comment_button_selected).visibility) {
-            displayNews()
+        when (View.VISIBLE) {
+            findViewById<View>(R.id.ranks_button_selected).visibility -> {
+                displayComments()
+            }
+            findViewById<View>(R.id.player_info_button_selected).visibility -> {
+                displayRanks()
+            }
+            findViewById<View>(R.id.team_info_button_selected).visibility -> {
+                displayInfo()
+            }
+            findViewById<View>(R.id.news_button_selected).visibility -> {
+                displayTeam()
+            }
+            findViewById<View>(R.id.comment_button_selected).visibility -> {
+                displayNews()
+            }
         }
     }
 
     fun swipeRightToLeft() {
-        if (View.VISIBLE == findViewById<View>(R.id.ranks_button_selected).visibility) {
-            displayInfo()
-        } else if (View.VISIBLE == findViewById<View>(R.id.player_info_button_selected).visibility) {
-            displayTeam()
-        } else if (View.VISIBLE == findViewById<View>(R.id.team_info_button_selected).visibility) {
-            displayNews()
-        } else if (View.VISIBLE == findViewById<View>(R.id.news_button_selected).visibility) {
-            displayComments()
-        } else if (View.VISIBLE == findViewById<View>(R.id.comment_button_selected).visibility) {
-            displayRanks()
+        when (View.VISIBLE) {
+            findViewById<View>(R.id.ranks_button_selected).visibility -> {
+                displayInfo()
+            }
+            findViewById<View>(R.id.player_info_button_selected).visibility -> {
+                displayTeam()
+            }
+            findViewById<View>(R.id.team_info_button_selected).visibility -> {
+                displayNews()
+            }
+            findViewById<View>(R.id.news_button_selected).visibility -> {
+                displayComments()
+            }
+            findViewById<View>(R.id.comment_button_selected).visibility -> {
+                displayRanks()
+            }
         }
     }
 
@@ -875,7 +887,7 @@ class PlayerInfo : AppCompatActivity() {
                             .append(sameBye.size)
                             .append(" player on your team")
                 }
-                if (sameBye.size > 0) {
+                if (sameBye.isNotEmpty()) {
                     // No sense printing that it's the same as no players AND no <position>s
                     playerSub.append(Constants.LINE_BREAK)
                     val sameByeAndPos = rankings.draft.getPlayersWithSameByeAndPos(player, rankings)
@@ -1138,15 +1150,19 @@ class PlayerInfo : AppCompatActivity() {
         commentMap[Constants.COMMENT_REPLY_ID] = comment.replyToId
         commentMap[Constants.COMMENT_UPVOTE_COUNT] = comment.upvotes.toString()
         commentMap[Constants.COMMENT_DOWNVOTE_COUNT] = comment.downvotes.toString()
-        if (comment.isUpvoted) {
-            commentMap[Constants.COMMENT_UPVOTE_IMAGE] = R.drawable.upvoted.toString()
-            commentMap[Constants.COMMENT_DOWNVOTE_IMAGE] = R.drawable.not_downvoted.toString()
-        } else if (comment.isDownvoted) {
-            commentMap[Constants.COMMENT_UPVOTE_IMAGE] = R.drawable.not_upvoted.toString()
-            commentMap[Constants.COMMENT_DOWNVOTE_IMAGE] = R.drawable.downvoted.toString()
-        } else {
-            commentMap[Constants.COMMENT_UPVOTE_IMAGE] = R.drawable.not_upvoted.toString()
-            commentMap[Constants.COMMENT_DOWNVOTE_IMAGE] = R.drawable.not_downvoted.toString()
+        when {
+            comment.isUpvoted -> {
+                commentMap[Constants.COMMENT_UPVOTE_IMAGE] = R.drawable.upvoted.toString()
+                commentMap[Constants.COMMENT_DOWNVOTE_IMAGE] = R.drawable.not_downvoted.toString()
+            }
+            comment.isDownvoted -> {
+                commentMap[Constants.COMMENT_UPVOTE_IMAGE] = R.drawable.not_upvoted.toString()
+                commentMap[Constants.COMMENT_DOWNVOTE_IMAGE] = R.drawable.downvoted.toString()
+            }
+            else -> {
+                commentMap[Constants.COMMENT_UPVOTE_IMAGE] = R.drawable.not_upvoted.toString()
+                commentMap[Constants.COMMENT_DOWNVOTE_IMAGE] = R.drawable.not_downvoted.toString()
+            }
         }
         return commentMap
     }
@@ -1207,8 +1223,8 @@ class PlayerInfo : AppCompatActivity() {
         val domainComment = findDomainComment(commentId, comments)
         for (datum in commentData!!) {
             if (datum!![Constants.COMMENT_ID] == commentId && !domainComment!!.isDownvoted) {
-                datum[Constants.COMMENT_UPVOTE_IMAGE] = Integer.toString(R.drawable.not_upvoted)
-                datum[Constants.COMMENT_DOWNVOTE_IMAGE] = Integer.toString(R.drawable.downvoted)
+                datum[Constants.COMMENT_UPVOTE_IMAGE] = R.drawable.not_upvoted.toString()
+                datum[Constants.COMMENT_DOWNVOTE_IMAGE] = R.drawable.downvoted.toString()
                 if (domainComment.isUpvoted) {
                     var upvotes = datum[Constants.COMMENT_UPVOTE_COUNT]!!.toInt()
                     upvotes -= 1
@@ -1454,7 +1470,7 @@ class PlayerInfo : AppCompatActivity() {
                 if (listSize == MAX_NEARBY_PLAYERS) {
                     break
                 } else if (possiblePlayer.uniqueId == player.uniqueId ||
-                        !rankings.leagueSettings.rosterSettings!!.isPositionValid(possiblePlayer.position)) {
+                        !rankings.leagueSettings.rosterSettings.isPositionValid(possiblePlayer.position)) {
                     continue
                 }
                 nearestPlayers.add(possiblePlayer)

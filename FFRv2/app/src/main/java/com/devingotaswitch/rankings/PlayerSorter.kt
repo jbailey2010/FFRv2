@@ -138,7 +138,7 @@ class PlayerSorter : AppCompatActivity() {
         val posList: MutableList<String> = ArrayList()
         val roster = rankings.leagueSettings.rosterSettings
         posList.add(Constants.ALL_POSITIONS)
-        if (roster!!.qbCount > 0) {
+        if (roster.qbCount > 0) {
             posList.add(Constants.QB)
         }
         if (roster.rbCount > 0) {
@@ -446,7 +446,7 @@ class PlayerSorter : AppCompatActivity() {
         }
         var displayedCount = 0
         for (player in players) {
-            if (rankings.leagueSettings.rosterSettings!!.isPositionValid(player!!.position)) {
+            if (rankings.leagueSettings.rosterSettings.isPositionValid(player!!.position)) {
                 if (displayedCount >= sortMax) {
                     break
                 }

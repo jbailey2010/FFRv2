@@ -85,8 +85,8 @@ object DBUtils {
         values.put(Constants.IS_DYNASTY_ROOKIE_COLUMN, league.isRookie)
         values.put(Constants.IS_BEST_BALL_COLUMN, league.isBestBall)
         values.put(Constants.AUCTION_BUDGET_COLUMN, league.auctionBudget)
-        values.put(Constants.SCORING_ID_COLUMN, league.scoringSettings!!.id)
-        values.put(Constants.ROSTER_ID_COLUMN, league.rosterSettings!!.id)
+        values.put(Constants.SCORING_ID_COLUMN, league.scoringSettings.id)
+        values.put(Constants.ROSTER_ID_COLUMN, league.rosterSettings.id)
         return values
     }
 

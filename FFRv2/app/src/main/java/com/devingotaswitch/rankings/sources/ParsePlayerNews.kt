@@ -46,7 +46,7 @@ object ParsePlayerNews {
         }
     }
 
-    internal class NewsParser(val act: PlayerInfo, var urlNews: String, private val urlNotes: String) : AsyncTask<Any?, String?, List<PlayerNews>>() {
+    internal class NewsParser(val act: PlayerInfo, private var urlNews: String, private val urlNotes: String) : AsyncTask<Any?, String?, List<PlayerNews>>() {
         override fun onPostExecute(result: List<PlayerNews>) {
             super.onPostExecute(result)
             if (result.isNotEmpty()) {

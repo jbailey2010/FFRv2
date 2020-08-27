@@ -96,15 +96,20 @@ class RankingsDBWrapper {
         val db = getInstance(context)!!.readableDatabase
         var columnName = Constants.PLAYER_ECR_COLUMN
         var orderSuffix = " ASC"
-        if (leagueSettings.isAuction) {
-            columnName = Constants.AUCTION_VALUE_COLUMN
-            orderSuffix = " DESC"
-        } else if (leagueSettings.isDynasty) {
-            columnName = Constants.PLAYER_DYNASTY_COLUMN
-        } else if (leagueSettings.isRookie) {
-            columnName = Constants.PLAYER_ROOKIE_COLUMN
-        } else if (leagueSettings.isBestBall) {
-            columnName = Constants.PLAYER_BEST_BALL_COLUMN
+        when {
+            leagueSettings.isAuction -> {
+                columnName = Constants.AUCTION_VALUE_COLUMN
+                orderSuffix = " DESC"
+            }
+            leagueSettings.isDynasty -> {
+                columnName = Constants.PLAYER_DYNASTY_COLUMN
+            }
+            leagueSettings.isRookie -> {
+                columnName = Constants.PLAYER_ROOKIE_COLUMN
+            }
+            leagueSettings.isBestBall -> {
+                columnName = Constants.PLAYER_BEST_BALL_COLUMN
+            }
         }
         val projection = arrayOf(
                 Constants.PLAYER_NAME_COLUMN,
@@ -209,10 +214,10 @@ class RankingsDBWrapper {
                      scoringUpdates: Map<String?, String?>?, league: LeagueSettings) {
         val db = getInstance(context)!!.writableDatabase
         if (rosterUpdates != null && rosterUpdates.isNotEmpty()) {
-            updateRoster(db, league.rosterSettings!!.id, rosterUpdates)
+            updateRoster(db, league.rosterSettings.id, rosterUpdates)
         }
         if (scoringUpdates != null && scoringUpdates.isNotEmpty()) {
-            updateScoring(db, league.scoringSettings!!.id, scoringUpdates)
+            updateScoring(db, league.scoringSettings.id, scoringUpdates)
         }
         if (leagueUpdates != null && leagueUpdates.isNotEmpty()) {
             updateEntry(db, league.name, updatedValuesToContentValues(leagueUpdates), Constants.LEAGUE_TABLE_NAME, Constants.NAME_COLUMN)
@@ -221,8 +226,8 @@ class RankingsDBWrapper {
 
     fun deleteLeague(context: Context, league: LeagueSettings) {
         val db = getInstance(context)!!.writableDatabase
-        deleteRoster(db, league.rosterSettings!!.id)
-        deleteScoring(db, league.scoringSettings!!.id)
+        deleteRoster(db, league.rosterSettings.id)
+        deleteScoring(db, league.scoringSettings.id)
         deleteEntry(db, league.name, Constants.LEAGUE_TABLE_NAME, Constants.NAME_COLUMN)
     }
 

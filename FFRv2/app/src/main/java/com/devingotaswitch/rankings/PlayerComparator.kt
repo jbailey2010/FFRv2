@@ -111,14 +111,14 @@ class PlayerComparator : AppCompatActivity() {
                 rankings.userSettings.isHideRanklessComparator)
         inputA!!.setAdapter(mAdapter)
         inputB!!.setAdapter(mAdapter)
-        inputA!!.setOnLongClickListener(View.OnLongClickListener {
+        inputA!!.setOnLongClickListener {
             clearInputs()
             true
-        })
-        inputB!!.setOnLongClickListener(View.OnLongClickListener {
+        }
+        inputB!!.setOnLongClickListener {
             clearInputs()
             true
-        })
+        }
     }
 
     private fun init() {
@@ -218,13 +218,13 @@ class PlayerComparator : AppCompatActivity() {
                     rankings.userSettings.isHideRanklessComparator && Constants.DEFAULT_DISPLAY_RANK_NOT_SET == player.getDisplayValue(rankings)) {
                 continue
             }
-            if (rankings.leagueSettings.rosterSettings!!.isPositionValid(player.position)) {
+            if (rankings.leagueSettings.rosterSettings.isPositionValid(player.position)) {
                 if (rankings.leagueSettings.isRookie && player.rookieRank == Constants.DEFAULT_RANK) {
                     // the constant is 'not set', so skip these. No sense showing a 10 year vet in rookie ranks.
                     continue
                 }
                 val datum: MutableMap<String, String?> = getDatumForPlayer(rankings, player,
-                        false, playerRanks[player.uniqueId]!!, false)
+                        false, playerRanks[player.uniqueId] ?: error(""), false)
                 data.add(datum)
             }
         }
@@ -364,12 +364,16 @@ class PlayerComparator : AppCompatActivity() {
         val ecrB = findViewById<TextView>(R.id.comparator_ecr_val_b)
         ecrA.text = playerA.ecr.toString()
         ecrB.text = playerB.ecr.toString()
-        if (playerA.ecr < playerB.ecr) {
-            setColors(ecrA, ecrB)
-        } else if (playerA.ecr > playerB.ecr) {
-            setColors(ecrB, ecrA)
-        } else {
-            clearColors(ecrA, ecrB)
+        when {
+            playerA.ecr < playerB.ecr -> {
+                setColors(ecrA, ecrB)
+            }
+            playerA.ecr > playerB.ecr -> {
+                setColors(ecrB, ecrA)
+            }
+            else -> {
+                clearColors(ecrA, ecrB)
+            }
         }
 
         //ADP
@@ -377,12 +381,16 @@ class PlayerComparator : AppCompatActivity() {
         val adpB = findViewById<TextView>(R.id.comparator_adp_b)
         adpA.text = playerA.adp.toString()
         adpB.text = playerB.adp.toString()
-        if (playerA.adp < playerB.adp) {
-            setColors(adpA, adpB)
-        } else if (playerA.adp > playerB.adp) {
-            setColors(adpB, adpA)
-        } else {
-            clearColors(adpA, adpB)
+        when {
+            playerA.adp < playerB.adp -> {
+                setColors(adpA, adpB)
+            }
+            playerA.adp > playerB.adp -> {
+                setColors(adpB, adpA)
+            }
+            else -> {
+                clearColors(adpA, adpB)
+            }
         }
 
         // Dynasty/keeper ranks
@@ -390,12 +398,16 @@ class PlayerComparator : AppCompatActivity() {
         val dynB = findViewById<TextView>(R.id.comparator_dynasty_b)
         dynA.text = playerA.dynastyRank.toString()
         dynB.text = playerB.dynastyRank.toString()
-        if (playerA.dynastyRank < playerB.dynastyRank) {
-            setColors(dynA, dynB)
-        } else if (playerB.dynastyRank < playerA.dynastyRank) {
-            setColors(dynB, dynA)
-        } else {
-            clearColors(dynA, dynB)
+        when {
+            playerA.dynastyRank < playerB.dynastyRank -> {
+                setColors(dynA, dynB)
+            }
+            playerB.dynastyRank < playerA.dynastyRank -> {
+                setColors(dynB, dynA)
+            }
+            else -> {
+                clearColors(dynA, dynB)
+            }
         }
 
         // Rookie ranks
@@ -690,15 +702,13 @@ class PlayerComparator : AppCompatActivity() {
         ecrB.setBackgroundColor(Color.parseColor(WORSE_COLOR))
     }
 
-    private inner class ParseFP internal constructor(activity: PlayerComparator, playerA: Player?, playerB: Player?) : AsyncTask<Any?, Void?, Map<String, String>?>() {
+    private inner class ParseFP(activity: PlayerComparator, private val playerA: Player?, private val playerB: Player?) : AsyncTask<Any?, Void?, Map<String, String>?>() {
         private val pdia: AlertDialog = MaterialAlertDialogBuilder(activity)
                 .setCancelable(false)
                 .setTitle("Please wait")
                 .setMessage("Trying to get expert's preferences...")
                 .create()
         private val act: PlayerComparator = activity
-        private val playerA: Player? = playerA
-        private val playerB: Player? = playerB
         override fun onPreExecute() {
             super.onPreExecute()
             pdia.show()
@@ -718,9 +728,9 @@ class PlayerComparator : AppCompatActivity() {
             var baseURL = "http://www.fantasypros.com/nfl/draft/"
             baseURL += (ParsePlayerNews.playerNameUrl(playerA!!.name, playerA.teamName) + "-"
                     + ParsePlayerNews.playerNameUrl(playerB!!.name, playerB.teamName) + ".php")
-            if (rankings.leagueSettings.scoringSettings!!.receptions >= 1.0) {
+            if (rankings.leagueSettings.scoringSettings.receptions >= 1.0) {
                 baseURL += "?scoring=PPR"
-            } else if (rankings.leagueSettings.scoringSettings!!.receptions > 0) {
+            } else if (rankings.leagueSettings.scoringSettings.receptions > 0) {
                 baseURL += "?scoring=HALF"
             }
             val results: MutableMap<String, String> = HashMap()

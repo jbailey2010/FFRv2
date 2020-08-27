@@ -64,7 +64,7 @@ class RegisterUser : AppCompatActivity() {
         username = findViewById(R.id.editTextRegUserId)
         username!!.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-                if (s.length == 0) {
+                if (s.isEmpty()) {
                     val label = findViewById<TextView>(R.id.textViewRegUserIdLabel)
                     label.text = username!!.hint
                     username!!.background = ContextCompat.getDrawable(applicationContext,
@@ -136,7 +136,7 @@ class RegisterUser : AppCompatActivity() {
         phone = findViewById(R.id.editTextRegPhone)
         phone!!.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-                if (s.length == 0) {
+                if (s.isEmpty()) {
                     val label = findViewById<TextView>(R.id.textViewRegPhoneLabel)
                     label.text = phone!!.hint
                     phone!!.background = ContextCompat.getDrawable(applicationContext,
@@ -160,7 +160,7 @@ class RegisterUser : AppCompatActivity() {
         email = findViewById(R.id.editTextRegEmail)
         email!!.addTextChangedListener(object : TextWatcher {
             override fun beforeTextChanged(s: CharSequence, start: Int, count: Int, after: Int) {
-                if (s.length == 0) {
+                if (s.isEmpty()) {
                     val label = findViewById<TextView>(R.id.textViewRegEmailLabel)
                     label.text = email!!.hint
                     email!!.background = ContextCompat.getDrawable(applicationContext,

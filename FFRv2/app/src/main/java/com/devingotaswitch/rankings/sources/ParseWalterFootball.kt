@@ -11,10 +11,10 @@ object ParseWalterFootball {
     fun wfRankings(rankings: Rankings) {
         val r = rankings.leagueSettings.rosterSettings
         val s = rankings.leagueSettings.scoringSettings
-        if (r!!.qbCount > 1 || r.flex != null && r.flex!!.qbrbwrteCount > 0) {
+        if (r.qbCount > 1 || r.flex != null && r.flex!!.qbrbwrteCount > 0) {
             wfRankingsHelper(rankings,
                     "http://walterfootball.com/fantasycheatsheet/" + Constants.YEAR_KEY + "/twoqb")
-        } else if (s!!.receptions > 0) {
+        } else if (s.receptions > 0) {
             wfRankingsHelper(rankings,
                     "http://walterfootball.com/fantasycheatsheet/" + Constants.YEAR_KEY + "/ppr")
         } else {

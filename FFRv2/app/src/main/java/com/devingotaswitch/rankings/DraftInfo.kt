@@ -85,8 +85,7 @@ class DraftInfo : AppCompatActivity() {
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         // Find which menu item was selected
-        val menuItem = item.itemId
-        return when (menuItem) {
+        return when (item.itemId) {
             R.id.draft_info_clear -> {
                 clearDraft()
                 true
@@ -167,7 +166,7 @@ class DraftInfo : AppCompatActivity() {
         get() {
             val paaLeft = StringBuilder()
             val roster = rankings.leagueSettings.rosterSettings
-            if (roster!!.isPositionValid(Constants.QB)) {
+            if (roster.isPositionValid(Constants.QB)) {
                 paaLeft.append(rankings.draft.getPAALeft(Constants.QB, rankings))
                         .append(Constants.LINE_BREAK)
             }
@@ -201,7 +200,7 @@ class DraftInfo : AppCompatActivity() {
             val teamOutput = StringBuilder()
             val roster = rankings.leagueSettings.rosterSettings
             val draft = rankings.draft
-            if (roster!!.isPositionValid(Constants.QB)) {
+            if (roster.isPositionValid(Constants.QB)) {
                 teamOutput.append(Constants.QB)
                         .append("s: ")
                         .append(getPosString(draft.myQbs, draft.qBPAA, draft.qBXval, draft.qBVoLS))
@@ -378,7 +377,7 @@ class DraftInfo : AppCompatActivity() {
     }
 
     private fun conditionallyGraphPosition(barData: BarData, position: String) {
-        if (rankings.leagueSettings.rosterSettings!!.isPositionValid(position)) {
+        if (rankings.leagueSettings.rosterSettings.isPositionValid(position)) {
             val entries: MutableList<BarEntry> = ArrayList()
             val players = rankings.draft.getSortedAvailablePlayersForPosition(position, rankings)
             val threeBack = rankings.draft.getPAANAvailablePlayersBack(players, 3)

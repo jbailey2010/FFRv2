@@ -18,11 +18,10 @@ class RosterSettings @JvmOverloads constructor(id: String = UUID.randomUUID().to
     var kCount = 0
     var benchCount = 0
     var flex: Flex? = null
-    val validPositions: MutableSet<String>
+    private val validPositions: MutableSet<String>
 
     constructor(qbCt: Int, rbCt: Int, wrCt: Int, teCt: Int, dCt: Int, kCt: Int,
-                benchCt: Int) : this(UUID.randomUUID().toString(), qbCt, rbCt, wrCt, teCt, dCt, kCt, benchCt, Flex()) {
-    }
+                benchCt: Int) : this(UUID.randomUUID().toString(), qbCt, rbCt, wrCt, teCt, dCt, kCt, benchCt, Flex())
 
     private fun setId(id: String) {
         this.id = id

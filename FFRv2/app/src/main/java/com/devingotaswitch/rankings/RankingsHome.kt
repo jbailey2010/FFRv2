@@ -208,7 +208,7 @@ class RankingsHome : AppCompatActivity() {
         val posList: MutableList<String> = ArrayList()
         val roster = rankings!!.leagueSettings.rosterSettings
         posList.add(Constants.ALL_POSITIONS)
-        if (roster!!.qbCount > 0) {
+        if (roster.qbCount > 0) {
             posList.add(Constants.QB)
         }
         if (roster.rbCount > 0) {
@@ -408,7 +408,7 @@ class RankingsHome : AppCompatActivity() {
         listview.adapter = adapter
         for (i in 0 until orderedIds.size.coerceAtMost(maxPlayers)) {
             val player = rankings!!.getPlayer(orderedIds[i])
-            if (rankings!!.leagueSettings.rosterSettings!!.isPositionValid(player.position) &&
+            if (rankings!!.leagueSettings.rosterSettings.isPositionValid(player.position) &&
                     !rankings!!.draft.isDrafted(player)) {
                 if (rankings!!.leagueSettings.isRookie && player.rookieRank == Constants.DEFAULT_RANK) {
                     // the constant is 'not set', so skip these. No sense showing a 10 year vet in rookie ranks.

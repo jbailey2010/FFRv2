@@ -71,7 +71,7 @@ class ADPSimulator : AppCompatActivity() {
     private fun init() {
         searchInput = findViewById(R.id.adp_player_selection)
         searchInput!!.setAdapter(null)
-        val mAdapter: FilterWithSpaceAdapter<*> = getPlayerSearchAdapter(rankings!!, this, false, false)
+        val mAdapter: FilterWithSpaceAdapter<*> = getPlayerSearchAdapter(rankings!!, this, hideDrafted = false, hideRankless = false)
         searchInput!!.setAdapter(mAdapter)
         searchInput!!.setOnItemClickListener { _: AdapterView<*>?, view: View?, _: Int, _: Long -> setPlayerToBeChecked(getPlayerIdFromSearchView(view!!)) }
         result = findViewById(R.id.adp_output_view)
@@ -160,8 +160,8 @@ class ADPSimulator : AppCompatActivity() {
     companion object {
         private const val TAG = "ADPSimulator"
 
-        private class ParseADPOdds internal constructor(private val rankings: Rankings?,
-                                                        private val adpSimulator: ADPSimulator) : AsyncTask<Any?, Void?, String>() {
+        private class ParseADPOdds(private val rankings: Rankings?,
+                                   private val adpSimulator: ADPSimulator) : AsyncTask<Any?, Void?, String>() {
             private val pdia: AlertDialog = MaterialAlertDialogBuilder(adpSimulator)
                     .setCancelable(false)
                     .setTitle("Please wait")
@@ -185,9 +185,9 @@ class ADPSimulator : AppCompatActivity() {
                 var type = "standard"
                 val scoring = rankings!!.leagueSettings.scoringSettings
                 val roster = rankings.leagueSettings.rosterSettings
-                if (roster!!.qbCount > 1 || roster.flex != null && roster.qbCount > 0 && roster.flex!!.qbrbwrteCount > 0) {
+                if (roster.qbCount > 1 || roster.flex != null && roster.qbCount > 0 && roster.flex!!.qbrbwrteCount > 0) {
                     type = "2qb"
-                } else if (scoring!!.receptions > 0.0) {
+                } else if (scoring.receptions > 0.0) {
                     type = "ppr"
                 }
                 var teams = "8"
@@ -204,7 +204,7 @@ class ADPSimulator : AppCompatActivity() {
                 Log.d(TAG, url)
                 ParsingUtils.init()
                 var first = adpSimulator.getPlayerADPOdds(url, player, pick)
-                if (scoring!!.receptions > 0.0 && first.contains("error") && url.contains("ppr")) {
+                if (scoring.receptions > 0.0 && first.contains("error") && url.contains("ppr")) {
                     first = adpSimulator.getPlayerADPOdds(url.replace("ppr", "standard"), player, pick)
                 }
                 return first

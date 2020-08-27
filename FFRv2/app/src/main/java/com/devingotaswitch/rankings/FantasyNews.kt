@@ -86,7 +86,7 @@ class FantasyNews : AppCompatActivity() {
             }
         }
         val cachedNews = LocalSettingsHelper.loadNews(this)
-        if (cachedNews.size > 0) {
+        if (cachedNews.isNotEmpty()) {
             displayNews(cachedNews)
         }
     }

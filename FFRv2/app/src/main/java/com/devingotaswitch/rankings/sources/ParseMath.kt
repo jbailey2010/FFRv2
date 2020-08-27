@@ -25,7 +25,7 @@ object ParseMath {
         teLimit = 8.0
         dLimit = 2.0
         kLimit = 1.0
-        if (roster!!.qbCount > 1 || roster.qbCount > 0 && roster.flex != null && roster.flex!!.qbrbwrteCount > 0) {
+        if (roster.qbCount > 1 || roster.qbCount > 0 && roster.flex != null && roster.flex!!.qbrbwrteCount > 0) {
             qbLimit += 8.0
             teLimit -= 2.0
             rbLimit -= 3.0
@@ -56,7 +56,7 @@ object ParseMath {
     private fun setPAALimits(league: LeagueSettings) {
         val x = league.teamCount
         val roster = league.rosterSettings
-        val flex = roster!!.flex
+        val flex = roster.flex
 
         // First, the layups. Assume 1 started.
         dLimit = 1.25 * x
@@ -84,22 +84,30 @@ object ParseMath {
         }
 
         // Finally, RB/WR. Just all the hell over the place.
-        rbLimit = if (roster.rbCount < 2) {
-            1.5 * x - 2
-        } else if (roster.rbCount < 3) {
-            3.25 * x - 5.33333
-        } else {
-            6 * x - 16.33333
+        rbLimit = when {
+            roster.rbCount < 2 -> {
+                1.5 * x - 2
+            }
+            roster.rbCount < 3 -> {
+                3.25 * x - 5.33333
+            }
+            else -> {
+                6 * x - 16.33333
+            }
         }
-        wrLimit = if (roster.wrCount < 2) {
-            1.25 * x + 0.33333
-        } else if (roster.wrCount < 3) {
-            2.75 * x - 1.66666667
-        } else {
-            4.5 * x - 5
+        wrLimit = when {
+            roster.wrCount < 2 -> {
+                1.25 * x + 0.33333
+            }
+            roster.wrCount < 3 -> {
+                2.75 * x - 1.66666667
+            }
+            else -> {
+                4.5 * x - 5
+            }
         }
         if (flex != null && (flex.rbwrCount > 0 || flex.rbwrteCount > 0)) {
-            if (league.scoringSettings!!.receptions > 0) {
+            if (league.scoringSettings.receptions > 0) {
                 // Legit
                 if (roster.rbCount == 2 && roster.wrCount == 2) {
                     rbLimit = 3.75 * x - 10.666667
@@ -180,7 +188,7 @@ object ParseMath {
             }
         }
         if (flex != null && flex.qbrbwrteCount > 0) {
-            if (league.scoringSettings!!.receptions > 0) {
+            if (league.scoringSettings.receptions > 0) {
                 rbLimit += x / 11.0
                 wrLimit += x / 10.0
             } else {
@@ -276,7 +284,7 @@ object ParseMath {
         var posTotal = 0.0
         players.sortWith(Comparator { a: Player, b: Player -> b.projection.compareTo(a.projection) })
         val posCap = limit.toInt().coerceAtMost(players.size)
-        var posCounter: Double = 0.0
+        var posCounter = 0.0
         while (posCounter < posCap) {
             posTotal += players[posCounter.toInt()].projection
             posCounter++

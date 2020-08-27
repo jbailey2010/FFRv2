@@ -33,7 +33,7 @@ import java.util.*
 
 class LeagueSettingsActivity : AppCompatActivity() {
     private val TAG = "LeagueSettings"
-    private val CREATE_NEW_LEAGUE_SPINNER_ITEM = "Create New League"
+    private val createNewLeagueSpinnerText = "Create New League"
     private var rankingsDB: RankingsDBWrapper? = null
     private var baseLayout: LinearLayout? = null
     private var rankings: Rankings? = null
@@ -110,13 +110,13 @@ class LeagueSettingsActivity : AppCompatActivity() {
                 currLeagueIndex = leagueCount
             }
         }
-        leagueNames.add(CREATE_NEW_LEAGUE_SPINNER_ITEM)
+        leagueNames.add(createNewLeagueSpinnerText)
         spinner.attachDataSource(leagueNames)
         spinner.selectedIndex = currLeagueIndex
         spinner.setBackgroundColor(Color.parseColor("#FAFAFA"))
         spinner.setOnItemSelectedListener(object : AdapterView.OnItemSelectedListener {
             override fun onItemSelected(adapterView: AdapterView<*>?, view: View, i: Int, l: Long) {
-                if (CREATE_NEW_LEAGUE_SPINNER_ITEM == leagueNames[i]) {
+                if (createNewLeagueSpinnerText == leagueNames[i]) {
                     displayNoLeague()
                 } else {
                     displayLeague(leagues!![leagueNames[i]])
@@ -416,7 +416,7 @@ class LeagueSettingsActivity : AppCompatActivity() {
         val advanced = view.findViewById<Button>(R.id.league_roster_advanced_settings)
         val roster = currentLeague!!.rosterSettings
         val qbs = view.findViewById<EditText>(R.id.league_settings_qbs)
-        qbs.setText(java.lang.String.valueOf(roster!!.qbCount))
+        qbs.setText(java.lang.String.valueOf(roster.qbCount))
         val rbs = view.findViewById<EditText>(R.id.league_settings_rbs)
         rbs.setText(java.lang.String.valueOf(roster.rbCount))
         val wrs = view.findViewById<EditText>(R.id.league_settings_wrs)
@@ -603,7 +603,7 @@ class LeagueSettingsActivity : AppCompatActivity() {
         val benchTotal = bench.text.toString().toInt()
         val roster = league!!.rosterSettings
         val rosterUpdates: MutableMap<String?, String?> = HashMap()
-        if (qbTotal != roster!!.qbCount) {
+        if (qbTotal != roster.qbCount) {
             rosterUpdates[Constants.QB_COUNT_COLUMN] = qbs.text.toString()
             roster.qbCount = qbTotal
         }
@@ -647,11 +647,11 @@ class LeagueSettingsActivity : AppCompatActivity() {
         val rbwrte = view.findViewById<EditText>(R.id.league_flex_rbwrte)
         val wrte = view.findViewById<EditText>(R.id.league_flex_wrte)
         val op = view.findViewById<EditText>(R.id.league_flex_op)
-        rbwr.setText(java.lang.String.valueOf(currentLeague!!.rosterSettings!!.flex!!.rbwrCount))
-        rbte.setText(java.lang.String.valueOf(currentLeague.rosterSettings!!.flex!!.rbteCount))
-        rbwrte.setText(java.lang.String.valueOf(currentLeague.rosterSettings!!.flex!!.rbwrteCount))
-        wrte.setText(java.lang.String.valueOf(currentLeague.rosterSettings!!.flex!!.wrteCount))
-        op.setText(java.lang.String.valueOf(currentLeague.rosterSettings!!.flex!!.qbrbwrteCount))
+        rbwr.setText(java.lang.String.valueOf(currentLeague!!.rosterSettings.flex!!.rbwrCount))
+        rbte.setText(java.lang.String.valueOf(currentLeague.rosterSettings.flex!!.rbteCount))
+        rbwrte.setText(java.lang.String.valueOf(currentLeague.rosterSettings.flex!!.rbwrteCount))
+        wrte.setText(java.lang.String.valueOf(currentLeague.rosterSettings.flex!!.wrteCount))
+        op.setText(java.lang.String.valueOf(currentLeague.rosterSettings.flex!!.qbrbwrteCount))
         val update = findViewById<Button>(R.id.league_flex_create_default)
         update.text = "Update"
         val advanced = findViewById<Button>(R.id.league_flex_advanced_settings)
@@ -696,7 +696,7 @@ class LeagueSettingsActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
             val defaults = getFlexSettingsFromFirstPage(rbwr, rbte, rbwrte, wrte, op)
-            newLeague.rosterSettings!!.flex = defaults
+            newLeague.rosterSettings.flex = defaults
             saveNewLeague(newLeague)
             generateTextOnlyFlashbar(act, "Success!", newLeague.name + " saved", Flashbar.Gravity.BOTTOM)
                     .show()
@@ -706,7 +706,7 @@ class LeagueSettingsActivity : AppCompatActivity() {
                 return@setOnClickListener
             }
             val defaults = getFlexSettingsFromFirstPage(rbwr, rbte, rbwrte, wrte, op)
-            newLeague.rosterSettings!!.flex = defaults
+            newLeague.rosterSettings.flex = defaults
             displayScoringNoTeam(newLeague)
         }
     }
@@ -772,7 +772,7 @@ class LeagueSettingsActivity : AppCompatActivity() {
         val wrteTotal = wrte.text.toString().toInt()
         val opTotal = op.text.toString().toInt()
         val roster = league!!.rosterSettings
-        val flex = roster!!.flex
+        val flex = roster.flex
         if (rosterUpdates == null) {
             rosterUpdates = HashMap()
         }
@@ -847,15 +847,15 @@ class LeagueSettingsActivity : AppCompatActivity() {
         val ppr = view.findViewById<EditText>(R.id.league_scoring_ppr)
         val update = view.findViewById<Button>(R.id.league_scoring_save)
         update.text = "Update"
-        passTds.setText(java.lang.String.valueOf(currentLeague!!.scoringSettings!!.passingTds))
-        rushTds.setText(java.lang.String.valueOf(currentLeague.scoringSettings!!.rushingTds))
-        recTds.setText(java.lang.String.valueOf(currentLeague.scoringSettings!!.receivingTds))
-        passYds.setText(java.lang.String.valueOf(currentLeague.scoringSettings!!.passingYards))
-        rushYds.setText(java.lang.String.valueOf(currentLeague.scoringSettings!!.rushingYards))
-        recYds.setText(java.lang.String.valueOf(currentLeague.scoringSettings!!.receivingYards))
-        ints.setText(java.lang.String.valueOf(currentLeague.scoringSettings!!.interceptions))
-        fumbles.setText(java.lang.String.valueOf(currentLeague.scoringSettings!!.fumbles))
-        ppr.setText(java.lang.String.valueOf(currentLeague.scoringSettings!!.receptions))
+        passTds.setText(java.lang.String.valueOf(currentLeague!!.scoringSettings.passingTds))
+        rushTds.setText(java.lang.String.valueOf(currentLeague.scoringSettings.rushingTds))
+        recTds.setText(java.lang.String.valueOf(currentLeague.scoringSettings.receivingTds))
+        passYds.setText(java.lang.String.valueOf(currentLeague.scoringSettings.passingYards))
+        rushYds.setText(java.lang.String.valueOf(currentLeague.scoringSettings.rushingYards))
+        recYds.setText(java.lang.String.valueOf(currentLeague.scoringSettings.receivingYards))
+        ints.setText(java.lang.String.valueOf(currentLeague.scoringSettings.interceptions))
+        fumbles.setText(java.lang.String.valueOf(currentLeague.scoringSettings.fumbles))
+        ppr.setText(java.lang.String.valueOf(currentLeague.scoringSettings.receptions))
         val act: Activity = this
         update.setOnClickListener {
             if (validateScoringInputs(passTds, rushTds, recTds, passYds, rushYds, recYds,
@@ -973,7 +973,7 @@ class LeagueSettingsActivity : AppCompatActivity() {
         val receptionsTotal = receptions.text.toString().toDouble()
         val scoringUpdates: MutableMap<String?, String?> = HashMap()
         val scoring = league!!.scoringSettings
-        if (passTdsTotal != scoring!!.passingTds) {
+        if (passTdsTotal != scoring.passingTds) {
             scoringUpdates[Constants.PASSING_TDS_COLUMN] = passTds.text.toString()
             scoring.passingTds = passTdsTotal
         }

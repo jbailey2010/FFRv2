@@ -9,24 +9,24 @@ object ParseDraftWizard {
     @Throws(IOException::class)
     fun parseRanksWrapper(rankings: Rankings) {
         var type = "STD"
-        if (rankings.leagueSettings.scoringSettings!!.receptions > 0) {
+        if (rankings.leagueSettings.scoringSettings.receptions > 0) {
             type = "PPR"
         }
         var url = ("http://draftwizard.fantasypros.com/editor/createFromProjections.jsp?sport=nfl&scoringSystem="
                 + type + "&showAuction=Y")
         url += "&teams=" + rankings.leagueSettings.teamCount
-        url += "&QB=" + rankings.leagueSettings.rosterSettings!!.qbCount
-        url += "&WR=" + rankings.leagueSettings.rosterSettings!!.wrCount
-        url += "&RB=" + rankings.leagueSettings.rosterSettings!!.rbCount
-        url += "&TE=" + rankings.leagueSettings.rosterSettings!!.teCount
-        url += "&DST=" + rankings.leagueSettings.rosterSettings!!.dstCount
-        url += "&K=" + rankings.leagueSettings.rosterSettings!!.kCount
-        if (rankings.leagueSettings.rosterSettings!!.flex != null) {
-            url += "&WR/RB=" + rankings.leagueSettings.rosterSettings!!.flex!!.rbwrCount
-            url += "&WR/RB/TE=" + rankings.leagueSettings.rosterSettings!!.flex!!.rbwrteCount
-            url += "&RB/TE=" + rankings.leagueSettings.rosterSettings!!.flex!!.rbteCount
-            url += "&WR/TE=" + rankings.leagueSettings.rosterSettings!!.flex!!.wrteCount
-            url += "&QB/WR/RB/TE=" + rankings.leagueSettings.rosterSettings!!.flex!!.qbrbwrteCount
+        url += "&QB=" + rankings.leagueSettings.rosterSettings.qbCount
+        url += "&WR=" + rankings.leagueSettings.rosterSettings.wrCount
+        url += "&RB=" + rankings.leagueSettings.rosterSettings.rbCount
+        url += "&TE=" + rankings.leagueSettings.rosterSettings.teCount
+        url += "&DST=" + rankings.leagueSettings.rosterSettings.dstCount
+        url += "&K=" + rankings.leagueSettings.rosterSettings.kCount
+        if (rankings.leagueSettings.rosterSettings.flex != null) {
+            url += "&WR/RB=" + rankings.leagueSettings.rosterSettings.flex!!.rbwrCount
+            url += "&WR/RB/TE=" + rankings.leagueSettings.rosterSettings.flex!!.rbwrteCount
+            url += "&RB/TE=" + rankings.leagueSettings.rosterSettings.flex!!.rbteCount
+            url += "&WR/TE=" + rankings.leagueSettings.rosterSettings.flex!!.wrteCount
+            url += "&QB/WR/RB/TE=" + rankings.leagueSettings.rosterSettings.flex!!.qbrbwrteCount
         }
         parseRanksWorker(rankings, url)
     }

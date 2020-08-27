@@ -70,7 +70,7 @@ object GeneralUtils {
                     hideRankless && Constants.DEFAULT_DISPLAY_RANK_NOT_SET == player.getDisplayValue(rankings)) {
                 continue
             }
-            if (rankings.leagueSettings.rosterSettings!!.isPositionValid(player.position) &&
+            if (rankings.leagueSettings.rosterSettings.isPositionValid(player.position) &&
                     !StringUtils.isBlank(player.teamName) && player.teamName.length > 3) {
                 val dropdownStr = prefix +
                         Constants.RANKINGS_LIST_DELIMITER +

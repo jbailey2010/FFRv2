@@ -22,8 +22,7 @@ class ScoringSettings(id: String, passingTds: Int, rushingTds: Int, receivingTds
             Constants.DEFAULT_TURNOVER_WORTH.toDouble(),
                 interceptions: Double = Constants.DEFAULT_TURNOVER_WORTH.toDouble(), passingYds: Int = Constants.DEFAULT_PASSING_YDS, rushingYds: Int = Constants.DEFAULT_RUSHING_YDS, receivingYds: Int =
                         Constants.DEFAULT_RECEIVING_YDS, receptions: Double = Constants.DEFAULT_RECEPTIONS) : this(UUID.randomUUID().toString(), passingTds, rushingTds, receivingTds, fumbles, interceptions, passingYds,
-            rushingYds, receivingYds, receptions) {
-    }
+            rushingYds, receivingYds, receptions)
 
     init {
         this.id = id

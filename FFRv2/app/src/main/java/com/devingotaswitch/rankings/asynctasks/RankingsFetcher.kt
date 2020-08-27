@@ -56,14 +56,13 @@ class RankingsFetcher {
         }
     }
 
-    class RanksAggregator(activity: RankingsHome, rankings: Rankings) : AsyncTask<Any?, String?, Rankings?>() {
+    class RanksAggregator(activity: RankingsHome, private val rankings: Rankings) : AsyncTask<Any?, String?, Rankings?>() {
         private val pdia: AlertDialog = MaterialAlertDialogBuilder(activity)
                 .setCancelable(false)
                 .setTitle("Please wait")
                 .setMessage("Fetching the rankings...")
                 .create()
         private val act: RankingsHome = activity
-        private val rankings: Rankings = rankings
         private var start: Long = 0
         override fun onPreExecute() {
             super.onPreExecute()

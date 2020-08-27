@@ -15,7 +15,7 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class RankingsLoader {
 
-    class RanksLoader(activity: RankingsHome, rankingsDB: RankingsDBWrapper) : AsyncTask<Any?, String?, Rankings?>() {
+    class RanksLoader(activity: RankingsHome, private val rankingsDB: RankingsDBWrapper) : AsyncTask<Any?, String?, Rankings?>() {
         private val pdia: AlertDialog = MaterialAlertDialogBuilder(activity)
                 .setCancelable(false)
                 .setTitle("Please wait")
@@ -23,7 +23,6 @@ class RankingsLoader {
                 .create()
         private val act: RankingsHome = activity
         private var start: Long = 0
-        private val rankingsDB: RankingsDBWrapper = rankingsDB
         override fun onPreExecute() {
             super.onPreExecute()
             pdia.show()
@@ -49,7 +48,7 @@ class RankingsLoader {
         }
     }
 
-    class RanksSaver(activity: RankingsHome, rankingsDB: RankingsDBWrapper) : AsyncTask<Any?, String?, Void?>() {
+    class RanksSaver(activity: RankingsHome, private val rankingsDB: RankingsDBWrapper) : AsyncTask<Any?, String?, Void?>() {
         private val pdia: AlertDialog = MaterialAlertDialogBuilder(activity)
                 .setCancelable(false)
                 .setTitle("Please wait")
@@ -57,7 +56,6 @@ class RankingsLoader {
                 .create()
         private val act: RankingsHome = activity
         private var start: Long = 0
-        private val rankingsDB: RankingsDBWrapper = rankingsDB
         override fun onPreExecute() {
             super.onPreExecute()
             pdia.show()

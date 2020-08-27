@@ -126,7 +126,7 @@ class SignUpConfirm : AppCompatActivity() {
     private fun sendConfCode() {
         userName = username!!.text.toString()
         val confirmCode = confCode!!.text.toString()
-        if (userName == null || userName!!.length < 1) {
+        if (userName == null || userName!!.isEmpty()) {
             val label = findViewById<TextView>(R.id.textViewConfirmUserIdMessage)
             label.text = username!!.hint.toString() + " cannot be empty"
             username!!.background = ContextCompat.getDrawable(applicationContext,
