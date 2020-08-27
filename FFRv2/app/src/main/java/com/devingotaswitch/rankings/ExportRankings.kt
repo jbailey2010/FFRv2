@@ -44,7 +44,7 @@ class ExportRankings : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
-        toolbar.setNavigationOnClickListener { v: View? -> onBackPressed() }
+        toolbar.setNavigationOnClickListener { onBackPressed() }
     }
 
     public override fun onResume() {
@@ -61,7 +61,7 @@ class ExportRankings : AppCompatActivity() {
         val builder = VmPolicy.Builder()
         StrictMode.setVmPolicy(builder.build())
         val submit = findViewById<Button>(R.id.export_rankings_button)
-        submit.setOnClickListener { v: View? -> requestExportPermissions() }
+        submit.setOnClickListener { requestExportPermissions() }
     }
 
     private fun requestExportPermissions() {
@@ -127,7 +127,7 @@ class ExportRankings : AppCompatActivity() {
         writer.writeNext(data)
         for (key in rankings.orderedIds) {
             val player = rankings.getPlayer(key)
-            if (rankings.leagueSettings.rosterSettings!!.isPositionValid(player.position)) {
+            if (rankings.leagueSettings.rosterSettings.isPositionValid(player.position)) {
                 val playerData: MutableList<String> = ArrayList()
                 playerData.add(player.name)
                 playerData.add(if (player.age != null && player.age > 0) { player.age.toString() } else { "" })

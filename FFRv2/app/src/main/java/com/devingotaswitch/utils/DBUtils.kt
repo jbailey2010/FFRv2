@@ -91,7 +91,7 @@ object DBUtils {
     }
 
     @JvmStatic
-    fun cursorToLeague(result: Cursor, roster: RosterSettings?, scoring: ScoringSettings?): LeagueSettings {
+    fun cursorToLeague(result: Cursor, roster: RosterSettings, scoring: ScoringSettings): LeagueSettings {
         return LeagueSettings(
                 desanitizeName(result.getString(result.getColumnIndex(Constants.NAME_COLUMN))),
                 result.getInt(result.getColumnIndex(Constants.TEAM_COUNT_COLUMN)),
