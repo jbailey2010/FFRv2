@@ -151,7 +151,7 @@ public class Player {
     public void setRisk(Double risk) { this.risk = risk; }
 
     public Double getProjection() {
-        return projection.getFormattedProjectedPoints();
+        return projection.getProjection();
     }
 
     public PlayerProjection getPlayerProjection() {

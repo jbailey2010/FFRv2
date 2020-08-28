@@ -228,7 +228,7 @@ object DBUtils {
         player.stats = desanitizeStats(result.getString(result.getColumnIndex(Constants.PLAYER_STATS_COLUMN)))
         player.injuryStatus = result.getString(result.getColumnIndex(Constants.PLAYER_INJURED_COLUMN))
         player.auctionValue = result.getDouble(result.getColumnIndex(Constants.AUCTION_VALUE_COLUMN))
-        player.playerProjection = PlayerProjection.fromJson(result.getString(result.getColumnIndex(Constants.PLAYER_PROJECTION_COLUMN)))
+        player.playerProjection = PlayerProjection(result.getString(result.getColumnIndex(Constants.PLAYER_PROJECTION_COLUMN)))
         player.paa = result.getDouble(result.getColumnIndex(Constants.PLAYER_PAA_COLUMN))
         player.setxVal(result.getDouble(result.getColumnIndex(Constants.PLAYER_XVAL_COLUMN)))
         player.vols = result.getDouble(result.getColumnIndex(Constants.PLAYER_VORP_COLUMN))
@@ -289,7 +289,7 @@ object DBUtils {
         player.teamName = result.getString(result.getColumnIndex(Constants.TEAM_NAME_COLUMN))
         projection.playerKey = player.uniqueId
         projection.date = result.getString(result.getColumnIndex(Constants.PLAYER_PROJECTION_DATE_COLUMN))
-        projection.playerProjection = PlayerProjection.fromJson(result.getString(
+        projection.playerProjection = PlayerProjection(result.getString(
                 result.getColumnIndex(Constants.PLAYER_PROJECTION_COLUMN)))
         return projection
     }
