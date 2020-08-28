@@ -5,7 +5,7 @@ import java.util.*
 
 class ScoringSettings(id: String, passingTds: Int, rushingTds: Int, receivingTds: Int, fumbles: Double,
                       interceptions: Double, passingYds: Int, rushingYds: Int, receivingYds: Int, receptions: Double) {
-    var id: String? = null
+    var id: String = ""
         private set
     var passingTds = 0
     var rushingTds = 0

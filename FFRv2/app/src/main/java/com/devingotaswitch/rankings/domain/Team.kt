@@ -4,7 +4,7 @@ import com.amazonaws.util.StringUtils
 import com.devingotaswitch.utils.Constants
 
 class Team {
-    var name: String? = null
+    var name: String = ""
     var oLineRanks: String? = null
     var draftClass: String? = null
     var qbSos = 0.0

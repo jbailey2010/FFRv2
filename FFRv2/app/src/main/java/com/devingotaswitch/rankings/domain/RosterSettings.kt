@@ -8,7 +8,7 @@ class RosterSettings @JvmOverloads constructor(id: String = UUID.randomUUID().to
                                                wrCt: Int = Constants.TWO_STARTERS, teCt: Int = Constants.ONE_STARTER,
                                                dCt: Int = Constants.ONE_STARTER, kCt: Int = Constants.ONE_STARTER,
                                                benchCt: Int = Constants.BENCH_DEFAULT, flex: Flex = Flex()) {
-    var id: String? = null
+    var id: String = ""
         private set
     var qbCount = 0
     var rbCount = 0

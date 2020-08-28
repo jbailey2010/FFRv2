@@ -3,12 +3,12 @@ package com.devingotaswitch.rankings.domain
 import com.devingotaswitch.rankings.domain.projections.PlayerProjection
 
 class DailyProjection {
-    var date: String? = null
-    var playerProjection: PlayerProjection? = null
-    var playerKey: String? = null
+    lateinit var date: String
+    lateinit var playerProjection: PlayerProjection
+    lateinit var playerKey: String
 
-    fun getProjection(scoringSettings: ScoringSettings?): Double {
-        return playerProjection!!.getProjectedPoints(scoringSettings)
+    fun getProjection(scoringSettings: ScoringSettings): Double {
+        return playerProjection.getProjectedPoints(scoringSettings)
     }
 
 }
