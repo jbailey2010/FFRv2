@@ -22,6 +22,16 @@ public class PlayerProjection {
                 0.0, 0.0, 0.0, 0.0, 0.0, scoringSettings);
     }
 
+    public PlayerProjection(String json) {
+        PlayerProjection parsedValues = GSON.fromJson(json, this.getClass());
+        this.passingProjection = parsedValues.passingProjection;
+        this.rushingProjection = parsedValues.rushingProjection;
+        this.receivingProjection = parsedValues.receivingProjection;
+        this.defensiveProjection = parsedValues.defensiveProjection;
+        this.kickingProjection = parsedValues.kickingProjection;
+        this.projection = parsedValues.projection;
+    }
+
     public PlayerProjection(double passingYds, double passingTds, double rushingYds, double rushingTds,
                             double receivingYds, double receivingTds, double receptions, double fumbles,
                             double ints, double def, double k, ScoringSettings scoringSettings) {
