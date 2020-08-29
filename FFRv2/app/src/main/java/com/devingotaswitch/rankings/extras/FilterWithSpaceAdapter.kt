@@ -285,12 +285,12 @@ class FilterWithSpaceAdapter<T>(context: Context, dropdownId: Int, textViewResou
      *
      */
     private inner class ArrayFilter : Filter() {
-        override fun performFiltering(prefix: CharSequence): FilterResults {
+        override fun performFiltering(prefix: CharSequence?): FilterResults {
             val results = FilterResults()
             if (mOriginalValues == null) {
                 synchronized(mLock) { mOriginalValues = ArrayList(mObjects) }
             }
-            if (prefix.isEmpty()) {
+            if (prefix == null || prefix.isEmpty()) {
                 var list: ArrayList<T>
                 synchronized(mLock) { list = ArrayList(mOriginalValues) }
                 results.values = list

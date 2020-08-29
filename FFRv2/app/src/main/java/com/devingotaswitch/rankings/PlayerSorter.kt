@@ -397,7 +397,7 @@ class PlayerSorter : AppCompatActivity() {
                 }
             }
             if (booleanFactors.contains(Constants.SORT_UNDER_30)) {
-                if (player.age == 0 || player.age >= Constants.SORT_YOUNG_THRESHOLD) {
+                if (player.age == 0 || player.age == null || player.age!! >= Constants.SORT_YOUNG_THRESHOLD) {
                     continue
                 }
             }
@@ -665,7 +665,7 @@ class PlayerSorter : AppCompatActivity() {
     }
 
     private fun getXvalPD(a: Player?): Double {
-        var xvalpdA = a!!.getxVal() / a.getAuctionValueCustom(rankings)
+        var xvalpdA = a!!.xval / a.getAuctionValueCustom(rankings)
         if (a.auctionValue == 0.0) {
             xvalpdA = 0.0
         }
@@ -685,7 +685,7 @@ class PlayerSorter : AppCompatActivity() {
     }
 
     private val xValComparator: Comparator<Player>
-        get() = Comparator { a: Player, b: Player -> b.getxVal().compareTo(a.getxVal()) }
+        get() = Comparator { a: Player, b: Player -> b.xval.compareTo(a.xval) }
     private val voLSComparator: Comparator<Player>
         get() = Comparator { a: Player, b: Player -> b.vols.compareTo(a.vols) }
     private val xvalPDComparator: Comparator<Player>
@@ -752,7 +752,7 @@ class PlayerSorter : AppCompatActivity() {
             Constants.SORT_PAA -> return Constants.DECIMAL_FORMAT.format(player!!.paa)
             Constants.SORT_PAA_SCALED -> return Constants.DECIMAL_FORMAT.format(player!!.getScaledPAA(rankings))
             Constants.SORT_PAAPD -> return Constants.DECIMAL_FORMAT.format(getPAAPD(player))
-            Constants.SORT_XVAL -> return Constants.DECIMAL_FORMAT.format(player!!.getxVal())
+            Constants.SORT_XVAL -> return Constants.DECIMAL_FORMAT.format(player!!.xval)
             Constants.SORT_XVAL_SCALED -> return Constants.DECIMAL_FORMAT.format(player!!.getScaledXVal(rankings))
             Constants.SORT_XVALPD -> return Constants.DECIMAL_FORMAT.format(getXvalPD(player))
             Constants.SORT_VOLS -> return Constants.DECIMAL_FORMAT.format(player!!.vols)
@@ -785,7 +785,7 @@ class PlayerSorter : AppCompatActivity() {
                     .append(Constants.DECIMAL_FORMAT.format(player!!.paa))
                     .append(Constants.LINE_BREAK)
                     .append("XVal: ")
-                    .append(Constants.DECIMAL_FORMAT.format(player.getxVal()))
+                    .append(Constants.DECIMAL_FORMAT.format(player.xval))
                     .append(Constants.LINE_BREAK)
                     .append("VoLS: ")
                     .append(Constants.DECIMAL_FORMAT.format(player.vols))

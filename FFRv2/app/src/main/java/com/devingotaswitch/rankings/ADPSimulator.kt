@@ -112,14 +112,14 @@ class ADPSimulator : AppCompatActivity() {
 
     private fun setPlayerToBeChecked(id: String?) {
         playerToSearch = rankings!!.getPlayer(id)
-        searchInput!!.setText(playerToSearch!!.getName() + ": " + playerToSearch!!.getPosition() + ", " + playerToSearch!!.getTeamName())
+        searchInput!!.setText(playerToSearch!!.name + ": " + playerToSearch!!.position + ", " + playerToSearch!!.teamName)
     }
 
     private fun displayResult(output: String) {
         result!!.text = output
         val localCopy: Activity = this
         val playerId = playerToSearch!!.uniqueId
-        result!!.setOnLongClickListener { v: View? ->
+        result!!.setOnLongClickListener {
             val intent = Intent(localCopy, PlayerInfo::class.java)
             intent.putExtra(Constants.PLAYER_ID, playerId)
             startActivity(intent)

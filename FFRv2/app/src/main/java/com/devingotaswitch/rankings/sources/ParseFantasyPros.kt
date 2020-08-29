@@ -29,9 +29,9 @@ object ParseFantasyPros {
         for (playerId in rankings.players.keys) {
             if (ecr.containsKey(playerId)) {
                 val player = rankings.getPlayer(playerId)
-                player.ecr = ecr[playerId]
+                player.ecr = ecr[playerId]!!
                 if (rankings.leagueSettings.isSnake || rankings.leagueSettings.isAuction) {
-                    player.risk = risk[playerId]
+                    player.risk = risk[playerId]!!
                 }
             }
         }
@@ -63,7 +63,7 @@ object ParseFantasyPros {
         parseADPWorker(adp, adpUrl, rowSize)
         for (playerId in rankings.players.keys) {
             if (adp.containsKey(playerId)) {
-                rankings.getPlayer(playerId).adp = adp[playerId]
+                rankings.getPlayer(playerId).adp = adp[playerId]!!
             }
         }
     }
@@ -77,9 +77,9 @@ object ParseFantasyPros {
         for (playerId in rankings.players.keys) {
             if (dynasty.containsKey(playerId)) {
                 val player = rankings.getPlayer(playerId)
-                player.dynastyRank = dynasty[playerId]
+                player.dynastyRank = dynasty[playerId]!!
                 if (rankings.leagueSettings.isDynasty) {
-                    player.risk = risk[playerId]
+                    player.risk = risk[playerId]!!
                 }
             }
         }
@@ -94,9 +94,9 @@ object ParseFantasyPros {
         for (playerId in rankings.players.keys) {
             if (rookie.containsKey(playerId)) {
                 val player = rankings.getPlayer(playerId)
-                player.rookieRank = rookie[playerId]
+                player.rookieRank = rookie[playerId]!!
                 if (rankings.leagueSettings.isRookie) {
-                    player.risk = risk[playerId]
+                    player.risk = risk[playerId]!!
                 }
             }
         }
@@ -111,9 +111,9 @@ object ParseFantasyPros {
         for (playerId in rankings.players.keys) {
             if (bestBall.containsKey(playerId)) {
                 val player = rankings.getPlayer(playerId)
-                player.bestBallRank = bestBall[playerId]
+                player.bestBallRank = bestBall[playerId]!!
                 if (rankings.leagueSettings.isBestBall) {
-                    player.risk = risk[playerId]
+                    player.risk = risk[playerId]!!
                 }
             }
         }

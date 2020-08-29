@@ -230,7 +230,7 @@ object DBUtils {
         player.auctionValue = result.getDouble(result.getColumnIndex(Constants.AUCTION_VALUE_COLUMN))
         player.playerProjection = PlayerProjection(result.getString(result.getColumnIndex(Constants.PLAYER_PROJECTION_COLUMN)))
         player.paa = result.getDouble(result.getColumnIndex(Constants.PLAYER_PAA_COLUMN))
-        player.setxVal(result.getDouble(result.getColumnIndex(Constants.PLAYER_XVAL_COLUMN)))
+        player.xval = (result.getDouble(result.getColumnIndex(Constants.PLAYER_XVAL_COLUMN)))
         player.vols = result.getDouble(result.getColumnIndex(Constants.PLAYER_VORP_COLUMN))
         return player
     }
@@ -263,7 +263,7 @@ object DBUtils {
         values.put(Constants.AUCTION_VALUE_COLUMN, player.auctionValue)
         values.put(Constants.PLAYER_PROJECTION_COLUMN, player.playerProjection.toString())
         values.put(Constants.PLAYER_PAA_COLUMN, player.paa)
-        values.put(Constants.PLAYER_XVAL_COLUMN, player.getxVal())
+        values.put(Constants.PLAYER_XVAL_COLUMN, player.xval)
         values.put(Constants.PLAYER_VORP_COLUMN, player.vols)
         return values
     }

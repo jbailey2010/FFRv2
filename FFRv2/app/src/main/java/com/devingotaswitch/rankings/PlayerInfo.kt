@@ -453,7 +453,7 @@ class PlayerInfo : AppCompatActivity() {
         val headerLeft = findViewById<Button>(R.id.dummy_btn_left)
         val headerRight = findViewById<Button>(R.id.dummy_btn_right)
         val headerMiddle = findViewById<Button>(R.id.dummy_btn_center)
-        if (player.age != null && player.age > 0 && Constants.DST != player.position) {
+        if (player.age != null && player.age!! > 0 && Constants.DST != player.position) {
             val expBuilder = StringBuilder()
                     .append("Age: ")
                     .append(player.age)
@@ -804,12 +804,12 @@ class PlayerInfo : AppCompatActivity() {
             paa[Constants.PLAYER_INFO] = subRank
             data!!.add(paa)
             val xVal: MutableMap<String, String?> = HashMap()
-            xVal[Constants.PLAYER_BASIC] = "X Value: " + Constants.DECIMAL_FORMAT.format(player.getxVal())
-            val xValRank = getXVal(null, player.getxVal())
-            val xValPos = getXVal(player.position, player.getxVal())
+            xVal[Constants.PLAYER_BASIC] = "X Value: " + Constants.DECIMAL_FORMAT.format(player.xval)
+            val xValRank = getXVal(null, player.xval)
+            val xValPos = getXVal(player.position, player.xval)
             var xValSub = getRankingSub(xValRank, xValPos)
             if (player.getAuctionValueCustom(rankings) > 0.0) {
-                xValSub += Constants.LINE_BREAK + "X Value/$: " + Constants.DECIMAL_FORMAT.format(player.getxVal() / player.getAuctionValueCustom(rankings))
+                xValSub += Constants.LINE_BREAK + "X Value/$: " + Constants.DECIMAL_FORMAT.format(player.xval / player.getAuctionValueCustom(rankings))
             }
             xValSub += Constants.LINE_BREAK + "Scaled X Value: " + Constants.DECIMAL_FORMAT.format(player.getScaledXVal(rankings))
             xVal[Constants.PLAYER_INFO] = xValSub
@@ -1428,7 +1428,7 @@ class PlayerInfo : AppCompatActivity() {
         for (key in rankings.players.keys) {
             val player = rankings.getPlayer(key)
             if (pos == null || pos == player.position) {
-                if (player.getxVal() > source) {
+                if (player.xval > source) {
                     rank++
                 }
             }

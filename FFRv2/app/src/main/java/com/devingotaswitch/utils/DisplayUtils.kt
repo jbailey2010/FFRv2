@@ -98,7 +98,7 @@ object DisplayUtils {
         if (markWatched && rankings.isPlayerWatched(player.uniqueId)) {
             datum[Constants.PLAYER_STATUS] = R.drawable.star.toString()
         }
-        if (player.age != null && Constants.DST != player.position && player.age > 0) {
+        if (player.age != null && Constants.DST != player.position && player.age!! > 0) {
             datum[Constants.PLAYER_ADDITIONAL_INFO] = "Age: " + player.age
         }
         if (player.experience != null && player.experience >= 0 && Constants.DST != player.position) {

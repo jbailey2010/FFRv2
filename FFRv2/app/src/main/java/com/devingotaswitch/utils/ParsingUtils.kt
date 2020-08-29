@@ -223,7 +223,7 @@ object ParsingUtils {
     }
 
     @JvmStatic
-    fun normalizeTeams(team: String?): String? {
+    fun normalizeTeams(team: String): String {
         var low = team!!.toLowerCase(Locale.ROOT).replace("[^\\x20-\\x7e]".toRegex(), "")
         if (low.split(" ").size > 1
                 && (low.split(" ")[1] == "p" || (low.split(" ")[1]
@@ -231,7 +231,7 @@ object ParsingUtils {
             low = low.split(" ")[0]
         }
         if (teamFixes.containsKey(low)) {
-            return teamFixes[low]
+            return teamFixes[low]!!
         } else if (low.contains("kansas")) {
             return "Kansas City Chiefs"
         } else if (low.contains("diego")) {
@@ -266,10 +266,10 @@ object ParsingUtils {
     }
 
     @JvmStatic
-    fun normalizeDefenses(inputName: String?): String? {
+    fun normalizeDefenses(inputName: String): String {
         var uName = inputName
         uName = normalizeTeams(uName)
-        val name = uName!!.toLowerCase(Locale.ROOT)
+        val name = uName.toLowerCase(Locale.ROOT)
         if (name.contains("cincinnati")) {
             uName = "Bengals D/ST"
         } else if (name.contains("cleveland") && (name.split(" ").size == 1 ||
@@ -346,10 +346,10 @@ object ParsingUtils {
     }
 
     @JvmStatic
-    fun normalizeNames(inputName: String?): String? {
+    fun normalizeNames(inputName: String): String {
         var playerName = inputName
         if (playerFixes.containsKey(playerName)) {
-            playerName = playerFixes[playerName]
+            playerName = playerFixes[playerName]!!
         } else if (playerName!!.contains(Constants.DST)) {
             playerName = normalizeDefenses(playerName)
         } else if (playerName.contains("Veon") && playerName.contains("Bell")) {
@@ -385,11 +385,11 @@ object ParsingUtils {
         if (StringUtils.isBlank(oldPlayer.position) && !StringUtils.isBlank(newPlayer.position)) {
             oldPlayer.position = newPlayer.position
         }
-        if ((oldPlayer.age == null || oldPlayer.age < 18) &&
-                newPlayer.age != null && newPlayer.age > 18) {
+        if ((oldPlayer.age == null || oldPlayer.age!! < 18) &&
+                newPlayer.age != null && newPlayer.age!! > 18) {
             oldPlayer.age = newPlayer.age
         }
-        if ((oldPlayer.experience == null || oldPlayer.experience < 0) && newPlayer.experience != null) {
+        if (oldPlayer.experience < 0) {
             oldPlayer.experience = newPlayer.experience
         }
         return oldPlayer

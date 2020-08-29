@@ -30,7 +30,7 @@ object ParseProjections {
         for (playerId in rankings.players.keys) {
             val player = rankings.getPlayer(playerId)
             if (points.containsKey(playerId)) {
-                player.playerProjection = points[playerId]
+                player.playerProjection = points[playerId]!!
             } else {
                 player.playerProjection = PlayerProjection(rankings.leagueSettings.scoringSettings)
             }
@@ -63,7 +63,7 @@ object ParseProjections {
                 name.append(nameSet[j]).append(" ")
             }
             name = StringBuilder(normalizeNames(name.substring(0, name.length - 1)))
-            val team = normalizeTeams(nameSet[nameSet.size - 1])
+            val team = normalizeTeams(nameSet[nameSet.size - 1]!!)
             val yards = td[i + 3].replace(",", "").toDouble()
             val passTd = td[i + 4].toDouble()
             val ints = td[i + 5].toDouble()
@@ -103,7 +103,7 @@ object ParseProjections {
                 name.append(nameSet[j]).append(" ")
             }
             name = StringBuilder(normalizeNames(name.substring(0, name.length - 1)))
-            val team = normalizeTeams(nameSet[nameSet.size - 1])
+            val team = normalizeTeams(nameSet[nameSet.size - 1]!!)
             val rushYards = td[i + 2]
                     .replace(",", "").toDouble()
             val rushTD = td[i + 3].toDouble()
@@ -144,7 +144,7 @@ object ParseProjections {
                 name.append(nameSet[j]).append(" ")
             }
             name = StringBuilder(normalizeNames(name.substring(0, name.length - 1)))
-            val team = normalizeTeams(nameSet[nameSet.size - 1])
+            val team = normalizeTeams(nameSet[nameSet.size - 1]!!)
             val rushYards = td[i + 5]
                     .replace(",", "").toDouble()
             val rushTD = td[i + 6].toDouble()
@@ -185,7 +185,7 @@ object ParseProjections {
                 name.append(nameSet[j]).append(" ")
             }
             name = StringBuilder(normalizeNames(name.substring(0, name.length - 1)))
-            val team = normalizeTeams(nameSet[nameSet.size - 1])
+            val team = normalizeTeams(nameSet[nameSet.size - 1]!!)
             val catches = td[i + 1].replace(",", "").toDouble()
             val recTD = td[i + 3].toDouble()
             val recYards = td[i + 2].replace(",", "").toDouble()
@@ -258,7 +258,7 @@ object ParseProjections {
                 name.append(nameSet[j]).append(" ")
             }
             name = StringBuilder(normalizeNames(name.substring(0, name.length - 1)))
-            val team = normalizeTeams(nameSet[nameSet.size - 1])
+            val team = normalizeTeams(nameSet[nameSet.size - 1]!!)
             val proj = td[i + 4].toDouble()
             val projection = PlayerProjection(0.0, 0.0, 0.0, 0.0,
                     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, proj,

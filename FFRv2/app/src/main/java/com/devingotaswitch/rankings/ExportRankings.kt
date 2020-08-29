@@ -130,7 +130,7 @@ class ExportRankings : AppCompatActivity() {
             if (rankings.leagueSettings.rosterSettings.isPositionValid(player.position)) {
                 val playerData: MutableList<String> = ArrayList()
                 playerData.add(player.name)
-                playerData.add(if (player.age != null && player.age > 0) { player.age.toString() } else { "" })
+                playerData.add(if (player.age != null && player.age!! > 0) { player.age.toString() } else { "" })
                 playerData.add(player.position)
                 playerData.add(player.teamName)
                 val team = rankings.getTeam(player)
@@ -150,7 +150,7 @@ class ExportRankings : AppCompatActivity() {
                 playerData.add(player.getAuctionValueCustom(rankings).toString())
                 playerData.add(player.projection.toString())
                 playerData.add(player.paa.toString())
-                playerData.add(player.getxVal().toString())
+                playerData.add(player.xval.toString())
                 playerData.add(player.vols.toString())
                 playerData.add(rankings.getPlayerNote(player.uniqueId))
                 playerData.add(rankings.isPlayerWatched(player.uniqueId).toString())

@@ -85,7 +85,7 @@ class Draft {
     private fun getXValForPos(players: List<Player>): Double {
         var posXval = 0.0
         for (player in players) {
-            posXval += player.getxVal()
+            posXval += player.xval
         }
         return posXval
     }

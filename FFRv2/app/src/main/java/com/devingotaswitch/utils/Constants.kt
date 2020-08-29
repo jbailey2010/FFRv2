@@ -190,6 +190,7 @@ object Constants {
     // Player values: defaults
     const val DEFAULT_RISK = 50.0
     const val DEFAULT_RANK = 500.0
+    const val DEFAULT_VBD = 0.0
     const val DEFAULT_DISPLAY_RANK_NOT_SET = "N/A"
     const val DEFAULT_SOS = -1.0
 

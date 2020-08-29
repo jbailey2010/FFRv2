@@ -336,8 +336,8 @@ class PlayerComparator : AppCompatActivity() {
         // Age
         val ageA = findViewById<TextView>(R.id.comparator_age_a)
         val ageB = findViewById<TextView>(R.id.comparator_age_b)
-        ageA.text = if (playerA.age > 0) playerA.age.toString() else "?"
-        ageB.text = if (playerB.age > 0) playerB.age.toString() else "?"
+        ageA.text = if (playerA.age != null && playerA.age!! > 0) playerA.age.toString() else "?"
+        ageB.text = if (playerB.age != null && playerB.age!! > 0) playerB.age.toString() else "?"
         val byeA = findViewById<TextView>(R.id.comparator_bye_a)
         val byeB = findViewById<TextView>(R.id.comparator_bye_b)
         val teamA = rankings.getTeam(playerA)
@@ -526,9 +526,9 @@ class PlayerComparator : AppCompatActivity() {
         // XVal
         val xvalA = findViewById<TextView>(R.id.comparator_xval_a)
         val xvalB = findViewById<TextView>(R.id.comparator_xval_b)
-        xvalA.text = Constants.DECIMAL_FORMAT.format(playerA.getxVal()) + Constants.COMPARATOR_SCALED_PREFIX +
+        xvalA.text = Constants.DECIMAL_FORMAT.format(playerA.xval) + Constants.COMPARATOR_SCALED_PREFIX +
                 Constants.DECIMAL_FORMAT.format(playerA.getScaledXVal(rankings)) + Constants.COMPARATOR_SCALED_SUFFIX
-        xvalB.text = Constants.DECIMAL_FORMAT.format(playerB.getxVal()) + Constants.COMPARATOR_SCALED_PREFIX +
+        xvalB.text = Constants.DECIMAL_FORMAT.format(playerB.xval) + Constants.COMPARATOR_SCALED_PREFIX +
                 Constants.DECIMAL_FORMAT.format(playerB.getScaledXVal(rankings)) + Constants.COMPARATOR_SCALED_SUFFIX
         if (playerA.getScaledXVal(rankings) > playerB.getScaledXVal(rankings)) {
             setColors(xvalA, xvalB)

@@ -324,15 +324,15 @@ public class Rankings {
         List<String> orderedIds = new ArrayList<>();
         Comparator<Player> comparator;
         if (getLeagueSettings().isAuction()) {
-            comparator = (a, b) -> b.getAuctionValue().compareTo(a.getAuctionValue());
+            comparator = (a, b) -> Double.compare(b.getAuctionValue(), a.getAuctionValue());
         } else if (getLeagueSettings().isDynasty()) {
-            comparator = (a, b) -> a.getDynastyRank().compareTo(b.getDynastyRank());
+            comparator = (a, b) -> Double.compare(a.getDynastyRank(), b.getDynastyRank());
         } else if (getLeagueSettings().isRookie()) {
-            comparator = (a, b) -> a.getRookieRank().compareTo(b.getRookieRank());
+            comparator = (a, b) -> Double.compare(a.getRookieRank(), b.getRookieRank());
         } else if (getLeagueSettings().isBestBall()) {
-            comparator = (a, b) -> a.getBestBallRank().compareTo(b.getBestBallRank());
+            comparator = (a, b) -> Double.compare(a.getBestBallRank(), b.getBestBallRank());
         } else {
-            comparator = (a, b) -> a.getEcr().compareTo(b.getEcr());
+            comparator = (a, b) -> Double.compare(a.getEcr(), b.getEcr());
         }
         List<Player> playerList = new ArrayList<>(players);
         Collections.sort(playerList, comparator);

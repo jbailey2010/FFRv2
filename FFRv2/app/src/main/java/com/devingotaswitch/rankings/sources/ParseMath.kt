@@ -215,12 +215,12 @@ object ParseMath {
         for (key in rankings.players.keys) {
             val player = rankings.getPlayer(key)
             when (player.position) {
-                Constants.QB -> player.setxVal(player.projection - qbTotal)
-                Constants.RB -> player.setxVal(player.projection - rbTotal)
-                Constants.WR -> player.setxVal(player.projection - wrTotal)
-                Constants.TE -> player.setxVal(player.projection - teTotal)
-                Constants.DST -> player.setxVal(player.projection - dTotal)
-                Constants.K -> player.setxVal(player.projection - kTotal)
+                Constants.QB -> player.xval = (player.projection - qbTotal)
+                Constants.RB -> player.xval = (player.projection - rbTotal)
+                Constants.WR -> player.xval = (player.projection - wrTotal)
+                Constants.TE -> player.xval = (player.projection - teTotal)
+                Constants.DST -> player.xval = (player.projection - dTotal)
+                Constants.K -> player.xval = (player.projection - kTotal)
             }
         }
     }
