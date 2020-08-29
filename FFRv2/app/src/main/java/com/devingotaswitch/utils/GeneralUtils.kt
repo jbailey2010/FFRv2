@@ -25,7 +25,7 @@ object GeneralUtils {
 
     private fun sortData(
             data: MutableList<String>): MutableList<String> {
-        data.sortWith(Comparator { a: String, b: String ->
+        data.sortWith({ a: String, b: String ->
             val aName = a.split(Constants.RANKINGS_LIST_DELIMITER).toTypedArray()[1].split(Constants.LINE_BREAK).toTypedArray()[0]
             val bName = b.split(Constants.RANKINGS_LIST_DELIMITER).toTypedArray()[1].split(Constants.LINE_BREAK).toTypedArray()[0]
             val judgment = aName.compareTo(bName)

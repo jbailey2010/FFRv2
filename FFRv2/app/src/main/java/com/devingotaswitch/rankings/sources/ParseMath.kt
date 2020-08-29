@@ -250,7 +250,7 @@ object ParseMath {
         if (limit == 0.0) {
             return 0.0
         }
-        position.sortWith(Comparator { a: Player, b: Player -> b.projection.compareTo(a.projection) })
+        position.sortWith { a: Player, b: Player -> b.projection.compareTo(a.projection) }
         val player: Player = if (limit.toInt() <= position.size) {
             position[limit.toInt() - 1]
         } else {

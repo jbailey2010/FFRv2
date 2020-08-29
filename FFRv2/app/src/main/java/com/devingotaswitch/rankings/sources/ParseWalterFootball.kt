@@ -1,6 +1,5 @@
 package com.devingotaswitch.rankings.sources
 
-import android.util.Log
 import com.devingotaswitch.rankings.domain.Rankings
 import com.devingotaswitch.utils.Constants
 import com.devingotaswitch.utils.JsoupUtils.parseURLWithUA

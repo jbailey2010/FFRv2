@@ -2,7 +2,6 @@ package com.devingotaswitch.fileio
 
 import android.content.Context
 import android.content.SharedPreferences
-import android.util.Log
 import android.text.format.DateUtils
 import com.amazonaws.util.StringUtils
 import com.devingotaswitch.rankings.domain.Draft

@@ -1,6 +1,5 @@
 package com.devingotaswitch.rankings.domain.projections
 
-import android.util.Log
 import com.devingotaswitch.rankings.domain.ScoringSettings
 import com.devingotaswitch.rankings.domain.projections.PlayerProjection
 import com.devingotaswitch.utils.Constants

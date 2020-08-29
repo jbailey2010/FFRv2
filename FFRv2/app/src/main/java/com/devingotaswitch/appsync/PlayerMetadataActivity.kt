@@ -11,7 +11,6 @@ import com.devingotaswitch.graphqlstuff.*
 import com.devingotaswitch.rankings.PlayerInfo
 import com.devingotaswitch.rankings.domain.appsync.tags.*
 import com.devingotaswitch.utils.AWSClientFactory.getAppSyncInstance
-import com.google.gson.reflect.TypeToken
 import java.util.*
 import javax.annotation.Nonnull
 

@@ -2,7 +2,6 @@ package com.devingotaswitch.utils
 
 import android.app.Activity
 import android.content.Context
-import android.util.Log
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.DividerItemDecoration

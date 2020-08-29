@@ -1,7 +1,6 @@
 package com.devingotaswitch.rankings.domain
 
 import android.app.Activity
-import android.util.Log
 import com.amazonaws.util.StringUtils
 import com.devingotaswitch.appsync.AppSyncHelper.decrementPlayerWatchedCount
 import com.devingotaswitch.appsync.AppSyncHelper.incrementPlayerWatchedCount
