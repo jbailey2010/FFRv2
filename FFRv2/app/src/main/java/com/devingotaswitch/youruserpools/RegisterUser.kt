@@ -23,7 +23,6 @@ import com.devingotaswitch.ffrv2.R
 import com.devingotaswitch.youruserpools.CUPHelper.formatException
 import com.devingotaswitch.youruserpools.CUPHelper.getSignUpFieldsC2O
 import com.devingotaswitch.youruserpools.CUPHelper.pool
-import com.devingotaswitch.youruserpools.SignUpConfirm
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
 class RegisterUser : AppCompatActivity() {
@@ -53,8 +52,8 @@ class RegisterUser : AppCompatActivity() {
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
-        val main_title = findViewById<TextView>(R.id.signUp_toolbar_title)
-        main_title.text = "Sign up"
+        val mainTitle = findViewById<TextView>(R.id.signUp_toolbar_title)
+        mainTitle.text = "Sign up"
         toolbar.setNavigationOnClickListener { v: View? -> onBackPressed() }
         init()
     }

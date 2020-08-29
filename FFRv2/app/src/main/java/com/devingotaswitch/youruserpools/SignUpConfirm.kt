@@ -36,8 +36,8 @@ class SignUpConfirm : AppCompatActivity() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
         toolbar.setNavigationOnClickListener { v: View? -> onBackPressed() }
-        val main_title = findViewById<TextView>(R.id.confirm_toolbar_title)
-        main_title.text = "Confirm"
+        val mainTitle = findViewById<TextView>(R.id.confirm_toolbar_title)
+        mainTitle.text = "Confirm"
         init()
         val extraDoResend = intent.extras!!["resend"]
         if (extraDoResend != null && extraDoResend as Boolean) {

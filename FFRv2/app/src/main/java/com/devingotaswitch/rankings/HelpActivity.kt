@@ -32,8 +32,8 @@ class HelpActivity : AppCompatActivity() {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         val toolbar = findViewById<Toolbar>(R.id.toolbar_rankings_help)
         toolbar.title = ""
-        val main_title = findViewById<TextView>(R.id.main_toolbar_title)
-        main_title.text = "Help"
+        val mainTitle = findViewById<TextView>(R.id.main_toolbar_title)
+        mainTitle.text = "Help"
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)

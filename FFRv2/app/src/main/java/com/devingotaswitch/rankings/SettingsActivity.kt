@@ -17,7 +17,6 @@ import com.devingotaswitch.rankings.domain.UserSettings
 import com.devingotaswitch.utils.Constants
 
 class SettingsActivity : AppCompatActivity() {
-    private val TAG = "SettingsActivity"
     private var dSearch: CheckBox? = null
     private var rSearch: CheckBox? = null
     private var dsOutput: CheckBox? = null
@@ -36,13 +35,13 @@ class SettingsActivity : AppCompatActivity() {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         val toolbar = findViewById<Toolbar>(R.id.toolbar_rankings_settings)
         toolbar.title = ""
-        val main_title = findViewById<TextView>(R.id.main_toolbar_title)
-        main_title.text = "Settings"
+        val mainTitle = findViewById<TextView>(R.id.main_toolbar_title)
+        mainTitle.text = "Settings"
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
         val localCopy: Activity = this
-        toolbar.setNavigationOnClickListener { v: View? ->
+        toolbar.setNavigationOnClickListener {
             val intent = Intent(applicationContext, RankingsHome::class.java)
             intent.putExtra(Constants.RANKINGS_LIST_RELOAD_NEEDED, isRankingsReloadNeeded)
             localCopy.startActivity(intent)

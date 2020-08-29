@@ -38,8 +38,8 @@ class ChangePasswordActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
         toolbar.setNavigationOnClickListener { onBackPressed() }
-        val main_title = findViewById<TextView>(R.id.change_password_toolbar_title)
-        main_title.text = "Change password"
+        val mainTitle = findViewById<TextView>(R.id.change_password_toolbar_title)
+        mainTitle.text = "Change password"
         init()
     }
 

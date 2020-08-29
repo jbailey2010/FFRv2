@@ -64,7 +64,7 @@ import org.angmarch.views.NiceSpinner
 import java.util.*
 
 class RankingsHome : AppCompatActivity() {
-    private val TAG = "RankingsActivity"
+    private val tag = "RankingsActivity"
 
     // Cognito user objects
     private var user: CognitoUser? = null
@@ -125,7 +125,7 @@ class RankingsHome : AppCompatActivity() {
             initApp()
             init()
         } catch (e: Exception) {
-            Log.d(TAG, "Error initializing app", e)
+            Log.d(tag, "Error initializing app", e)
             try {
                 initApp()
                 init()
@@ -328,7 +328,7 @@ class RankingsHome : AppCompatActivity() {
             nDrawer.menu.findItem(R.id.nav_export_rankings).isVisible = true
             // If rankings are saved, load (and ultimately display) them
             if (rankings == null || rankings!!.players.isEmpty() || loadRanks) {
-                Log.d(TAG, "Loading rankings")
+                Log.d(tag, "Loading rankings")
                 Rankings.loadRankings(this, rankingsDB)
             } else {
                 var nullPlayer = false
@@ -338,7 +338,7 @@ class RankingsHome : AppCompatActivity() {
                     }
                 }
                 if (nullPlayer) {
-                    Log.d(TAG, "Null value was found, re-loading rankings.")
+                    Log.d(tag, "Null value was found, re-loading rankings.")
                     Rankings.loadRankings(this, rankingsDB)
                 } else {
                     processNewRankings(rankings, false)
@@ -681,32 +681,32 @@ class RankingsHome : AppCompatActivity() {
     }
 
     private fun refreshTokens() {
-        Log.d(TAG, "Beginning token refresh check")
+        Log.d(tag, "Beginning token refresh check")
         pool!!.getUser(username).getSessionInBackground(RefreshSessionHandler())
     }
 
     private inner class RefreshSessionHandler : AuthenticationHandler {
         override fun onSuccess(cognitoUserSession: CognitoUserSession, device: CognitoDevice?) {
-            Log.i(TAG, "Refresh success")
+            Log.i(tag, "Refresh success")
         }
 
         override fun getAuthenticationDetails(authenticationContinuation: AuthenticationContinuation, username: String) {
-            Log.d(TAG, "Get auth details challenge thrown from rankings page, should never happen.")
+            Log.d(tag, "Get auth details challenge thrown from rankings page, should never happen.")
             signOut()
         }
 
         override fun getMFACode(multiFactorAuthenticationContinuation: MultiFactorAuthenticationContinuation) {
-            Log.d(TAG, "MFA challenge thrown from rankings page, should never happen.")
+            Log.d(tag, "MFA challenge thrown from rankings page, should never happen.")
             signOut()
         }
 
         override fun authenticationChallenge(continuation: ChallengeContinuation) {
-            Log.d(TAG, "Authentication challenge thrown from rankings page, should never happen.")
+            Log.d(tag, "Authentication challenge thrown from rankings page, should never happen.")
             signOut()
         }
 
         override fun onFailure(e: Exception) {
-            Log.d(TAG, "Failed to refresh token from rankings page, should never happen.", e)
+            Log.d(tag, "Failed to refresh token from rankings page, should never happen.", e)
             signOut()
         }
     }

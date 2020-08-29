@@ -42,8 +42,8 @@ class ADPSimulator : AppCompatActivity() {
         rankings = Rankings.init()
         val toolbar = findViewById<Toolbar>(R.id.toolbar_adp_simulator)
         toolbar.title = ""
-        val main_title = findViewById<TextView>(R.id.main_toolbar_title)
-        main_title.text = "ADP Simulator"
+        val mainTitle = findViewById<TextView>(R.id.main_toolbar_title)
+        mainTitle.text = "ADP Simulator"
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)

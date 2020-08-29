@@ -10,7 +10,6 @@ import android.os.Bundle
 import android.os.StrictMode
 import android.os.StrictMode.VmPolicy
 import android.util.Log
-import android.view.View
 import android.widget.Button
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
@@ -39,8 +38,8 @@ class ExportRankings : AppCompatActivity() {
         rankings = Rankings.init()
         val toolbar = findViewById<Toolbar>(R.id.export_rankings_toolbar)
         toolbar.title = ""
-        val main_title = findViewById<TextView>(R.id.main_toolbar_title)
-        main_title.text = "Export Rankings"
+        val mainTitle = findViewById<TextView>(R.id.main_toolbar_title)
+        mainTitle.text = "Export Rankings"
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)

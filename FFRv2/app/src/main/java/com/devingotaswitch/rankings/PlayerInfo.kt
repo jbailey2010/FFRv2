@@ -103,8 +103,8 @@ class PlayerInfo : AppCompatActivity() {
         // Set toolbar for this screen
         val toolbar = findViewById<Toolbar>(R.id.toolbar_player_info)
         toolbar.title = ""
-        val main_title = findViewById<TextView>(R.id.main_toolbar_title)
-        main_title.text = player.name
+        val mainTitle = findViewById<TextView>(R.id.main_toolbar_title)
+        mainTitle.text = player.name
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)

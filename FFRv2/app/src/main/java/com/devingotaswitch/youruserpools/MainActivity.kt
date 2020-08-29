@@ -32,13 +32,11 @@ import com.devingotaswitch.youruserpools.CUPHelper.init
 import com.devingotaswitch.youruserpools.CUPHelper.pool
 import com.devingotaswitch.youruserpools.CUPHelper.setUser
 import com.devingotaswitch.youruserpools.CUPHelper.userAttributesForFirstTimeLogin
-import com.devingotaswitch.youruserpools.RegisterUser
-import com.devingotaswitch.youruserpools.SignUpConfirm
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.util.*
 
 class MainActivity : AppCompatActivity() {
-    private val TAG = "MainActivity"
+    private val tag = "MainActivity"
     private var userDialog: AlertDialog? = null
     private var waitDialog: AlertDialog? = null
 
@@ -218,7 +216,7 @@ class MainActivity : AppCompatActivity() {
         val newAttributes = userAttributesForFirstTimeLogin
         if (newAttributes != null) {
             for ((key, value) in newAttributes) {
-                Log.e(TAG, String.format("Adding attribute: %s, %s", key, value))
+                Log.e(tag, String.format("Adding attribute: %s, %s", key, value))
                 newPasswordContinuation!!.setUserAttribute(key, value)
             }
         }
@@ -358,7 +356,7 @@ class MainActivity : AppCompatActivity() {
 
     private inner class FFRAuthHandler(private val isRefresh: Boolean) : AuthenticationHandler {
         override fun onSuccess(cognitoUserSession: CognitoUserSession, device: CognitoDevice?) {
-            Log.i(TAG, "Auth Success")
+            Log.i(tag, "Auth Success")
             closeWaitDialog()
             launchRankings()
         }
@@ -376,7 +374,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         override fun authenticationChallenge(continuation: ChallengeContinuation) {
-            Log.d(TAG, "Authentication challenge thrown, should never happen.")
+            Log.d(tag, "Authentication challenge thrown, should never happen.")
             setDisplayForSignIn()
         }
 

@@ -32,12 +32,12 @@ import org.angmarch.views.NiceSpinner
 import java.util.*
 
 class LeagueSettingsActivity : AppCompatActivity() {
-    private val TAG = "LeagueSettings"
+    private val tag = "LeagueSettings"
     private val createNewLeagueSpinnerText = "Create New League"
     private lateinit var rankingsDB: RankingsDBWrapper
     private var baseLayout: LinearLayout? = null
     private lateinit var rankings: Rankings
-    private var main_title: TextView? = null
+    private var mainTitle: TextView? = null
     private var rankingsUpdated = false
     private var leagues: MutableMap<String?, LeagueSettings>? = null
     private var currLeague: LeagueSettings? = null
@@ -49,8 +49,8 @@ class LeagueSettingsActivity : AppCompatActivity() {
         // Set toolbar for this screen
         val toolbar = findViewById<Toolbar>(R.id.toolbar_league_settings)
         toolbar.title = ""
-        main_title = findViewById(R.id.main_toolbar_title)
-        main_title!!.text = "League Settings"
+        mainTitle = findViewById(R.id.main_toolbar_title)
+        mainTitle!!.text = "League Settings"
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
@@ -68,7 +68,7 @@ class LeagueSettingsActivity : AppCompatActivity() {
         try {
             init()
         } catch (e: Exception) {
-            Log.d(TAG, "Failure setting up activity, falling back to Rankings", e)
+            Log.d(tag, "Failure setting up activity, falling back to Rankings", e)
             onBackPressed()
         }
     }
@@ -131,7 +131,7 @@ class LeagueSettingsActivity : AppCompatActivity() {
 
     private fun displayLeague(currentLeague: LeagueSettings?) {
         val view = initializeLeagueSettingsBase()
-        main_title!!.text = "League Settings"
+        mainTitle!!.text = "League Settings"
         val leagueName = view.findViewById<EditText>(R.id.league_settings_name)
         leagueName.setText(currentLeague!!.name)
         leagueName.visibility = View.GONE
@@ -211,7 +211,7 @@ class LeagueSettingsActivity : AppCompatActivity() {
 
     private fun displayNoLeague() {
         val view = initializeLeagueSettingsBase()
-        main_title!!.text = "League Settings"
+        mainTitle!!.text = "League Settings"
         val advanced = view.findViewById<Button>(R.id.league_settings_advanced_settings)
         val save = view.findViewById<Button>(R.id.league_settings_create_default)
         val delete = view.findViewById<Button>(R.id.league_settings_delete_league)
@@ -410,7 +410,7 @@ class LeagueSettingsActivity : AppCompatActivity() {
 
     private fun displayRoster(currentLeague: LeagueSettings?, leagueUpdates: Map<String?, String?>?) {
         val view = initializeLeagueSettingsRoster()
-        main_title!!.text = "Roster Settings"
+        mainTitle!!.text = "Roster Settings"
         val update = view.findViewById<Button>(R.id.league_roster_create_default)
         update.text = "Update"
         val advanced = view.findViewById<Button>(R.id.league_roster_advanced_settings)
@@ -474,7 +474,7 @@ class LeagueSettingsActivity : AppCompatActivity() {
 
     private fun displayRosterNoLeague(newLeague: LeagueSettings) {
         val view = initializeLeagueSettingsRoster()
-        main_title!!.text = "Roster Settings"
+        mainTitle!!.text = "Roster Settings"
         val qbs = view.findViewById<EditText>(R.id.league_settings_qbs)
         val rbs = view.findViewById<EditText>(R.id.league_settings_rbs)
         val wrs = view.findViewById<EditText>(R.id.league_settings_wrs)
@@ -641,7 +641,7 @@ class LeagueSettingsActivity : AppCompatActivity() {
     private fun displayFlex(currentLeague: LeagueSettings?, leagueUpdates: Map<String?, String?>?,
                             baseRosterUpdates: MutableMap<String?, String?>?) {
         val view = initializeLeagueSettingsFlex()
-        main_title!!.text = "Flex Settings"
+        mainTitle!!.text = "Flex Settings"
         val rbwr = view.findViewById<EditText>(R.id.league_flex_rbwr)
         val rbte = view.findViewById<EditText>(R.id.league_flex_rbte)
         val rbwrte = view.findViewById<EditText>(R.id.league_flex_rbwrte)
@@ -682,7 +682,7 @@ class LeagueSettingsActivity : AppCompatActivity() {
 
     private fun displayFlexNoLeague(newLeague: LeagueSettings) {
         val view = initializeLeagueSettingsFlex()
-        main_title!!.text = "Flex Settings"
+        mainTitle!!.text = "Flex Settings"
         val rbwr = view.findViewById<EditText>(R.id.league_flex_rbwr)
         val rbte = view.findViewById<EditText>(R.id.league_flex_rbte)
         val rbwrte = view.findViewById<EditText>(R.id.league_flex_rbwrte)
@@ -806,7 +806,7 @@ class LeagueSettingsActivity : AppCompatActivity() {
 
     private fun displayScoringNoTeam(newLeague: LeagueSettings) {
         val view = initializeLeagueSettingsScoring()
-        main_title!!.text = "Scoring Settings"
+        mainTitle!!.text = "Scoring Settings"
         val passTds = view.findViewById<EditText>(R.id.league_scoring_passing_tds)
         val rushTds = view.findViewById<EditText>(R.id.league_scoring_rushing_tds)
         val recTds = view.findViewById<EditText>(R.id.league_scoring_receiving_tds)
@@ -835,7 +835,7 @@ class LeagueSettingsActivity : AppCompatActivity() {
     private fun displayScoring(currentLeague: LeagueSettings?, leagueUpdates: Map<String?, String?>?,
                                rosterUpdates: Map<String?, String?>?) {
         val view = initializeLeagueSettingsScoring()
-        main_title!!.text = "Scoring Settings"
+        mainTitle!!.text = "Scoring Settings"
         val passTds = view.findViewById<EditText>(R.id.league_scoring_passing_tds)
         val rushTds = view.findViewById<EditText>(R.id.league_scoring_rushing_tds)
         val recTds = view.findViewById<EditText>(R.id.league_scoring_receiving_tds)
@@ -1049,10 +1049,10 @@ class LeagueSettingsActivity : AppCompatActivity() {
         }
         if ((leagueUpdates != null && leagueUpdates.containsKey(Constants.TEAM_COUNT_COLUMN) || scoringUpdates != null || rosterUpdates != null)
                 && rankings!!.players.isNotEmpty()) {
-            Log.d(TAG, "Updating some set")
+            Log.d(tag, "Updating some set")
             var updateProjections = false
             if (scoringUpdates != null) {
-                Log.d(TAG, "Projections to be updated, too.")
+                Log.d(tag, "Projections to be updated, too.")
                 updateProjections = true
                 rankingsUpdated = true
             }

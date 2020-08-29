@@ -46,8 +46,8 @@ class DraftInfo : AppCompatActivity() {
         rankings = Rankings.init()
         val toolbar = findViewById<Toolbar>(R.id.toolbar_draft_info)
         toolbar.title = ""
-        val main_title = findViewById<TextView>(R.id.main_toolbar_title)
-        main_title.text = "Current Draft"
+        val mainTitle = findViewById<TextView>(R.id.main_toolbar_title)
+        mainTitle.text = "Current Draft"
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)

@@ -73,8 +73,8 @@ class PlayerComparator : AppCompatActivity() {
         // Set toolbar for this screen
         val toolbar = findViewById<Toolbar>(R.id.player_comparator_toolbar)
         toolbar.title = ""
-        val main_title = findViewById<TextView>(R.id.main_toolbar_title)
-        main_title.text = "Compare Players"
+        val mainTitle = findViewById<TextView>(R.id.main_toolbar_title)
+        mainTitle.text = "Compare Players"
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)

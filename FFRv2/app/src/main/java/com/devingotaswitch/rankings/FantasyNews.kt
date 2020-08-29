@@ -42,8 +42,8 @@ class FantasyNews : AppCompatActivity() {
         rankings = Rankings.init()
         val toolbar = findViewById<Toolbar>(R.id.toolbar_player_news)
         toolbar.title = ""
-        val main_title = findViewById<TextView>(R.id.main_toolbar_title)
-        main_title.text = "News"
+        val mainTitle = findViewById<TextView>(R.id.main_toolbar_title)
+        mainTitle.text = "News"
         setSupportActionBar(toolbar)
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)

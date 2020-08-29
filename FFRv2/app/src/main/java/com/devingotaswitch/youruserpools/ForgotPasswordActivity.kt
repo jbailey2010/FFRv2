@@ -26,8 +26,8 @@ class ForgotPasswordActivity : AppCompatActivity() {
         supportActionBar!!.setDisplayHomeAsUpEnabled(true)
         supportActionBar!!.setDisplayShowHomeEnabled(true)
         toolbar.setNavigationOnClickListener { exit(null, null) }
-        val main_title = findViewById<TextView>(R.id.forgot_password_toolbar_title)
-        main_title.text = "Forgot password"
+        val mainTitle = findViewById<TextView>(R.id.forgot_password_toolbar_title)
+        mainTitle.text = "Forgot password"
         init()
     }
 
