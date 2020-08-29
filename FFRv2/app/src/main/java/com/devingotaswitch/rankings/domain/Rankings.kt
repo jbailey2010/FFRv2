@@ -262,16 +262,22 @@ class Rankings {
     fun orderPlayersByLeagueType(players: Collection<Player>): MutableList<String> {
         val orderedIds: MutableList<String> = ArrayList()
         val comparator: Comparator<Player>
-        comparator = if (leagueSettings.isAuction) {
-            Comparator { a: Player, b: Player -> b.auctionValue.compareTo(a.auctionValue) }
-        } else if (leagueSettings.isDynasty) {
-            Comparator { a: Player, b: Player -> a.dynastyRank.compareTo(b.dynastyRank) }
-        } else if (leagueSettings.isRookie) {
-            Comparator { a: Player, b: Player -> a.rookieRank.compareTo(b.rookieRank) }
-        } else if (leagueSettings.isBestBall) {
-            Comparator { a: Player, b: Player -> a.bestBallRank.compareTo(b.bestBallRank) }
-        } else {
-            Comparator { a: Player, b: Player -> a.ecr.compareTo(b.ecr) }
+        comparator = when {
+            leagueSettings.isAuction -> {
+                Comparator { a: Player, b: Player -> b.auctionValue.compareTo(a.auctionValue) }
+            }
+            leagueSettings.isDynasty -> {
+                Comparator { a: Player, b: Player -> a.dynastyRank.compareTo(b.dynastyRank) }
+            }
+            leagueSettings.isRookie -> {
+                Comparator { a: Player, b: Player -> a.rookieRank.compareTo(b.rookieRank) }
+            }
+            leagueSettings.isBestBall -> {
+                Comparator { a: Player, b: Player -> a.bestBallRank.compareTo(b.bestBallRank) }
+            }
+            else -> {
+                Comparator { a: Player, b: Player -> a.ecr.compareTo(b.ecr) }
+            }
         }
         val playerList: List<Player> = ArrayList(players)
         Collections.sort(playerList, comparator)

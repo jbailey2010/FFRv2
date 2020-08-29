@@ -85,8 +85,8 @@ class ADPSimulator : AppCompatActivity() {
                         .show()
                 return@setOnClickListener
             }
-            val roundStr = roundInput!!.getText().toString()
-            val pickStr = pickInput!!.getText().toString()
+            val roundStr = roundInput!!.text.toString()
+            val pickStr = pickInput!!.text.toString()
             if (!isInteger(roundStr) || !isInteger(pickStr)) {
                 generateTextOnlyFlashbar(act, "No can do", "Pick/round must be provided as numbers", Flashbar.Gravity.TOP)
                         .show()
