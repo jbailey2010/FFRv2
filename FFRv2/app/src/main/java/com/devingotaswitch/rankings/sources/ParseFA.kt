@@ -26,11 +26,9 @@ object ParseFA {
             Log.e(TAG, "Failed to parse trade changes", e)
         }
         for (key in arrivingFA.keys) {
-            val team = rankings.getTeam(key)
-            if (team != null) {
-                team.incomingFA = arrivingFA[key]
-                team.outgoingFA = departingFA[key]
-            }
+            val team = rankings.getTeam(key!!)!!
+            team.incomingFA = arrivingFA[key]
+            team.outgoingFA = departingFA[key]
         }
     }
 
@@ -102,7 +100,7 @@ object ParseFA {
             val oldTeam = normalizeTeams(td[i + 3])
             // Normalize teams turns tbd into tampa bay, but here it means unsigned.
             val parsedTeam = td[i + 4]
-            val newTeam = if ("TBD" == parsedTeam) parsedTeam else normalizeTeams(td[i + 4])!!
+            val newTeam = if ("TBD" == parsedTeam) parsedTeam else normalizeTeams(td[i + 4])
             if (oldTeam != newTeam) {
                 var playerEntry = name +
                         ": "

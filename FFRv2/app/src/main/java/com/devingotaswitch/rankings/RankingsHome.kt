@@ -72,7 +72,7 @@ class RankingsHome : AppCompatActivity() {
     private var filterItem: MenuItem? = null
     private lateinit var nDrawer: NavigationView
     private lateinit var mDrawer: DrawerLayout
-    private var rankingsDB: RankingsDBWrapper? = null
+    private lateinit var rankingsDB: RankingsDBWrapper
     private var currentLeague: LeagueSettings? = null
     private var rankings: Rankings? = null
     private lateinit var rankingsBase: LinearLayout
@@ -304,7 +304,7 @@ class RankingsHome : AppCompatActivity() {
         refreshTokens()
     }
 
-    fun setUserCustomData(watchList: List<String?>?, notes: MutableMap<String, String>?) {
+    fun setUserCustomData(watchList: MutableList<String>, notes: MutableMap<String, String>) {
         Rankings.setCustomUserData(watchList, notes)
 
         // Just in case to avoid random activity shifts
@@ -347,7 +347,7 @@ class RankingsHome : AppCompatActivity() {
         } else if (!LocalSettingsHelper.wasPresent(LocalSettingsHelper.getCurrentLeagueName(this))) {
             // Otherwise, if no league is set up, display that message
             clearAndAddView(R.layout.content_rankings_no_league)
-            rankings = Rankings.initWithDefaults(currentLeague)
+            rankings = Rankings.initWithDefaults(currentLeague!!)
             searchBase.visibility = View.GONE
             buttonBase.visibility = View.GONE
             nDrawer.menu.findItem(R.id.nav_refresh_ranks).isVisible = false
@@ -355,7 +355,7 @@ class RankingsHome : AppCompatActivity() {
         } else {
             // If neither of the above, there's a league but no ranks. Tell the user.
             clearAndAddView(R.layout.content_rankings_no_ranks)
-            rankings = Rankings.initWithDefaults(currentLeague)
+            rankings = Rankings.initWithDefaults(currentLeague!!)
             searchBase.visibility = View.GONE
             buttonBase.visibility = View.GONE
             nDrawer.menu.findItem(R.id.nav_refresh_ranks).isVisible = true

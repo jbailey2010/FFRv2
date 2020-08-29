@@ -282,7 +282,7 @@ object ParseMath {
 
     private fun getPositionalProjection(limit: Double, players: MutableList<Player>): Double {
         var posTotal = 0.0
-        players.sortWith(Comparator { a: Player, b: Player -> b.projection.compareTo(a.projection) })
+        players.sortWith { a: Player, b: Player -> b.projection.compareTo(a.projection) }
         val posCap = limit.toInt().coerceAtMost(players.size)
         var posCounter = 0.0
         while (posCounter < posCap) {

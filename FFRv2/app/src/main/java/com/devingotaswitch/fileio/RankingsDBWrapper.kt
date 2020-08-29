@@ -60,8 +60,8 @@ class RankingsDBWrapper {
         bulkUpsert(db, Constants.PLAYER_PROJECTIONS_TABLE_NAME, projections)
     }
 
-    fun getPlayerProjectionHistory(context: Context): Map<String?, MutableList<DailyProjection>?> {
-        val playerProjectionHistory: MutableMap<String?, MutableList<DailyProjection>?> = HashMap()
+    fun getPlayerProjectionHistory(context: Context): MutableMap<String, MutableList<DailyProjection>> {
+        val playerProjectionHistory: MutableMap<String, MutableList<DailyProjection>> = HashMap()
         val db = getInstance(context)!!.readableDatabase
         val allProj = getAllEntries(db, Constants.PLAYER_PROJECTIONS_TABLE_NAME)
         while (!allProj.isAfterLast) {
@@ -78,7 +78,7 @@ class RankingsDBWrapper {
         return playerProjectionHistory
     }
 
-    fun getPlayers(context: Context): Map<String, Player> {
+    fun getPlayers(context: Context): MutableMap<String, Player> {
         val players: MutableMap<String, Player> = HashMap()
         val db = getInstance(context)!!.readableDatabase
         val result = getAllEntries(db, Constants.PLAYER_TABLE_NAME)
@@ -91,7 +91,7 @@ class RankingsDBWrapper {
         return players
     }
 
-    fun getPlayersSorted(context: Context, leagueSettings: LeagueSettings): List<String> {
+    fun getPlayersSorted(context: Context, leagueSettings: LeagueSettings): MutableList<String> {
         val players: MutableList<String> = ArrayList()
         val db = getInstance(context)!!.readableDatabase
         var columnName = Constants.PLAYER_ECR_COLUMN
@@ -152,9 +152,9 @@ class RankingsDBWrapper {
     }
 
     //---------- Teams ----------
-    fun getTeams(context: Context): Map<String?, Team> {
+    fun getTeams(context: Context): MutableMap<String, Team> {
         val db = getInstance(context)!!.readableDatabase
-        val teams: MutableMap<String?, Team> = HashMap()
+        val teams: MutableMap<String, Team> = HashMap()
         val result = getAllEntries(db, Constants.TEAM_TABLE_NAME)
         while (!result.isAfterLast) {
             val team = cursorToTeam(result)

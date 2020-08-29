@@ -241,7 +241,7 @@ class PlayerSorter : AppCompatActivity() {
         val activity = this
         submit.setOnClickListener {
             val currentPosition = posList[positions.selectedIndex]
-            var filteredIds: List<String?> = ArrayList(rankings.orderedIds)
+            var filteredIds: List<String> = ArrayList(rankings.orderedIds)
             if (Constants.ALL_POSITIONS != currentPosition) {
                 filteredIds = rankings.getPlayersByPosition(filteredIds, currentPosition)
             }
@@ -353,7 +353,7 @@ class PlayerSorter : AppCompatActivity() {
                                                   comparator: Comparator<Player>?) {
         players.clear()
         for (id in playerIds) {
-            val player = rankings.getPlayer(id)
+            val player = rankings.getPlayer(id!!)
             if ((Constants.SORT_ALL == factor && rankings.leagueSettings.isRookie || Constants.SORT_ROOKIE == factor)
                     && player.rookieRank == Constants.DEFAULT_RANK) {
                 // Default sort for rookies means only rookies. If it's 'not set',  skip.
@@ -498,7 +498,7 @@ class PlayerSorter : AppCompatActivity() {
                         }
                         adapter.notifyDataSetChanged()
                     }
-                }, 
+                },
                 object: RecyclerViewAdapter.OnItemClickListener {
                     override fun onItemClick(view: View?, position: Int) {
                         val playerKey = getPlayerKeyFromListViewItem(view!!)
@@ -713,25 +713,25 @@ class PlayerSorter : AppCompatActivity() {
     private val riskComparator: Comparator<Player>
         get() = Comparator { a: Player, b: Player -> a.risk.compareTo(b.risk) }
     private val sOSComparator: Comparator<Player>
-        get() = Comparator { a: Player?, b: Player? ->
+        get() = Comparator { a: Player, b: Player ->
             val sosA = getSOS(a)
             val sosB = getSOS(b)
             sosA.compareTo(sosB) * -1
         }
 
-    private fun getSOS(player: Player?): Double {
+    private fun getSOS(player: Player): Double {
         val team = rankings.getTeam(player) ?: return 1.0
         return team.getSosForPosition(player!!.position)
     }
 
-    private fun getMainTextForFactor(player: Player?): String {
+    private fun getMainTextForFactor(player: Player): String {
         val prefix = getMainTextPrefixForPlayer(player)
         return prefix +
                 Constants.RANKINGS_LIST_DELIMITER +
                 player!!.name
     }
 
-    private fun getMainTextPrefixForPlayer(player: Player?): String {
+    private fun getMainTextPrefixForPlayer(player: Player): String {
         when (factor) {
             Constants.SORT_ALL -> return player!!.getDisplayValue(rankings)
             Constants.SORT_ECR -> return if (player!!.ecr == Constants.DEFAULT_RANK) Constants.DEFAULT_DISPLAY_RANK_NOT_SET else player.ecr.toString()

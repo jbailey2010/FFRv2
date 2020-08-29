@@ -93,7 +93,7 @@ class RankingsFetcher {
             // Find matches between the two. Delete 'fake' players, and apply auction values over.
             for (player in possiblyFake) {
                 if (realPlayers.containsKey(getDedupKey(player))) {
-                    rankings.dedupPlayer(player, realPlayers[getDedupKey(player)])
+                    rankings.dedupPlayer(player, realPlayers[getDedupKey(player)]!!)
                 }
             }
         }

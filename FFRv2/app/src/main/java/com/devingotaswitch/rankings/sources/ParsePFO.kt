@@ -83,7 +83,7 @@ object ParsePFO {
                     Constants.LINE_BREAK +
                     "Run Block Ranking: " +
                     adjYPCRank
-            rankings.getTeam(team).oLineRanks = olData
+            rankings.getTeam(team)!!.oLineRanks = olData
             i += 16
         }
     }

@@ -380,7 +380,7 @@ object ParseFantasyPros {
                         .append(Constants.LINE_BREAK)
             }
             val scheduleString = schedule.substring(0, schedule.length - 1)
-            val team = rankings.getTeam(teamName)
+            val team = rankings.getTeam(teamName)!!
             team.schedule = scheduleString
             i += 18
         }

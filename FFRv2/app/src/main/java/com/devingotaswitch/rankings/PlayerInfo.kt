@@ -96,7 +96,7 @@ class PlayerInfo : AppCompatActivity() {
         requestedOrientation = ActivityInfo.SCREEN_ORIENTATION_PORTRAIT
         rankingsDB = RankingsDBWrapper()
         rankings = Rankings.init()
-        playerId = intent.getStringExtra(Constants.PLAYER_ID)
+        playerId = intent.getStringExtra(Constants.PLAYER_ID)!!
         val mostlyFleshedPlayer = rankings.getPlayer(playerId)
         player = rankingsDB!!.getPlayer(this, mostlyFleshedPlayer.name, mostlyFleshedPlayer.teamName, mostlyFleshedPlayer.position)
 
@@ -466,9 +466,9 @@ class PlayerInfo : AppCompatActivity() {
         } else if (Constants.DST == player.position) {
             headerLeft.text = "Age: N/A"
         }
-        if (rankings.getTeam(player) != null && "0" != rankings.getTeam(player).bye) {
-            headerRight.text = "Bye:" + Constants.LINE_BREAK + rankings.getTeam(player).bye
-        } else if (rankings.getTeam(player) == null || "0" == rankings.getTeam(player).bye) {
+        if (rankings.getTeam(player) != null && "0" != rankings.getTeam(player)!!.bye) {
+            headerRight.text = "Bye:" + Constants.LINE_BREAK + rankings.getTeam(player)!!.bye
+        } else if (rankings.getTeam(player) == null || "0" == rankings.getTeam(player)!!.bye) {
             headerRight.text = "Bye: N/A"
         }
         headerMiddle.text = player.teamName + Constants.LINE_BREAK + player.position
@@ -1485,7 +1485,7 @@ class PlayerInfo : AppCompatActivity() {
 
     companion object {
         private const val TAG = "PlayerInfo"
-        private var playerId: String? = null
+        private lateinit var playerId: String
         private const val MAX_NEARBY_PLAYERS = 6
     }
 }

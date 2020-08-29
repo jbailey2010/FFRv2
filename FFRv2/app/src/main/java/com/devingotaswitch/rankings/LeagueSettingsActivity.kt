@@ -34,9 +34,9 @@ import java.util.*
 class LeagueSettingsActivity : AppCompatActivity() {
     private val TAG = "LeagueSettings"
     private val createNewLeagueSpinnerText = "Create New League"
-    private var rankingsDB: RankingsDBWrapper? = null
+    private lateinit var rankingsDB: RankingsDBWrapper
     private var baseLayout: LinearLayout? = null
-    private var rankings: Rankings? = null
+    private lateinit var rankings: Rankings
     private var main_title: TextView? = null
     private var rankingsUpdated = false
     private var leagues: MutableMap<String?, LeagueSettings>? = null

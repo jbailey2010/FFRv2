@@ -26,7 +26,7 @@ object ParseSOS {
         var i = 0
         while (i < allArr.size) {
             val teamName = normalizeTeams(allArr[i])
-            val currentTeam = rankings.getTeam(teamName)
+            val currentTeam = rankings.getTeam(teamName)!!
             currentTeam.qbSos = allArr[i + 1].toDouble()
             currentTeam.rbSos = allArr[i + 2].toDouble()
             currentTeam.wrSos = allArr[i + 3].toDouble()

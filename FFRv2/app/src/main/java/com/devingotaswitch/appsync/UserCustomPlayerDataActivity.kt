@@ -14,7 +14,7 @@ import java.util.*
 import javax.annotation.Nonnull
 
 class UserCustomPlayerDataActivity : AppSyncActivity() {
-    fun updateCustomPlayerData(activity: Activity?, watchList: List<String?>?, notes: Map<String?, String?>?) {
+    fun updateCustomPlayerData(activity: Activity?, watchList: List<String?>?, notes: Map<String, String>) {
         val callback: GraphQLCall.Callback<UpdateUserCustomPlayerDataMutation.Data?> = object : GraphQLCall.Callback<UpdateUserCustomPlayerDataMutation.Data?>() {
             override fun onResponse(@Nonnull response: Response<UpdateUserCustomPlayerDataMutation.Data?>) {
                 if (response.errors().isNotEmpty()) {

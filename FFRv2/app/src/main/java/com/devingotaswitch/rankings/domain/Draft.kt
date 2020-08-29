@@ -39,10 +39,10 @@ class Draft {
 
     fun getPlayersWithSameByeAndPos(player: Player, rankings: Rankings): List<Player> {
         return getPlayersWithSameBye(getPlayersDraftedForPos(player.position),
-                rankings, rankings.getTeam(player).bye)
+                rankings, rankings.getTeam(player)!!.bye)
     }
 
-    fun getPlayersWithSameBye(player: Player?, rankings: Rankings): List<Player> {
+    fun getPlayersWithSameBye(player: Player, rankings: Rankings): List<Player> {
         val allMyPicks: MutableList<Player> = ArrayList()
         allMyPicks.addAll(myQbs)
         allMyPicks.addAll(myRbs)
@@ -50,13 +50,13 @@ class Draft {
         allMyPicks.addAll(myTes)
         allMyPicks.addAll(myDsts)
         allMyPicks.addAll(myKs)
-        return getPlayersWithSameBye(allMyPicks, rankings, rankings.getTeam(player).bye)
+        return getPlayersWithSameBye(allMyPicks, rankings, rankings.getTeam(player)!!.bye)
     }
 
     private fun getPlayersWithSameBye(toCheck: List<Player>, rankings: Rankings, bye: String?): List<Player> {
         val sameBye: MutableList<Player> = ArrayList()
         for (posPlayer in toCheck) {
-            if (bye == rankings.getTeam(posPlayer).bye) {
+            if (bye == rankings.getTeam(posPlayer)?.bye) {
                 sameBye.add(posPlayer)
             }
         }

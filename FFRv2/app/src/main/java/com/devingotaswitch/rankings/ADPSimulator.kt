@@ -59,7 +59,7 @@ class ADPSimulator : AppCompatActivity() {
         try {
             init()
             if (intent.hasExtra(Constants.PLAYER_ID)) {
-                setPlayerToBeChecked(intent.getStringExtra(Constants.PLAYER_ID))
+                setPlayerToBeChecked(intent.getStringExtra(Constants.PLAYER_ID)!!)
             }
         } catch (e: Exception) {
             Log.d(TAG, "Failure setting up activity, falling back to Rankings", e)
@@ -110,7 +110,7 @@ class ADPSimulator : AppCompatActivity() {
         oddsParser.execute(pick, playerToSearch)
     }
 
-    private fun setPlayerToBeChecked(id: String?) {
+    private fun setPlayerToBeChecked(id: String) {
         playerToSearch = rankings!!.getPlayer(id)
         searchInput!!.setText(playerToSearch!!.name + ": " + playerToSearch!!.position + ", " + playerToSearch!!.teamName)
     }

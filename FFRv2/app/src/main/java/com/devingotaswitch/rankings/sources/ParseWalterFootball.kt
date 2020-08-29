@@ -1,5 +1,6 @@
 package com.devingotaswitch.rankings.sources
 
+import android.util.Log
 import com.devingotaswitch.rankings.domain.Rankings
 import com.devingotaswitch.utils.Constants
 import com.devingotaswitch.utils.JsoupUtils.parseURLWithUA
@@ -39,8 +40,8 @@ object ParseWalterFootball {
                 playerName += " D/ST"
                 pos = Constants.DST
             }
-            val aucVal = perPlayer[i].split("\\$".toRegex())[1].split(" ")[0].toDouble()
-            val team = perPlayer[2].split("\\. ".toRegex())[0]
+            val aucVal = row[2].split("\\$".toRegex())[1].split(" ")[0].toDouble()
+            val team = row[2].split("\\. ".toRegex())[0]
             rankings.processNewPlayer(getPlayerFromRankings(playerName, team, pos, aucVal))
             i ++
         }

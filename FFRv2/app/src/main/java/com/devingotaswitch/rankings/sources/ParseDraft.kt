@@ -48,7 +48,7 @@ object ParseDraft {
             }
         }
         for (key in picks.keys) {
-            val team = rankings.getTeam(key)
+            val team = rankings.getTeam(key!!)!!
             team.draftClass = picks[key]
         }
     }

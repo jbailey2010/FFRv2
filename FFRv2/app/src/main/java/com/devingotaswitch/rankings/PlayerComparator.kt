@@ -91,7 +91,7 @@ class PlayerComparator : AppCompatActivity() {
         try {
             init()
             if (intent.hasExtra(Constants.PLAYER_ID)) {
-                val playerId = intent.getStringExtra(Constants.PLAYER_ID)
+                val playerId = intent.getStringExtra(Constants.PLAYER_ID)!!
                 playerA = rankings.getPlayer(playerId)
                 inputA!!.setText(playerA!!.name)
                 inputB!!.requestFocus()
@@ -483,14 +483,16 @@ class PlayerComparator : AppCompatActivity() {
         // SOS
         val sosA = findViewById<TextView>(R.id.comparator_sos_a)
         val sosB = findViewById<TextView>(R.id.comparator_sos_b)
-        val sosForA = rankings.getTeam(playerA).getSosForPosition(playerA.position)
-        val sosForB = rankings.getTeam(playerB).getSosForPosition(playerB.position)
-        sosA.text = sosForA.toString()
-        sosB.text = sosForB.toString()
-        if (sosForA > sosForB) {
-            setColors(sosA, sosB)
-        } else if (sosForA < sosForB) {
-            setColors(sosB, sosA)
+        if (rankings.getTeam(playerA) != null && rankings.getTeam(playerB) != null) {
+            val sosForA = rankings.getTeam(playerA)!!.getSosForPosition(playerA.position)
+            val sosForB = rankings.getTeam(playerB)!!.getSosForPosition(playerB.position)
+            sosA.text = sosForA.toString()
+            sosB.text = sosForB.toString()
+            if (sosForA > sosForB) {
+                setColors(sosA, sosB)
+            } else if (sosForA < sosForB) {
+                setColors(sosB, sosA)
+            }
         } else {
             clearColors(sosA, sosB)
         }

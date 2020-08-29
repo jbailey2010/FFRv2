@@ -43,7 +43,8 @@ class RankingsLoader {
             val orderedIds = rankingsDB.getPlayersSorted(act, currentLeague)
             val draft = LocalSettingsHelper.loadDraft(act, currentLeague.teamCount, currentLeague.auctionBudget,
                     currentLeague.name, players)
-            val playerProjectionHistory: Map<String?, List<DailyProjection>?> = rankingsDB.getPlayerProjectionHistory(act)
+            val playerProjectionHistory: MutableMap<String, MutableList<DailyProjection>> =
+                    rankingsDB.getPlayerProjectionHistory(act)
             return Rankings.init(teams, players, orderedIds, currentLeague, draft, playerProjectionHistory)
         }
     }

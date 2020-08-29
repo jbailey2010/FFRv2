@@ -20,8 +20,8 @@ object DisplayUtils {
                 .append(posSuffix)
                 .append(Constants.POS_TEAM_DELIMITER)
                 .append(player.teamName)
-        val team = rankings.getTeam(player)
         if (Constants.NO_TEAM != player.teamName) {
+            val team = rankings.getTeam(player)
             if (team != null) {
                 sub = sub.append(" (Bye: ")
                         .append(team.bye)
