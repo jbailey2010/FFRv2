@@ -721,45 +721,45 @@ class PlayerSorter : AppCompatActivity() {
 
     private fun getSOS(player: Player): Double {
         val team = rankings.getTeam(player) ?: return 1.0
-        return team.getSosForPosition(player!!.position)
+        return team.getSosForPosition(player.position)
     }
 
     private fun getMainTextForFactor(player: Player): String {
         val prefix = getMainTextPrefixForPlayer(player)
         return prefix +
                 Constants.RANKINGS_LIST_DELIMITER +
-                player!!.name
+                player.name
     }
 
     private fun getMainTextPrefixForPlayer(player: Player): String {
         when (factor) {
-            Constants.SORT_ALL -> return player!!.getDisplayValue(rankings)
-            Constants.SORT_ECR -> return if (player!!.ecr == Constants.DEFAULT_RANK) Constants.DEFAULT_DISPLAY_RANK_NOT_SET else player.ecr.toString()
-            Constants.SORT_ADP -> return if (player!!.adp == Constants.DEFAULT_RANK) Constants.DEFAULT_DISPLAY_RANK_NOT_SET else player.adp.toString()
-            Constants.SORT_UNDERDRAFTED, Constants.SORT_OVERDRAFTED -> return Constants.DECIMAL_FORMAT.format(player!!.ecr - player.adp)
-            Constants.SORT_AUCTION -> return Constants.DECIMAL_FORMAT.format(player!!.getAuctionValueCustom(rankings))
-            Constants.SORT_DYNASTY -> return if (player!!.dynastyRank == Constants.DEFAULT_RANK) Constants.DEFAULT_DISPLAY_RANK_NOT_SET else player.dynastyRank.toString()
-            Constants.SORT_ROOKIE -> return if (player!!.rookieRank == Constants.DEFAULT_RANK) Constants.DEFAULT_DISPLAY_RANK_NOT_SET else player.rookieRank.toString()
-            Constants.SORT_BEST_BALL -> return if (player!!.bestBallRank == Constants.DEFAULT_RANK) Constants.DEFAULT_DISPLAY_RANK_NOT_SET else player.bestBallRank.toString()
-            Constants.SORT_PROJECTION -> return Constants.DECIMAL_FORMAT.format(player!!.projection)
-            Constants.SORT_PASSING_TDS -> return player!!.playerProjection.passingProjection.tds.toString()
-            Constants.SORT_PASSING_YDS -> return player!!.playerProjection.passingProjection.yards.toString()
-            Constants.SORT_RUSHING_TDS -> return player!!.playerProjection.rushingProjection.tds.toString()
-            Constants.SORT_RUSHING_YDS -> return player!!.playerProjection.rushingProjection.yards.toString()
-            Constants.SORT_RECEIVING_TDS -> return player!!.playerProjection.receivingProjection.tds.toString()
-            Constants.SORT_RECEIVING_YDS -> return player!!.playerProjection.receivingProjection.yards.toString()
-            Constants.SORT_RECEPTIONS -> return player!!.playerProjection.receivingProjection.receptions.toString()
-            Constants.SORT_PAA -> return Constants.DECIMAL_FORMAT.format(player!!.paa)
-            Constants.SORT_PAA_SCALED -> return Constants.DECIMAL_FORMAT.format(player!!.getScaledPAA(rankings))
+            Constants.SORT_ALL -> return player.getDisplayValue(rankings)
+            Constants.SORT_ECR -> return if (player.ecr == Constants.DEFAULT_RANK) Constants.DEFAULT_DISPLAY_RANK_NOT_SET else player.ecr.toString()
+            Constants.SORT_ADP -> return if (player.adp == Constants.DEFAULT_RANK) Constants.DEFAULT_DISPLAY_RANK_NOT_SET else player.adp.toString()
+            Constants.SORT_UNDERDRAFTED, Constants.SORT_OVERDRAFTED -> return Constants.DECIMAL_FORMAT.format(player.ecr - player.adp)
+            Constants.SORT_AUCTION -> return Constants.DECIMAL_FORMAT.format(player.getAuctionValueCustom(rankings))
+            Constants.SORT_DYNASTY -> return if (player.dynastyRank == Constants.DEFAULT_RANK) Constants.DEFAULT_DISPLAY_RANK_NOT_SET else player.dynastyRank.toString()
+            Constants.SORT_ROOKIE -> return if (player.rookieRank == Constants.DEFAULT_RANK) Constants.DEFAULT_DISPLAY_RANK_NOT_SET else player.rookieRank.toString()
+            Constants.SORT_BEST_BALL -> return if (player.bestBallRank == Constants.DEFAULT_RANK) Constants.DEFAULT_DISPLAY_RANK_NOT_SET else player.bestBallRank.toString()
+            Constants.SORT_PROJECTION -> return Constants.DECIMAL_FORMAT.format(player.projection)
+            Constants.SORT_PASSING_TDS -> return player.playerProjection.passingProjection.tds.toString()
+            Constants.SORT_PASSING_YDS -> return player.playerProjection.passingProjection.yards.toString()
+            Constants.SORT_RUSHING_TDS -> return player.playerProjection.rushingProjection.tds.toString()
+            Constants.SORT_RUSHING_YDS -> return player.playerProjection.rushingProjection.yards.toString()
+            Constants.SORT_RECEIVING_TDS -> return player.playerProjection.receivingProjection.tds.toString()
+            Constants.SORT_RECEIVING_YDS -> return player.playerProjection.receivingProjection.yards.toString()
+            Constants.SORT_RECEPTIONS -> return player.playerProjection.receivingProjection.receptions.toString()
+            Constants.SORT_PAA -> return Constants.DECIMAL_FORMAT.format(player.paa)
+            Constants.SORT_PAA_SCALED -> return Constants.DECIMAL_FORMAT.format(player.getScaledPAA(rankings))
             Constants.SORT_PAAPD -> return Constants.DECIMAL_FORMAT.format(getPAAPD(player))
-            Constants.SORT_XVAL -> return Constants.DECIMAL_FORMAT.format(player!!.xval)
-            Constants.SORT_XVAL_SCALED -> return Constants.DECIMAL_FORMAT.format(player!!.getScaledXVal(rankings))
+            Constants.SORT_XVAL -> return Constants.DECIMAL_FORMAT.format(player.xval)
+            Constants.SORT_XVAL_SCALED -> return Constants.DECIMAL_FORMAT.format(player.getScaledXVal(rankings))
             Constants.SORT_XVALPD -> return Constants.DECIMAL_FORMAT.format(getXvalPD(player))
-            Constants.SORT_VOLS -> return Constants.DECIMAL_FORMAT.format(player!!.vols)
-            Constants.SORT_VOLS_SCALED -> return Constants.DECIMAL_FORMAT.format(player!!.getScaledVOLS(rankings))
+            Constants.SORT_VOLS -> return Constants.DECIMAL_FORMAT.format(player.vols)
+            Constants.SORT_VOLS_SCALED -> return Constants.DECIMAL_FORMAT.format(player.getScaledVOLS(rankings))
             Constants.SORT_VOLSPD -> return Constants.DECIMAL_FORMAT.format(getVoLSPD(player))
             Constants.SORT_VBD_SUGGESTED -> return Constants.DECIMAL_FORMAT.format(getVBDSuggestedValue(player) / maxVal * 100.0)
-            Constants.SORT_RISK -> return player!!.risk.toString()
+            Constants.SORT_RISK -> return player.risk.toString()
             Constants.SORT_SOS -> return getSOS(player).toString()
         }
         return ""

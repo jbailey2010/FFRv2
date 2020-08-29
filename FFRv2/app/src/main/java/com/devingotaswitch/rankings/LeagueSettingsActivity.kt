@@ -85,7 +85,7 @@ class LeagueSettingsActivity : AppCompatActivity() {
 
     private fun initLeagues() {
         val currentLeagueId = LocalSettingsHelper.getCurrentLeagueName(this)
-        leagues = rankingsDB!!.getLeagues(this)
+        leagues = rankingsDB.getLeagues(this)
         if (LocalSettingsHelper.wasPresent(currentLeagueId)) {
             currLeague = leagues!![currentLeagueId]
             displayLeague(currLeague)
@@ -1017,7 +1017,7 @@ class LeagueSettingsActivity : AppCompatActivity() {
     }
 
     private fun saveNewLeague(league: LeagueSettings) {
-        rankingsDB!!.insertLeague(this, league)
+        rankingsDB.insertLeague(this, league)
         setCurrentLeague(league)
         initLeagues()
         rankingsUpdated = true
@@ -1028,7 +1028,7 @@ class LeagueSettingsActivity : AppCompatActivity() {
     }
 
     private fun deleteLeague(league: LeagueSettings?) {
-        rankingsDB!!.deleteLeague(this, league!!)
+        rankingsDB.deleteLeague(this, league!!)
         leagues!!.remove(league.name)
         currLeague = leagues!![leagues!!.keys.iterator().next()]
         initializeLeagueSpinner()
@@ -1040,7 +1040,7 @@ class LeagueSettingsActivity : AppCompatActivity() {
 
     private fun updateLeague(scoringUpdates: Map<String?, String?>?, rosterUpdates: Map<String?, String?>?,
                              leagueUpdates: Map<String?, String?>?, league: LeagueSettings?) {
-        rankingsDB!!.updateLeague(this, leagueUpdates, rosterUpdates, scoringUpdates, league!!)
+        rankingsDB.updateLeague(this, leagueUpdates, rosterUpdates, scoringUpdates, league!!)
         setCurrentLeague(league)
         initLeagues()
         if (leagueUpdates != null && (leagueUpdates.containsKey(Constants.IS_AUCTION_COLUMN) ||
@@ -1048,7 +1048,7 @@ class LeagueSettingsActivity : AppCompatActivity() {
             rankingsUpdated = true
         }
         if ((leagueUpdates != null && leagueUpdates.containsKey(Constants.TEAM_COUNT_COLUMN) || scoringUpdates != null || rosterUpdates != null)
-                && rankings!!.players.isNotEmpty()) {
+                && rankings.players.isNotEmpty()) {
             Log.d(tag, "Updating some set")
             var updateProjections = false
             if (scoringUpdates != null) {
@@ -1056,7 +1056,7 @@ class LeagueSettingsActivity : AppCompatActivity() {
                 updateProjections = true
                 rankingsUpdated = true
             }
-            rankings!!.updateProjectionsAndVBD(this, league, updateProjections, rankingsDB)
+            rankings.updateProjectionsAndVBD(this, league, updateProjections, rankingsDB)
         }
     }
 }

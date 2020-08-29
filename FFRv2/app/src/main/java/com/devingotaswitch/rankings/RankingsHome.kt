@@ -169,7 +169,7 @@ class RankingsHome : AppCompatActivity() {
         rankingsDB = RankingsDBWrapper()
         val currentLeagueId = LocalSettingsHelper.getCurrentLeagueName(this)
         if (LocalSettingsHelper.wasPresent(currentLeagueId)) {
-            currentLeague = rankingsDB!!.getLeague(this, currentLeagueId)
+            currentLeague = rankingsDB.getLeague(this, currentLeagueId)
         }
         loadRanks = intent.extras != null && intent.extras!!.getBoolean(Constants.RANKINGS_UPDATED)
         if (!StringUtils.isBlank(currUser)) {
@@ -316,7 +316,7 @@ class RankingsHome : AppCompatActivity() {
     private fun initRankingsContext() {
         val currentLeagueId = LocalSettingsHelper.getCurrentLeagueName(this)
         if (LocalSettingsHelper.wasPresent(currentLeagueId)) {
-            currentLeague = rankingsDB!!.getLeague(this, currentLeagueId)
+            currentLeague = rankingsDB.getLeague(this, currentLeagueId)
         }
         rankingsBase = findViewById(R.id.rankings_base_layout)
         establishLayout()

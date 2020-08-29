@@ -224,7 +224,7 @@ object ParsingUtils {
 
     @JvmStatic
     fun normalizeTeams(team: String): String {
-        var low = team!!.toLowerCase(Locale.ROOT).replace("[^\\x20-\\x7e]".toRegex(), "")
+        var low = team.toLowerCase(Locale.ROOT).replace("[^\\x20-\\x7e]".toRegex(), "")
         if (low.split(" ").size > 1
                 && (low.split(" ")[1] == "p" || (low.split(" ")[1]
                         == "q"))) {
@@ -350,7 +350,7 @@ object ParsingUtils {
         var playerName = inputName
         if (playerFixes.containsKey(playerName)) {
             playerName = playerFixes[playerName]!!
-        } else if (playerName!!.contains(Constants.DST)) {
+        } else if (playerName.contains(Constants.DST)) {
             playerName = normalizeDefenses(playerName)
         } else if (playerName.contains("Veon") && playerName.contains("Bell")) {
             playerName = "Le'Veon Bell"

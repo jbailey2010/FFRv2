@@ -586,7 +586,7 @@ class PlayerInfo : AppCompatActivity() {
                         val text = tag.title
                         if (!userTags.contains(text)) {
                             userTags.add(text)
-                            incrementTagCount(activity, playerId!!, tag, userTags)
+                            incrementTagCount(activity, playerId, tag, userTags)
                         }
                     }
 
@@ -595,7 +595,7 @@ class PlayerInfo : AppCompatActivity() {
                         val text = tag.title
                         if (userTags.contains(text)) {
                             userTags.remove(text)
-                            decrementTagCount(activity, playerId!!, tag, userTags)
+                            decrementTagCount(activity, playerId, tag, userTags)
                         }
                     }
                 })

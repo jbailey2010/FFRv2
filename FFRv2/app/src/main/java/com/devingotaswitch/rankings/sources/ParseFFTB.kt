@@ -61,7 +61,7 @@ object ParseFFTB {
             val age = brokenUp[i + 4]
             val exp = brokenUp[i + 5]
             val bye = brokenUp[i + 3]
-            if (team!!.split(" ").size <= 3) {
+            if (team.split(" ").size <= 3) {
                 var isNewPlayer = false
                 val playerId = name +
                         Constants.PLAYER_ID_DELIMITER +
@@ -75,7 +75,7 @@ object ParseFFTB {
                     // FF Toolbox rankings are ass, so we'll just default to 1 if we haven't seen it yet.
                     // They have retired players for $30+, so their value is suspect.
                     isNewPlayer = true
-                    player = getPlayerFromRankings(name!!, team, pos, 1.0)
+                    player = getPlayerFromRankings(name, team, pos, 1.0)
                 }
                 if (isInteger(age)) {
                     player.age = age.toInt()
