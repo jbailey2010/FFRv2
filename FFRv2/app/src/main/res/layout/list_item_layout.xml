@@ -28,7 +28,8 @@
             android:layout_width="17dp"
             android:layout_height="17dp"
             android:layout_alignParentRight="true"
-            android:layout_alignTop="@+id/player_basic" />
+            android:layout_alignTop="@+id/player_basic"
+            android:contentDescription="Player status image for list output" />
 
         <TextView
             android:id="@+id/player_more_info"

@@ -28,7 +28,8 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:src="@mipmap/football"
-        android:scaleType="fitXY"/>
+        android:scaleType="fitXY"
+        android:contentDescription="Application logo, picture of football" />
 
     <Space
         android:layout_width="match_parent"

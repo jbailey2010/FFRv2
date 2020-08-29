@@ -21,7 +21,8 @@
         android:src="@drawable/football"
         android:scaleType="fitXY"
         android:layout_below="@+id/nav_header_space_1"
-        android:layout_toEndOf="@+id/space11"/>
+        android:layout_toEndOf="@+id/space11"
+        android:contentDescription="Application logo, picture of a football" />
 
     <Space
         android:layout_width="match_parent"
