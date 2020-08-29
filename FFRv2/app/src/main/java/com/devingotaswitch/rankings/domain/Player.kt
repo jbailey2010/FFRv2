@@ -121,6 +121,6 @@ class Player {
     }
 
     companion object {
-        private const val TAG = "Player"
+
     }
 }

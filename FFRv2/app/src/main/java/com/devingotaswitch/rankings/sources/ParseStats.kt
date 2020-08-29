@@ -12,7 +12,7 @@ import java.util.*
 import kotlin.math.roundToInt
 
 object ParseStats {
-    private const val TAG = "ParseStats"
+
     @Throws(IOException::class)
     fun setStats(rankings: Rankings) {
         // Fetch the stats
@@ -171,7 +171,7 @@ object ParseStats {
             }
             var name = normalizeNames(player[0])
             val team = normalizeTeams(player[1])
-            if (name!!.split(" ").size == 3) {
+            if (name.split(" ").size == 3) {
                 name = name.split(" ")[0] + " " + name.split(" ")[2]
             }
             if (rbPlayers.containsKey(getPlayerIdKey(name, team, Constants.RB))) {
@@ -233,7 +233,7 @@ object ParseStats {
             }
             var name = normalizeNames(player[0])
             val team = normalizeTeams(player[1])
-            if (name!!.split(" ").size == 3) {
+            if (name.split(" ").size == 3) {
                 name = name.split(" ")[0] + " " + name.split(" ")[2]
             }
             if (!wrPlayers.containsKey(getPlayerIdKey(name, team, Constants.WR))
@@ -298,7 +298,7 @@ object ParseStats {
             }
             var name = normalizeNames(player[0])
             val team = normalizeTeams(player[1])
-            if (name!!.split(" ").size == 3) {
+            if (name.split(" ").size == 3) {
                 name = name.split(" ")[0] + " " + name.split(" ")[2]
             }
             if (!tePlayers.containsKey(getPlayerIdKey(name, team, Constants.TE))

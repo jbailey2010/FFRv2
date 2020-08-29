@@ -215,6 +215,6 @@ class SignUpConfirm : AppCompatActivity() {
     }
 
     companion object {
-        private const val TAG = "SignUpConfirm"
+
     }
 }

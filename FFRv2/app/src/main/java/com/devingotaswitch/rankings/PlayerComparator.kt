@@ -427,12 +427,16 @@ class PlayerComparator : AppCompatActivity() {
             } else {
                 rookA.text = playerA.rookieRank.toString()
                 rookB.text = playerB.rookieRank.toString()
-                if (playerA.rookieRank < playerB.rookieRank) {
-                    setColors(rookA, rookB)
-                } else if (playerB.rookieRank < playerA.rookieRank) {
-                    setColors(rookB, rookA)
-                } else {
-                    clearColors(rookA, rookB)
+                when {
+                    playerA.rookieRank < playerB.rookieRank -> {
+                        setColors(rookA, rookB)
+                    }
+                    playerB.rookieRank < playerA.rookieRank -> {
+                        setColors(rookB, rookA)
+                    }
+                    else -> {
+                        clearColors(rookA, rookB)
+                    }
                 }
             }
         } else {
@@ -444,12 +448,16 @@ class PlayerComparator : AppCompatActivity() {
         val bbB = findViewById<TextView>(R.id.comparator_best_ball_b)
         bbA.text = playerA.bestBallRank.toString()
         bbB.text = playerB.bestBallRank.toString()
-        if (playerA.bestBallRank < playerB.bestBallRank) {
-            setColors(bbA, bbB)
-        } else if (playerB.bestBallRank < playerA.bestBallRank) {
-            setColors(bbB, bbA)
-        } else {
-            clearColors(bbA, bbB)
+        when {
+            playerA.bestBallRank < playerB.bestBallRank -> {
+                setColors(bbA, bbB)
+            }
+            playerB.bestBallRank < playerA.bestBallRank -> {
+                setColors(bbB, bbA)
+            }
+            else -> {
+                clearColors(bbA, bbB)
+            }
         }
 
         // Auction value
@@ -457,12 +465,16 @@ class PlayerComparator : AppCompatActivity() {
         val aucB = findViewById<TextView>(R.id.comparator_auc_b)
         aucA.text = Constants.DECIMAL_FORMAT.format(playerA.getAuctionValueCustom(rankings))
         aucB.text = Constants.DECIMAL_FORMAT.format(playerB.getAuctionValueCustom(rankings))
-        if (playerA.auctionValue > playerB.auctionValue) {
-            setColors(aucA, aucB)
-        } else if (playerA.auctionValue < playerB.auctionValue) {
-            setColors(aucB, aucA)
-        } else {
-            clearColors(aucA, aucB)
+        when {
+            playerA.auctionValue > playerB.auctionValue -> {
+                setColors(aucA, aucB)
+            }
+            playerA.auctionValue < playerB.auctionValue -> {
+                setColors(aucB, aucA)
+            }
+            else -> {
+                clearColors(aucA, aucB)
+            }
         }
 
         // Leverage
@@ -472,12 +484,16 @@ class PlayerComparator : AppCompatActivity() {
         val levBVal = ParseMath.getLeverage(playerB, rankings)
         levA.text = levAVal.toString()
         levB.text = levBVal.toString()
-        if (levAVal > levBVal) {
-            setColors(levA, levB)
-        } else if (levAVal < levBVal) {
-            setColors(levB, levA)
-        } else {
-            clearColors(levA, levB)
+        when {
+            levAVal > levBVal -> {
+                setColors(levA, levB)
+            }
+            levAVal < levBVal -> {
+                setColors(levB, levA)
+            }
+            else -> {
+                clearColors(levA, levB)
+            }
         }
 
         // SOS
@@ -502,12 +518,16 @@ class PlayerComparator : AppCompatActivity() {
         val projB = findViewById<TextView>(R.id.comparator_proj_b)
         projA.text = Constants.DECIMAL_FORMAT.format(playerA.projection)
         projB.text = Constants.DECIMAL_FORMAT.format(playerB.projection)
-        if (playerA.projection > playerB.projection) {
-            setColors(projA, projB)
-        } else if (playerA.projection < playerB.projection) {
-            setColors(projB, projA)
-        } else {
-            clearColors(projA, projB)
+        when {
+            playerA.projection > playerB.projection -> {
+                setColors(projA, projB)
+            }
+            playerA.projection < playerB.projection -> {
+                setColors(projB, projA)
+            }
+            else -> {
+                clearColors(projA, projB)
+            }
         }
 
         // PAA
@@ -517,12 +537,16 @@ class PlayerComparator : AppCompatActivity() {
                 Constants.DECIMAL_FORMAT.format(playerA.getScaledPAA(rankings)) + Constants.COMPARATOR_SCALED_SUFFIX
         paaB.text = Constants.DECIMAL_FORMAT.format(playerB.paa) + Constants.COMPARATOR_SCALED_PREFIX +
                 Constants.DECIMAL_FORMAT.format(playerB.getScaledPAA(rankings)) + Constants.COMPARATOR_SCALED_SUFFIX
-        if (playerA.getScaledPAA(rankings) > playerB.getScaledPAA(rankings)) {
-            setColors(paaA, paaB)
-        } else if (playerA.getScaledPAA(rankings) < playerB.getScaledPAA(rankings)) {
-            setColors(paaB, paaA)
-        } else {
-            clearColors(paaA, paaB)
+        when {
+            playerA.getScaledPAA(rankings) > playerB.getScaledPAA(rankings) -> {
+                setColors(paaA, paaB)
+            }
+            playerA.getScaledPAA(rankings) < playerB.getScaledPAA(rankings) -> {
+                setColors(paaB, paaA)
+            }
+            else -> {
+                clearColors(paaA, paaB)
+            }
         }
 
         // XVal
@@ -532,12 +556,16 @@ class PlayerComparator : AppCompatActivity() {
                 Constants.DECIMAL_FORMAT.format(playerA.getScaledXVal(rankings)) + Constants.COMPARATOR_SCALED_SUFFIX
         xvalB.text = Constants.DECIMAL_FORMAT.format(playerB.xval) + Constants.COMPARATOR_SCALED_PREFIX +
                 Constants.DECIMAL_FORMAT.format(playerB.getScaledXVal(rankings)) + Constants.COMPARATOR_SCALED_SUFFIX
-        if (playerA.getScaledXVal(rankings) > playerB.getScaledXVal(rankings)) {
-            setColors(xvalA, xvalB)
-        } else if (playerA.getScaledXVal(rankings) < playerB.getScaledXVal(rankings)) {
-            setColors(xvalB, xvalA)
-        } else {
-            clearColors(xvalA, xvalB)
+        when {
+            playerA.getScaledXVal(rankings) > playerB.getScaledXVal(rankings) -> {
+                setColors(xvalA, xvalB)
+            }
+            playerA.getScaledXVal(rankings) < playerB.getScaledXVal(rankings) -> {
+                setColors(xvalB, xvalA)
+            }
+            else -> {
+                clearColors(xvalA, xvalB)
+            }
         }
 
         // VoLS
@@ -547,12 +575,16 @@ class PlayerComparator : AppCompatActivity() {
                 Constants.DECIMAL_FORMAT.format(playerA.getScaledVOLS(rankings)) + Constants.COMPARATOR_SCALED_SUFFIX
         volsB.text = Constants.DECIMAL_FORMAT.format(playerB.vols) + Constants.COMPARATOR_SCALED_PREFIX +
                 Constants.DECIMAL_FORMAT.format(playerB.getScaledVOLS(rankings)) + Constants.COMPARATOR_SCALED_SUFFIX
-        if (playerA.getScaledVOLS(rankings) > playerB.getScaledVOLS(rankings)) {
-            setColors(volsA, volsB)
-        } else if (playerA.getScaledVOLS(rankings) < playerB.getScaledVOLS(rankings)) {
-            setColors(volsB, volsA)
-        } else {
-            clearColors(volsA, volsB)
+        when {
+            playerA.getScaledVOLS(rankings) > playerB.getScaledVOLS(rankings) -> {
+                setColors(volsA, volsB)
+            }
+            playerA.getScaledVOLS(rankings) < playerB.getScaledVOLS(rankings) -> {
+                setColors(volsB, volsA)
+            }
+            else -> {
+                clearColors(volsA, volsB)
+            }
         }
 
 
@@ -561,12 +593,16 @@ class PlayerComparator : AppCompatActivity() {
         val riskB = findViewById<TextView>(R.id.comparator_risk_b)
         riskA.text = playerA.risk.toString()
         riskB.text = playerB.risk.toString()
-        if (playerA.risk < playerB.risk) {
-            setColors(riskA, riskB)
-        } else if (playerA.risk > playerB.risk) {
-            setColors(riskB, riskA)
-        } else {
-            clearColors(riskA, riskB)
+        when {
+            playerA.risk < playerB.risk -> {
+                setColors(riskA, riskB)
+            }
+            playerA.risk > playerB.risk -> {
+                setColors(riskB, riskA)
+            }
+            else -> {
+                clearColors(riskA, riskB)
+            }
         }
 
         // Graph
@@ -686,12 +722,16 @@ class PlayerComparator : AppCompatActivity() {
         val trimmedB = percentStrB!!.substring(0, percentStrB.length - 1)
         val ecrValA = trimmedA.toInt()
         val ecrValB = trimmedB.toInt()
-        if (ecrValA > ecrValB) {
-            setColors(ecrA, ecrB)
-        } else if (ecrValA < ecrValB) {
-            setColors(ecrB, ecrA)
-        } else {
-            clearColors(ecrA, ecrB)
+        when {
+            ecrValA > ecrValB -> {
+                setColors(ecrA, ecrB)
+            }
+            ecrValA < ecrValB -> {
+                setColors(ecrB, ecrA)
+            }
+            else -> {
+                clearColors(ecrA, ecrB)
+            }
         }
     }
 
@@ -745,16 +785,20 @@ class PlayerComparator : AppCompatActivity() {
                 val tableElem = elems[0].parent().parent().parent().parent()
                 val nameOne = tableElem.child(2).child(1).child(1).child(0).child(0).child(0).text()
                 val nameTwo = tableElem.child(2).child(1).child(2).child(0).child(0).child(0).text()
-                if (playerA.name == nameOne) {
-                    results[playerA.uniqueId] = percentOne
-                    results[playerB.uniqueId] = percentTwo
-                } else if (playerA.name == nameTwo) {
-                    results[playerA.uniqueId] = percentTwo
-                    results[playerB.uniqueId] = percentOne
-                } else {
-                    Log.d(TAG, "Failed to get unique id: " + nameOne + ", " + nameTwo + ": "
-                            + playerA.uniqueId + ", " + playerB.uniqueId)
-                    return null
+                when (playerA.name) {
+                    nameOne -> {
+                        results[playerA.uniqueId] = percentOne
+                        results[playerB.uniqueId] = percentTwo
+                    }
+                    nameTwo -> {
+                        results[playerA.uniqueId] = percentTwo
+                        results[playerB.uniqueId] = percentOne
+                    }
+                    else -> {
+                        Log.d(TAG, "Failed to get unique id: " + nameOne + ", " + nameTwo + ": "
+                                + playerA.uniqueId + ", " + playerB.uniqueId)
+                        return null
+                    }
                 }
             } catch (e: Exception) {
                 Log.e(TAG, "Failed to get ecr numbers", e)
