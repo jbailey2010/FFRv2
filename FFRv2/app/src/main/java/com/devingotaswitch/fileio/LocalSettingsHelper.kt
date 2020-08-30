@@ -3,6 +3,7 @@ package com.devingotaswitch.fileio
 import android.content.Context
 import android.content.SharedPreferences
 import android.text.format.DateUtils
+import android.util.Log
 import com.amazonaws.util.StringUtils
 import com.devingotaswitch.rankings.domain.Draft
 import com.devingotaswitch.rankings.domain.Player
@@ -143,14 +144,16 @@ object LocalSettingsHelper {
         val playerNews: MutableList<PlayerNews> = ArrayList()
         if (getSharedPreferences(cont).contains(Constants.PLAYER_NEWS)) {
             val newsStr = getSharedPreferences(cont).getString(Constants.PLAYER_NEWS, "")
-            val itemArr = newsStr!!.split(Constants.CACHE_ITEM_DELIMITER).toTypedArray()
+            val itemArr = newsStr!!.split(Constants.CACHE_ITEM_DELIMITER)
             for (item in itemArr) {
-                val newsArr = item.split(Constants.CACHE_DELIMITER).toTypedArray()
-                val news = PlayerNews()
-                news.news = newsArr[0]
-                news.date = newsArr[1]
-                news.impact = newsArr[2]
-                playerNews.add(news)
+                if (item.isNotEmpty()) {
+                    val newsArr = item.split(Constants.CACHE_DELIMITER)
+                    val news = PlayerNews()
+                    news.news = newsArr[0]
+                    news.date = newsArr[1]
+                    news.impact = newsArr[2]
+                    playerNews.add(news)
+                }
             }
         }
         return playerNews

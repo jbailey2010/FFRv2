@@ -74,7 +74,7 @@ class LeagueSettingsActivity : AppCompatActivity() {
     }
 
     private fun init() {
-        if (rankingsDB == null) {
+        if (!this::rankingsDB.isInitialized) {
             rankingsDB = RankingsDBWrapper()
         }
         rankings = Rankings.init()
