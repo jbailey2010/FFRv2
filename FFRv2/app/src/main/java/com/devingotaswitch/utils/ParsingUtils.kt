@@ -17,6 +17,9 @@ object ParsingUtils {
 
     private fun initHashes() {
         playerFixes["Charles D. Johnson"] = "Charles Johnson"
+        playerFixes["DJ Chark Jr."] = "D.J. Chark"
+        playerFixes["Henry Ruggsl"] = "Henry Ruggs"
+        playerFixes["Henry RuggsI"] = "Henry Ruggs"
         playerFixes["Leveon Bell"] = "Le'Veon Bell"
         playerFixes["LeVeon Bell"] = "Le'Veon Bell"
         playerFixes["DJ Moore"] = "D.J. Moore"
@@ -29,6 +32,7 @@ object ParsingUtils {
         playerFixes["Adrian L. Peterson"] = "Adrian Peterson"
         playerFixes["Robert Housler"] = "Rob Housler"
         playerFixes["Christopher Ivory"] = "Chris Ivory"
+        playerFixes["Chris Herndon IV"] = "Chris Herndon"
         playerFixes["Devante Parker"] = "DeVante Parker"
         playerFixes["TY Hilton"] = "T.Y. Hilton"
         playerFixes["Ty Hilton"] = "T.Y. Hilton"
