@@ -1,5 +1,6 @@
 package com.devingotaswitch.utils
 
+import android.util.Log
 import com.amazonaws.util.StringUtils
 import com.devingotaswitch.rankings.domain.Player
 import java.util.*
@@ -20,6 +21,7 @@ object ParsingUtils {
         playerFixes["DJ Chark Jr."] = "D.J. Chark"
         playerFixes["Henry Ruggsl"] = "Henry Ruggs"
         playerFixes["Henry RuggsI"] = "Henry Ruggs"
+        playerFixes["Henry Ruggs III"] = "Henry Ruggs"
         playerFixes["Leveon Bell"] = "Le'Veon Bell"
         playerFixes["LeVeon Bell"] = "Le'Veon Bell"
         playerFixes["DJ Moore"] = "D.J. Moore"
@@ -354,6 +356,7 @@ object ParsingUtils {
         var playerName = inputName
         if (playerFixes.containsKey(playerName)) {
             playerName = playerFixes[playerName]!!
+
         } else if (playerName.contains(Constants.DST)) {
             playerName = normalizeDefenses(playerName)
         } else if (playerName.contains("Veon") && playerName.contains("Bell")) {

@@ -26,9 +26,11 @@ object ParseFA {
             Log.e(TAG, "Failed to parse trade changes", e)
         }
         for (key in arrivingFA.keys) {
-            val team = rankings.getTeam(key!!)!!
-            team.incomingFA = arrivingFA[key]
-            team.outgoingFA = departingFA[key]
+            if ("TBD" != key) {
+                val team = rankings.getTeam(key!!)!!
+                team.incomingFA = arrivingFA[key]
+                team.outgoingFA = departingFA[key]
+            }
         }
     }
 
@@ -45,11 +47,17 @@ object ParseFA {
             // First, we get the team names, left to right, top to bottom. In text is says New York acquires,
             // which is ambiguous, so it parses the team name from the source for the image nearby.
             val logoAURL = elementA.attr("src")
-            val teamAName = normalizeTeams(logoAURL.substring(
-                    logoAURL.lastIndexOf('/') + 1).split(".png")[0])
+            val parsedTeamA = logoAURL.substring(
+                    logoAURL.lastIndexOf('/') + 1)
+                    .split(".png")[0]
+                    .replace("1", "") // New WFT icon is was1, remove when that's fixed
             val logoBURL = elementB.attr("src")
-            val teamBName = normalizeTeams(logoBURL.substring(
-                    logoBURL.lastIndexOf('/') + 1).split(".png")[0])
+            val parsedTeamB = logoBURL.substring(
+                    logoBURL.lastIndexOf('/') + 1)
+                    .split(".png")[0]
+                    .replace("1", "") // New WFT icon is was1, remove when that's fixed
+            val teamAName = normalizeTeams(parsedTeamA)
+            val teamBName = normalizeTeams(parsedTeamB)
             val fromAToB = parseTradeHaul(elementB)
             val fromBToA = parseTradeHaul(elementA)
             for (playerEntry in fromAToB) {
