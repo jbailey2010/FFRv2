@@ -405,8 +405,8 @@ class DraftInfo : AppCompatActivity() {
         conditionallyAddData(draft.myRbs, barData.dataSetCount, draft.rBPAA, barData, "RBs", "red")
         conditionallyAddData(draft.myWrs, barData.dataSetCount, draft.wRPAA, barData, "WRs", "blue")
         conditionallyAddData(draft.myTes, barData.dataSetCount, draft.tEPAA, barData, "TEs", "yellow")
-        conditionallyAddData(draft.myKs, barData.dataSetCount, draft.dstpaa, barData, "DSTs", "black")
-        conditionallyAddData(draft.myDsts, barData.dataSetCount, draft.kpaa, barData, "Ks", "grey")
+        conditionallyAddData(draft.myDsts, barData.dataSetCount, draft.dstpaa, barData, "DSTs", "grey")
+        conditionallyAddData(draft.myKs, barData.dataSetCount, draft.kpaa, barData, "Ks", "black")
         if (barData.dataSetCount > 1) {
             val entries: MutableList<BarEntry> = ArrayList()
             val entry = BarEntry(barData.dataSetCount.toFloat(), draft.totalPAA.toFloat())
