@@ -68,7 +68,8 @@ class FantasyNews : AppCompatActivity() {
         }
         val sources: List<String> = ArrayList(listOf(Constants.MFL_AGGREGATE_TITLE,
                 Constants.SPOTRAC_TRANSACTIONS_TITLE, Constants.FP_ALL_NEWS,
-                Constants.FP_RUMORS_TITLE, Constants.FP_BREAKING_NEWS_TITLE, Constants.FP_INJURY_TITLE))
+                Constants.FP_RUMORS_TITLE, Constants.FP_BREAKING_NEWS_TITLE, Constants.FP_INJURY_TITLE,
+                Constants.SIP_INJURY_TITLE))
         val sourcesSpinner = findViewById<NiceSpinner>(R.id.news_source_selector)
         sourcesSpinner.attachDataSource(sources)
         sourcesSpinner.setBackgroundColor(Color.parseColor("#FAFAFA"))
@@ -170,6 +171,7 @@ class FantasyNews : AppCompatActivity() {
                     Constants.FP_INJURY_TITLE -> news = parseFantasyPros("https://www.fantasypros.com/nfl/injury-news.php")
                     Constants.MFL_AGGREGATE_TITLE -> news = parseMFL()
                     Constants.SPOTRAC_TRANSACTIONS_TITLE -> news = parseSpotrac()
+                    Constants.SIP_INJURY_TITLE -> news = parseSIP()
                 }
                 return news
             } catch (e: Exception) {
@@ -178,6 +180,23 @@ class FantasyNews : AppCompatActivity() {
             return null
         }
 
+    }
+
+    @Throws(IOException::class)
+    private fun parseSIP(): List<PlayerNews> {
+        val newsSet: MutableList<PlayerNews> = ArrayList()
+        val doc = Jsoup.connect("https://sportsinjurypredictor.com/injury-bites").timeout(0).get()
+        val headlines = getElemsFromDoc(doc, "div.shark-bite-container div.header div.row h2.blue a")
+        val dates = getElemsFromDoc(doc, "div.shark-bite-container div.header div.row div.text-right")
+        val content = getElemsFromDoc(doc, "div.shark-bite-container div.body p")
+        for (i in dates.indices) {
+            val newsItem = PlayerNews()
+            newsItem.date = dates[i]
+            newsItem.news = headlines[i]
+            newsItem.impact = content[i]
+            newsSet.add(newsItem)
+        }
+        return newsSet
     }
 
     @Throws(IOException::class)
