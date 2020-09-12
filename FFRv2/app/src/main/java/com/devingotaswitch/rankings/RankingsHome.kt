@@ -137,7 +137,7 @@ class RankingsHome : AppCompatActivity() {
     }
 
     private fun setFilterItemVisibility() {
-        filterItem!!.isVisible = rankings!!.leagueSettings != null && rankings!!.players.isNotEmpty()
+        filterItem!!.isVisible = rankings!!.players.isNotEmpty()
     }
 
     private fun initApp() {
@@ -294,7 +294,7 @@ class RankingsHome : AppCompatActivity() {
         sortPlayers.setOnClickListener { sortPlayers() }
         initRankingsContext()
         hideKeyboard(this)
-        if (LocalSettingsHelper.wereRankingsFetched(this)) {
+        if (rankingsDB.arePlayersSaved(this)) {
             getUserCustomPlayerData(this)
         }
 
@@ -323,7 +323,7 @@ class RankingsHome : AppCompatActivity() {
     }
 
     private fun establishLayout() {
-        if (LocalSettingsHelper.wereRankingsFetched(this)) {
+        if (rankingsDB.arePlayersSaved(this)) {
             nDrawer.menu.findItem(R.id.nav_refresh_ranks).isVisible = true
             nDrawer.menu.findItem(R.id.nav_export_rankings).isVisible = true
             // If rankings are saved, load (and ultimately display) them
@@ -344,10 +344,10 @@ class RankingsHome : AppCompatActivity() {
                     processNewRankings(rankings, false)
                 }
             }
-        } else if (!LocalSettingsHelper.wasPresent(LocalSettingsHelper.getCurrentLeagueName(this))) {
+        } else if (currentLeague == null) {
             // Otherwise, if no league is set up, display that message
             clearAndAddView(R.layout.content_rankings_no_league)
-            rankings = Rankings.initWithDefaults(currentLeague!!)
+            rankings = Rankings.init()
             searchBase.visibility = View.GONE
             buttonBase.visibility = View.GONE
             nDrawer.menu.findItem(R.id.nav_refresh_ranks).isVisible = false
@@ -372,6 +372,7 @@ class RankingsHome : AppCompatActivity() {
         }
         clearAndAddView(R.layout.content_rankings_display)
         displayRankings(rankings!!.orderedIds)
+        Log.d("RankingsHome", "Successfully displayed " + rankings!!.orderedIds.size + " players")
         if (saveRanks) {
             // Don't save again if we're just displaying rankings we just loaded
             rankings!!.saveRankings(this, rankingsDB)

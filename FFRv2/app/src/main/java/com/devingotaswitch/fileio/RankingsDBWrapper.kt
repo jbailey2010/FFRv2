@@ -5,6 +5,7 @@ import android.content.Context
 import android.database.Cursor
 import android.database.DatabaseUtils
 import android.database.sqlite.SQLiteDatabase
+import android.util.Log
 import com.devingotaswitch.rankings.domain.*
 import com.devingotaswitch.utils.Constants
 import com.devingotaswitch.utils.DBUtils.cursorToLeague
@@ -89,6 +90,13 @@ class RankingsDBWrapper {
         }
         result.close()
         return players
+    }
+
+    fun arePlayersSaved(context: Context): Boolean {
+        val db = getInstance(context)!!.readableDatabase
+        val cursor = db.rawQuery("SELECT count(*) FROM ${Constants.PLAYER_TABLE_NAME}", null)
+        cursor.moveToFirst()
+        return cursor.getInt(0) > 0;
     }
 
     fun getPlayersSorted(context: Context, leagueSettings: LeagueSettings): MutableList<String> {
@@ -207,7 +215,7 @@ class RankingsDBWrapper {
         val db = getInstance(context)!!.writableDatabase
         insertRoster(db, league.rosterSettings)
         insertScoring(db, league.scoringSettings)
-        insertEntry(db, leagueToContentValues(league), Constants.LEAGUE_TABLE_NAME)
+        val response = insertEntry(db, leagueToContentValues(league), Constants.LEAGUE_TABLE_NAME)
     }
 
     fun updateLeague(context: Context, leagueUpdates: Map<String?, String?>?, rosterUpdates: Map<String?, String?>?,
@@ -228,7 +236,7 @@ class RankingsDBWrapper {
         val db = getInstance(context)!!.writableDatabase
         deleteRoster(db, league.rosterSettings.id)
         deleteScoring(db, league.scoringSettings.id)
-        deleteEntry(db, league.name, Constants.LEAGUE_TABLE_NAME, Constants.NAME_COLUMN)
+        val response = deleteEntry(db, league.name, Constants.LEAGUE_TABLE_NAME, Constants.NAME_COLUMN)
     }
 
     //---------- Rosters ----------
@@ -287,8 +295,8 @@ class RankingsDBWrapper {
         return result
     }
 
-    private fun insertEntry(db: SQLiteDatabase, values: ContentValues, tableName: String) {
-        db.insert(tableName, null, values)
+    private fun insertEntry(db: SQLiteDatabase, values: ContentValues, tableName: String): Long {
+        return db.insert(tableName, null, values)
     }
 
     private fun upsertEntry(db: SQLiteDatabase, values: ContentValues, tableName: String) {
@@ -303,8 +311,8 @@ class RankingsDBWrapper {
         db.update(tableName, updatedFields, getMultiKeyUpdateAndDeleteKeyString(columnOne, columnTwo), arrayOf(idOne, idTwo))
     }
 
-    private fun deleteEntry(db: SQLiteDatabase, id: String?, tableName: String, idColumn: String) {
-        db.delete(tableName, getUpdateAndDeleteKeyString(idColumn), arrayOf(id))
+    private fun deleteEntry(db: SQLiteDatabase, id: String?, tableName: String, idColumn: String): Int {
+        return db.delete(tableName, getUpdateAndDeleteKeyString(idColumn), arrayOf(id))
     }
 
     private fun emptyTableAndBulkSave(db: SQLiteDatabase, tableName: String, valuesToInsert: Set<ContentValues>) {

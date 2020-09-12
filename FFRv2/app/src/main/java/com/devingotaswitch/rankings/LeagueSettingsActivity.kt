@@ -173,8 +173,8 @@ class LeagueSettingsActivity : AppCompatActivity() {
         save.text = "Update"
         val advanced = view.findViewById<Button>(R.id.league_settings_advanced_settings)
         val act: Activity = this
-        save.setOnClickListener { view12: View? ->
-            if (validateLeagueInputs(leagueName, teamCount, auctionBudget, isAuction)) {
+        save.setOnClickListener {
+            if (validateLeagueInputs(leagueName, teamCount, auctionBudget, isAuction, false)) {
                 return@setOnClickListener
             }
             val updates = getLeagueUpdates(currentLeague, leagueName, teamCount, isAuction, isSnake,
@@ -190,7 +190,7 @@ class LeagueSettingsActivity : AppCompatActivity() {
                     .show()
         }
         advanced.setOnClickListener {
-            if (validateLeagueInputs(leagueName, teamCount, auctionBudget, isAuction)) {
+            if (validateLeagueInputs(leagueName, teamCount, auctionBudget, isAuction, false)) {
                 return@setOnClickListener
             }
             val updates = getLeagueUpdates(currentLeague, leagueName, teamCount, isAuction, isSnake,
@@ -268,7 +268,7 @@ class LeagueSettingsActivity : AppCompatActivity() {
         deactivateButton(advanced)
         val act: Activity = this
         save.setOnClickListener {
-            if (validateLeagueInputs(leagueName, teamCount, auctionBudget, isAuction)) {
+            if (validateLeagueInputs(leagueName, teamCount, auctionBudget, isAuction, true)) {
                 return@setOnClickListener
             }
             val defaults = getLeagueSettingsFromFirstPage(leagueName, teamCount, isAuction, isSnake,
@@ -278,7 +278,7 @@ class LeagueSettingsActivity : AppCompatActivity() {
                     .show()
         }
         advanced.setOnClickListener {
-            if (validateLeagueInputs(leagueName, teamCount, auctionBudget, isAuction)) {
+            if (validateLeagueInputs(leagueName, teamCount, auctionBudget, isAuction, true)) {
                 return@setOnClickListener
             }
             val defaults = getLeagueSettingsFromFirstPage(leagueName, teamCount, isAuction, isSnake,
@@ -299,12 +299,19 @@ class LeagueSettingsActivity : AppCompatActivity() {
         button.setBackgroundColor(ContextCompat.getColor(this, R.color.button_default))
     }
 
-    private fun validateLeagueInputs(name: EditText, teamCount: EditText, auctionBudget: EditText, isAuction: RadioButton): Boolean {
+    private fun validateLeagueInputs(name: EditText, teamCount: EditText, auctionBudget: EditText,
+                                     isAuction: RadioButton, isNewLeague: Boolean): Boolean {
         val givenName = name.text.toString()
         val givenTeamCount = teamCount.text.toString()
         val givenAuctionBudget = auctionBudget.text.toString()
         if (StringUtils.isBlank(givenName)) {
             generateTextOnlyFlashbar(this, "No can do", "League name can't be empty", Flashbar.Gravity.TOP)
+                    .show()
+            return true
+        }
+        if (isNewLeague && leagues != null && leagues!!.containsKey(givenName)) {
+            generateTextOnlyFlashbar(this, "No can do",
+                    "$givenName is already a league name, must be unique.", Flashbar.Gravity.TOP)
                     .show()
             return true
         }

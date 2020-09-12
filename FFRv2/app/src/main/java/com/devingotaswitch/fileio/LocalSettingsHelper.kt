@@ -46,14 +46,6 @@ object LocalSettingsHelper {
         getSharedPreferences(cont).edit().putInt(Constants.NUM_PLAYERS, numVisible).apply()
     }
 
-    fun wereRankingsFetched(cont: Context): Boolean {
-        return getSharedPreferences(cont).getBoolean(Constants.RANKINGS_FETCHED, Constants.NOT_SET_BOOLEAN)
-    }
-
-    fun saveRankingsFetched(cont: Context, wereFetched: Boolean) {
-        getSharedPreferences(cont).edit().putBoolean(Constants.RANKINGS_FETCHED, wereFetched).apply()
-    }
-
     fun saveDraft(cont: Context, leagueName: String, draft: Draft) {
         val editor = getSharedPreferences(cont).edit()
         editor.putString(leagueName + Constants.CURRENT_DRAFT, draft.draftedToSerializedString())

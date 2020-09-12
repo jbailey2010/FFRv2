@@ -73,7 +73,6 @@ class RankingsFetcher {
             super.onPostExecute(result)
             pdia.dismiss()
             Log.d(TAG, getLatency(start).toString() + " seconds to fetch rankings")
-            LocalSettingsHelper.saveRankingsFetched(act, true)
             act.processNewRankings(result, true)
         }
 

@@ -93,10 +93,13 @@ object ParseFA {
     @Throws(IOException::class)
     private fun getFAChanges(arrivingFA: MutableMap<String?, String?>,
                              departingFA: MutableMap<String?, String?>) {
-        val doc = getDocument("https://www.spotrac.com/nfl/free-agents/")
+        val doc = getDocument("https://www.spotrac.com/nfl/free-agents/" + Constants.YEAR_KEY + "/all/")
         val td = getElemsFromDoc(doc, "table.datatable tbody tr td")
         var i = 0
         while (i < td.size) {
+            for (j in i..i+11) {
+                Log.d("JEFFF", "td at " + j + " is " + td[j])
+            }
             val wonkyName = td[i]
             // The site has a hidden span with only the last name, so we find the last name and
             // split the string to filter it out. It starts out as BridgewaterTeddy Bridgewater.
@@ -135,11 +138,11 @@ object ParseFA {
                 applyPlayerChange(arrivingFA, newTeam, departingFA, oldTeam, playerEntry)
             }
             if ("TBD" == newTeam) {
-                // Yet-unsigned players only have 6 entries per row in the table instead of 12.
-                // So we're offsetting the index by 6 so the next iteration will count correctly.
-                i -= 6
+                // Yet-unsigned players only have 6 entries per row in the table instead of 11.
+                // So we're offsetting the index by 5 so the next iteration will count correctly.
+                i -= 5
             }
-            i += 12
+            i += 11
         }
         postProcessFA(arrivingFA)
         postProcessFA(departingFA)
