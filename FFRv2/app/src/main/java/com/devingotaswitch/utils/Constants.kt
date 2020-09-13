@@ -135,6 +135,7 @@ object Constants {
     const val IS_SNAKE_COLUMN = "is_snake"
     const val IS_BEST_BALL_COLUMN = "is_best_ball"
     const val AUCTION_BUDGET_COLUMN = "auction_budget"
+    const val CURRENT_LEAGUE_COLUMN = "current_league"
     const val SCORING_ID_COLUMN = "scoring_id"
     const val ROSTER_ID_COLUMN = "roster_id"
 
@@ -156,12 +157,13 @@ object Constants {
     const val RECEPTIONS_COLUMN = "pts_per_reception"
 
     // Scoring settings: defaults
+    const val DEFAULT_PASSING_TD_WORTH = 4
     const val DEFAULT_TD_WORTH = 6
     const val DEFAULT_TURNOVER_WORTH = -2
     const val DEFAULT_PASSING_YDS = 25
     const val DEFAULT_RUSHING_YDS = 10
     const val DEFAULT_RECEIVING_YDS = 10
-    const val DEFAULT_RECEPTIONS = 1.0
+    const val DEFAULT_RECEPTIONS = 0.5
 
     // Roster settings: SQL
     const val ROSTER_TABLE_NAME = "roster_settings"

@@ -107,7 +107,7 @@ class DraftInfo : AppCompatActivity() {
     }
 
     private fun clearDraft() {
-        rankings.draft.resetDraft(this, rankings.leagueSettings.name)
+        rankings.draft.resetDraft(this, rankings!!.getLeagueSettings().name)
         displayTeam()
         findViewById<View>(R.id.team_graph).visibility = View.GONE
         generateTextOnlyFlashbar(this, "Draft cleared", "All players are available again", Flashbar.Gravity.BOTTOM)
@@ -129,7 +129,7 @@ class DraftInfo : AppCompatActivity() {
         val view = clearAndAddView(R.layout.content_draft_info_team)
         val teamView = view.findViewById<TextView>(R.id.base_textview_team)
         val teamOutput = StringBuilder(teamStr)
-        if (rankings.leagueSettings.isAuction) {
+        if (rankings!!.getLeagueSettings().isAuction) {
             teamOutput.append(auctionValue)
         }
         teamView.text = teamOutput.toString()
@@ -141,7 +141,7 @@ class DraftInfo : AppCompatActivity() {
         playersDrafted.text = playersDraftedString
         val graphLegend = view.findViewById<TextView>(R.id.base_textview_graph_header)
         var graphHeader = "Positional PAA remaining, graphed in the order: "
-        val roster = rankings.leagueSettings.rosterSettings
+        val roster = rankings!!.getLeagueSettings().rosterSettings
         graphHeader += conditionallyAddPosition(Constants.QB, roster)
         graphHeader += conditionallyAddPosition(Constants.RB, roster)
         graphHeader += conditionallyAddPosition(Constants.WR, roster)
@@ -165,7 +165,7 @@ class DraftInfo : AppCompatActivity() {
     private val pAALeft: String
         get() {
             val paaLeft = StringBuilder()
-            val roster = rankings.leagueSettings.rosterSettings
+            val roster = rankings!!.getLeagueSettings().rosterSettings
             if (roster.isPositionValid(Constants.QB)) {
                 paaLeft.append(rankings.draft.getPAALeft(Constants.QB, rankings))
                         .append(Constants.LINE_BREAK)
@@ -198,7 +198,7 @@ class DraftInfo : AppCompatActivity() {
     private val teamStr: String
         get() {
             val teamOutput = StringBuilder()
-            val roster = rankings.leagueSettings.rosterSettings
+            val roster = rankings!!.getLeagueSettings().rosterSettings
             val draft = rankings.draft
             if (roster.isPositionValid(Constants.QB)) {
                 teamOutput.append(Constants.QB)
@@ -377,7 +377,7 @@ class DraftInfo : AppCompatActivity() {
     }
 
     private fun conditionallyGraphPosition(barData: BarData, position: String) {
-        if (rankings.leagueSettings.rosterSettings.isPositionValid(position)) {
+        if (rankings!!.getLeagueSettings().rosterSettings.isPositionValid(position)) {
             val entries: MutableList<BarEntry> = ArrayList()
             val players = rankings.draft.getSortedAvailablePlayersForPosition(position, rankings)
             val threeBack = rankings.draft.getPAANAvailablePlayersBack(players, 3)

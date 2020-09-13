@@ -56,8 +56,13 @@ class Rankings {
         } else ""
     }
 
-    val leagueSettings: LeagueSettings
-        get() = Companion.leagueSettings
+    fun getLeagueSettings(): LeagueSettings {
+        return userLeagues!!.currentLeague
+    }
+
+    fun getUserLeagues(): UserLeagues? {
+        return userLeagues
+    }
 
     fun getPlayer(id: String): Player {
         return Companion.players[id]!!
@@ -262,6 +267,7 @@ class Rankings {
     fun orderPlayersByLeagueType(players: Collection<Player>): MutableList<String> {
         val orderedIds: MutableList<String> = ArrayList()
         val comparator: Comparator<Player>
+        val leagueSettings = getLeagueSettings()
         comparator = when {
             leagueSettings.isAuction -> {
                 Comparator { a: Player, b: Player -> b.auctionValue.compareTo(a.auctionValue) }
@@ -292,7 +298,7 @@ class Rankings {
         private var teams: MutableMap<String, Team> = HashMap()
         private var orderedIds: MutableList<String> = ArrayList()
         private var draft: Draft = Draft()
-        private lateinit var leagueSettings: LeagueSettings
+        private var userLeagues: UserLeagues? = null
         private var loader: RankingsLoader = RankingsLoader()
         private var playerProjectionHistory: MutableMap<String, MutableList<DailyProjection>> = HashMap()
 
@@ -301,19 +307,22 @@ class Rankings {
         private var playerWatchList: MutableList<String> = ArrayList()
         private var playerNotes: MutableMap<String, String> = HashMap()
         fun init(): Rankings {
+            if (userLeagues == null) {
+                userLeagues = UserLeagues(HashMap())
+            }
             return Rankings()
         }
 
-        fun initWithDefaults(leagueSettings: LeagueSettings): Rankings {
-            return init(HashMap(), HashMap(), ArrayList(), leagueSettings,
+        fun initWithDefaults(userLeagues: UserLeagues): Rankings {
+            return init(HashMap(), HashMap(), ArrayList(), userLeagues,
                     Draft(), HashMap())
         }
 
         fun init(inputTeams: MutableMap<String, Team>, inputPlayers: MutableMap<String, Player>, inputIds: MutableList<String>,
-                 inputSettings: LeagueSettings, inputDraft: Draft, inputProjectionHistory: MutableMap<String, MutableList<DailyProjection>>): Rankings {
+                 inputLeagues: UserLeagues, inputDraft: Draft, inputProjectionHistory: MutableMap<String, MutableList<DailyProjection>>): Rankings {
             players = inputPlayers
             teams = inputTeams
-            leagueSettings = inputSettings
+            userLeagues = inputLeagues
             loader = RankingsLoader()
             orderedIds = inputIds
             draft = inputDraft

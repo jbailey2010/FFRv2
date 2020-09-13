@@ -18,6 +18,7 @@ import com.devingotaswitch.utils.DBUtils.cursorToTeam
 import com.devingotaswitch.utils.DBUtils.getDeleteAllString
 import com.devingotaswitch.utils.DBUtils.getMultiKeyUpdateAndDeleteKeyString
 import com.devingotaswitch.utils.DBUtils.getSelectAllString
+import com.devingotaswitch.utils.DBUtils.getSelectCountString
 import com.devingotaswitch.utils.DBUtils.getSelectSingleString
 import com.devingotaswitch.utils.DBUtils.getSelectThreeAttrString
 import com.devingotaswitch.utils.DBUtils.getUpdateAndDeleteKeyString
@@ -93,10 +94,7 @@ class RankingsDBWrapper {
     }
 
     fun arePlayersSaved(context: Context): Boolean {
-        val db = getInstance(context)!!.readableDatabase
-        val cursor = db.rawQuery("SELECT count(*) FROM ${Constants.PLAYER_TABLE_NAME}", null)
-        cursor.moveToFirst()
-        return cursor.getInt(0) > 0;
+        return getTableEntriesCount(Constants.PLAYER_TABLE_NAME, context)
     }
 
     fun getPlayersSorted(context: Context, leagueSettings: LeagueSettings): MutableList<String> {
@@ -183,8 +181,8 @@ class RankingsDBWrapper {
     }
 
     //---------- Leagues ----------
-    fun getLeagues(context: Context): MutableMap<String?, LeagueSettings> {
-        val leagues: MutableMap<String?, LeagueSettings> = HashMap()
+    fun getLeagues(context: Context): UserLeagues {
+        val leagues: MutableMap<String, LeagueSettings> = HashMap()
         val db = getInstance(context)!!.readableDatabase
         val result = db.rawQuery(getSelectAllString(Constants.LEAGUE_TABLE_NAME), null)
         result.moveToFirst()
@@ -194,42 +192,22 @@ class RankingsDBWrapper {
             result.moveToNext()
         }
         result.close()
-        return leagues
+        return UserLeagues(leagues)
     }
 
-    fun getLeague(context: Context, leagueId: String?): LeagueSettings {
-        val db = getInstance(context)!!.readableDatabase
-        val result = getEntry(db, sanitizeName(leagueId), Constants.LEAGUE_TABLE_NAME, Constants.NAME_COLUMN)
-        val league = cursorToFullLeague(db, result)
-        result.close()
-        return league
+    fun areLeaguesSaved(context: Context): Boolean {
+        return getTableEntriesCount(Constants.LEAGUE_TABLE_NAME, context)
     }
 
-    private fun cursorToFullLeague(db: SQLiteDatabase, result: Cursor): LeagueSettings {
-        val rosterId = result.getString(result.getColumnIndex(Constants.ROSTER_ID_COLUMN))
-        val scoringId = result.getString(result.getColumnIndex(Constants.SCORING_ID_COLUMN))
-        return cursorToLeague(result, getRoster(db, rosterId), getScoring(db, scoringId))
-    }
-
-    fun insertLeague(context: Context, league: LeagueSettings) {
+    fun upsertLeagues(context: Context, leagues: Collection<LeagueSettings>) {
         val db = getInstance(context)!!.writableDatabase
-        insertRoster(db, league.rosterSettings)
-        insertScoring(db, league.scoringSettings)
-        val response = insertEntry(db, leagueToContentValues(league), Constants.LEAGUE_TABLE_NAME)
-    }
-
-    fun updateLeague(context: Context, leagueUpdates: Map<String?, String?>?, rosterUpdates: Map<String?, String?>?,
-                     scoringUpdates: Map<String?, String?>?, league: LeagueSettings) {
-        val db = getInstance(context)!!.writableDatabase
-        if (rosterUpdates != null && rosterUpdates.isNotEmpty()) {
-            updateRoster(db, league.rosterSettings.id, rosterUpdates)
+        val values: MutableSet<ContentValues> = HashSet()
+        for (league in leagues) {
+            values.add(leagueToContentValues(league))
+            insertRoster(db, league.rosterSettings)
+            insertScoring(db, league.scoringSettings)
         }
-        if (scoringUpdates != null && scoringUpdates.isNotEmpty()) {
-            updateScoring(db, league.scoringSettings.id, scoringUpdates)
-        }
-        if (leagueUpdates != null && leagueUpdates.isNotEmpty()) {
-            updateEntry(db, league.name, updatedValuesToContentValues(leagueUpdates), Constants.LEAGUE_TABLE_NAME, Constants.NAME_COLUMN)
-        }
+        bulkUpsert(db, Constants.LEAGUE_TABLE_NAME, values)
     }
 
     fun deleteLeague(context: Context, league: LeagueSettings) {
@@ -237,6 +215,12 @@ class RankingsDBWrapper {
         deleteRoster(db, league.rosterSettings.id)
         deleteScoring(db, league.scoringSettings.id)
         val response = deleteEntry(db, league.name, Constants.LEAGUE_TABLE_NAME, Constants.NAME_COLUMN)
+    }
+
+    private fun cursorToFullLeague(db: SQLiteDatabase, result: Cursor): LeagueSettings {
+        val rosterId = result.getString(result.getColumnIndex(Constants.ROSTER_ID_COLUMN))
+        val scoringId = result.getString(result.getColumnIndex(Constants.SCORING_ID_COLUMN))
+        return cursorToLeague(result, getRoster(db, rosterId), getScoring(db, scoringId))
     }
 
     //---------- Rosters ----------
@@ -248,11 +232,7 @@ class RankingsDBWrapper {
     }
 
     private fun insertRoster(db: SQLiteDatabase, roster: RosterSettings?) {
-        insertEntry(db, rosterToContentValues(roster!!), Constants.ROSTER_TABLE_NAME)
-    }
-
-    private fun updateRoster(db: SQLiteDatabase, id: String?, updatedFields: Map<String?, String?>) {
-        updateEntry(db, id, updatedValuesToContentValues(updatedFields), Constants.ROSTER_TABLE_NAME, Constants.ROSTER_ID_COLUMN)
+        upsertEntry(db, rosterToContentValues(roster!!), Constants.ROSTER_TABLE_NAME)
     }
 
     private fun deleteRoster(db: SQLiteDatabase, id: String?) {
@@ -268,11 +248,7 @@ class RankingsDBWrapper {
     }
 
     private fun insertScoring(db: SQLiteDatabase, scoring: ScoringSettings?) {
-        insertEntry(db, scoringToContentValues(scoring!!), Constants.SCORING_TABLE_NAME)
-    }
-
-    private fun updateScoring(db: SQLiteDatabase, id: String?, updatedFields: Map<String?, String?>) {
-        updateEntry(db, id, updatedValuesToContentValues(updatedFields), Constants.SCORING_TABLE_NAME, Constants.SCORING_ID_COLUMN)
+        upsertEntry(db, scoringToContentValues(scoring!!), Constants.SCORING_TABLE_NAME)
     }
 
     private fun deleteScoring(db: SQLiteDatabase, id: String?) {
@@ -360,6 +336,15 @@ class RankingsDBWrapper {
         val result = db.rawQuery(getSelectAllString(tableName), null)
         result.moveToFirst()
         return result
+    }
+
+    private fun getTableEntriesCount(tableName: String, context: Context): Boolean {
+        val db = getInstance(context)!!.readableDatabase
+        val cursor = db.rawQuery(getSelectCountString(tableName), null)
+        cursor.moveToFirst()
+        val areSaved = cursor.getInt(0) > 0
+        cursor.close()
+        return areSaved
     }
 
     companion object {

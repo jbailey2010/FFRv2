@@ -37,15 +37,16 @@ class RankingsLoader {
 
         override fun doInBackground(vararg data: Any?): Rankings? {
             start = System.currentTimeMillis()
-            val currentLeague = rankingsDB.getLeague(act, LocalSettingsHelper.getCurrentLeagueName(act))
+            val userLeagues = rankingsDB.getLeagues(act)
             val players = rankingsDB.getPlayers(act)
             val teams = rankingsDB.getTeams(act)
+            val currentLeague = userLeagues.currentLeague
             val orderedIds = rankingsDB.getPlayersSorted(act, currentLeague)
             val draft = LocalSettingsHelper.loadDraft(act, currentLeague.teamCount, currentLeague.auctionBudget,
                     currentLeague.name, players)
             val playerProjectionHistory: MutableMap<String, MutableList<DailyProjection>> =
                     rankingsDB.getPlayerProjectionHistory(act)
-            return Rankings.init(teams, players, orderedIds, currentLeague, draft, playerProjectionHistory)
+            return Rankings.init(teams, players, orderedIds, userLeagues, draft, playerProjectionHistory)
         }
     }
 

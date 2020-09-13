@@ -94,12 +94,12 @@ class ADPSimulator : AppCompatActivity() {
             }
             val round = roundStr.toInt()
             val pick = pickStr.toInt()
-            if (pick > rankings!!.leagueSettings.teamCount) {
+            if (pick > rankings!!.getLeagueSettings().teamCount) {
                 generateTextOnlyFlashbar(act, "No can do", "Pick can't be higher than current league team count", Flashbar.Gravity.TOP)
                         .show()
                 return@setOnClickListener
             }
-            val overallPick = (round - 1) * rankings!!.leagueSettings.teamCount + pick
+            val overallPick = (round - 1) * rankings!!.getLeagueSettings().teamCount + pick
             hideKeyboard(act)
             getADPOddsForInput(overallPick)
         }
@@ -183,15 +183,15 @@ class ADPSimulator : AppCompatActivity() {
                 val pick = data[0] as Int
                 val player = data[1] as Player
                 var type = "standard"
-                val scoring = rankings!!.leagueSettings.scoringSettings
-                val roster = rankings.leagueSettings.rosterSettings
+                val scoring = rankings!!.getLeagueSettings().scoringSettings
+                val roster = rankings.getLeagueSettings().rosterSettings
                 if (roster.qbCount > 1 || roster.flex != null && roster.qbCount > 0 && roster.flex!!.qbrbwrteCount > 0) {
                     type = "2qb"
                 } else if (scoring.receptions > 0.0) {
                     type = "ppr"
                 }
                 var teams = "8"
-                val numTeams = rankings.leagueSettings.teamCount
+                val numTeams = rankings.getLeagueSettings().teamCount
                 if (numTeams >= 14 && "2qb" != type) {
                     teams = "14"
                 } else if (numTeams >= 12) {

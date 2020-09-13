@@ -32,7 +32,7 @@ object ParseProjections {
             if (points.containsKey(playerId)) {
                 player.playerProjection = points[playerId]!!
             } else {
-                player.playerProjection = PlayerProjection(rankings.leagueSettings.scoringSettings)
+                player.playerProjection = PlayerProjection(rankings!!.getLeagueSettings().scoringSettings)
             }
         }
     }
@@ -71,7 +71,7 @@ object ParseProjections {
             val rushTD = td[i + 8].toDouble()
             val fumbles = td[i + 9].toDouble()
             val projection = PlayerProjection(yards, passTd, rushYards, rushTD, 0.0, 0.0, 0.0,
-                    fumbles, ints, 0.0, 0.0, rankings.leagueSettings.scoringSettings)
+                    fumbles, ints, 0.0, 0.0, rankings!!.getLeagueSettings().scoringSettings)
             points["" + name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + Constants.QB] = projection
             i += 11
         }
@@ -112,7 +112,7 @@ object ParseProjections {
             val recTD = td[i + 6].toDouble()
             val fumbles = td[i + 7].toDouble()
             val projection = PlayerProjection(0.0, 0.0, rushYards, rushTD,
-                    recYards, recTD, catches, fumbles, 0.0, 0.0, 0.0, rankings.leagueSettings.scoringSettings)
+                    recYards, recTD, catches, fumbles, 0.0, 0.0, 0.0, rankings!!.getLeagueSettings().scoringSettings)
             points["" + name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + Constants.RB] = projection
             i += 9
         }
@@ -153,7 +153,7 @@ object ParseProjections {
             val recTD = td[i + 3].toDouble()
             val fumbles = td[i + 7].toDouble()
             val projection = PlayerProjection(0.0, 0.0, rushYards, rushTD,
-                    recYards, recTD, catches, fumbles, 0.0, 0.0, 0.0, rankings.leagueSettings.scoringSettings)
+                    recYards, recTD, catches, fumbles, 0.0, 0.0, 0.0, rankings!!.getLeagueSettings().scoringSettings)
             points["" + name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + Constants.WR] = projection
             i += 9
         }
@@ -191,7 +191,7 @@ object ParseProjections {
             val recYards = td[i + 2].replace(",", "").toDouble()
             val fumbles = td[i + 4].toDouble()
             val projection = PlayerProjection(0.0, 0.0, 0.0, 0.0,
-                    recYards, recTD, catches, fumbles, 0.0, 0.0, 0.0, rankings.leagueSettings.scoringSettings)
+                    recYards, recTD, catches, fumbles, 0.0, 0.0, 0.0, rankings!!.getLeagueSettings().scoringSettings)
             points["" + name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + Constants.TE] = projection
             i += 6
         }
@@ -227,7 +227,7 @@ object ParseProjections {
             val proj = td[i + 9].toDouble()
             val projection = PlayerProjection(0.0, 0.0, 0.0,
                     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, proj, 0.0,
-                    rankings.leagueSettings.scoringSettings)
+                    rankings!!.getLeagueSettings().scoringSettings)
             points["" + name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + Constants.DST] = projection
             i += 10
         }
@@ -262,7 +262,7 @@ object ParseProjections {
             val proj = td[i + 4].toDouble()
             val projection = PlayerProjection(0.0, 0.0, 0.0, 0.0,
                     0.0, 0.0, 0.0, 0.0, 0.0, 0.0, proj,
-                    rankings.leagueSettings.scoringSettings)
+                    rankings!!.getLeagueSettings().scoringSettings)
             points["" + name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + Constants.K] = projection
             i += 5
         }

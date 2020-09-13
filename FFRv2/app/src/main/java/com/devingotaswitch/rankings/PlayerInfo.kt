@@ -167,7 +167,7 @@ class PlayerInfo : AppCompatActivity() {
                 true
             }
             R.id.player_info_draft_me -> {
-                if (rankings.leagueSettings.isAuction) {
+                if (rankings.getLeagueSettings().isAuction) {
                     auctionCost
                 } else {
                     draftByMe(0)
@@ -316,7 +316,7 @@ class PlayerInfo : AppCompatActivity() {
         if (projections != null) {
             for (i in projections.indices) {
                 val projection = projections[i]
-                projectionDays.add(Entry(i.toFloat(), projection.getProjection(rankings.leagueSettings.scoringSettings).toFloat()))
+                projectionDays.add(Entry(i.toFloat(), projection.getProjection(rankings.getLeagueSettings().scoringSettings).toFloat()))
             }
         } else {
             // If a league scoring setting change was made, the data will clear, so we'll just take the current projection.
@@ -710,7 +710,7 @@ class PlayerInfo : AppCompatActivity() {
             val ecrRank = getEcr(null, player.ecr)
             val ecrRankPos = getEcr(player.position, player.ecr)
             var ecrSub = getRankingSub(ecrRank, ecrRankPos)
-            if (player.risk != null && (rankings.leagueSettings.isAuction || rankings.leagueSettings.isSnake)) {
+            if (player.risk != null && (rankings.getLeagueSettings().isAuction || rankings.getLeagueSettings().isSnake)) {
                 ecrSub += Constants.LINE_BREAK + "Risk: " + player.risk
             }
             ecr[Constants.PLAYER_INFO] = ecrSub
@@ -749,7 +749,7 @@ class PlayerInfo : AppCompatActivity() {
             val dynRank = getDynasty(null, player.dynastyRank)
             val dynRankPos = getDynasty(player.position, player.dynastyRank)
             var dynSub = getRankingSub(dynRank, dynRankPos)
-            if (player.risk != null && rankings.leagueSettings.isDynasty) {
+            if (player.risk != null && rankings.getLeagueSettings().isDynasty) {
                 dynSub += Constants.LINE_BREAK + "Risk: " + player.risk
             }
             dynasty[Constants.PLAYER_INFO] = dynSub
@@ -762,7 +762,7 @@ class PlayerInfo : AppCompatActivity() {
             val rookieRank = getRookie(null, player.rookieRank)
             val rookieRankPos = getRookie(player.position, player.rookieRank)
             var rookieSub = getRankingSub(rookieRank, rookieRankPos)
-            if (player.risk != null && rankings.leagueSettings.isRookie) {
+            if (player.risk != null && rankings.getLeagueSettings().isRookie) {
                 rookieSub += Constants.LINE_BREAK + "Risk: " + player.risk
             }
             rookie[Constants.PLAYER_INFO] = rookieSub
@@ -774,7 +774,7 @@ class PlayerInfo : AppCompatActivity() {
             val bbRank = getBestBall(null, player.bestBallRank)
             val bbRankPos = getBestBall(player.position, player.bestBallRank)
             var bbSub = getRankingSub(bbRank, bbRankPos)
-            if (player.risk != null && rankings.leagueSettings.isBestBall) {
+            if (player.risk != null && rankings.getLeagueSettings().isBestBall) {
                 bbSub += Constants.LINE_BREAK + "Risk: " + player.risk
             }
             bestBall[Constants.PLAYER_INFO] = bbSub
@@ -1470,7 +1470,7 @@ class PlayerInfo : AppCompatActivity() {
                 if (listSize == MAX_NEARBY_PLAYERS) {
                     break
                 } else if (possiblePlayer.uniqueId == player.uniqueId ||
-                        !rankings.leagueSettings.rosterSettings.isPositionValid(possiblePlayer.position)) {
+                        !rankings.getLeagueSettings().rosterSettings.isPositionValid(possiblePlayer.position)) {
                     continue
                 }
                 nearestPlayers.add(possiblePlayer)

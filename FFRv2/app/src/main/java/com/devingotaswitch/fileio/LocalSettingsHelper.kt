@@ -30,14 +30,6 @@ object LocalSettingsHelper {
         getSharedPreferences(cont).edit().putString(Constants.NEWS_SOURCE, newsSource).apply()
     }
 
-    fun getCurrentLeagueName(cont: Context): String {
-        return getSharedPreferences(cont).getString(Constants.LEAGUE_NAME, Constants.NOT_SET_KEY)!!
-    }
-
-    fun saveCurrentLeagueName(cont: Context, name: String?) {
-        getSharedPreferences(cont).edit().putString(Constants.LEAGUE_NAME, name).apply()
-    }
-
     fun getNumVisiblePlayers(cont: Context): Int {
         return getSharedPreferences(cont).getInt(Constants.NUM_PLAYERS, Constants.DEFAULT_NUM_PLAYERS)
     }

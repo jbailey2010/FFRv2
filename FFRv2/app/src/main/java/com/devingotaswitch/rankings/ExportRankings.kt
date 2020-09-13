@@ -126,7 +126,7 @@ class ExportRankings : AppCompatActivity() {
         writer.writeNext(data)
         for (key in rankings.orderedIds) {
             val player = rankings.getPlayer(key)
-            if (rankings.leagueSettings.rosterSettings.isPositionValid(player.position)) {
+            if (rankings.getLeagueSettings().rosterSettings.isPositionValid(player.position)) {
                 val playerData: MutableList<String> = ArrayList()
                 playerData.add(player.name)
                 playerData.add(if (player.age != null && player.age!! > 0) { player.age.toString() } else { "" })

@@ -20,9 +20,9 @@ object ParseFantasyPros {
         val ecr: MutableMap<String, Double?> = HashMap()
         val risk: MutableMap<String, Double> = HashMap()
         var url = "http://www.fantasypros.com/nfl/rankings/consensus-cheatsheets.php"
-        if (rankings.leagueSettings.scoringSettings.receptions >= 1.0) {
+        if (rankings!!.getLeagueSettings().scoringSettings.receptions >= 1.0) {
             url = "http://www.fantasypros.com/nfl/rankings/ppr-cheatsheets.php"
-        } else if (rankings.leagueSettings.scoringSettings.receptions > 0) {
+        } else if (rankings!!.getLeagueSettings().scoringSettings.receptions > 0) {
             url = "https://www.fantasypros.com/nfl/rankings/half-point-ppr-cheatsheets.php"
         }
         parseECRWorker(url, ecr, risk)
@@ -30,7 +30,7 @@ object ParseFantasyPros {
             if (ecr.containsKey(playerId)) {
                 val player = rankings.getPlayer(playerId)
                 player.ecr = ecr[playerId]!!
-                if (rankings.leagueSettings.isSnake || rankings.leagueSettings.isAuction) {
+                if (rankings!!.getLeagueSettings().isSnake || rankings!!.getLeagueSettings().isAuction) {
                     player.risk = risk[playerId]!!
                 }
             }
@@ -43,15 +43,15 @@ object ParseFantasyPros {
         val adpUrl: String
         val rowSize: Int
         when {
-            rankings.leagueSettings.isBestBall -> {
+            rankings!!.getLeagueSettings().isBestBall -> {
                 adpUrl = "https://www.fantasypros.com/nfl/adp/best-ball-overall.php"
                 rowSize = 7
             }
-            rankings.leagueSettings.scoringSettings.receptions >= 1.0 -> {
+            rankings!!.getLeagueSettings().scoringSettings.receptions >= 1.0 -> {
                 adpUrl = "http://www.fantasypros.com/nfl/adp/ppr-overall.php"
                 rowSize = 8
             }
-            rankings.leagueSettings.scoringSettings.receptions > 0 -> {
+            rankings!!.getLeagueSettings().scoringSettings.receptions > 0 -> {
                 adpUrl = "https://www.fantasypros.com/nfl/adp/half-point-ppr-overall.php"
                 rowSize = 6
             }
@@ -78,7 +78,7 @@ object ParseFantasyPros {
             if (dynasty.containsKey(playerId)) {
                 val player = rankings.getPlayer(playerId)
                 player.dynastyRank = dynasty[playerId]!!
-                if (rankings.leagueSettings.isDynasty) {
+                if (rankings!!.getLeagueSettings().isDynasty) {
                     player.risk = risk[playerId]!!
                 }
             }
@@ -95,7 +95,7 @@ object ParseFantasyPros {
             if (rookie.containsKey(playerId)) {
                 val player = rankings.getPlayer(playerId)
                 player.rookieRank = rookie[playerId]!!
-                if (rankings.leagueSettings.isRookie) {
+                if (rankings!!.getLeagueSettings().isRookie) {
                     player.risk = risk[playerId]!!
                 }
             }
@@ -112,7 +112,7 @@ object ParseFantasyPros {
             if (bestBall.containsKey(playerId)) {
                 val player = rankings.getPlayer(playerId)
                 player.bestBallRank = bestBall[playerId]!!
-                if (rankings.leagueSettings.isBestBall) {
+                if (rankings!!.getLeagueSettings().isBestBall) {
                     player.risk = risk[playerId]!!
                 }
             }

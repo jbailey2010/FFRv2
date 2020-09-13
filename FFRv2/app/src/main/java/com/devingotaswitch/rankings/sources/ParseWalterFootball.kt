@@ -9,8 +9,8 @@ import java.io.IOException
 object ParseWalterFootball {
     @Throws(IOException::class)
     fun wfRankings(rankings: Rankings) {
-        val r = rankings.leagueSettings.rosterSettings
-        val s = rankings.leagueSettings.scoringSettings
+        val r = rankings.getLeagueSettings().rosterSettings
+        val s = rankings.getLeagueSettings().scoringSettings
         if (r.qbCount > 1 || r.flex != null && r.flex!!.qbrbwrteCount > 0) {
             wfRankingsHelper(rankings,
                     "http://walterfootball.com/fantasycheatsheet/" + Constants.YEAR_KEY + "/twoqb")

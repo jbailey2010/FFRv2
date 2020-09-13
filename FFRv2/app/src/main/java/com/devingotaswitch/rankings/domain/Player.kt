@@ -28,7 +28,7 @@ class Player {
     var xval: Double = Constants.DEFAULT_VBD
     var vols: Double = Constants.DEFAULT_VBD
     fun getAuctionValueCustom(rankings: Rankings): Double {
-        return getAuctionValueCustom(rankings.leagueSettings.teamCount, rankings.leagueSettings.auctionBudget)
+        return getAuctionValueCustom(rankings.getLeagueSettings().teamCount, rankings.getLeagueSettings().auctionBudget)
     }
 
     fun getAuctionValueCustom(teamCount: Int, auctionBudget: Int): Double {
@@ -69,17 +69,17 @@ class Player {
                 position
 
     fun getScaledPAA(rankings: Rankings): Double {
-        return getScaledValue(paa, rankings.leagueSettings.rosterSettings.getNumberStartedOfPos(position),
+        return getScaledValue(paa, rankings.getLeagueSettings().rosterSettings.getNumberStartedOfPos(position),
                 rankings.draft.getPlayersDraftedForPos(position).size)
     }
 
     fun getScaledXVal(rankings: Rankings): Double {
-        return getScaledValue(xval, rankings.leagueSettings.rosterSettings.getNumberStartedOfPos(position),
+        return getScaledValue(xval, rankings.getLeagueSettings().rosterSettings.getNumberStartedOfPos(position),
                 rankings.draft.getPlayersDraftedForPos(position).size)
     }
 
     fun getScaledVOLS(rankings: Rankings): Double {
-        return getScaledValue(vols, rankings.leagueSettings.rosterSettings.getNumberStartedOfPos(position),
+        return getScaledValue(vols, rankings.getLeagueSettings().rosterSettings.getNumberStartedOfPos(position),
                 rankings.draft.getPlayersDraftedForPos(position).size)
     }
 
@@ -104,7 +104,7 @@ class Player {
     }
 
     fun getDisplayValue(rankings: Rankings): String {
-        val league = rankings.leagueSettings
+        val league = rankings.getLeagueSettings()
         return if (league.isRookie) {
             if (rookieRank == Constants.DEFAULT_RANK) Constants.DEFAULT_DISPLAY_RANK_NOT_SET else rookieRank.toString()
         } else if (league.isDynasty) {

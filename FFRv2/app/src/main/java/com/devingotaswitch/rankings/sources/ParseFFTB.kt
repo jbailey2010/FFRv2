@@ -15,7 +15,7 @@ import java.io.IOException
 object ParseFFTB {
     @Throws(IOException::class)
     fun parseFFTBRankingsWrapper(rankings: Rankings) {
-        val teams = java.lang.String.valueOf(rankings.leagueSettings.teamCount)
+        val teams = java.lang.String.valueOf(rankings!!.getLeagueSettings().teamCount)
         parseFFTBPage(
                 rankings,
                 "http://www.fftoolbox.com/football/" + Constants.YEAR_KEY + "/auction-values.cfm?pos=QB&teams=" + teams + "&budget=200", Constants.QB)

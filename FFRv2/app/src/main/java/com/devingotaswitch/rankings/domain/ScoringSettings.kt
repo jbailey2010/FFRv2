@@ -18,10 +18,13 @@ class ScoringSettings(id: String, passingTds: Int, rushingTds: Int, receivingTds
     var receptions = 0.0
 
     @JvmOverloads
-    constructor(passingTds: Int = Constants.DEFAULT_TD_WORTH, rushingTds: Int = Constants.DEFAULT_TD_WORTH, receivingTds: Int = Constants.DEFAULT_TD_WORTH, fumbles: Double =
-            Constants.DEFAULT_TURNOVER_WORTH.toDouble(),
-                interceptions: Double = Constants.DEFAULT_TURNOVER_WORTH.toDouble(), passingYds: Int = Constants.DEFAULT_PASSING_YDS, rushingYds: Int = Constants.DEFAULT_RUSHING_YDS, receivingYds: Int =
-                        Constants.DEFAULT_RECEIVING_YDS, receptions: Double = Constants.DEFAULT_RECEPTIONS) : this(UUID.randomUUID().toString(), passingTds, rushingTds, receivingTds, fumbles, interceptions, passingYds,
+    constructor(passingTds: Int = Constants.DEFAULT_PASSING_TD_WORTH, rushingTds: Int = Constants.DEFAULT_TD_WORTH,
+                receivingTds: Int = Constants.DEFAULT_TD_WORTH, fumbles: Double = Constants.DEFAULT_TURNOVER_WORTH.toDouble(),
+                interceptions: Double = Constants.DEFAULT_TURNOVER_WORTH.toDouble(), passingYds: Int = Constants.DEFAULT_PASSING_YDS,
+                rushingYds: Int = Constants.DEFAULT_RUSHING_YDS, receivingYds: Int = Constants.DEFAULT_RECEIVING_YDS,
+                receptions: Double = Constants.DEFAULT_RECEPTIONS) :
+            this(UUID.randomUUID().toString(),
+            passingTds, rushingTds, receivingTds, fumbles, interceptions, passingYds,
             rushingYds, receivingYds, receptions)
 
     init {

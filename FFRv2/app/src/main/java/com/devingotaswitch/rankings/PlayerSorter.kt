@@ -123,7 +123,7 @@ class PlayerSorter : AppCompatActivity() {
         list.add(Constants.SORT_ONLY_WATCHED)
         list.add(Constants.SORT_ONLY_ROOKIES)
         list.add(Constants.SORT_UNDER_30)
-        if (!rankings.leagueSettings.isRookie && !rankings.leagueSettings.isDynasty && !rankings.leagueSettings.isBestBall) {
+        if (!rankings.getLeagueSettings().isRookie && !rankings.getLeagueSettings().isDynasty && !rankings.getLeagueSettings().isBestBall) {
             list.add(Constants.SORT_IGNORE_EARLY)
             list.add(Constants.SORT_IGNORE_LATE)
         }
@@ -136,7 +136,7 @@ class PlayerSorter : AppCompatActivity() {
         getUserSettings(this)
         val positions = findViewById<NiceSpinner>(R.id.sort_players_position)
         val posList: MutableList<String> = ArrayList()
-        val roster = rankings.leagueSettings.rosterSettings
+        val roster = rankings.getLeagueSettings().rosterSettings
         posList.add(Constants.ALL_POSITIONS)
         if (roster.qbCount > 0) {
             posList.add(Constants.QB)
@@ -354,7 +354,7 @@ class PlayerSorter : AppCompatActivity() {
         players.clear()
         for (id in playerIds) {
             val player = rankings.getPlayer(id!!)
-            if ((Constants.SORT_ALL == factor && rankings.leagueSettings.isRookie || Constants.SORT_ROOKIE == factor)
+            if ((Constants.SORT_ALL == factor && rankings.getLeagueSettings().isRookie || Constants.SORT_ROOKIE == factor)
                     && player.rookieRank == Constants.DEFAULT_RANK) {
                 // Default sort for rookies means only rookies. If it's 'not set',  skip.
                 // Also skip if we're looking at rookie rank for someone without one (meaning, not a rookie).
@@ -401,7 +401,7 @@ class PlayerSorter : AppCompatActivity() {
                     continue
                 }
             }
-            val teamCount = rankings.leagueSettings.teamCount
+            val teamCount = rankings.getLeagueSettings().teamCount
             if (booleanFactors.contains(Constants.SORT_IGNORE_LATE)) {
                 if (player.ecr > teamCount * Constants.SORT_IGNORE_LATE_THRESHOLD_ROUNDS) {
                     continue
@@ -446,7 +446,7 @@ class PlayerSorter : AppCompatActivity() {
         }
         var displayedCount = 0
         for (player in players) {
-            if (rankings.leagueSettings.rosterSettings.isPositionValid(player!!.position)) {
+            if (rankings.getLeagueSettings().rosterSettings.isPositionValid(player!!.position)) {
                 if (displayedCount >= sortMax) {
                     break
                 }
@@ -484,7 +484,7 @@ class PlayerSorter : AppCompatActivity() {
                             if (!rightDismiss) {
                                 rankings.draft.draftBySomeone(rankings, player, localCopy, listener)
                             } else {
-                                if (rankings.leagueSettings.isAuction) {
+                                if (rankings.getLeagueSettings().isAuction) {
                                     getAuctionCost(listView, player, position, data, datum, adapter, listener)
                                 } else {
                                     draftByMe(player, 0, listener)
@@ -790,17 +790,17 @@ class PlayerSorter : AppCompatActivity() {
                     .append("VoLS: ")
                     .append(Constants.DECIMAL_FORMAT.format(player.vols))
         }
-        val isAuction = rankings.leagueSettings.isAuction
+        val isAuction = rankings.getLeagueSettings().isAuction
         if (isAuction && Constants.SORT_AUCTION != factor && Constants.SORT_ALL != factor) {
             subtextBuilder.append(Constants.LINE_BREAK)
                     .append("Auction Value: ")
                     .append(Constants.DECIMAL_FORMAT.format(player!!.getAuctionValueCustom(rankings)))
-        } else if (rankings.leagueSettings.isSnake && Constants.SORT_ECR != factor && Constants.SORT_ALL != factor &&
+        } else if (rankings.getLeagueSettings().isSnake && Constants.SORT_ECR != factor && Constants.SORT_ALL != factor &&
                 Constants.SORT_UNDERDRAFTED != factor && Constants.SORT_OVERDRAFTED != factor) {
             subtextBuilder.append(Constants.LINE_BREAK)
                     .append("ECR: ")
                     .append(if (player!!.ecr == Constants.DEFAULT_RANK) Constants.DEFAULT_DISPLAY_RANK_NOT_SET else player.ecr)
-        } else if (rankings.leagueSettings.isDynasty && Constants.SORT_DYNASTY != factor && Constants.SORT_ALL != factor) {
+        } else if (rankings.getLeagueSettings().isDynasty && Constants.SORT_DYNASTY != factor && Constants.SORT_ALL != factor) {
             subtextBuilder.append(Constants.LINE_BREAK)
                     .append("Dynasty/Keeper Rank: ")
                     .append(if (player!!.dynastyRank == Constants.DEFAULT_RANK) Constants.DEFAULT_DISPLAY_RANK_NOT_SET else player.dynastyRank)
@@ -809,11 +809,11 @@ class PlayerSorter : AppCompatActivity() {
                         .append("Age: ")
                         .append(player.age)
             }
-        } else if (rankings.leagueSettings.isRookie && Constants.SORT_ROOKIE != factor && Constants.SORT_ALL != factor) {
+        } else if (rankings.getLeagueSettings().isRookie && Constants.SORT_ROOKIE != factor && Constants.SORT_ALL != factor) {
             subtextBuilder.append(Constants.LINE_BREAK)
                     .append("Rookie Rank: ")
                     .append(if (player!!.rookieRank == Constants.DEFAULT_RANK) Constants.DEFAULT_DISPLAY_RANK_NOT_SET else player.rookieRank)
-        } else if (rankings.leagueSettings.isBestBall && Constants.SORT_BEST_BALL != factor && Constants.SORT_ALL != factor) {
+        } else if (rankings.getLeagueSettings().isBestBall && Constants.SORT_BEST_BALL != factor && Constants.SORT_ALL != factor) {
             subtextBuilder.append(Constants.LINE_BREAK)
                     .append("Best Ball Rank: ")
                     .append(if (player!!.bestBallRank == Constants.DEFAULT_RANK) Constants.DEFAULT_DISPLAY_RANK_NOT_SET else player.bestBallRank)

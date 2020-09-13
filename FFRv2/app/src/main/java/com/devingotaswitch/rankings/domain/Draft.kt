@@ -246,7 +246,7 @@ class Draft {
     }
 
     fun draftBySomeone(rankings: Rankings, player: Player, act: Activity, listener: OnActionTapListener?) {
-        draftPlayer(player, rankings.leagueSettings.teamCount, rankings.leagueSettings.auctionBudget, false, 0)
+        draftPlayer(player, rankings.getLeagueSettings().teamCount, rankings.getLeagueSettings().auctionBudget, false, 0)
         if (listener == null) {
             generateTextOnlyFlashbar(act, "Success!", player.name + " drafted", Flashbar.Gravity.BOTTOM)
                     .show()
@@ -259,7 +259,7 @@ class Draft {
     }
 
     fun draftByMe(rankings: Rankings, player: Player, act: Activity, cost: Int, listener: OnActionTapListener?) {
-        draftPlayer(player, rankings.leagueSettings.teamCount, rankings.leagueSettings.auctionBudget, true, cost)
+        draftPlayer(player, rankings.getLeagueSettings().teamCount, rankings.getLeagueSettings().auctionBudget, true, cost)
         if (listener == null) {
             generateTextOnlyFlashbar(act, "Success!", player.name + " drafted by you", Flashbar.Gravity.BOTTOM)
                     .show()
@@ -280,7 +280,7 @@ class Draft {
     }
 
     private fun saveDraft(rankings: Rankings, act: Activity) {
-        LocalSettingsHelper.saveDraft(act, rankings.leagueSettings.name, rankings.draft)
+        LocalSettingsHelper.saveDraft(act, rankings.getLeagueSettings().name, rankings.draft)
     }
 
     init {

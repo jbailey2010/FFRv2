@@ -316,8 +316,8 @@ object ParseMath {
     }
 
     fun getPAAAuctionValue(rankings: Rankings) {
-        val discretCash = getDiscretionaryCash(rankings.leagueSettings.auctionBudget,
-                rankings.leagueSettings.rosterSettings)
+        val discretCash = getDiscretionaryCash(rankings!!.getLeagueSettings().auctionBudget,
+                rankings!!.getLeagueSettings().rosterSettings)
         val zMap = initZMap(rankings)
         for (key in rankings.players.keys) {
             val player = rankings.getPlayer(key)

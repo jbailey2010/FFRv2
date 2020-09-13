@@ -39,6 +39,7 @@ internal class RankingsDBHelper(context: Context?, val dBOwner: String) : SQLite
                 Constants.IS_DYNASTY_ROOKIE_COLUMN + " BOOLEAN," +
                 Constants.IS_BEST_BALL_COLUMN + " BOOLEAN," +
                 Constants.AUCTION_BUDGET_COLUMN + " INTEGER," +
+                Constants.CURRENT_LEAGUE_COLUMN + " BOOLEAN," +
                 Constants.SCORING_ID_COLUMN + " TEXT," +
                 Constants.ROSTER_ID_COLUMN + " TEXT);"
     private val deleteLeagueTableSQL: String

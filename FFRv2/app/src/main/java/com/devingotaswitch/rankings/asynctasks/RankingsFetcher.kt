@@ -212,21 +212,21 @@ class RankingsFetcher {
             Log.i(TAG, "Getting paa calculations")
             publishProgress("Calculating PAA...")
             try {
-                ParseMath.setPlayerPAA(rankings, rankings.leagueSettings)
+                ParseMath.setPlayerPAA(rankings, rankings.getLeagueSettings())
             } catch (e: Exception) {
                 Log.e(TAG, "Failed to calculate PAA", e)
             }
             Log.i(TAG, "Getting VoRP calculations")
             publishProgress("Calculating VoRP...")
             try {
-                ParseMath.setPlayerVoLS(rankings, rankings.leagueSettings)
+                ParseMath.setPlayerVoLS(rankings, rankings.getLeagueSettings())
             } catch (e: Exception) {
                 Log.e(TAG, "Failed to calculate VoRP", e)
             }
             Log.i(TAG, "Setting player xvals")
             publishProgress("Calculating xVal...")
             try {
-                ParseMath.setPlayerXval(rankings, rankings.leagueSettings)
+                ParseMath.setPlayerXval(rankings, rankings.getLeagueSettings())
             } catch (e: Exception) {
                 Log.e(TAG, "Failed to calculate Xval", e)
             }

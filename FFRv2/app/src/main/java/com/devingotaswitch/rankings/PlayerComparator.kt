@@ -218,8 +218,8 @@ class PlayerComparator : AppCompatActivity() {
                     rankings.userSettings.isHideRanklessComparator && Constants.DEFAULT_DISPLAY_RANK_NOT_SET == player.getDisplayValue(rankings)) {
                 continue
             }
-            if (rankings.leagueSettings.rosterSettings.isPositionValid(player.position)) {
-                if (rankings.leagueSettings.isRookie && player.rookieRank == Constants.DEFAULT_RANK) {
+            if (rankings.getLeagueSettings().rosterSettings.isPositionValid(player.position)) {
+                if (rankings.getLeagueSettings().isRookie && player.rookieRank == Constants.DEFAULT_RANK) {
                     // the constant is 'not set', so skip these. No sense showing a 10 year vet in rookie ranks.
                     continue
                 }
@@ -312,7 +312,7 @@ class PlayerComparator : AppCompatActivity() {
         nameB.setOnClickListener { goToPlayerInfo(playerB) }
         nameA.setOnLongClickListener {
             if (!rankings.draft.isDrafted(playerA)) {
-                if (rankings.leagueSettings.isAuction) {
+                if (rankings.getLeagueSettings().isAuction) {
                     getAuctionCost(playerA, nameA)
                 } else {
                     draftPlayer(playerA, nameA, 0)
@@ -323,7 +323,7 @@ class PlayerComparator : AppCompatActivity() {
         }
         nameB.setOnLongClickListener {
             if (!rankings.draft.isDrafted(playerB)) {
-                if (rankings.leagueSettings.isAuction) {
+                if (rankings.getLeagueSettings().isAuction) {
                     getAuctionCost(playerB, nameB)
                 } else {
                     draftPlayer(playerB, nameB, 0)
@@ -412,7 +412,7 @@ class PlayerComparator : AppCompatActivity() {
 
         // Rookie ranks
         val rookieRow = findViewById<LinearLayout>(R.id.rookie_output_row)
-        if (rankings.leagueSettings.isRookie && (playerA.rookieRank < 300.0 || playerB.rookieRank < 300.0)) {
+        if (rankings.getLeagueSettings().isRookie && (playerA.rookieRank < 300.0 || playerB.rookieRank < 300.0)) {
             rookieRow.visibility = View.VISIBLE
             val rookA = findViewById<TextView>(R.id.comparator_rookie_a)
             val rookB = findViewById<TextView>(R.id.comparator_rookie_b)
@@ -664,7 +664,7 @@ class PlayerComparator : AppCompatActivity() {
         val projectionDays: MutableList<Entry?> = ArrayList()
         for (i in projections.indices) {
             val projection = projections[i]
-            projectionDays.add(Entry(i.toFloat(), projection.getProjection(rankings.leagueSettings.scoringSettings).toFloat()))
+            projectionDays.add(Entry(i.toFloat(), projection.getProjection(rankings.getLeagueSettings().scoringSettings).toFloat()))
         }
         return getLineDataSet(projectionDays,
                 player.name + " Projections", color)
@@ -770,9 +770,9 @@ class PlayerComparator : AppCompatActivity() {
             var baseURL = "http://www.fantasypros.com/nfl/draft/"
             baseURL += (ParsePlayerNews.playerNameUrl(playerA!!.name, playerA.teamName) + "-"
                     + ParsePlayerNews.playerNameUrl(playerB!!.name, playerB.teamName) + ".php")
-            if (rankings.leagueSettings.scoringSettings.receptions >= 1.0) {
+            if (rankings.getLeagueSettings().scoringSettings.receptions >= 1.0) {
                 baseURL += "?scoring=PPR"
-            } else if (rankings.leagueSettings.scoringSettings.receptions > 0) {
+            } else if (rankings.getLeagueSettings().scoringSettings.receptions > 0) {
                 baseURL += "?scoring=HALF"
             }
             val results: MutableMap<String, String> = HashMap()

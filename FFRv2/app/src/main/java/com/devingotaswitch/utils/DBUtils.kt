@@ -1,6 +1,7 @@
 package com.devingotaswitch.utils
 
 import android.content.ContentValues
+import android.content.Context
 import android.database.Cursor
 import com.devingotaswitch.rankings.domain.*
 import com.devingotaswitch.rankings.domain.RosterSettings.Flex
@@ -12,6 +13,11 @@ object DBUtils {
     fun getSelectAllString(tableName: String): String {
         return "SELECT * FROM " +
                 tableName
+    }
+
+    @JvmStatic
+    fun getSelectCountString(tableName: String): String {
+        return "SELECT count(*) FROM $tableName"
     }
 
     @JvmStatic
@@ -85,6 +91,7 @@ object DBUtils {
         values.put(Constants.IS_DYNASTY_ROOKIE_COLUMN, league.isRookie)
         values.put(Constants.IS_BEST_BALL_COLUMN, league.isBestBall)
         values.put(Constants.AUCTION_BUDGET_COLUMN, league.auctionBudget)
+        values.put(Constants.CURRENT_LEAGUE_COLUMN, league.isCurrentLeague)
         values.put(Constants.SCORING_ID_COLUMN, league.scoringSettings.id)
         values.put(Constants.ROSTER_ID_COLUMN, league.rosterSettings.id)
         return values
@@ -100,6 +107,7 @@ object DBUtils {
                 result.getInt(result.getColumnIndex(Constants.IS_DYNASTY_STARTUP_COLUMN)) != 0,
                 result.getInt(result.getColumnIndex(Constants.IS_DYNASTY_ROOKIE_COLUMN)) != 0,
                 result.getInt(result.getColumnIndex(Constants.IS_BEST_BALL_COLUMN)) != 0,
+                result.getInt(result.getColumnIndex(Constants.CURRENT_LEAGUE_COLUMN)) != 0,
                 result.getInt(result.getColumnIndex(Constants.AUCTION_BUDGET_COLUMN)),
                 scoring,
                 roster

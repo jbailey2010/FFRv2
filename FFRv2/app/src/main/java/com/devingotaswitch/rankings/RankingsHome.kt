@@ -73,7 +73,6 @@ class RankingsHome : AppCompatActivity() {
     private lateinit var nDrawer: NavigationView
     private lateinit var mDrawer: DrawerLayout
     private lateinit var rankingsDB: RankingsDBWrapper
-    private var currentLeague: LeagueSettings? = null
     private var rankings: Rankings? = null
     private lateinit var rankingsBase: LinearLayout
     private lateinit var searchBase: RelativeLayout
@@ -167,10 +166,6 @@ class RankingsHome : AppCompatActivity() {
         nDrawer = findViewById(R.id.nav_view)
         setNavDrawer()
         rankingsDB = RankingsDBWrapper()
-        val currentLeagueId = LocalSettingsHelper.getCurrentLeagueName(this)
-        if (LocalSettingsHelper.wasPresent(currentLeagueId)) {
-            currentLeague = rankingsDB.getLeague(this, currentLeagueId)
-        }
         loadRanks = intent.extras != null && intent.extras!!.getBoolean(Constants.RANKINGS_UPDATED)
         if (!StringUtils.isBlank(currUser)) {
             val navigationHeader = nDrawer.getHeaderView(0)
@@ -206,7 +201,7 @@ class RankingsHome : AppCompatActivity() {
         teams.setBackgroundColor(Color.parseColor("#FAFAFA"))
         val positions: NiceSpinner = filterBase.findViewById(R.id.rankings_filter_positions)
         val posList: MutableList<String> = ArrayList()
-        val roster = rankings!!.leagueSettings.rosterSettings
+        val roster = rankings!!.getLeagueSettings().rosterSettings
         posList.add(Constants.ALL_POSITIONS)
         if (roster.qbCount > 0) {
             posList.add(Constants.QB)
@@ -292,7 +287,7 @@ class RankingsHome : AppCompatActivity() {
         comparePlayers.setOnClickListener { comparePlayers() }
         val sortPlayers = buttonBase.findViewById<ImageButton>(R.id.rankings_sort)
         sortPlayers.setOnClickListener { sortPlayers() }
-        initRankingsContext()
+        establishLayout()
         hideKeyboard(this)
         if (rankingsDB.arePlayersSaved(this)) {
             getUserCustomPlayerData(this)
@@ -313,16 +308,8 @@ class RankingsHome : AppCompatActivity() {
         }
     }
 
-    private fun initRankingsContext() {
-        val currentLeagueId = LocalSettingsHelper.getCurrentLeagueName(this)
-        if (LocalSettingsHelper.wasPresent(currentLeagueId)) {
-            currentLeague = rankingsDB.getLeague(this, currentLeagueId)
-        }
-        rankingsBase = findViewById(R.id.rankings_base_layout)
-        establishLayout()
-    }
-
     private fun establishLayout() {
+        rankingsBase = findViewById(R.id.rankings_base_layout)
         if (rankingsDB.arePlayersSaved(this)) {
             nDrawer.menu.findItem(R.id.nav_refresh_ranks).isVisible = true
             nDrawer.menu.findItem(R.id.nav_export_rankings).isVisible = true
@@ -344,7 +331,7 @@ class RankingsHome : AppCompatActivity() {
                     processNewRankings(rankings, false)
                 }
             }
-        } else if (currentLeague == null) {
+        } else if (!rankingsDB.areLeaguesSaved(this)) {
             // Otherwise, if no league is set up, display that message
             clearAndAddView(R.layout.content_rankings_no_league)
             rankings = Rankings.init()
@@ -355,7 +342,7 @@ class RankingsHome : AppCompatActivity() {
         } else {
             // If neither of the above, there's a league but no ranks. Tell the user.
             clearAndAddView(R.layout.content_rankings_no_ranks)
-            rankings = Rankings.initWithDefaults(currentLeague!!)
+            rankings = Rankings.init()
             searchBase.visibility = View.GONE
             buttonBase.visibility = View.GONE
             nDrawer.menu.findItem(R.id.nav_refresh_ranks).isVisible = true
@@ -409,9 +396,9 @@ class RankingsHome : AppCompatActivity() {
         listview.adapter = adapter
         for (i in 0 until orderedIds.size.coerceAtMost(maxPlayers)) {
             val player = rankings!!.getPlayer(orderedIds[i])
-            if (rankings!!.leagueSettings.rosterSettings.isPositionValid(player.position) &&
+            if (rankings!!.getLeagueSettings().rosterSettings.isPositionValid(player.position) &&
                     !rankings!!.draft.isDrafted(player)) {
-                if (rankings!!.leagueSettings.isRookie && player.rookieRank == Constants.DEFAULT_RANK) {
+                if (rankings!!.getLeagueSettings().isRookie && player.rookieRank == Constants.DEFAULT_RANK) {
                     // the constant is 'not set', so skip these. No sense showing a 10 year vet in rookie ranks.
                     continue
                 }
@@ -448,7 +435,7 @@ class RankingsHome : AppCompatActivity() {
                                     setSearchAutocomplete()
                                 }
                             } else {
-                                if (rankings!!.leagueSettings.isAuction) {
+                                if (rankings!!.getLeagueSettings().isAuction) {
                                     getAuctionCost(player, position, data, datum, adapter, listener)
                                 } else {
                                     draftByMe(player, 0, listener)
@@ -653,7 +640,7 @@ class RankingsHome : AppCompatActivity() {
     fun refreshRanks() {
         // Don't let the user refresh if there's no saved league
         if (confirmInternet(this)) {
-            if (LocalSettingsHelper.wasPresent(LocalSettingsHelper.getCurrentLeagueName(this))) {
+            if (rankingsDB.areLeaguesSaved(this)) {
                 rankings!!.refreshRankings(this)
             } else {
                 generateTextOnlyFlashbar(this, "No can do", "Set up a league before getting rankings", Flashbar.Gravity.BOTTOM)

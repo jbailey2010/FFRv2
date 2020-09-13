@@ -16,7 +16,6 @@ import androidx.core.content.ContextCompat
 import com.amazonaws.util.StringUtils
 import com.andrognito.flashbar.Flashbar
 import com.devingotaswitch.ffrv2.R
-import com.devingotaswitch.fileio.LocalSettingsHelper
 import com.devingotaswitch.fileio.RankingsDBWrapper
 import com.devingotaswitch.rankings.domain.LeagueSettings
 import com.devingotaswitch.rankings.domain.Rankings
@@ -39,8 +38,6 @@ class LeagueSettingsActivity : AppCompatActivity() {
     private lateinit var rankings: Rankings
     private var mainTitle: TextView? = null
     private var rankingsUpdated = false
-    private var leagues: MutableMap<String?, LeagueSettings>? = null
-    private var currLeague: LeagueSettings? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_league_settings)
@@ -84,11 +81,8 @@ class LeagueSettingsActivity : AppCompatActivity() {
     }
 
     private fun initLeagues() {
-        val currentLeagueId = LocalSettingsHelper.getCurrentLeagueName(this)
-        leagues = rankingsDB.getLeagues(this)
-        if (LocalSettingsHelper.wasPresent(currentLeagueId)) {
-            currLeague = leagues!![currentLeagueId]
-            displayLeague(currLeague)
+        if (rankings.getUserLeagues() != null && rankings.getUserLeagues()!!.leaguesMap.isNotEmpty()) {
+            displayLeague(rankings.getUserLeagues()!!.currentLeague)
         } else {
             displayNoLeague()
         }
@@ -97,17 +91,18 @@ class LeagueSettingsActivity : AppCompatActivity() {
 
     private fun initializeLeagueSpinner() {
         val spinner = findViewById<NiceSpinner>(R.id.league_settings_spinner)
-        if (leagues!!.isEmpty()) {
+        if (rankings.getUserLeagues() == null || rankings.getUserLeagues()!!.leaguesMap.isEmpty()) {
             spinner.visibility = View.GONE
             return
         }
         spinner.visibility = View.VISIBLE
         val leagueNames: MutableList<String?> = ArrayList()
         var currLeagueIndex = 0
-        for ((leagueCount, leagueName) in leagues!!.keys.withIndex()) {
-            leagueNames.add(leagueName)
-            if (leagueName == currLeague!!.name) {
-                currLeagueIndex = leagueCount
+        val leagueList = rankings.getUserLeagues()!!.leaguesMap.values.sortedByDescending { it.name }
+        for (league in leagueList) {
+            leagueNames.add(league.name)
+            if (league.name == rankings.getLeagueSettings().name) {
+                currLeagueIndex = leagueList.indexOf(league)
             }
         }
         leagueNames.add(createNewLeagueSpinnerText)
@@ -119,7 +114,7 @@ class LeagueSettingsActivity : AppCompatActivity() {
                 if (createNewLeagueSpinnerText == leagueNames[i]) {
                     displayNoLeague()
                 } else {
-                    displayLeague(leagues!![leagueNames[i]])
+                    displayLeague(rankings.getUserLeagues()!!.getLeagueByName(leagueNames[i]!!))
                 }
             }
 
@@ -177,15 +172,15 @@ class LeagueSettingsActivity : AppCompatActivity() {
             if (validateLeagueInputs(leagueName, teamCount, auctionBudget, isAuction, false)) {
                 return@setOnClickListener
             }
-            val updates = getLeagueUpdates(currentLeague, leagueName, teamCount, isAuction, isSnake,
+            val newLeague = getLeagueUpdates(currentLeague, leagueName, teamCount, isAuction, isSnake,
                     isDynasty, isRookie, isBestBall, auctionBudget)
-            if (updates == null) {
+            if (newLeague == null) {
                 hideKeyboard(act)
                 generateTextOnlyFlashbar(act, "No can do", "No updates given", Flashbar.Gravity.BOTTOM)
                         .show()
                 return@setOnClickListener
             }
-            updateLeague(null, null, updates, currentLeague)
+            updateLeague(null, null, null, newLeague, currentLeague)
             generateTextOnlyFlashbar(act, "Success!", currentLeague.name + " updated", Flashbar.Gravity.BOTTOM)
                     .show()
         }
@@ -193,12 +188,12 @@ class LeagueSettingsActivity : AppCompatActivity() {
             if (validateLeagueInputs(leagueName, teamCount, auctionBudget, isAuction, false)) {
                 return@setOnClickListener
             }
-            val updates = getLeagueUpdates(currentLeague, leagueName, teamCount, isAuction, isSnake,
+            val newLeague = getLeagueUpdates(currentLeague, leagueName, teamCount, isAuction, isSnake,
                     isDynasty, isRookie, isBestBall, auctionBudget)
-            displayRoster(currentLeague, updates)
+            displayRoster(currentLeague, newLeague)
         }
         delete.setOnClickListener {
-            if (leagues!!.size > 1) {
+            if (rankings.getUserLeagues()!!.leaguesMap.size > 1) {
                 deleteLeague(currentLeague)
             } else {
                 hideKeyboard(act)
@@ -206,7 +201,7 @@ class LeagueSettingsActivity : AppCompatActivity() {
                         .show()
             }
         }
-        setCurrentLeague(currentLeague)
+        rankings.getUserLeagues()!!.updateCurrentLeague(currentLeague, this)
     }
 
     private fun displayNoLeague() {
@@ -309,7 +304,7 @@ class LeagueSettingsActivity : AppCompatActivity() {
                     .show()
             return true
         }
-        if (isNewLeague && leagues != null && leagues!!.containsKey(givenName)) {
+        if (isNewLeague && rankings.getUserLeagues() != null && rankings.getUserLeagues()!!.leaguesMap.containsKey(givenName)) {
             generateTextOnlyFlashbar(this, "No can do",
                     "$givenName is already a league name, must be unique.", Flashbar.Gravity.TOP)
                     .show()
@@ -345,53 +340,31 @@ class LeagueSettingsActivity : AppCompatActivity() {
 
     private fun getLeagueUpdates(league: LeagueSettings?, name: EditText, teamCount: EditText,
                                  isAuction: RadioButton, isSnake: RadioButton, isDynasty: RadioButton,
-                                 isRookie: RadioButton, isBestBall: RadioButton, auctionBudget: EditText): Map<String?, String?>? {
-        val updates: MutableMap<String?, String?> = HashMap()
-        if (league!!.name != name.text.toString()) {
-            updates[Constants.NAME_COLUMN] = name.text.toString()
-            league.name = name.text.toString()
+                                 isRookie: RadioButton, isBestBall: RadioButton, auctionBudget: EditText): LeagueSettings? {
+        var auctionBudgetNew = Constants.DEFAULT_AUCTION_BUDGET
+        if (isAuction.isChecked) {
+            auctionBudgetNew = auctionBudget.text.toString().toInt()
         }
-        if (league.teamCount != teamCount.text.toString().toInt()) {
-            updates[Constants.TEAM_COUNT_COLUMN] = teamCount.text.toString()
-            league.teamCount = teamCount.text.toString().toInt()
+        if (league!!.name != name.text.toString() || teamCount.text.toString().toInt() != league.teamCount ||
+                isSnake.isChecked && !league.isSnake || isAuction.isChecked && !league.isAuction ||
+                isDynasty.isChecked && !league.isDynasty || isRookie.isChecked && !league.isRookie ||
+                isBestBall.isChecked && !league.isBestBall || (league.isAuction && league.auctionBudget != auctionBudgetNew)) {
+            return LeagueSettings(name.text.toString(), teamCount.text.toString().toInt(),
+                    isSnake.isChecked, isAuction.isChecked, isDynasty.isChecked, isRookie.isChecked, isBestBall.isChecked,
+                    true, auctionBudgetNew)
         }
-        if (isAuction.isChecked != league.isAuction) {
-            updates[Constants.IS_AUCTION_COLUMN] = if (isAuction.isChecked) "1" else "0"
-            league.isAuction = isAuction.isChecked
-        }
-        if (isSnake.isChecked != league.isSnake) {
-            updates[Constants.IS_SNAKE_COLUMN] = if (isSnake.isChecked) "1" else "0"
-            league.isSnake = isSnake.isChecked
-        }
-        if (isDynasty.isChecked != league.isDynasty) {
-            updates[Constants.IS_DYNASTY_STARTUP_COLUMN] = if (isDynasty.isChecked) "1" else "0"
-            league.isDynasty = isDynasty.isChecked
-        }
-        if (isRookie.isChecked != league.isRookie) {
-            updates[Constants.IS_DYNASTY_ROOKIE_COLUMN] = if (isRookie.isChecked) "1" else "0"
-            league.isRookie = isRookie.isChecked
-        }
-        if (isBestBall.isChecked != league.isBestBall) {
-            updates[Constants.IS_BEST_BALL_COLUMN] = if (isBestBall.isChecked) "1" else "0"
-        }
-        if (isAuction.isChecked && league.auctionBudget != auctionBudget.text.toString().toInt()) {
-            updates[Constants.AUCTION_BUDGET_COLUMN] = auctionBudget.text.toString()
-            league.auctionBudget = auctionBudget.text.toString().toInt()
-        }
-        return if (updates.isEmpty()) {
-            null
-        } else updates
+        return null
     }
 
     private fun getLeagueSettingsFromFirstPage(leagueName: EditText, teamCount: EditText, isAuction: RadioButton,
                                                isSnake: RadioButton, isDynasty: RadioButton, isRookie: RadioButton,
                                                isBestBall: RadioButton, auctionBudget: EditText): LeagueSettings {
-        var realBudget = 200
+        var realBudget = Constants.DEFAULT_AUCTION_BUDGET
         if (isInteger(auctionBudget.text.toString())) {
             realBudget = auctionBudget.text.toString().toInt()
         }
         return LeagueSettings(leagueName.text.toString(), teamCount.text.toString().toInt(), isSnake.isChecked, isAuction.isChecked,
-                isDynasty.isChecked, isRookie.isChecked, isBestBall.isChecked, realBudget)
+                isDynasty.isChecked, isRookie.isChecked, isBestBall.isChecked, true, realBudget)
     }
 
     private fun initializeLeagueSettingsBase(): View {
@@ -415,7 +388,7 @@ class LeagueSettingsActivity : AppCompatActivity() {
         return child
     }
 
-    private fun displayRoster(currentLeague: LeagueSettings?, leagueUpdates: Map<String?, String?>?) {
+    private fun displayRoster(currentLeague: LeagueSettings?, newLeague: LeagueSettings?) {
         val view = initializeLeagueSettingsRoster()
         mainTitle!!.text = "Roster Settings"
         val update = view.findViewById<Button>(R.id.league_roster_create_default)
@@ -459,14 +432,14 @@ class LeagueSettingsActivity : AppCompatActivity() {
             if (validateRosterInputs(qbs, rbs, wrs, tes, dsts, ks, bench)) {
                 return@setOnClickListener
             }
-            val rosterUpdates: Map<String?, String?>? = getRosterUpdates(qbs, rbs, wrs, tes, dsts, ks, bench, currentLeague)
-            if (rosterUpdates == null && leagueUpdates == null) {
+            val newRoster = getRosterUpdates(qbs, rbs, wrs, tes, dsts, ks, bench, currentLeague)
+            if (newRoster == null && newLeague == null) {
                 hideKeyboard(act)
                 generateTextOnlyFlashbar(act, "No can do", "No updates given", Flashbar.Gravity.BOTTOM)
                         .show()
                 return@setOnClickListener
             }
-            updateLeague(null, rosterUpdates, leagueUpdates, currentLeague)
+            updateLeague(null, newRoster, null, newLeague, currentLeague)
             generateTextOnlyFlashbar(act, "Success!", currentLeague.name + " updated", Flashbar.Gravity.BOTTOM)
                     .show()
         }
@@ -474,8 +447,8 @@ class LeagueSettingsActivity : AppCompatActivity() {
             if (validateRosterInputs(qbs, rbs, wrs, tes, dsts, ks, bench)) {
                 return@setOnClickListener
             }
-            val rosterUpdates = getRosterUpdates(qbs, rbs, wrs, tes, dsts, ks, bench, currentLeague)
-            displayFlex(currentLeague, leagueUpdates, rosterUpdates)
+            val newRoster = getRosterUpdates(qbs, rbs, wrs, tes, dsts, ks, bench, currentLeague)
+            displayFlex(currentLeague, newLeague, newRoster)
         }
     }
 
@@ -600,7 +573,7 @@ class LeagueSettingsActivity : AppCompatActivity() {
     }
 
     private fun getRosterUpdates(qbs: EditText, rbs: EditText, wrs: EditText, tes: EditText, dsts: EditText,
-                                 ks: EditText, bench: EditText, league: LeagueSettings?): MutableMap<String?, String?>? {
+                                 ks: EditText, bench: EditText, league: LeagueSettings?): RosterSettings? {
         val qbTotal = qbs.text.toString().toInt()
         val rbTotal = rbs.text.toString().toInt()
         val wrTotal = wrs.text.toString().toInt()
@@ -609,44 +582,15 @@ class LeagueSettingsActivity : AppCompatActivity() {
         val kTotal = ks.text.toString().toInt()
         val benchTotal = bench.text.toString().toInt()
         val roster = league!!.rosterSettings
-        val rosterUpdates: MutableMap<String?, String?> = HashMap()
-        if (qbTotal != roster.qbCount) {
-            rosterUpdates[Constants.QB_COUNT_COLUMN] = qbs.text.toString()
-            roster.qbCount = qbTotal
+        if (qbTotal != roster.qbCount || rbTotal != roster.rbCount || wrTotal != roster.wrCount ||
+                teTotal != roster.teCount || dstTotal != roster.dstCount || kTotal != roster.kCount ||
+                benchTotal != roster.benchCount) {
+            return RosterSettings(qbTotal, rbTotal, wrTotal, teTotal, dstTotal, kTotal, benchTotal)
         }
-        if (rbTotal != roster.rbCount) {
-            rosterUpdates[Constants.RB_COUNT_COLUMN] = rbs.text.toString()
-            roster.rbCount = rbTotal
-        }
-        if (wrTotal != roster.wrCount) {
-            rosterUpdates[Constants.WR_COUNT_COLUMN] = wrs.text.toString()
-            roster.wrCount = wrTotal
-        }
-        if (teTotal != roster.teCount) {
-            rosterUpdates[Constants.TE_COUNT_COLUMN] = tes.text.toString()
-            roster.teCount = teTotal
-        }
-        if (dstTotal != roster.dstCount) {
-            rosterUpdates[Constants.DST_COUNT_COLUMN] = dsts.text.toString()
-            roster.dstCount = dstTotal
-        }
-        if (kTotal != roster.kCount) {
-            rosterUpdates[Constants.K_COUNT_COLUMN] = ks.text.toString()
-            roster.kCount = kTotal
-        }
-        if (benchTotal != roster.benchCount) {
-            rosterUpdates[Constants.BENCH_COUNT_COLUMN] = bench.text.toString()
-            roster.benchCount = benchTotal
-        }
-        if (rosterUpdates.isEmpty()) {
-            return null
-        }
-        league.rosterSettings = roster
-        return rosterUpdates
+        return null
     }
 
-    private fun displayFlex(currentLeague: LeagueSettings?, leagueUpdates: Map<String?, String?>?,
-                            baseRosterUpdates: MutableMap<String?, String?>?) {
+    private fun displayFlex(currentLeague: LeagueSettings?, newLeague: LeagueSettings?, newRoster: RosterSettings?) {
         val view = initializeLeagueSettingsFlex()
         mainTitle!!.text = "Flex Settings"
         val rbwr = view.findViewById<EditText>(R.id.league_flex_rbwr)
@@ -667,14 +611,14 @@ class LeagueSettingsActivity : AppCompatActivity() {
             if (validateFlexInputs(rbwr, rbte, rbwrte, wrte, op)) {
                 return@setOnClickListener
             }
-            val rosterUpdates = getFlexUpdates(rbwr, rbte, rbwrte, wrte, op, baseRosterUpdates, currentLeague)
-            if (rosterUpdates == null && leagueUpdates == null) {
+            val newFlex = getFlexUpdates(rbwr, rbte, rbwrte, wrte, op, newRoster, currentLeague)
+            if (newFlex == null && newRoster == null && newLeague == null) {
                 hideKeyboard(act)
                 generateTextOnlyFlashbar(act, "No can do", "No updates given", Flashbar.Gravity.BOTTOM)
                         .show()
                 return@setOnClickListener
             }
-            updateLeague(null, rosterUpdates, leagueUpdates, currentLeague)
+            updateLeague(null, newRoster, newFlex, newLeague, currentLeague)
             generateTextOnlyFlashbar(act, "Success!", currentLeague.name + " updated", Flashbar.Gravity.BOTTOM)
                     .show()
         }
@@ -682,8 +626,8 @@ class LeagueSettingsActivity : AppCompatActivity() {
             if (validateFlexInputs(rbwr, rbte, rbwrte, wrte, op)) {
                 return@setOnClickListener
             }
-            val rosterUpdates = getFlexUpdates(rbwr, rbte, rbwrte, wrte, op, baseRosterUpdates, currentLeague)
-            displayScoring(currentLeague, leagueUpdates, rosterUpdates)
+            val newFlex = getFlexUpdates(rbwr, rbte, rbwrte, wrte, op, newRoster, currentLeague)
+            displayScoring(currentLeague, newLeague, newRoster, newFlex)
         }
     }
 
@@ -771,8 +715,7 @@ class LeagueSettingsActivity : AppCompatActivity() {
     }
 
     private fun getFlexUpdates(rbwr: EditText, rbte: EditText, rbwrte: EditText, wrte: EditText,
-                               op: EditText, rosterUpdates: MutableMap<String?, String?>?, league: LeagueSettings?): Map<String?, String?>? {
-        var rosterUpdates = rosterUpdates
+                               op: EditText, newRoster: RosterSettings?, league: LeagueSettings?): Flex? {
         val rbwrTotal = rbwr.text.toString().toInt()
         val rbteTotal = rbte.text.toString().toInt()
         val rbwrteTotal = rbwrte.text.toString().toInt()
@@ -780,35 +723,11 @@ class LeagueSettingsActivity : AppCompatActivity() {
         val opTotal = op.text.toString().toInt()
         val roster = league!!.rosterSettings
         val flex = roster.flex
-        if (rosterUpdates == null) {
-            rosterUpdates = HashMap()
+        if (rbwrTotal != flex!!.rbwrCount || rbteTotal != flex.rbteCount || rbwrteTotal != flex.rbwrteCount ||
+                wrteTotal != flex.wrteCount || opTotal != flex.qbrbwrteCount) {
+            return Flex(rbwrTotal, rbwrteTotal, rbteTotal, wrteTotal, opTotal)
         }
-        if (rbwrTotal != flex!!.rbwrCount) {
-            rosterUpdates[Constants.RBWR_COUNT_COLUMN] = rbwr.text.toString()
-            flex.rbwrCount = rbwrTotal
-        }
-        if (rbteTotal != flex.rbteCount) {
-            rosterUpdates[Constants.RBTE_COUNT_COLUMN] = rbte.text.toString()
-            flex.rbteCount = rbteTotal
-        }
-        if (rbwrteTotal != flex.rbwrteCount) {
-            rosterUpdates[Constants.RBWRTE_COUNT_COLUMN] = rbwrte.text.toString()
-            flex.rbwrteCount = rbwrteTotal
-        }
-        if (wrteTotal != flex.wrteCount) {
-            rosterUpdates[Constants.WRTE_COUNT_COLUMN] = wrte.text.toString()
-            flex.wrteCount = wrteTotal
-        }
-        if (opTotal != flex.qbrbwrteCount) {
-            rosterUpdates[Constants.QBRBWRTE_COUNT_COLUMN] = op.text.toString()
-            flex.qbrbwrteCount = opTotal
-        }
-        if (rosterUpdates.isEmpty()) {
-            return null
-        }
-        roster.flex = flex
-        league.rosterSettings = roster
-        return rosterUpdates
+        return null
     }
 
     private fun displayScoringNoTeam(newLeague: LeagueSettings) {
@@ -839,8 +758,8 @@ class LeagueSettingsActivity : AppCompatActivity() {
         }
     }
 
-    private fun displayScoring(currentLeague: LeagueSettings?, leagueUpdates: Map<String?, String?>?,
-                               rosterUpdates: Map<String?, String?>?) {
+    private fun displayScoring(currentLeague: LeagueSettings?, newLeague: LeagueSettings?, newRoster: RosterSettings?,
+            newFlex: Flex?) {
         val view = initializeLeagueSettingsScoring()
         mainTitle!!.text = "Scoring Settings"
         val passTds = view.findViewById<EditText>(R.id.league_scoring_passing_tds)
@@ -869,15 +788,15 @@ class LeagueSettingsActivity : AppCompatActivity() {
                             ints, fumbles, ppr)) {
                 return@setOnClickListener
             }
-            val scoringUpdates = getScoringUpdates(passTds, rushTds, recTds, passYds, rushYds, recYds,
+            val newScoring = getScoringUpdates(passTds, rushTds, recTds, passYds, rushYds, recYds,
                     ints, fumbles, ppr, currentLeague)
-            if (rosterUpdates == null && leagueUpdates == null && scoringUpdates == null) {
+            if (newRoster == null && newLeague == null && newScoring == null && newFlex == null) {
                 hideKeyboard(act)
                 generateTextOnlyFlashbar(act, "No can do", "No updates given", Flashbar.Gravity.BOTTOM)
                         .show()
                 return@setOnClickListener
             }
-            updateLeague(scoringUpdates, rosterUpdates, leagueUpdates, currentLeague)
+            updateLeague(newScoring, newRoster, newFlex, newLeague, currentLeague)
             generateTextOnlyFlashbar(act, "Success!", currentLeague.name + " updated", Flashbar.Gravity.BOTTOM)
                     .show()
         }
@@ -968,7 +887,7 @@ class LeagueSettingsActivity : AppCompatActivity() {
 
     private fun getScoringUpdates(passTds: EditText, rushTds: EditText, recTds: EditText, passYds: EditText,
                                   rushYds: EditText, recYds: EditText, ints: EditText, fumbles: EditText,
-                                  receptions: EditText, league: LeagueSettings?): Map<String?, String?>? {
+                                  receptions: EditText, league: LeagueSettings?): ScoringSettings? {
         val passTdsTotal = passTds.text.toString().toInt()
         val rushTdsTotal = rushTds.text.toString().toInt()
         val recTdsTotal = recTds.text.toString().toInt()
@@ -978,92 +897,76 @@ class LeagueSettingsActivity : AppCompatActivity() {
         val intsTotal = ints.text.toString().toDouble()
         val fumblesTotal = fumbles.text.toString().toDouble()
         val receptionsTotal = receptions.text.toString().toDouble()
-        val scoringUpdates: MutableMap<String?, String?> = HashMap()
         val scoring = league!!.scoringSettings
-        if (passTdsTotal != scoring.passingTds) {
-            scoringUpdates[Constants.PASSING_TDS_COLUMN] = passTds.text.toString()
-            scoring.passingTds = passTdsTotal
+        if (passTdsTotal != scoring.passingTds || rushTdsTotal != scoring.rushingTds ||
+                recTdsTotal != scoring.receivingTds || passYdsTotal != scoring.passingYards ||
+                rushYdsTotal != scoring.rushingYards || recYdsTotal != scoring.receivingYards ||
+                intsTotal != scoring.interceptions || fumblesTotal != scoring.fumbles ||
+                receptionsTotal != scoring.receptions) {
+            return ScoringSettings(passTdsTotal, rushTdsTotal, recTdsTotal, fumblesTotal, intsTotal,
+                passYdsTotal, rushYdsTotal, recYdsTotal, receptionsTotal)
         }
-        if (rushTdsTotal != scoring.rushingTds) {
-            scoringUpdates[Constants.RUSHING_TDS_COLUMN] = rushTds.text.toString()
-            scoring.rushingTds = rushTdsTotal
-        }
-        if (recTdsTotal != scoring.receivingTds) {
-            scoringUpdates[Constants.RECEIVING_TDS_COLUMN] = recTds.text.toString()
-            scoring.receivingTds = recTdsTotal
-        }
-        if (passYdsTotal != scoring.passingYards) {
-            scoringUpdates[Constants.PASSING_YARDS_COLUMN] = passYds.text.toString()
-            scoring.passingYards = passYdsTotal
-        }
-        if (rushYdsTotal != scoring.rushingYards) {
-            scoringUpdates[Constants.RUSHING_YARDS_COLUMN] = rushYds.text.toString()
-            scoring.rushingYards = rushYdsTotal
-        }
-        if (recYdsTotal != scoring.receivingYards) {
-            scoringUpdates[Constants.RECEIVING_YARDS_COLUMN] = recYds.text.toString()
-            scoring.receivingYards = recYdsTotal
-        }
-        if (intsTotal != scoring.interceptions) {
-            scoringUpdates[Constants.INTERCEPTIONS_COLUMN] = ints.text.toString()
-            scoring.interceptions = intsTotal
-        }
-        if (fumblesTotal != scoring.fumbles) {
-            scoringUpdates[Constants.FUMBLES_COLUMN] = fumbles.text.toString()
-            scoring.fumbles = fumblesTotal
-        }
-        if (receptionsTotal != scoring.receptions) {
-            scoringUpdates[Constants.RECEPTIONS_COLUMN] = receptions.text.toString()
-            scoring.receptions = receptionsTotal
-        }
-        if (scoringUpdates.isEmpty()) {
-            return null
-        }
-        league.scoringSettings = scoring
-        return scoringUpdates
+        return null
     }
 
     private fun saveNewLeague(league: LeagueSettings) {
-        rankingsDB.insertLeague(this, league)
-        setCurrentLeague(league)
+        rankings.getUserLeagues()!!.insertCurrentLeague(league, this)
         initLeagues()
         rankingsUpdated = true
     }
 
-    private fun setCurrentLeague(league: LeagueSettings?) {
-        LocalSettingsHelper.saveCurrentLeagueName(this, league!!.name)
-    }
-
     private fun deleteLeague(league: LeagueSettings?) {
-        rankingsDB.deleteLeague(this, league!!)
-        leagues!!.remove(league.name)
-        currLeague = leagues!![leagues!!.keys.iterator().next()]
+        rankings.getUserLeagues()!!.deleteLeague(league!!, this)
         initializeLeagueSpinner()
-        displayLeague(currLeague)
+        displayLeague(rankings.getLeagueSettings())
         generateTextOnlyFlashbar(this, "Success!", league.name + " deleted", Flashbar.Gravity.BOTTOM)
                 .show()
         rankingsUpdated = true
     }
 
-    private fun updateLeague(scoringUpdates: Map<String?, String?>?, rosterUpdates: Map<String?, String?>?,
-                             leagueUpdates: Map<String?, String?>?, league: LeagueSettings?) {
-        rankingsDB.updateLeague(this, leagueUpdates, rosterUpdates, scoringUpdates, league!!)
-        setCurrentLeague(league)
-        initLeagues()
-        if (leagueUpdates != null && (leagueUpdates.containsKey(Constants.IS_AUCTION_COLUMN) ||
-                        leagueUpdates.containsKey(Constants.AUCTION_BUDGET_COLUMN))) {
-            rankingsUpdated = true
+    private fun updateLeague(newScoring: ScoringSettings?, newRoster: RosterSettings?, newFlex: Flex?,
+                             newLeague: LeagueSettings?, oldLeague: LeagueSettings) {
+        var shouldUpdateVBD = false
+        var shouldUpdateProjections = false
+        if (newScoring != null) {
+            shouldUpdateVBD = true
+            shouldUpdateProjections = true
+            oldLeague.scoringSettings = newScoring
         }
-        if ((leagueUpdates != null && leagueUpdates.containsKey(Constants.TEAM_COUNT_COLUMN) || scoringUpdates != null || rosterUpdates != null)
-                && rankings.players.isNotEmpty()) {
-            Log.d(tag, "Updating some set")
+        if (newRoster != null) {
+            shouldUpdateVBD = true
+            oldLeague.rosterSettings = newRoster
+        }
+        if (newFlex != null) {
+            oldLeague.rosterSettings.flex = newFlex
+        }
+        if (newLeague != null) {
+            if (oldLeague.isAuction != newLeague.isAuction || oldLeague.auctionBudget != newLeague.auctionBudget) {
+                rankingsUpdated = true
+            }
+            if (oldLeague.teamCount != newLeague.teamCount) {
+                shouldUpdateVBD = true
+            }
+            oldLeague.teamCount = newLeague.teamCount
+            oldLeague.auctionBudget = newLeague.auctionBudget
+            oldLeague.name = newLeague.name
+            oldLeague.isSnake = newLeague.isSnake
+            oldLeague.isAuction = newLeague.isAuction
+            oldLeague.isBestBall = newLeague.isBestBall
+            oldLeague.isDynasty = newLeague.isDynasty
+            oldLeague.isRookie = newLeague.isRookie
+        }
+        rankings.getUserLeagues()!!.updateCurrentLeague(oldLeague, this)
+        initLeagues()
+        if (shouldUpdateVBD && rankings.players.isNotEmpty()) {
+            Log.d(tag, "Updating vbd, based on league updates")
             var updateProjections = false
-            if (scoringUpdates != null) {
+            if (shouldUpdateProjections) {
                 Log.d(tag, "Projections to be updated, too.")
                 updateProjections = true
                 rankingsUpdated = true
             }
-            rankings.updateProjectionsAndVBD(this, league, updateProjections, rankingsDB)
+            rankings.updateProjectionsAndVBD(this, oldLeague, updateProjections, rankingsDB)
         }
     }
 }
