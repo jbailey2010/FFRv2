@@ -97,9 +97,6 @@ object ParseFA {
         val td = getElemsFromDoc(doc, "table.datatable tbody tr td")
         var i = 0
         while (i < td.size) {
-            for (j in i..i+11) {
-                Log.d("JEFFF", "td at " + j + " is " + td[j])
-            }
             val wonkyName = td[i]
             // The site has a hidden span with only the last name, so we find the last name and
             // split the string to filter it out. It starts out as BridgewaterTeddy Bridgewater.
@@ -137,9 +134,10 @@ object ParseFA {
                 }
                 applyPlayerChange(arrivingFA, newTeam, departingFA, oldTeam, playerEntry)
             }
-            if ("TBD" == newTeam) {
+            if ("TBD" == newTeam || (newTeam == oldTeam && td[i+5] == "0-")) {
                 // Yet-unsigned players only have 6 entries per row in the table instead of 11.
                 // So we're offsetting the index by 5 so the next iteration will count correctly.
+                // There's also a strange case of re-signed players who have no contract info in this category.
                 i -= 5
             }
             i += 11
