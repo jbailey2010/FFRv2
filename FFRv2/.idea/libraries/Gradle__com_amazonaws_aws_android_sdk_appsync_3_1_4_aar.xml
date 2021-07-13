@@ -1,0 +1,15 @@
+<component name="libraryTable">
+  <library name="Gradle: com.amazonaws:aws-android-sdk-appsync:3.1.4@aar">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/d489ee00aa6caeb073f8e53d575b152c/jetified-aws-android-sdk-appsync-3.1.4/AndroidManifest.xml" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/d489ee00aa6caeb073f8e53d575b152c/jetified-aws-android-sdk-appsync-3.1.4/jars/classes.jar!/" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/d489ee00aa6caeb073f8e53d575b152c/jetified-aws-android-sdk-appsync-3.1.4/res" />
+    </CLASSES>
+    <JAVADOC>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.amazonaws/aws-android-sdk-appsync/3.1.4/3604cfdfc271860f5cfc1d6db306e344e376062c/aws-android-sdk-appsync-3.1.4-javadoc.jar!/" />
+    </JAVADOC>
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.amazonaws/aws-android-sdk-appsync/3.1.4/eedac7f24675edf69c0e1578342066bc5239cec3/aws-android-sdk-appsync-3.1.4-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
