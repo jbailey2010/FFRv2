@@ -2,10 +2,11 @@ package com.devingotaswitch.utils
 
 import java.text.DecimalFormat
 import java.text.SimpleDateFormat
+import java.time.Year
 import java.util.*
 
 object Constants {
-    const val YEAR_KEY = "2020"
+    val YEAR_KEY = Year.now().value.toString()
     @JvmField
     val LAST_YEAR_KEY = (YEAR_KEY.toInt() - 1).toString()
 
