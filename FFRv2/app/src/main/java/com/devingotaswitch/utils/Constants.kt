@@ -6,6 +6,7 @@ import java.time.Year
 import java.util.*
 
 object Constants {
+    @JvmField
     val YEAR_KEY = Year.now().value.toString()
     @JvmField
     val LAST_YEAR_KEY = (YEAR_KEY.toInt() - 1).toString()
