@@ -50,6 +50,33 @@ class RankingsLoader {
         }
     }
 
+    class LeaguesLoader(activity: RankingsHome, private val rankingsDB: RankingsDBWrapper) : AsyncTask<Any?, String?, Rankings?>() {
+        private val pdia: AlertDialog = MaterialAlertDialogBuilder(activity)
+                .setCancelable(false)
+                .setTitle("Please wait")
+                .setMessage("Loading the leagues...")
+                .create()
+        private val act: RankingsHome = activity
+        private var start: Long = 0
+        override fun onPreExecute() {
+            super.onPreExecute()
+            pdia.show()
+        }
+
+        override fun onPostExecute(result: Rankings?) {
+            super.onPostExecute(result)
+            pdia.dismiss()
+            Log.d(TAG, getLatency(start).toString() + " to load from file")
+            act.setLeague(result)
+        }
+
+        override fun doInBackground(vararg data: Any?): Rankings? {
+            start = System.currentTimeMillis()
+            val userLeagues = rankingsDB.getLeagues(act)
+            return Rankings.initWithDefaults(userLeagues)
+        }
+    }
+
     class RanksSaver(activity: RankingsHome, private val rankingsDB: RankingsDBWrapper) : AsyncTask<Any?, String?, Void?>() {
         private val pdia: AlertDialog = MaterialAlertDialogBuilder(activity)
                 .setCancelable(false)

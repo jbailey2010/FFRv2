@@ -185,16 +185,20 @@ class FantasyNews : AppCompatActivity() {
     @Throws(IOException::class)
     private fun parseSIP(): List<PlayerNews> {
         val newsSet: MutableList<PlayerNews> = ArrayList()
-        val doc = Jsoup.connect("https://sportsinjurypredictor.com/injury-bites").timeout(0).get()
-        val headlines = getElemsFromDoc(doc, "div.shark-bite-container div.header div.row h2.blue a")
-        val dates = getElemsFromDoc(doc, "div.shark-bite-container div.header div.row div.text-right")
-        val content = getElemsFromDoc(doc, "div.shark-bite-container div.body p")
-        for (i in dates.indices) {
-            val newsItem = PlayerNews()
-            newsItem.date = dates[i]
-            newsItem.news = headlines[i]
-            newsItem.impact = content[i]
-            newsSet.add(newsItem)
+        try {
+            val doc = Jsoup.connect("https://sportsinjurypredictor.com/injury-bites").timeout(0).get()
+            val headlines = getElemsFromDoc(doc, "div.shark-bite-container div.header div.row h2.blue a")
+            val dates = getElemsFromDoc(doc, "div.shark-bite-container div.header div.row div.text-right")
+            val content = getElemsFromDoc(doc, "div.shark-bite-container div.body p")
+            for (i in dates.indices) {
+                val newsItem = PlayerNews()
+                newsItem.date = dates[i]
+                newsItem.news = headlines[i]
+                newsItem.impact = content[i]
+                newsSet.add(newsItem)
+            }
+        } catch (e: Exception) {
+            Log.e(TAG, "Failed to get SIP news", e)
         }
         return newsSet
     }

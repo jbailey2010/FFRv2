@@ -1,7 +1,9 @@
 package com.devingotaswitch.rankings.domain
 
 import android.content.Context
+import android.util.Log
 import com.devingotaswitch.fileio.RankingsDBWrapper
+import com.devingotaswitch.utils.Constants
 
 class UserLeagues(var leaguesMap: MutableMap<String, LeagueSettings>) {
 
@@ -30,6 +32,10 @@ class UserLeagues(var leaguesMap: MutableMap<String, LeagueSettings>) {
 
     fun getLeagueByName(name: String): LeagueSettings? {
         return leaguesMap[name]
+    }
+
+    fun getNumberOfCurrentLeagues(): Int {
+        return leaguesMap.size
     }
 
     init {

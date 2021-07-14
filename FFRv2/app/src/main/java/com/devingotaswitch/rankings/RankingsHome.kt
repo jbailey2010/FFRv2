@@ -345,9 +345,20 @@ class RankingsHome : AppCompatActivity() {
             rankings = Rankings.init()
             searchBase.visibility = View.GONE
             buttonBase.visibility = View.GONE
-            nDrawer.menu.findItem(R.id.nav_refresh_ranks).isVisible = true
             nDrawer.menu.findItem(R.id.nav_export_rankings).isVisible = false
+            if (rankings == null || rankings!!.getUserLeagues() == null ||
+                    rankings!!.getUserLeagues()!!.getNumberOfCurrentLeagues() == 0) {
+                Rankings.loadLeagues(this, rankingsDB)
+                nDrawer.menu.findItem(R.id.nav_refresh_ranks).isVisible = false
+            } else {
+                nDrawer.menu.findItem(R.id.nav_refresh_ranks).isVisible = true
+            }
         }
+    }
+
+    fun setLeague(newRankings: Rankings?) {
+        rankings = newRankings
+        nDrawer.menu.findItem(R.id.nav_refresh_ranks).isVisible = true
     }
 
     fun processNewRankings(newRankings: Rankings?, saveRanks: Boolean) {

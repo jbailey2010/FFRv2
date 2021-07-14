@@ -24,6 +24,12 @@
   <component name="ChangeListManager">
     <list default="true" id="f5fe9503-cc09-4a8d-b7d9-507f98789a95" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/FantasyNews.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/FantasyNews.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/RankingsHome.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/RankingsHome.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/asynctasks/RankingsLoader.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/asynctasks/RankingsLoader.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/Rankings.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/Rankings.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/UserLeagues.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/UserLeagues.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/Constants.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/Constants.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -396,22 +402,22 @@
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="321" y="96" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1280.720@0.0.1280.720" timestamp="1625523703703" />
-    <state width="1220" height="144" key="GridCell.Tab.0.bottom" timestamp="1625525031211">
+    <state width="1220" height="144" key="GridCell.Tab.0.bottom" timestamp="1626242809239">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1220" height="144" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1625525031211" />
-    <state width="1220" height="144" key="GridCell.Tab.0.center" timestamp="1625525031211">
+    <state width="1220" height="144" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1626242809239" />
+    <state width="1220" height="144" key="GridCell.Tab.0.center" timestamp="1626242809238">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1220" height="144" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1625525031211" />
-    <state width="1220" height="144" key="GridCell.Tab.0.left" timestamp="1625525031207">
+    <state width="1220" height="144" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1626242809238" />
+    <state width="1220" height="144" key="GridCell.Tab.0.left" timestamp="1626242809233">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1220" height="144" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1625525031207" />
-    <state width="1220" height="144" key="GridCell.Tab.0.right" timestamp="1625525031211">
+    <state width="1220" height="144" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1626242809233" />
+    <state width="1220" height="144" key="GridCell.Tab.0.right" timestamp="1626242809238">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1220" height="144" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1625525031211" />
+    <state width="1220" height="144" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1626242809238" />
     <state x="142" y="3" key="SettingsEditor" timestamp="1625527457907">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
@@ -420,5 +426,9 @@
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="100" y="100" width="1080" height="520" key="com.android.tools.idea.avdmanager.AvdListDialog/0.0.1280.720@0.0.1280.720" timestamp="1626155115957" />
+    <state x="297" y="163" key="run.anything.popup" timestamp="1626241541424">
+      <screen x="0" y="0" width="1280" height="720" />
+    </state>
+    <state x="297" y="163" key="run.anything.popup/0.0.1280.720@0.0.1280.720" timestamp="1626241541424" />
   </component>
 </project>

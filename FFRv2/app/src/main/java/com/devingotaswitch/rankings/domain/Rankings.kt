@@ -11,8 +11,7 @@ import com.devingotaswitch.rankings.RankingsHome
 import com.devingotaswitch.rankings.asynctasks.RankingsFetcher.RanksAggregator
 import com.devingotaswitch.rankings.asynctasks.RankingsFetcher.VBDUpdater
 import com.devingotaswitch.rankings.asynctasks.RankingsLoader
-import com.devingotaswitch.rankings.asynctasks.RankingsLoader.RanksLoader
-import com.devingotaswitch.rankings.asynctasks.RankingsLoader.RanksSaver
+import com.devingotaswitch.rankings.asynctasks.RankingsLoader.*
 import com.devingotaswitch.utils.Constants
 import com.devingotaswitch.utils.ParsingUtils
 import com.devingotaswitch.utils.ParsingUtils.conditionallyAddContext
@@ -342,6 +341,11 @@ class Rankings {
         fun loadRankings(activity: RankingsHome, rankingsDB: RankingsDBWrapper) {
             val ranksLoader = RanksLoader(activity, rankingsDB)
             ranksLoader.execute()
+        }
+
+        fun loadLeagues(activity: RankingsHome, rankingsDB: RankingsDBWrapper) {
+            val leaguesLoader = LeaguesLoader(activity, rankingsDB)
+            leaguesLoader.execute()
         }
     }
 }
