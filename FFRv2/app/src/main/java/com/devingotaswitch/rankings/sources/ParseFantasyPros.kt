@@ -18,21 +18,20 @@ object ParseFantasyPros {
     @Throws(IOException::class)
     fun parseECRWrapper(rankings: Rankings) {
         val ecr: MutableMap<String, Double?> = HashMap()
-        val risk: MutableMap<String, Double> = HashMap()
-        var url = "http://www.fantasypros.com/nfl/rankings/consensus-cheatsheets.php"
+        var url = "http://www.fantasypros.com/nfl/cheatsheets/top-players.php"
         if (rankings!!.getLeagueSettings().scoringSettings.receptions >= 1.0) {
-            url = "http://www.fantasypros.com/nfl/rankings/ppr-cheatsheets.php"
+            url = "http://www.fantasypros.com/nfl/cheatsheets/top-ppr-players.php"
         } else if (rankings!!.getLeagueSettings().scoringSettings.receptions > 0) {
-            url = "https://www.fantasypros.com/nfl/rankings/half-point-ppr-cheatsheets.php"
+            url = "https://www.fantasypros.com/nfl/cheatsheets/top-half-ppr-players.php"
         }
-        parseECRWorker(url, ecr, risk)
+        parseECRWorker(url, ecr)
+        for (key in ecr.keys) {
+            Log.i(Constants.TEST_DEBUG_TAG, "Key: " + key)
+        }
         for (playerId in rankings.players.keys) {
             if (ecr.containsKey(playerId)) {
                 val player = rankings.getPlayer(playerId)
                 player.ecr = ecr[playerId]!!
-                if (rankings!!.getLeagueSettings().isSnake || rankings!!.getLeagueSettings().isAuction) {
-                    player.risk = risk[playerId]!!
-                }
             }
         }
     }
@@ -121,53 +120,33 @@ object ParseFantasyPros {
 
     @Throws(IOException::class)
     private fun parseECRWorker(url: String,
-                               ecr: MutableMap<String, Double?>, risk: MutableMap<String, Double>) {
+                               ecr: MutableMap<String, Double?>) {
         val doc = getDocument(url)
-        val names = getElemsFromDoc(doc, "table.player-table tbody tr td span.full-name")
-        val td = getElemsFromDoc(doc, "table.player-table tbody tr td")
-        var min = 0
-        for (i in td.indices) {
-            if (isInteger(td[i])) {
-                min = i + 2
-                break
-            }
-        }
-        var playerCount = 0
-        var i = min
-        while (i < td.size) {
+        val ecrArr = getElemsFromDoc(doc, "div.player-list div div li")
+        for (i in ecrArr.indices) {
             try {
-                if (i + 9 >= td.size) {
-                    break
-                }
-                while (td[i].split(" ").size < 3 && i < td.size) {
-                    i++
-                }
-                val fullName = names[playerCount++].split(" \\(".toRegex())[0]
-                val filteredName = td[i].split(
-                        " \\(".toRegex())[0].split(", ")[0]
+                val ecrVal = ecrArr[i].substringBefore(". ").toDouble()
+                val playerData = ecrArr[i].substringAfter(". ")
+                val teamPosArr = playerData.substring(playerData.lastIndexOf(' ') + 1).split('-')
+                val playerName = playerData.substring(0, playerData.lastIndexOf(' '))
+
+                val filteredName = teamPosArr[1]
                 var team: String?
                 team = if (filteredName.split(" ").size > 1) {
                     normalizeTeams(filteredName.substring(filteredName.lastIndexOf(" ")).trim { it <= ' ' })
                 } else {
                     normalizeTeams(filteredName.trim { it <= ' ' })
                 }
-                val name = normalizeNames(normalizeDefenses(fullName))
-                val ecrVal = td[i + 5].toDouble()
-                val riskVal = td[i + 6].toDouble()
-                val posInd = td[i + 1].replace("(\\d+,\\d+)|\\d+".toRegex(), "")
+                val name = normalizeNames(normalizeDefenses(playerName))
+                val posInd = teamPosArr[0].replace("(\\d+,\\d+)|\\d+".toRegex(), "")
                         .replace("DST", Constants.DST)
                 if (Constants.DST == posInd) {
-                    team = normalizeTeams(fullName)
+                    team = normalizeTeams(playerName)
                 }
                 ecr[name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + posInd] = ecrVal
-                risk[name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + posInd] = riskVal
-                if (td[i + 7].contains("Tier")) {
-                    i += 2
-                }
             } catch (siooe: StringIndexOutOfBoundsException) {
                 Log.d(TAG, "Failed to parse a player's ECR", siooe)
             }
-            i += 9
         }
     }
 
