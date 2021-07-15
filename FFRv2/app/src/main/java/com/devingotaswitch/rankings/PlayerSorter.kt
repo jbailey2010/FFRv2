@@ -186,7 +186,6 @@ class PlayerSorter : AppCompatActivity() {
         factorList.add(Constants.SORT_DYNASTY)
         factorList.add(Constants.SORT_ROOKIE)
         factorList.add(Constants.SORT_BEST_BALL)
-        factorList.add(Constants.SORT_RISK)
         factorList.add(Constants.SORT_SOS)
         factors.attachDataSource(factorList)
         factors.setBackgroundColor(Color.parseColor("#FAFAFA"))
@@ -343,7 +342,6 @@ class PlayerSorter : AppCompatActivity() {
             Constants.SORT_VOLS_SCALED -> comparator = voLSScaledComparator
             Constants.SORT_VOLSPD -> comparator = voLSPDComparator
             Constants.SORT_VBD_SUGGESTED -> comparator = vBDSuggestedComparator
-            Constants.SORT_RISK -> comparator = riskComparator
             Constants.SORT_SOS -> comparator = sOSComparator
         }
         filterAndConditionallySortPlayers(playerIds, booleanFactors, reversePlayers, comparator)
@@ -710,8 +708,6 @@ class PlayerSorter : AppCompatActivity() {
         get() = Comparator { a: Player, b: Player -> b.getScaledXVal(rankings).compareTo(a.getScaledXVal(rankings)) }
     private val voLSScaledComparator: Comparator<Player>
         get() = Comparator { a: Player, b: Player -> b.getScaledVOLS(rankings).compareTo(a.getScaledVOLS(rankings)) }
-    private val riskComparator: Comparator<Player>
-        get() = Comparator { a: Player, b: Player -> a.risk.compareTo(b.risk) }
     private val sOSComparator: Comparator<Player>
         get() = Comparator { a: Player, b: Player ->
             val sosA = getSOS(a)
@@ -759,7 +755,6 @@ class PlayerSorter : AppCompatActivity() {
             Constants.SORT_VOLS_SCALED -> return Constants.DECIMAL_FORMAT.format(player.getScaledVOLS(rankings))
             Constants.SORT_VOLSPD -> return Constants.DECIMAL_FORMAT.format(getVoLSPD(player))
             Constants.SORT_VBD_SUGGESTED -> return Constants.DECIMAL_FORMAT.format(getVBDSuggestedValue(player) / maxVal * 100.0)
-            Constants.SORT_RISK -> return player.risk.toString()
             Constants.SORT_SOS -> return getSOS(player).toString()
         }
         return ""

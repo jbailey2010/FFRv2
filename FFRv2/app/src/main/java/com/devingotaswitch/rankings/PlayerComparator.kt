@@ -587,24 +587,6 @@ class PlayerComparator : AppCompatActivity() {
             }
         }
 
-
-        // Risk
-        val riskA = findViewById<TextView>(R.id.comparator_risk_a)
-        val riskB = findViewById<TextView>(R.id.comparator_risk_b)
-        riskA.text = playerA.risk.toString()
-        riskB.text = playerB.risk.toString()
-        when {
-            playerA.risk < playerB.risk -> {
-                setColors(riskA, riskB)
-            }
-            playerA.risk > playerB.risk -> {
-                setColors(riskB, riskA)
-            }
-            else -> {
-                clearColors(riskA, riskB)
-            }
-        }
-
         // Graph
         projGraph = findViewById(R.id.comparator_graph)
         val historyA = rankings.playerProjectionHistory[playerA.uniqueId]

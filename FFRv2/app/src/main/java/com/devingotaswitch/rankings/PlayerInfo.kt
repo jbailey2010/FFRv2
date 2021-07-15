@@ -710,9 +710,6 @@ class PlayerInfo : AppCompatActivity() {
             val ecrRank = getEcr(null, player.ecr)
             val ecrRankPos = getEcr(player.position, player.ecr)
             var ecrSub = getRankingSub(ecrRank, ecrRankPos)
-            if (player.risk != null && (rankings.getLeagueSettings().isAuction || rankings.getLeagueSettings().isSnake)) {
-                ecrSub += Constants.LINE_BREAK + "Risk: " + player.risk
-            }
             ecr[Constants.PLAYER_INFO] = ecrSub
         }
         data!!.add(ecr)
@@ -749,9 +746,6 @@ class PlayerInfo : AppCompatActivity() {
             val dynRank = getDynasty(null, player.dynastyRank)
             val dynRankPos = getDynasty(player.position, player.dynastyRank)
             var dynSub = getRankingSub(dynRank, dynRankPos)
-            if (player.risk != null && rankings.getLeagueSettings().isDynasty) {
-                dynSub += Constants.LINE_BREAK + "Risk: " + player.risk
-            }
             dynasty[Constants.PLAYER_INFO] = dynSub
         }
         data!!.add(dynasty)
@@ -762,9 +756,6 @@ class PlayerInfo : AppCompatActivity() {
             val rookieRank = getRookie(null, player.rookieRank)
             val rookieRankPos = getRookie(player.position, player.rookieRank)
             var rookieSub = getRankingSub(rookieRank, rookieRankPos)
-            if (player.risk != null && rankings.getLeagueSettings().isRookie) {
-                rookieSub += Constants.LINE_BREAK + "Risk: " + player.risk
-            }
             rookie[Constants.PLAYER_INFO] = rookieSub
             data!!.add(rookie)
         }
@@ -774,9 +765,6 @@ class PlayerInfo : AppCompatActivity() {
             val bbRank = getBestBall(null, player.bestBallRank)
             val bbRankPos = getBestBall(player.position, player.bestBallRank)
             var bbSub = getRankingSub(bbRank, bbRankPos)
-            if (player.risk != null && rankings.getLeagueSettings().isBestBall) {
-                bbSub += Constants.LINE_BREAK + "Risk: " + player.risk
-            }
             bestBall[Constants.PLAYER_INFO] = bbSub
         }
         data!!.add(bestBall)

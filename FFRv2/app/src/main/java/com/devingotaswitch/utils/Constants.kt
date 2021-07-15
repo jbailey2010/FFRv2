@@ -61,7 +61,6 @@ object Constants {
     const val SORT_VOLS_SCALED = "Scaled VoLS"
     const val SORT_VOLSPD = "VoLS Per Dollar"
     const val SORT_VBD_SUGGESTED = "VBD Suggested Pick"
-    const val SORT_RISK = "Risk"
     const val SORT_SOS = "Positional SOS"
 
     // Help topics
