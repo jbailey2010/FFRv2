@@ -25,9 +25,6 @@ object ParseFantasyPros {
             url = "https://www.fantasypros.com/nfl/cheatsheets/top-half-ppr-players.php"
         }
         parseECRWorker(url, ecr)
-        for (key in ecr.keys) {
-            Log.i(Constants.TEST_DEBUG_TAG, "Key: " + key)
-        }
         for (playerId in rankings.players.keys) {
             if (ecr.containsKey(playerId)) {
                 val player = rankings.getPlayer(playerId)

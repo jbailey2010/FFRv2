@@ -138,9 +138,9 @@ object ParseFA {
                 // Yet-unsigned players only have 6 entries per row in the table instead of 11.
                 // So we're offsetting the index by 5 so the next iteration will count correctly.
                 // There's also a strange case of re-signed players who have no contract info in this category.
-                i -= 5
+                i -= 6
             }
-            i += 11
+            i += 12
         }
         postProcessFA(arrivingFA)
         postProcessFA(departingFA)
