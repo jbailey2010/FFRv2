@@ -27,16 +27,18 @@ object ParseDraft {
             val pos = pickContexts[contextIndex + 2]
             val age = pickContexts[contextIndex + 3]
             val college = pickContexts[contextIndex + 4]
-            val draftData = pick +
+            var draftData = pick +
                     ": " +
                     name +
                     ", " +
                     pos +
                     " - " +
-                    college +
-                    " (" +
-                    age +
-                    ")"
+                    college
+            if (age != null && age.isNotEmpty()) {
+                draftData += " (" +
+                        age +
+                        ")"
+            }
             if (picks.containsKey(team)) {
                 val existingData = picks[team]
                 val updated = existingData +

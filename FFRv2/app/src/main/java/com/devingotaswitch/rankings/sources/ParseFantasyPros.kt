@@ -337,7 +337,7 @@ object ParseFantasyPros {
 
     @Throws(IOException::class)
     fun parseSchedule(rankings: Rankings) {
-        val elems = parseURLWithUA("https://www.fantasypros.com/nfl/schedule.php?week=0",
+        val elems = parseURLWithUA("https://www.fantasypros.com/nfl/schedule/grid.php?week=0",
                 "table.table-bordered tbody tr td")
         var i = 0
         while (i < elems.size) {
@@ -361,7 +361,7 @@ object ParseFantasyPros {
             val scheduleString = schedule.substring(0, schedule.length - 1)
             val team = rankings.getTeam(teamName)!!
             team.schedule = scheduleString
-            i += 18
+            i += 19
         }
     }
 }
