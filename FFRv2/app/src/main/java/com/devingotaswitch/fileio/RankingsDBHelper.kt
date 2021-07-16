@@ -101,7 +101,7 @@ internal class RankingsDBHelper(context: Context?, val dBOwner: String) : SQLite
                 Constants.PLAYER_STATS_COLUMN + " TEXT," +
                 Constants.PLAYER_INJURED_COLUMN + " TEXT," +
                 Constants.PLAYER_ECR_COLUMN + " REAL," +
-                Constants.PLAYER_RISK_COLUMN + " REAL," +
+                Constants.PLAYER_LAST_YEAR_POINTS_COLUMN + " REAL," +
                 Constants.PLAYER_ADP_COLUMN + " REAL," +
                 Constants.PLAYER_DYNASTY_COLUMN + " REAL," +
                 Constants.PLAYER_ROOKIE_COLUMN + " REAL," +

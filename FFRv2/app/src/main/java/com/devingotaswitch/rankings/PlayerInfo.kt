@@ -994,14 +994,6 @@ class PlayerInfo : AppCompatActivity() {
             } else {
                 Log.d(TAG, "No draft class to display")
             }
-            if (!StringUtils.isBlank(team.oLineRanks) && team.oLineRanks!!.length > 4) {
-                val oline: MutableMap<String, String?> = HashMap()
-                oline[Constants.PLAYER_BASIC] = "Offensive line grades"
-                oline[Constants.PLAYER_INFO] = team.oLineRanks
-                data!!.add(oline)
-            } else {
-                Log.d(TAG, "No o line ranks to display")
-            }
             val schedule: MutableMap<String, String?> = HashMap()
             schedule[Constants.PLAYER_BASIC] = Constants.YEAR_KEY + " schedule"
             schedule[Constants.PLAYER_INFO] = (team.schedule + Constants.LINE_BREAK + Constants.LINE_BREAK

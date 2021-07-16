@@ -17,8 +17,8 @@ class Player {
     var stats: String? = null
     var injuryStatus: String? = null
     var auctionValue = 0.0
+    var lastYearPoints = 0.0
     private var numRankings = 0.0
-    var risk = Constants.DEFAULT_RISK
     lateinit var playerProjection: PlayerProjection
     val projection: Double
         get() {

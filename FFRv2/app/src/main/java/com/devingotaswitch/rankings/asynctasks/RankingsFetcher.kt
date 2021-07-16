@@ -251,13 +251,6 @@ class RankingsFetcher {
             } catch (e: Exception) {
                 Log.e(TAG, "Failed to parse SOS", e)
             }
-            Log.i(TAG, "Getting advanced oline stats")
-            publishProgress("Getting advanced line stats...")
-            try {
-                ParsePFO.parsePFOLineData(rankings)
-            } catch (e: Exception) {
-                Log.e(TAG, "Failed to parse PFO line data", e)
-            }
             Log.i(TAG, "Getting injury statuses")
             publishProgress("Getting injury status...")
             try {

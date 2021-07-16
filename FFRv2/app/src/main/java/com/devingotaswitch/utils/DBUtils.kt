@@ -190,7 +190,6 @@ object DBUtils {
     fun teamToContentValues(team: Team): ContentValues {
         val values = ContentValues()
         values.put(Constants.TEAM_NAME_COLUMN, team.name)
-        values.put(Constants.OLINE_RANKS_COLUMN, team.oLineRanks)
         values.put(Constants.DRAFT_CLASS_COLUMN, team.draftClass)
         values.put(Constants.QB_SOS_COLUMN, team.qbSos)
         values.put(Constants.RB_SOS_COLUMN, team.rbSos)
@@ -208,7 +207,6 @@ object DBUtils {
     fun cursorToTeam(result: Cursor): Team {
         val team = Team()
         team.name = result.getString(result.getColumnIndex(Constants.TEAM_NAME_COLUMN))
-        team.oLineRanks = result.getString(result.getColumnIndex(Constants.OLINE_RANKS_COLUMN))
         team.draftClass = result.getString(result.getColumnIndex(Constants.DRAFT_CLASS_COLUMN))
         team.qbSos = result.getDouble(result.getColumnIndex(Constants.QB_SOS_COLUMN))
         team.rbSos = result.getDouble(result.getColumnIndex(Constants.RB_SOS_COLUMN))
@@ -230,7 +228,7 @@ object DBUtils {
         player.dynastyRank = result.getDouble(result.getColumnIndex(Constants.PLAYER_DYNASTY_COLUMN))
         player.rookieRank = result.getDouble(result.getColumnIndex(Constants.PLAYER_ROOKIE_COLUMN))
         player.bestBallRank = result.getDouble(result.getColumnIndex(Constants.PLAYER_BEST_BALL_COLUMN))
-        player.risk = result.getDouble(result.getColumnIndex(Constants.PLAYER_RISK_COLUMN))
+        player.lastYearPoints = result.getDouble(result.getColumnIndex(Constants.PLAYER_LAST_YEAR_POINTS_COLUMN))
         player.age = result.getInt(result.getColumnIndex(Constants.PLAYER_AGE_COLUMN))
         player.experience = result.getInt(result.getColumnIndex(Constants.PLAYER_EXPERIENCE_COLUMN))
         player.stats = desanitizeStats(result.getString(result.getColumnIndex(Constants.PLAYER_STATS_COLUMN)))
@@ -265,7 +263,7 @@ object DBUtils {
         values.put(Constants.PLAYER_DYNASTY_COLUMN, player.dynastyRank)
         values.put(Constants.PLAYER_ROOKIE_COLUMN, player.rookieRank)
         values.put(Constants.PLAYER_BEST_BALL_COLUMN, player.bestBallRank)
-        values.put(Constants.PLAYER_RISK_COLUMN, player.risk)
+        values.put(Constants.PLAYER_LAST_YEAR_POINTS_COLUMN, player.lastYearPoints)
         values.put(Constants.PLAYER_STATS_COLUMN, sanitizeStats(player.stats))
         values.put(Constants.PLAYER_INJURED_COLUMN, player.injuryStatus)
         values.put(Constants.AUCTION_VALUE_COLUMN, player.auctionValue)

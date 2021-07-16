@@ -226,7 +226,7 @@ object Constants {
     const val PLAYER_DYNASTY_COLUMN = "dynasty"
     const val PLAYER_ROOKIE_COLUMN = "rookie"
     const val PLAYER_BEST_BALL_COLUMN = "best_ball"
-    const val PLAYER_RISK_COLUMN = "risk"
+    const val PLAYER_LAST_YEAR_POINTS_COLUMN = "last_year_points"
     const val PLAYER_STATS_COLUMN = "stats"
     const val PLAYER_INJURED_COLUMN = "injury_status"
     const val PLAYER_PROJECTION_COLUMN = "projection"

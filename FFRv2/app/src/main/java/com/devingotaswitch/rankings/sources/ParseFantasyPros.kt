@@ -74,9 +74,6 @@ object ParseFantasyPros {
             if (dynasty.containsKey(playerId)) {
                 val player = rankings.getPlayer(playerId)
                 player.dynastyRank = dynasty[playerId]!!
-                if (rankings!!.getLeagueSettings().isDynasty) {
-                    player.risk = risk[playerId]!!
-                }
             }
         }
     }
@@ -91,9 +88,6 @@ object ParseFantasyPros {
             if (rookie.containsKey(playerId)) {
                 val player = rankings.getPlayer(playerId)
                 player.rookieRank = rookie[playerId]!!
-                if (rankings!!.getLeagueSettings().isRookie) {
-                    player.risk = risk[playerId]!!
-                }
             }
         }
     }
@@ -108,9 +102,6 @@ object ParseFantasyPros {
             if (bestBall.containsKey(playerId)) {
                 val player = rankings.getPlayer(playerId)
                 player.bestBallRank = bestBall[playerId]!!
-                if (rankings!!.getLeagueSettings().isBestBall) {
-                    player.risk = risk[playerId]!!
-                }
             }
         }
     }
