@@ -730,7 +730,7 @@ class PlayerSorter : AppCompatActivity() {
     private fun getMainTextPrefixForPlayer(player: Player): String {
         when (factor) {
             Constants.SORT_ALL -> return player.getDisplayValue(rankings)
-            Constants.SORT_ECR -> return if (player.ecr == Constants.DEFAULT_RANK) Constants.DEFAULT_DISPLAY_RANK_NOT_SET else player.ecr.toString()
+            Constants.SORT_ECR -> return if (player.ecr == Constants.DEFAULT_RANK) Constants.DEFAULT_DISPLAY_RANK_NOT_SET else player.ecr.toInt().toString()
             Constants.SORT_ADP -> return if (player.adp == Constants.DEFAULT_RANK) Constants.DEFAULT_DISPLAY_RANK_NOT_SET else player.adp.toString()
             Constants.SORT_UNDERDRAFTED, Constants.SORT_OVERDRAFTED -> return Constants.DECIMAL_FORMAT.format(player.ecr - player.adp)
             Constants.SORT_AUCTION -> return Constants.DECIMAL_FORMAT.format(player.getAuctionValueCustom(rankings))
@@ -770,7 +770,7 @@ class PlayerSorter : AppCompatActivity() {
         if (Constants.SORT_UNDERDRAFTED == factor || Constants.SORT_OVERDRAFTED == factor) {
             subtextBuilder.append(Constants.LINE_BREAK)
                     .append("ECR: ")
-                    .append(player!!.ecr)
+                    .append(player!!.ecr.toInt())
                     .append(Constants.LINE_BREAK)
                     .append("ADP: ")
                     .append(player.adp)
@@ -794,7 +794,7 @@ class PlayerSorter : AppCompatActivity() {
                 Constants.SORT_UNDERDRAFTED != factor && Constants.SORT_OVERDRAFTED != factor) {
             subtextBuilder.append(Constants.LINE_BREAK)
                     .append("ECR: ")
-                    .append(if (player!!.ecr == Constants.DEFAULT_RANK) Constants.DEFAULT_DISPLAY_RANK_NOT_SET else player.ecr)
+                    .append(if (player!!.ecr == Constants.DEFAULT_RANK) Constants.DEFAULT_DISPLAY_RANK_NOT_SET else player.ecr.toInt())
         } else if (rankings.getLeagueSettings().isDynasty && Constants.SORT_DYNASTY != factor && Constants.SORT_ALL != factor) {
             subtextBuilder.append(Constants.LINE_BREAK)
                     .append("Dynasty/Keeper Rank: ")

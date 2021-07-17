@@ -172,13 +172,13 @@ class RankingsFetcher {
             }
             Log.i(TAG, "Getting rookie rankings")
             try {
-                ParseFantasyPros.parseRookieWrapper(rankings)
+                ParseRookieRanks.parseRookieWrapper(rankings)
             } catch (e: Exception) {
                 Log.e(TAG, "Failed to parse rookie ranks", e)
             }
             Log.i(TAG, "Getting best ball rankings")
             try {
-                ParseFantasyPros.parseBestBallWrapper(rankings)
+                ParseBestBallRanks.parseBestBallWrapper(rankings)
             } catch (e: Exception) {
                 Log.e(TAG, "Failed to parse best ball ranks", e)
             }

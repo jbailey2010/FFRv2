@@ -110,7 +110,7 @@ class Player {
         } else if (league.isDynasty) {
             if (dynastyRank == Constants.DEFAULT_RANK) Constants.DEFAULT_DISPLAY_RANK_NOT_SET else dynastyRank.toString()
         } else if (league.isSnake) {
-            if (ecr == Constants.DEFAULT_RANK) Constants.DEFAULT_DISPLAY_RANK_NOT_SET else ecr.toString()
+            if (ecr == Constants.DEFAULT_RANK) Constants.DEFAULT_DISPLAY_RANK_NOT_SET else ecr.toInt().toString()
         } else if (league.isAuction) {
             Constants.DECIMAL_FORMAT.format(getAuctionValueCustom(rankings))
         } else if (league.isBestBall) {

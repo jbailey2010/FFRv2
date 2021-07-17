@@ -78,34 +78,6 @@ object ParseFantasyPros {
     }
 
     @Throws(IOException::class)
-    fun parseRookieWrapper(rankings: Rankings) {
-        val rookie: MutableMap<String, Double?> = HashMap()
-        val risk: MutableMap<String, Double> = HashMap()
-        val url = "https://www.fantasypros.com/nfl/rankings/rookies.php"
-        parseRookieWorker(url, rookie, risk)
-        for (playerId in rankings.players.keys) {
-            if (rookie.containsKey(playerId)) {
-                val player = rankings.getPlayer(playerId)
-                player.rookieRank = rookie[playerId]!!
-            }
-        }
-    }
-
-    @Throws(IOException::class)
-    fun parseBestBallWrapper(rankings: Rankings) {
-        val bestBall: MutableMap<String, Double?> = HashMap()
-        val risk: MutableMap<String, Double> = HashMap()
-        val url = "https://www.fantasypros.com/nfl/rankings/best-ball-overall.php"
-        parseBestBallWorker(url, bestBall, risk)
-        for (playerId in rankings.players.keys) {
-            if (bestBall.containsKey(playerId)) {
-                val player = rankings.getPlayer(playerId)
-                player.bestBallRank = bestBall[playerId]!!
-            }
-        }
-    }
-
-    @Throws(IOException::class)
     private fun parseFPCheatSheetWorker(url: String,
                                         rankingsMap: MutableMap<String, Double?>) {
         val doc = getDocument(url)
@@ -180,97 +152,6 @@ object ParseFantasyPros {
                 //Log.d(TAG, "Failed to parse a player's ADP", siooe);
             }
             i += rowSize
-        }
-    }
-
-    @Throws(IOException::class)
-    private fun parseRookieWorker(url: String, rookie: MutableMap<String, Double?>, risk: MutableMap<String, Double>) {
-        val doc = getDocument(url)
-        val names = getElemsFromDoc(doc, "table.player-table tbody tr td span.full-name")
-        val td = getElemsFromDoc(doc, "table.player-table tbody tr td")
-        var min = 0
-        for (i in td.indices) {
-            if (isInteger(td[i])) {
-                min = i + 2
-                break
-            }
-        }
-        var playerCount = 0
-        var i = min
-        while (i < td.size) {
-            try {
-                if (i + 10 >= td.size) {
-                    break
-                }
-                while (td[i].split(" ").size < 3 && i < td.size) {
-                    i++
-                }
-                val fullName = names[playerCount++].split(" \\(".toRegex())[0]
-                val filteredName = td[i].split(
-                        " \\(".toRegex())[0].split(", ")[0]
-                var team = normalizeTeams(filteredName.substring(filteredName.lastIndexOf(" ")).trim { it <= ' ' })
-                val name = normalizeNames(normalizeDefenses(fullName))
-                val rookieVal = td[i + 6].toDouble()
-                val riskVal = td[i + 7].toDouble()
-                val posInd = td[i + 1].replace("(\\d+,\\d+)|\\d+".toRegex(), "")
-                        .replace("DST", Constants.DST)
-                if (Constants.DST == posInd) {
-                    team = normalizeTeams(fullName)
-                }
-                rookie[name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + posInd] = rookieVal
-                risk[name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + posInd] = riskVal
-            } catch (siooe: StringIndexOutOfBoundsException) {
-                Log.d(TAG, "Failed to parse a player's rookie rank", siooe)
-            }
-            i += 10
-        }
-    }
-
-    @Throws(IOException::class)
-    private fun parseBestBallWorker(url: String, bestBall: MutableMap<String, Double?>, risk: MutableMap<String, Double>) {
-        val doc = getDocument(url)
-        val names = getElemsFromDoc(doc, "table.player-table tbody tr td span.full-name")
-        val td = getElemsFromDoc(doc, "table.player-table tbody tr td")
-        var min = 0
-        for (i in td.indices) {
-            if (isInteger(td[i])) {
-                min = i + 1
-                break
-            }
-        }
-        var playerCount = 0
-        var i = min
-        while (i < td.size) {
-            try {
-                if (i + 10 >= td.size) {
-                    break
-                }
-                while (td[i].split(" ").size < 3 && i < td.size) {
-                    i++
-                }
-                val fullName = names[playerCount++].split(" \\(".toRegex())[0]
-                val filteredName = td[i].split(
-                        " \\(".toRegex())[0].split(", ")[0]
-                var team: String?
-                team = if (filteredName.split(" ").size > 1) {
-                    normalizeTeams(filteredName.substring(filteredName.lastIndexOf(" ")).trim { it <= ' ' })
-                } else {
-                    normalizeTeams(filteredName.trim { it <= ' ' })
-                }
-                val name = normalizeNames(normalizeDefenses(fullName))
-                val rookieVal = td[i + 5].toDouble()
-                val riskVal = td[i + 6].toDouble()
-                val posInd = td[i + 1].replace("(\\d+,\\d+)|\\d+".toRegex(), "")
-                        .replace("DST", Constants.DST)
-                if (Constants.DST == posInd) {
-                    team = normalizeTeams(fullName)
-                }
-                bestBall[name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + posInd] = rookieVal
-                risk[name + Constants.PLAYER_ID_DELIMITER + team + Constants.PLAYER_ID_DELIMITER + posInd] = riskVal
-            } catch (siooe: StringIndexOutOfBoundsException) {
-                Log.d(TAG, "Failed to parse a player's best ball rank", siooe)
-            }
-            i += 10
         }
     }
 

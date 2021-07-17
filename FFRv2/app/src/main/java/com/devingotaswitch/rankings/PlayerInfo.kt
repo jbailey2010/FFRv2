@@ -705,7 +705,7 @@ class PlayerInfo : AppCompatActivity() {
         news.visibility = View.INVISIBLE
         comments.visibility = View.INVISIBLE
         val ecr: MutableMap<String, String?> = HashMap()
-        ecr[Constants.PLAYER_BASIC] = "ECR: " + if (player.ecr == Constants.DEFAULT_RANK) Constants.DEFAULT_DISPLAY_RANK_NOT_SET else player.ecr
+        ecr[Constants.PLAYER_BASIC] = "ECR: " + if (player.ecr == Constants.DEFAULT_RANK) Constants.DEFAULT_DISPLAY_RANK_NOT_SET else player.ecr.toInt()
         if (player.ecr != Constants.DEFAULT_RANK) {
             val ecrRank = getEcr(null, player.ecr)
             val ecrRankPos = getEcr(player.position, player.ecr)
