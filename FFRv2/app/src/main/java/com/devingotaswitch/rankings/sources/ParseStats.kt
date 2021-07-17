@@ -10,6 +10,7 @@ import com.devingotaswitch.utils.ParsingUtils.normalizeNames
 import com.devingotaswitch.utils.ParsingUtils.normalizeTeams
 import java.io.IOException
 import java.util.*
+import kotlin.collections.HashMap
 import kotlin.math.roundToInt
 
 object ParseStats {
@@ -18,14 +19,19 @@ object ParseStats {
     fun setStats(rankings: Rankings) {
         // Fetch the stats
         val players: MutableMap<String, String?> = HashMap()
-        parsePassingStats(players)
-        parseRushingStats(players)
-        parseReceivingStats(players)
-        parseKickingStats(players)
+        val age: MutableMap<String, Int?> = HashMap()
+        parsePassingStats(players, age)
+        parseRushingStats(players, age)
+        parseReceivingStats(players, age)
+        parseKickingStats(players, age)
         for (key in rankings.players.keys) {
             val player = rankings.getPlayer(key)
             if (players.containsKey(player.uniqueId)) {
                 player.stats = players[player.uniqueId]
+            }
+            // If age isn't set (FFTB is iffy for young players), try to set again
+            if ((player.age == null || player.age == 0) && age.containsKey(player.uniqueId)) {
+                player.age = age[player.uniqueId]
             }
         }
 
@@ -35,6 +41,10 @@ object ParseStats {
             val player = rankings.getPlayer(key)
             if (StringUtils.isBlank(player.stats)) {
                 applyStatsChangedTeam(players, player)
+            }
+            // Also, make an additional attempt to set a player's age, for changed teams.
+            if ((player.age == null || player.age == 0)) {
+                applyAgeChangedTeam(age, player)
             }
         }
     }
@@ -48,6 +58,15 @@ object ParseStats {
         }
     }
 
+    private fun applyAgeChangedTeam(ageMap: Map<String, Int?>, player: Player) {
+        for (key in ageMap.keys) {
+            if (key.startsWith(player.name)
+                    && key.endsWith(player.position)) {
+                player.age = ageMap[key]
+            }
+        }
+    }
+
     private fun getPlayerIdKey(name: String?, team: String?, pos: String?): String {
         return name +
                 Constants.PLAYER_ID_DELIMITER +
@@ -57,42 +76,42 @@ object ParseStats {
     }
 
     @Throws(IOException::class)
-    private fun parsePassingStats(players: MutableMap<String, String?>) {
+    private fun parsePassingStats(players: MutableMap<String, String?>, ageMap: MutableMap<String, Int?>) {
         val td = parseURLWithUA(
                 "https://www.pro-football-reference.com/years/" + Constants.LAST_YEAR_KEY + "/passing.htm",
         "table.stats_table tbody tr td")
         for (i in td.indices step 30) {
             val name = normalizeNames(td[i].replace("*", "").replace("+", "").trim())
             val team = normalizeTeams(td[i+1])
-            // Some rows are missing a position. If so, infer the norm for the stat.
-            val pos = if (td[i+3].isEmpty()) {
-                Constants.QB
-            } else {
-                td[i+3].toUpperCase()
+            val age = td[i+2].toInt()
+            // Some rows are missing a position. Proceed with those and QBs, ignore other positions.
+            if (td[i+3].isEmpty() || td[i+3].toUpperCase() == Constants.QB) {
+                var data = "Games Started: " + td[i + 5] + Constants.LINE_BREAK +
+                        "Pass Attempts: " + td[i + 8] + Constants.LINE_BREAK +
+                        "Completion Percentage: " + td[i + 9] + "%" + Constants.LINE_BREAK +
+                        "Passing Yards: " + td[i + 10] + Constants.LINE_BREAK +
+                        "Passing Touchdowns: " + td[i + 11] + Constants.LINE_BREAK +
+                        "Interceptions: " + td[i + 13] + Constants.LINE_BREAK +
+                        "Yards Per Attempt: " + td[i + 17] + Constants.LINE_BREAK +
+                        "QB Rating: " + td[i + 21] + Constants.LINE_BREAK
+
+                val inferredKey = getPlayerIdKey(name, team, Constants.QB)
+
+                players[inferredKey] = data
+                ageMap[inferredKey] = age
             }
-            var data = "Games Started: " + td[i+5] + Constants.LINE_BREAK +
-                    "Pass Attempts: " + td[i+8] + Constants.LINE_BREAK +
-                    "Completion Percentage: " + td[i+9] + "%" + Constants.LINE_BREAK +
-                    "Passing Yards: " + td[i+10] + Constants.LINE_BREAK +
-                    "Passing Touchdowns: " + td[i+11] + Constants.LINE_BREAK +
-                    "Interceptions: " + td[i+13] + Constants.LINE_BREAK +
-                    "Yards Per Attempt: " + td[i+17] + Constants.LINE_BREAK +
-                    "QB Rating: " + td[i+21] + Constants.LINE_BREAK
-
-            val inferredKey = getPlayerIdKey(name, team, pos)
-
-            players[inferredKey] = data
         }
     }
 
     @Throws(IOException::class)
-    private fun parseRushingStats(players: MutableMap<String, String?>) {
+    private fun parseRushingStats(players: MutableMap<String, String?>, ageMap: MutableMap<String, Int?>) {
         val td = parseURLWithUA(
                 "https://www.pro-football-reference.com/years/" + Constants.LAST_YEAR_KEY + "/rushing.htm",
                 "table.stats_table tbody tr td")
         for (i in td.indices step 14) {
             val name = normalizeNames(td[i].replace("*", "").replace("+", "").trim())
             val team = normalizeTeams(td[i + 1])
+            val age = td[i+2].toInt()
             // Some rows are missing a position. If so, infer the norm for the stat.
             val pos = if (td[i+3].isEmpty()) {
                 Constants.RB
@@ -114,18 +133,20 @@ object ParseStats {
             } else {
                 players[inferredKey] = players[inferredKey] + localData
             }
+            ageMap[inferredKey] = age
 
         }
     }
 
     @Throws(IOException::class)
-    private fun parseReceivingStats(players: MutableMap<String, String?>) {
+    private fun parseReceivingStats(players: MutableMap<String, String?>, ageMap: MutableMap<String, Int?>) {
         val td = parseURLWithUA(
                 "https://www.pro-football-reference.com/years/" + Constants.LAST_YEAR_KEY + "/receiving.htm",
                 "table.stats_table tbody tr td")
         for (i in td.indices step 18) {
             val name = normalizeNames(td[i].replace("*", "").replace("+", "").trim())
             val team = normalizeTeams(td[i + 1])
+            val age = td[i+2].toInt()
             val pos = if (td[i+3].isEmpty()) {
                 Constants.WR
             } else {
@@ -151,23 +172,27 @@ object ParseStats {
                 } else {
                     players[inferredKey] = existingStats + localData
                 }
+                ageMap[inferredKey] = age
             }
         }
     }
 
     @Throws(IOException::class)
-    private fun parseKickingStats(players: MutableMap<String, String?>) {
+    private fun parseKickingStats(players: MutableMap<String, String?>, ageMap: MutableMap<String, Int?>) {
         val td = parseURLWithUA(
                 "https://www.pro-football-reference.com/years/" + Constants.LAST_YEAR_KEY + "/kicking.htm",
                 "table.stats_table tbody tr td")
         for (i in td.indices step 33) {
             val name = normalizeNames(td[i].replace("*", "").replace("+", "").trim())
             val team = normalizeTeams(td[i+1])
+            val age = td[i+2].toInt()
             val data = "FG Attempted: " + td[i+16] + Constants.LINE_BREAK +
                     "FG Percentage: " + td[i+19] + Constants.LINE_BREAK +
                     "XP Attempted: " + td[i+20] + Constants.LINE_BREAK +
                     "XP Percentage: " + td[i+22] + Constants.LINE_BREAK
-            players[getPlayerIdKey(name, team, Constants.K)] = data
+            val inferredKey = getPlayerIdKey(name, team, Constants.K)
+            players[inferredKey] = data
+            ageMap[inferredKey] = age
         }
     }
 }

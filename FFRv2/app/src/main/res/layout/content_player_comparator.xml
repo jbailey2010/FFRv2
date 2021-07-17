@@ -112,6 +112,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
+            android:id="@+id/comparator_age_base"
             android:layout_height="@dimen/comparator_view_height"
             android:background="#fafafa"
             android:orientation="horizontal"

@@ -336,8 +336,15 @@ class PlayerComparator : AppCompatActivity() {
         // Age
         val ageA = findViewById<TextView>(R.id.comparator_age_a)
         val ageB = findViewById<TextView>(R.id.comparator_age_b)
-        ageA.text = if (playerA.age != null && playerA.age!! > 0) playerA.age.toString() else "?"
-        ageB.text = if (playerB.age != null && playerB.age!! > 0) playerB.age.toString() else "?"
+        val ageBase = findViewById<LinearLayout>(R.id.comparator_age_base)
+        if ((playerA.age == null || playerA.age == 0) && (playerB.age == null || playerB.age == 0)) {
+            ageBase.visibility = View.GONE
+        } else {
+            ageA.text = if (playerA.age != null && playerA.age!! > 0) playerA.age.toString() else "?"
+            ageB.text = if (playerB.age != null && playerB.age!! > 0) playerB.age.toString() else "?"
+        }
+
+        // Bye week
         val byeA = findViewById<TextView>(R.id.comparator_bye_a)
         val byeB = findViewById<TextView>(R.id.comparator_bye_b)
         val teamA = rankings.getTeam(playerA)
