@@ -40,7 +40,7 @@ object ParseProjections {
     @Throws(IOException::class)
     private fun qbProj(points: MutableMap<String, PlayerProjection?>,
                        rankings: Rankings) {
-        val td = parseURLWithUA("http://www.fantasypros.com/nfl/projections/qb.php?year=2020&week=draft", "table.table-bordered tbody tr td")
+        val td = parseURLWithUA("http://www.fantasypros.com/nfl/projections/qb.php?year=" + Constants.YEAR_KEY + "&week=draft", "table.table-bordered tbody tr td")
         var min = 0
         for (i in td.indices) {
             if (td[i].split(" ").size >= 3) {
@@ -80,7 +80,7 @@ object ParseProjections {
     @Throws(IOException::class)
     private fun rbProj(points: MutableMap<String, PlayerProjection?>,
                        rankings: Rankings) {
-        val td = parseURLWithUA("http://www.fantasypros.com/nfl/projections/rb.php?year=2020&week=draft", "table.table-bordered tbody tr td")
+        val td = parseURLWithUA("http://www.fantasypros.com/nfl/projections/rb.php?year=" + Constants.YEAR_KEY + "&week=draft", "table.table-bordered tbody tr td")
         var min = 0
         for (i in td.indices) {
             if (td[i].split(" ").size >= 3) {
@@ -121,7 +121,7 @@ object ParseProjections {
     @Throws(IOException::class)
     private fun wrProj(points: MutableMap<String, PlayerProjection?>,
                        rankings: Rankings) {
-        val td = parseURLWithUA("http://www.fantasypros.com/nfl/projections/wr.php?year=2020&week=draft", "table.table-bordered tbody tr td")
+        val td = parseURLWithUA("http://www.fantasypros.com/nfl/projections/wr.php?year=" + Constants.YEAR_KEY + "&week=draft", "table.table-bordered tbody tr td")
         var min = 0
         for (i in td.indices) {
             if (td[i].split(" ").size >= 3) {
@@ -162,7 +162,7 @@ object ParseProjections {
     @Throws(IOException::class)
     private fun teProj(points: MutableMap<String, PlayerProjection?>,
                        rankings: Rankings) {
-        val td = parseURLWithUA("http://www.fantasypros.com/nfl/projections/te.php?year=2020&week=draft", "table.table-bordered tbody tr td")
+        val td = parseURLWithUA("http://www.fantasypros.com/nfl/projections/te.php?year=" + Constants.YEAR_KEY + "&week=draft", "table.table-bordered tbody tr td")
         var min = 0
         for (i in td.indices) {
             if (td[i].split(" ").size >= 3) {
@@ -199,7 +199,7 @@ object ParseProjections {
 
     @Throws(IOException::class)
     private fun defProj(points: MutableMap<String, PlayerProjection?>, rankings: Rankings) {
-        val td = parseURLWithUA("http://www.fantasypros.com/nfl/projections/dst.php?year=2020&week=draft", "table.table-bordered tbody tr td")
+        val td = parseURLWithUA("http://www.fantasypros.com/nfl/projections/dst.php?year=" + Constants.YEAR_KEY + "&week=draft", "table.table-bordered tbody tr td")
         var min = 0
         for (i in td.indices) {
             if (td[i].split(" ").size >= 2 && isDouble(td[i + 1])) {
@@ -235,7 +235,7 @@ object ParseProjections {
 
     @Throws(IOException::class)
     private fun kProj(points: MutableMap<String, PlayerProjection?>, rankings: Rankings) {
-        val td = parseURLWithUA("http://www.fantasypros.com/nfl/projections/k.php?year=2020&week=draft", "table.table-bordered tbody tr td")
+        val td = parseURLWithUA("http://www.fantasypros.com/nfl/projections/k.php?year=" + Constants.YEAR_KEY + "&week=draft", "table.table-bordered tbody tr td")
         var min = 0
         for (i in td.indices) {
             if (td[i].split(" ").size >= 3) {
