@@ -41,7 +41,7 @@ object ParseFantasyPros {
         when {
             rankings!!.getLeagueSettings().isBestBall -> {
                 adpUrl = "https://www.fantasypros.com/nfl/adp/best-ball-overall.php"
-                rowSize = 7
+                rowSize = 6
             }
             rankings!!.getLeagueSettings().scoringSettings.receptions >= 1.0 -> {
                 adpUrl = "http://www.fantasypros.com/nfl/adp/ppr-overall.php"
@@ -49,7 +49,7 @@ object ParseFantasyPros {
             }
             rankings!!.getLeagueSettings().scoringSettings.receptions > 0 -> {
                 adpUrl = "https://www.fantasypros.com/nfl/adp/half-point-ppr-overall.php"
-                rowSize = 6
+                rowSize = 7
             }
             else -> {
                 adpUrl = "http://www.fantasypros.com/nfl/adp/overall.php"
