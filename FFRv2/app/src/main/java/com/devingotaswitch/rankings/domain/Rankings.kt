@@ -1,11 +1,13 @@
 package com.devingotaswitch.rankings.domain
 
 import android.app.Activity
+import android.content.Context
 import android.util.Log
 import com.amazonaws.util.StringUtils
 import com.devingotaswitch.appsync.AppSyncHelper.decrementPlayerWatchedCount
 import com.devingotaswitch.appsync.AppSyncHelper.incrementPlayerWatchedCount
 import com.devingotaswitch.appsync.AppSyncHelper.updateUserCustomPlayerData
+import com.devingotaswitch.fileio.LocalSettingsHelper
 import com.devingotaswitch.fileio.RankingsDBWrapper
 import com.devingotaswitch.rankings.RankingsHome
 import com.devingotaswitch.rankings.asynctasks.RankingsFetcher.RanksAggregator
@@ -290,6 +292,17 @@ class Rankings {
             orderedIds.add(player.uniqueId)
         }
         return orderedIds
+    }
+
+    fun getRecentlyViewedPlayers(filteredIds: MutableList<String>, cont: Context): MutableList<String> {
+        val recentlyViewed = LocalSettingsHelper.getSearchHistory(cont, getUserLeagues()!!.currentLeague.name)
+        val filteredList = mutableListOf<String>()
+        for (key in recentlyViewed) {
+            if (filteredIds.contains(key)) {
+                filteredList.add(key)
+            }
+        }
+        return filteredList
     }
 
     companion object {

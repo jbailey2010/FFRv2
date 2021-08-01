@@ -111,6 +111,39 @@ object LocalSettingsHelper {
         getSharedPreferences(cont).edit().putLong(Constants.LAST_RANKINGS_FETCHED_TIME, Date().time).apply()
     }
 
+    fun getSearchHistory(cont: Context, leagueName: String): MutableList<String> {
+        val historyArr = getSharedPreferences(cont).getString(leagueName + Constants.YEAR_KEY +
+                Constants.SEARCH_HISTORY, "")!!.split(Constants.CACHE_DELIMITER)
+        val history = mutableListOf<String>()
+        for (historyKey in historyArr) {
+            history.add(historyKey)
+        }
+        return history
+    }
+
+    fun updateSearchHistory(cont: Context, playerKey: String, leagueName: String) {
+        var currentStore = getSearchHistory(cont, leagueName)
+        if (currentStore.contains(playerKey)) {
+            // Deduplicate, if it's already in there. This also can't take it over the max.
+            currentStore.remove(playerKey)
+            currentStore.add(0, playerKey)
+        } else {
+            // Otherwise, add it. If it is over the max size, trim the last one.
+            currentStore.add(0, playerKey)
+            if (currentStore.size > Constants.SEARCH_HISTORY_LENGTH) {
+                currentStore = currentStore.subList(0, Constants.SEARCH_HISTORY_LENGTH)
+            }
+        }
+
+        // Now, serialize and save.
+        var historyString = ""
+        for (key in currentStore) {
+            historyString += key + Constants.CACHE_DELIMITER
+        }
+        getSharedPreferences(cont).edit().putString(leagueName + Constants.YEAR_KEY +
+                Constants.SEARCH_HISTORY, historyString).apply()
+    }
+
     fun cacheNews(cont: Context, news: List<PlayerNews>) {
         var newsStr = StringBuilder()
         for (newsItem in news) {

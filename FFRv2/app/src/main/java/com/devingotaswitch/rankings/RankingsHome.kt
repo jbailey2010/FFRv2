@@ -239,6 +239,7 @@ class RankingsHome : AppCompatActivity() {
         positions.attachDataSource(posList)
         positions.setBackgroundColor(Color.parseColor("#FAFAFA"))
         val watched = filterBase.findViewById<CheckBox>(R.id.rankings_filter_watched)
+        val history = filterBase.findViewById<CheckBox>(R.id.rankings_filter_recently_viewed)
         val maxPlayersField = filterBase.findViewById<EditText>(R.id.max_players_visible)
         maxPlayersField.setText(maxPlayers.toString())
         val submit = filterBase.findViewById<Button>(R.id.rankings_filter_submit)
@@ -247,12 +248,16 @@ class RankingsHome : AppCompatActivity() {
             val currentTeam = teamList[teams.selectedIndex]
             val currentPosition = posList[positions.selectedIndex]
             val isWatched = watched.isChecked
+            val recentlyViewed = history.isChecked
             var filteredIds = rankings!!.orderedIds
             if (Constants.ALL_POSITIONS != currentPosition) {
                 filteredIds = rankings!!.getPlayersByPosition(filteredIds, currentPosition)
             }
             if (Constants.ALL_TEAMS != currentTeam) {
                 filteredIds = rankings!!.getPlayersByTeam(filteredIds, currentTeam)
+            }
+            if (recentlyViewed) {
+                filteredIds = rankings!!.getRecentlyViewedPlayers(filteredIds, this)
             }
             if (isWatched) {
                 filteredIds = rankings!!.getWatchedPlayers(filteredIds)
@@ -574,14 +579,15 @@ class RankingsHome : AppCompatActivity() {
     }
 
     private fun displayPlayerInfo(playerKey: String) {
+        LocalSettingsHelper.updateSearchHistory(this, playerKey, rankings!!.getUserLeagues()!!.currentLeague.name)
         val intent = Intent(this, PlayerInfo::class.java)
         intent.putExtra(Constants.PLAYER_ID, playerKey)
         startActivity(intent)
     }
 
     private fun adpSimulator() {
-            val intent = Intent(this, ADPSimulator::class.java)
-            startActivity(intent)
+        val intent = Intent(this, ADPSimulator::class.java)
+        startActivity(intent)
     }
     private fun draftInfo() {
         val intent = Intent(this, DraftInfo::class.java)

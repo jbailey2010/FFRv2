@@ -118,6 +118,7 @@ object Constants {
     const val PLAYER_COMMENT_COUNT_PREFIX = "PLAYER_COMMENT_COUNT"
     const val PLAYER_NEWS = "PLAYER_NEWS"
     const val LAST_RANKINGS_FETCHED_TIME = "LAST_RANKINGS_FETCHED_TIME"
+    const val SEARCH_HISTORY = "SEARCH_HISTORY"
     const val CACHE_DELIMITER = "~~~"
     const val CACHE_ITEM_DELIMITER = "###"
 
@@ -125,6 +126,7 @@ object Constants {
     const val NOT_SET_KEY = "NOT_SAVED"
     const val DEFAULT_NUM_PLAYERS = 500
     const val NOT_SET_BOOLEAN = false
+    const val SEARCH_HISTORY_LENGTH = 25
 
     // League settings: SQL
     const val LEAGUE_TABLE_NAME = "league_settings"
