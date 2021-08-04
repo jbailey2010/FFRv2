@@ -51,6 +51,12 @@ class RankingsFetcher {
             } catch (e: Exception) {
                 Log.e(TAG, "Failed to calculate Xval", e)
             }
+            Log.i(TAG, "Updating last year's points")
+            try {
+                ParseMath.getLastYearPoints(rankings)
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to update last year's points", e)
+            }
             rankingsDB.savePlayers(activity, rankings.players.values)
             return null
         }
@@ -264,6 +270,13 @@ class RankingsFetcher {
                 ParseStats.setStats(rankings)
             } catch (e: Exception) {
                 Log.e(TAG, "Failed to get player stats", e)
+            }
+            Log.i(TAG, "Getting player points from last year")
+            publishProgress("Getting points from last year...")
+            try {
+                ParseMath.getLastYearPoints(rankings)
+            } catch (e: Exception) {
+                Log.e(TAG, "Failed to infer last year's points", e)
             }
             Log.i(TAG, "Getting draft info")
             publishProgress("Getting draft information...")

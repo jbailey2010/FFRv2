@@ -41,6 +41,7 @@ object Constants {
     const val SORT_DYNASTY = "Dynasty/Keeper Rank"
     const val SORT_ROOKIE = "Rookie Rank"
     const val SORT_BEST_BALL = "Best Ball Rank"
+    const val SORT_LAST_YEAR_POINTS = "Points Last Year"
     const val SORT_PROJECTION_EXPANDED = "Projections >"
     const val SORT_PROJECTION = "Total Points"
     const val SORT_PASSING_TDS = "Passing TDs"

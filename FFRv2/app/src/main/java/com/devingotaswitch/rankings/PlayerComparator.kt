@@ -537,6 +537,28 @@ class PlayerComparator : AppCompatActivity() {
             }
         }
 
+        // Points Last Year
+        if (playerA.lastYearPoints > 0.0 && playerB.lastYearPoints > 0.0) {
+            val pointsA = findViewById<TextView>(R.id.comparator_last_year_points_a)
+            val pointsB = findViewById<TextView>(R.id.comparator_last_year_points_b)
+            pointsA.text = Constants.DECIMAL_FORMAT.format(playerA.lastYearPoints)
+            pointsB.text = Constants.DECIMAL_FORMAT.format(playerB.lastYearPoints)
+            when {
+                playerA.lastYearPoints > playerB.lastYearPoints -> {
+                    setColors(pointsA, pointsB)
+                }
+                playerA.lastYearPoints < playerB.lastYearPoints -> {
+                    setColors(pointsB, pointsA)
+                }
+                else -> {
+                    clearColors(pointsB, pointsB)
+                }
+            }
+        } else {
+            val row = findViewById<LinearLayout>(R.id.last_year_points_output_row)
+            row.visibility = View.GONE
+        }
+
         // PAA
         val paaA = findViewById<TextView>(R.id.comparator_paa_a)
         val paaB = findViewById<TextView>(R.id.comparator_paa_b)

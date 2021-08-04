@@ -186,6 +186,7 @@ class PlayerSorter : AppCompatActivity() {
         factorList.add(Constants.SORT_DYNASTY)
         factorList.add(Constants.SORT_ROOKIE)
         factorList.add(Constants.SORT_BEST_BALL)
+        factorList.add(Constants.SORT_LAST_YEAR_POINTS)
         factorList.add(Constants.SORT_SOS)
         factors.attachDataSource(factorList)
         factors.setBackgroundColor(Color.parseColor("#FAFAFA"))
@@ -342,6 +343,7 @@ class PlayerSorter : AppCompatActivity() {
             Constants.SORT_VOLS_SCALED -> comparator = voLSScaledComparator
             Constants.SORT_VOLSPD -> comparator = voLSPDComparator
             Constants.SORT_VBD_SUGGESTED -> comparator = vBDSuggestedComparator
+            Constants.SORT_LAST_YEAR_POINTS -> comparator = lastYearPointsComparator
             Constants.SORT_SOS -> comparator = sOSComparator
         }
         filterAndConditionallySortPlayers(playerIds, booleanFactors, reversePlayers, comparator)
@@ -643,6 +645,8 @@ class PlayerSorter : AppCompatActivity() {
         get() = Comparator { a: Player, b: Player -> b.auctionValue.compareTo(a.auctionValue) }
     private val projectionComparator: Comparator<Player>
         get() = Comparator { a: Player, b: Player -> b.projection.compareTo(a.projection) }
+    private val lastYearPointsComparator: Comparator<Player>
+        get() = Comparator { a: Player, b: Player -> b.lastYearPoints.compareTo(a.lastYearPoints) }
     private val pAAComparator: Comparator<Player>
         get() = Comparator { a: Player, b: Player -> b.paa.compareTo(a.paa) }
     private val pAAScaledComparator: Comparator<Player>
@@ -738,6 +742,7 @@ class PlayerSorter : AppCompatActivity() {
             Constants.SORT_ROOKIE -> return if (player.rookieRank == Constants.DEFAULT_RANK) Constants.DEFAULT_DISPLAY_RANK_NOT_SET else player.rookieRank.toString()
             Constants.SORT_BEST_BALL -> return if (player.bestBallRank == Constants.DEFAULT_RANK) Constants.DEFAULT_DISPLAY_RANK_NOT_SET else player.bestBallRank.toString()
             Constants.SORT_PROJECTION -> return Constants.DECIMAL_FORMAT.format(player.projection)
+            Constants.SORT_LAST_YEAR_POINTS -> return Constants.DECIMAL_FORMAT.format(player.lastYearPoints)
             Constants.SORT_PASSING_TDS -> return player.playerProjection.passingProjection.tds.toString()
             Constants.SORT_PASSING_YDS -> return player.playerProjection.passingProjection.yards.toString()
             Constants.SORT_RUSHING_TDS -> return player.playerProjection.rushingProjection.tds.toString()

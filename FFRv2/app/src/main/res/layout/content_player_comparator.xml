@@ -531,6 +531,38 @@
 
         </LinearLayout>
         <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/comparator_view_height"
+        android:background="#fafafa"
+        android:orientation="horizontal"
+        android:id="@+id/last_year_points_output_row"
+        android:layout_weight="1">
+        <TextView
+            android:id="@+id/comparator_last_year_points_a"
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textSize="14sp"
+            android:background="#F3F3F3"
+            android:textStyle="bold"
+            android:layout_weight="1"
+            android:text="Points Last Year"/>
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:layout_height="match_parent"
+            android:id="@+id/comparator_last_year_points_b"/>
+
+        </LinearLayout>
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="@dimen/comparator_view_height"
             android:background="#fafafa"

@@ -187,9 +187,9 @@ object ParseStats {
             val team = normalizeTeams(td[i+1])
             val age = td[i+2].toInt()
             val data = "FG Attempted: " + td[i+16] + Constants.LINE_BREAK +
-                    "FG Percentage: " + td[i+19] + Constants.LINE_BREAK +
+                    "FG Made: " + td[i+17] + Constants.LINE_BREAK +
                     "XP Attempted: " + td[i+20] + Constants.LINE_BREAK +
-                    "XP Percentage: " + td[i+22] + Constants.LINE_BREAK
+                    "XP Made: " + td[i+21] + Constants.LINE_BREAK
             val inferredKey = getPlayerIdKey(name, team, Constants.K)
             players[inferredKey] = data
             ageMap[inferredKey] = age

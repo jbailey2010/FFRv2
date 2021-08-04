@@ -817,7 +817,7 @@ class PlayerInfo : AppCompatActivity() {
         if (!StringUtils.isBlank(player.stats)) {
             val stats: MutableMap<String, String?> = HashMap()
             stats[Constants.PLAYER_BASIC] = Constants.LAST_YEAR_KEY + " Stats"
-            stats[Constants.PLAYER_INFO] = player.stats
+            stats[Constants.PLAYER_INFO] = getPlayerStatsText(player)
             data!!.add(stats)
         }
         val lastUpdated = LocalSettingsHelper.getLastRankingsFetchedDate(this)
@@ -1287,6 +1287,18 @@ class PlayerInfo : AppCompatActivity() {
         imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, 0)
     }
 
+    private fun getPlayerStatsText(player: Player): String {
+        var response = player.stats!!
+        if (player.lastYearPoints > 0.0) {
+            val pos = getLastYearPoints(player.position, player.lastYearPoints)
+            val overall = getLastYearPoints(null, player.lastYearPoints)
+            response += Constants.LINE_BREAK + Constants.LINE_BREAK +
+                    "Points Last Year: " + Constants.DECIMAL_FORMAT.format(player.lastYearPoints) + Constants.LINE_BREAK +
+                    getRankingSub(overall, pos)
+        }
+        return response
+    }
+
     private val leverage: String
         get() = "Leverage: " +
                 ParseMath.getLeverage(player, rankings)
@@ -1383,6 +1395,19 @@ class PlayerInfo : AppCompatActivity() {
             val player = rankings.getPlayer(key)
             if (pos == null || pos == player.position) {
                 if (player.projection > source) {
+                    rank++
+                }
+            }
+        }
+        return rank
+    }
+
+    private fun getLastYearPoints(pos: String?, source: Double): Int {
+        var rank = 1
+        for (key in rankings.players.keys) {
+            val player = rankings.getPlayer(key)
+            if (pos == null || pos == player.position) {
+                if (player.lastYearPoints > source) {
                     rank++
                 }
             }

@@ -1,10 +1,7 @@
 package com.devingotaswitch.rankings.sources
 
 import android.util.Log
-import com.devingotaswitch.rankings.domain.LeagueSettings
-import com.devingotaswitch.rankings.domain.Player
-import com.devingotaswitch.rankings.domain.Rankings
-import com.devingotaswitch.rankings.domain.RosterSettings
+import com.devingotaswitch.rankings.domain.*
 import com.devingotaswitch.utils.Constants
 import java.util.*
 import kotlin.math.ln
@@ -385,5 +382,80 @@ object ParseMath {
         }
         return Constants.DECIMAL_FORMAT.format(player.projection / topPlayer!!.projection /
                 (player.getAuctionValueCustom(rankings) / topPlayer.getAuctionValueCustom(rankings))).toDouble()
+    }
+
+    fun getLastYearPoints(rankings: Rankings) {
+        for (player in rankings.players.values) {
+            if (player.stats != null) {
+                player.lastYearPoints = 0.0
+                player.lastYearPoints += parsePassingStats(player.stats!!, rankings.getUserLeagues()!!.currentLeague.scoringSettings)
+                player.lastYearPoints += parseRushingStats(player.stats!!, rankings.getUserLeagues()!!.currentLeague.scoringSettings)
+                player.lastYearPoints += parseReceivingStats(player.stats!!, rankings.getUserLeagues()!!.currentLeague.scoringSettings)
+                player.lastYearPoints += parseKickingStats(player.stats!!)
+            }
+        }
+    }
+
+    private fun parsePassingStats(stats: String, scoring: ScoringSettings): Double {
+        var total = 0.0
+        if (stats.contains("Interceptions:") && scoring.interceptions > 0.0) {
+            total -= stats.split("Interceptions: ")[1]
+                    .split(Constants.LINE_BREAK)[0].toDouble() * scoring.interceptions
+        }
+        if (stats.contains("Passing Yards:") && scoring.passingYards > 0) {
+            total += stats.split("Passing Yards: ")[1]
+                    .split(Constants.LINE_BREAK)[0].toDouble() / scoring.passingYards.toDouble()
+        }
+        if (stats.contains("Passing Touchdowns:") && scoring.passingTds > 0) {
+            total += stats.split("Passing Touchdowns: ")[1]
+                    .split(Constants.LINE_BREAK)[0].toDouble() * scoring.passingTds
+        }
+        return total
+    }
+
+    private fun parseRushingStats(stats: String, scoring: ScoringSettings): Double {
+        var total = 0.0
+        if (stats.contains("Fumbles:") && scoring.fumbles > 0.0) {
+            total -= stats.split("Fumbles: ")[1]
+                    .split(Constants.LINE_BREAK)[0].toDouble() * scoring.fumbles
+        }
+        if (stats.contains("Rushing Yards:") && scoring.rushingYards > 0) {
+            total += stats.split("Rushing Yards: ")[1]
+                    .split(Constants.LINE_BREAK)[0].toDouble() / scoring.rushingYards.toDouble()
+        }
+        if (stats.contains("Rushing Touchdowns:") && scoring.rushingTds > 0) {
+            total += stats.split("Rushing Touchdowns: ")[1]
+                    .split(Constants.LINE_BREAK)[0].toDouble() * scoring.rushingTds
+        }
+        return total
+    }
+
+    private fun parseReceivingStats(stats: String, scoring: ScoringSettings): Double {
+        var total = 0.0
+        if (stats.contains("Receptions:") && scoring.receptions > 0.0) {
+            total += stats.split("Receptions: ")[1]
+                    .split(Constants.LINE_BREAK)[0].toDouble() * scoring.receptions
+        }
+        if (stats.contains("Receiving Yards:") && scoring.receivingYards > 0) {
+            total += stats.split("Receiving Yards: ")[1]
+                    .split(Constants.LINE_BREAK)[0].toDouble() / scoring.receivingYards.toDouble()
+        }
+        if (stats.contains("Receiving Touchdowns:") && scoring.receivingTds > 0) {
+            total += stats.split("Receiving Touchdowns: ")[1]
+                    .split(Constants.LINE_BREAK)[0].toDouble() * scoring.receivingTds
+        }
+        return total
+    }
+
+    private fun parseKickingStats(stats: String): Double {
+        var total = 0.0
+        if (stats.contains("XP Made:")) {
+            total += stats.split("XP Made: ")[1].split(Constants.LINE_BREAK)[0].toDouble()
+        }
+        if (stats.contains("FG Made:")) {
+            // Blindly assume 3 points per fg
+            total += stats.split("FG Made: ")[1].split(Constants.LINE_BREAK)[0].toDouble() * 3.0
+        }
+        return total
     }
 }
