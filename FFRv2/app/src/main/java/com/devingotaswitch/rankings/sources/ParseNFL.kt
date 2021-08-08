@@ -1,5 +1,6 @@
 package com.devingotaswitch.rankings.sources
 
+import android.util.Log
 import com.devingotaswitch.rankings.domain.Player
 import com.devingotaswitch.rankings.domain.Rankings
 import com.devingotaswitch.utils.Constants
@@ -41,14 +42,10 @@ object ParseNFL {
         val td = parseURLWithUA(url, "td")
         var i = 0
         while (i < td.size) {
-            val nameSet = td[i].split(" ")
+            val nameSet = td[i].split("NFI")[0].split(" ")
             var name = StringBuilder()
             var filter = 0
             for (j in nameSet.indices) {
-                if (nameSet[j] == "DEF") {
-                    filter = j
-                    break
-                }
                 if (nameSet[j] == "-") {
                     filter = j - 1
                     break
@@ -62,7 +59,7 @@ object ParseNFL {
                     break
                 }
                 if (nameSet[j] == Constants.QB || nameSet[j] == Constants.RB || nameSet[j] == Constants.WR
-                        || nameSet[j] == Constants.TE || nameSet[j] == Constants.K) {
+                        || nameSet[j] == Constants.TE || nameSet[j] == "DEF" || nameSet[j] == Constants.K) {
                     filter = j
                     break
                 }
@@ -75,6 +72,9 @@ object ParseNFL {
             val worth = td[i + 3]
             val `val` = worth.toDouble()
             var team = nameSet[nameSet.size - 1]
+            if (team.isBlank() || team.length == 1 || team == "PUP") {
+                team = nameSet[nameSet.size - 2]
+            }
             if (td[i].contains("View News") && td[i].contains("View Videos")) {
                 // Sometimes it's <name> <pos> - <team> View News View Videos
                 team = nameSet[nameSet.size - 5]

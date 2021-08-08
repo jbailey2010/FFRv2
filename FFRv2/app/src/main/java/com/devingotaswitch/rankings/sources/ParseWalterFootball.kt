@@ -39,7 +39,11 @@ object ParseWalterFootball {
                 playerName += " D/ST"
                 pos = Constants.DST
             }
-            val aucVal = row[2].split("\\$".toRegex())[1].split(" ")[0].toDouble()
+            var aucVal = row[2].split("\\$".toRegex())[1].split(" ")[0].toDouble()
+            if (aucVal < 0.0) {
+                // For whatever reason, had players going as low as -$87
+                aucVal = 1.0
+            }
             val team = row[2].split("\\. ".toRegex())[0]
             rankings.processNewPlayer(getPlayerFromRankings(playerName, team, pos, aucVal))
             i ++

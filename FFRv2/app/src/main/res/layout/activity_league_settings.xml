@@ -33,6 +33,6 @@
 
     </com.google.android.material.appbar.AppBarLayout>
 
-    <include layout="@layout/content_league_settings" />
+    <include layout="@layout/content_league_settings"/>
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
