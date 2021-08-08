@@ -344,6 +344,30 @@ object Constants {
     // Trending
     const val TRENDING_ID_DELIMITER = "-.-"
 
+    // Stats
+    const val STATS_GAMES_STARTED = "Games Started: "
+    const val STATS_QBR = "QB Rating: "
+    const val STATS_ATTEMPTS = "Pass Attempts: "
+    const val STATS_YPA = "Yards Per Attempt: "
+    const val STATS_COMPLETION_PERCENTAGE = "Completion Percentage: "
+    const val STATS_PASSING_YARDS = "Passing Yards: "
+    const val STATS_PASSING_TDS = "Passing Touchdowns: "
+    const val STATS_INTS = "Interceptions: "
+    const val STATS_CARRIES = "Carries: "
+    const val STATS_YPC = "Yards Per Carry: "
+    const val STATS_RUSHING_YARDS = "Rushing Yards: "
+    const val STATS_RUSHING_TDS = "Rushing Touchdowns: "
+    const val STATS_FUMBLES = "Fumbles: "
+    const val STATS_TARGETS = "Targets: "
+    const val STATS_RECEPTIONS = "Receptions: "
+    const val STATS_CATCH_RATE = "Catch Rate: "
+    const val STATS_RECEIVING_YARDS = "Receiving Yards: "
+    const val STATS_RECEIVING_TDS = "Receiving Touchdowns: "
+    const val STATS_XP_ATTEMPTED = "XP Attempted: "
+    const val STATS_XP_MADE = "XP Made: "
+    const val STATS_FG_ATTEMPTED = "FG Attempted: "
+    const val STATS_FG_MADE = "FG Made: "
+
     // Non-primitives
     @JvmField
     val DECIMAL_FORMAT = DecimalFormat("#.##")

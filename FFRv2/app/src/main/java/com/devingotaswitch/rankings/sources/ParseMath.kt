@@ -398,16 +398,16 @@ object ParseMath {
 
     private fun parsePassingStats(stats: String, scoring: ScoringSettings): Double {
         var total = 0.0
-        if (stats.contains("Interceptions:") && scoring.interceptions > 0.0) {
-            total -= stats.split("Interceptions: ")[1]
+        if (stats.contains(Constants.STATS_FUMBLES) && scoring.interceptions > 0.0) {
+            total -= stats.split(Constants.STATS_FUMBLES)[1]
                     .split(Constants.LINE_BREAK)[0].toDouble() * scoring.interceptions
         }
-        if (stats.contains("Passing Yards:") && scoring.passingYards > 0) {
-            total += stats.split("Passing Yards: ")[1]
+        if (stats.contains(Constants.STATS_PASSING_YARDS) && scoring.passingYards > 0) {
+            total += stats.split(Constants.STATS_PASSING_YARDS)[1]
                     .split(Constants.LINE_BREAK)[0].toDouble() / scoring.passingYards.toDouble()
         }
-        if (stats.contains("Passing Touchdowns:") && scoring.passingTds > 0) {
-            total += stats.split("Passing Touchdowns: ")[1]
+        if (stats.contains(Constants.STATS_PASSING_TDS) && scoring.passingTds > 0) {
+            total += stats.split(Constants.STATS_PASSING_TDS)[1]
                     .split(Constants.LINE_BREAK)[0].toDouble() * scoring.passingTds
         }
         return total
@@ -415,16 +415,16 @@ object ParseMath {
 
     private fun parseRushingStats(stats: String, scoring: ScoringSettings): Double {
         var total = 0.0
-        if (stats.contains("Fumbles:") && scoring.fumbles > 0.0) {
-            total -= stats.split("Fumbles: ")[1]
+        if (stats.contains(Constants.STATS_FUMBLES) && scoring.fumbles > 0.0) {
+            total -= stats.split(Constants.STATS_FUMBLES)[1]
                     .split(Constants.LINE_BREAK)[0].toDouble() * scoring.fumbles
         }
-        if (stats.contains("Rushing Yards:") && scoring.rushingYards > 0) {
-            total += stats.split("Rushing Yards: ")[1]
+        if (stats.contains(Constants.STATS_RUSHING_YARDS) && scoring.rushingYards > 0) {
+            total += stats.split(Constants.STATS_RUSHING_YARDS)[1]
                     .split(Constants.LINE_BREAK)[0].toDouble() / scoring.rushingYards.toDouble()
         }
-        if (stats.contains("Rushing Touchdowns:") && scoring.rushingTds > 0) {
-            total += stats.split("Rushing Touchdowns: ")[1]
+        if (stats.contains(Constants.STATS_RUSHING_TDS) && scoring.rushingTds > 0) {
+            total += stats.split(Constants.STATS_RUSHING_TDS)[1]
                     .split(Constants.LINE_BREAK)[0].toDouble() * scoring.rushingTds
         }
         return total
@@ -432,16 +432,16 @@ object ParseMath {
 
     private fun parseReceivingStats(stats: String, scoring: ScoringSettings): Double {
         var total = 0.0
-        if (stats.contains("Receptions:") && scoring.receptions > 0.0) {
-            total += stats.split("Receptions: ")[1]
+        if (stats.contains(Constants.STATS_RECEPTIONS) && scoring.receptions > 0.0) {
+            total += stats.split(Constants.STATS_RECEPTIONS)[1]
                     .split(Constants.LINE_BREAK)[0].toDouble() * scoring.receptions
         }
-        if (stats.contains("Receiving Yards:") && scoring.receivingYards > 0) {
-            total += stats.split("Receiving Yards: ")[1]
+        if (stats.contains(Constants.STATS_RECEIVING_YARDS) && scoring.receivingYards > 0) {
+            total += stats.split(Constants.STATS_RECEIVING_YARDS)[1]
                     .split(Constants.LINE_BREAK)[0].toDouble() / scoring.receivingYards.toDouble()
         }
-        if (stats.contains("Receiving Touchdowns:") && scoring.receivingTds > 0) {
-            total += stats.split("Receiving Touchdowns: ")[1]
+        if (stats.contains(Constants.STATS_RECEIVING_TDS) && scoring.receivingTds > 0) {
+            total += stats.split(Constants.STATS_RECEIVING_TDS)[1]
                     .split(Constants.LINE_BREAK)[0].toDouble() * scoring.receivingTds
         }
         return total
@@ -449,12 +449,12 @@ object ParseMath {
 
     private fun parseKickingStats(stats: String): Double {
         var total = 0.0
-        if (stats.contains("XP Made:")) {
-            total += stats.split("XP Made: ")[1].split(Constants.LINE_BREAK)[0].toDouble()
+        if (stats.contains(Constants.STATS_XP_MADE)) {
+            total += stats.split(Constants.STATS_XP_MADE)[1].split(Constants.LINE_BREAK)[0].toDouble()
         }
-        if (stats.contains("FG Made:")) {
+        if (stats.contains(Constants.STATS_FG_MADE)) {
             // Blindly assume 3 points per fg
-            total += stats.split("FG Made: ")[1].split(Constants.LINE_BREAK)[0].toDouble() * 3.0
+            total += stats.split(Constants.STATS_FG_MADE)[1].split(Constants.LINE_BREAK)[0].toDouble() * 3.0
         }
         return total
     }

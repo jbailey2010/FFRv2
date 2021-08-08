@@ -86,14 +86,14 @@ object ParseStats {
             val age = td[i+2].toInt()
             // Some rows are missing a position. Proceed with those and QBs, ignore other positions.
             if (td[i+3].isEmpty() || td[i+3].toUpperCase() == Constants.QB) {
-                var data = "Games Started: " + td[i + 5] + Constants.LINE_BREAK +
-                        "Pass Attempts: " + td[i + 8] + Constants.LINE_BREAK +
-                        "Completion Percentage: " + td[i + 9] + "%" + Constants.LINE_BREAK +
-                        "Passing Yards: " + td[i + 10] + Constants.LINE_BREAK +
-                        "Passing Touchdowns: " + td[i + 11] + Constants.LINE_BREAK +
-                        "Interceptions: " + td[i + 13] + Constants.LINE_BREAK +
-                        "Yards Per Attempt: " + td[i + 17] + Constants.LINE_BREAK +
-                        "QB Rating: " + td[i + 21] + Constants.LINE_BREAK
+                var data = Constants.STATS_GAMES_STARTED + td[i + 5] + Constants.LINE_BREAK +
+                        Constants.STATS_ATTEMPTS + td[i + 8] + Constants.LINE_BREAK +
+                        Constants.STATS_COMPLETION_PERCENTAGE + td[i + 9] + "%" + Constants.LINE_BREAK +
+                        Constants.STATS_PASSING_YARDS + td[i + 10] + Constants.LINE_BREAK +
+                        Constants.STATS_PASSING_TDS + td[i + 11] + Constants.LINE_BREAK +
+                        Constants.STATS_INTS + td[i + 13] + Constants.LINE_BREAK +
+                        Constants.STATS_YPA + td[i + 17] + Constants.LINE_BREAK +
+                        Constants.STATS_QBR + td[i + 21] + Constants.LINE_BREAK
 
                 val inferredKey = getPlayerIdKey(name, team, Constants.QB)
 
@@ -119,15 +119,15 @@ object ParseStats {
                 td[i+3].toUpperCase()
             }
             val inferredKey = getPlayerIdKey(name, team, pos)
-            var localData = "Carries: " + td[i+6] + Constants.LINE_BREAK +
-                    "Rushing Yards: " + td[i+7] + Constants.LINE_BREAK +
-                    "Rushing Touchdowns: " + td[i+8] + Constants.LINE_BREAK +
-                    "Yards Per Carry: " + td[i+11] + Constants.LINE_BREAK +
-                    "Fumbles: " + td[i+13] + Constants.LINE_BREAK
+            var localData = Constants.STATS_CARRIES + td[i+6] + Constants.LINE_BREAK +
+                    Constants.STATS_RUSHING_YARDS + td[i+7] + Constants.LINE_BREAK +
+                    Constants.STATS_RUSHING_TDS + td[i+8] + Constants.LINE_BREAK +
+                    Constants.STATS_YPC + td[i+11] + Constants.LINE_BREAK +
+                    Constants.STATS_FUMBLES + td[i+13] + Constants.LINE_BREAK
 
             // If we have data already, meaning it's a qb, don't re-add games.
             if (!players.containsKey(inferredKey)) {
-                localData = "Games Started: " + td[i+5] + Constants.LINE_BREAK + localData
+                localData = Constants.STATS_GAMES_STARTED + td[i+5] + Constants.LINE_BREAK + localData
                 players[inferredKey] = localData
 
             } else {
@@ -153,15 +153,15 @@ object ParseStats {
                 td[i+3].toUpperCase()
             }
             val inferredKey = getPlayerIdKey(name, team, pos)
-            var localData = "Targets: " + td[i+6] + Constants.LINE_BREAK +
-                            "Receptions: " + td[i+7] + Constants.LINE_BREAK +
-                            "Catch Rate: " + td[i+8] + Constants.LINE_BREAK +
-                            "Receiving Yards: " + td[i+9] + Constants.LINE_BREAK +
-                            "Receiving Touchdowns: " + td[i+11] + Constants.LINE_BREAK
+            var localData = Constants.STATS_TARGETS + td[i+6] + Constants.LINE_BREAK +
+                            Constants.STATS_RECEPTIONS + td[i+7] + Constants.LINE_BREAK +
+                            Constants.STATS_CATCH_RATE + td[i+8] + Constants.LINE_BREAK +
+                            Constants.STATS_RECEIVING_YARDS + td[i+9] + Constants.LINE_BREAK +
+                            Constants.STATS_RECEIVING_TDS + td[i+11] + Constants.LINE_BREAK
 
             // Prepend games data if we don't have anything saved (meaning, wr or te)
             if (!players.containsKey(inferredKey)) {
-                localData = "Games Started: " + td[i+5] + Constants.LINE_BREAK + localData
+                localData = Constants.STATS_GAMES_STARTED + td[i+5] + Constants.LINE_BREAK + localData
                 players[inferredKey] = localData
             } else {
                 // Otherwise, we'll check position. If it's a wr who just has rushing stats, we'll
@@ -186,10 +186,10 @@ object ParseStats {
             val name = normalizeNames(td[i].replace("*", "").replace("+", "").trim())
             val team = normalizeTeams(td[i+1])
             val age = td[i+2].toInt()
-            val data = "FG Attempted: " + td[i+16] + Constants.LINE_BREAK +
-                    "FG Made: " + td[i+17] + Constants.LINE_BREAK +
-                    "XP Attempted: " + td[i+20] + Constants.LINE_BREAK +
-                    "XP Made: " + td[i+21] + Constants.LINE_BREAK
+            val data = Constants.STATS_FG_ATTEMPTED + td[i+16] + Constants.LINE_BREAK +
+                    Constants.STATS_FG_MADE + td[i+17] + Constants.LINE_BREAK +
+                    Constants.STATS_XP_ATTEMPTED + td[i+20] + Constants.LINE_BREAK +
+                    Constants.STATS_XP_MADE + td[i+21] + Constants.LINE_BREAK
             val inferredKey = getPlayerIdKey(name, team, Constants.K)
             players[inferredKey] = data
             ageMap[inferredKey] = age
