@@ -45,7 +45,7 @@ object ParseFantasyPros {
             }
             rankings!!.getLeagueSettings().scoringSettings.receptions >= 1.0 -> {
                 adpUrl = "http://www.fantasypros.com/nfl/adp/ppr-overall.php"
-                rowSize = 8
+                rowSize = 9
             }
             rankings!!.getLeagueSettings().scoringSettings.receptions > 0 -> {
                 adpUrl = "https://www.fantasypros.com/nfl/adp/half-point-ppr-overall.php"

@@ -68,7 +68,7 @@ object ParseYahoo {
             }
             val rank = td[i + 1].split("\\$".toRegex())[1]
             val aavStr = td[i + 2].split("\\$".toRegex())[1]
-            var aav = 0.0
+            var aav = 1.0
             val worth = rank.toDouble()
             if (aavStr != "-" && aavStr != "0.0") {
                 aav = aavStr.toDouble()

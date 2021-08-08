@@ -683,7 +683,7 @@ class PlayerSorter : AppCompatActivity() {
     }
 
     private fun getVBDSuggestedValue(a: Player?): Double {
-        return a!!.getScaledPAA(rankings) + a.getScaledPAA(rankings) + a.getScaledVOLS(rankings)
+        return a!!.getScaledPAA(rankings) + a.getScaledXVal(rankings) + a.getScaledVOLS(rankings)
     }
 
     private val xValComparator: Comparator<Player>
@@ -878,15 +878,18 @@ class PlayerSorter : AppCompatActivity() {
             if (Constants.DEFAULT_DISPLAY_RANK_NOT_SET == prefix) {
                 continue
             }
-            val value = getMainTextPrefixForPlayer(player).toDouble()
-            entries.add(Entry(actualIndex++.toFloat(), value.toFloat()))
-            when (player.position) {
-                Constants.QB -> qbs.add(Entry(qbs.size.toFloat(), value.toFloat()))
-                Constants.RB -> rbs.add(Entry(rbs.size.toFloat(), value.toFloat()))
-                Constants.WR -> wrs.add(Entry(wrs.size.toFloat(), value.toFloat()))
-                Constants.TE -> tes.add(Entry(tes.size.toFloat(), value.toFloat()))
-                Constants.DST -> dsts.add(Entry(dsts.size.toFloat(), value.toFloat()))
-                Constants.K -> ks.add(Entry(ks.size.toFloat(), value.toFloat()))
+            val strVal = getMainTextPrefixForPlayer(player)
+            if (strVal != "-∞" && strVal != "∞") {
+                val value = strVal.toDouble()
+                entries.add(Entry(actualIndex++.toFloat(), value.toFloat()))
+                when (player.position) {
+                    Constants.QB -> qbs.add(Entry(qbs.size.toFloat(), value.toFloat()))
+                    Constants.RB -> rbs.add(Entry(rbs.size.toFloat(), value.toFloat()))
+                    Constants.WR -> wrs.add(Entry(wrs.size.toFloat(), value.toFloat()))
+                    Constants.TE -> tes.add(Entry(tes.size.toFloat(), value.toFloat()))
+                    Constants.DST -> dsts.add(Entry(dsts.size.toFloat(), value.toFloat()))
+                    Constants.K -> ks.add(Entry(ks.size.toFloat(), value.toFloat()))
+                }
             }
         }
         val allPositions = getLineDataSet(entries, "All Positions", "blue")
