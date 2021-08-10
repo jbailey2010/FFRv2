@@ -648,7 +648,7 @@ class PlayerComparator : AppCompatActivity() {
         lineGraph!!.data = lineData
         lineGraph.setDrawBorders(true)
         val description = Description()
-        description.text = ""
+        description.text = "Projections"
         lineGraph.description = description
         lineGraph.invalidate()
         lineGraph.setTouchEnabled(true)
@@ -678,7 +678,7 @@ class PlayerComparator : AppCompatActivity() {
             projectionDays.add(Entry(i.toFloat(), projection.getProjection(rankings.getLeagueSettings().scoringSettings).toFloat()))
         }
         return getLineDataSet(projectionDays,
-                player.name + " Projections", color)
+                player.name, color)
     }
 
     private fun goToPlayerInfo(player: Player) {

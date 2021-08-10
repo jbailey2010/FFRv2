@@ -101,7 +101,6 @@ object Constants {
     const val FP_BREAKING_NEWS_TITLE = "FantasyPros Breaking News"
     const val FP_RUMORS_TITLE = "FantasyPros Rumors"
     const val FP_INJURY_TITLE = "FantasyPros Injuries"
-    const val SIP_INJURY_TITLE = "Sports Injury Predictor Injuries"
     const val SPOTRAC_TRANSACTIONS_TITLE = "Spotrac Transactions"
 
     // Flashbar constants
