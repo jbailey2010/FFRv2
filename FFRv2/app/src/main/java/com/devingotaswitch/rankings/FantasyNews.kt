@@ -68,7 +68,7 @@ class FantasyNews : AppCompatActivity() {
         }
         val sources: List<String> = ArrayList(listOf(Constants.MFL_AGGREGATE_TITLE,
                 Constants.SPOTRAC_TRANSACTIONS_TITLE, Constants.FP_ALL_NEWS,
-                Constants.FP_RUMORS_TITLE, Constants.FP_BREAKING_NEWS_TITLE, Constants.FP_INJURY_TITLE)
+                Constants.FP_RUMORS_TITLE, Constants.FP_BREAKING_NEWS_TITLE, Constants.FP_INJURY_TITLE))
         val sourcesSpinner = findViewById<NiceSpinner>(R.id.news_source_selector)
         sourcesSpinner.attachDataSource(sources)
         sourcesSpinner.setBackgroundColor(Color.parseColor("#FAFAFA"))
