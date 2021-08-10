@@ -364,6 +364,12 @@ object ParsingUtils {
     @JvmStatic
     fun normalizeNames(inputName: String): String {
         var playerName = inputName
+        if (playerName.endsWith("Jr.")) {
+            playerName = playerName.replace("Jr.", "")
+        }
+        if (playerName.endsWith("Sr.")) {
+            playerName = playerName.replace("Sr.", "")
+        }
         if (playerFixes.containsKey(playerName)) {
             playerName = playerFixes[playerName]!!
 
