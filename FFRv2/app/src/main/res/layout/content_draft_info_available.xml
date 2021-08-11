@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dp"
+        android:id="@+id/base_textview_graph_header"
+        android:text="Default filler"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:textStyle="bold"/>
+    <com.github.mikephil.charting.charts.BarChart
+        android:id="@+id/paa_left_graph"
+        android:layout_below="@+id/base_textview_graph_header"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"/>
+    <TextView
+        android:layout_width="wrap_content"
+        android:id="@+id/paa_left_graph_legend"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/paa_left_graph"
+        android:layout_marginTop="5dp"
+        android:text="Blue = Next 3 Players\nGreen = Next 5 Players\nLight Blue = Next 10 Players"/>
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/base_textview_paa_left"
+            android:layout_below="@+id/paa_left_graph_legend"
+            android:layout_marginTop="10dp"
+            android:text="Text"
+            android:textSize="14sp"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/base_textview_paa_left"
+            android:id="@+id/base_textview_players_drafted"
+            android:text="Total players drafted: 0"
+            android:textSize="14sp"/>
+</RelativeLayout>
+    </ScrollView>

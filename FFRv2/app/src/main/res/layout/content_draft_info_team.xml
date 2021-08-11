@@ -9,16 +9,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/draft_info_team_header"
-        android:text="Your team (PAA, XVal, VoLS):"
+        android:text="Your team"
         android:layout_marginTop="10dp"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="bold"/>
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/draft_info_team_header"
+            android:id="@+id/draft_info_team_sub"
+            android:text="Current VBD metrics are listed (PAA, XVal, VoLS)"
+            android:layout_marginTop="5dp"
+            android:textSize="12sp"/>
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/base_textview_team"
         android:layout_marginTop="15dp"
-        android:layout_below="@+id/draft_info_team_header"
+        android:layout_below="@+id/draft_info_team_sub"
         android:text="Text"
         android:textSize="14sp"/>
     <com.github.mikephil.charting.charts.BarChart
@@ -27,49 +35,5 @@
         android:layout_width="match_parent"
         android:visibility="gone"
         android:layout_height="150dp"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/team_graph"
-        android:id="@+id/draft_info_team_header_paa"
-        android:layout_marginTop="15dp"
-        android:text="PAA 3/5/10 players back:"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textStyle="bold"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/draft_info_team_header_paa"
-        android:id="@+id/base_textview_paa_left"
-        android:layout_marginTop="15dp"
-        android:text="Text"
-        android:textSize="14sp"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/base_textview_paa_left"
-        android:id="@+id/base_textview_players_drafted"
-        android:text="Total players drafted: 0"
-        android:textSize="14sp"/>
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
-        android:layout_below="@+id/base_textview_players_drafted"
-        android:id="@+id/base_textview_graph_header"
-        android:text="Positional PAA remaining, graphed in the order:"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:textStyle="bold"/>
-    <com.github.mikephil.charting.charts.BarChart
-        android:id="@+id/paa_left_graph"
-        android:layout_below="@+id/base_textview_graph_header"
-        android:layout_width="match_parent"
-        android:layout_height="200dp"/>
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/paa_left_graph"
-        android:layout_marginTop="5dp"
-        android:text="Blue = 3 Players Back\nGreen = 5 Players Back\nLight Blue = 10 Players Back"/>
     </RelativeLayout>
 </ScrollView>

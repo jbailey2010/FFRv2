@@ -39,6 +39,7 @@ class DraftInfo : AppCompatActivity() {
     private var baseLayout: LinearLayout? = null
     private var viewTeam: MenuItem? = null
     private var undraftPlayers: MenuItem? = null
+    private var viewAvailable: MenuItem? = null
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_draft_info)
@@ -74,6 +75,7 @@ class DraftInfo : AppCompatActivity() {
         menuInflater.inflate(R.menu.activity_draft_info_menu, menu)
         viewTeam = menu.findItem(R.id.draft_info_team)
         undraftPlayers = menu.findItem(R.id.draft_info_players)
+        viewAvailable = menu.findItem(R.id.draft_info_available)
         viewTeam!!.isVisible = false
         if (rankings.draft.draftedPlayers.size == 0) {
             // No need to let someone draft or undraft if there's no draft picks.
@@ -90,16 +92,25 @@ class DraftInfo : AppCompatActivity() {
                 clearDraft()
                 true
             }
+            R.id.draft_info_available -> {
+                availablePlayers()
+                viewTeam!!.isVisible = true
+                undraftPlayers!!.isVisible = true
+                viewAvailable!!.isVisible = false
+                true
+            }
             R.id.draft_info_team -> {
                 displayTeam()
                 viewTeam!!.isVisible = false
                 undraftPlayers!!.isVisible = true
+                viewAvailable!!.isVisible = true
                 true
             }
             R.id.draft_info_players -> {
                 displayPlayers()
                 viewTeam!!.isVisible = true
                 undraftPlayers!!.isVisible = false
+                viewAvailable!!.isVisible = true
                 true
             }
             else -> super.onOptionsItemSelected(item)
@@ -133,14 +144,27 @@ class DraftInfo : AppCompatActivity() {
             teamOutput.append(auctionValue)
         }
         teamView.text = teamOutput.toString()
-        graphTeam()
+        val teamSub = view.findViewById<TextView>(R.id.draft_info_team_sub)
+        if (rankings.draft.myPlayers.isEmpty()) {
+            teamSub.text = "You have drafted no players."
+        } else {
+            teamSub.text = "Current VBD metrics are listed (PAA, XVal, VoLS)"
+        }
+        if (rankings.draft.myPositionsDrafted(rankings).size > 1) {
+            graphTeam()
+        }
+    }
+
+    private fun availablePlayers() {
+        displayPlayers = false
+        val view = clearAndAddView(R.layout.content_draft_info_available)
         val paaLeft = view.findViewById<TextView>(R.id.base_textview_paa_left)
         paaLeft.text = pAALeft
         val playersDrafted = view.findViewById<TextView>(R.id.base_textview_players_drafted)
         val playersDraftedString = "Total players drafted: " + rankings.draft.draftedPlayers.size
         playersDrafted.text = playersDraftedString
         val graphLegend = view.findViewById<TextView>(R.id.base_textview_graph_header)
-        var graphHeader = "Positional PAA remaining, graphed in the order: "
+        var graphHeader = "Available PAA of positions  "
         val roster = rankings!!.getLeagueSettings().rosterSettings
         graphHeader += conditionallyAddPosition(Constants.QB, roster)
         graphHeader += conditionallyAddPosition(Constants.RB, roster)

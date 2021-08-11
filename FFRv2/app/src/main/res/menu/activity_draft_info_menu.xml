@@ -6,6 +6,9 @@
     <item android:id="@+id/draft_info_clear"
           android:title="Clear Draft"
           app:showAsAction="never"/>
+    <item android:id="@+id/draft_info_available"
+        android:title="Available Players"
+        app:showAsAction="never"/>
     <item android:id="@+id/draft_info_team"
           android:title="Your Team"
           app:showAsAction="never"/>

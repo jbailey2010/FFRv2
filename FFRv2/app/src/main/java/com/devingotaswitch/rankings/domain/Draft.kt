@@ -63,6 +63,17 @@ class Draft {
         return sameBye
     }
 
+    fun myPositionsDrafted(rankings: Rankings): MutableSet<String> {
+        val positionsDrafted: MutableSet<String> = HashSet<String>()
+        for (playerId in myPlayers.keys) {
+            val player = rankings.getPlayer(playerId)
+            if (!positionsDrafted.contains(player.position)) {
+                positionsDrafted.add(player.position)
+            }
+        }
+        return positionsDrafted
+    }
+
     val totalPAA: Double
         get() = qBPAA + rBPAA + wRPAA + tEPAA + dstpaa + kpaa
     val totalXVal: Double
