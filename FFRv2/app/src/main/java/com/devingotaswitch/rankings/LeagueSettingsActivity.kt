@@ -201,7 +201,12 @@ class LeagueSettingsActivity : AppCompatActivity() {
                         .show()
             }
         }
+        val currentLeagueName = rankings.getUserLeagues()!!.currentLeague.name
         rankings.getUserLeagues()!!.updateCurrentLeague(currentLeague, this)
+        if (currentLeagueName != currentLeague.name) {
+            // If league changed, refresh paa and whatnot
+            updateProj(currentLeague, true)
+        }
     }
 
     private fun displayNoLeague() {
@@ -966,7 +971,11 @@ class LeagueSettingsActivity : AppCompatActivity() {
                 updateProjections = true
                 rankingsUpdated = true
             }
-            rankings.updateProjectionsAndVBD(this, oldLeague, updateProjections, rankingsDB)
+            updateProj(oldLeague, updateProjections)
         }
+    }
+
+    private fun updateProj(league: LeagueSettings, updateProj: Boolean) {
+        rankings.updateProjectionsAndVBD(this, league, updateProj, rankingsDB)
     }
 }

@@ -19,6 +19,7 @@ object ParsingUtils {
     private fun initHashes() {
         playerFixes["Charles D. Johnson"] = "Charles Johnson"
         playerFixes["DJ Chark Jr."] = "D.J. Chark"
+        playerFixes["DJ Chark"] = "D.J. Chark"
         playerFixes["Henry Ruggsl"] = "Henry Ruggs"
         playerFixes["Henry RuggsI"] = "Henry Ruggs"
         playerFixes["Henry Ruggs III"] = "Henry Ruggs"
@@ -365,10 +366,10 @@ object ParsingUtils {
     fun normalizeNames(inputName: String): String {
         var playerName = inputName
         if (playerName.endsWith("Jr.")) {
-            playerName = playerName.replace("Jr.", "")
+            playerName = playerName.replace(" Jr.", "")
         }
         if (playerName.endsWith("Sr.")) {
-            playerName = playerName.replace("Sr.", "")
+            playerName = playerName.replace(" Sr.", "")
         }
         if (playerFixes.containsKey(playerName)) {
             playerName = playerFixes[playerName]!!

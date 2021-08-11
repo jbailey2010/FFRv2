@@ -24,12 +24,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="f5fe9503-cc09-4a8d-b7d9-507f98789a95" name="Default" comment="">
-      <change afterPath="$PROJECT_DIR$/app/src/main/res/layout/content_draft_info_available.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/DraftInfo.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/DraftInfo.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/Draft.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/domain/Draft.kt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/layout/content_draft_info_team.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/layout/content_draft_info_team.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/app/src/main/res/menu/activity_draft_info_menu.xml" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/res/menu/activity_draft_info_menu.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/LeagueSettingsActivity.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/rankings/LeagueSettingsActivity.kt" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/ParsingUtils.kt" beforeDir="false" afterPath="$PROJECT_DIR$/app/src/main/java/com/devingotaswitch/utils/ParsingUtils.kt" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -403,22 +400,22 @@
       <screen x="0" y="0" width="1280" height="720" />
     </state>
     <state x="321" y="96" key="#com.intellij.openapi.updateSettings.impl.PluginUpdateInfoDialog/0.0.1280.720@0.0.1280.720" timestamp="1625523703703" />
-    <state width="1220" height="140" key="GridCell.Tab.0.bottom" timestamp="1628387458074">
+    <state width="1220" height="140" key="GridCell.Tab.0.bottom" timestamp="1628642548576">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1220" height="140" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1628387458074" />
-    <state width="1220" height="140" key="GridCell.Tab.0.center" timestamp="1628387458073">
+    <state width="1220" height="140" key="GridCell.Tab.0.bottom/0.0.1280.720@0.0.1280.720" timestamp="1628642548576" />
+    <state width="1220" height="140" key="GridCell.Tab.0.center" timestamp="1628642548576">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1220" height="140" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1628387458073" />
-    <state width="1220" height="140" key="GridCell.Tab.0.left" timestamp="1628387458070">
+    <state width="1220" height="140" key="GridCell.Tab.0.center/0.0.1280.720@0.0.1280.720" timestamp="1628642548576" />
+    <state width="1220" height="140" key="GridCell.Tab.0.left" timestamp="1628642548573">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1220" height="140" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1628387458070" />
-    <state width="1220" height="140" key="GridCell.Tab.0.right" timestamp="1628387458073">
+    <state width="1220" height="140" key="GridCell.Tab.0.left/0.0.1280.720@0.0.1280.720" timestamp="1628642548573" />
+    <state width="1220" height="140" key="GridCell.Tab.0.right" timestamp="1628642548576">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
-    <state width="1220" height="140" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1628387458073" />
+    <state width="1220" height="140" key="GridCell.Tab.0.right/0.0.1280.720@0.0.1280.720" timestamp="1628642548576" />
     <state x="142" y="3" key="SettingsEditor" timestamp="1625527457907">
       <screen x="0" y="0" width="1280" height="720" />
     </state>
