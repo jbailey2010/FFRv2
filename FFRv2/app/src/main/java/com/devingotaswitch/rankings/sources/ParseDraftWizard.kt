@@ -9,25 +9,28 @@ object ParseDraftWizard {
     @Throws(IOException::class)
     fun parseRanksWrapper(rankings: Rankings) {
         var type = "STD"
-        if (rankings!!.getLeagueSettings().scoringSettings.receptions > 0) {
+        if (rankings.getLeagueSettings().scoringSettings.receptions >= 1.0) {
             type = "PPR"
+        }
+        if (rankings.getLeagueSettings().scoringSettings.receptions > 0) {
+            type = "HALF"
         }
         var url = ("http://draftwizard.fantasypros.com/editor/createFromProjections.jsp?sport=nfl&scoringSystem="
                 + type + "&showAuction=Y")
-        url += "&teams=" + rankings!!.getLeagueSettings().teamCount
-        url += "&QB=" + rankings!!.getLeagueSettings().rosterSettings.qbCount
-        url += "&WR=" + rankings!!.getLeagueSettings().rosterSettings.wrCount
-        url += "&RB=" + rankings!!.getLeagueSettings().rosterSettings.rbCount
-        url += "&TE=" + rankings!!.getLeagueSettings().rosterSettings.teCount
-        url += "&DST=" + rankings!!.getLeagueSettings().rosterSettings.dstCount
-        url += "&K=" + rankings!!.getLeagueSettings().rosterSettings.kCount
-        if (rankings!!.getLeagueSettings().rosterSettings.flex != null) {
-            url += "&WR/RB=" + rankings!!.getLeagueSettings().rosterSettings.flex!!.rbwrCount
-            url += "&WR/RB/TE=" + rankings!!.getLeagueSettings().rosterSettings.flex!!.rbwrteCount
-            url += "&RB/TE=" + rankings!!.getLeagueSettings().rosterSettings.flex!!.rbteCount
-            url += "&WR/TE=" + rankings!!.getLeagueSettings().rosterSettings.flex!!.wrteCount
-            url += "&QB/WR/RB/TE=" + rankings!!.getLeagueSettings().rosterSettings.flex!!.qbrbwrteCount
+        url += "&teams=" + rankings.getLeagueSettings().teamCount
+        url += "&tb=200"
+        var qbTotal = rankings.getLeagueSettings().rosterSettings.qbCount
+        if (rankings.getLeagueSettings().rosterSettings.flex != null) {
+            qbTotal += rankings.getLeagueSettings().rosterSettings.flex!!.qbrbwrteCount
         }
+        url += "&QB=$qbTotal"
+        url += "&RB=" + rankings.getLeagueSettings().rosterSettings.rbCount
+        url += "&WR=" + rankings.getLeagueSettings().rosterSettings.wrCount
+        url += "&TE=" + rankings.getLeagueSettings().rosterSettings.teCount
+        url += "&DST=" + rankings.getLeagueSettings().rosterSettings.dstCount
+        url += "&K=" + rankings.getLeagueSettings().rosterSettings.kCount
+        url += "&BN=" + rankings.getLeagueSettings().rosterSettings.benchCount
+        // Removed the flex customizations, they were being dropped and a zero value provided
         parseRanksWorker(rankings, url)
     }
 
@@ -52,8 +55,6 @@ object ParseDraftWizard {
             val pos = teamPos.split(" - ")[1].split("\\)".toRegex())[0]
             val player = getPlayerFromRankings(playerName, team, pos, aucVal)
 
-            // Double count it because math
-            rankings.processNewPlayer(player)
             rankings.processNewPlayer(player)
             i += 5
         }
