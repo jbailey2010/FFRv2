@@ -30,6 +30,9 @@ object ParseStats {
                 player.stats = players[player.uniqueId]
             }
             // If age isn't set (FFTB is iffy for young players), try to set again
+            if (key.contains("Edwards")) {
+                Log.i(Constants.TEST_DEBUG_TAG, key + ": " + player.age + ", " + age.containsKey(key))
+            }
             if ((player.age == null || player.age == 0) && age.containsKey(player.uniqueId)) {
                 player.age = age[player.uniqueId]
             }
@@ -172,8 +175,11 @@ object ParseStats {
                 } else {
                     players[inferredKey] = existingStats + localData
                 }
-                ageMap[inferredKey] = age
             }
+            if (inferredKey.contains("Edwards")) {
+                Log.i(Constants.TEST_DEBUG_TAG, "$inferredKey: $age")
+            }
+            ageMap[inferredKey] = age
         }
     }
 
