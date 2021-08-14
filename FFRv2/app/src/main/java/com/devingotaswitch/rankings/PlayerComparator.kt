@@ -562,10 +562,19 @@ class PlayerComparator : AppCompatActivity() {
         // PAA
         val paaA = findViewById<TextView>(R.id.comparator_paa_a)
         val paaB = findViewById<TextView>(R.id.comparator_paa_b)
-        paaA.text = Constants.DECIMAL_FORMAT.format(playerA.paa) + Constants.COMPARATOR_SCALED_PREFIX +
-                Constants.DECIMAL_FORMAT.format(playerA.getScaledPAA(rankings)) + Constants.COMPARATOR_SCALED_SUFFIX
-        paaB.text = Constants.DECIMAL_FORMAT.format(playerB.paa) + Constants.COMPARATOR_SCALED_PREFIX +
-                Constants.DECIMAL_FORMAT.format(playerB.getScaledPAA(rankings)) + Constants.COMPARATOR_SCALED_SUFFIX
+        val paaText = findViewById<TextView>(R.id.comparator_paa_text)
+        if (Constants.DECIMAL_FORMAT.format(playerA.getScaledPAA(rankings)) != Constants.DECIMAL_FORMAT.format(playerA.paa)
+                || Constants.DECIMAL_FORMAT.format(playerB.getScaledPAA(rankings)) != Constants.DECIMAL_FORMAT.format(playerB.paa)) {
+            paaText.text = "PAA (Scaled)"
+            paaA.text = Constants.DECIMAL_FORMAT.format(playerA.paa) + Constants.COMPARATOR_SCALED_PREFIX +
+                    Constants.DECIMAL_FORMAT.format(playerA.getScaledPAA(rankings)) + Constants.COMPARATOR_SCALED_SUFFIX
+            paaB.text = Constants.DECIMAL_FORMAT.format(playerB.paa) + Constants.COMPARATOR_SCALED_PREFIX +
+                    Constants.DECIMAL_FORMAT.format(playerB.getScaledPAA(rankings)) + Constants.COMPARATOR_SCALED_SUFFIX
+        } else {
+            paaText.text = "PAA"
+            paaA.text = Constants.DECIMAL_FORMAT.format(playerA.paa)
+            paaB.text = Constants.DECIMAL_FORMAT.format(playerB.paa)
+        }
         when {
             playerA.getScaledPAA(rankings) > playerB.getScaledPAA(rankings) -> {
                 setColors(paaA, paaB)
@@ -581,10 +590,19 @@ class PlayerComparator : AppCompatActivity() {
         // XVal
         val xvalA = findViewById<TextView>(R.id.comparator_xval_a)
         val xvalB = findViewById<TextView>(R.id.comparator_xval_b)
-        xvalA.text = Constants.DECIMAL_FORMAT.format(playerA.xval) + Constants.COMPARATOR_SCALED_PREFIX +
-                Constants.DECIMAL_FORMAT.format(playerA.getScaledXVal(rankings)) + Constants.COMPARATOR_SCALED_SUFFIX
-        xvalB.text = Constants.DECIMAL_FORMAT.format(playerB.xval) + Constants.COMPARATOR_SCALED_PREFIX +
-                Constants.DECIMAL_FORMAT.format(playerB.getScaledXVal(rankings)) + Constants.COMPARATOR_SCALED_SUFFIX
+        val xvalText = findViewById<TextView>(R.id.comparator_xval_text)
+        if (Constants.DECIMAL_FORMAT.format(playerA.getScaledXVal(rankings)) != Constants.DECIMAL_FORMAT.format(playerA.xval)
+                        || Constants.DECIMAL_FORMAT.format(playerB.getScaledXVal(rankings)) != Constants.DECIMAL_FORMAT.format(playerB.xval)) {
+            xvalText.text = "XValue (Scaled)"
+            xvalA.text = Constants.DECIMAL_FORMAT.format(playerA.xval) + Constants.COMPARATOR_SCALED_PREFIX +
+                    Constants.DECIMAL_FORMAT.format(playerA.getScaledXVal(rankings)) + Constants.COMPARATOR_SCALED_SUFFIX
+            xvalB.text = Constants.DECIMAL_FORMAT.format(playerB.xval) + Constants.COMPARATOR_SCALED_PREFIX +
+                    Constants.DECIMAL_FORMAT.format(playerB.getScaledXVal(rankings)) + Constants.COMPARATOR_SCALED_SUFFIX
+        } else {
+            xvalText.text = "XValue"
+            xvalA.text = Constants.DECIMAL_FORMAT.format(playerA.xval)
+            xvalB.text = Constants.DECIMAL_FORMAT.format(playerB.xval)
+        }
         when {
             playerA.getScaledXVal(rankings) > playerB.getScaledXVal(rankings) -> {
                 setColors(xvalA, xvalB)
@@ -600,10 +618,19 @@ class PlayerComparator : AppCompatActivity() {
         // VoLS
         val volsA = findViewById<TextView>(R.id.comparator_vols_a)
         val volsB = findViewById<TextView>(R.id.comparator_vols_b)
-        volsA.text = Constants.DECIMAL_FORMAT.format(playerA.vols) + Constants.COMPARATOR_SCALED_PREFIX +
-                Constants.DECIMAL_FORMAT.format(playerA.getScaledVOLS(rankings)) + Constants.COMPARATOR_SCALED_SUFFIX
-        volsB.text = Constants.DECIMAL_FORMAT.format(playerB.vols) + Constants.COMPARATOR_SCALED_PREFIX +
-                Constants.DECIMAL_FORMAT.format(playerB.getScaledVOLS(rankings)) + Constants.COMPARATOR_SCALED_SUFFIX
+        val volsText = findViewById<TextView>(R.id.comparator_vols_text)
+        if (Constants.DECIMAL_FORMAT.format(playerA.getScaledVOLS(rankings)) != Constants.DECIMAL_FORMAT.format(playerA.vols)
+                || Constants.DECIMAL_FORMAT.format(playerB.getScaledVOLS(rankings)) != Constants.DECIMAL_FORMAT.format(playerB.vols)) {
+            volsText.text = "VoLS (Scaled)"
+            volsA.text = Constants.DECIMAL_FORMAT.format(playerA.vols) + Constants.COMPARATOR_SCALED_PREFIX +
+                    Constants.DECIMAL_FORMAT.format(playerA.getScaledVOLS(rankings)) + Constants.COMPARATOR_SCALED_SUFFIX
+            volsB.text = Constants.DECIMAL_FORMAT.format(playerB.vols) + Constants.COMPARATOR_SCALED_PREFIX +
+                    Constants.DECIMAL_FORMAT.format(playerB.getScaledVOLS(rankings)) + Constants.COMPARATOR_SCALED_SUFFIX
+        } else {
+            volsText.text = "VoLS"
+            volsA.text = Constants.DECIMAL_FORMAT.format(playerA.vols)
+            volsB.text = Constants.DECIMAL_FORMAT.format(playerB.vols)
+        }
         when {
             playerA.getScaledVOLS(rankings) > playerB.getScaledVOLS(rankings) -> {
                 setColors(volsA, volsB)

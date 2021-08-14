@@ -788,7 +788,9 @@ class PlayerInfo : AppCompatActivity() {
             if (player.getAuctionValueCustom(rankings) > 0.0) {
                 subRank += Constants.LINE_BREAK + "PAA/$: " + Constants.DECIMAL_FORMAT.format(player.paa / player.getAuctionValueCustom(rankings))
             }
-            subRank += Constants.LINE_BREAK + "Scaled PAA: " + Constants.DECIMAL_FORMAT.format(player.getScaledPAA(rankings))
+            if (Constants.DECIMAL_FORMAT.format(player.paa) != Constants.DECIMAL_FORMAT.format(player.getScaledPAA(rankings))) {
+                subRank += Constants.LINE_BREAK + "Scaled PAA: " + Constants.DECIMAL_FORMAT.format(player.getScaledPAA(rankings))
+            }
             paa[Constants.PLAYER_INFO] = subRank
             data!!.add(paa)
             val xVal: MutableMap<String, String?> = HashMap()
@@ -799,7 +801,9 @@ class PlayerInfo : AppCompatActivity() {
             if (player.getAuctionValueCustom(rankings) > 0.0) {
                 xValSub += Constants.LINE_BREAK + "X Value/$: " + Constants.DECIMAL_FORMAT.format(player.xval / player.getAuctionValueCustom(rankings))
             }
-            xValSub += Constants.LINE_BREAK + "Scaled X Value: " + Constants.DECIMAL_FORMAT.format(player.getScaledXVal(rankings))
+            if (Constants.DECIMAL_FORMAT.format(player.xval) != Constants.DECIMAL_FORMAT.format(player.getScaledXVal(rankings))) {
+                xValSub += Constants.LINE_BREAK + "Scaled X Value: " + Constants.DECIMAL_FORMAT.format(player.getScaledXVal(rankings))
+            }
             xVal[Constants.PLAYER_INFO] = xValSub
             data!!.add(xVal)
             val voLS: MutableMap<String, String?> = HashMap()
@@ -810,7 +814,9 @@ class PlayerInfo : AppCompatActivity() {
             if (player.getAuctionValueCustom(rankings) > 0.0) {
                 voLSSub += Constants.LINE_BREAK + "VOLS/$: " + Constants.DECIMAL_FORMAT.format(player.vols / player.getAuctionValueCustom(rankings))
             }
-            voLSSub += Constants.LINE_BREAK + "Scaled VOLS: " + Constants.DECIMAL_FORMAT.format(player.getScaledVOLS(rankings))
+            if (Constants.DECIMAL_FORMAT.format(player.vols) != Constants.DECIMAL_FORMAT.format(player.getScaledVOLS(rankings))) {
+                voLSSub += Constants.LINE_BREAK + "Scaled VOLS: " + Constants.DECIMAL_FORMAT.format(player.getScaledVOLS(rankings))
+            }
             voLS[Constants.PLAYER_INFO] = voLSSub
             data!!.add(voLS)
         }

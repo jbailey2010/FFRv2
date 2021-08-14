@@ -580,6 +580,7 @@
                 android:layout_height="match_parent"
                 android:gravity="center"
                 android:layout_weight="1"
+                android:id="@+id/comparator_paa_text"
                 android:background="#F3F3F3"
                 android:textSize="14sp"
                 android:textStyle="bold"
@@ -613,6 +614,7 @@
                 android:background="#F3F3F3"
                 android:textSize="14sp"
                 android:textStyle="bold"
+                android:id="@+id/comparator_xval_text"
                 android:layout_weight="1"
                 android:text="XValue (Scaled)"/>
 
@@ -644,6 +646,7 @@
                 android:background="#F3F3F3"
                 android:textSize="14sp"
                 android:textStyle="bold"
+                android:id="@+id/comparator_vols_text"
                 android:layout_weight="1"
                 android:text="VoLS (Scaled)"/>
 
