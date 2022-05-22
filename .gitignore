@@ -91,3 +91,8 @@ $RECYCLE.BIN/
 *.ser
 *.ser
 FFRv2/.idea/libraries/Gradle__androidx_activity_activity_1_2_3_aar.xml
+.idea/workspace.xml
+.idea/modules.xml
+.idea/vcs.xml
+.idea/codeStyles/Project.xml
+.idea/codeStyles/codeStyleConfig.xml
